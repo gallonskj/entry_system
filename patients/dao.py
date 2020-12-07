@@ -6,7 +6,7 @@ import tools.Utils as tools_utils
 
 
 # 获取被试需要做的scales的list
-def judgmentTypes_and_addRscales(patient_detail_id):
+def judgment_scales(patient_detail_id):
     patient_detail = get_patient_detail_byPK(patient_detail_id)
     # 判断是初扫还是复扫
     if patient_detail.session_id == 1:
@@ -21,7 +21,11 @@ def judgmentTypes_and_addRscales(patient_detail_id):
     else:
         # 复扫
         scales_list = scales_models.DScales.objects.filter(scale_type__in=[2])
+    return scales_list
 
+
+# 当初扫和复扫时，依据被试需要做的scales_list，预先插入r_patient_scales表中多条记录
+def add_rscales(scales_list, patient_detail_id):
     # 插入r_patient_scales表
     for scale in scales_list:
         temp = scales_models.RPatientScales(patient_session_id=patient_detail_id, scale_id=scale.id, state=0)
