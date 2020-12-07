@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="a4b9d5d3-de68-4ac8-91d7-ca5b11f19738" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/patients/dao.py" beforeDir="false" afterPath="$PROJECT_DIR$/patients/dao.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/patients/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/patients/views.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -12,7 +11,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.5">
+    <splitter split-orientation="horizontal" split-proportion="0.5126778">
       <split-first>
         <leaf>
           <file pinned="false" current-in-tab="false">
@@ -27,8 +26,8 @@
           <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/patients/views.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="233">
-                  <caret line="124" column="48" lean-forward="true" selection-start-line="124" selection-start-column="48" selection-end-line="124" selection-end-column="48" />
+                <state relative-caret-position="417">
+                  <caret line="93" column="14" lean-forward="true" selection-start-line="93" selection-start-column="14" selection-end-line="93" selection-end-column="14" />
                 </state>
               </provider>
             </entry>
@@ -36,8 +35,8 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/patients/dao.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="115">
-                  <caret line="8" column="19" selection-start-line="8" selection-start-column="4" selection-end-line="8" selection-end-column="19" />
+                <state relative-caret-position="138">
+                  <caret line="102" column="23" lean-forward="true" selection-start-line="102" selection-start-column="23" selection-end-line="102" selection-end-column="23" />
                   <folding>
                     <element signature="e#1#36#0" expanded="true" />
                   </folding>
@@ -48,8 +47,8 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/scales/models.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="-553">
-                  <caret line="133" column="36" selection-start-line="133" selection-start-column="6" selection-end-line="133" selection-end-column="36" />
+                <state relative-caret-position="206">
+                  <caret line="815" column="6" selection-start-line="815" selection-start-column="6" selection-end-line="815" selection-end-column="6" />
                 </state>
               </provider>
             </entry>
@@ -82,8 +81,8 @@
           <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/patients/dao.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="483">
-                  <caret line="27" column="29" selection-start-line="27" selection-start-column="29" selection-end-line="27" selection-end-column="29" />
+                <state relative-caret-position="414">
+                  <caret line="24" lean-forward="true" selection-start-line="24" selection-end-line="24" />
                   <folding>
                     <element signature="e#1#36#0" expanded="true" />
                   </folding>
@@ -109,8 +108,8 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/scales/dao.py" />
-        <option value="$PROJECT_DIR$/patients/dao.py" />
         <option value="$PROJECT_DIR$/patients/views.py" />
+        <option value="$PROJECT_DIR$/patients/dao.py" />
       </list>
     </option>
   </component>
@@ -207,12 +206,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1607344096701</updated>
-      <workItem from="1607344101279" duration="7863000" />
+      <workItem from="1607344101279" duration="8717000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="7863000" />
+    <option name="totallyTimeSpent" value="8717000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -280,13 +279,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/scales/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-553">
-          <caret line="133" column="36" selection-start-line="133" selection-start-column="6" selection-end-line="133" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/tools/Utils.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="161">
@@ -307,10 +299,17 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/scales/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="206">
+          <caret line="815" column="6" selection-start-line="815" selection-start-column="6" selection-end-line="815" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/patients/dao.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="115">
-          <caret line="8" column="19" selection-start-line="8" selection-start-column="4" selection-end-line="8" selection-end-column="19" />
+        <state relative-caret-position="138">
+          <caret line="102" column="23" lean-forward="true" selection-start-line="102" selection-start-column="23" selection-end-line="102" selection-end-column="23" />
           <folding>
             <element signature="e#1#36#0" expanded="true" />
           </folding>
@@ -319,8 +318,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/patients/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="233">
-          <caret line="124" column="48" lean-forward="true" selection-start-line="124" selection-start-column="48" selection-end-line="124" selection-end-column="48" />
+        <state relative-caret-position="417">
+          <caret line="93" column="14" lean-forward="true" selection-start-line="93" selection-start-column="14" selection-end-line="93" selection-end-column="14" />
         </state>
       </provider>
     </entry>

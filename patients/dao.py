@@ -102,7 +102,7 @@ def get_base_info_byPK(patient_id):
 
 # get patient_detail 主体
 def get_patient_detail_byPK(patient_detail_id):
-    patient_detail = patients_models.DPatientDetail.object.filter(id=patient_detail_id)[0]
+    patient_detail = patients_models.DPatientDetail.objects.filter(id=patient_detail_id)[0]
     return patient_detail
 
 
