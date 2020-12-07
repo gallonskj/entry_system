@@ -1,0 +1,97 @@
+{% extends 'templates/index.html' %}
+{% load static %}
+{% block title %}新建被试{% endblock %}
+{% block css %}
+    <link href="{% static '/vendors/iCheck/skins/flat/green.css' %}" rel="stylesheet" >
+{% endblock %}
+{% block content %}
+    <div class="right_col" role="main">
+        <div class="row " style="margin-left:-20px">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <ul class="breadcrumb" style="background-color: white;font-weight:bold">
+                     <li><a href="subjectManage">被试管理</a></li>
+                     <li class="active" ><a href="subjectInfoInputSelet">被试信息录入选择列表</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="row x_panel">
+            <div class="col-md-8 col-xs-12">
+                <div class="x_panel" >
+                    <div class="x_title">
+                        <h2>个人信息<small>基本信息</small></h2>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                    <br />
+                    <form class="form-horizontal form-label-left" action="">
+                      <div class="form-group">
+                        <div class="control-label col-md-3 col-sm-3 col-xs-12" for="subject_number"> 受试编号<span class="required">*:</span>
+                        </div>
+                        <label class="col-md-6 col-sm-6 col-xs-12" style="padding-top: 7px;margin-bottom: 0;text-align: left">
+                            {{ patient.id }}
+{#                          NN-1000034-001#}
+                        </label>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">姓名 <span class="required">*:</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12" style="padding-top: 7px;margin-bottom: 0;text-align: left">
+                            {{ patient.name }}
+{#                         李明#}
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label for="birth_date" class="control-label col-md-3 col-sm-3 col-xs-12">出生日期<span class="required">*:</span></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12" style="padding-top: 7px;margin-bottom: 0;text-align: left">
+                            {{ patient.birth_date }}
+{#                          1996-01-01#}
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">性别<span class="required">*:</span></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12" style="padding-top: 7px;margin-bottom: 0;text-align: left">
+                            {% if patient.sex == 0 %}
+                                    男
+                                {% else %}
+                                    女
+                                {% endif %}
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">民族 <span class="required">*:</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12" style="padding-top: 7px;margin-bottom: 0;text-align: left">
+                            {{ patient.nation }}
+{#                            汉族#}
+                        </div>
+                      </div>
+                      <div class="ln_solid"></div>
+
+                    </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-xs-12">
+                <div class="x_panel" >
+                    <div class="x_title">
+                        <h2>量表录入选项列表</h2>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <br />
+                        <button class="btn btn-success btn-block"><a href="/scales/get_general_info_forms?patient_session_id={{ patient_session_id }}&patient_id={{ patient.id }}" style="color: white">个人一般信息录入</a></button>
+                        <br />
+                        <button class="btn btn-warning btn-block"><a href="/scales/get_other_test_forms?patient_session_id={{ patient_session_id }}&patient_id={{ patient.id }}" style="color: white">他测量表录入</a></button>
+                         <br />
+                        <button class="btn btn-primary btn-block"><a href="/scales/get_self_test_forms?patient_session_id={{ patient_session_id }}&patient_id={{ patient.id }}" style="color: white">自评量表录入</a></button>
+                         <br />
+                        <button class="btn btn-info btn-block"><a href="/scales/get_cognition_forms?patient_session_id={{ patient_session_id }}&patient_id={{ patient.id }}" style="color: white">认知量表录入</a></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+{% endblock %}
