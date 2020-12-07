@@ -1,0 +1,419 @@
+{% extends 'templates/index.html'%}
+{% load static %}
+{% block title %}认知情绪调节量表（cerq）{% endblock %}
+{% block css %}
+    <link href="{% static '/css/scales_style.css' %}" rel="stylesheet" >
+{% endblock %}
+{% block content %}
+     <div class="right_col" role="main">
+        <div class="container">
+            <div class="row show-grid">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <ul class="breadcrumb" style="background-color: white;font-weight:bold">
+                         <li ><a href="#">量表录入</a></li>
+                         <li><a href="#" >自评量表</a></li>
+						 <li class="active"><a href="#" >认知情绪调节量表（cerq）</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div> 
+        <div class="dashboard_graph x_panel">
+            <div id="wrapper">
+                <div id = "left-side" style="height: 100%;" class="col-md-2">
+                  <ul class="scales_progress">
+                    <li class="step1 done">
+                      <p>耶鲁布朗强迫症严重程度标准量表（ybocs）</p>
+                    </li>
+                    <li class="step2 done notclick">
+                      <p>自杀意念及行为史（bss）</p>
+                    </li>
+                    <li class="step3 done notclick">
+                      <p>33项轻躁狂症状清单(hcl-33)</p>
+                    </li>
+                    <li class="step4 done notclick ">
+                      <p>斯奈斯和汉密尔顿快乐量表(shaps)</p>
+					</li>
+					<li class="step5 done notclick">
+						<p>快感体验能力量表teps</p>
+					</li>
+					<li class="step6 done notclick">
+						<p>斯奈斯和汉密尔顿快乐量表(shaps)</p>
+					</li>
+					<li class="step7 done notclick">
+						<p>儿童期（16岁以前）的成长经历ctq-sf</p>
+					</li>
+					<li class="step8 doing">
+						<p>认知情绪调节量表cerq-c</p>
+					</li>
+					<li class="step9 nodone notclick">
+						<p>青少年生活事件量表aslec</p>
+					</li>
+					<li class="step10 nodone notclick">
+						<p>简式父母养育方式问卷表s-embu</p>
+					</li>
+					<li class="step11 nodone notclick">
+						<p>自动思维问卷表atq</p>
+					</li>
+                    <li class="finish nodone notclick">
+                      <p>完成</p>
+                    </li>
+                  </ul>
+                </div>  
+				         
+                <div id="right-side" class="col-md-10">
+                  <div id="first" class="active">
+                        <form action="/scales/add_cognitive_emotion?pid=1&&sid=1&&did=1" method="POST">
+                           <div class="container">
+                            <div class="row" style="margin-left:5px;margin-top: 5px;padding-bottom: 5px;">
+                                <h4><strong>认知情绪调节问卷<br/></strong></h4>
+                                <strong>请仔细阅读每个项目并考虑哪个情况与自己最符合。在遇到自己没有经历过的项目时，请先考虑和自己经历过的与其最相似的情境并作出选择。不必考虑你所选择的答案的一致性。1：从不 2：几乎不 3：有时 4：几乎总是 5：总是<br/></strong>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 column">
+			                        <table   class="table table-bordered table-condensed" style="table-layout: fixed; width:100%;">
+				                        <thead>
+					                    <tr>
+						                    <th >
+                                                <center> 问题</center>
+						                    </th>
+                                            <th  >
+                                                <center> 1</center>
+						                    </th>
+                                            <th  >
+                                                <center> 2</center>
+						                    </th>
+                                            <th  >
+                                                <center> 3</center>
+						                    </th>
+                                            <th  >
+                                                <center> 4</center>
+						                    </th>
+                                             <th  >
+                                                <center> 5</center>
+						                    </th>
+
+					                    </tr>
+				                        </thead>
+				                        <tbody align="center">
+                                             <tr>
+						                         <td>1.我感到我应该被责备</td>
+                                                 <td><input type="radio" name="question1_answer" value=1 data-labelauty="从不"/></td>
+                                                 <td><input type="radio" name="question1_answer" value=1 data-labelauty="几乎不"/></td>
+                                                 <td><input type="radio" name="question1_answer" value=1 data-labelauty="有时"/></td>
+                                                 <td><input type="radio" name="question1_answer" value=1 data-labelauty="几乎总是"/></td>
+                                                 <td><input type="radio" name="question1_answer" value=1 data-labelauty="总是"/></td>
+					                        </tr>
+                                            <tr>
+						                        <td>2.我感到我是一个对发生过的事负责任的人</td>
+                                                 <td><input type="radio" name="question2_answer" value=1 data-labelauty="从不"/></td>
+                                                 <td><input type="radio" name="question2_answer" value=1 data-labelauty="几乎不"/></td>
+                                                 <td><input type="radio" name="question2_answer" value=1 data-labelauty="有时"/></td>
+                                                 <td><input type="radio" name="question2_answer" value=1 data-labelauty="几乎总是"/></td>
+                                                 <td><input type="radio" name="question2_answer" value=1 data-labelauty="总是"/></td>
+					                        </tr>
+                                            <tr>
+						                        <td>3.我想我在这种情况下的错误是我造成</td>
+                                                 <td><input type="radio" name="question3_answer" value=1 data-labelauty="从不"/></td>
+                                                 <td><input type="radio" name="question3_answer" value=1 data-labelauty="几乎不"/></td>
+                                                 <td><input type="radio" name="question3_answer" value=1 data-labelauty="有时"/></td>
+                                                 <td><input type="radio" name="question3_answer" value=1 data-labelauty="几乎总是"/></td>
+                                                 <td><input type="radio" name="question3_answer" value=1 data-labelauty="总是"/></td>
+					                        </tr>
+                                            <tr>
+						                        <td>4.我想事情的基本原因在我自己</td>
+                                                 <td><input type="radio" name="question4_answer" value=1 data-labelauty="从不"/></td>
+                                                 <td><input type="radio" name="question4_answer" value=1 data-labelauty="几乎不"/></td>
+                                                 <td><input type="radio" name="question4_answer" value=1 data-labelauty="有时"/></td>
+                                                 <td><input type="radio" name="question4_answer" value=1 data-labelauty="几乎总是"/></td>
+                                                 <td><input type="radio" name="question4_answer" value=1 data-labelauty="总是"/></td>
+					                        </tr>
+                                            <tr>
+						                        <td>
+							                       5.我想我必须接受已经发生的事
+						                        </td>
+                                                 <td><input type="radio" name="question5_answer" value=1 data-labelauty="从不"/></td>
+                                                 <td><input type="radio" name="question5_answer" value=1 data-labelauty="几乎不"/></td>
+                                                 <td><input type="radio" name="question5_answer" value=1 data-labelauty="有时"/></td>
+                                                 <td><input type="radio" name="question5_answer" value=1 data-labelauty="几乎总是"/></td>
+                                                 <td><input type="radio" name="question5_answer" value=1 data-labelauty="总是"/></td>
+					                        </tr>
+                                            <tr>
+						                        <td>6.我想我必须接受这种状况</td>
+                                                 <td><input type="radio" name="question6_answer" value=1 data-labelauty="从不"/></td>
+                                                 <td><input type="radio" name="question6_answer" value=1 data-labelauty="几乎不"/></td>
+                                                 <td><input type="radio" name="question6_answer" value=1 data-labelauty="有时"/></td>
+                                                 <td><input type="radio" name="question6_answer" value=1 data-labelauty="几乎总是"/></td>
+                                                 <td><input type="radio" name="question6_answer" value=1 data-labelauty="总是"/></td>
+					                        </tr>
+                                            <tr>
+						                        <td>7.我想我不能为此改变任何事</td>
+                                                 <td><input type="radio" name="question7_answer" value=1 data-labelauty="从不"/></td>
+                                                 <td><input type="radio" name="question7_answer" value=1 data-labelauty="几乎不"/></td>
+                                                 <td><input type="radio" name="question7_answer" value=1 data-labelauty="有时"/></td>
+                                                 <td><input type="radio" name="question7_answer" value=1 data-labelauty="几乎总是"/></td>
+                                                 <td><input type="radio" name="question7_answer" value=1 data-labelauty="总是"/></td>
+					                        </tr>
+                                            <tr>
+						                        <td>8.我想我必须学会去接受它</td>
+                                                 <td><input type="radio" name="question8_answer" value=1 data-labelauty="从不"/></td>
+                                                 <td><input type="radio" name="question8_answer" value=1 data-labelauty="几乎不"/></td>
+                                                 <td><input type="radio" name="question8_answer" value=1 data-labelauty="有时"/></td>
+                                                 <td><input type="radio" name="question8_answer" value=1 data-labelauty="几乎总是"/></td>
+                                                 <td><input type="radio" name="question8_answer" value=1 data-labelauty="总是"/></td>
+					                        </tr>
+                                            <tr>
+						                        <td>9.我常常回想对我已经经历的事是怎样的感觉</td>
+                                                 <td><input type="radio" name="question9_answer" value=1 data-labelauty="从不"/></td>
+                                                 <td><input type="radio" name="question9_answer" value=1 data-labelauty="几乎不"/></td>
+                                                 <td><input type="radio" name="question9_answer" value=1 data-labelauty="有时"/></td>
+                                                 <td><input type="radio" name="question9_answer" value=1 data-labelauty="几乎总是"/></td>
+                                                 <td><input type="radio" name="question9_answer" value=1 data-labelauty="总是"/></td>
+					                        </tr>
+                                            <tr>
+						                        <td>10.我沉迷于在对我已经经历的事的感觉和想法</td>
+                                                 <td><input type="radio" name="question10_answer" value=1 data-labelauty="从不"/></td>
+                                                 <td><input type="radio" name="question10_answer" value=1 data-labelauty="几乎不"/></td>
+                                                 <td><input type="radio" name="question10_answer" value=1 data-labelauty="有时"/></td>
+                                                 <td><input type="radio" name="question10_answer" value=1 data-labelauty="几乎总是"/></td>
+                                                 <td><input type="radio" name="question10_answer" value=1 data-labelauty="总是"/></td>
+					                        </tr>
+                                            <tr>
+						                        <td>11.我想去明白为什么会对我经历的事有这样的感觉</td>
+                                                 <td><input type="radio" name="question11_answer" value=1 data-labelauty="从不"/></td>
+                                                 <td><input type="radio" name="question11_answer" value=1 data-labelauty="几乎不"/></td>
+                                                 <td><input type="radio" name="question11_answer" value=1 data-labelauty="有时"/></td>
+                                                 <td><input type="radio" name="question11_answer" value=1 data-labelauty="几乎总是"/></td>
+                                                 <td><input type="radio" name="question11_answer" value=1 data-labelauty="总是"/></td>
+					                        </tr>
+                                            <tr>
+						                        <td>12.我细想由于这种形势唤起的感觉</td>
+                                                 <td><input type="radio" name="question12_answer" value=1 data-labelauty="从不"/></td>
+                                                 <td><input type="radio" name="question12_answer" value=1 data-labelauty="几乎不"/></td>
+                                                 <td><input type="radio" name="question12_answer" value=1 data-labelauty="有时"/></td>
+                                                 <td><input type="radio" name="question12_answer" value=1 data-labelauty="几乎总是"/></td>
+                                                 <td><input type="radio" name="question12_answer" value=1 data-labelauty="总是"/></td>
+					                        </tr>
+                                            <tr>
+						                        <td>13.我去想比我经历过的更好的事</td>
+                                                 <td><input type="radio" name="question13_answer" value=1 data-labelauty="从不"/></td>
+                                                 <td><input type="radio" name="question13_answer" value=1 data-labelauty="几乎不"/></td>
+                                                 <td><input type="radio" name="question13_answer" value=1 data-labelauty="有时"/></td>
+                                                 <td><input type="radio" name="question13_answer" value=1 data-labelauty="几乎总是"/></td>
+                                                 <td><input type="radio" name="question13_answer" value=1 data-labelauty="总是"/></td>
+					                        </tr>
+                                            <tr>
+						                        <td>14.我去想那些与现在事情无关的愉快的事</td>
+                                                 <td><input type="radio" name="question14_answer" value=1 data-labelauty="从不"/></td>
+                                                 <td><input type="radio" name="question14_answer" value=1 data-labelauty="几乎不"/></td>
+                                                 <td><input type="radio" name="question14_answer" value=1 data-labelauty="有时"/></td>
+                                                 <td><input type="radio" name="question14_answer" value=1 data-labelauty="几乎总是"/></td>
+                                                 <td><input type="radio" name="question14_answer" value=1 data-labelauty="总是"/></td>
+					                        </tr>
+                                            <tr>
+						                        <td>15.我去想某些好事而不是所发生的事</td>
+                                                 <td><input type="radio" name="question15_answer" value=1 data-labelauty="从不"/></td>
+                                                 <td><input type="radio" name="question15_answer" value=1 data-labelauty="几乎不"/></td>
+                                                 <td><input type="radio" name="question15_answer" value=1 data-labelauty="有时"/></td>
+                                                 <td><input type="radio" name="question15_answer" value=1 data-labelauty="几乎总是"/></td>
+                                                 <td><input type="radio" name="question15_answer" value=1 data-labelauty="总是"/></td>
+					                        </tr>
+                                            <tr>
+						                        <td>16.我去想愉快的经历</td>
+                                                 <td><input type="radio" name="question16_answer" value=1 data-labelauty="从不"/></td>
+                                                 <td><input type="radio" name="question16_answer" value=1 data-labelauty="几乎不"/></td>
+                                                 <td><input type="radio" name="question16_answer" value=1 data-labelauty="有时"/></td>
+                                                 <td><input type="radio" name="question16_answer" value=1 data-labelauty="几乎总是"/></td>
+                                                 <td><input type="radio" name="question16_answer" value=1 data-labelauty="总是"/></td>
+					                        </tr>
+                                            <tr>
+						                        <td>17.我想我怎样才能做到最好</td>
+                                                 <td><input type="radio" name="question17_answer" value=1 data-labelauty="从不"/></td>
+                                                 <td><input type="radio" name="question17_answer" value=1 data-labelauty="几乎不"/></td>
+                                                 <td><input type="radio" name="question17_answer" value=1 data-labelauty="有时"/></td>
+                                                 <td><input type="radio" name="question17_answer" value=1 data-labelauty="几乎总是"/></td>
+                                                 <td><input type="radio" name="question17_answer" value=1 data-labelauty="总是"/></td>
+					                        </tr>
+                                            <tr>
+						                        <td>18.我在想我能怎样最好地应对这些情况</td>
+                                                 <td><input type="radio" name="question18_answer" value=1 data-labelauty="从不"/></td>
+                                                 <td><input type="radio" name="question18_answer" value=1 data-labelauty="几乎不"/></td>
+                                                 <td><input type="radio" name="question18_answer" value=1 data-labelauty="有时"/></td>
+                                                 <td><input type="radio" name="question18_answer" value=1 data-labelauty="几乎总是"/></td>
+                                                 <td><input type="radio" name="question18_answer" value=1 data-labelauty="总是"/></td>
+					                        </tr>
+											<tr>
+						                        <td>19.我在想怎样去改变这种情况</td>
+                                                 <td><input type="radio" name="question19_answer" value=1 data-labelauty="从不"/></td>
+                                                 <td><input type="radio" name="question19_answer" value=1 data-labelauty="几乎不"/></td>
+                                                 <td><input type="radio" name="question19_answer" value=1 data-labelauty="有时"/></td>
+                                                 <td><input type="radio" name="question19_answer" value=1 data-labelauty="几乎总是"/></td>
+                                                 <td><input type="radio" name="question19_answer" value=1 data-labelauty="总是"/></td>
+					                        </tr>
+											<tr>
+						                        <td>20.我在想一个我怎样能做得最好的计划</td>
+                                                 <td><input type="radio" name="question20_answer" value=1 data-labelauty="从不"/></td>
+                                                 <td><input type="radio" name="question20_answer" value=1 data-labelauty="几乎不"/></td>
+                                                 <td><input type="radio" name="question20_answer" value=1 data-labelauty="有时"/></td>
+                                                 <td><input type="radio" name="question20_answer" value=1 data-labelauty="几乎总是"/></td>
+                                                 <td><input type="radio" name="question20_answer" value=1 data-labelauty="总是"/></td>
+					                        </tr>
+											<tr>
+						                        <td>21.我想我能从这些情形中学到一些东西</td>
+                                                 <td><input type="radio" name="question21_answer" value=1 data-labelauty="从不"/></td>
+                                                 <td><input type="radio" name="question21_answer" value=1 data-labelauty="几乎不"/></td>
+                                                 <td><input type="radio" name="question21_answer" value=1 data-labelauty="有时"/></td>
+                                                 <td><input type="radio" name="question21_answer" value=1 data-labelauty="几乎总是"/></td>
+                                                 <td><input type="radio" name="question21_answer" value=1 data-labelauty="总是"/></td>
+					                        </tr>
+											<tr>
+						                        <td>22.我想所发生的事情能让我成为更强的人</td>
+                                                 <td><input type="radio" name="question22_answer" value=1 data-labelauty="从不"/></td>
+                                                 <td><input type="radio" name="question22_answer" value=1 data-labelauty="几乎不"/></td>
+                                                 <td><input type="radio" name="question22_answer" value=1 data-labelauty="有时"/></td>
+                                                 <td><input type="radio" name="question22_answer" value=1 data-labelauty="几乎总是"/></td>
+                                                 <td><input type="radio" name="question22_answer" value=1 data-labelauty="总是"/></td>
+					                        </tr>
+											<tr>
+						                        <td>23.我想这种情况也有积极的一面</td>
+                                                 <td><input type="radio" name="question23_answer" value=1 data-labelauty="从不"/></td>
+                                                 <td><input type="radio" name="question23_answer" value=1 data-labelauty="几乎不"/></td>
+                                                 <td><input type="radio" name="question23_answer" value=1 data-labelauty="有时"/></td>
+                                                 <td><input type="radio" name="question23_answer" value=1 data-labelauty="几乎总是"/></td>
+                                                 <td><input type="radio" name="question23_answer" value=1 data-labelauty="总是"/></td>
+					                        </tr>
+											<tr>
+						                        <td>24.我寻找事情中的积极方面</td>
+                                                 <td><input type="radio" name="question24_answer" value=1 data-labelauty="从不"/></td>
+                                                 <td><input type="radio" name="question24_answer" value=1 data-labelauty="几乎不"/></td>
+                                                 <td><input type="radio" name="question24_answer" value=1 data-labelauty="有时"/></td>
+                                                 <td><input type="radio" name="question24_answer" value=1 data-labelauty="几乎总是"/></td>
+                                                 <td><input type="radio" name="question24_answer" value=1 data-labelauty="总是"/></td>
+
+					                        </tr>
+											<tr>
+						                        <td>25.我想所有的事情会变得更坏</td>
+                                                 <td><input type="radio" name="question25_answer" value=1 data-labelauty="从不"/></td>
+                                                 <td><input type="radio" name="question25_answer" value=1 data-labelauty="几乎不"/></td>
+                                                 <td><input type="radio" name="question25_answer" value=1 data-labelauty="有时"/></td>
+                                                 <td><input type="radio" name="question25_answer" value=1 data-labelauty="几乎总是"/></td>
+                                                 <td><input type="radio" name="question25_answer" value=1 data-labelauty="总是"/></td>
+					                        </tr>
+											<tr>
+						                        <td>26.我想别人有更坏的经历</td>
+                                                 <td><input type="radio" name="question26_answer" value=1 data-labelauty="从不"/></td>
+                                                 <td><input type="radio" name="question26_answer" value=1 data-labelauty="几乎不"/></td>
+                                                 <td><input type="radio" name="question26_answer" value=1 data-labelauty="有时"/></td>
+                                                 <td><input type="radio" name="question26_answer" value=1 data-labelauty="几乎总是"/></td>
+                                                 <td><input type="radio" name="question26_answer" value=1 data-labelauty="总是"/></td>
+					                        </tr>
+											<tr>
+						                        <td>27.我想和其他事情相比，这还不是太坏</td>
+                                                 <td><input type="radio" name="question27_answer" value=1 data-labelauty="从不"/></td>
+                                                 <td><input type="radio" name="question27_answer" value=1 data-labelauty="几乎不"/></td>
+                                                 <td><input type="radio" name="question27_answer" value=1 data-labelauty="有时"/></td>
+                                                 <td><input type="radio" name="question27_answer" value=1 data-labelauty="几乎总是"/></td>
+                                                 <td><input type="radio" name="question27_answer" value=1 data-labelauty="总是"/></td>
+					                        </tr>
+											<tr>
+						                        <td>28.我告诉自己生命中有更坏的事情</td>
+                                                 <td><input type="radio" name="question28_answer" value=1 data-labelauty="从不"/></td>
+                                                 <td><input type="radio" name="question28_answer" value=1 data-labelauty="几乎不"/></td>
+                                                 <td><input type="radio" name="question28_answer" value=1 data-labelauty="有时"/></td>
+                                                 <td><input type="radio" name="question28_answer" value=1 data-labelauty="几乎总是"/></td>
+                                                 <td><input type="radio" name="question28_answer" value=1 data-labelauty="总是"/></td>
+					                        </tr>
+											<tr>
+						                        <td>29.我常常想我经历的事情比别人经历的更糟糕</td>
+                                                 <td><input type="radio" name="question29_answer" value=1 data-labelauty="从不"/></td>
+                                                 <td><input type="radio" name="question29_answer" value=1 data-labelauty="几乎不"/></td>
+                                                 <td><input type="radio" name="question29_answer" value=1 data-labelauty="有时"/></td>
+                                                 <td><input type="radio" name="question29_answer" value=1 data-labelauty="几乎总是"/></td>
+                                                 <td><input type="radio" name="question29_answer" value=1 data-labelauty="总是"/></td>
+					                        </tr>
+											<tr>
+						                        <td>30.我不断地想我经历的事情是多么的可怕</td>
+                                                 <td><input type="radio" name="question30_answer" value=1 data-labelauty="从不"/></td>
+                                                 <td><input type="radio" name="question30_answer" value=1 data-labelauty="几乎不"/></td>
+                                                 <td><input type="radio" name="question30_answer" value=1 data-labelauty="有时"/></td>
+                                                 <td><input type="radio" name="question30_answer" value=1 data-labelauty="几乎总是"/></td>
+                                                 <td><input type="radio" name="question30_answer" value=1 data-labelauty="总是"/></td>
+					                        </tr>
+											<tr>
+						                        <td>31.我常想我所经历的是可以发生在一个人身上最坏的事</td>
+                                                 <td><input type="radio" name="question31_answer" value=1 data-labelauty="从不"/></td>
+                                                 <td><input type="radio" name="question31_answer" value=1 data-labelauty="几乎不"/></td>
+                                                 <td><input type="radio" name="question31_answer" value=1 data-labelauty="有时"/></td>
+                                                 <td><input type="radio" name="question31_answer" value=1 data-labelauty="几乎总是"/></td>
+                                                 <td><input type="radio" name="question31_answer" value=1 data-labelauty="总是"/></td>
+					                        </tr>
+											<tr>
+						                        <td>32.我不断的想这个事情是多么的可怕啊</td>
+                                                 <td><input type="radio" name="question32_answer" value=1 data-labelauty="从不"/></td>
+                                                 <td><input type="radio" name="question32_answer" value=1 data-labelauty="几乎不"/></td>
+                                                 <td><input type="radio" name="question32_answer" value=1 data-labelauty="有时"/></td>
+                                                 <td><input type="radio" name="question32_answer" value=1 data-labelauty="几乎总是"/></td>
+                                                 <td><input type="radio" name="question32_answer" value=1 data-labelauty="总是"/></td>
+					                        </tr>
+											<tr>
+						                        <td>33.我感到别人应该为此被责备</td>
+                                                 <td><input type="radio" name="question33_answer" value=1 data-labelauty="从不"/></td>
+                                                 <td><input type="radio" name="question33_answer" value=1 data-labelauty="几乎不"/></td>
+                                                 <td><input type="radio" name="question33_answer" value=1 data-labelauty="有时"/></td>
+                                                 <td><input type="radio" name="question33_answer" value=1 data-labelauty="几乎总是"/></td>
+                                                 <td><input type="radio" name="question33_answer" value=1 data-labelauty="总是"/></td>
+					                        </tr>
+											<tr>
+						                        <td>34.我感到别人应对发生的事情负责任</td>
+                                                 <td><input type="radio" name="question34_answer" value=1 data-labelauty="从不"/></td>
+                                                 <td><input type="radio" name="question34_answer" value=1 data-labelauty="几乎不"/></td>
+                                                 <td><input type="radio" name="question34_answer" value=1 data-labelauty="有时"/></td>
+                                                 <td><input type="radio" name="question34_answer" value=1 data-labelauty="几乎总是"/></td>
+                                                 <td><input type="radio" name="question34_answer" value=1 data-labelauty="总是"/></td>
+					                        </tr>
+											<tr>
+						                        <td>35.我想这些错误是别人造成的</td>
+                                                 <td><input type="radio" name="question35_answer" value=1 data-labelauty="从不"/></td>
+                                                 <td><input type="radio" name="question35_answer" value=1 data-labelauty="几乎不"/></td>
+                                                 <td><input type="radio" name="question35_answer" value=1 data-labelauty="有时"/></td>
+                                                 <td><input type="radio" name="question35_answer" value=1 data-labelauty="几乎总是"/></td>
+                                                 <td><input type="radio" name="question35_answer" value=1 data-labelauty="总是"/></td>
+					                        </tr>
+											<tr>
+						                        <td>36.我感到事情发生的根本原因在别人身上</td>
+                                                 <td><input type="radio" name="question36_answer" value=1 data-labelauty="从不"/></td>
+                                                 <td><input type="radio" name="question36_answer" value=1 data-labelauty="几乎不"/></td>
+                                                 <td><input type="radio" name="question36_answer" value=1 data-labelauty="有时"/></td>
+                                                 <td><input type="radio" name="question36_answer" value=1 data-labelauty="几乎总是"/></td>
+                                                 <td><input type="radio" name="question36_answer" value=1 data-labelauty="总是"/></td>
+					                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="text-center">
+                                      {% csrf_token %}
+                                    <input  type="submit" class="btn btn-success" value="提交"  id="cognitive_bt"/>
+
+                                </div>
+                            </div>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
+
+{% block js %}
+<script type="text/javascript" src="{% static '/js/jquery-radio-beauty.js'%}"></script>
+
+<script>
+$(document).ready(function(){
+	$("input[type='radio']").labelauty();
+});
+</script>
+{% endblock %}

@@ -29,7 +29,6 @@
                         </div>
                         <label class="col-md-6 col-sm-6 col-xs-12" style="padding-top: 7px;margin-bottom: 0;text-align: left">
                             {{ patient.id }}
-{#                          NN-1000034-001#}
                         </label>
                       </div>
                       <div class="form-group">
@@ -37,14 +36,12 @@
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12" style="padding-top: 7px;margin-bottom: 0;text-align: left">
                             {{ patient.name }}
-{#                         李明#}
                         </div>
                       </div>
                       <div class="form-group">
                         <label for="birth_date" class="control-label col-md-3 col-sm-3 col-xs-12">出生日期<span class="required">*:</span></label>
                         <div class="col-md-6 col-sm-6 col-xs-12" style="padding-top: 7px;margin-bottom: 0;text-align: left">
                             {{ patient.birth_date }}
-{#                          1996-01-01#}
                         </div>
                       </div>
                       <div class="form-group">
@@ -62,7 +59,6 @@
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12" style="padding-top: 7px;margin-bottom: 0;text-align: left">
                             {{ patient.nation }}
-{#                            汉族#}
                         </div>
                       </div>
                       <div class="ln_solid"></div>
@@ -79,13 +75,13 @@
                     </div>
                     <div class="x_content">
                         <br />
-                        <button class="btn btn-success btn-block"><a href="/scales/get_general_info_forms?patient_session_id={{ patient_session_id }}&patient_id={{ patient.id }}" style="color: white">个人一般信息录入</a></button>
+                        <a href="/scales/get_general_info_forms?patient_session_id={{ patient_session_id }}&patient_id={{ patient.id }}" style="color: white"><button class="btn btn-success btn-block">个人一般信息录入</button></a>
                         <br />
-                        <button class="btn btn-warning btn-block"><a href="/scales/get_other_test_forms?patient_session_id={{ patient_session_id }}&patient_id={{ patient.id }}" style="color: white">他测量表录入</a></button>
+                        <a href="/scales/get_other_test_forms?patient_session_id={{ patient_session_id }}&patient_id={{ patient.id }}" style="color: white"><button class="btn btn-warning btn-block">他测量表录入</button></a>
                          <br />
-                        <button class="btn btn-primary btn-block"><a href="/scales/get_self_test_forms?patient_session_id={{ patient_session_id }}&patient_id={{ patient.id }}" style="color: white">自评量表录入</a></button>
+                        <a href="/scales/get_self_test_forms?patient_session_id={{ patient_session_id }}&patient_id={{ patient.id }}" style="color: white"><button class="btn btn-primary btn-block">自评量表录入</button></a>
                          <br />
-                        <button class="btn btn-info btn-block"><a href="/scales/get_cognition_forms?patient_session_id={{ patient_session_id }}&patient_id={{ patient.id }}" style="color: white">认知量表录入</a></button>
+                        <a href="/scales/get_cognition_forms?patient_session_id={{ patient_session_id }}&patient_id={{ patient.id }}&questionnaire_type=0" style="color: white"><button class="btn btn-info btn-block">认知量表录入</button></a>
                     </div>
                 </div>
             </div>

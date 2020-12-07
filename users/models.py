@@ -7,6 +7,7 @@
 # Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
 
+
 class SUser(models.Model):
     username = models.CharField(max_length=50)
     password = models.CharField(max_length=50)
@@ -14,9 +15,11 @@ class SUser(models.Model):
     active = models.IntegerField()
     name = models.CharField(max_length=45, blank=True, null=True)
     type = models.IntegerField()
+
     class Meta:
         managed = False
         db_table = 's_user'
+
 
 class RUserRecord(models.Model):
     user_id = models.IntegerField(blank=True, null=True)

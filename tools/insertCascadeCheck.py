@@ -473,15 +473,3 @@ def insert_wcst_check(rPatientWcst_object):
     tools_utils.object_judgment(False)
 
 
-# base info 表
-def insert_base_info_check(patient_base_info_objct):
-    tools_utils.object_judgment(object_flag)
-
-
-# patient_detail表
-def insert_patient_detail_check(patient_detail_objct):
-    tools_utils.object_judgment(object_flag)
-
-# BPatientAppointment表
-def insert_patient_appointment(PatientAppoientment_object):
-    tools_utils.object_judgment(object_flag)

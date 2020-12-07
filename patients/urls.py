@@ -9,7 +9,6 @@ urlpatterns = [
     url(r'^add_patient_baseinfo', views.add_patient_baseinfo),
     # 创建复扫基本信息
     url(r'^add_patient_followup', views.add_patient_followup),
-
     # 获取所有病人信息
     url(r'^get_all_patients_baseinfo', views.get_all_patients_baseinfo),
     # 获取病人详细信息
@@ -19,12 +18,7 @@ urlpatterns = [
     url(r'^get_select_scales', views.get_select_scales),
     url(r'^del_patient', views.del_patient),
     url(r'^del_followup', views.del_followup),
-
     # 貌似未使用
-    url(r'^patient_Detail', views.patient_Detail),
-    url(r'^getPatient', views.getPatient),
-    url(r'^addPatient', views.addPatient),
-    url(r'^appointToday', views.appointToday),
     url(r'^subjectDetailInfo', views.subjectDetailInfo),
     url(r'', views.get_all_patients_baseinfo),
 

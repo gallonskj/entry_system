@@ -1,0 +1,202 @@
+{% extends 'templates/index.html' %}
+{% load static %}
+{% block title %}汉密尔顿焦虑量表（HAMA）{% endblock %}
+{% block css %}
+    <link href="{% static '/css/scales_style.css' %}" rel="stylesheet" >
+{% endblock %}
+{% block content %}
+    <div class="right_col" role="main" >
+        <div class="container">
+            <div class="row show-grid">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <ul class="breadcrumb" style="background-color: white;font-weight:bold">
+                         <li ><a href="#">量表录入</a></li>
+                         <li><a href="#" >他评量表</a></li>
+						 <li class="active"><a href="#" >汉密尔顿焦虑量表（HAMA）</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="dashboard_graph x_panel" style="margin-top: 0px;">
+            <div id="wrapper">
+                <div id = "left-side" style="height: 100%;" class="col-md-2">
+                  <ul class="scales_progress">
+                    <li class="step1 done">
+                      <p>汉密尔顿抑郁量表（HAMD-17）</p>
+                    </li>
+                    <li class="step2 doing">
+                      <p>汉密尔顿焦虑量表（HAMA）</p>
+                    </li>
+                    <li class="step3 nodone">
+                      <p>杨氏躁狂量表（YMRS）</p>
+                    </li>
+                    <li class="step4 nodone">
+                      <p>简明精神量表（BPRS）</p>
+                    </li>
+                    <li class="finish nodone">
+                      <p>完成</p>
+                    </li>
+                  </ul>
+                </div>  
+				         
+                <div id="right-side" class="col-md-10">
+                    <div id="second">
+                      <form action="/scales/addHama?pid=1&&sid=1&&did=1" method="post">
+                        <div class="col-md-12 column">
+      <h5><i class="fa fa-hand-o-down"></i>&nbsp;<i class="fa fa-hand-o-down"></i>&nbsp;<i class="fa fa-hand-o-down"></i>&nbsp;请参考评分指导，根据您过去1周的表现，在合适的分数上打勾:</h5>
+             <h5>无症状=0   轻微=1   中等=2   较重=3   严重=4</h5>
+             <center><h5>圈出最适合情况的分数</h5></center>
+                        </div>
+         {%  csrf_token %}
+<table class="table table-bordered table-condensed" style="table-layout: fixed;">
+             <thead>
+                     <tr>
+                         <th> </th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th>
+                     </tr>
+             </thead>
+             <tbody>
+             <tr>
+                 <td>1.焦虑心境</td>
+                             <td><input type="radio" name="anxiety" value = 0 data-labelauty="0"/> </td>
+							 <td><input type="radio" name="anxiety" value = 1 data-labelauty="1"/> </td>
+							 <td><input type="radio" name="anxiety" value = 2 data-labelauty="2"/> </td>
+							 <td><input type="radio" name="anxiety" value = 3 data-labelauty="3"/> </td>
+							 <td><input type="radio" name="anxiety" value = 4 data-labelauty="4"/> </td>
+             </tr>
+             <tr>
+                 <td>2.紧张</td>
+                             <td><input type="radio" name="nervous" value = 0 data-labelauty="0"/> </td>
+							 <td><input type="radio" name="nervous" value = 1 data-labelauty="1"/> </td>
+							 <td><input type="radio" name="nervous" value = 2 data-labelauty="2"/> </td>
+							 <td><input type="radio" name="nervous" value = 3 data-labelauty="3"/> </td>
+							 <td><input type="radio" name="nervous" value = 4 data-labelauty="4"/> </td>
+
+             </tr>
+             <tr>
+                 <td>3.害怕</td>
+                             <td><input type="radio" name="fear" value = 0 data-labelauty="0"/> </td>
+							 <td><input type="radio" name="fear" value = 1 data-labelauty="1"/> </td>
+							 <td><input type="radio" name="fear" value = 2 data-labelauty="2"/> </td>
+							 <td><input type="radio" name="fear" value = 3 data-labelauty="3"/> </td>
+							 <td><input type="radio" name="fear" value = 4 data-labelauty="4"/> </td>
+             </tr>
+             <tr>
+                 <td>4.失眠</td>
+                             <td><input type="radio" name="insomnia" value = 0 data-labelauty="0"/> </td>
+							 <td><input type="radio" name="insomnia" value = 1 data-labelauty="1"/> </td>
+							 <td><input type="radio" name="insomnia" value = 2 data-labelauty="2"/> </td>
+							 <td><input type="radio" name="insomnia" value = 3 data-labelauty="3"/> </td>
+							 <td><input type="radio" name="insomnia" value = 4 data-labelauty="4"/> </td>
+             </tr>
+             <tr>
+                 <td>5.认知功能</td>
+                             <td><input type="radio" name="cognitive_function" value = 0 data-labelauty="0"/> </td>
+							 <td><input type="radio" name="cognitive_function" value = 1 data-labelauty="1"/> </td>
+							 <td><input type="radio" name="cognitive_function" value = 2 data-labelauty="2"/> </td>
+							 <td><input type="radio" name="cognitive_function" value = 3 data-labelauty="3"/> </td>
+							 <td><input type="radio" name="cognitive_function" value = 4 data-labelauty="4"/> </td>
+             </tr>
+             <tr>
+                 <td>6.抑郁心境</td>
+                             <td><input type="radio" name="depression" value = 0 data-labelauty="0"/> </td>
+							 <td><input type="radio" name="depression" value = 1 data-labelauty="1"/> </td>
+							 <td><input type="radio" name="depression" value = 2 data-labelauty="2"/> </td>
+							 <td><input type="radio" name="depression" value = 3 data-labelauty="3"/> </td>
+							 <td><input type="radio" name="depression" value = 4 data-labelauty="4"/> </td>
+             </tr>
+             <tr>
+                 <td>7.躯体性焦虑:肌肉系统</td>
+                             <td><input type="radio" name="somaticanxiety_muscle" value = 0 data-labelauty="0"/> </td>
+							 <td><input type="radio" name="somaticanxiety_muscle" value = 1 data-labelauty="1"/> </td>
+							 <td><input type="radio" name="somaticanxiety_muscle" value = 2 data-labelauty="2"/> </td>
+							 <td><input type="radio" name="somaticanxiety_muscle" value = 3 data-labelauty="3"/> </td>
+							 <td><input type="radio" name="somaticanxiety_muscle" value = 4 data-labelauty="4"/> </td>
+             </tr>
+             <tr><td>8.躯体性焦虑:感觉系统</td>
+                             <td><input type="radio" name="somaticanxiety_sensory" value = 0 data-labelauty="0"/> </td>
+							 <td><input type="radio" name="somaticanxiety_sensory" value = 1 data-labelauty="1"/> </td>
+							 <td><input type="radio" name="somaticanxiety_sensory" value = 2 data-labelauty="2"/> </td>
+							 <td><input type="radio" name="somaticanxiety_sensory" value = 3 data-labelauty="3"/> </td>
+							 <td><input type="radio" name="somaticanxiety_sensory" value = 4 data-labelauty="4"/> </td>
+             </tr>
+             <tr>
+                 <td>9.心血管系统症状</td>
+                             <td><input type="radio" name="cardiovascular_symptoms" value = 0 data-labelauty="0"/> </td>
+							 <td><input type="radio" name="cardiovascular_symptoms" value = 1 data-labelauty="1"/> </td>
+							 <td><input type="radio" name="cardiovascular_symptoms" value = 2 data-labelauty="2"/> </td>
+							 <td><input type="radio" name="cardiovascular_symptoms" value = 3 data-labelauty="3"/> </td>
+							 <td><input type="radio" name="cardiovascular_symptoms" value = 4 data-labelauty="4"/> </td>
+             </tr>
+             <tr>
+                 <td>10.呼吸系统症状</td>
+                             <td><input type="radio" name="respiratory_symptoms" value = 0 data-labelauty="0"/> </td>
+							 <td><input type="radio" name="respiratory_symptoms" value = 1 data-labelauty="1"/> </td>
+							 <td><input type="radio" name="respiratory_symptoms" value = 2 data-labelauty="2"/> </td>
+							 <td><input type="radio" name="respiratory_symptoms" value = 3 data-labelauty="3"/> </td>
+							 <td><input type="radio" name="respiratory_symptoms" value = 4 data-labelauty="4"/> </td>
+             </tr>
+             <tr>
+                 <td>11.胃肠道症状</td>
+                             <td><input type="radio" name="gastrointestinal_symptoms" value = 0 data-labelauty="0"/> </td>
+							 <td><input type="radio" name="gastrointestinal_symptoms" value = 1 data-labelauty="1"/> </td>
+							 <td><input type="radio" name="gastrointestinal_symptoms" value = 2 data-labelauty="2"/> </td>
+							 <td><input type="radio" name="gastrointestinal_symptoms" value = 3 data-labelauty="3"/> </td>
+							 <td><input type="radio" name="gastrointestinal_symptoms" value = 4 data-labelauty="4"/> </td>
+             </tr>
+             <tr>
+                 <td>12.生殖泌尿系统症状</td>
+                             <td><input type="radio" name="genitourinary_symptoms" value = 0 data-labelauty="0"/> </td>
+							 <td><input type="radio" name="genitourinary_symptoms" value = 1 data-labelauty="1"/> </td>
+							 <td><input type="radio" name="genitourinary_symptoms" value = 2 data-labelauty="2"/> </td>
+							 <td><input type="radio" name="genitourinary_symptoms" value = 3 data-labelauty="3"/> </td>
+							 <td><input type="radio" name="genitourinary_symptoms" value = 4 data-labelauty="4"/> </td>
+             </tr>
+             <tr>
+                 <td>13.植物神经系统症状</td>
+                             <td><input type="radio" name="plantnervous_symptoms" value = 0 data-labelauty="0"/> </td>
+							 <td><input type="radio" name="plantnervous_symptoms" value = 1 data-labelauty="1"/> </td>
+							 <td><input type="radio" name="plantnervous_symptoms" value = 2 data-labelauty="2"/> </td>
+							 <td><input type="radio" name="plantnervous_symptoms" value = 3 data-labelauty="3"/> </td>
+							 <td><input type="radio" name="plantnervous_symptoms" value = 4 data-labelauty="4"/> </td>
+             </tr>
+             <tr>
+
+             </tr>
+
+             <tr>
+                 <td>14.会谈时行为表现</td>
+                             <td><input type="radio" name="talks_behavior" value = 0 data-labelauty="0"/> </td>
+							 <td><input type="radio" name="talks_behavior" value = 1 data-labelauty="1"/> </td>
+							 <td><input type="radio" name="talks_behavior" value = 2 data-labelauty="2"/> </td>
+							 <td><input type="radio" name="talks_behavior" value = 3 data-labelauty="3"/> </td>
+							 <td><input type="radio" name="talks_behavior" value = 4 data-labelauty="4"/> </td>
+             </tr>
+
+ </tbody>
+
+</table>
+
+
+                         <div class="text-center">
+                              {% csrf_token %}
+                             <input  type="submit" class="btn btn-success"  id="hamd_bt"  value="提交"/>
+
+                         </div>
+
+                      </form>  
+                    </div>
+			    </div>
+	          </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+
+<script type="text/javascript" language="JavaScript">
+$(document).ready(function(){
+    $("input[type='radio']").labelauty();
+});
+</script>
+<script type="text/javascript" src="{% static '/js/jquery-radio-beauty.js'%}"></script>
+{% endblock %}

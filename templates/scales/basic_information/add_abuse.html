@@ -1,0 +1,147 @@
+{% extends 'templates/index.html'%}
+{% load static %}
+{% block title %}物质依赖{% endblock %}
+{% block css %}
+  <link href="{% static '/css/scales_style.css' %}" rel="stylesheet" >
+{% endblock %}
+{% block content %}
+     <div class="right_col" role="main">
+        <div class="container">
+          <div class="row show-grid">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <ul class="breadcrumb" style="background-color: white;font-weight:bold">
+                     <li ><a href="#">量表录入</a></li>
+                     <li><a href="#" >个人详细信息录入</a></li>
+                     <li class="active"><a href="#" >物质依赖</a></li>
+                </ul>
+            </div>
+          </div>
+        </div> 
+        <div class="dashboard_graph x_panel">
+          <div id="wrapper">
+            <div id = "left-side" style="height: 100%;" class="col-md-2">
+              <ul class="scales_progress">
+                <li class="step1 done">
+                  <p>家庭信息</p>
+                </li>
+                <li class="step2 done ">
+                  <p>学习情况</p>
+                </li>
+                <li class="step3 done">
+                  <p>家庭及疾病史</p>
+                </li>
+                <li class="step4 doing ">
+                  <p>物质依赖</p>
+                </li>
+                <li class="step5 nodone ">
+                  <p>其他资料</p>
+                </li>
+                <li class="step6 nodone ">
+                  <p>利手信息</p>
+                </li>
+                <li class="finish nodone ">
+                  <p>完成</p>
+                </li>
+              </ul>
+            </div>  
+             
+            <div id="right-side" class="col-md-10">
+              <div id="first" class="active">
+                  <form action="/scales/add_abuse?patient_id=10&&scale_id=1&&doctor_id=1" method="post">
+                             {%  csrf_token %}
+                            <div class="x_title">
+                                <div class="clearfix"></div>
+                                <h2>烟酒和物质使用 <small>Tobacco, alcohol and material dependence</small></h2>
+                                <div class="clearfix"></div>
+                            </div>
+                  <br>
+                  <div class="x_content">
+<!--                    js 选择是偏移1 默认偏移4 -->
+                      <br>
+                      <div class="form-group row " style="font-size: larger">
+                      <label class="control-label col-md-2 col-sm-2 col-md-offset-1 " style="">&nbsp;是否吸烟<span class="required">:</span></label>
+                      <div class="col-md-1 col-sm-1" id="patient_smoke_1">
+                        <input type="radio" class="flat " name="patient_smoke" value=1  data-labelauty="是"/>
+                      </div>
+                      <div class="col-md-1 col-sm-1" id="patient_smoke_2">
+                        <input type="radio" class="flat " name="patient_smoke" value=0 data-labelauty="否"/>
+                      </div>
+
+                    </div>
+                      <br>
+                      <div class="form-group row" style="font-size: larger">
+                          <label class="control-label col-md-2 col-sm-2 col-md-offset-1  ">起始吸烟年龄<span class="required">:</span></label>
+                          <div class="col-md-1 col-sm-1 form-group has-feedback ">
+                              <input type="text" id="patient_smoke_age" name="patient_smoke_age" class="form-control" disabled="disabled">
+                          </div>
+                           <label class="control-label col-md-1 col-sm-1  ">每日吸烟支数<span class="required">:</span></label>
+                          <div class="col-md-1 col-sm-1 form-group has-feedback ">
+                              <input type="text" id="patient_daily_smoke_num" name="patient_daily_smoke_num" class="form-control" disabled="disabled">
+                          </div>
+                          <label class="control-label col-md-1 col-sm-1 ">戒烟年龄<span class="required">:</span></label>
+                          <div class="col-md-1 col-sm-1 form-group has-feedback ">
+                              <input type="text" id="patient_stop_smoke_age" name="patient_stop_smoke_age" class="form-control" disabled="disabled">
+                          </div>
+                      </div>
+
+
+                      <br>
+                     <div class="form-group row" style="font-size: larger">
+                      <label class="control-label col-md-2 col-sm-2 col-md-offset-1 ">是否饮酒<span class="required">*:</span></label>
+                      <div class="col-md-2 col-sm-3">
+                          <select class="form-control" name="patient_alcohol" id="patient_alcohol">
+                            <option value="1">从不饮酒=1</option>
+                            <option value="2">偶尔饮酒（每周<1次）=2</option>
+                            <option value="3">以前饮酒，近1年不饮=3</option>
+                            <option value="4">现在习惯饮酒=4</option>
+                          </select>
+                      </div>
+                         <label class="control-label col-md-2 col-sm-2 col-md-offset-1 ">起始饮酒的年龄<span class="required">:</span></label>
+                      <div class="col-md-1 col-sm-3 form-group has-feedback alcohol_age">
+                        <input type="text" id="patient_alcohol_age" name="patient_alcohol_age" class="form-control " disabled="disabled">
+                      </div>
+                     </div>
+                      <br>
+
+                    <div class="form-group row" style="font-size: larger">
+                      <label class="control-label col-md-2 col-sm-2 col-md-offset-1">是否存在其他物质（非烟和酒）滥用<span class="required">*:</span></label>
+                      <div class="col-md-1 col-sm-1 " id="patient_other_abuse_1">
+                        <input type="radio" class="flat " name="patient_other_abuse" value=1 data-labelauty="是"/>
+                      </div>
+                      <div class="col-md-1 col-sm-1 " id="patient_other_abuse_2">
+                        <input type="radio" class="flat " name="patient_other_abuse" value=0 data-labelauty="否"/>
+                      </div>
+                        <label class="control-label col-md-2 col-sm-2 col-md-offset-1 ">起始年龄<span class="required">:</span></label>
+                      <div class="col-md-1 col-sm-1 form-group has-feedback ">
+                        <input type="text" id="patient_other_abuse_age" name="patient_other_abuse_age" required="required" class="form-control" disabled="disabled">
+                      </div>
+                          </div>
+<br>
+
+                  </div>
+                  <div class="row">
+                        {% csrf_token %}
+                        <div class="text-center">
+                            <input  type="submit" class="btn btn-success" value="提交"/>
+                        </div>
+                  </div>
+
+                  </form>
+              </div>
+            </div>
+          </div>
+        </div>
+     </div>
+
+
+{% endblock %}
+
+{% block js %}
+<script type="text/javascript" src="{% static '/js/jquery-radio-beauty.js'%}"></script>
+
+<script>
+$(document).ready(function(){
+	$("input[type='radio']").labelauty();
+});
+</script>
+{% endblock %}
