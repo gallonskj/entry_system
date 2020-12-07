@@ -4,6 +4,11 @@ from tools import insertCascadeCheck as tools_insertCascadeCheck
 from tools import calculatingScores as tools_calculatingScores
 from tools import Utils as tools_utils
 import scales.models as scales_models
+import patients.models as patient_models
+
+
+
+
 
 
 ################### insert方法部分 #####################

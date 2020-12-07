@@ -5,6 +5,30 @@ import scales.models as scales_models
 import tools.Utils as tools_utils
 
 
+# 获取被试需要做的scales的list
+def judgmentTypes_and_addRscales(patient_detail_id):
+    patient_detail = get_patient_detail_byPK(patient_detail_id)
+    # 判断是初扫还是复扫
+    if patient_detail.session_id == 1:
+        # 初扫
+        # 判断患者年龄
+        if tools_utils.calculate_age(str(get_base_info_byPK(patient_detail.patient_id).birth_date))> 16:
+            # 成人
+            scales_list = scales_models.DScales.objects.filter(scale_type__in=[0,2])
+        else:
+            # 青少年
+            scales_list = scales_models.DScales.objects.filter(scale_type__in=[0,1,2])
+    else:
+        # 复扫
+        scales_list = scales_models.DScales.objects.filter(scale_type__in=[2])
+
+    # 插入r_patient_scales表
+    for scale in scales_list:
+        temp = scales_models.RPatientScales(patient_session_id=patient_detail_id, scale_id=scale.id, state=0)
+        temp.save()
+
+
+
 ################ add 部分 ################
 ################ add 部分 ################
 ################ add 部分 ################

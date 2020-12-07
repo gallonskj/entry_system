@@ -95,6 +95,9 @@ def add_patient_baseinfo(request):
     patient_detail = patients_models.DPatientDetail(patient_id=patient_id, session_id=session_id, standard_id=standard_id,
                                     age=tools_utils.calculate_age(birth_date), doctor_id=doctor_id, diagnosis=0)
     patient_dao.add_patient_detail(patient_detail)
+    # 查询需要做的量表,并在r_patient_scales中插入需要做的量表
+    patient_dao.judgmentTypes_and_addRscales(patient_detail.id)
+    #获取页面需要的参数
     patient = patient_dao.get_base_info_byPK(patient_id)
     patient_detail_id = patient_dao.get_patient_detail_byPatientIdAndSessionId(patient_id,session_id).id
     return render(request, 'select_scales.html', {'patient': patient,
@@ -124,6 +127,8 @@ def add_patient_followup(request):
     patient_dao.add_patient_detail(patient_detail)
     # 获取创建的复扫信息自增id
     patient_detail_id = patient_dao.get_patient_detail_byPatientIdAndSessionId(patient_id,session_id).id
+    # 查询需要做的量表,并在r_patient_scales中插入需要做的量表
+    patient_dao.judgmentTypes_and_addRscales(patient_detail_id)
     return render(request, 'select_scales.html',{'patient': patient_baseinfo,
                                                  'patient_session_id': patient_detail_id,
                                                  "username": request.session.get('username')
