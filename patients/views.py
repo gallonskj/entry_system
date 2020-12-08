@@ -100,12 +100,19 @@ def add_patient_baseinfo(request):
     # 为初扫/复扫的病人预先在r_patient_scales中插入多条记录，依据被试需要做的scales_list
     patient_dao.add_rscales(scales_list, patient_detail.id)
 
+    # 获取各个scaleType的list信息
+    generalinfo_scale_list,other_test_scale_list,self_test_scale_list,cognition_scale_list = patient_dao.judgment_scales_bytype(scales_list)
+
     #获取页面需要的参数
     patient = patient_dao.get_base_info_byPK(patient_id)
     patient_detail_id = patient_dao.get_patient_detail_byPatientIdAndSessionId(patient_id,session_id).id
     return render(request, 'select_scales.html', {'patient': patient,
                                                   'patient_session_id': patient_detail_id,
-                                                  "username": request.session.get('username')
+                                                  "username": request.session.get('username'),
+                                                  "generalinfo_scale_list":generalinfo_scale_list,
+                                                  "other_test_scale_list":other_test_scale_list,
+                                                  "self_test_scale_list":self_test_scale_list,
+                                                  "cognition_scale_list":cognition_scale_list,
                                                   })
 
 def get_select_scales(request):
@@ -119,12 +126,13 @@ def get_select_scales(request):
                                                   })
 
 
-# 添加复扫信息
+# 添加复扫信息,需要获取到上次扫描的病人详细信息
 def add_patient_followup(request):
     patient_id = request.GET.get('patient_id')
     doctor_id = request.session.get('doctor_id')
     patient_baseinfo = patient_dao.get_base_info_byPK(patient_id)
     patient_id, session_id, standard_id = tools_idAssignments.patient_session_id_assignment(patient_baseinfo.id)
+    last_patient_detail = patient_dao.get_patient_detail_lastsession(patient_id)
     patient_detail = patients_models.DPatientDetail(patient_id=patient_id, session_id=session_id, standard_id=standard_id,
                                     age=tools_utils.calculate_age(str(patient_baseinfo.birth_date)), doctor_id=doctor_id, diagnosis=0)
     patient_dao.add_patient_detail(patient_detail)
@@ -136,7 +144,8 @@ def add_patient_followup(request):
     patient_dao.add_rscales(scales_list, patient_detail.id)
     return render(request, 'select_scales.html',{'patient': patient_baseinfo,
                                                  'patient_session_id': patient_detail_id,
-                                                 "username": request.session.get('username')
+                                                 "username": request.session.get('username'),
+                                                 'patient_detail_lastsession':last_patient_detail,
                                                  })
 
 

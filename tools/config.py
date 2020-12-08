@@ -24,4 +24,9 @@ wcst = 21 # 维斯康星卡片分类测验
 rbans = 22 # 重复成套性神经心理状态测验系统
 fept = 23 # 面孔情绪感知能力测试
 vept = 24 # 语音情绪感知能力测试
-bprs = 2
+
+scales_html_dict = {1:'.html'}
+general_info_type = 0
+other_test_type = 1
+self_test_type = 2
+cognition_type = 3
