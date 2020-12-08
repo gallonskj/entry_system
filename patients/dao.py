@@ -5,6 +5,15 @@ import scales.models as scales_models
 import tools.Utils as tools_utils
 
 
+# 将要做的scales分成个人信息，自评，他评等四类
+def judgment_do_scales(scales_list):
+    information = scales_list.objects.filter(do_scale_type=0)
+    other_test = scales_list.objects.filter(do_scale_type=1)
+    self_test = scales_list.objects.filter(do_scale_type=2)
+    cognition = scales_list.objects.filter(do_scale_type=3)
+    return information, other_test, self_test, cognition
+
+
 # 获取被试需要做的scales的list
 def judgment_scales(patient_detail_id):
     patient_detail = get_patient_detail_byPK(patient_detail_id)
@@ -73,6 +82,10 @@ def del_patient_detail_byPK(patient_session_id):
 ################ get 部分 ################
 ################ get 部分 ################
 ################ get 部分 ################
+
+def get_patient_detail_last_byPatientId(patient_id):
+    patient_detail_last = patients_models.DPatientDetail.objects.filter(patient_id=patient_id).last()
+    return patient_detail_last
 
 # get scales表
 def get_scales_all():
