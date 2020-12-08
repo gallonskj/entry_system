@@ -134,9 +134,12 @@ def add_patient_followup(request):
     scales_list = patient_dao.judgment_scales(patient_detail_id)
     # 为初扫/复扫的病人预先在r_patient_scales中插入多条记录，依据被试需要做的scales_list
     patient_dao.add_rscales(scales_list, patient_detail.id)
+    # 将上一次的detail信息返回到前台
+    patient_detail_last = patient_dao.get_patient_detail_last_byPatientId(patient_id)
     return render(request, 'select_scales.html',{'patient': patient_baseinfo,
                                                  'patient_session_id': patient_detail_id,
-                                                 "username": request.session.get('username')
+                                                 "username": request.session.get('username'),
+                                                 "patient_detail_last":patient_detail_last
                                                  })
 
 

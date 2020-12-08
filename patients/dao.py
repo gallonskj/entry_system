@@ -83,6 +83,10 @@ def del_patient_detail_byPK(patient_session_id):
 ################ get 部分 ################
 ################ get 部分 ################
 
+def get_patient_detail_last_byPatientId(patient_id):
+    patient_detail_last = patients_models.DPatientDetail.objects.filter(patient_id=patient_id).last()
+    return patient_detail_last
+
 # get scales表
 def get_scales_all():
     scales_list = scales_models.DScales.objects.all()
