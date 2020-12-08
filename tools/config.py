@@ -26,6 +26,7 @@ fept = 23 # 面孔情绪感知能力测试
 vept = 24 # 语音情绪感知能力测试
 
 scales_html_dict = {1:'.html'}
+
 general_info_type = 0
 other_test_type = 1
 self_test_type = 2
