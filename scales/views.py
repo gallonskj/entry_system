@@ -14,7 +14,13 @@ import patients.dao as patients_dao
 def get_general_info_forms(request):
     patient_session_id = request.GET.get('patient_session_id')
     patient_id = request.GET.get('patient_id')
-    return render(request, 'forms_general_info.html', {'patient_session_id': patient_session_id,
+    # 根据do_scale_type，获取scale最小的id
+    # todo　redirect传递问题
+    min_unfinished_scale = scales_dao.get_min_unfinished_scale(tools_config.general_info_type,patient_session_id)
+    if min_unfinished_scale is None:
+        return redirect(get_self_test_forms)
+    next_page_url = tools_config.scales_html_dict[min_unfinished_scale]
+    return render(request, next_page_url, {'patient_session_id': patient_session_id,
                                                        'patient_id': patient_id,
                                                        "username": request.session.get('username')
                                                        })
@@ -23,6 +29,12 @@ def get_general_info_forms(request):
 def get_other_test_forms(request):
     patient_session_id = request.GET.get('patient_session_id')
     patient_id = request.GET.get('patient_id')
+    # 根据do_scale_type，获取scale最小的id
+    # todo　redirect传递问题
+    min_unfinished_scale = patients_dao.get_min_unfinished_scale(tools_config.general_info_type,patient_session_id)
+    if min_unfinished_scale is None:
+        return redirect(get_other_test_forms)
+    next_page_url = tools_config.scales_html_dict[min_unfinished_scale]
     return render(request, 'forms_other_test.html', {'patient_session_id': patient_session_id,
                                                      'patient_id': patient_id,
                                                      "username": request.session.get('username')
@@ -33,6 +45,12 @@ def get_other_test_forms(request):
 def get_cognition_forms(request):
     patient_session_id = request.GET.get('patient_session_id')
     patient_id = request.GET.get('patient_id')
+    # 根据do_scale_type，获取scale最小的id
+    # todo　redirect传递问题
+    min_unfinished_scale = patients_dao.get_min_unfinished_scale(tools_config.general_info_type,patient_session_id)
+    if min_unfinished_scale is None:
+        return redirect(get_other_test_forms)
+    next_page_url = tools_config.scales_html_dict[min_unfinished_scale]
     return render(request, 'forms_cognition.html', {'patient_session_id': patient_session_id,
                                                     'patient_id': patient_id,
                                                     "username": request.session.get('username')
@@ -42,6 +60,12 @@ def get_cognition_forms(request):
 def get_self_test_forms(request):
     patient_session_id = request.GET.get('patient_session_id')
     patient_id = request.GET.get('patient_id')
+    # 根据do_scale_type，获取scale最小的id
+    # todo　redirect传递问题
+    min_unfinished_scale = patients_dao.get_min_unfinished_scale(tools_config.general_info_type,patient_session_id)
+    if min_unfinished_scale is None:
+        return redirect(get_other_test_forms)
+    next_page_url = tools_config.scales_html_dict[min_unfinished_scale]
     return render(request, 'forms_self_test.html', {'patient_session_id': patient_session_id,
                                                     'patient_id': patient_id,
                                                     "username": request.session.get('username')
@@ -66,6 +90,8 @@ def add_ybo(request):
     # 添加数据库
     scales_dao.dao_add_ybo(rpatientybobsessiontable)
     patient_id = request.GET.get('patient_id')
+    min_unfinished_scale = scales_dao.get_min_unfinished_scale(tools_config.other_test_type,patient_session_id)
+    next_url = tools_config.scales_html_dict[min_unfinished_scale]
     redirect_yrl = '/scales/get_self_test_forms?patient_session_id={}&patient_id={}'.format(str(patient_session_id),str(patient_id))
     return redirect(redirect_yrl)
 

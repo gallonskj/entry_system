@@ -451,3 +451,10 @@ def get_patient_fept_byPatientDetailId(patient_detail_id):
 def get_patient_vept_byPatientDetailId(patient_detail_id):
     patient_vept = scales_models.RPatientVept.objects.filter(patient_session=patient_detail_id)[0]
     return patient_vept
+
+# 获取某个类别的量表未完成的最小值,都已经完成了，那么返回None
+def get_min_unfinished_scale(do_scale_type,patient_session_id):
+    res = scales_models.RPatientScales.objects.filter(scale__do_scale_type = do_scale_type,patient_session_id = patient_session_id, state = 0).order_by('-scale_id')
+    if res.count() == 0:
+        return None
+    return res[0].scale_id

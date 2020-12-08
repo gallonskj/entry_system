@@ -4,6 +4,13 @@ import patients.models as patients_models
 import scales.models as scales_models
 import tools.Utils as tools_utils
 
+# 将要做的scales分成个人信息，自评，他评等四类
+def judgment_do_scales(scales_list):
+    information = scales_list.objects.filter(do_scale_type=0)
+    other_test = scales_list.objects.filter(do_scale_type=1)
+    self_test = scales_list.objects.filter(do_scale_type=2)
+    cognition = scales_list.objects.filter(do_scale_type=3)
+    return information, other_test, self_test, cognition
 
 # 将要做的scales分成个人信息，自评，他评等四类
 def judgment_do_scales(scales_list):
@@ -131,6 +138,12 @@ def get_patient_detail_byForeignPatientId(patient_id):
 def get_patient_detail_all():
     patient_detail_list = patients_models.DPatientDetail.objects.all()
     return patient_detail_list
+
+def get_patient_detail_lastsession(patient_id):
+    patient_detail_list = patients_models.DPatientDetail.objects.filter(patient__id=patient_id).order_by('-session_id')
+    if patient_detail_list.count() == 0:
+        return None
+    return patient_detail_list[0]
 
 
 # r_patient_scales表相关：
