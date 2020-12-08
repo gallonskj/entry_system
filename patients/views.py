@@ -5,67 +5,20 @@ from django.views.decorators.csrf import csrf_exempt
 from .models import BPatientAppointment
 
 # Create your views here.
-def getIndex(request):
-    #return render(request,'index.html')
-    return render(request,'index.html')
-
-
-def patient_Detail(request):
-    return render(request,'patientDetail.html')
-
-
-def patient_edit(request):
-    return render(request,'patient_edit.html')
-
-@csrf_exempt
-def addPatient(request):
-    date = request.POST.get('date')
-    name = request.POST.get('name')
-    sex = request.POST.get('sex')
-    birthDate = request.POST.get('birth_date')
-    education = request.POST.get('education')
-    occupation = request.POST.get('occupation')
-    emotionState = request.POST.get('emotional_state')
-    phone = request.POST.get('phone')
-    note = request.POST.get('note')
-
-    patientAppoientment = BPatientAppointment(date=date,name=name,sex=sex,birth_date=birthDate,education=education,occupation=occupation,
-                                              emotional_state=emotionState,phone=phone,note=note)
-    patientAppoientment.save()
-    return redirect('/patients')
-
-def getPatient(request):
-    res = BPatientAppointment.objects.all()
-    return render(request, 'index.html', {'res':res})
 '''
-import json
-from django.db.models import Q
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
-
-import scales.models as scales_models
 import tools.Utils as tools_utils
 import tools.idAssignments as tools_idAssignments
 import users.models as users_models
 import patients.models as patients_models
 import scales.models as scales_models
 import patients.dao as patient_dao
-
+import tools.config as tools_config
 import json
 
 scale_class_dict = {1:[scales_models.RPatientHama,10],2:[scales_models.RPatientHamd17,20],3:[scales_models.RPatientYmrs,15]}
-# 0：未诊断
-# 1：健康者
-# 2：重性抑郁障碍
-# 3：焦虑障碍
-# 4：双相障碍
-# 5：精神分裂症
-# 6：强迫症
-# 7：高危遗传
-# 8：临床高危
-# 9：抑郁症状
-disease_type_dict = {0:'未诊断',1:'健康者',2:'重性抑郁障碍',3:'焦虑障碍',4:'双相障碍',5:'精神分裂症',6:'强迫症',7:'高危遗传',8:'临床高危',9:'抑郁症状'}
 
 # 获取所有被试基础信息,以及民族字典表信息（创建被试时会使用到）
 def get_all_patients_baseinfo(request):
@@ -351,7 +304,7 @@ def patient_statistics(request):
         #     patient.diagnosis = 'BD'
         # elif patient.diagnosis == 3:
         #     patient.diagnosis = 'SZ'
-        patient.diagnosis = disease_type_dict[patient.diagnosis]
+        patient.diagnosis = tools_config.disease_type_dict[patient.diagnosis]
 
         scale_id_list = []
         scale_score_list = []
