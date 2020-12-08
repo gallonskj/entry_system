@@ -26,7 +26,14 @@ fept = 23 # 面孔情绪感知能力测试
 vept = 24 # 语音情绪感知能力测试
 
 scales_html_dict = {1:'.html'}
+
 general_info_type = 0
 other_test_type = 1
 self_test_type = 2
 cognition_type = 3
+
+
+
+###################  disease_type_dict  ###################
+disease_type_dict = {0:'未诊断',1:'健康者',2:'重性抑郁障碍',3:'焦虑障碍',4:'双相障碍',5:'精神分裂症',6:'强迫症',7:'高危遗传',8:'临床高危',9:'抑郁症状'}
+

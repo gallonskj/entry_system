@@ -62,7 +62,12 @@ def HAMD17_total_score(rPatientHamd17_object):
                     int(rPatientHamd17_object.intense) + int(rPatientHamd17_object.psycho_anxiety) + int(rPatientHamd17_object.somatic_anxiety) + int(rPatientHamd17_object. gastrointestinal_symptoms) + \
                     int(rPatientHamd17_object.systemic_symptoms) + int(rPatientHamd17_object.sexual_symptoms) + int(rPatientHamd17_object.hypochondria) + int(rPatientHamd17_object.lose_weight) + \
                     int(rPatientHamd17_object.self_awareness)
-        object_flag = False
+
+        if total_score <= 68 and total_score >= 0:
+            object_flag = False
+        else:
+            object_flag = True
+            total_score = None
     return total_score, object_flag
 
 
@@ -91,7 +96,11 @@ def HAMA_total_score(rPatientHama_object):
                     int(rPatientHama_object.depression) + int(rPatientHama_object.somaticanxiety_muscle) + int(rPatientHama_object.somaticanxiety_sensory) + int(rPatientHama_object.cardiovascular_symptoms) + \
                     int(rPatientHama_object.respiratory_symptoms) + int(rPatientHama_object.gastrointestinal_symptoms) + int(rPatientHama_object.genitourinary_symptoms) + int(rPatientHama_object.plantnervous_symptoms) + \
                     int(rPatientHama_object.interview_behavior)
-        object_flag = False
+        if total_score <= 56 and total_score >= 0:
+            object_flag = False
+        else:
+            object_flag = True
+            total_score = None
     return total_score,object_flag
 
 
@@ -116,7 +125,11 @@ def YMRS_total_score(rPatientYmrs_object):
         total_score = int(rPatientYmrs_object.emotional_upsurge) + int(rPatientYmrs_object.vigorous_energy) + int(rPatientYmrs_object.sexual_desire) + int(rPatientYmrs_object.sleep) + \
                   int(rPatientYmrs_object.irritability) + int(rPatientYmrs_object.speech) + int(rPatientYmrs_object.language) + int(rPatientYmrs_object.thinking_content) + \
                   int(rPatientYmrs_object.aggressive_behavior) + int(rPatientYmrs_object.appearance) + int(rPatientYmrs_object.self_awareness)
-        object_flag = False
+        if total_score <= 60 and total_score >= 0:
+            object_flag = False
+        else:
+            object_flag = True
+            total_score = None
     return total_score,object_flag
 
 
@@ -150,7 +163,11 @@ def Bprs_total_score(rPatientBprs_object):
                   int(rPatientBprs_object.look_act) + int(rPatientBprs_object.exaggerate) + int(rPatientBprs_object.mood_depression) + int(rPatientBprs_object.hostility) + \
                   int(rPatientBprs_object.suspicion) + int(rPatientBprs_object.hallucination) + int(rPatientBprs_object.slow_movement) + int(rPatientBprs_object.no_cooperation) + \
                   int(rPatientBprs_object.unusual_thinking) + int(rPatientBprs_object.feeling_flat) + int(rPatientBprs_object.excitement) + int(rPatientBprs_object.directional_disorder)
-        object_flag = False
+        if total_score <= 126 and total_score >= 0:
+            object_flag = False
+        else:
+            object_flag = True
+            total_score = None
     return total_score,object_flag
 
 
@@ -176,8 +193,11 @@ def YBO_total_score(rPatientYbobsessiontable_object):
             int(rPatientYbobsessiontable_object.impediment_degree2) + int(rPatientYbobsessiontable_object.distress) + int(rPatientYbobsessiontable_object.fightforced_degree) + \
             int(rPatientYbobsessiontable_object.control_ability1) + int(rPatientYbobsessiontable_object.control_ability2) + int(rPatientYbobsessiontable_object.compulsion_frequency) + \
             int(rPatientYbobsessiontable_object.stopcompulsion_anxiety) + int(rPatientYbobsessiontable_object.stopforced_frequency)
-        object_flag = False
-
+        if total_score <= 40 and total_score >= 0:
+            object_flag = False
+        else:
+            object_flag = True
+            total_score = None
     return total_score,object_flag
 
 
@@ -229,7 +249,11 @@ def Suicidal_total_score(rPatientSuicidal_object):
                        int(rPatientSuicidal_object.question18_lastweek) + int(rPatientSuicidal_object.question19_lastweek)
 
             total_score_lastweek =(sum_lastweek - 9)/33*100
-            object_flag_lastweek = False
+            if total_score_lastweek <= 100 and total_score_lastweek >= 0:
+                object_flag_lastweek = False
+            else:
+                object_flag_lastweek = True
+                total_score_lastweek = None
 #另一分支
         if flag_mostdepressed == 2:
             total_score_mostdepressed = None
@@ -257,12 +281,14 @@ def Suicidal_total_score(rPatientSuicidal_object):
                                 int(rPatientSuicidal_object.question15_mostdepressed) + int(rPatientSuicidal_object.question16_mostdepressed) + int( rPatientSuicidal_object.question17_mostdepressed) + \
                                 int(rPatientSuicidal_object.question18_mostdepressed) + int(rPatientSuicidal_object.question19_mostdepressed)
             total_score_mostdepressed = (sum_mostdepressed - 9) / 33 * 100
-            object_flag_mostdepressed = False
+            if total_score_mostdepressed <= 100 and total_score_mostdepressed>= 0:
+                object_flag_mostdepressed = False
+            else:
+                object_flag_mostdepressed = True
+                total_score_mostdepressed = None
         object_flag = object_flag_lastweek and object_flag_mostdepressed
 
     return total_score_lastweek,total_score_mostdepressed,object_flag
-
-
 
 
 # 33项轻躁狂
@@ -304,19 +330,22 @@ def ManicSymptom_total_score(rPatientManicsymptom_object):
         object_flag = True
         total_score = None
     else:
-        total_score = int(rPatientManicsymptom_object.question3_1) + int(rPatientManicsymptom_object.question3_1) + int(rPatientManicsymptom_object.question3_1) + \
-            int(rPatientManicsymptom_object.question3_1)+ int(rPatientManicsymptom_object.question3_1)+ int(rPatientManicsymptom_object.question3_1) + \
-            int(rPatientManicsymptom_object.question3_1)+ int(rPatientManicsymptom_object.question3_1)+ int(rPatientManicsymptom_object.question3_1) + \
-            int(rPatientManicsymptom_object.question3_1)+ int(rPatientManicsymptom_object.question3_1)+ int(rPatientManicsymptom_object.question3_1) + \
-            int(rPatientManicsymptom_object.question3_1)+ int(rPatientManicsymptom_object.question3_1)+ int(rPatientManicsymptom_object.question3_1) + \
-            int(rPatientManicsymptom_object.question3_1)+ int(rPatientManicsymptom_object.question3_1)+ int(rPatientManicsymptom_object.question3_1) + \
-            int(rPatientManicsymptom_object.question3_1)+ int(rPatientManicsymptom_object.question3_1)+ int(rPatientManicsymptom_object.question3_1) + \
-            int(rPatientManicsymptom_object.question3_1)+ int(rPatientManicsymptom_object.question3_1)+ int(rPatientManicsymptom_object.question3_1) + \
-            int(rPatientManicsymptom_object.question3_1)+ int(rPatientManicsymptom_object.question3_1)+ int(rPatientManicsymptom_object.question3_1) + \
-            int(rPatientManicsymptom_object.question3_1)+ int(rPatientManicsymptom_object.question3_1)+ int(rPatientManicsymptom_object.question3_1) + \
-            int(rPatientManicsymptom_object.question3_1)+ int(rPatientManicsymptom_object.question3_1)+ int(rPatientManicsymptom_object.question3_1)
-        object_flag = False
-
+        total_score = int(rPatientManicsymptom_object.question3_1) + int(rPatientManicsymptom_object.question3_2) + int(rPatientManicsymptom_object.question3_3) + \
+            int(rPatientManicsymptom_object.question3_4)+ int(rPatientManicsymptom_object.question3_5)+ int(rPatientManicsymptom_object.question3_6) + \
+            int(rPatientManicsymptom_object.question3_7)+ int(rPatientManicsymptom_object.question3_8)+ int(rPatientManicsymptom_object.question3_9) + \
+            int(rPatientManicsymptom_object.question3_10)+ int(rPatientManicsymptom_object.question3_11)+ int(rPatientManicsymptom_object.question3_12) + \
+            int(rPatientManicsymptom_object.question3_13)+ int(rPatientManicsymptom_object.question3_14)+ int(rPatientManicsymptom_object.question3_15) + \
+            int(rPatientManicsymptom_object.question3_16)+ int(rPatientManicsymptom_object.question3_17)+ int(rPatientManicsymptom_object.question3_18) + \
+            int(rPatientManicsymptom_object.question3_19)+ int(rPatientManicsymptom_object.question3_20)+ int(rPatientManicsymptom_object.question3_21) + \
+            int(rPatientManicsymptom_object.question3_22)+ int(rPatientManicsymptom_object.question3_23)+ int(rPatientManicsymptom_object.question3_24) + \
+            int(rPatientManicsymptom_object.question3_25)+ int(rPatientManicsymptom_object.question3_26)+ int(rPatientManicsymptom_object.question3_27) + \
+            int(rPatientManicsymptom_object.question3_28)+ int(rPatientManicsymptom_object.question3_29)+ int(rPatientManicsymptom_object.question3_30) + \
+            int(rPatientManicsymptom_object.question3_31)+ int(rPatientManicsymptom_object.question3_32)+ int(rPatientManicsymptom_object.question3_33)
+        if total_score <= 33 and total_score >= 0:
+            object_flag = False
+        else:
+            object_flag = True
+            total_score = None
     return total_score,object_flag
 
 
@@ -346,7 +375,11 @@ def happiness_total_score(rPatientHappiness_object):
                   int(rPatientHappiness_object.question7_answer) + int(rPatientHappiness_object.question8_answer) + int(rPatientHappiness_object.question9_answer) + \
                   int(rPatientHappiness_object.question10_answer) + int(rPatientHappiness_object.question11_answer) + int(rPatientHappiness_object.question12_answer) + \
                   int(rPatientHappiness_object.question13_answer) + int(rPatientHappiness_object.question14_answer)
-        object_flag = False
+        if total_score <= 56 and total_score >= 14:
+            object_flag = False
+        else:
+            object_flag = True
+            total_score = None
     return total_score,object_flag
 
 
@@ -385,8 +418,13 @@ def pleasure_total_score(rPatientPleasure_object):
         consume_total_score =int(rPatientPleasure_object.question2_answer) + int(rPatientPleasure_object.question3_answer) + int(rPatientPleasure_object.question5_answer) + \
                          int(rPatientPleasure_object.question7_answer) + int(rPatientPleasure_object.question9_answer) + int(rPatientPleasure_object.question12_answer) + \
                          int(rPatientPleasure_object.question14_answer) + int(rPatientPleasure_object.question17_answer)
-        object_flag = False
 
+        if exception_total_score <= 60 and exception_total_score >= 10 and consume_total_score >= 8 and consume_total_score <= 48:
+            object_flag = False
+        else:
+            object_flag = True
+            exception_total_score = None
+            consume_total_score = None
     return exception_total_score,consume_total_score,object_flag
 
 
@@ -443,8 +481,18 @@ def growth_total_score(rPatientGrowth_object):
                                       int(rPatientGrowth_object.question28_answer)
         physical_ignorance_total_score = int(rPatientGrowth_object.question1_answer) + (6 - int(rPatientGrowth_object.question2_answer)) + \
                                      int(rPatientGrowth_object.question4_answer) + int(rPatientGrowth_object.question6_answer) + (6 - int(rPatientGrowth_object.question26_answer))
-        object_flag = False
 
+        if emotional_abuse_total_score >= 5 and emotional_abuse_total_score <=25 and physical_abuse_total_score >= 5 and physical_abuse_total_score <=25 \
+            and sexual_abuse_total_score >= 5 and sexual_abuse_total_score <=25 and emotional_ignorance_total_score >= 5 and emotional_ignorance_total_score <=25 \
+            and physical_ignorance_total_score >= 5 and physical_ignorance_total_score <=25:
+            object_flag = False
+        else:
+            object_flag = True
+            emotional_abuse_total_score = None
+            physical_abuse_total_score = None
+            sexual_abuse_total_score = None
+            emotional_ignorance_total_score = None
+            physical_ignorance_total_score = None
     return emotional_abuse_total_score,physical_abuse_total_score,sexual_abuse_total_score,emotional_ignorance_total_score,physical_ignorance_total_score,object_flag
 
 
@@ -482,7 +530,6 @@ def AdolescentEvents_total_score(rPatientAdolescentEvents_object):
         object_flag = True
         total_score = None
     else:
-        object_flag = False
         total_score = int(rPatientAdolescentEvents_object.question1_answer) + int(rPatientAdolescentEvents_object.question2_answer) + int(rPatientAdolescentEvents_object.question3_answer) + \
             int(rPatientAdolescentEvents_object.question4_answer) + int(rPatientAdolescentEvents_object.question5_answer) + int(rPatientAdolescentEvents_object.question6_answer) + \
             int(rPatientAdolescentEvents_object.question7_answer) + int(rPatientAdolescentEvents_object.question8_answer) + int(rPatientAdolescentEvents_object.question9_answer) + \
@@ -492,6 +539,11 @@ def AdolescentEvents_total_score(rPatientAdolescentEvents_object):
             int(rPatientAdolescentEvents_object.question19_answer) + int(rPatientAdolescentEvents_object.question20_answer) + int(rPatientAdolescentEvents_object.question21_answer) + \
             int(rPatientAdolescentEvents_object.question22_answer) + int(rPatientAdolescentEvents_object.question23_answer) + int(rPatientAdolescentEvents_object.question24_answer) + \
             int(rPatientAdolescentEvents_object.question25_answer) + int(rPatientAdolescentEvents_object.question26_answer) + int(rPatientAdolescentEvents_object.question27_answer)
+        if total_score >= 0 and total_score <=135:
+            object_flag = False
+        else:
+            object_flag = True
+            total_score = None
     return total_score,object_flag
 
 
@@ -586,8 +638,23 @@ def CognitiveEmotion_total_score(rPatientCognitiveEmotion_object):
         total_score = blame_self + blame_others + meditation + catastrophization + accepted + positive_refocus + program_refocus + \
                       positive_evaluation + rational_analysis
 
-        object_flag = False
-
+        if blame_self >= 4 and blame_self <= 20 and blame_others >= 4 and blame_others <= 20 and meditation >= 4 and meditation <= 20 \
+            and catastrophization >= 4 and catastrophization <= 20 and accepted >= 4 and accepted <= 20 and positive_refocus >= 4 and positive_refocus <= 20 \
+            and program_refocus >= 4 and program_refocus <= 20 and  positive_evaluation >= 4 and positive_evaluation <= 20 and  rational_analysis >= 4 and rational_analysis <= 20 \
+            and total_score >= 36 and total_score <= 180:
+            object_flag = False
+        else:
+            object_flag = True
+            total_score = None
+            blame_self = None
+            blame_others = None
+            meditation = None
+            catastrophization = None
+            accepted = None
+            positive_refocus = None
+            program_refocus = None
+            positive_evaluation = None
+            rational_analysis = None
     return total_score,blame_self,blame_others,meditation,catastrophization,accepted,positive_refocus,program_refocus,positive_evaluation,rational_analysis,object_flag
 
 
@@ -667,13 +734,25 @@ def SEmbu_total_score(rPatientSembu_object):
                      int(rPatientSembu_object.question17_father )+ int(rPatientSembu_object.question18_father) + int(rPatientSembu_object.question19_father) + \
                                  (5 - int(rPatientSembu_object.question13_father)) + int(rPatientSembu_object.question21_father)
 
-        refusal_mother = refusal_mother_total/6
-        refusal_father = refusal_father_total/6
-        emotional_warmth_mother = emotional_warmth_mother_total/7
-        emotional_warmth_father = emotional_warmth_father_total/7
-        overprotection_mother = overprotection_mother_total/8
-        overprotection_father = overprotection_father_total/8
-        object_flag = False
+        if refusal_mother_total >= 6 and refusal_mother_total <= 24 and refusal_father_total >= 6 and refusal_father_total <= 24 \
+                and emotional_warmth_mother_total >= 7 and emotional_warmth_mother_total <= 28 and emotional_warmth_father_total >= 7 \
+                and emotional_warmth_father_total <= 28 and overprotection_mother_total >= 8 and overprotection_mother_total <= 32 \
+                and overprotection_father_total>= 8 and overprotection_father_total <= 32:
+            object_flag = False
+            refusal_mother = refusal_mother_total/6
+            refusal_father = refusal_father_total/6
+            emotional_warmth_mother = emotional_warmth_mother_total/7
+            emotional_warmth_father = emotional_warmth_father_total/7
+            overprotection_mother = overprotection_mother_total/8
+            overprotection_father = overprotection_father_total/8
+        else:
+            object_flag = True
+            refusal_mother = None
+            refusal_father = None
+            emotional_warmth_mother = None
+            emotional_warmth_father = None
+            overprotection_mother = None
+            overprotection_father = None
     return refusal_mother,refusal_father,emotional_warmth_mother,emotional_warmth_father,overprotection_mother,overprotection_father,object_flag
 
 
@@ -724,7 +803,11 @@ def ATQ_total_score(rPatientAtq_object):
                       int(rPatientAtq_object.question22_answer) + int(rPatientAtq_object.question23_answer) + int(rPatientAtq_object.question24_answer) + \
                       int(rPatientAtq_object.question25_answer) + int(rPatientAtq_object.question26_answer) + int(rPatientAtq_object.question27_answer) + \
                       int(rPatientAtq_object.question28_answer) + int(rPatientAtq_object.question29_answer) + int(rPatientAtq_object.question30_answer)
-        object_flag = False
+        if total_score >= 30 and total_score <=150:
+            object_flag = False
+        else:
+            object_flag = True
+            total_score = None
     return total_score, object_flag
 
 
