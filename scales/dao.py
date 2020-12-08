@@ -5,9 +5,18 @@ from tools import calculatingScores as tools_calculatingScores
 from tools import Utils as tools_utils
 import scales.models as scales_models
 import patients.models as patient_models
+import tools.config as tools_config
 
+################### 自定义update方法 ####################
+################### 自定义update方法 ####################
+################### 自定义update方法 ####################
 
-
+# 这里不能使用update方法，django中使用自带update方法无法更新带有auto_now的时间字段
+# 更新r_patient_scales中的state状态
+def update_rscales_state(patient_session_id,scale_id):
+    rPatientScales = scales_models.RPatientScales.objects.filter(patient_session_id = patient_session_id, scale_id=scale_id)
+    rPatientScales.state = 1
+    rPatientScales.save()
 
 
 
@@ -23,7 +32,7 @@ import patients.models as patient_models
 # 汉密尔顿焦虑量表
 def add_hamd_database(request):
     patient_session_id = request.GET.get('patient_session_id')
-    scale_id = 18
+    scale_id = tools_config.hamd_17
     doctor_id = request.session.get('doctor_id')
     # 创建一个对象
     rPatientHAMD17 = scales_models.RPatientHamd17(patient_session_id=patient_session_id, scale_id=scale_id, doctor_id=doctor_id)
@@ -40,11 +49,14 @@ def add_hamd_database(request):
     tools_insertCascadeCheck.insert_hama_check(rPatientHAMD17)
     # 插入数据库
     rPatientHAMD17.save()
+    # 修改r_patient_scales表中state状态
+    update_rscales_state(patient_session_id, scale_id)
+
 
 # 33 项轻躁狂症状清单
 def add_manicsymptom_database(request):
     patient_session_id = request.GET.get('patient_session_id')
-    scale_id = 9
+    scale_id = tools_config.hcl_33
     doctor_id = request.session.get('doctor_id')
     # 创建一个对象
     rPatientManicsymptom = scales_models.RPatientManicsymptom(patient_session_id=patient_session_id, scale_id=scale_id,
@@ -61,11 +73,13 @@ def add_manicsymptom_database(request):
     tools_insertCascadeCheck.insert_mainicsymptom_check(rPatientManicsymptom)
     # 插入数据库
     rPatientManicsymptom.save()
+    # 修改r_patient_scales表中state状态
+    update_rscales_state(patient_session_id, scale_id)
 
 # 斯奈斯和汉密尔顿快乐量表
 def add_happiness_database(request):
     patient_session_id = request.GET.get('patient_session_id')
-    scale_id = 10
+    scale_id = tools_config.shaps
     doctor_id = request.session.get('doctor_id')
     rPatienthappiness = scales_models.RPatientHappiness(patient_session_id=patient_session_id, scale_id=scale_id,
                                           doctor_id=doctor_id)
@@ -81,11 +95,13 @@ def add_happiness_database(request):
     tools_insertCascadeCheck.insert_hapiness_check(rPatienthappiness)
     # 插入数据库
     rPatienthappiness.save()
+    # 修改r_patient_scales表中state状态
+    update_rscales_state(patient_session_id, scale_id)
 
 
 def add_chinesehandle_database(request):
     patient_session_id = request.GET.get('patient_session_id')
-    scale_id = 6
+    scale_id = tools_config.chi
     doctor_id = request.session.get('doctor_id')
     rPatientChineseHandy = scales_models.RPatientChineseHandy(patient_session_id=patient_session_id, scale_id=scale_id, doctor_id=doctor_id)
     # 通过field的方式进行数据的传递，注意，需要保证form表单中各项的名称与数据库中字段名称是名称相同
@@ -100,11 +116,13 @@ def add_chinesehandle_database(request):
     tools_insertCascadeCheck.insert_handle_check(rPatientChineseHandy)
     # 插入数据库
     rPatientChineseHandy.save()
+    # 修改r_patient_scales表中state状态
+    update_rscales_state(patient_session_id, scale_id)
 
 
 def add_information_study_database(request):
     patient_session_id = request.GET.get('patient_session_id')
-    scale_id = 2
+    scale_id = tools_config.information_study
     doctor_id = request.session.get('doctor_id')
     # 创建一个对象
     rPatientBasicInformationStudy = scales_models.RPatientBasicInformationStudy(patient_session_id=patient_session_id, scale_id=scale_id, doctor_id=doctor_id)
@@ -117,6 +135,8 @@ def add_information_study_database(request):
     tools_insertCascadeCheck.insert_information_study_check(rPatientBasicInformationStudy)
     # 插入数据库
     rPatientBasicInformationStudy.save()
+    # 修改r_patient_scales表中state状态
+    update_rscales_state(patient_session_id, scale_id)
 
 #############################################################################################
 #############################################################################################syh
@@ -124,7 +144,7 @@ def add_information_study_database(request):
 
 def add_cognitive_emotion_database(request):
     patient_session_id = request.GET.get('patient_session_id')
-    scale_id = 14
+    scale_id = tools_config.cerq_c
     doctor_id = request.session.get('doctor_id')
     total_scores = 1
     rPatientCognitiveEmotion = scales_models.RPatientCognitiveEmotion(patient_session_id=patient_session_id, scale_id=scale_id,
@@ -146,11 +166,13 @@ def add_cognitive_emotion_database(request):
     tools_insertCascadeCheck.insert_cognitive_emotion_check(rPatientCognitiveEmotion)
     # 插入数据库
     rPatientCognitiveEmotion.save()
+    # 修改r_patient_scales表中state状态
+    update_rscales_state(patient_session_id, scale_id)
 
 
 def add_pleasure_database(request):
     patient_session_id = request.GET.get('patient_session_id')
-    scale_id = 11
+    scale_id = tools_config.teps
     doctor_id = request.session.get('doctor_id')
 
     rPatientPleasure = scales_models.RPatientPleasure(patient_session_id=patient_session_id, scale_id=scale_id, doctor_id=doctor_id)
@@ -166,10 +188,13 @@ def add_pleasure_database(request):
     tools_insertCascadeCheck.insert_pleasure_check(rPatientPleasure)
     # 插入数据库
     rPatientPleasure.save()
+    # 修改r_patient_scales表中state状态
+    update_rscales_state(patient_session_id, scale_id)
+
 
 def add_bprs_database(request):
     patient_session_id = request.GET.get('patient_session_id')
-    scale_id = 20
+    scale_id = tools_config.bprs
     doctor_id = request.session.get('doctor_id')
     total_scores = 1
     rPatientbprs = scales_models.RPatientBprs(patient_session_id=patient_session_id, scale_id=scale_id, doctor_id=doctor_id)
@@ -184,10 +209,14 @@ def add_bprs_database(request):
     tools_insertCascadeCheck.insert_bprs_check(rPatientbprs)
     # 插入数据库
     rPatientbprs.save()
+    # 修改r_patient_scales表中state状态
+    update_rscales_state(patient_session_id, scale_id)
+
+
 
 def add_rbans_database(request):
     patient_session_id = request.GET.get('patient_session_id')
-    scale_id = 22
+    scale_id = tools_config.rbans
     doctor_id = request.session.get('doctor_id')
     total_scores = 1
     rPatientrbans = scales_models.RPatientRbans(patient_session_id=patient_session_id, scale_id=scale_id, doctor_id=doctor_id)
@@ -200,11 +229,13 @@ def add_rbans_database(request):
     tools_insertCascadeCheck.insert_rbans_check(rPatientrbans)
     # 插入数据库
     rPatientrbans.save()
+    # 修改r_patient_scales表中state状态
+    update_rscales_state(patient_session_id, scale_id)
 
 
 def add_patient_basic_information_health_database(request):
     patient_session_id = request.GET.get('patient_session_id')
-    scale_id = 3
+    scale_id = tools_config.information_health
     doctor_id = request.session.get('doctor_id')
     total_scores = 1
     rPatientBasicInformationHealth = scales_models.RPatientBasicInformationHealth(patient_session_id=patient_session_id,
@@ -218,6 +249,8 @@ def add_patient_basic_information_health_database(request):
     tools_insertCascadeCheck.insert_information_health_check(rPatientBasicInformationHealth)
     # 插入数据库
     rPatientBasicInformationHealth.save()
+    # 修改r_patient_scales表中state状态
+    update_rscales_state(patient_session_id, scale_id)
 
 #############################################################################################syh
 ############################################################
@@ -226,7 +259,7 @@ def add_patient_basic_information_health_database(request):
 
 def add_hama_database(request):
     patient_session_id = request.GET.get('patient_session_id')
-    scale_id = 18
+    scale_id = tools_config.hama
     doctor_id = request.session.get('doctor_id')
     rPatientHama = scales_models.RPatientHama(patient_session_id=patient_session_id, scale_id=scale_id, doctor_id=doctor_id)
     data = request.__dict__
@@ -241,10 +274,13 @@ def add_hama_database(request):
     tools_insertCascadeCheck.insert_hama_check(rPatientHama)
     # 插入数据库
     rPatientHama.save()
+    # 修改r_patient_scales表中state状态
+    update_rscales_state(patient_session_id, scale_id)
+
 
 def add_abuse_database(request):
     patient_session_id = request.GET.get('patient_session_id')
-    scale_id = 4
+    scale_id = tools_config.information_abuse
     doctor_id = request.session.get('doctor_id')
     rPatientBasicInformationAbuse = scales_models.RPatientBasicInformationAbuse(patient_session_id=patient_session_id, scale_id=scale_id, doctor_id=doctor_id)
     data = request.__dict__
@@ -256,10 +292,13 @@ def add_abuse_database(request):
     tools_insertCascadeCheck.insert_information_abuse_check(rPatientBasicInformationAbuse)
     # 插入数据库
     rPatientBasicInformationAbuse.save()
+    # 修改r_patient_scales表中state状态
+    update_rscales_state(patient_session_id, scale_id)
+
 
 def add_growth_database(request):
     patient_session_id = request.GET.get('patient_session_id')
-    scale_id = 12
+    scale_id = tools_config.ctq_sf
     doctor_id = request.session.get('doctor_id')
     rPatientGrowth = scales_models.RPatientGrowth(patient_session_id=patient_session_id, scale_id=scale_id, doctor_id=doctor_id)
     data = request.__dict__
@@ -275,12 +314,13 @@ def add_growth_database(request):
     tools_insertCascadeCheck.insert_growth_check(rPatientGrowth)
     # 插入数据库
     rPatientGrowth.save()
-
+    # 修改r_patient_scales表中state状态
+    update_rscales_state(patient_session_id, scale_id)
 
 
 def add_adolescent_events_database(request):
     patient_session_id = request.GET.get('patient_session_id')
-    scale_id = 13
+    scale_id = tools_config.aslec
     doctor_id = request.session.get('doctor_id')
     rPatientAdolescentEvents = scales_models.RPatientAdolescentEvents(patient_session_id=patient_session_id, scale_id=scale_id, doctor_id=doctor_id)
     data = request.__dict__
@@ -294,12 +334,14 @@ def add_adolescent_events_database(request):
     tools_insertCascadeCheck.insert_adolescnet_event_check(rPatientAdolescentEvents)
     # 插入数据库
     rPatientAdolescentEvents.save()
+    # 修改r_patient_scales表中state状态
+    update_rscales_state(patient_session_id, scale_id)
 
 
 # 这里的total_score需要从前台获取，认知的所有表都需要手动填总分 面孔情绪感知
 def add_fept_database(request):
     patient_session_id = request.GET.get('patient_session_id')
-    scale_id = 23
+    scale_id = tools_config.fept
     doctor_id = request.session.get('doctor_id')
     # 创建一个对象
     rPatientFept = scales_models.RPatientFept(patient_session_id=patient_session_id, scale_id=scale_id, doctor_id=doctor_id)
@@ -314,13 +356,15 @@ def add_fept_database(request):
     tools_insertCascadeCheck.insert_fept_check(rPatientFept)
     # 插入数据库
     rPatientFept.save()
+    # 修改r_patient_scales表中state状态
+    update_rscales_state(patient_session_id, scale_id)
 
 
 # 这里的total_score需要从前台或许，认知的所有表都需要手动填总分 语音情绪感知
 def add_vept_database(request):
     # GET请求获取pd，sid，did
     patient_session_id = request.GET.get('patient_session_id')
-    scale_id = 24
+    scale_id = tools_config.vept
     doctor_id = request.session.get('doctor_id')
     # 创建一个对象
     rPatientVept = scales_models.RPatientVept(patient_session_id=patient_session_id, scale_id=scale_id, doctor_id=doctor_id)
@@ -335,12 +379,14 @@ def add_vept_database(request):
     tools_insertCascadeCheck.insert_vept_check(rPatientVept)
     # 插入数据库
     rPatientVept.save()
+    # 修改r_patient_scales表中state状态
+    update_rscales_state(patient_session_id, scale_id)
 
 
 ###################################
 def add_ymrs_database(request):
     patient_session_id = request.GET.get('patient_session_id')
-    scale_id = 19
+    scale_id = tools_config.ymrs
     doctor_id = request.session.get('doctor_id')
     rPatientYmrs = scales_models.RPatientYmrs(patient_session_id=patient_session_id, scale_id=scale_id, doctor_id=doctor_id)
     data = request.__dict__
@@ -354,11 +400,13 @@ def add_ymrs_database(request):
     tools_insertCascadeCheck.insert_ymrs_check(rPatientYmrs)
     # 插入数据库
     rPatientYmrs.save()
+    # 修改r_patient_scales表中state状态
+    update_rscales_state(patient_session_id, scale_id)
 
 
 def add_sembu_database(request):
     patient_session_id = request.GET.get('patient_session_id')
-    scale_id = 15
+    scale_id = tools_config.s_embu
     doctor_id = request.session.get('doctor_id')
     rPatientSembu = scales_models.RPatientSembu(patient_session_id=patient_session_id, scale_id=scale_id, doctor_id=doctor_id)
     data = request.__dict__
@@ -376,17 +424,19 @@ def add_sembu_database(request):
     tools_insertCascadeCheck.insert_sembu_check(rPatientSembu)
     # 插入数据库
     rPatientSembu.save()
+    # 修改r_patient_scales表中state状态
+    update_rscales_state(patient_session_id, scale_id)
 
 
 def dao_add_family_info(request):
     if request.POST:
         doctor_id = request.session.get('doctor_id')
         patient_session_id = request.GET.get('patient_session_id')
-
+        scales_id = tools_config.information_family
         dpatientdetail = scales_models.DPatientDetail.objects.filter(pk=patient_session_id).first()
         patient_basic_info_family = scales_models.RPatientBasicInformationFamily(patient_session=dpatientdetail,
                                                                    doctor_id=doctor_id,
-                                                                   scale_id=1)
+                                                                   scale_id=scales_id)
 
         form_list = [dpatientdetail, patient_basic_info_family]
         # 有些字段传回来的是‘’，不能自动转换成int或者Null
@@ -402,6 +452,8 @@ def dao_add_family_info(request):
         tools_insertCascadeCheck.insert_information_family_check(patient_basic_info_family)
         # 插入数据库
         patient_basic_info_family.save()
+        # 修改r_patient_scales表中state状态
+        update_rscales_state(patient_session_id, scales_id)
 
 
 def dao_add_suicide(request):
@@ -409,9 +461,10 @@ def dao_add_suicide(request):
 
         patient_session_id = request.GET.get('patient_session_id')
         doctor_id = request.session.get('doctor_id')
+        scales_id = tools_config.bss
         rpatientsuicidal = scales_models.RPatientSuicidal(patient_session_id=patient_session_id,
                                             doctor_id=doctor_id,
-                                            scale_id=8)
+                                            scale_id=scales_id)
 
         for key in request.POST.keys():
             if hasattr(rpatientsuicidal, key):
@@ -423,6 +476,8 @@ def dao_add_suicide(request):
         tools_insertCascadeCheck.insert_suicide_check(rpatientsuicidal)
         # 插入数据库
         rpatientsuicidal.save()
+        # 修改r_patient_scales表中state状态
+        update_rscales_state(patient_session_id, scales_id)
 
 
 
@@ -430,9 +485,10 @@ def dao_add_ybo(request):
     if request.POST:
         patient_session_id = request.GET.get('patient_session_id')
         doctor_id = request.session.get('doctor_id')
+        scale_id = tools_config.ybocs
         rpatientybobsessiontable = scales_models.RPatientYbobsessiontable(patient_session_id=patient_session_id,
                                                             doctor_id=doctor_id,
-                                                            scale_id=7)
+                                                            scale_id=scale_id)
         for key in request.POST.keys():
             if hasattr(rpatientybobsessiontable, key):
                 setattr(rpatientybobsessiontable, key, request.POST.get(key))
@@ -444,12 +500,14 @@ def dao_add_ybo(request):
         tools_insertCascadeCheck.insert_YBO_check(rpatientybobsessiontable)
         # 插入数据库
         rpatientybobsessiontable.save()
+        # 修改r_patient_scales表中state状态
+        update_rscales_state(patient_session_id, scale_id)
 
 
 
 def add_atq_database(request):
     patient_session_id = request.GET.get('pid')
-    scale_id = 16
+    scale_id = tools_config.atq
     doctor_id = request.GET.get('did')
     rPatientAtq = scales_models.RPatientAtq(patient_session_id=patient_session_id, scale_id=scale_id, doctor_id=doctor_id)
     data = request.__dict__
@@ -463,11 +521,13 @@ def add_atq_database(request):
     tools_insertCascadeCheck.insert_ATQ_check(rPatientAtq)
     # 插入数据库
     rPatientAtq.save()
+    # 修改r_patient_scales表中state状态
+    update_rscales_state(patient_session_id, scale_id)
 
 
 def add_wcst_database(request):
     patient_session_id = request.GET.get('pid')
-    scale_id = 21
+    scale_id = tools_config.wcst
     doctor_id = request.GET.get('did')
     rPatientWcst = scales_models.RPatientWcst(patient_session_id=patient_session_id, scale_id=scale_id, doctor_id=doctor_id)
     data = request.__dict__
@@ -479,11 +539,13 @@ def add_wcst_database(request):
     tools_insertCascadeCheck.insert_wcst_check(rPatientWcst)
     # 插入数据库
     rPatientWcst.save()
+    # 修改r_patient_scales表中state状态
+    update_rscales_state(patient_session_id, scale_id)
 
 
 def add_other_database(request):
     patient_session_id = request.GET.get('pid')
-    scale_id = 5
+    scale_id = tools_config.information_other
     doctor_id = request.GET.get('did')
     rPatientBasicInformationOther = scales_models.RPatientBasicInformationOther(patient_session_id=patient_session_id, scale_id=scale_id, doctor_id=doctor_id)
     data = request.__dict__
@@ -495,6 +557,8 @@ def add_other_database(request):
     tools_insertCascadeCheck.insert_information_other_check(rPatientBasicInformationOther)
     # 插入数据库
     rPatientBasicInformationOther.save()
+    # 修改r_patient_scales表中state状态
+    update_rscales_state(patient_session_id, scale_id)
 
 
 ################### get方法部分 #####################
@@ -597,7 +661,7 @@ def get_patient_growth_byPatientDetailId(patient_detail_id):
 # 青少年生活事件量表
 def get_patient_adolescent_byPatientDetailId(patient_detail_id):
     patient_adolescent = scales_models.RPatientAdolescentEvents.objects.filter(patient_session=patient_detail_id)[0]
-    return patient_dolescent
+    return patient_adolescent
 
 
 # 认知情绪调节量表
