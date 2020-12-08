@@ -64,7 +64,11 @@ def add_base_info(patient_base_info_objct):
 
 # add patient_detail表
 def add_patient_detail(patient_detail_objct):
-     patient_detail_objct.save()
+    # 插入数据库前的级联检验
+    tools_insertCascadeCheck.insert_patient_detail_check(patient_detail_objct)
+    # 插入数据库
+    patient_detail_objct.save()
+
 
 # add BPatientAppointment表
 def add_patient_appointment(PatientAppoientment_object):

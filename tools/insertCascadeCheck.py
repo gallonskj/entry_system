@@ -8,12 +8,22 @@ import scales.models as scales_models
 import users.models as users_models
 import tools.Utils as tools_utils
 
-
 # patient_detail 表插入前的外键检验
 def insert_patient_detail_check(patient_detail_objct):
     # 空值判断
     if patient_detail_objct is None \
-        or patient_detail_objct
+        or patient_detail_objct.patient_id is None \
+        or patient_detail_objct.doctor_id is None:
+        tools_utils.object_judgment(True)
+    else:
+        # 非空时的外键判断
+        doctor = users_models.SUser.objects.filter(pk=patient_detail_objct.doctor_id)[0]
+        patient = patients_models.BPatientBaseInfo.objects.filter(pk=patient_detail_objct.patient_id)[0]
+        if doctor is None or patient is None:
+            object_flag = True
+        else:
+            object_flag = False
+        tools_utils.object_judgment(object_flag)
 
 
 # base info 表插入前的外键检验
@@ -496,15 +506,4 @@ def insert_wcst_check(rPatientWcst_object):
     tools_utils.object_judgment(False)
 
 
-# base info 表
-def insert_base_info_check(patient_base_info_objct):
-    tools_utils.object_judgment(object_flag)
 
-
-# patient_detail表
-def insert_patient_detail_check(patient_detail_objct):
-    tools_utils.object_judgment(object_flag)
-
-# BPatientAppointment表
-def insert_patient_appointment(PatientAppoientment_object):
-    tools_utils.object_judgment(object_flag)
