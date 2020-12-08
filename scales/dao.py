@@ -6,6 +6,7 @@ import tools.Utils as tools_utils
 import scales.models as scales_models
 import patients.models as patient_models
 import tools.config as tools_config
+import patients.dao as patients_dao
 
 ################### 自定义update方法 ####################
 ################### 自定义update方法 ####################
@@ -77,6 +78,10 @@ def add_chinesehandle_database(rPatientChineseHandy):
     rPatientChineseHandy.save()
     # 修改r_patient_scales表中state状态
     update_rscales_state(rPatientChineseHandy.patient_session_id, rPatientChineseHandy.scale_id)
+    # 做完利手量表后，也需要修改patient_detail表中的利手状态
+    patient_detail = patients_dao.get_patient_detail_byPK(rPatientChineseHandy.patient_session_id)
+    patient_detail.handy = rPatientChineseHandy.result
+    patients_dao.add_patient_detail(patient_detail)
 
 
 def add_information_study_database(rPatientBasicInformationStudy):
@@ -90,9 +95,20 @@ def add_information_study_database(rPatientBasicInformationStudy):
 #############################################################################################
 #############################################################################################syh
 
+def add_patient_medical_history(rPatientMedicalHistory_object):
+    # 插入前的级联检验
+    tools_insertCascadeCheck.insert_patient_medical_history_check(rPatientMedicalHistory_object)
+    # 插入数据库
+    rPatientMedicalHistory_object.save()
+
+
+def add_patient_drugs_information(rPatientDrugInformation_object):
+    # 插入前的级联检验
+    tools_insertCascadeCheck.insert_patient_drug_information_check(rPatientDrugInformation_object)
+    # 插入数据库
+    rPatientDrugInformation_object.save()
 
 def add_cognitive_emotion_database(rPatientCognitiveEmotion):
-
     # 得分计算
     rPatientCognitiveEmotion.total_score, rPatientCognitiveEmotion.blame_self, rPatientCognitiveEmotion.blame_others, rPatientCognitiveEmotion.meditation, \
     rPatientCognitiveEmotion.catastrophization, rPatientCognitiveEmotion.accepted, rPatientCognitiveEmotion.positive_refocus, rPatientCognitiveEmotion.program_refocus, \
@@ -312,6 +328,18 @@ def add_other_database(rPatientBasicInformationOther):
 ################### get方法部分 #####################
 ################### get方法部分 #####################
 ################### get方法部分 #####################
+
+# r_patient_medical_history 表
+def get_patient_medical_history_byPatientId(patient_detail_id):
+    patient_medical_history = scales_models.RPatientMedicalHistory.objects.filter(patient_session=patient_detail_id)[0]
+    return patient_medical_history
+
+
+# r_patient_drugs_information 表
+def get_patient_drugs_information_byPatientId(patient_detail_id):
+    patient_drugs_information_list = scales_models.RPatientDrugsInformation.objects.filter(patient_session=patient_detail_id)
+    return patient_drugs_information_list
+
 
 # patient base info 表
 def get_patient_base_info_family_byPatientDetailId(patient_detail_id):
