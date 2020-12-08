@@ -7,19 +7,21 @@ import tools.insertCascadeCheck as tools_insertCascadeCheck
 
 # 将要做的scales分成个人信息，自评，他评等四类
 def judgment_do_scales(scales_list):
-    information = scales_list.objects.filter(do_scale_type=0)
-    other_test = scales_list.objects.filter(do_scale_type=1)
-    self_test = scales_list.objects.filter(do_scale_type=2)
-    cognition = scales_list.objects.filter(do_scale_type=3)
-    return information, other_test, self_test, cognition
+    information_list = []
+    other_test_list = []
+    self_test_list = []
+    cognition_list = []
 
-# 将要做的scales分成个人信息，自评，他评等四类
-def judgment_do_scales(scales_list):
-    information = scales_list.objects.filter(do_scale_type=0)
-    other_test = scales_list.objects.filter(do_scale_type=1)
-    self_test = scales_list.objects.filter(do_scale_type=2)
-    cognition = scales_list.objects.filter(do_scale_type=3)
-    return information, other_test, self_test, cognition
+    for scale in scales_list:
+        if scale.do_scale_type == 0:
+            information_list.append(scale)
+        elif scale.do_scale_type == 1:
+            other_test_list.append(scale)
+        elif scale.do_scale_type == 2:
+            self_test_list.append(scale)
+        else:
+            cognition_list.append(scale)
+    return information_list, other_test_list, self_test_list, cognition_list
 
 
 # 获取被试需要做的scales的list
