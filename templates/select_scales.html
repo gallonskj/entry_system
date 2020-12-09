@@ -1,5 +1,6 @@
 {% extends 'templates/index.html' %}
 {% load static %}
+{% load SelfDefinedFilter %}
 {% block title %}新建被试{% endblock %}
 {% block css %}
     <link href="{% static '/css/scales_style.css' %}" rel="stylesheet">
@@ -123,13 +124,13 @@
                              <div class="form-group">
                                 <label class="control-label col-md-4 col-sm-4 col-xs-12" for="subject_number"> 身高<span
                                         class="required">:</span></label>
-                                    <input type="text" name="height" required="required"  class="sel_beauty" value="{{ patient_detail.height }}"/>
+                                    <input type="text" name="height" required="required"  class="sel_beauty" value="{{ patient_detail.height|processNone }}"/>
                             </div>
 
                                 <div class="form-group">
                                 <label class="control-label col-md-4 col-sm-4 col-xs-12" for="subject_number"> 体重<span
                                         class="required">:</span></label>
-                                <input type="text" name="weight" required="required"  class="sel_beauty" value="{{ patient_detail.weight }}"/>
+                                <input type="text" name="weight" required="required"  class="sel_beauty" value="{{ patient_detail.weight|processNone }}"/>
                             </div>
 
                             </div>
@@ -140,32 +141,32 @@
                                 <div class="form-group">
                                 <label class="control-label col-md-4 col-sm-4 col-xs-12" for="subject_number"> 职业<span
                                         class="required">:</span></label>
-                                <input type="text" name="occupation" required="required"  class="sel_beauty" value="{{ patient_detail.occupation }}"/>
+                                <input type="text" name="occupation" required="required"  class="sel_beauty" value="{{ patient_detail.occupation|processNone }}"/>
                             </div>
 
 
                             <div class="form-group">
                                 <label class="control-label col-md-4 col-sm-4 col-xs-12" for="subject_number"> 腰围<span
                                         class="required">:</span></label>
-                                <input type="text" name="waist" required="required"  class="sel_beauty" value="{{ patient_detail.waist }}"/>
+                                <input type="text" name="waist" required="required"  class="sel_beauty" value="{{ patient_detail.waist|processNone }}"/>
                             </div>
 
                             <div class="form-group">
                                 <label class="control-label col-md-4 col-sm-4 col-xs-12" for="subject_number"> 臀围<span
                                         class="required">:</span></label>
-                                <input type="text" name="hip" required="required"  class="sel_beauty" value="{{ patient_detail.hip }}"/>
+                                <input type="text" name="hip" required="required"  class="sel_beauty" value="{{ patient_detail.hip|processNone }}"/>
                             </div>
 
                             <div class="form-group">
                                 <label class="control-label col-md-4 col-sm-4 col-xs-12" for="subject_number"> 教育背景<span
                                         class="required">:</span></label>
-                                <input type="text" name="education" required="required"  class="sel_beauty" value="{{ patient_detail.education }}"/>
+                                <input type="text" name="education" required="required"  class="sel_beauty" value="{{ patient_detail.education|processNone }}"/>
                             </div>
 
                             <div class="form-group">
                                 <label class="control-label col-md-4 col-sm-4 col-xs-12" for="subject_number">
                                     教育年限<span class="required">:</span></label>
-                                <input type="text" name="years" required="required"  class="sel_beauty" value="{{ patient_detail.years }}"/>
+                                <input type="text" name="years" required="required"  class="sel_beauty" value="{{ patient_detail.years|processNone }}"/>
                             </div>
                                 <div class="form-group">
                                     <label class="control-label col-md-4 col-sm-4 col-xs-6" for="subject_number">感情状态<span class="required">:</span></label>
