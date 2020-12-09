@@ -4,6 +4,7 @@ import scales.dao as scales_dao
 import scales.models as scales_models
 import tools.config as tools_config
 import patients.dao as patients_dao
+import tools.Utils as tools_utils
 # Create your views here.
 
 '''
@@ -54,9 +55,17 @@ def get_select_scales(request):
 
 # 获取家庭情况表单
 def get_family_form(request):
+    # 由于要传入生日信息，因此这里需要获取一些下一页面所需要的值
+    patient_id = request.GET.get('patient_id')
+    base_info = patients_dao.get_base_info_byPK(patient_id)
+    age = tools_utils.calculate_age(str(base_info.birth_date))
+    nation_list = patients_dao.get_DEthnicity_all()
     return render(request,'nbh/add_family.html',{'patient_session_id':request.GET.get('patient_session_id'),
                                                  'patient_id':request.GET.get('patient_id'),
-                                                 'username':request.session.get('username'),})
+                                                 'username':request.session.get('username'),
+                                                 'base_info':base_info,
+                                                 'age':age,
+                                                 'nation_list':nation_list})
 
 # 获取学习情况表单
 def get_study_form(request):

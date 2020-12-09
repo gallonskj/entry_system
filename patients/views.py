@@ -85,6 +85,7 @@ def add_patient_followup(request):
 
     # 将上一次的detail信息返回到前台
     patient_detail_last = patients_dao.get_patient_detail_last_byPatientId(patient_id)
+    # 插入一条patient_detail信息
     patients_dao.add_patient_detail(patient_detail)
 
     # 获取创建的复扫信息自增id
