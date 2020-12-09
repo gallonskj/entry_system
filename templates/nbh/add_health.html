@@ -47,7 +47,7 @@
              
             <div id="right-side" class="col-md-10">
               <div id="first" class="active">
-                  <form action="/scales/add_basic_information?patient_id={{ patient_id }}&patient_session_id={{ patient_session_id }}&questionnaire_type={{ questionnaire_type|add:1 }}" method="post">
+                  <form action="/scales/add_health?patient_id={{ patient_id }}&patient_session_id={{ patient_session_id }}&questionnaire_type={{ questionnaire_type|add:1 }}" method="post">
                           <div class="x_title">
                     <div class="clearfix"></div>
                     <h2>健康情况及家族史 <small>Health and family history</small></h2>
@@ -59,10 +59,10 @@
                     <div class="form-group row">
                       <label class="control-label col-md-2 col-sm-3 col-md-offset-1">既往是否有躯体疾病<span class="required">*:</span></label>
                       <div class="col-md-1 col-sm-1 " id="patient_somatic_diseases_1">
-                        <input type="radio" class="flat " name="patient_somatic_diseases" value=1 data-labelauty="是"/>
+                        <input type="radio"  name="patient_somatic_diseases" value=1 data-labelauty="是"/>
                       </div>
                       <div class="col-md-1 col-sm-1 " id="patient_somatic_diseases_2">
-                        <input type="radio" class="flat " name="patient_somatic_diseases" value=0 data-labelauty="否"/>
+                        <input type="radio"  name="patient_somatic_diseases" value=0 data-labelauty="否"/>
                       </div>
                       <label class="control-label col-md-1 col-sm-2 ">所患疾病<span class="required">:</span></label>
                       <div class="col-md-2 col-sm-2 form-group  ">
@@ -78,10 +78,10 @@
                     <div class="form-group row">
                       <label class="control-label col-md-2 col-sm-3 col-md-offset-1 ">既往是否有精神疾病<span class="required">*:</span></label>
                       <div class="col-md-1 col-sm-1 " id="patient_mental_diseases_1">
-                        <input type="radio" class="flat " name="patient_mental_diseases" value=0 data-labelauty="是"/>
+                        <input type="radio"  name="patient_mental_diseases" value=0 data-labelauty="是"/>
                       </div>
                       <div class="col-md-1 col-sm-1 " id="patient_mental_diseases_2">
-                        <input type="radio" class="flat " name="patient_mental_diseases" value=1 data-labelauty="否"/>
+                        <input type="radio"  name="patient_mental_diseases" value=1 data-labelauty="否"/>
                       </div>
                       <label class="control-label col-md-1 col-sm-2 ">所患疾病<span class="required">:</span></label>
                       <div class="col-md-2 col-sm-2 form-group  ">
@@ -97,10 +97,10 @@
                     <div class="form-group row">
                       <label class="control-label col-md-1 col-sm-2 col-md-offset-2 col-sm-offset-1">家族史<span class="required">*:</span></label>
                       <div class="col-md-1 col-sm-1 " id="patient_family_diseases_history_1">
-                        <input type="radio" class="flat " name="patient_family_diseases_history" value=1 data-labelauty="是"/>
+                        <input type="radio"  name="patient_family_diseases_history" value=1 data-labelauty="是"/>
                       </div>
                       <div class="col-md-1 col-sm-1 " id="patient_family_diseases_history_2">
-                        <input type="radio" class="flat " name="patient_family_diseases_history" value=0 data-labelauty="否"/>
+                        <input type="radio"  name="patient_family_diseases_history" value=0 data-labelauty="否"/>
                       </div>
                       <label class="control-label col-md-1 col-sm-2 ">疾病名<span class="required">:</span></label>
                       <div class="col-md-2 col-sm-3 form-group has-feedback ">

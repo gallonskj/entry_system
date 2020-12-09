@@ -47,7 +47,7 @@
              
             <div id="right-side" class="col-md-10">
               <div id="first" class="active">
-                  <form action="/scales/add_basic_information?patient_id={{ patient_id }}&patient_session_id={{ patient_session_id }}&questionnaire_type={{ questionnaire_type|add:1 }}" method="post">
+                  <form action="/scales/add_other?patient_id={{ patient_id }}&patient_session_id={{ patient_session_id }}&questionnaire_type={{ questionnaire_type|add:1 }}" method="post">
 
                   <div class="x_title">
                     <div class="clearfix"></div>
@@ -81,10 +81,10 @@
                       <label class="control-label col-md-8 col-sm-7">最近三个月内是否发生过对您有重大影响的生活事件？（如失恋、家庭变故、欠债、投资失败、辍学、人际关系紧张等）<span class="required">*:</span></label>
                       <br>
                       <div class="col-md-1 col-sm-1 " id="patient_big_event_1">
-                        <input type="radio" class="flat " name="patient_big_event" value=1 data-labelauty="是"/>
+                        <input type="radio"  name="patient_big_event" value=1 data-labelauty="是"/>
                       </div>
                       <div class="col-md-1 col-sm-1 " id="patient_big_event_2">
-                        <input type="radio" class="flat " name="patient_big_event" value=0 data-labelauty="否"/>
+                        <input type="radio"  name="patient_big_event" value=0 data-labelauty="否"/>
                       </div>
                     </div>
                     <br>

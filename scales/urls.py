@@ -37,7 +37,6 @@ urlpatterns = [
     ##################################################
 
     url(r'^patient_basic_information', views.patient_basic_information),
-    url(r'^add_cognition_forms', views.add_cognition_forms),
     url(r'^add_chinesehandle', views.add_chinesehandle),
     url(r'^add_information_study', views.add_information_study),
     url(r'^add_happiness', views.add_happiness),
@@ -68,6 +67,7 @@ urlpatterns = [
     url(r'^add_atq', views.add_atq),
     url(r'^add_wcst', views.add_wcst),
     url(r'^add_other', views.add_other),
-
+    url(r'^add_study', views.add_information_study),
+    url(r'^add_health', views.add_patient_basic_information_health),
 
 ]

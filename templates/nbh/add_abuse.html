@@ -47,7 +47,7 @@
              
             <div id="right-side" class="col-md-10">
               <div id="first" class="active">
-                  <form action="/scales/add_basic_information?patient_id={{ patient_id }}&patient_session_id={{ patient_session_id }}&questionnaire_type={{ questionnaire_type|add:1 }}" method="post">
+                  <form action="/scales/add_abuse?patient_id={{ patient_id }}&patient_session_id={{ patient_session_id }}&questionnaire_type={{ questionnaire_type|add:1 }}" method="post">
                              {%  csrf_token %}
                             <div class="x_title">
                                 <div class="clearfix"></div>
@@ -61,10 +61,10 @@
                       <div class="form-group row " style="font-size: larger">
                       <label class="control-label col-md-2 col-sm-2 col-md-offset-1 " style="">&nbsp;是否吸烟<span class="required">:</span></label>
                       <div class="col-md-1 col-sm-1" id="patient_smoke_1">
-                        <input type="radio" class="flat " name="patient_smoke" value=1  data-labelauty="是"/>
+                        <input type="radio" name="patient_smoke" value=1  data-labelauty="是"/>
                       </div>
                       <div class="col-md-1 col-sm-1" id="patient_smoke_2">
-                        <input type="radio" class="flat " name="patient_smoke" value=0 data-labelauty="否"/>
+                        <input type="radio" name="patient_smoke" value=0 data-labelauty="否"/>
                       </div>
 
                     </div>
@@ -106,10 +106,10 @@
                     <div class="form-group row" style="font-size: larger">
                       <label class="control-label col-md-2 col-sm-2 col-md-offset-1">是否存在其他物质（非烟和酒）滥用<span class="required">*:</span></label>
                       <div class="col-md-1 col-sm-1 " id="patient_other_abuse_1">
-                        <input type="radio" class="flat " name="patient_other_abuse" value=1 data-labelauty="是"/>
+                        <input type="radio" name="patient_other_abuse" value=1 data-labelauty="是"/>
                       </div>
                       <div class="col-md-1 col-sm-1 " id="patient_other_abuse_2">
-                        <input type="radio" class="flat " name="patient_other_abuse" value=0 data-labelauty="否"/>
+                        <input type="radio" name="patient_other_abuse" value=0 data-labelauty="否"/>
                       </div>
                         <label class="control-label col-md-2 col-sm-2 col-md-offset-1 ">起始年龄<span class="required">:</span></label>
                       <div class="col-md-1 col-sm-1 form-group has-feedback ">
