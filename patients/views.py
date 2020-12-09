@@ -1,13 +1,4 @@
 import scales.models as scale_models
-
-from scales.models import BPatientBaseInfo, \
-    RPatientBasicInformationAbuse, \
-    RPatientBasicInformationFamily, \
-    RPatientBasicInformationHealth, \
-    RPatientBasicInformationOther, \
-    RPatientBasicInformationStudy
-from tools import Utils, idAssignments
-from users.models import SUser
 from .models import DPatientDetail, DEthnicity
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
@@ -16,7 +7,7 @@ import tools.Utils as tools_utils
 import tools.idAssignments as tools_idAssignments
 import patients.models as patients_models
 import scales.models as scales_models
-import patients.dao as patient_dao
+import patients.dao as patients_dao
 import tools.config as tools_config
 import json
 
@@ -25,7 +16,7 @@ scale_class_dict = {1:[scales_models.RPatientHama,10],2:[scales_models.RPatientH
 
 # 获取所有被试基础信息,以及民族字典表信息（创建被试时会使用到）
 def get_all_patients_baseinfo(request):
-    patients = BPatientBaseInfo.objects.all()
+    patients = patients_dao.get_base_info_all()
     username = request.session.get('username')
     nations = DEthnicity.objects.all()
     return render(request, 'manage_patients.html', {"patients": patients, 'username': username, 'nations': nations})
@@ -36,32 +27,32 @@ def get_all_patients_baseinfo(request):
 def add_patient_baseinfo(request):
     # 获取自动生成的标准id，并将标准id 拆分成patient_id以及session_id
     standard_id = request.POST.get("standard_id")
-    patient_id, session_id = idAssignments.getIdAndSession(standard_id)
+    patient_id, session_id = tools_idAssignments.getIdAndSession(standard_id)
     name = request.POST.get("name")
     birth_date = request.POST.get("birth_date")
     sex = request.POST.get("sex")
     nation = request.POST.get("nation")
     doctor_id = request.session.get('doctor_id')
     # 基本信息创建
-    patient_base_info = BPatientBaseInfo(id=patient_id, name=name, sex=sex, birth_date=birth_date, nation=nation,
+    patient_base_info = patients_models.BPatientBaseInfo(id=patient_id, name=name, sex=sex, birth_date=birth_date, nation=nation,
                                          doctor_id=doctor_id)
-    patient_dao.add_base_info(patient_base_info)
+    patients_dao.add_base_info(patient_base_info)
 
     # 创建一条复扫记录
     patient_detail = patients_models.DPatientDetail(patient_id=patient_id, session_id=session_id, standard_id=standard_id,
                                     age=tools_utils.calculate_age(birth_date), doctor_id=doctor_id, diagnosis=0)
-    patient_dao.add_patient_detail(patient_detail)
+    patients_dao.add_patient_detail(patient_detail)
     # 查询需要做的量表,并在r_patient_scales中插入需要做的量表
-    scales_list = patient_dao.judgment_scales(patient_detail.id)
+    scales_list = patients_dao.judgment_scales(patient_detail.id)
     # 为初扫/复扫的病人预先在r_patient_scales中插入多条记录，依据被试需要做的scales_list
-    patient_dao.add_rscales(scales_list, patient_detail.id)
+    patients_dao.add_rscales(scales_list, patient_detail.id)
 
     # 获取各个scaleType的list信息
-    generalinfo_scale_list,other_test_scale_list,self_test_scale_list,cognition_scale_list = patient_dao.judgment_do_scales(scales_list)
+    generalinfo_scale_list,other_test_scale_list,self_test_scale_list,cognition_scale_list = patients_dao.judgment_do_scales(scales_list)
 
     #获取页面需要的参数,传递list，前台显示展不展示每一项
-    patient = patient_dao.get_base_info_byPK(patient_id)
-    patient_detail_id = patient_dao.get_patient_detail_byPatientIdAndSessionId(patient_id,session_id).id
+    patient = patients_dao.get_base_info_byPK(patient_id)
+    patient_detail_id = patients_dao.get_patient_detail_byPatientIdAndSessionId(patient_id,session_id).id
     return render(request, 'select_scales.html', {'patient': patient,
                                                   'patient_session_id': patient_detail_id,
                                                   "username": request.session.get('username'),
@@ -75,7 +66,7 @@ def add_patient_baseinfo(request):
 def get_select_scales(request):
     patient_session_id = request.GET.get('patient_session_id')
     patient_id = request.GET.get('patient_id')
-    patient = BPatientBaseInfo.objects.filter(pk=patient_id).first()
+    patient = patients_dao.get_base_info_byPK(patient_id)
     return render(request, 'select_scales.html', {'patient': patient,
                                                   'patient_id': patient.id,
                                                   'patient_session_id': patient_session_id,
@@ -87,29 +78,32 @@ def get_select_scales(request):
 def add_patient_followup(request):
     patient_id = request.GET.get('patient_id')
     doctor_id = request.session.get('doctor_id')
-    patient_baseinfo = BPatientBaseInfo.objects.filter(id=patient_id).first()
-    patient_id, session_id, standard_id = idAssignments.patient_session_id_assignment(patient_baseinfo.id)
-    patient_detail = DPatientDetail(patient_id=patient_id, session_id=session_id, standard_id=standard_id,
-                                    age=Utils.calculate_age(str(patient_baseinfo.birth_date)), doctor_id=doctor_id,
-                                    diagnosis=0)
-    patient_detail_last = patient_dao.get_patient_detail_last_byPatientId(patient_id)
-    patient_detail.save()
+    patient_baseinfo = patients_dao.get_base_info_byPK(patient_id)
+    patient_id, session_id, standard_id = tools_idAssignments.patient_session_id_assignment(patient_baseinfo.id)
+    patient_detail = patients_models.DPatientDetail(patient_id=patient_id, session_id=session_id, standard_id=standard_id,
+                                    age=tools_utils.calculate_age(str(patient_baseinfo.birth_date)), doctor_id=doctor_id, diagnosis=0)
+
+    # 将上一次的detail信息返回到前台
+    patient_detail_last = patients_dao.get_patient_detail_last_byPatientId(patient_id)
+    patients_dao.add_patient_detail(patient_detail)
+
     # 获取创建的复扫信息自增id
-    patient_detail_id = patient_dao.get_patient_detail_byPatientIdAndSessionId(patient_id,session_id).id
+    patient_detail_id = patients_dao.get_patient_detail_byPatientIdAndSessionId(patient_id,session_id).id
     # 查询需要做的量表,并在r_patient_scales中插入需要做的量表
-    scales_list = patient_dao.judgment_scales(patient_detail_id)
+    scales_list = patients_dao.judgment_scales(patient_detail_id)
     # 为初扫/复扫的病人预先在r_patient_scales中插入多条记录，依据被试需要做的scales_list
-    patient_dao.add_rscales(scales_list, patient_detail.id)
+    patients_dao.add_rscales(scales_list, patient_detail.id)
     # 将上一次的detail信息返回到前台
     redirect_url = '/scales/select_scales?patient_session_id={}&patient_id={}'.format(str(patient_detail_id),str(patient_id))
     return redirect(redirect_url)
+
 
 
 #  todo 所有病人详细信息获取
 def get_patient_detail(request):
     if request.GET:
         patient_id = request.GET.get("patient_id")
-        patient_baseinfo = BPatientBaseInfo.objects.filter(pk=patient_id).first()
+        patient_baseinfo = patients_dao.get_base_info_byPK(patient_id)
         patient_detail_list = DPatientDetail.objects.filter(patient__id=patient_id)
 
         doctor_test_list = [scale_models.RPatientHamd17, scale_models.RPatientHama, scale_models.RPatientYmrs,
@@ -161,8 +155,7 @@ def get_patient_detail(request):
 def del_patient(request):
     if request.GET:
         patient_id = request.GET.get("patient_id")
-        if BPatientBaseInfo.objects.filter(pk=patient_id).count() > 0:
-            BPatientBaseInfo.objects.filter(pk=patient_id).first().delete()
+        patients_dao.del_patient_base_info_byPK(patient_id)
         # 后续添加删除成功的展示页面，然后自动跳转回subjectmanage页面
         return redirect('/patients/get_all_patients_baseinfo')
     else:
@@ -182,8 +175,8 @@ def del_followup(request):
 # 新建被试获取自动生成的id
 @csrf_exempt
 def get_generateId_and_nation(id):
-    patient_id = idAssignments.patient_Id_assignment()
-    standard_id = idAssignments.generate_standard_id(patient_id, 1)
+    patient_id = tools_idAssignments.patient_Id_assignment()
+    standard_id =tools_idAssignments.generate_standard_id(patient_id, 1)
     data = {}
     data['standard_id'] = standard_id
     return JsonResponse(data)
@@ -204,7 +197,7 @@ def patient_statistics(request):
     woman_age_list = []
     man_education_list = []
     woman_education_list = []
-    all_patient_base_info = BPatientBaseInfo.objects.all()
+    all_patient_base_info =patients_dao.get_base_info_all()
     for patient_base_info in all_patient_base_info:
         patient_id = patient_base_info.__getattribute__('id')
         sex = patient_base_info.__getattribute__('sex')
@@ -294,11 +287,11 @@ def patient_statistics(request):
         education_labels_list.append('%d-%d' % (i * 10, education_index))
 
 
-    patients = patient_dao.get_patient_detail_all()
+    patients = patients_dao.get_patient_detail_all()
     for patient in patients:
-        doctor = patient_dao.get_user_byPK(patient.doctor_id)
-        search_scales = patient_dao.get_patient_scales_byPatientDetailId(patient.id)
-        base_info = patient_dao.get_base_info_byPK(patient.patient_id)
+        doctor = patients_dao.get_user_byPK(patient.doctor_id)
+        search_scales = patients_dao.get_patient_scales_byPatientDetailId(patient.id)
+        base_info = patients_dao.get_base_info_byPK(patient.patient_id)
 
         # patient.name = base_info['name']
         # patient.sex = base_info['sex']
@@ -331,7 +324,7 @@ def patient_statistics(request):
 
         patient.scale_id_list = scale_id_list
 
-    scales = patient_dao.get_scales_all()
+    scales = patients_dao.get_scales_all()
     all_scale_id_list = []
     all_scale_name_list = []
     all_scale_normal_value_list = []

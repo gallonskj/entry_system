@@ -8,6 +8,46 @@ import scales.models as scales_models
 import users.models as users_models
 import tools.Utils as tools_utils
 
+# patient_medical_history 表插入前的外键检验
+def insert_patient_medical_history_check(rPatientMedicalHistory_object):
+    # 空值判断
+    if rPatientMedicalHistory_object is None \
+        or rPatientMedicalHistory_object.patient_session_id is None \
+        or rPatientMedicalHistory_object.scale_id is None \
+        or rPatientMedicalHistory_object.doctor_id is None:
+        tools_utils.object_judgment(True)
+    else:
+        # 非空时外键判断
+        dPatientDetail = patients_models.DPatientDetail.objects.filter(pk=rPatientMedicalHistory_object.patient_session_id)[0]
+        dScales = scales_models.DScales.objects.filter(pk=rPatientMedicalHistory_object.scale_id)[0]
+        doctor = users_models.SUser.objects.filter(pk=rPatientMedicalHistory_object.doctor_id)[0]
+        if dPatientDetail is None or dScales is None or doctor is None:
+            object_flag = True
+        else:
+            object_flag = False
+        tools_utils.object_judgment(object_flag)
+
+
+# patient_drug_information 表插入前的外键检验
+def insert_patient_drug_information_check(rPatientDrugInformation_object):
+    # 空值判断
+    if rPatientDrugInformation_object is None \
+        or rPatientDrugInformation_object.patient_session_id is None \
+        or rPatientDrugInformation_object.scale_id is None \
+        or rPatientDrugInformation_object.doctor_id is None:
+        tools_utils.object_judgment(True)
+    else:
+        # 非空时外键判断
+        dPatientDetail = patients_models.DPatientDetail.objects.filter(pk=rPatientDrugInformation_object.patient_session_id)[0]
+        dScales = scales_models.DScales.objects.filter(pk=rPatientDrugInformation_object.scale_id)[0]
+        doctor = users_models.SUser.objects.filter(pk=rPatientDrugInformation_object.doctor_id)[0]
+        if dPatientDetail is None or dScales is None or doctor is None:
+            object_flag = True
+        else:
+            object_flag = False
+        tools_utils.object_judgment(object_flag)
+
+
 # patient_detail 表插入前的外键检验
 def insert_patient_detail_check(patient_detail_objct):
     # 空值判断

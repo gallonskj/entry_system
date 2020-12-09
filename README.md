@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # entry_system
 
 ################## 每次更新后，填写下自己版本下都做了哪些修改 #####################  
@@ -21,6 +22,11 @@ patient_detail个人信息显示NN_8位编号
 Patient_detail页面加入量表录入状态模态框
 加入拆分之后的量表html文件和css，js组件
 select_scales页面认知量表录入按顺序显示相应量表页面，提交一个量表后保存并跳转到下一个量表
+=======
+
+# entry_system
+test gitignore
+>>>>>>> pcy
 
 # entry_system  
 pcy20201208-v5
@@ -29,3 +35,7 @@ pcy20201208-v5
 ### 3.完成了对不同被试提取不同的量表  
 ### 4.量表完成时，更新了r_patient_scales中的state状态
 ### 5.在添加复扫时，将上一次的detail信息返回到了前台中
+<<<<<<< HEAD
+=======
+
+>>>>>>> pcy

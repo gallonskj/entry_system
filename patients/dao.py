@@ -95,6 +95,11 @@ def del_patient_detail_byPK(patient_session_id):
         patients_models.DPatientDetail.objects.filter(pk=patient_session_id).first().delete()
 
 
+# del patient_base_info表
+def del_patient_base_info_byPK(patient_id):
+    if patients_models.BPatientBaseInfo.objects.filter(pk=patient_id).count() > 0:
+        patients_models.BPatientBaseInfo.objects.filter(pk=patient_id).first().delete()
+
 ################ get 部分 ################
 ################ get 部分 ################
 ################ get 部分 ################
