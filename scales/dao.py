@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
 import json
-from tools import insertCascadeCheck as tools_insertCascadeCheck
-from tools import calculatingScores as tools_calculatingScores
-from tools import Utils as tools_utils
+import tools.insertCascadeCheck as tools_insertCascadeCheck
+import tools.calculatingScores as tools_calculatingScores
+import tools.Utils as tools_utils
 import scales.models as scales_models
 import patients.models as patient_models
 import tools.config as tools_config

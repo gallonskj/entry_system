@@ -2,27 +2,15 @@
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
-
 import tools.Utils as tools_utils
 import tools.idAssignments as tools_idAssignments
 import patients.models as patients_models
 import scales.models as scales_models
 import patients.dao as patient_dao
-
+import tools.config as tools_config
 import json
 
 scale_class_dict = {1:[scales_models.RPatientHama,10],2:[scales_models.RPatientHamd17,20],3:[scales_models.RPatientYmrs,15]}
-# 0：未诊断
-# 1：健康者
-# 2：重性抑郁障碍
-# 3：焦虑障碍
-# 4：双相障碍
-# 5：精神分裂症
-# 6：强迫症
-# 7：高危遗传
-# 8：临床高危
-# 9：抑郁症状
-disease_type_dict = {0:'未诊断',1:'健康者',2:'重性抑郁障碍',3:'焦虑障碍',4:'双相障碍',5:'精神分裂症',6:'强迫症',7:'高危遗传',8:'临床高危',9:'抑郁症状'}
 
 # 获取所有被试基础信息,以及民族字典表信息（创建被试时会使用到）
 def get_all_patients_baseinfo(request):
@@ -102,6 +90,7 @@ def add_patient_followup(request):
     patient_detail_last = patient_dao.get_patient_detail_last_byPatientId(patient_id)
     redirect_url = '/scales/select_scales?patient_session_id={}&patient_id={}'.format(str(patient_detail_id),str(patient_id))
     return redirect(redirect_url)
+
 
 
 #  todo 所有病人详细信息获取
@@ -305,7 +294,7 @@ def patient_statistics(request):
         #     patient.diagnosis = 'BD'
         # elif patient.diagnosis == 3:
         #     patient.diagnosis = 'SZ'
-        patient.diagnosis = disease_type_dict[patient.diagnosis]
+        patient.diagnosis = tools_config.disease_type_dict[patient.diagnosis]
 
         scale_id_list = []
         scale_score_list = []

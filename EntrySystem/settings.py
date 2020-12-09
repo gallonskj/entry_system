@@ -88,7 +88,11 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',   # 数据库引擎
         'NAME': 'entry_system',         # 你要存储数据的库名，事先要创建之
         'USER': 'root',         # 数据库用户名
+<<<<<<< HEAD
         'PASSWORD': 'root',     # 密码
+=======
+        'PASSWORD': '12345678',     # 密码
+>>>>>>> zrq
         'HOST': 'localhost',    # 主机
         'PORT': '3306',         # 数据库使用的端口
 

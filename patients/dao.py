@@ -3,6 +3,7 @@ import users.models as users_models
 import patients.models as patients_models
 import scales.models as scales_models
 import tools.Utils as tools_utils
+import tools.insertCascadeCheck as tools_insertCascadeCheck
 
 # 将要做的scales分成个人信息，自评，他评等四类
 def judgment_do_scales(scales_list):
@@ -57,12 +58,19 @@ def add_rscales(scales_list, patient_detail_id):
 
 # add baseinfo表
 def add_base_info(patient_base_info_objct):
+    #插入数据库前的级联检验
+    tools_insertCascadeCheck.insert_patient_base_info_check(patient_base_info_objct)
+    # 插入数据库
     patient_base_info_objct.save()
 
 
 # add patient_detail表
 def add_patient_detail(patient_detail_objct):
-     patient_detail_objct.save()
+    # 插入数据库前的级联检验
+    tools_insertCascadeCheck.insert_patient_detail_check(patient_detail_objct)
+    # 插入数据库
+    patient_detail_objct.save()
+
 
 # add BPatientAppointment表
 def add_patient_appointment(PatientAppoientment_object):
