@@ -13,238 +13,162 @@
     </style>
 {% endblock %}
 {% block content %}
-<!-- 他测表量表详细模态框 开始 -->
-    <div class="modal fade" id="modal_OtherTest" role="dialog" aria-labelledby="myModalLabel"aria-hidden="true">
-				<div class="modal-dialog">
-					<div class="modal-content">
-                        <form action="" method="post">
-						<div class="modal-header">
-							 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-							<h4 class="modal-title" id="myModalLabel">
-								他测量表信息列表
-							</h4>
-						</div>
-						<div class="modal-body">
-							<div class = "row">
-                                <div class="col-md-12">
-                                    <table class="table table-hover table-bordered"  style="font-size: 10px;" >
-                                          <thead>
-                                            <tr>
-                                              <th>测查种类</th>
-                                              <th>测查时间</th>
-                                              <th>状态</th>
-                                              <th>重做</th>
-                                              <th>操作</th>
-                                            </tr>
-                                          </thead>
-                                          <tbody>
-                                            <tr>
-                                              <td>汉密尔顿抑郁量表（HAMD-17）</td>
-                                              <td>patient_detail.create_time</td>
-                                              <td>patient_detail.id</td>
-                                              <td>续做</td>
-                                              <td><button class="btn btn-xs btn-warning"><a href="#" style="color:white">删除</a></button></td>
-                                            </tr>
-                                            <tr>
-                                              <td>汉密尔顿焦虑量表（HAMA）</td>
-                                              <td>2020-10-31</td>
-                                              <td>已完成</td>
-                                              <td>续做</td>
-                                              <td><button class="btn btn-xs btn-warning"><a href="#" style="color:white">删除</a></button></td>
-                                            </tr>
-                                            <tr>
-                                              <td>杨氏躁狂量表（YMRS）</td>
-                                              <td>2020-10-31</td>
-                                              <td>已完成</td>
-                                              <td>续做</td>
-                                              <td><button class="btn btn-xs btn-warning"><a href="#" style="color:white">删除</a></button></td>
-                                            </tr>
-                                            <tr>
-                                              <td>BPRS（简明精神病量表）</td>
-                                              <td>2020-10-31</td>
-                                              <td>已完成</td>
-                                              <td>续做</td>
-                                              <td><button class="btn btn-xs btn-warning"><a href="#" style="color:white">删除</a></button></td>
-                                            </tr>
-                                          </tbody>
-                                    </table>
+{% for index, patient_states in patients_states.items%}
+
+
+    <!-- 他测表量表详细模态框 开始 -->
+        <div class="modal fade" id="modal_OtherTest_{{ index }}" role="dialog" aria-labelledby="myModalLabel"aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <form action="" method="post">
+                            <div class="modal-header">
+                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                <h4 class="modal-title" id="myModalLabel">
+                                    他测量表信息列表
+                                </h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class = "row">
+                                    <div class="col-md-12">
+                                        <table class="table table-hover table-bordered"  style="font-size: 10px;" >
+                                              <thead>
+                                                <tr>
+                                                  <th>测查种类</th>
+                                                  <th>测查时间</th>
+                                                  <th>状态</th>
+                                                  <th>重做</th>
+                                                  <th>操作</th>
+                                                </tr>
+                                              </thead>
+                                              <tbody>
+                                                {% for each_index, each_test in patient_states.0.items %}
+                                                    <tr>
+                                                      <td>{{ each_test.test_name }}</td>
+                                                      <td>{{ each_test.create_time }}</td>
+                                                        {% if each_test.test_state == 1 %}
+                                                            <td>已完成</td>
+                                                            <td>-</td>
+                                                            <td>-</td>
+                                                        {% else %}
+                                                            <td>未完成</td>
+                                                            <td><a href="{{ each_test.update_test_url }}?patient_id=&patient_session_id=">续做</a></td>
+                                                            <td><button class="btn btn-xs btn-warning"><a href="{{ each_test.del_test_url }}?patient_id=&patient_session_id=" style="color:white">删除</a></button></td>
+                                                        {% endif %}
+                                                    </tr>
+                                                {% endfor %}
+                                              </tbody>
+                                        </table>
+                                    </div>
                                 </div>
-							</div>
-						</div>
-                        </form>
-					</div>
-				</div>
-    </div>
-<!-- 他测表量表详细模态框 结束-->
-<!-- 自测表量表详细模态框 开始 -->
-    <div class="modal fade" id="modal_SelfTest" role="dialog" aria-labelledby="myModalLabel"aria-hidden="true">
-				<div class="modal-dialog">
-					<div class="modal-content">
-                        <form action="" method="post">
-						<div class="modal-header">
-							 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-							<h4 class="modal-title" id="myModalLabel">
-								自测量表信息列表
-							</h4>
-						</div>
-						<div class="modal-body">
-							<div class = "row">
-                                <div class="col-md-12">
-                                    <table class="table table-hover table-bordered"  style="font-size: 10px;" >
-                                          <thead>
-                                            <tr>
-                                              <th>测查种类</th>
-                                              <th>测查时间</th>
-                                              <th>状态</th>
-                                              <th>续做</th>
-                                              <th>操作</th>
-                                            </tr>
-                                          </thead>
-                                          <tbody>
-                                            <tr>
-                                              <td>耶鲁布朗强迫症严重程度标准量表</td>
-                                              <td>2020-10-31</td>
-                                              <td>已完成</td>
-                                              <td>续做</td>
-                                              <td><button class="btn btn-xs btn-warning"><a href="#" style="color:white">删除</a></button></td>
-                                            </tr>
-                                            <tr>
-                                              <td>自杀意念及行为史</td>
-                                              <td>2020-10-31</td>
-                                              <td>已完成</td>
-                                              <td>续做</td>
-                                              <td><button class="btn btn-xs btn-warning"><a href="#" style="color:white">删除</a></button></td>
-                                            </tr>
-                                            <tr>
-                                              <td>33项轻躁狂症状清单</td>
-                                              <td>2020-10-31</td>
-                                              <td>已完成</td>
-                                              <td>续做</td>
-                                              <td><button class="btn btn-xs btn-warning"><a href="#" style="color:white">删除</a></button></td>
-                                            </tr>
-                                            <tr>
-                                              <td>斯奈斯和汉密尔顿快乐量表</td>
-                                              <td>2020-10-31</td>
-                                              <td>已完成</td>
-                                              <td>续做</td>
-                                              <td><button class="btn btn-xs btn-warning"><a href="#" style="color:white">删除</a></button></td>
-                                            </tr>
-                                            <tr>
-                                              <td>快感体验能力量表</td>
-                                              <td>2020-10-31</td>
-                                              <td>已完成</td>
-                                              <td>续做</td>
-                                              <td><button class="btn btn-xs btn-warning"><a href="#" style="color:white">删除</a></button></td>
-                                            </tr>
-                                            <tr>
-                                              <td>儿童期（16岁以前）的成长经历</td>
-                                              <td>2020-10-31</td>
-                                              <td>已完成</td>
-                                              <td>续做</td>
-                                              <td><button class="btn btn-xs btn-warning"><a href="#" style="color:white">删除</a></button></td>
-                                            </tr>
-                                   <!-- 青少年专有的4个自评量表-->
-                                            <tr>
-                                              <td>认知情绪调节问卷</td>
-                                              <td>2020-10-31</td>
-                                              <td>已完成</td>
-                                              <td>续做</td>
-                                              <td><button class="btn btn-xs btn-warning"><a href="#" style="color:white">删除</a></button></td>
-                                            </tr>
-                                            <tr>
-                                              <td>青少年生活事件量表</td>
-                                              <td>2020-10-31</td>
-                                              <td>已完成</td>
-                                              <td>续做</td>
-                                              <td><button class="btn btn-xs btn-warning"><a href="#" style="color:white">删除</a></button></td>
-                                            </tr>
-                                            <tr>
-                                              <td>简式父母养育方式问卷（S-Embu）</td>
-                                              <td>2020-10-31</td>patient_detail
-                                              <td>已完成</td>
-                                              <td>续做</td>
-                                              <td><button class="btn btn-xs btn-warning"><a href="#" style="color:white">删除</a></button></td>
-                                            </tr>
-                                            <tr>
-                                              <td>自动思维问卷</td>
-                                              <td>2020-10-31</td>
-                                              <td>已完成</td>
-                                              <td>续做</td>
-                                              <td><button class="btn btn-xs btn-warning"><a href="#" style="color:white">删除</a></button></td>
-                                            </tr>
-                                          </tbody>
-                                    </table>
+                            </div>
+                            </form>
+                        </div>
+                    </div>
+        </div>
+    <!-- 他测表量表详细模态框 结束-->
+
+    <!-- 自测表量表详细模态框 开始 -->
+        <div class="modal fade" id="modal_SelfTest_{{ index }}" role="dialog" aria-labelledby="myModalLabel"aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <form action="" method="post">
+                            <div class="modal-header">
+                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                <h4 class="modal-title">
+                                    自测量表信息列表
+                                </h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class = "row">
+                                    <div class="col-md-12">
+                                        <table class="table table-hover table-bordered"  style="font-size: 10px;" >
+                                              <thead>
+                                                <tr>
+                                                  <th>测查种类</th>
+                                                  <th>测查时间</th>
+                                                  <th>状态</th>
+                                                  <th>续做</th>
+                                                  <th>操作</th>
+                                                </tr>
+                                              </thead>
+                                              <tbody>
+                                                {% for each_index, each_test in patient_states.1.items %}
+                                                    <tr>
+                                                      <td>{{ each_test.test_name }}</td>
+                                                      <td>{{ each_test.create_time }}</td>
+                                                        {% if each_test.test_state == 1 %}
+                                                            <td>已完成</td>
+                                                            <td>-</td>
+                                                            <td>-</td>
+                                                        {% else %}
+                                                            <td>未完成</td>
+                                                            <td><a href="{{ each_test.update_test_url }}?patient_id=&patient_session_id=">续做</a></td>
+                                                            <td><button class="btn btn-xs btn-warning"><a href="{{ each_test.del_test_url }}?patient_id=&patient_session_id=" style="color:white">删除</a></button></td>
+                                                        {% endif %}
+                                                    </tr>
+                                                {% endfor %}
+                                              </tbody>
+                                        </table>
+                                    </div>
                                 </div>
-							</div>
-						</div>
-                        </form>
-					</div>
-				</div>
-    </div>
-<!-- 自测表量表详细模态框 结束-->
-<!-- 认知表量表详细模态框 开始 -->
-    <div class="modal fade" id="modal_cognitionTest" role="dialog" aria-labelledby="myModalLabel"aria-hidden="true">
-				<div class="modal-dialog">
-					<div class="modal-content">
-                        <form action="" method="post">
-						<div class="modal-header">
-							 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-							<h4 class="modal-title" id="myModalLabel">
-								自测量表信息列表
-							</h4>
-						</div>
-						<div class="modal-body">
-							<div class = "row">
-                                <div class="col-md-12">
-                                    <table class="table table-hover table-bordered"  style="font-size: 10px;" >
-                                          <thead>
-                                            <tr>
-                                              <th>测查种类</th>
-                                              <th>测查时间</th>
-                                              <th>状态</th>
-                                              <th>续做</th>
-                                              <th>操作</th>
-                                            </tr>
-                                          </thead>
-                                          <tbody>
-                                            <tr>
-                                              <td>威斯康星卡片分类测验（WCST）</td>
-                                              <td>2020-10-31</td>
-                                              <td>已完成</td>
-                                              <td>续做</td>
-                                              <td><button class="btn btn-xs btn-warning"><a href="#" style="color:white">删除</a></button></td>
-                                            </tr>
-                                            <tr>
-                                              <td>重复成套性神经心理状态测验系统（RBANS）</td>
-                                              <td>2020-10-31</td>
-                                              <td>已完成</td>
-                                              <td>续做</td>
-                                              <td><button class="btn btn-xs btn-warning"><a href="#" style="color:white">删除</a></button></td>
-                                            </tr>
-                                            <tr>
-                                              <td>面孔情绪感知能力测试（FEPT）</td>
-                                              <td>2020-10-31</td>
-                                              <td>已完成</td>
-                                              <td>续做</td>
-                                              <td><button class="btn btn-xs btn-warning"><a href="#" style="color:white">删除</a></button></td>
-                                            </tr>
-                                            <tr>
-                                              <td>语言情绪感知能力测试（VEPT）</td>
-                                              <td>2020-10-31</td>
-                                              <td>已完成</td>
-                                              <td>续做</td>
-                                              <td><button class="btn btn-xs btn-warning"><a href="#" style="color:white">删除</a></button></td>
-                                            </tr>
-                                          </tbody>
-                                    </table>
+                            </div>
+                            </form>
+                        </div>
+                    </div>
+        </div>
+    <!-- 自测表量表详细模态框 结束-->
+    <!-- 认知表量表详细模态框 开始 -->
+        <div class="modal fade" id="modal_cognitionTest_{{ index }}" role="dialog" aria-labelledby="myModalLabel"aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <form action="" method="post">
+                            <div class="modal-header">
+                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                <h4 class="modal-title" >
+                                    自测量表信息列表
+                                </h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class = "row">
+                                    <div class="col-md-12">
+                                        <table class="table table-hover table-bordered"  style="font-size: 10px;" >
+                                              <thead>
+                                                <tr>
+                                                  <th>测查种类</th>
+                                                  <th>测查时间</th>
+                                                  <th>状态</th>
+                                                  <th>续做</th>
+                                                  <th>操作</th>
+                                                </tr>
+                                              </thead>
+                                              <tbody>
+                                                {% for each_index, each_test in patient_states.2.items %}
+                                                    <tr>
+                                                      <td>{{ each_test.test_name }}</td>
+                                                      <td>{{ each_test.create_time }}</td>
+                                                        {% if each_test.test_state == 1 %}
+                                                            <td>已完成</td>
+                                                            <td>-</td>
+                                                            <td>-</td>
+                                                        {% else %}
+                                                            <td>未完成</td>
+                                                            <td><a href="{{ each_test.update_test_url }}?patient_id=&patient_session_id=">续做</a></td>
+                                                            <td><button class="btn btn-xs btn-warning"><a href="{{ each_test.del_test_url }}?patient_id=&patient_session_id=" style="color:white">删除</a></button></td>
+                                                        {% endif %}
+                                                    </tr>
+                                                {% endfor %}
+                                              </tbody>
+                                        </table>
+                                    </div>
                                 </div>
-							</div>
-						</div>
-                        </form>
-					</div>
-				</div>
-    </div>
-<!-- 认知表量表详细模态框 结束-->
+                            </div>
+                            </form>
+                        </div>
+                    </div>
+        </div>
+    <!-- 认知表量表详细模态框 结束-->
+
+{% endfor %}
     <div class="right_col" role="main">
         <div class="row " style="margin-left:-20px">
             <div class="col-md-12 col-sm-12 col-xs-12">
@@ -265,25 +189,24 @@
                     <br />
                     <div class="form-horizontal form-label-left">
                       <div class="row">
-                        <label class="control-label col-md-2 col-sm-2 col-xs-12" for="subject_number"> 受试编号 <span class="required">*:</span>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12" for="patient_id"> 受试编号 <span class="required">*:</span>
                         </label>
-                        <label class="col-md-4 col-sm-4 col-xs-12" style="padding-top: 7px;margin-bottom: 0;text-align: left">
-                          {{ patient_id }}
-
+                        <div id="patient_id" class="col-md-4 col-sm-4 col-xs-12" style="padding-top: 7px;margin-bottom: 0;text-align: left">
+                            {{ patient_id }}
+                        </div>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12" for="name">姓名 <span class="required">*:</span>
                         </label>
-                        <label class="control-label col-md-2 col-sm-2 col-xs-12" for="last-name">姓名 <span class="required">*:</span>
-                        </label>
-                        <div class="col-md-4 col-sm-4 col-xs-12" style="padding-top: 7px;margin-bottom: 0;text-align: left">
+                        <div id="name" class="col-md-4 col-sm-4 col-xs-12" style="padding-top: 7px;margin-bottom: 0;text-align: left">
                          {{ name }}
                         </div>
                       </div>
                       <div class="row">
                         <label for="birth_date" class="control-label col-md-2 col-sm-2 col-xs-12">出生日期 <span class="required">*:</span></label>
-                        <div class="col-md-4 col-sm-4 col-xs-12" style="padding-top: 7px;margin-bottom: 0;text-align: left">
+                        <div id="birth_date" class="col-md-4 col-sm-4 col-xs-12" style="padding-top: 7px;margin-bottom: 0;text-align: left">
                             {{ birth_date }}
                         </div>
                         <label class="control-label col-md-2 col-sm-2 col-xs-6" for="sex">性别 <span class="required">*:</span></label>
-                        <div class="col-md-4 col-sm-4 col-xs-12" style="padding-top: 7px;margin-bottom: 0;text-align: left">
+                        <div id="sex" class="col-md-4 col-sm-4 col-xs-12" style="padding-top: 7px;margin-bottom: 0;text-align: left">
                             {% if sex == 0 %}
                             男
                             {% else %}
@@ -367,16 +290,16 @@
                                                     {{ patient_detail.doctor.name }}
                                                 </td>
                                                 <td>
-                                                    <a href="/patients/subjectDetailInfo">查看</a>
+                                                    <a href="/patients/subjectDetailInfo?patient_id = {{ patient_id }}&patient_session_id={{ patient_detail.session_id }}">查看</a>
                                                 </td>
                                                 <td>
-                                                    <a href="#modal_OtherTest" data-toggle="modal" data-orderId="{{ patient_detail.id }}">量表详情</a>
+                                                    <a href="#modal_OtherTest_{{forloop.counter0}}" onclick="SetOther(patient_detail.id, )" data-toggle="modal" data-orderId="{{ patient_detail.id }}">量表详情</a>
                                                 </td>
                                                 <td>
-                                                    <a href="#modal_SelfTest" data-toggle="modal">量表详情</a>
+                                                    <a href="#modal_SelfTest_{{forloop.counter0}}" onclick="" data-toggle="modal">量表详情</a>
                                                 </td>
                                                 <td>
-                                                    <a href="#modal_cognitionTest" data-toggle="modal">量表详情</a>
+                                                    <a href="#modal_cognitionTest_{{forloop.counter0}}" onclick="" data-toggle="modal">量表详情</a>
                                                 </td>
                                                 <td>
                                                     <button class="btn btn-warning btn-xs">

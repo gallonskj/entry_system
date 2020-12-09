@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 import json
 import scales.dao as scales_dao
 import scales.models as scales_models
+from django.shortcuts import HttpResponse
 
 # Create your views here.
 
@@ -33,10 +34,55 @@ def get_other_test_forms(request):
 def get_cognition_forms(request):
     patient_session_id = request.GET.get('patient_session_id')
     patient_id = request.GET.get('patient_id')
-    return render(request, 'forms_cognition.html', {'patient_session_id': patient_session_id,
-                                                    'patient_id': patient_id,
-                                                    "username": request.session.get('username')
-                                                    })
+    questionnaire_type = int(request.GET.get('questionnaire_type'))
+
+    if questionnaire_type == 0:
+        return render(request, 'scales/cognitive_test/add_wcst.html', {'patient_session_id': patient_session_id,
+                                                                       'patient_id': patient_id,
+                                                                       "username": request.session.get('username'),
+                                                                       'questionnaire_type': questionnaire_type
+                                                                       })
+    elif questionnaire_type == 1:
+        return render(request, 'scales/cognitive_test/add_rbans.html', {'patient_session_id': patient_session_id,
+                                                                        'patient_id': patient_id,
+                                                                        "username": request.session.get('username'),
+                                                                        'questionnaire_type': questionnaire_type
+                                                                        })
+    elif questionnaire_type == 2:
+        return render(request, 'scales/cognitive_test/add_fept.html', {'patient_session_id': patient_session_id,
+                                                                       'patient_id': patient_id,
+                                                                       "username": request.session.get('username'),
+                                                                       'questionnaire_type': questionnaire_type
+                                                                       })
+    elif questionnaire_type == 3:
+        return render(request, 'scales/cognitive_test/add_vept.html', {'patient_session_id': patient_session_id,
+                                                                       'patient_id': patient_id,
+                                                                       "username": request.session.get('username'),
+                                                                       'questionnaire_type': questionnaire_type
+                                                                       })
+
+
+def add_cognition_forms(request):
+    patient_session_id = request.GET.get('patient_session_id')
+    patient_id = request.GET.get('patient_id')
+    questionnaire_type = int(request.GET.get('questionnaire_type'))
+    if questionnaire_type == 1:
+        add_wcst(request)
+        return redirect('/scales/get_cognition_forms?patient_session_id={}&patient_id={}&questionnaire_type={}'
+                        .format(str(patient_session_id), str(patient_id), str(questionnaire_type)))
+    elif questionnaire_type == 2:
+        add_rbans(request)
+        return redirect('/scales/get_cognition_forms?patient_session_id={}&patient_id={}&questionnaire_type={}'
+                        .format(str(patient_session_id), str(patient_id), str(questionnaire_type)))
+    elif questionnaire_type == 3:
+        add_fept(request)
+        return redirect('/scales/get_cognition_forms?patient_session_id={}&patient_id={}&questionnaire_type={}'
+                        .format(str(patient_session_id), str(patient_id), str(questionnaire_type)))
+    elif questionnaire_type == 4:
+        add_vept(request)
+        return redirect('/scales/get_cognition_forms?patient_session_id={}&patient_id={}&questionnaire_type={}'
+                        .format(str(patient_session_id), str(patient_id), str(questionnaire_type)))
+
 
 
 def get_self_test_forms(request):
@@ -57,7 +103,8 @@ def add_ybo(request):
     scales_dao.dao_add_ybo(request)
     patient_session_id = request.GET.get('patient_session_id')
     patient_id = request.GET.get('patient_id')
-    redirect_yrl = '/scales/get_self_test_forms?patient_session_id={}&patient_id={}'.format(str(patient_session_id),str(patient_id))
+    redirect_yrl = '/scales/get_self_test_forms?patient_session_id={}&patient_id={}'.format(str(patient_session_id),
+                                                                                            str(patient_id))
     return redirect(redirect_yrl)
 
 
@@ -75,7 +122,7 @@ def add_family_info(request):
     patient_session_id = request.GET.get('patient_session_id')
     patient_id = request.GET.get('patient_id')
     redirect_yrl = '/scales/get_general_info_forms?patient_session_id={}&patient_id={}'.format(str(patient_session_id),
-                                                                                            str(patient_id))
+                                                                                               str(patient_id))
     return redirect(redirect_yrl)
 
 
@@ -89,7 +136,7 @@ def add_hamd(request):
     patient_session_id = request.GET.get('patient_session_id')
     patient_id = request.GET.get('patient_id')
     redirect_yrl = '/scales/get_other_test_forms?patient_session_id={}&patient_id={}'.format(str(patient_session_id),
-                                                                                            str(patient_id))
+                                                                                             str(patient_id))
     return redirect(redirect_yrl)
 
 
@@ -112,6 +159,7 @@ def add_chinesehandle(request):
                                                                                                str(patient_id))
     return redirect(redirect_yrl)
 
+
 def add_manicsymptom(request):
     scales_dao.add_mainicsymptom_database(request)
     patient_session_id = request.GET.get('patient_session_id')
@@ -131,7 +179,8 @@ def add_happiness(request):
 
 
 #########################################################
-#########################################################syh
+######################################################### syh
+
 def add_cognitive_emotion(request):
     scales_dao.add_cognitive_emotion_database(request)
     patient_session_id = request.GET.get('patient_session_id')
@@ -139,6 +188,7 @@ def add_cognitive_emotion(request):
     redirect_yrl = '/scales/get_self_test_forms?patient_session_id={}&patient_id={}'.format(str(patient_session_id),
                                                                                             str(patient_id))
     return redirect(redirect_yrl)
+
 
 def add_pleasure(request):
     scales_dao.add_pleasure_database(request)
@@ -154,7 +204,7 @@ def add_bprs(request):
     patient_session_id = request.GET.get('patient_session_id')
     patient_id = request.GET.get('patient_id')
     redirect_yrl = '/scales/get_other_test_forms?patient_session_id={}&patient_id={}'.format(str(patient_session_id),
-                                                                                               str(patient_id))
+                                                                                             str(patient_id))
     return redirect(redirect_yrl)
 
 
@@ -186,7 +236,7 @@ def add_abuse(request):
     patient_session_id = request.GET.get('patient_session_id')
     patient_id = request.GET.get('patient_id')
     redirect_yrl = '/scales/get_general_info_forms?patient_session_id={}&patient_id={}'.format(str(patient_session_id),
-                                                                                            str(patient_id))
+                                                                                               str(patient_id))
     return redirect(redirect_yrl)
 
 
@@ -195,10 +245,9 @@ def add_hama(request):
     patient_session_id = request.GET.get('patient_session_id')
     patient_id = request.GET.get('patient_id')
     redirect_yrl = '/scales/get_other_test_forms?patient_session_id={}&patient_id={}'.format(str(patient_session_id),
-                                                                                               str(patient_id))
+                                                                                             str(patient_id))
     return redirect(redirect_yrl)
 
-#    return redirect('/patients')
 
 def add_growth(request):
     scales_dao.add_growth_database(request)
@@ -226,6 +275,7 @@ def add_fept(request):
                                                                                             str(patient_id))
     return redirect(redirect_yrl)
 
+
 def add_vept(request):
     scales_dao.add_vept_database(request)
     patient_session_id = request.GET.get('patient_session_id')
@@ -245,6 +295,7 @@ def add_ymrs(request):
                                                                                              str(patient_id))
     return redirect(redirect_yrl)
 
+
 def add_sembu(request):
     scales_dao.add_sembu_database(request)
     patient_session_id = request.GET.get('patient_session_id')
@@ -252,6 +303,7 @@ def add_sembu(request):
     redirect_yrl = '/scales/get_self_test_forms?patient_session_id={}&patient_id={}'.format(str(patient_session_id),
                                                                                             str(patient_id))
     return redirect(redirect_yrl)
+
 
 def add_atq(request):
     scales_dao.add_atq_database(request)
@@ -261,13 +313,16 @@ def add_atq(request):
                                                                                             str(patient_id))
     return redirect(redirect_yrl)
 
+
 def add_wcst(request):
-    scales_dao.add_wcst_database(request)
-    patient_session_id = request.GET.get('patient_session_id')
-    patient_id = request.GET.get('patient_id')
-    redirect_yrl = '/scales/get_cognition_forms?patient_session_id={}&patient_id={}'.format(str(patient_session_id),
-                                                                                            str(patient_id))
-    return redirect(redirect_yrl)
+    # scales_dao.add_wcst_database(request)
+    # patient_session_id = request.GET.get('patient_session_id')
+    # patient_id = request.GET.get('patient_id')
+    # redirect_yrl = '/scales/get_cognition_forms?patient_session_id={}&patient_id={}'.format(str(patient_session_id),
+    #                                                                                         str(patient_id))
+    # return redirect(redirect_yrl)
+    return render(request, "scales/cognitive_test/add_wcst.html")
+
 
 def add_other(request):
     scales_dao.add_other_database(request)

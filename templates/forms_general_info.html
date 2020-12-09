@@ -1068,11 +1068,7 @@
 {% block js %}
     <script type="text/javascript" src="{% static '/js/subjectEstablish.js' %}">
         //加载模态框
-
-
         $(document).ready(function () {
-
-
             for (var i = 0; i < answer_list.length; i++) {
                 var answer = answer_list[i];
                 var answer_radio = $("input[name='" + "_question" + (i + 1) + "_answer" + "']")
@@ -1080,10 +1076,6 @@
                 answer_radio.eq(parseInt(answer)).attr("checked", true);
             }
             $("#hamd_bt").hide();
-
-
         });
-
-
     </script>
 {% endblock %}

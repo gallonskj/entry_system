@@ -15,10 +15,10 @@ import scales.models as scales_models
 #######################################################################################
 ########################## add_hamd_database 可以作为dao的样例 #########################
 #######################################################################################
-# 汉密尔顿焦虑量表
+
 def add_hamd_database(request):
     patient_session_id = request.GET.get('patient_session_id')
-    scale_id = 18
+    scale_id = 1
     doctor_id = request.session.get('doctor_id')
     # 创建一个对象
     rPatientHAMD17 = scales_models.RPatientHamd17(patient_session_id=patient_session_id, scale_id=scale_id, doctor_id=doctor_id)
@@ -36,10 +36,10 @@ def add_hamd_database(request):
     # 插入数据库
     rPatientHAMD17.save()
 
-# 33 项轻躁狂症状清单
-def add_manicsymptom_database(request):
+
+def add_mainicsymptom_database(request):
     patient_session_id = request.GET.get('patient_session_id')
-    scale_id = 9
+    scale_id = 1
     doctor_id = request.session.get('doctor_id')
     # 创建一个对象
     rPatientManicsymptom = scales_models.RPatientManicsymptom(patient_session_id=patient_session_id, scale_id=scale_id,
@@ -57,10 +57,10 @@ def add_manicsymptom_database(request):
     # 插入数据库
     rPatientManicsymptom.save()
 
-# 斯奈斯和汉密尔顿快乐量表
+
 def add_happiness_database(request):
     patient_session_id = request.GET.get('patient_session_id')
-    scale_id = 10
+    scale_id = 1
     doctor_id = request.session.get('doctor_id')
     rPatienthappiness = scales_models.RPatientHappiness(patient_session_id=patient_session_id, scale_id=scale_id,
                                           doctor_id=doctor_id)
@@ -80,7 +80,7 @@ def add_happiness_database(request):
 
 def add_chinesehandle_database(request):
     patient_session_id = request.GET.get('patient_session_id')
-    scale_id = 6
+    scale_id = 1
     doctor_id = request.session.get('doctor_id')
     rPatientChineseHandy = scales_models.RPatientChineseHandy(patient_session_id=patient_session_id, scale_id=scale_id, doctor_id=doctor_id)
     # 通过field的方式进行数据的传递，注意，需要保证form表单中各项的名称与数据库中字段名称是名称相同
@@ -99,7 +99,7 @@ def add_chinesehandle_database(request):
 
 def add_information_study_database(request):
     patient_session_id = request.GET.get('patient_session_id')
-    scale_id = 2
+    scale_id = 1
     doctor_id = request.session.get('doctor_id')
     # 创建一个对象
     rPatientBasicInformationStudy = scales_models.RPatientBasicInformationStudy(patient_session_id=patient_session_id, scale_id=scale_id, doctor_id=doctor_id)
@@ -119,7 +119,7 @@ def add_information_study_database(request):
 
 def add_cognitive_emotion_database(request):
     patient_session_id = request.GET.get('patient_session_id')
-    scale_id = 14
+    scale_id = 1
     doctor_id = request.session.get('doctor_id')
     total_scores = 1
     rPatientCognitiveEmotion = scales_models.RPatientCognitiveEmotion(patient_session_id=patient_session_id, scale_id=scale_id,
@@ -145,7 +145,7 @@ def add_cognitive_emotion_database(request):
 
 def add_pleasure_database(request):
     patient_session_id = request.GET.get('patient_session_id')
-    scale_id = 11
+    scale_id = 1
     doctor_id = request.session.get('doctor_id')
 
     rPatientPleasure = scales_models.RPatientPleasure(patient_session_id=patient_session_id, scale_id=scale_id, doctor_id=doctor_id)
@@ -164,7 +164,7 @@ def add_pleasure_database(request):
 
 def add_bprs_database(request):
     patient_session_id = request.GET.get('patient_session_id')
-    scale_id = 20
+    scale_id = 1
     doctor_id = request.session.get('doctor_id')
     total_scores = 1
     rPatientbprs = scales_models.RPatientBprs(patient_session_id=patient_session_id, scale_id=scale_id, doctor_id=doctor_id)
@@ -182,7 +182,7 @@ def add_bprs_database(request):
 
 def add_rbans_database(request):
     patient_session_id = request.GET.get('patient_session_id')
-    scale_id = 22
+    scale_id = 1
     doctor_id = request.session.get('doctor_id')
     total_scores = 1
     rPatientrbans = scales_models.RPatientRbans(patient_session_id=patient_session_id, scale_id=scale_id, doctor_id=doctor_id)
@@ -199,7 +199,7 @@ def add_rbans_database(request):
 
 def add_patient_basic_information_health_database(request):
     patient_session_id = request.GET.get('patient_session_id')
-    scale_id = 3
+    scale_id = 1
     doctor_id = request.session.get('doctor_id')
     total_scores = 1
     rPatientBasicInformationHealth = scales_models.RPatientBasicInformationHealth(patient_session_id=patient_session_id,
@@ -221,7 +221,7 @@ def add_patient_basic_information_health_database(request):
 
 def add_hama_database(request):
     patient_session_id = request.GET.get('patient_session_id')
-    scale_id = 18
+    scale_id = 1
     doctor_id = request.session.get('doctor_id')
     rPatientHama = scales_models.RPatientHama(patient_session_id=patient_session_id, scale_id=scale_id, doctor_id=doctor_id)
     data = request.__dict__
@@ -239,7 +239,7 @@ def add_hama_database(request):
 
 def add_abuse_database(request):
     patient_session_id = request.GET.get('patient_session_id')
-    scale_id = 4
+    scale_id = 1
     doctor_id = request.session.get('doctor_id')
     rPatientBasicInformationAbuse = scales_models.RPatientBasicInformationAbuse(patient_session_id=patient_session_id, scale_id=scale_id, doctor_id=doctor_id)
     data = request.__dict__
@@ -254,7 +254,7 @@ def add_abuse_database(request):
 
 def add_growth_database(request):
     patient_session_id = request.GET.get('patient_session_id')
-    scale_id = 12
+    scale_id = 1
     doctor_id = request.session.get('doctor_id')
     rPatientGrowth = scales_models.RPatientGrowth(patient_session_id=patient_session_id, scale_id=scale_id, doctor_id=doctor_id)
     data = request.__dict__
@@ -275,7 +275,7 @@ def add_growth_database(request):
 
 def add_adolescent_events_database(request):
     patient_session_id = request.GET.get('patient_session_id')
-    scale_id = 13
+    scale_id = 1
     doctor_id = request.session.get('doctor_id')
     rPatientAdolescentEvents = scales_models.RPatientAdolescentEvents(patient_session_id=patient_session_id, scale_id=scale_id, doctor_id=doctor_id)
     data = request.__dict__
@@ -294,7 +294,7 @@ def add_adolescent_events_database(request):
 # 这里的total_score需要从前台获取，认知的所有表都需要手动填总分 面孔情绪感知
 def add_fept_database(request):
     patient_session_id = request.GET.get('patient_session_id')
-    scale_id = 23
+    scale_id = 1
     doctor_id = request.session.get('doctor_id')
     # 创建一个对象
     rPatientFept = scales_models.RPatientFept(patient_session_id=patient_session_id, scale_id=scale_id, doctor_id=doctor_id)
@@ -315,7 +315,7 @@ def add_fept_database(request):
 def add_vept_database(request):
     # GET请求获取pd，sid，did
     patient_session_id = request.GET.get('patient_session_id')
-    scale_id = 24
+    scale_id = 1
     doctor_id = request.session.get('doctor_id')
     # 创建一个对象
     rPatientVept = scales_models.RPatientVept(patient_session_id=patient_session_id, scale_id=scale_id, doctor_id=doctor_id)
@@ -335,7 +335,7 @@ def add_vept_database(request):
 ###################################
 def add_ymrs_database(request):
     patient_session_id = request.GET.get('patient_session_id')
-    scale_id = 19
+    scale_id = 1
     doctor_id = request.session.get('doctor_id')
     rPatientYmrs = scales_models.RPatientYmrs(patient_session_id=patient_session_id, scale_id=scale_id, doctor_id=doctor_id)
     data = request.__dict__
@@ -353,7 +353,7 @@ def add_ymrs_database(request):
 
 def add_sembu_database(request):
     patient_session_id = request.GET.get('patient_session_id')
-    scale_id = 15
+    scale_id = 1
     doctor_id = request.session.get('doctor_id')
     rPatientSembu = scales_models.RPatientSembu(patient_session_id=patient_session_id, scale_id=scale_id, doctor_id=doctor_id)
     data = request.__dict__
@@ -406,7 +406,7 @@ def dao_add_suicide(request):
         doctor_id = request.session.get('doctor_id')
         rpatientsuicidal = scales_models.RPatientSuicidal(patient_session_id=patient_session_id,
                                             doctor_id=doctor_id,
-                                            scale_id=8)
+                                            scale_id=1)
 
         for key in request.POST.keys():
             if hasattr(rpatientsuicidal, key):
@@ -427,7 +427,7 @@ def dao_add_ybo(request):
         doctor_id = request.session.get('doctor_id')
         rpatientybobsessiontable = scales_models.RPatientYbobsessiontable(patient_session_id=patient_session_id,
                                                             doctor_id=doctor_id,
-                                                            scale_id=7)
+                                                            scale_id=1)
         for key in request.POST.keys():
             if hasattr(rpatientybobsessiontable, key):
                 setattr(rpatientybobsessiontable, key, request.POST.get(key))
@@ -444,7 +444,7 @@ def dao_add_ybo(request):
 
 def add_atq_database(request):
     patient_session_id = request.GET.get('pid')
-    scale_id = 16
+    scale_id = request.GET.get('sid')
     doctor_id = request.GET.get('did')
     rPatientAtq = scales_models.RPatientAtq(patient_session_id=patient_session_id, scale_id=scale_id, doctor_id=doctor_id)
     data = request.__dict__
@@ -462,7 +462,7 @@ def add_atq_database(request):
 
 def add_wcst_database(request):
     patient_session_id = request.GET.get('pid')
-    scale_id = 21
+    scale_id = request.GET.get('sid')
     doctor_id = request.GET.get('did')
     rPatientWcst = scales_models.RPatientWcst(patient_session_id=patient_session_id, scale_id=scale_id, doctor_id=doctor_id)
     data = request.__dict__
@@ -478,7 +478,7 @@ def add_wcst_database(request):
 
 def add_other_database(request):
     patient_session_id = request.GET.get('pid')
-    scale_id = 5
+    scale_id = request.GET.get('sid')
     doctor_id = request.GET.get('did')
     rPatientBasicInformationOther = scales_models.RPatientBasicInformationOther(patient_session_id=patient_session_id, scale_id=scale_id, doctor_id=doctor_id)
     data = request.__dict__

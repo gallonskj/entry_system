@@ -1,0 +1,126 @@
+{% extends 'templates/index.html'%}
+{% load static %}
+{% block title %}其他资料{% endblock %}
+{% block css %}
+<link href="{% static '/css/scales_style.css' %}" rel="stylesheet" >
+{% endblock %}
+{% block content %}
+     <div class="right_col" role="main">
+        <div class="container">
+        <div class="row show-grid">
+          <div class="col-md-12 col-sm-12 col-xs-12">
+              <ul class="breadcrumb" style="background-color: white;font-weight:bold">
+                   <li ><a href="#">量表录入</a></li>
+                   <li><a href="#" >个人详细信息录入</a></li>
+                   <li class="active"><a href="#" >其他资料</a></li>
+              </ul>
+          </div>
+        </div>
+        </div> 
+        <div class="dashboard_graph x_panel">
+          <div id="wrapper">
+            <div id = "left-side" style="height: 100%;" class="col-md-2">
+              <ul class="scales_progress">
+                <li class="step1 done">
+                  <p>家庭信息</p>
+                </li>
+                <li class="step2 done ">
+                  <p>学习情况</p>
+                </li>
+                <li class="step3 done">
+                  <p>家庭及疾病史</p>
+                </li>
+                <li class="step4 done ">
+                  <p>物质依赖</p>
+                </li>
+                <li class="step5 doing ">
+                  <p>其他资料</p>
+                </li>
+                <li class="step6 nodone ">
+                  <p>利手信息</p>
+                </li>
+                <li class="finish nodone ">
+                  <p>完成</p>
+                </li>
+              </ul>
+            </div>  
+             
+            <div id="right-side" class="col-md-10">
+              <div id="first" class="active">
+                  <form action="">
+
+                  <div class="x_title">
+                    <div class="clearfix"></div>
+                    <h2>社会支持 <small>Social support</small></h2>
+                    <div class="clearfix"></div>
+                  </div>
+                  <br>
+                  <div class="x_content">
+                    <div class="form-group row">
+                      <label class="control-label col-md-2 col-sm-3 col-sm-offset-3" for="patient_friend_num">您有几个亲密的朋友<span class="required">*</span></label>
+                      <div class="col-md-2 col-sm-2">
+                              <select class="form-control" name="patient_friend_num" id="patient_friend_num">
+                                <option value="1">0个=1</option>
+                                <option value="2">1个=2</option>
+                                <option value="3">2个=3</option>
+                                <option value="4">3个及以上=4</option>
+                              </select>
+                      </div>
+                    </div>
+                    <br>
+                  </div>
+
+                  <div class="x_title">
+                    <div class="clearfix"></div>
+                    <h2>重大生活事件 <small>Huge life events</small></h2>
+                    <div class="clearfix"></div>
+                  </div>
+                  <br>
+                  <div class="x_content">
+                    <div class="form-group row">
+                      <label class="control-label col-md-8 col-sm-7">最近三个月内是否发生过对您有重大影响的生活事件？（如失恋、家庭变故、欠债、投资失败、辍学、人际关系紧张等）<span class="required">*:</span></label>
+                      <br>
+                      <div class="col-md-1 col-sm-1 " id="patient_big_event_1">
+                        <input type="radio" class="flat " name="patient_big_event" value=1 data-labelauty="是"/>
+                      </div>
+                      <div class="col-md-1 col-sm-1 " id="patient_big_event_2">
+                        <input type="radio" class="flat " name="patient_big_event" value=0 data-labelauty="否"/>
+                      </div>
+                    </div>
+                    <br>
+
+                    <div class="form-group row">
+                      <label class="control-label col-md-1 col-sm-1 col-sm-offset-3">描述<span class="required">:</span></label>
+                      <div class="col-md-4 col-sm-4 form-group  ">
+                        <input type="text" id="patient_big_event_describtion" name="patient_big_event_describtion"  class="form-control ">
+                      </div>
+                    </div>
+
+                    <br>
+                  </div>
+                        <div class="row">
+                        {% csrf_token %}
+                        <div class="text-center">
+                            <input  type="submit" class="btn btn-success" value="提交"/>
+                        </div>
+                  </div>
+                  </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+        
+
+
+{% endblock %}
+
+{% block js %}
+<script type="text/javascript" src="{% static '/js/jquery-radio-beauty.js'%}"></script>
+
+<script>
+$(document).ready(function(){
+	$("input[type='radio']").labelauty();
+});
+</script>
+{% endblock %}
