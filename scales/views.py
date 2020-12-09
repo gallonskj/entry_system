@@ -31,7 +31,7 @@ def get_other_test_forms(request):
     patient_id = request.GET.get('patient_id')
     # 根据do_scale_type，获取scale最小的id
     # todo　redirect传递问题
-    min_unfinished_scale = patients_dao.get_min_unfinished_scale(tools_config.general_info_type,patient_session_id)
+    min_unfinished_scale = scales_dao.get_min_unfinished_scale(tools_config.general_info_type,patient_session_id)
     if min_unfinished_scale is None:
         return redirect(get_other_test_forms)
     next_page_url = tools_config.scales_html_dict[min_unfinished_scale]
@@ -47,7 +47,7 @@ def get_cognition_forms(request):
     patient_id = request.GET.get('patient_id')
     # 根据do_scale_type，获取scale最小的id
     # todo　redirect传递问题
-    min_unfinished_scale = patients_dao.get_min_unfinished_scale(tools_config.general_info_type,patient_session_id)
+    min_unfinished_scale = scales_dao.get_min_unfinished_scale(tools_config.general_info_type,patient_session_id)
     if min_unfinished_scale is None:
         return redirect(get_other_test_forms)
     next_page_url = tools_config.scales_html_dict[min_unfinished_scale]
@@ -62,7 +62,7 @@ def get_self_test_forms(request):
     patient_id = request.GET.get('patient_id')
     # 根据do_scale_type，获取scale最小的id
     # todo　redirect传递问题
-    min_unfinished_scale = patients_dao.get_min_unfinished_scale(tools_config.general_info_type,patient_session_id)
+    min_unfinished_scale = scales_dao.get_min_unfinished_scale(tools_config.general_info_type,patient_session_id)
     if min_unfinished_scale is None:
         return redirect(get_other_test_forms)
     next_page_url = tools_config.scales_html_dict[min_unfinished_scale]

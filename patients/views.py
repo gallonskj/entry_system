@@ -96,11 +96,14 @@ def add_patient_followup(request):
     patient_dao.add_rscales(scales_list, patient_detail.id)
     # 将上一次的detail信息返回到前台
     patient_detail_last = patient_dao.get_patient_detail_last_byPatientId(patient_id)
+
+    # weixinru Django直接传递参数给JS
     return render(request, 'select_scales.html',{'patient': patient_baseinfo,
                                                  'patient_session_id': patient_detail_id,
                                                  "username": request.session.get('username'),
-                                                 "patient_detail_last":patient_detail_last,
+                                                 "patient_detail":patient_detail_last,
                                                  })
+
 
 
 #  todo 所有病人详细信息获取
