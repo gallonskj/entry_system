@@ -302,9 +302,9 @@ def patient_statistics(request):
             for scale in search_scales:
                 if scale.state == 0:
                     continue
-                scale_id_list.append(scale.id)
+                scale_id_list.append(scale.scale_id)
 
-                scale_class = scale_class_dict[scale.id][0]
+                scale_class = scale_class_dict[scale.scale_id][0]
                 if len(scale_class.objects.filter(patient_session_id=patient.id).values()) > 0:
                     scale_info = scale_class.objects.filter(patient_session_id=patient.id).values()[0]
                     scale_score_list.append(scale_info['total_score'])

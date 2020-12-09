@@ -41,6 +41,7 @@
                 <div id="right-side" class="col-md-10">
                     <div id="first" class="active">
                       <form action="/scales/add_ymrs?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}" method="post">
+                          {%  csrf_token %}
                         <div class="container">
                             <div class="row">
                                 <div class="col-md-12 column">

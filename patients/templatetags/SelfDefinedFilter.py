@@ -17,3 +17,9 @@ def get_item(dictionary, key):
 @register.filter(name='calciulateId')
 def calciulateId(patient_id):
     return idAssignments.pack_patient_id(patient_id)
+
+@register.filter(name='processNone')
+def processNone(value):
+    if value is None:
+        return '--'
+    return value

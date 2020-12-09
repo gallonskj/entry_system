@@ -250,7 +250,7 @@ def dao_add_family_info(patient_basic_info_family):
     # 插入数据库
     patient_basic_info_family.save()
     # 修改r_patient_scales表中state状态
-    update_rscales_state(patient_basic_info_family.patient_session_id, patient_basic_info_family.scales_id)
+    update_rscales_state(patient_basic_info_family.patient_session_id, patient_basic_info_family.scale_id)
 
 
 def dao_add_suicide(rpatientsuicidal):

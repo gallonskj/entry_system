@@ -21,63 +21,23 @@ def get_general_info_forms(request):
 def get_other_test_forms(request):
     patient_session_id = request.GET.get('patient_session_id')
     patient_id = request.GET.get('patient_id')
-<<<<<<< HEAD
     redirect_url = get_redirect_url(patient_session_id,patient_id,tools_config.other_test_next_type_url,tools_config.other_test_type)
     return redirect(redirect_url)
-=======
-    # 根据do_scale_type，获取scale最小的id
-    # todo　redirect传递问题
-    min_unfinished_scale = scales_dao.get_min_unfinished_scale(tools_config.general_info_type,patient_session_id)
-    if min_unfinished_scale is None:
-        return redirect(get_other_test_forms)
-    next_page_url = tools_config.scales_html_dict[min_unfinished_scale]
-    return render(request, 'forms_other_test.html', {'patient_session_id': patient_session_id,
-                                                     'patient_id': patient_id,
-                                                     "username": request.session.get('username')
-                                                     })
-
->>>>>>> zrq
 
 # 自测总量表
 def get_self_test_forms(request):
     patient_session_id = request.GET.get('patient_session_id')
     patient_id = request.GET.get('patient_id')
-<<<<<<< HEAD
-    redirect_url = get_redirect_url(patient_session_id,patient_id,tools_config.cognition_next_type_url,tools_config.self_test_type)
+    redirect_url = get_redirect_url(patient_session_id,patient_id,tools_config.self_test_next_type_url,tools_config.self_test_type)
     return redirect(redirect_url)
-=======
-    # 根据do_scale_type，获取scale最小的id
-    # todo　redirect传递问题
-    min_unfinished_scale = scales_dao.get_min_unfinished_scale(tools_config.general_info_type,patient_session_id)
-    if min_unfinished_scale is None:
-        return redirect(get_other_test_forms)
-    next_page_url = tools_config.scales_html_dict[min_unfinished_scale]
-    return render(request, 'forms_cognition.html', {'patient_session_id': patient_session_id,
-                                                    'patient_id': patient_id,
-                                                    "username": request.session.get('username')
-                                                    })
->>>>>>> zrq
 
 # 认知测试总量表
 def get_cognition_forms(request):
     patient_session_id = request.GET.get('patient_session_id')
     patient_id = request.GET.get('patient_id')
-<<<<<<< HEAD
-    redirect_url = get_redirect_url(patient_session_id,patient_id,tools_config.self_test_next_type_url,tools_config.cognition_type)
+    redirect_url = get_redirect_url(patient_session_id,patient_id,tools_config.cognition_next_type_url,tools_config.cognition_type)
     return redirect(redirect_url)
-=======
-    # 根据do_scale_type，获取scale最小的id
-    # todo　redirect传递问题
-    min_unfinished_scale = scales_dao.get_min_unfinished_scale(tools_config.general_info_type,patient_session_id)
-    if min_unfinished_scale is None:
-        return redirect(get_other_test_forms)
-    next_page_url = tools_config.scales_html_dict[min_unfinished_scale]
-    return render(request, 'forms_self_test.html', {'patient_session_id': patient_session_id,
-                                                    'patient_id': patient_id,
-                                                    "username": request.session.get('username')
-                                                    })
 
->>>>>>> zrq
 
 # 四个大选项的界面
 def get_select_scales(request):

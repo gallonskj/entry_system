@@ -41,6 +41,7 @@
                 <div id="right-side" class="col-md-10">
                     <div id="first" class="active">
                       <form action="/scales/add_bprs?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}" method="post">
+                          {%  csrf_token %}
                         <div class="container">
                             <div class="row" style="margin: 5px;">
                                 <strong>圈出最适合病人情况的分数</strong>

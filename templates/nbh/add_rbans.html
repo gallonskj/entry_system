@@ -41,7 +41,7 @@
 				         
                 <div id="right-side" class="col-md-10">
                   <div id="first" class="active">
-					<form action="/scales/add_cognition_forms?patient_id={{ patient_id }}&patient_session_id={{ patient_session_id }}&questionnaire_type={{ questionnaire_type|add:1 }}" method="post">
+					<form action="/scales/add_rbans?patient_id={{ patient_id }}&patient_session_id={{ patient_session_id }}&questionnaire_type={{ questionnaire_type|add:1 }}" method="post">
                         {% csrf_token %}
 						<div class="container">
 	                        <div class="row clearfix">
