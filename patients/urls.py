@@ -14,7 +14,7 @@ urlpatterns = [
     # 获取病人详细信息
     url(r'^get_patient_detail', views.get_patient_detail),
     url(r'^patient_statistics', views.patient_statistics, name='patient_statistics'),
-    url(r'^get_generateId_and_nation', views.get_generateId_and_nation),
+    url(r'^get_generateId_and_nation', views.get_generateId),
     url(r'^get_select_scales', views.get_select_scales),
     url(r'^del_patient', views.del_patient),
     url(r'^del_followup', views.del_followup),

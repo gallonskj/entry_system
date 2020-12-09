@@ -21,5 +21,5 @@ def calciulateId(patient_id):
 @register.filter(name='processNone')
 def processNone(value):
     if value is None:
-        return '--'
+        return ''
     return value

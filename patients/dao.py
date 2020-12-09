@@ -106,8 +106,11 @@ def del_patient_base_info_byPK(patient_id):
 ################ get 部分 ################
 
 def get_patient_detail_last_byPatientId(patient_id):
-    patient_detail_last = patients_models.DPatientDetail.objects.filter(patient_id=patient_id).last()
-    return patient_detail_last
+    patient_detail_res = patients_models.DPatientDetail.objects.filter(patient_id=patient_id)
+    if patient_detail_res.count()==0:
+        return None
+    else:
+        return patient_detail_res.last()
 
 # get scales表
 def get_scales_all():
