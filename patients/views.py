@@ -21,7 +21,6 @@ def get_all_patients_baseinfo(request):
     nations = DEthnicity.objects.all()
     return render(request, 'manage_patients.html', {"patients": patients, 'username': username, 'nations': nations})
 
-
 # 被试基本信息录入，需要生成id的信息，需要向patient_detail进行信息插入(session==1的信息)
 # todo 在进行病人或者复扫创建的时候，需要创建ｒ_patients_scales创建量表完成信息，默认应该是未完成的，需要根据青少年这些去做
 def add_patient_baseinfo(request):
@@ -46,31 +45,29 @@ def add_patient_baseinfo(request):
     scales_list = patients_dao.judgment_scales(patient_detail.id)
     # 为初扫/复扫的病人预先在r_patient_scales中插入多条记录，依据被试需要做的scales_list
     patients_dao.add_rscales(scales_list, patient_detail.id)
-
-    # 获取各个scaleType的list信息
-    generalinfo_scale_list,other_test_scale_list,self_test_scale_list,cognition_scale_list = patients_dao.judgment_do_scales(scales_list)
-
-    #获取页面需要的参数,传递list，前台显示展不展示每一项
-    patient = patients_dao.get_base_info_byPK(patient_id)
+    # 页面跳转，select_scales页面
     patient_detail_id = patients_dao.get_patient_detail_byPatientIdAndSessionId(patient_id,session_id).id
-    return render(request, 'select_scales.html', {'patient': patient,
-                                                  'patient_session_id': patient_detail_id,
-                                                  "username": request.session.get('username'),
-                                                  "generalinfo_scale_list":generalinfo_scale_list,
-                                                  "other_test_scale_list":other_test_scale_list,
-                                                  "self_test_scale_list":self_test_scale_list,
-                                                  "cognition_scale_list":cognition_scale_list,
-                                                  })
+    redirect_url = '/scales/select_scales?patient_session_id={}&patient_id={}'.format(str(patient_detail_id),str(patient_id))
+    return redirect(redirect_url)
 
-
+# 进入四个选择项的界面，需要获取到各个量表类型他的list
 def get_select_scales(request):
     patient_session_id = request.GET.get('patient_session_id')
     patient_id = request.GET.get('patient_id')
     patient = patients_dao.get_base_info_byPK(patient_id)
+    patient_detail_last = patients_dao.get_patient_detail_last_byPatientId(patient_id)
+    # 获取各个scaleType的list信息
+    scales_list = patients_dao.judgment_scales(patient_session_id)
+    generalinfo_scale_list, other_test_scale_list, self_test_scale_list, cognition_scale_list = patients_dao.judgment_do_scales(scales_list)
     return render(request, 'select_scales.html', {'patient': patient,
                                                   'patient_id': patient.id,
                                                   'patient_session_id': patient_session_id,
-                                                  "username": request.session.get('username')
+                                                  "username": request.session.get('username'),
+                                                  'patient_detail_last':patient_detail_last,
+                                                  "generalinfo_scale_list": generalinfo_scale_list,
+                                                  "other_test_scale_list": other_test_scale_list,
+                                                  "self_test_scale_list": self_test_scale_list,
+                                                  "cognition_scale_list": cognition_scale_list,
                                                   })
 
 
@@ -83,11 +80,7 @@ def add_patient_followup(request):
     patient_detail = patients_models.DPatientDetail(patient_id=patient_id, session_id=session_id, standard_id=standard_id,
                                     age=tools_utils.calculate_age(str(patient_baseinfo.birth_date)), doctor_id=doctor_id, diagnosis=0)
 
-    # 将上一次的detail信息返回到前台
-    patient_detail_last = patients_dao.get_patient_detail_last_byPatientId(patient_id)
-    # 插入一条patient_detail信息
     patients_dao.add_patient_detail(patient_detail)
-
     # 获取创建的复扫信息自增id
     patient_detail_id = patients_dao.get_patient_detail_byPatientIdAndSessionId(patient_id,session_id).id
     # 查询需要做的量表,并在r_patient_scales中插入需要做的量表
@@ -97,8 +90,6 @@ def add_patient_followup(request):
     # 将上一次的detail信息返回到前台
     redirect_url = '/scales/select_scales?patient_session_id={}&patient_id={}'.format(str(patient_detail_id),str(patient_id))
     return redirect(redirect_url)
-
-
 
 #  todo 所有病人详细信息获取
 def get_patient_detail(request):
@@ -175,7 +166,7 @@ def del_followup(request):
 
 # 新建被试获取自动生成的id
 @csrf_exempt
-def get_generateId_and_nation(id):
+def get_generateId(id):
     patient_id = tools_idAssignments.patient_Id_assignment()
     standard_id =tools_idAssignments.generate_standard_id(patient_id, 1)
     data = {}
