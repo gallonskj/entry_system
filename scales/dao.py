@@ -126,8 +126,11 @@ def add_cognitive_emotion_database(rPatientCognitiveEmotion):
 
 def add_pleasure_database(rPatientPleasure):
     rPatientPleasure.exception_score, rPatientPleasure.consume_score ,object_flag= tools_calculatingScores.pleasure_total_score(rPatientPleasure)
-    rPatientPleasure.total_score = rPatientPleasure.exception_score + rPatientPleasure.consume_score
-    tools_utils.object_judgment(object_flag)
+    if rPatientPleasure.consume_score is not None and rPatientPleasure.consume_score is not None:
+        rPatientPleasure.total_score = rPatientPleasure.exception_score + rPatientPleasure.consume_score
+        tools_utils.object_judgment(object_flag)
+    else:
+        tools_utils.object_judgment(True)
     # 插入前的级联检验
     tools_insertCascadeCheck.insert_pleasure_check(rPatientPleasure)
     # 插入数据库

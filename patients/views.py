@@ -87,6 +87,9 @@ def add_patient_followup(request):
     patient_id, session_id, standard_id = tools_idAssignments.patient_session_id_assignment(patient_baseinfo.id)
     patient_detail = patients_models.DPatientDetail(patient_id=patient_id, session_id=session_id, standard_id=standard_id,
                                     age=tools_utils.calculate_age(str(patient_baseinfo.birth_date)), doctor_id=doctor_id, diagnosis=0)
+
+    # 将上一次的detail信息返回到前台
+    patient_detail_last = patient_dao.get_patient_detail_last_byPatientId(patient_id)
     patient_dao.add_patient_detail(patient_detail)
     # 获取创建的复扫信息自增id
     patient_detail_id = patient_dao.get_patient_detail_byPatientIdAndSessionId(patient_id,session_id).id
@@ -94,8 +97,7 @@ def add_patient_followup(request):
     scales_list = patient_dao.judgment_scales(patient_detail_id)
     # 为初扫/复扫的病人预先在r_patient_scales中插入多条记录，依据被试需要做的scales_list
     patient_dao.add_rscales(scales_list, patient_detail.id)
-    # 将上一次的detail信息返回到前台
-    patient_detail_last = patient_dao.get_patient_detail_last_byPatientId(patient_id)
+
     return render(request, 'select_scales.html',{'patient': patient_baseinfo,
                                                  'patient_session_id': patient_detail_id,
                                                  "username": request.session.get('username'),
