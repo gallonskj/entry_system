@@ -1,53 +1,10 @@
-'''from django.http import HttpResponse
-from django.shortcuts import render, redirect
-from django.views.decorators.csrf import csrf_exempt
 
-from .models import BPatientAppointment
-
-# Create your views here.
-def getIndex(request):
-    #return render(request,'index.html')
-    return render(request,'index.html')
-
-
-def patient_Detail(request):
-    return render(request,'patientDetail.html')
-
-
-def patient_edit(request):
-    return render(request,'patient_edit.html')
-
-@csrf_exempt
-def addPatient(request):
-    date = request.POST.get('date')
-    name = request.POST.get('name')
-    sex = request.POST.get('sex')
-    birthDate = request.POST.get('birth_date')
-    education = request.POST.get('education')
-    occupation = request.POST.get('occupation')
-    emotionState = request.POST.get('emotional_state')
-    phone = request.POST.get('phone')
-    note = request.POST.get('note')
-
-    patientAppoientment = BPatientAppointment(date=date,name=name,sex=sex,birth_date=birthDate,education=education,occupation=occupation,
-                                              emotional_state=emotionState,phone=phone,note=note)
-    patientAppoientment.save()
-    return redirect('/patients')
-
-def getPatient(request):
-    res = BPatientAppointment.objects.all()
-    return render(request, 'index.html', {'res':res})
-'''
-import json
-from django.db.models import Q
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
 
-import scales.models as scales_models
 import tools.Utils as tools_utils
 import tools.idAssignments as tools_idAssignments
-import users.models as users_models
 import patients.models as patients_models
 import scales.models as scales_models
 import patients.dao as patient_dao
@@ -101,9 +58,9 @@ def add_patient_baseinfo(request):
     patient_dao.add_rscales(scales_list, patient_detail.id)
 
     # 获取各个scaleType的list信息
-    generalinfo_scale_list,other_test_scale_list,self_test_scale_list,cognition_scale_list = patient_dao.judgment_scales_bytype(scales_list)
+    generalinfo_scale_list,other_test_scale_list,self_test_scale_list,cognition_scale_list = patient_dao.judgment_do_scales(scales_list)
 
-    #获取页面需要的参数
+    #获取页面需要的参数,传递list，前台显示展不展示每一项
     patient = patient_dao.get_base_info_byPK(patient_id)
     patient_detail_id = patient_dao.get_patient_detail_byPatientIdAndSessionId(patient_id,session_id).id
     return render(request, 'select_scales.html', {'patient': patient,
@@ -143,11 +100,8 @@ def add_patient_followup(request):
     patient_dao.add_rscales(scales_list, patient_detail.id)
     # 将上一次的detail信息返回到前台
     patient_detail_last = patient_dao.get_patient_detail_last_byPatientId(patient_id)
-    return render(request, 'select_scales.html',{'patient': patient_baseinfo,
-                                                 'patient_session_id': patient_detail_id,
-                                                 "username": request.session.get('username'),
-                                                 "patient_detail_last":patient_detail_last,
-                                                 })
+    redirect_url = '/scales/select_scales?patient_session_id={}&patient_id={}'.format(str(patient_detail_id),str(patient_id))
+    return redirect(redirect_url)
 
 
 #  todo 所有病人详细信息获取

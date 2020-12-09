@@ -1,0 +1,274 @@
+{% extends 'templates/index.html' %}
+{% load static %}
+{% block title %}杨氏躁狂量表（YMRS）{% endblock %}
+{% block css %}
+    <link href="{% static '/css/scales_style.css' %}" rel="stylesheet" >
+{% endblock %}
+{% block content %}
+    <div class="right_col" role="main" >
+        <div class="container">
+            <div class="row show-grid">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <ul class="breadcrumb" style="background-color: white;font-weight:bold">
+                         <li ><a href="#">量表录入</a></li>
+                         <li><a href="#" >他评量表</a></li>
+						 <li class="active"><a href="#" >杨氏躁狂量表（YMRS）</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="dashboard_graph x_panel" style="margin-top: 0px;">
+            <div id="wrapper">
+                <div id = "left-side" style="height: 100%;" class="col-md-2">
+                  <ul class="scales_progress">
+                    <li class="step1 done">
+                      <p>汉密尔顿抑郁量表（HAMD-17）</p>
+                    </li>
+                    <li class="step2 done">
+                      <p>汉密尔顿焦虑量表（HAMA）</p>
+                    </li>
+                    <li class="step3 doing">
+                      <p>杨氏躁狂量表（YMRS）</p>
+                    </li>
+                    <li class="step4 none">
+                      <p>简明精神量表（BPRS）</p>
+                    </li>
+                    <li class="finish none">
+                      <p>完成</p>
+                    </li>
+                  </ul>
+                </div>
+                <div id="right-side" class="col-md-10">
+                    <div id="first" class="active">
+                      <form action="/scales/add_ymrs?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}" method="post">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-12 column">
+                          <table class="table table-bordered">
+                            <tbody>
+                                         <tr>
+                                <td>
+                                 1.情感高涨
+                                </td>
+                                <td>
+                                  0-4分
+                                </td>
+                                <td><input type="radio" name="emotional_upsurge" value = 0 data-labelauty="0"/> </td>
+							                  <td><input type="radio" name="emotional_upsurge" value = 1 data-labelauty="1"/> </td>
+							                  <td><input type="radio" name="emotional_upsurge" value = 2 data-labelauty="2"/> </td>
+							                  <td><input type="radio" name="emotional_upsurge" value = 3 data-labelauty="3"/> </td>
+                                <td><input type="radio" name="emotional_upsurge" value = 4 data-labelauty="4"/> </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                              </tr>
+                                         <tr>
+                                <td>
+                                 2.活动增多、精力旺盛
+                                </td>
+                                <td>
+                                  0-4分
+                                </td>
+                                <td><input type="radio" name="vigorous_energy" value = 0 data-labelauty="0"/> </td>
+							                  <td><input type="radio" name="vigorous_energy" value = 1 data-labelauty="1"/> </td>
+							                  <td><input type="radio" name="vigorous_energy" value = 2 data-labelauty="2"/> </td>
+							                  <td><input type="radio" name="vigorous_energy" value = 3 data-labelauty="3"/> </td>
+                                <td><input type="radio" name="vigorous_energy" value = 4 data-labelauty="4"/> </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                              </tr>
+                                         <tr>
+                                <td>
+                                 3.性欲
+                                </td>
+                                <td>
+                                  0-4分
+                                </td>
+                                <td><input type="radio" name="sexual_desire" value = 0 data-labelauty="0"/> </td>
+							                  <td><input type="radio" name="sexual_desire" value = 1 data-labelauty="1"/> </td>
+							                  <td><input type="radio" name="sexual_desire" value = 2 data-labelauty="2"/> </td>
+							                  <td><input type="radio" name="sexual_desire" value = 3 data-labelauty="3"/> </td>
+                                <td><input type="radio" name="sexual_desire" value = 4 data-labelauty="4"/> </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                              </tr>
+                                         <tr>
+                                <td>
+                                 4.睡眠
+                                </td>
+                                <td>
+                                  0-4分
+                                </td>
+                                <td><input type="radio" name="sleep" value = 0 data-labelauty="0"/> </td>
+							                  <td><input type="radio" name="sleep" value = 1 data-labelauty="1"/> </td>
+							                  <td><input type="radio" name="sleep" value = 2 data-labelauty="2"/> </td>
+							                  <td><input type="radio" name="sleep" value = 3 data-labelauty="3"/> </td>
+                                <td><input type="radio" name="sleep" value = 4 data-labelauty="4"/> </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                              </tr>
+                                         <tr>
+                                <td>
+                                 5.易激惹性
+                                </td>
+                                <td>
+                                  0-8分
+                                </td>
+                                <td><input type="radio" name="irritability" value = 0 data-labelauty="0"/> </td>
+							                  <td><input type="radio" name="irritability" value = 1 data-labelauty="1"/> </td>
+							                  <td><input type="radio" name="irritability" value = 2 data-labelauty="2"/> </td>
+							                  <td><input type="radio" name="irritability" value = 3 data-labelauty="3"/> </td>
+                                <td><input type="radio" name="irritability" value = 4 data-labelauty="4"/> </td>
+                                <td><input type="radio" name="irritability" value = 5 data-labelauty="5"/> </td>
+							                  <td><input type="radio" name="irritability" value = 6 data-labelauty="6"/> </td>
+							                  <td><input type="radio" name="irritability" value = 7 data-labelauty="7"/> </td>
+							                  <td><input type="radio" name="irritability" value = 8 data-labelauty="8"/> </td>
+
+                              </tr>
+                                         <tr>
+                                <td>
+                                 6.言语（速度和量）
+                                </td>
+                                <td>
+                                  0-8分
+                                </td>
+                                <td><input type="radio" name="speech" value = 0 data-labelauty="0"/> </td>
+							                  <td><input type="radio" name="speech" value = 1 data-labelauty="1"/> </td>
+							                  <td><input type="radio" name="speech" value = 2 data-labelauty="2"/> </td>
+							                  <td><input type="radio" name="speech" value = 3 data-labelauty="3"/> </td>
+                                <td><input type="radio" name="speech" value = 4 data-labelauty="4"/> </td>
+                                <td><input type="radio" name="speech" value = 5 data-labelauty="5"/> </td>
+							                  <td><input type="radio" name="speech" value = 6 data-labelauty="6"/> </td>
+							                  <td><input type="radio" name="speech" value = 7 data-labelauty="7"/> </td>
+							                  <td><input type="radio" name="speech" value = 8 data-labelauty="8"/> </td>
+
+                              </tr>
+                                         <tr>
+                                <td>
+                                 7.语言（思维障碍）
+                                </td>
+                                <td>
+                                  0-4分
+                                </td>
+                                <td><input type="radio" name="language" value = 0 data-labelauty="0"/> </td>
+							                  <td><input type="radio" name="language" value = 1 data-labelauty="1"/> </td>
+							                  <td><input type="radio" name="language" value = 2 data-labelauty="2"/> </td>
+							                  <td><input type="radio" name="language" value = 3 data-labelauty="3"/> </td>
+                                <td><input type="radio" name="language" value = 4 data-labelauty="4"/> </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                              </tr>
+                                         <tr>
+                                <td>
+                                 8.思维内容
+                                </td>
+                                <td>
+                                  0-8分
+                                </td>
+                                <td><input type="radio" name="thinking_content" value = 0 data-labelauty="0"/> </td>
+							                  <td><input type="radio" name="thinking_content" value = 1 data-labelauty="1"/> </td>
+							                  <td><input type="radio" name="thinking_content" value = 2 data-labelauty="2"/> </td>
+							                  <td><input type="radio" name="thinking_content" value = 3 data-labelauty="3"/> </td>
+                                <td><input type="radio" name="thinking_content" value = 4 data-labelauty="4"/> </td>
+                                <td><input type="radio" name="thinking_content" value = 5 data-labelauty="5"/> </td>
+							                  <td><input type="radio" name="thinking_content" value = 6 data-labelauty="6"/> </td>
+							                  <td><input type="radio" name="thinking_content" value = 7 data-labelauty="7"/> </td>
+							                  <td><input type="radio" name="thinking_content" value = 8 data-labelauty="8"/> </td>
+
+                              </tr>
+                                         <tr>
+                                <td>
+                                 9.破坏-攻击性行为
+                                </td>
+                                <td>
+                                  0-8分
+                                </td>
+                                <td><input type="radio" name="aggressive_behavior" value = 0 data-labelauty="0"/> </td>
+							                  <td><input type="radio" name="aggressive_behavior" value = 1 data-labelauty="1"/> </td>
+							                  <td><input type="radio" name="aggressive_behavior" value = 2 data-labelauty="2"/> </td>
+							                  <td><input type="radio" name="aggressive_behavior" value = 3 data-labelauty="3"/> </td>
+                                <td><input type="radio" name="aggressive_behavior" value = 4 data-labelauty="4"/> </td>
+                                <td><input type="radio" name="aggressive_behavior" value = 5 data-labelauty="5"/> </td>
+							                  <td><input type="radio" name="aggressive_behavior" value = 6 data-labelauty="6"/> </td>
+							                  <td><input type="radio" name="aggressive_behavior" value = 7 data-labelauty="7"/> </td>
+							                  <td><input type="radio" name="aggressive_behavior" value = 8 data-labelauty="8"/> </td>
+
+                              </tr>
+                                         <tr>
+                                <td>
+                                 10.外貌
+                                </td>
+                                <td>
+                                  0-4分
+                                </td>
+                                <td><input type="radio" name="appearance" value = 0 data-labelauty="0"/> </td>
+							                  <td><input type="radio" name="appearance" value = 1 data-labelauty="1"/> </td>
+							                  <td><input type="radio" name="appearance" value = 2 data-labelauty="2"/> </td>
+							                  <td><input type="radio" name="appearance" value = 3 data-labelauty="3"/> </td>
+                                <td><input type="radio" name="appearance" value = 4 data-labelauty="4"/> </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                              </tr>
+                                         <tr>
+                                <td>
+                                 11.自知力
+                                </td>
+                                <td>
+                                  0-4分
+                                </td>
+                                <td><input type="radio" name="self_awareness" value = 0 data-labelauty="0"/> </td>
+							                  <td><input type="radio" name="self_awareness" value = 1 data-labelauty="1"/> </td>
+							                  <td><input type="radio" name="self_awareness" value = 2 data-labelauty="2"/> </td>
+							                  <td><input type="radio" name="self_awareness" value = 3 data-labelauty="3"/> </td>
+                                <td><input type="radio" name="self_awareness" value = 4 data-labelauty="4"/> </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                              </tr>
+                                    </tbody>
+                                </table>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="text-center">
+                                    <input  type="submit" class="btn btn-success" value="提交"/>
+
+                                </div>
+                            </div>
+                        </div>
+                      </form>
+                    </div>
+			    </div>
+	          </div>
+        </div>
+	</div>
+{% endblock %}
+
+{% block js %}
+<script>
+    $(document).ready(function() {
+        $("input[type='radio']").labelauty();
+    });
+</script>
+
+<script type="text/javascript" src="{% static '/js/jquery-radio-beauty.js'%}"></script>
+{% endblock %}

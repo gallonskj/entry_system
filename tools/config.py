@@ -25,8 +25,38 @@ rbans = 22 # 重复成套性神经心理状态测验系统
 fept = 23 # 面孔情绪感知能力测试
 vept = 24 # 语音情绪感知能力测试
 
-scales_html_dict = {1:'.html'}
+scales_html_dict = {1:'/scales/get_family_form',
+                    2:'/scales/get_study_form',
+                    3:'/scales/get_health_form',
+                    4:'/scales/get_abuse_form',
+                    5:'/scales/get_other_form',
+                    6:'/scales/get_chi_form',
+                    7:'/scales/get_ybocs_form',
+                    8:'/scales/get_bss_form',
+                    9:'/scales/get_hcl_33_form',
+                    10:'/scales/get_shaps_form',
+                    11:'/scales/get_teps_form',
+                    12:'/scales/get_ctq_sf_form',
+                    13:'/scales/get_aslec_form',
+                    14:'/scales/get_cerq_c_form',
+                    15:'/scales/get_s_embu_form',
+                    16:'/scales/get_atq_form',
+                    17:'/scales/get_hamd_17_form',
+                    18:'/scales/get_hama_form',
+                    19:'/scales/get_ymrs_form',
+                    20:'/scales/get_bprs_form',
+                    21:'/scales/get_wcst_form',
+                    22:'/scales/get_rbans_form',
+                    23:'/scales/get_fept_form',
+                    24:'/scales/get_vept_form'
+                    }
+
 general_info_type = 0
 other_test_type = 1
 self_test_type = 2
 cognition_type = 3
+
+general_info_next_url = '/scales/get_other_test_forms'
+other_test_next_type_url = '/scales/get_self_test_forms'
+self_test_next_type_url = '/scales/get_cognition_forms'
+cognition_next_type_url = '/scales/select_scales'

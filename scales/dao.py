@@ -14,7 +14,7 @@ import tools.config as tools_config
 # 这里不能使用update方法，django中使用自带update方法无法更新带有auto_now的时间字段
 # 更新r_patient_scales中的state状态
 def update_rscales_state(patient_session_id,scale_id):
-    rPatientScales = scales_models.RPatientScales.objects.filter(patient_session_id = patient_session_id, scale_id=scale_id)
+    rPatientScales = scales_models.RPatientScales.objects.filter(patient_session_id = patient_session_id, scale_id=scale_id)[0]
     rPatientScales.state = 1
     rPatientScales.save()
 
@@ -262,7 +262,7 @@ def dao_add_suicide(rpatientsuicidal):
     # 插入数据库
     rpatientsuicidal.save()
     # 修改r_patient_scales表中state状态
-    update_rscales_state(rpatientsuicidal.patient_session_id, rpatientsuicidal.scales_id)
+    update_rscales_state(rpatientsuicidal.patient_session_id, rpatientsuicidal.scale_id)
 
 
 def dao_add_ybo(rpatientybobsessiontable):
@@ -454,7 +454,7 @@ def get_patient_vept_byPatientDetailId(patient_detail_id):
 
 # 获取某个类别的量表未完成的最小值,都已经完成了，那么返回None
 def get_min_unfinished_scale(do_scale_type,patient_session_id):
-    res = scales_models.RPatientScales.objects.filter(scale__do_scale_type = do_scale_type,patient_session_id = patient_session_id, state = 0).order_by('-scale_id')
+    res = scales_models.RPatientScales.objects.filter(scale__do_scale_type = do_scale_type,patient_session_id = patient_session_id, state = 0).order_by('scale_id')
     if res.count() == 0:
         return None
     return res[0].scale_id
