@@ -8,6 +8,39 @@ import scales.models as scales_models
 import users.models as users_models
 import tools.Utils as tools_utils
 
+# patient_detail 表插入前的外键检验
+def insert_patient_detail_check(patient_detail_objct):
+    # 空值判断
+    if patient_detail_objct is None \
+        or patient_detail_objct.patient_id is None \
+        or patient_detail_objct.doctor_id is None:
+        tools_utils.object_judgment(True)
+    else:
+        # 非空时的外键判断
+        doctor = users_models.SUser.objects.filter(pk=patient_detail_objct.doctor_id)[0]
+        patient = patients_models.BPatientBaseInfo.objects.filter(pk=patient_detail_objct.patient_id)[0]
+        if doctor is None or patient is None:
+            object_flag = True
+        else:
+            object_flag = False
+        tools_utils.object_judgment(object_flag)
+
+
+# base info 表插入前的外键检验
+def insert_patient_base_info_check(bPatientBaseInfo_object):
+    # 空值判断
+    if bPatientBaseInfo_object is None \
+        or bPatientBaseInfo_object.doctor_id is None:
+        tools_utils.object_judgment(True)
+    else:
+        # 非空时外键判断
+        doctor = users_models.SUser.objects.filter(pk=bPatientBaseInfo_object.doctor_id)[0]
+        if doctor is None:
+            object_flag = True
+        else:
+            object_flag = False
+        tools_utils.object_judgment(object_flag)
+
 
 # 汉密尔顿抑郁量表插入前的外键检验
 def insert_hamd_check(rPatientHAMD17_object):
@@ -471,5 +504,4 @@ def insert_information_other_check(rPatientBasicInformationOther_object):
 # 威斯康星
 def insert_wcst_check(rPatientWcst_object):
     tools_utils.object_judgment(False)
-
 

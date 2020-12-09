@@ -1,0 +1,224 @@
+{% extends 'templates/index.html' %}
+{% load static %}
+{% block title %}斯奈斯和汉密尔顿快乐量表(shape){% endblock %}
+{% block css %}
+    <link href="{% static '/css/scales_style.css' %}" rel="stylesheet" >
+{% endblock %}
+{% block content %}
+    <div class="right_col" role="main">
+        <div class="container">
+            <div class="row show-grid">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <ul class="breadcrumb" style="background-color: white;font-weight:bold">
+                         <li ><a href="#">量表录入</a></li>
+                         <li><a href="#" >自评量表</a></li>
+						 <li class="active"><a href="#" >斯奈斯和汉密尔顿快乐量表(shape)</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="dashboard_graph x_panel">
+            <div id="wrapper">
+                <div id = "left-side" style="height: 100%;" class="col-md-2">
+                  <ul class="scales_progress">
+                    <li class="step1 done">
+                      <p>耶鲁布朗强迫症严重程度标准量表（ybocs）</p>
+                    </li>
+                    <li class="step2 done notclick">
+                      <p>自杀意念及行为史（bss）</p>
+                    </li>
+                    <li class="step3 done notclick">
+                      <p>33项轻躁狂症状清单(hcl-33)</p>
+                    </li>
+                    <li class="step4 doing ">
+                      <p>斯奈斯和汉密尔顿快乐量表(shaps)</p>
+					</li>
+					<li class="step5 nodone notclick">
+						<p>快感体验能力量表teps</p>
+					</li>
+					<li class="step6 nodone notclick">
+						<p>斯奈斯和汉密尔顿快乐量表(shaps)</p>
+					</li>
+					<li class="step7 nodone notclick">
+						<p>儿童期（16岁以前）的成长经历ctq-sf</p>
+					</li>
+					<li class="step8 nodone notclick">
+						<p>认知情绪调节量表cerq-c</p>
+					</li>
+					<li class="step9 nodone notclick">
+						<p>青少年生活事件量表aslec</p>
+					</li>
+					<li class="step10 nodone notclick">
+						<p>简式父母养育方式问卷表s-embu</p>
+					</li>
+					<li class="step11 nodone notclick">
+						<p>自动思维问卷表atq</p>
+					</li>
+                    <li class="finish nodone notclick">
+                      <p>完成</p>
+                    </li>
+                  </ul>
+                </div>  
+				         
+                <div id="right-side" class="col-md-10">
+                  <div id="first" class="active">
+                      <form action="/scales/add_happiness?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}" method="POST">
+                        <div class="container">
+                            <div class="row" style=" margin: 20px;">
+                                <h4><strong><center>斯奈斯和汉密尔顿快乐量表</center><br/></strong></h4>
+                                <strong>该量表用于测试您在最近数日能体会快乐的能力过的项目时，请仔细阅读每个项目，并在合适的分数上打勾。1=绝对同意 2=同意 3=不同意 4=绝对不同意<br/></strong>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12 column">
+			                        <table   class="table table-bordered table-condensed" style="table-layout: fixed; width:100%;">
+				                        <thead>
+					                    <tr>
+						                    <th >
+                                                <center> 问题</center>
+						                    </th>
+                                            <th  >
+                                                <center> 1</center>
+						                    </th>
+                                            <th  >
+                                                <center> 2</center>
+						                    </th>
+                                            <th  >
+                                                <center> 3</center>
+						                    </th>
+                                            <th  >
+                                                <center> 4</center>
+						                    </th>
+					                    </tr>
+				                        </thead>
+				                        <tbody align="center">
+                                             <tr>
+						                         <td>1.我会享受我最喜欢的电视或收音机节目</td>
+						                         <td><input type="radio" name="question2_answer" value=1 data-labelauty="绝对同意"/></td>
+                                                 <td><input type="radio" name="question2_answer" value=2 data-labelauty="同意"/></td>
+                                                 <td><input type="radio" name="question2_answer" value=3 data-labelauty="不同意"/></td>
+                                                 <td><input type="radio" name="question2_answer" value=4 data-labelauty="绝对不同意"/></td>
+					                        </tr>
+                                            <tr>
+						                        <td>2.我会享受和我的家人或亲密的朋友在一起</td>
+						                        <td><input type="radio" name="question3_answer" value=1 data-labelauty="绝对同意"/></td>
+                                                <td><input type="radio" name="question3_answer" value=2 data-labelauty="同意"/></td>
+                                                <td><input type="radio" name="question3_answer" value=3 data-labelauty="不同意"/></td>
+                                                <td><input type="radio" name="question3_answer" value=4 data-labelauty="绝对不同意"/></td>
+					                        </tr>
+                                            <tr>
+						                        <td>3.我会在我的业余爱好和消遣中找到乐趣</td>
+                                                <td><input type="radio" name="question4_answer" value=1 data-labelauty="绝对同意"/></td>
+                                                <td><input type="radio" name="question4_answer" value=2 data-labelauty="同意"/></td>
+                                                <td><input type="radio" name="question4_answer" value=3 data-labelauty="不同意"/></td>
+                                                <td><input type="radio" name="question4_answer" value=4 data-labelauty="绝对不同意"/></td>
+					                        </tr>
+                                            <tr>
+						                        <td>4.我能够享受我最喜欢的食物</td>
+                                                <td><input type="radio" name="question4_answer" value=1 data-labelauty="绝对同意"/></td>
+                                                <td><input type="radio" name="question4_answer" value=2 data-labelauty="同意"/></td>
+                                                <td><input type="radio" name="question4_answer" value=3 data-labelauty="不同意"/></td>
+                                                <td><input type="radio" name="question4_answer" value=4 data-labelauty="绝对不同意"/></td>
+					                        </tr>
+                                            <tr>
+						                        <td>5.我会享受洗个热水澡或令人清新的淋浴</td>
+                                                <td><input type="radio" name="question5_answer" value=1 data-labelauty="绝对同意"/></td>
+                                                <td><input type="radio" name="question5_answer" value=2 data-labelauty="同意"/></td>
+                                                <td><input type="radio" name="question5_answer" value=3 data-labelauty="不同意"/></td>
+                                                <td><input type="radio" name="question5_answer" value=4 data-labelauty="绝对不同意"/></td>
+					                        </tr>
+                                            <tr>
+						                        <td>6.我会在花的芳香或清新的海风或新鲜出炉的面包的气味中找到乐趣</td>
+                                                <td><input type="radio" name="question6_answer" value=1 data-labelauty="绝对同意"/></td>
+                                                <td><input type="radio" name="question6_answer" value=2 data-labelauty="同意"/></td>
+                                                <td><input type="radio" name="question6_answer" value=3 data-labelauty="不同意"/></td>
+                                                <td><input type="radio" name="question6_answer" value=4 data-labelauty="绝对不同意"/></td>
+					                        </tr>
+                                            <tr>
+						                        <td>7.我会享受看到别人的笑脸</td>
+                                                <td><input type="radio" name="question7_answer" value=1 data-labelauty="绝对同意"/></td>
+                                                <td><input type="radio" name="question7_answer" value=2 data-labelauty="同意"/></td>
+                                                <td><input type="radio" name="question7_answer" value=3 data-labelauty="不同意"/></td>
+                                                <td><input type="radio" name="question7_answer" value=4 data-labelauty="绝对不同意"/></td>
+					                        </tr>
+                                            <tr>
+						                        <td>8.我会享受我美观的外表,当我已经在我的外表下了很多功夫</td>
+                                                <td><input type="radio" name="question8_answer" value=1 data-labelauty="绝对同意"/></td>
+                                                <td><input type="radio" name="question8_answer" value=2 data-labelauty="同意"/></td>
+                                                <td><input type="radio" name="question8_answer" value=3 data-labelauty="不同意"/></td>
+                                                <td><input type="radio" name="question8_answer" value=4 data-labelauty="绝对不同意"/></td>
+					                        </tr>
+                                            <tr>
+						                        <td>9.我会享受阅读书籍、杂志或者报纸</td>
+                                                <td><input type="radio" name="question9_answer" value=1 data-labelauty="绝对同意"/></td>
+                                                <td><input type="radio" name="question9_answer" value=2 data-labelauty="同意"/></td>
+                                                <td><input type="radio" name="question9_answer" value=3 data-labelauty="不同意"/></td>
+                                                <td><input type="radio" name="question9_answer" value=4 data-labelauty="绝对不同意"/></td>
+					                        </tr>
+                                            <tr>
+						                        <td>10.我会享受饮用一杯茶或咖啡或我喜爱的饮料</td>
+                                                <td><input type="radio" name="question10_answer" value=1 data-labelauty="绝对同意"/></td>
+                                                <td><input type="radio" name="question10_answer" value=2 data-labelauty="同意"/></td>
+                                                <td><input type="radio" name="question10_answer" value=3 data-labelauty="不同意"/></td>
+                                                <td><input type="radio" name="question10_answer" value=4 data-labelauty="绝对不同意"/></td>
+					                        </tr>
+                                            <tr>
+						                        <td>11.我会找到乐趣在小的事情，例如阳光明媚的一天，一个朋友打来的电话</td>
+                                                <td><input type="radio" name="question11_answer" value=1 data-labelauty="绝对同意"/></td>
+                                                <td><input type="radio" name="question11_answer" value=2 data-labelauty="同意"/></td>
+                                                <td><input type="radio" name="question11_answer" value=3 data-labelauty="不同意"/></td>
+                                                <td><input type="radio" name="question11_answer" value=4 data-labelauty="绝对不同意"/></td>
+					                        </tr>
+                                            <tr>
+						                        <td>12.我会享受一道美丽的风景或景象</td>
+                                                <td><input type="radio" name="question12_answer" value=1 data-labelauty="绝对同意"/></td>
+                                                <td><input type="radio" name="question12_answer" value=2 data-labelauty="同意"/></td>
+                                                <td><input type="radio" name="question12_answer" value=3 data-labelauty="不同意"/></td>
+                                                <td><input type="radio" name="question12_answer" value=4 data-labelauty="绝对不同意"/></td>
+					                        </tr>
+                                            <tr>
+						                        <td>13.我会从帮助他人中得到快乐</td>
+                                                <td><input type="radio" name="question13_answer" value=1 data-labelauty="绝对同意"/></td>
+                                                <td><input type="radio" name="question13_answer" value=2 data-labelauty="同意"/></td>
+                                                <td><input type="radio" name="question13_answer" value=3 data-labelauty="不同意"/></td>
+                                                <td><input type="radio" name="question13_answer" value=4 data-labelauty="绝对不同意"/></td>
+					                        </tr>
+                                            <tr>
+						                        <td>14.我会感到高兴,当我得到他人的赞美</td>
+                                                <td><input type="radio" name="question14_answer" value=1 data-labelauty="绝对同意"/></td>
+                                                <td><input type="radio" name="question14_answer" value=2 data-labelauty="同意"/></td>
+                                                <td><input type="radio" name="question14_answer" value=3 data-labelauty="不同意"/></td>
+                                                <td><input type="radio" name="question14_answer" value=4 data-labelauty="绝对不同意"/></td>
+					                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="text-center">
+                                     {% csrf_token %}
+                                    <input  type="submit" class="btn btn-success" value="提交" id="happiness_bt"/>
+
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                  </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
+
+{% block js %}
+<script type="text/javascript" src="{% static '/js/jquery-radio-beauty.js' %}"></script>
+
+<script>
+$(document).ready(function(){
+	$("input[type='radio']").labelauty();
+});
+</script>
+{% endblock %}
+

@@ -3,6 +3,53 @@ import users.models as users_models
 import patients.models as patients_models
 import scales.models as scales_models
 import tools.Utils as tools_utils
+import tools.insertCascadeCheck as tools_insertCascadeCheck
+
+# 将要做的scales分成个人信息，自评，他评等四类
+def judgment_do_scales(scales_list):
+    information_list = []
+    other_test_list = []
+    self_test_list = []
+    cognition_list = []
+
+    for scale in scales_list:
+        if scale.do_scale_type == 0:
+            information_list.append(scale)
+        elif scale.do_scale_type == 1:
+            other_test_list.append(scale)
+        elif scale.do_scale_type == 2:
+            self_test_list.append(scale)
+        else:
+            cognition_list.append(scale)
+    return information_list, other_test_list, self_test_list, cognition_list
+
+
+# 获取被试需要做的scales的list
+def judgment_scales(patient_detail_id):
+    patient_detail = get_patient_detail_byPK(patient_detail_id)
+    # 判断是初扫还是复扫
+    if patient_detail.session_id == 1:
+        # 初扫
+        # 判断患者年龄
+        if tools_utils.calculate_age(str(get_base_info_byPK(patient_detail.patient_id).birth_date))> 16:
+            # 成人
+            scales_list = scales_models.DScales.objects.filter(scale_type__in=[0,2])
+        else:
+            # 青少年
+            scales_list = scales_models.DScales.objects.filter(scale_type__in=[0,1,2])
+    else:
+        # 复扫
+        scales_list = scales_models.DScales.objects.filter(scale_type__in=[2])
+    return scales_list
+
+
+# 当初扫和复扫时，依据被试需要做的scales_list，预先插入r_patient_scales表中多条记录
+def add_rscales(scales_list, patient_detail_id):
+    # 插入r_patient_scales表
+    for scale in scales_list:
+        temp = scales_models.RPatientScales(patient_session_id=patient_detail_id, scale_id=scale.id, state=0)
+        temp.save()
+
 
 
 ################ add 部分 ################
@@ -11,12 +58,19 @@ import tools.Utils as tools_utils
 
 # add baseinfo表
 def add_base_info(patient_base_info_objct):
+    #插入数据库前的级联检验
+    tools_insertCascadeCheck.insert_patient_base_info_check(patient_base_info_objct)
+    # 插入数据库
     patient_base_info_objct.save()
 
 
 # add patient_detail表
 def add_patient_detail(patient_detail_objct):
-     patient_detail_objct.save()
+    # 插入数据库前的级联检验
+    tools_insertCascadeCheck.insert_patient_detail_check(patient_detail_objct)
+    # 插入数据库
+    patient_detail_objct.save()
+
 
 # add BPatientAppointment表
 def add_patient_appointment(PatientAppoientment_object):
@@ -46,6 +100,10 @@ def del_patient_detail_byPK(patient_session_id):
 ################ get 部分 ################
 ################ get 部分 ################
 
+def get_patient_detail_last_byPatientId(patient_id):
+    patient_detail_last = patients_models.DPatientDetail.objects.filter(patient_id=patient_id).last()
+    return patient_detail_last
+
 # get scales表
 def get_scales_all():
     scales_list = scales_models.DScales.objects.all()
@@ -74,7 +132,7 @@ def get_base_info_byPK(patient_id):
 
 # get patient_detail 主体
 def get_patient_detail_byPK(patient_detail_id):
-    patient_detail = patients_models.DPatientDetail.object.filter(id=patient_detail_id)[0]
+    patient_detail = patients_models.DPatientDetail.objects.filter(id=patient_detail_id)[0]
     return patient_detail
 
 
@@ -90,6 +148,12 @@ def get_patient_detail_byForeignPatientId(patient_id):
 def get_patient_detail_all():
     patient_detail_list = patients_models.DPatientDetail.objects.all()
     return patient_detail_list
+
+def get_patient_detail_lastsession(patient_id):
+    patient_detail_list = patients_models.DPatientDetail.objects.filter(patient__id=patient_id).order_by('-session_id')
+    if patient_detail_list.count() == 0:
+        return None
+    return patient_detail_list[0]
 
 
 # r_patient_scales表相关：

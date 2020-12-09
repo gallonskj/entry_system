@@ -1,0 +1,355 @@
+{% extends 'templates/index.html'%}
+{% load static %}
+{% block title %}青少年生活事件量表(aslec){% endblock %}
+{% block css %}
+    <link href="{% static '/css/scales_style.css' %}" rel="stylesheet" >
+{% endblock %}
+{% block content %}
+     <div class="right_col" role="main">
+        <div class="container">
+            <div class="row show-grid">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <ul class="breadcrumb" style="background-color: white;font-weight:bold">
+                         <li ><a href="#">量表录入</a></li>
+                         <li><a href="#" >自评量表</a></li>
+						 <li class="active"><a href="#" >青少年生活事件量表(aslec)</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>  
+        <div class="dashboard_graph x_panel">
+            <div id="wrapper">
+                <div id = "left-side" style="height: 100%;" class="col-md-2">
+                  <ul class="scales_progress">
+                    <li class="step1 done">
+                      <p>耶鲁布朗强迫症严重程度标准量表（ybocs）</p>
+                    </li>
+                    <li class="step2 done">
+                      <p>自杀意念及行为史（bss）</p>
+                    </li>
+                    <li class="step3 done">
+                      <p>33项轻躁狂症状清单(hcl-33)</p>
+                    </li>
+                    <li class="step4 done">
+                      <p>斯奈斯和汉密尔顿快乐量表(shaps)</p>
+					</li>
+					<li class="step5 done">
+						<p>快感体验能力量表teps</p>
+					</li>
+					<li class="step6 done">
+						<p>斯奈斯和汉密尔顿快乐量表(shaps)</p>
+					</li>
+					<li class="step7 done">
+						<p>儿童期（16岁以前）的成长经历ctq-sf</p>
+					</li>
+					<li class="step8 done">
+						<p>认知情绪调节量表cerq-c</p>
+					</li>
+					<li class="step9 doing">
+						<p>青少年生活事件量表aslec</p>
+					</li>
+					<li class="step10 nodone">
+						<p>简式父母养育方式问卷表s-embu</p>
+					</li>
+					<li class="step11 nodone">
+						<p>自动思维问卷表atq</p>
+					</li>
+                    <li class="finish nodone">
+                      <p>完成</p>
+                    </li>
+                  </ul>
+                </div>  
+				         
+                <div id="right-side" class="col-md-10">
+                  <div id="first" class="active">
+                        <form action="/scales/add_adolescent_events?patient_id={{ patient_id }}&patient_session_id={{ patient_session_id }}" method="post">
+                            {%  csrf_token %}
+                            <div class="container">
+                                <div class="row" style="margin: 5px;">
+                                    <strong><br/>过去12个月内，你和你的家庭是否发生过下列事件？请仔细阅读下列每一个项目，如发生过，并根据事件给你造成的苦恼程度在相对方格内打个勾 。如果某件事未发生，仅在事件未发生栏内打个勾就可以了。<br/></strong>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <table class="table table-hover table-bordered" >
+
+				                        <tbody>
+                                             <tr>
+                                                 <th rowspan="2" style="text-align: center;vertical-align:middle">生活事件名称</th>
+                                                 <th rowspan="2" style="text-align: center;vertical-align:middle">未发生</th>
+                                                 <th colspan="5" style="text-align: center;vertical-align:middle">发生过，对你影响程度</th>
+                                             </tr>
+                                             <tr>
+                                                 <th style="text-align: center;vertical-align:middle">没有</th>
+                                                 <th style="text-align: center;vertical-align:middle">轻度</th>
+                                                 <th style="text-align: center;vertical-align:middle">中度</th>
+                                                 <th style="text-align: center;vertical-align:middle">重度</th>
+                                                 <th style="text-align: center;vertical-align:middle">极重</th>
+                                             </tr>
+                                             <tr>
+						                        <td>1.被人误会或错怪</td>
+                                                 <td><input type="radio" name="question1_answer" value=0 data-labelauty="未发生" /> </td>
+                                                 <td><input type="radio" name="question1_answer" value=1 data-labelauty="没有" /></td>
+                                                 <td><input type="radio" name="question1_answer" value=2 data-labelauty="轻度" /> </td>
+                                                 <td><input type="radio" name="question1_answer" value=3 data-labelauty="中度" /> </td>
+                                                 <td><input type="radio" name="question1_answer" value=4 data-labelauty="重度" /> </td>
+                                                 <td><input type="radio" name="question1_answer" value=5 data-labelauty="极重" /> </td>
+					                        </tr>
+                                           <tr>
+						                        <td>2.受人歧视冷遇</td>
+                                                 <td><input type="radio" name="question2_answer" value=0 data-labelauty="未发生" /> </td>
+                                                 <td><input type="radio" name="question2_answer" value=1 data-labelauty="没有" /> </td>
+                                                 <td><input type="radio" name="question2_answer" value=2 data-labelauty="轻度" /> </td>
+                                                 <td><input type="radio" name="question2_answer" value=3 data-labelauty="中度" /> </td>
+                                                 <td><input type="radio" name="question2_answer" value=4 data-labelauty="重度" /></td>
+                                                 <td><input type="radio" name="question2_answer" value=5 data-labelauty="极重" /> </td>
+					                        </tr>
+                                           <tr>
+						                        <td>3.考试失败或不理想</td>
+                                                 <td><input type="radio" name="question3_answer" value=0 data-labelauty="未发生" /> </td>
+                                                 <td><input type="radio" name="question3_answer" value=1 data-labelauty="没有" /> </td>
+                                                 <td><input type="radio" name="question3_answer" value=2 data-labelauty="轻度" /> </td>
+                                                 <td><input type="radio" name="question3_answer" value=3 data-labelauty="中度" /> </td>
+                                                 <td><input type="radio" name="question3_answer" value=4 data-labelauty="重度" /> </td>
+                                                 <td><input type="radio" name="question3_answer" value=5 data-labelauty="极重" /></td>
+					                        </tr>
+                                           <tr>
+						                        <td>4.与同学或好友发生纠纷</td>
+                                                 <td><input type="radio" name="question4_answer" value=0 data-labelauty="未发生" /> </td>
+                                                 <td><input type="radio" name="question4_answer" value=1 data-labelauty="没有" /> </td>
+                                                 <td><input type="radio" name="question4_answer" value=2 data-labelauty="轻度" /> </td>
+                                                 <td><input type="radio" name="question4_answer" value=3 data-labelauty="中度" /> </td>
+                                                 <td><input type="radio" name="question4_answer" value=4 data-labelauty="重度" /> </td>
+                                                 <td><input type="radio" name="question4_answer" value=5 data-labelauty="极重" /> </td>
+					                        </tr>
+                                           <tr>
+						                        <td>5.生活习惯（饮食、休息等）明显变化</td>
+                                                 <td><input type="radio" name="question5_answer" value=0 data-labelauty="未发生" /> </td>
+                                                 <td><input type="radio" name="question5_answer" value=1 data-labelauty="没有" /> </td>
+                                                 <td><input type="radio" name="question5_answer" value=2 data-labelauty="轻度" /> </td>
+                                                 <td><input type="radio" name="question5_answer" value=3 data-labelauty="中度" /></td>
+                                                 <td><input type="radio" name="question5_answer" value=4 data-labelauty="重度" /> </td>
+                                                 <td><input type="radio" name="question5_answer" value=5 data-labelauty="极重" /> ></td>
+					                        </tr>
+                                           <tr>
+						                        <td>6.不喜欢上学</td>
+                                                 <td><input type="radio" name="question6_answer" value=0 data-labelauty="未发生" /> </td>
+                                                 <td><input type="radio" name="question6_answer" value=1 data-labelauty="没有" /> </td>
+                                                 <td><input type="radio" name="question6_answer" value=2 data-labelauty="轻度" /> </td>
+                                                 <td><input type="radio" name="question6_answer" value=3 data-labelauty="中度" /></td>
+                                                 <td><input type="radio" name="question6_answer" value=4 data-labelauty="重度" /> </td>
+                                                 <td><input type="radio" name="question6_answer" value=5 data-labelauty="极重" /> </td>
+					                        </tr>
+                                           <tr>
+						                        <td>7.恋爱不顺利或失恋</td>
+                                                 <td><input type="radio" name="question7_answer" value=0 data-labelauty="未发生" /> </td>
+                                                 <td><input type="radio" name="question7_answer" value=1 data-labelauty="没有" /> </td>
+                                                 <td><input type="radio" name="question7_answer" value=2 data-labelauty="轻度" /> </td>
+                                                 <td><input type="radio" name="question7_answer" value=3 data-labelauty="中度" /> </td>
+                                                 <td><input type="radio" name="question7_answer" value=4 data-labelauty="重度" /> </td>
+                                                 <td><input type="radio" name="question7_answer" value=5 data-labelauty="极重" /></td>
+					                        </tr>
+                                           <tr>
+						                        <td>8.长期远离家人不能团聚 </td>
+                                                 <td><input type="radio" name="question8_answer" value=0 data-labelauty="未发生" /> </td>
+                                                 <td><input type="radio" name="question8_answer" value=1 data-labelauty="没有" /> </td>
+                                                 <td><input type="radio" name="question8_answer" value=2 data-labelauty="轻度" /> </td>
+                                                 <td><input type="radio" name="question8_answer" value=3 data-labelauty="中度" /> </td>
+                                                 <td><input type="radio" name="question8_answer" value=4 data-labelauty="重度" /> </td>
+                                                 <td><input type="radio" name="question8_answer" value=5 data-labelauty="极重" /> </td>
+					                        </tr>
+                                           <tr>
+						                        <td>9.学生负担重</td>
+                                                 <td><input type="radio" name="question9_answer" value=0 data-labelauty="未发生" /> </td>
+                                                 <td><input type="radio" name="question9_answer" value=1 data-labelauty="没有" /> </td>
+                                                 <td><input type="radio" name="question9_answer" value=2 data-labelauty="轻度" /> </td>
+                                                 <td><input type="radio" name="question9_answer" value=3 data-labelauty="中度" /> </td>
+                                                 <td><input type="radio" name="question9_answer" value=4 data-labelauty="重度" /> </td>
+                                                 <td><input type="radio" name="question9_answer" value=5 data-labelauty="极重" /> </td>
+					                        </tr>
+                                           <tr>
+						                        <td>10.与老师关系紧张</td>
+                                                 <td><input type="radio" name="question10_answer" value=0 data-labelauty="未发生" /> </td>
+                                                 <td><input type="radio" name="question10_answer" value=1 data-labelauty="没有" /> </td>
+                                                 <td><input type="radio" name="question10_answer" value=2 data-labelauty="轻度" /> </td>
+                                                 <td><input type="radio" name="question10_answer" value=3 data-labelauty="中度" /> </td>
+                                                 <td><input type="radio" name="question10_answer" value=4 data-labelauty="重度" /> </td>
+                                                 <td><input type="radio" name="question10_answer" value=5 data-labelauty="极重" /> </td>
+					                        </tr>
+                                           <tr>
+						                        <td>11.本人患急重病</td>
+                                                 <td><input type="radio" name="question11_answer" value=0 data-labelauty="未发生" /> </td>
+                                                 <td><input type="radio" name="question11_answer" value=1 data-labelauty="没有" /> </td>
+                                                 <td><input type="radio" name="question11_answer" value=2 data-labelauty="轻度" /> </td>
+                                                 <td><input type="radio" name="question11_answer" value=3 data-labelauty="中度" /> </td>
+                                                 <td><input type="radio" name="question11_answer" value=4 data-labelauty="重度" /> </td>
+                                                 <td><input type="radio" name="question11_answer" value=5 data-labelauty="极重" /> </td>
+					                        </tr>
+                                           <tr>
+						                        <td>12.亲友患急重病</td>
+                                                 <td><input type="radio" name="question12_answer" value=0 data-labelauty="未发生" /> </td>
+                                                 <td><input type="radio" name="question12_answer" value=1 data-labelauty="没有" /> </td>
+                                                 <td><input type="radio" name="question12_answer" value=2 data-labelauty="轻度" /> </td>
+                                                 <td><input type="radio" name="question12_answer" value=3 data-labelauty="中度" /> </td>
+                                                 <td><input type="radio" name="question12_answer" value=4 data-labelauty="重度" /> </td>
+                                                 <td><input type="radio" name="question12_answer" value=5 data-labelauty="极重" /> </td>
+					                        </tr>
+                                           <tr>
+						                        <td>13.亲友死亡</td>
+                                                 <td><input type="radio" name="question13_answer" value=0 data-labelauty="未发生" /> </td>
+                                                 <td><input type="radio" name="question13_answer" value=1 data-labelauty="没有" /> </td>
+                                                 <td><input type="radio" name="question13_answer" value=2 data-labelauty="轻度" /> </td>
+                                                 <td><input type="radio" name="question13_answer" value=3 data-labelauty="中度" /> </td>
+                                                 <td><input type="radio" name="question13_answer" value=4 data-labelauty="重度" /> </td>
+                                                 <td><input type="radio" name="question13_answer" value=5 data-labelauty="极重" /> </td>
+					                        </tr>
+                                           <tr>
+						                        <td>14.被盗或丢失东西</td>
+                                                 <td><input type="radio" name="question14_answer" value=0 data-labelauty="未发生" /></td>
+                                                 <td><input type="radio" name="question14_answer" value=1 data-labelauty="没有" /> </td>
+                                                 <td><input type="radio" name="question14_answer" value=2 data-labelauty="轻度" /> </td>
+                                                 <td><input type="radio" name="question14_answer" value=3 data-labelauty="中度" /> </td>
+                                                 <td><input type="radio" name="question14_answer" value=4 data-labelauty="重度" /> </td>
+                                                 <td><input type="radio" name="question14_answer" value=5 data-labelauty="极重" /> </td>
+					                        </tr>
+                                           <tr>
+						                        <td>15.当众丢面子</td>
+                                                 <td><input type="radio" name="question15_answer" value=0 data-labelauty="未发生" /> </td>
+                                                 <td><input type="radio" name="question15_answer" value=1 data-labelauty="没有" /> </td>
+                                                 <td><input type="radio" name="question15_answer" value=2 data-labelauty="轻度" /> </td>
+                                                 <td><input type="radio" name="question15_answer" value=3 data-labelauty="中度" /> </td>
+                                                 <td><input type="radio" name="question15_answer" value=4 data-labelauty="重度" /> </td>
+                                                 <td><input type="radio" name="question15_answer" value=5 data-labelauty="极重" /> </td>
+					                        </tr>
+                                        <tr>
+						                        <td>16.家庭经济困难</td>
+                                                 <td><input type="radio" name="question16_answer" value=0 data-labelauty="未发生" /> </td>
+                                                 <td><input type="radio" name="question16_answer" value=1 data-labelauty="没有" /> </td>
+                                                 <td><input type="radio" name="question16_answer" value=2 data-labelauty="轻度" /> </td>
+                                                 <td><input type="radio" name="question16_answer" value=3 data-labelauty="中度" /> </td>
+                                                 <td><input type="radio" name="question16_answer" value=4 data-labelauty="重度" /> </td>
+                                                 <td><input type="radio" name="question16_answer" value=5 data-labelauty="极重" /> </td>
+					                        </tr>
+                                           <tr>
+						                        <td>17.家庭内部有矛盾</td>
+                                                 <td><input type="radio" name="question17_answer" value=0 data-labelauty="未发生" /> </td>
+                                                 <td><input type="radio" name="question17_answer" value=1 data-labelauty="没有" /> </td>
+                                                 <td><input type="radio" name="question17_answer" value=2 data-labelauty="轻度" /> </td>
+                                                 <td><input type="radio" name="question17_answer" value=3 data-labelauty="中度" /> </td>
+                                                 <td><input type="radio" name="question17_answer" value=4 data-labelauty="重度" /> </td>
+                                                 <td><input type="radio" name="question17_answer" value=5 data-labelauty="极重" /> </td>
+					                        </tr>
+                                           <tr>
+						                        <td>18.预期评选（如三好学生）落空</td>
+                                                 <td><input type="radio" name="question18_answer" value=0 data-labelauty="未发生" /> </td>
+                                                 <td><input type="radio" name="question18_answer" value=1 data-labelauty="没有" /> </td>
+                                                 <td><input type="radio" name="question18_answer" value=2 data-labelauty="轻度" /> </td>
+                                                 <td><input type="radio" name="question18_answer" value=3 data-labelauty="中度" /> </td>
+                                                 <td><input type="radio" name="question18_answer" value=4 data-labelauty="重度" /> </td>
+                                                 <td><input type="radio" name="question18_answer" value=5 data-labelauty="极重" /> </td>
+					                        </tr>
+                                           <tr>
+						                        <td>19.受批评或处分</td>
+                                                 <td><input type="radio" name="question19_answer" value=0 data-labelauty="未发生" /> </td>
+                                                 <td><input type="radio" name="question19_answer" value=1 data-labelauty="没有" /> </td>
+                                                 <td><input type="radio" name="question19_answer" value=2 data-labelauty="轻度" /> </td>
+                                                 <td><input type="radio" name="question19_answer" value=3 data-labelauty="中度" /> </td>
+                                                 <td><input type="radio" name="question19_answer" value=4 data-labelauty="重度" /> </td>
+                                                 <td><input type="radio" name="question19_answer" value=5 data-labelauty="极重" /> </td>
+					                        </tr>
+                                           <tr>
+						                        <td>20.转学或休学</td>
+                                                 <td><input type="radio" name="question20_answer" value=0 data-labelauty="未发生" /> </td>
+                                                 <td><input type="radio" name="question20_answer" value=1 data-labelauty="没有" /> </td>
+                                                 <td><input type="radio" name="question20_answer" value=2 data-labelauty="轻度" /> </td>
+                                                 <td><input type="radio" name="question20_answer" value=3 data-labelauty="中度" /> </td>
+                                                 <td><input type="radio" name="question20_answer" value=4 data-labelauty="重度" /> </td>
+                                                 <td><input type="radio" name="question20_answer" value=5 data-labelauty="极重" /> </td>
+					                        </tr>
+                                           <tr>
+						                        <td>21.被罚款</td>
+                                                 <td><input type="radio" name="question21_answer" value=0 data-labelauty="未发生" /> </td>
+                                                 <td><input type="radio" name="question21_answer" value=1 data-labelauty="没有" /> </td>
+                                                 <td><input type="radio" name="question21_answer" value=2 data-labelauty="轻度" /> </td>
+                                                 <td><input type="radio" name="question21_answer" value=3 data-labelauty="中度" /> </td>
+                                                 <td><input type="radio" name="question21_answer" value=4 data-labelauty="重度" /> </td>
+                                                 <td><input type="radio" name="question21_answer" value=5 data-labelauty="极重" /> </td>
+					                        </tr>
+                                           <tr>
+						                        <td>22.升学压力 </td>
+                                                 <td><input type="radio" name="question22_answer" value=0 data-labelauty="未发生" /> </td>
+                                                 <td><input type="radio" name="question22_answer" value=1 data-labelauty="没有" /> </td>
+                                                 <td><input type="radio" name="question22_answer" value=2 data-labelauty="轻度" /> </td>
+                                                 <td><input type="radio" name="question22_answer" value=3 data-labelauty="中度" /> </td>
+                                                 <td><input type="radio" name="question22_answer" value=4 data-labelauty="重度" /> </td>
+                                                 <td><input type="radio" name="question22_answer" value=5 data-labelauty="极重" /> </td>
+					                        </tr>
+                                           <tr>
+						                        <td>23.与人打架</td>
+                                                 <td><input type="radio" name="question23_answer" value=0 data-labelauty="未发生" /> </td>
+                                                 <td><input type="radio" name="question23_answer" value=1 data-labelauty="没有" /> </td>
+                                                 <td><input type="radio" name="question23_answer" value=2 data-labelauty="轻度" /> </td>
+                                                 <td><input type="radio" name="question23_answer" value=3 data-labelauty="中度" /> </td>
+                                                 <td><input type="radio" name="question23_answer" value=4 data-labelauty="重度" /> </td>
+                                                 <td><input type="radio" name="question23_answer" value=5 data-labelauty="极重" /> </td>
+					                        </tr>
+                                           <tr>
+						                        <td>24.遭父母打骂</td>
+                                                 <td><input type="radio" name="question24_answer" value=0 data-labelauty="未发生" /> </td>
+                                                 <td><input type="radio" name="question24_answer" value=1 data-labelauty="没有" /> </td>
+                                                 <td><input type="radio" name="question24_answer" value=2 data-labelauty="轻度" /> </td>
+                                                 <td><input type="radio" name="question24_answer" value=3 data-labelauty="中度" /> </td>
+                                                 <td><input type="radio" name="question24_answer" value=4 data-labelauty="重度" /> </td>
+                                                 <td><input type="radio" name="question24_answer" value=5 data-labelauty="极重" /> </td>
+					                        </tr>
+                                           <tr>
+						                        <td>25.家庭给你施加学习压力</td>
+                                                 <td><input type="radio" name="question25_answer" value=0 data-labelauty="未发生" /> </td>
+                                                 <td><input type="radio" name="question25_answer" value=1 data-labelauty="没有" /> </td>
+                                                 <td><input type="radio" name="question25_answer" value=2 data-labelauty="轻度" /> </td>
+                                                 <td><input type="radio" name="question25_answer" value=3 data-labelauty="中度" /> </td>
+                                                 <td><input type="radio" name="question25_answer" value=4 data-labelauty="重度" /> </td>
+                                                 <td><input type="radio" name="question25_answer" value=5 data-labelauty="极重" /> </td>
+					                        </tr>
+                                           <tr>
+						                        <td>26.意外惊吓，事故</td>
+                                                 <td><input type="radio" name="question26_answer" value=0 data-labelauty="未发生" /> </td>
+                                                 <td><input type="radio" name="question26_answer" value=1 data-labelauty="没有" /> </td>
+                                                 <td><input type="radio" name="question26_answer" value=2 data-labelauty="轻度" /> </td>
+                                                 <td><input type="radio" name="question26_answer" value=3 data-labelauty="中度" /> </td>
+                                                 <td><input type="radio" name="question26_answer" value=4 data-labelauty="重度" /> </td>
+                                                 <td><input type="radio" name="question26_answer" value=5 data-labelauty="极重" /> </td>
+					                        </tr>
+                                           <tr>
+						                        <td>27.如有其他事件说明</td>
+                                               <td colspan="6"> <input type="text" name="other_event_note" style="width:100%"/></td>
+					                        </tr>
+                                        </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                   <div class="text-center">
+                                       <input  type="submit" class="btn btn-success" value="提交"/>
+                                   
+                                   </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
+
+{% block js %}
+<script type="text/javascript" src="{% static '/js/jquery-radio-beauty.js'%}"></script>
+
+<script>
+$(document).ready(function(){
+	$("input[type='radio']").labelauty();
+});
+</script>
+{% endblock %}

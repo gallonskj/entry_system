@@ -1,8 +1,3 @@
-import json
-from django.db.models import Q
-from django.http import HttpResponse, JsonResponse
-from django.shortcuts import render, redirect
-from django.views.decorators.csrf import csrf_exempt
 import scales.models as scale_models
 
 from scales.models import BPatientBaseInfo, \
@@ -14,22 +9,18 @@ from scales.models import BPatientBaseInfo, \
 from tools import Utils, idAssignments
 from users.models import SUser
 from .models import DPatientDetail, DEthnicity
-
-
+from django.http import HttpResponse, JsonResponse
+from django.shortcuts import render, redirect
+from django.views.decorators.csrf import csrf_exempt
+import tools.Utils as tools_utils
+import tools.idAssignments as tools_idAssignments
+import patients.models as patients_models
+import scales.models as scales_models
+import patients.dao as patient_dao
+import tools.config as tools_config
 import json
 
 scale_class_dict = {1:[scales_models.RPatientHama,10],2:[scales_models.RPatientHamd17,20],3:[scales_models.RPatientYmrs,15]}
-# 0：未诊断
-# 1：健康者
-# 2：重性抑郁障碍
-# 3：焦虑障碍
-# 4：双相障碍
-# 5：精神分裂症
-# 6：强迫症
-# 7：高危遗传
-# 8：临床高危
-# 9：抑郁症状
-disease_type_dict = {0:'未诊断',1:'健康者',2:'重性抑郁障碍',3:'焦虑障碍',4:'双相障碍',5:'精神分裂症',6:'强迫症',7:'高危遗传',8:'临床高危',9:'抑郁症状'}
 
 
 # 获取所有被试基础信息,以及民族字典表信息（创建被试时会使用到）
@@ -54,16 +45,30 @@ def add_patient_baseinfo(request):
     # 基本信息创建
     patient_base_info = BPatientBaseInfo(id=patient_id, name=name, sex=sex, birth_date=birth_date, nation=nation,
                                          doctor_id=doctor_id)
-    patient_base_info.save()
-    # 创建一条复扫记录，session＝＝１
-    patient_detail = DPatientDetail(patient_id=patient_id, session_id=session_id, standard_id=standard_id,
-                                    age=Utils.calculate_age(birth_date), doctor_id=doctor_id, diagnosis=0)
-    patient_detail.save()
-    patient = BPatientBaseInfo.objects.filter(pk=patient_id)[0]
-    patient_detail_id = DPatientDetail.objects.filter(Q(patient_id=patient_id) & Q(session_id=session_id))[0].id
+    patient_dao.add_base_info(patient_base_info)
+
+    # 创建一条复扫记录
+    patient_detail = patients_models.DPatientDetail(patient_id=patient_id, session_id=session_id, standard_id=standard_id,
+                                    age=tools_utils.calculate_age(birth_date), doctor_id=doctor_id, diagnosis=0)
+    patient_dao.add_patient_detail(patient_detail)
+    # 查询需要做的量表,并在r_patient_scales中插入需要做的量表
+    scales_list = patient_dao.judgment_scales(patient_detail.id)
+    # 为初扫/复扫的病人预先在r_patient_scales中插入多条记录，依据被试需要做的scales_list
+    patient_dao.add_rscales(scales_list, patient_detail.id)
+
+    # 获取各个scaleType的list信息
+    generalinfo_scale_list,other_test_scale_list,self_test_scale_list,cognition_scale_list = patient_dao.judgment_do_scales(scales_list)
+
+    #获取页面需要的参数,传递list，前台显示展不展示每一项
+    patient = patient_dao.get_base_info_byPK(patient_id)
+    patient_detail_id = patient_dao.get_patient_detail_byPatientIdAndSessionId(patient_id,session_id).id
     return render(request, 'select_scales.html', {'patient': patient,
                                                   'patient_session_id': patient_detail_id,
-                                                  "username": request.session.get('username')
+                                                  "username": request.session.get('username'),
+                                                  "generalinfo_scale_list":generalinfo_scale_list,
+                                                  "other_test_scale_list":other_test_scale_list,
+                                                  "self_test_scale_list":self_test_scale_list,
+                                                  "cognition_scale_list":cognition_scale_list,
                                                   })
 
 
@@ -78,7 +83,7 @@ def get_select_scales(request):
                                                   })
 
 
-# 添加复扫信息
+# 添加复扫信息,需要获取到上次扫描的病人详细信息
 def add_patient_followup(request):
     patient_id = request.GET.get('patient_id')
     doctor_id = request.session.get('doctor_id')
@@ -87,13 +92,17 @@ def add_patient_followup(request):
     patient_detail = DPatientDetail(patient_id=patient_id, session_id=session_id, standard_id=standard_id,
                                     age=Utils.calculate_age(str(patient_baseinfo.birth_date)), doctor_id=doctor_id,
                                     diagnosis=0)
+    patient_detail_last = patient_dao.get_patient_detail_last_byPatientId(patient_id)
     patient_detail.save()
     # 获取创建的复扫信息自增id
-    patient_detail_id = DPatientDetail.objects.filter(Q(patient_id=patient_id) & Q(session_id=session_id))[0].id
-    return render(request, 'select_scales.html', {'patient': patient_baseinfo,
-                                                  'patient_session_id': patient_detail_id,
-                                                  "username": request.session.get('username'),
-                                                  })
+    patient_detail_id = patient_dao.get_patient_detail_byPatientIdAndSessionId(patient_id,session_id).id
+    # 查询需要做的量表,并在r_patient_scales中插入需要做的量表
+    scales_list = patient_dao.judgment_scales(patient_detail_id)
+    # 为初扫/复扫的病人预先在r_patient_scales中插入多条记录，依据被试需要做的scales_list
+    patient_dao.add_rscales(scales_list, patient_detail.id)
+    # 将上一次的detail信息返回到前台
+    redirect_url = '/scales/select_scales?patient_session_id={}&patient_id={}'.format(str(patient_detail_id),str(patient_id))
+    return redirect(redirect_url)
 
 
 #  todo 所有病人详细信息获取
@@ -305,7 +314,7 @@ def patient_statistics(request):
         #     patient.diagnosis = 'BD'
         # elif patient.diagnosis == 3:
         #     patient.diagnosis = 'SZ'
-        patient.diagnosis = disease_type_dict[patient.diagnosis]
+        patient.diagnosis = tools_config.disease_type_dict[patient.diagnosis]
 
         scale_id_list = []
         scale_score_list = []
@@ -313,9 +322,9 @@ def patient_statistics(request):
             for scale in search_scales:
                 if scale.state == 0:
                     continue
-                scale_id_list.append(scale.id)
+                scale_id_list.append(scale.scale_id)
 
-                scale_class = scale_class_dict[scale.id][0]
+                scale_class = scale_class_dict[scale.scale_id][0]
                 if len(scale_class.objects.filter(patient_session_id=patient.id).values()) > 0:
                     scale_info = scale_class.objects.filter(patient_session_id=patient.id).values()[0]
                     scale_score_list.append(scale_info['total_score'])
