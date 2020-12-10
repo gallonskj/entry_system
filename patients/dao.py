@@ -134,7 +134,7 @@ def get_base_info_all():
     return base_info_list
 
 def get_base_info_byPK(patient_id):
-    patient = patients_models.BPatientBaseInfo.objects.filter(pk=patient_id)[0]
+    patient = patients_models.BPatientBaseInfo.objects.select_related().filter(pk=patient_id)[0]
     return patient
 
 
