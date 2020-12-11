@@ -4,6 +4,7 @@ import scales.dao as scales_dao
 import scales.models as scales_models
 import tools.config as tools_config
 import patients.dao as patients_dao
+import tools.Utils as tools_utils
 # Create your views here.
 
 '''
@@ -61,9 +62,17 @@ def get_select_scales(request):
 
 # 获取家庭情况表单
 def get_family_form(request):
+    # 由于要传入生日信息，因此这里需要获取一些下一页面所需要的值
+    patient_id = request.GET.get('patient_id')
+    base_info = patients_dao.get_base_info_byPK(patient_id)
+    age = tools_utils.calculate_age(str(base_info.birth_date))
+    nation_list = patients_dao.get_DEthnicity_all()
     return render(request,'nbh/add_family.html',{'patient_session_id':request.GET.get('patient_session_id'),
                                                  'patient_id':request.GET.get('patient_id'),
-                                                 'username':request.session.get('username'),})
+                                                 'username':request.session.get('username'),
+                                                 'base_info':base_info,
+                                                 'age':age,
+                                                 'nation_list':nation_list})
 
 # 获取学习情况表单
 def get_study_form(request):
@@ -93,6 +102,13 @@ def get_chi_form(request):
     return render(request,'nbh/add_chi.html',{'patient_session_id':request.GET.get('patient_session_id'),
                                                  'patient_id':request.GET.get('patient_id'),
                                                  'username':request.session.get('username'),})
+
+#获取病人病史表单
+def get_patient_medical_history_form(request):
+    return render(request,'nbh/add_patient_medical_history.html',{'patient_session_id':request.GET.get('patient_session_id'),
+                                                 'patient_id':request.GET.get('patient_id'),
+                                                 'username':request.session.get('username'),})
+
 # 获取耶鲁布朗表单
 def get_ybocs_form(request):
     return render(request,'nbh/add_ybocs.html',{'patient_session_id':request.GET.get('patient_session_id'),
@@ -188,6 +204,45 @@ def get_vept_form(request):
 '''
 量表具体操作
 '''
+#病人病史表
+def add_patient_medical_history(request):
+    if request.POST:
+        patient_session_id = request.GET.get('patient_session_id')
+        scale_id = 1
+        doctor_id = request.session.get('doctor_id')
+        rPatientMedicalHistory = scales_models.RPatientMedicalHistory(patient_session_id=patient_session_id, scale_id=scale_id,
+                                                        doctor_id=doctor_id)
+        rPatientDrugsInformation = scales_models.RPatientDrugsInformation(patient_session_id=patient_session_id, scale_id=scale_id,
+                                                            doctor_id=doctor_id)
+        for key in request.POST.keys():
+            if hasattr(rPatientMedicalHistory, key):
+                val = request.POST.get(key)
+                if val is None:
+                    val = ''
+                setattr(rPatientMedicalHistory, key, val)
+            else:
+                pos = key.rfind('_')
+                st = key[:pos]
+                st2 = key[pos + 1]
+                if hasattr(rPatientDrugsInformation, st):
+                    val = request.POST.get(key)
+                    if val is None:
+                        val = ''
+                    setattr(rPatientDrugsInformation, st, val)
+                    if st == 'note':
+                        scales_dao.add_drugs_information(rPatientDrugsInformation)
+                        rPatientDrugsInformation = scales_models.RPatientDrugsInformation(
+                            patient_session_id=patient_session_id, scale_id=scale_id,
+                            doctor_id=doctor_id)
+
+
+    # 添加数据库
+    scales_dao.add_medical_history(rPatientMedicalHistory)
+    # 页面跳转
+    patient_id = request.GET.get('patient_id')
+    redirect_url = get_redirect_url(patient_session_id,patient_id,tools_config.self_test_next_type_url,tools_config.self_test_type)
+    return redirect(redirect_url)
+
 
 def add_ybo(request):
     if request.POST:

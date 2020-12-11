@@ -22,7 +22,9 @@ def get_all_patients_baseinfo(request):
     patients = patients_dao.get_base_info_all()
     username = request.session.get('username')
     nations = DEthnicity.objects.all()
-    return render(request, 'manage_patients.html', {"patients": patients, 'username': username, 'nations': nations})
+    return render(request, 'manage_patients.html', {"patients": patients,
+                                                    'username': username,
+                                                    'nations': nations})
 
 
 # 被试基本信息录入，需要生成id的信息，需要向patient_detail进行信息插入(session==1的信息)
@@ -35,6 +37,7 @@ def add_patient_baseinfo(request):
     doctor_id = request.session.get('doctor_id')
     diagnosis = request.POST.get("diagnosis")
     other_diagnosis = request.POST.get("other_diagnosis")
+
     # 自动分配id
     patient_id = tools_idAssignments.patient_Id_assignment()
     patient_id,session_id,standard_id = tools_idAssignments.patient_session_id_assignment(patient_id)
@@ -109,17 +112,19 @@ def get_patient_detail(request):
                 ordered_dic[test_state['patient_session_id__session_id']] = {test_state['scale_id']: test_state}
             else:
                 ordered_dic[test_state['patient_session_id__session_id']][test_state['scale_id']] = test_state
+        nation_list = patients_dao.get_DEthnicity_all()
         return render(request, 'patient_detail.html',
                       {
                           'patient_id': 'NN_' + str(patient_baseinfo.id).zfill(8),
                           'name': patient_baseinfo.name,
-                          'birth_date': patient_baseinfo.birth_date,
+                          'birth_date': patient_baseinfo.birth_date.strftime('%Y-%m-%d'),
                           'sex': patient_baseinfo.sex,
                           'nation': patient_baseinfo.nation,
                           "patient_detail_res": patient_detail_list,
                           "username": request.session.get('username'),
                           "patients_states": ordered_dic,
-                          'test': ordered_dic
+                          'test': ordered_dic,
+                          'nation_list': nation_list,
                       })
     else:
         return render(request, 'patient_detail.html', {"username": request.session.get("username")})

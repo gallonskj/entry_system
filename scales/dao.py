@@ -31,6 +31,12 @@ def update_rscales_state(patient_session_id,scale_id):
 ########################## add_hamd_database 可以作为dao的样例 #########################
 #######################################################################################
 
+#病人病史表
+def add_medical_history(rPatientMedicalHistory):
+    #插入前的级联检验
+    #存入数据库
+    rPatientMedicalHistory.save()
+
 # 汉密尔顿焦虑量表
 def add_hamd_database(rPatientHAMD17):
     # 计算量表得分
