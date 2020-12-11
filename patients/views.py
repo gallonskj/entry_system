@@ -19,7 +19,9 @@ def get_all_patients_baseinfo(request):
     patients = patients_dao.get_base_info_all()
     username = request.session.get('username')
     nations = DEthnicity.objects.all()
-    return render(request, 'manage_patients.html', {"patients": patients, 'username': username, 'nations': nations})
+    return render(request, 'manage_patients.html', {"patients": patients,
+                                                    'username': username,
+                                                    'nations': nations})
 
 # 被试基本信息录入，需要生成id的信息，需要向patient_detail进行信息插入(session==1的信息)
 # todo 在进行病人或者复扫创建的时候，需要创建ｒ_patients_scales创建量表完成信息，默认应该是未完成的，需要根据青少年这些去做
@@ -96,8 +98,7 @@ def get_patient_detail(request):
     if request.GET:
         patient_id = request.GET.get("patient_id")
         patient_baseinfo = patients_dao.get_base_info_byPK(patient_id)
-        patient_detail_list = DPatientDetail.objects.filter(patient__id=patient_id)
-
+        patient_detail_list = patients_dao.get_patient_detail_byForeignPatientId(patient_id)
         doctor_test_list = [scale_models.RPatientHamd17, scale_models.RPatientHama, scale_models.RPatientYmrs,
                             scale_models.RPatientBprs]
         self_test_list = [scale_models.RPatientYbobsessiontable, scale_models.RPatientSuicidal,
@@ -128,16 +129,18 @@ def get_patient_detail(request):
                         index += 1
                 patient_states[index_2] = list_states
             patients_states[index_1] = patient_states
-
+        # 获取前台所需要的数据
+        nation_list = patients_dao.get_DEthnicity_all()
         return render(request, 'patient_detail.html',
                       {'patient_id': 'NN_' + str(patient_baseinfo.id).zfill(8),
                        'name': patient_baseinfo.name,
-                       'birth_date': patient_baseinfo.birth_date,
+                       'birth_date': patient_baseinfo.birth_date.strftime('%Y-%m-%d'),
                        'sex': patient_baseinfo.sex,
                        'nation': patient_baseinfo.nation,
                        "patient_detail_res": patient_detail_list,
                        "username": request.session.get('username'),
-                       "patients_states": patients_states
+                       "patients_states": patients_states,
+                       "nation_list": nation_list,
                        })
     else:
         return render(request, 'patient_detail.html', {"username": request.session.get("username")})
