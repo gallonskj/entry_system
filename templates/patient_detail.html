@@ -14,18 +14,18 @@
     </style>
 {% endblock %}
 {% block content %}
-{% for index, patient_states in patients_states.items%}
+{% load SelfDefinedFilter %}
+{% for session_id, session_details in patients_states.items %}
 
-
-    <!-- 他测表量表详细模态框 开始 -->
-        <div class="modal fade" id="modal_OtherTest_{{ index }}" role="dialog" aria-labelledby="myModalLabel"aria-hidden="true">
+    <!-- 个人一般量表详细模态框 开始 -->
+        <div class="modal fade" id="modal_DetailInfo_{{ session_id }}" role="dialog" aria-labelledby="myModalLabel"aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <form action="" method="post">
                             <div class="modal-header">
                                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                <h4 class="modal-title" id="myModalLabel">
-                                    他测量表信息列表
+                                <h4 class="modal-title">
+                                    个人一般信息列表
                                 </h4>
                             </div>
                             <div class="modal-body">
@@ -42,21 +42,24 @@
                                                 </tr>
                                               </thead>
                                               <tbody>
-                                                {% for each_index, each_test in patient_states.0.items %}
+                                              {% for scale_id, scale_detail in session_details.items %}
+                                                    {% if scale_id < 7 %}
                                                     <tr>
-                                                      <td>{{ each_test.test_name }}</td>
-                                                      <td>{{ each_test.create_time }}</td>
-                                                        {% if each_test.test_state == 1 %}
+                                                      <td>{{ scale_detail|get_item:'scale__scale_name' }}</td>
+                                                        {% if scale_detail.state == 1 %}
+                                                            <td>{{ scale_detail|get_item:'end_time' }}</td>
                                                             <td>已完成</td>
                                                             <td>-</td>
                                                             <td>-</td>
                                                         {% else %}
+                                                            <td>-</td>
                                                             <td>未完成</td>
-                                                            <td><a href="{{ each_test.update_test_url }}?patient_id=&patient_session_id=">续做</a></td>
-                                                            <td><button class="btn btn-xs btn-warning"><a href="{{ each_test.del_test_url }}?patient_id=&patient_session_id=" style="color:white">删除</a></button></td>
+                                                            <td><a href="">续做</a></td>
+                                                            <td><button class="btn btn-xs btn-warning"><a href="" style="color:white">删除</a></button></td>
                                                         {% endif %}
                                                     </tr>
-                                                {% endfor %}
+                                                    {% endif %}
+                                              {% endfor %}
                                               </tbody>
                                         </table>
                                     </div>
@@ -66,10 +69,9 @@
                         </div>
                     </div>
         </div>
-    <!-- 他测表量表详细模态框 结束-->
-
+    <!-- 个人一般量表详细模态框 结束-->
     <!-- 自测表量表详细模态框 开始 -->
-        <div class="modal fade" id="modal_SelfTest_{{ index }}" role="dialog" aria-labelledby="myModalLabel"aria-hidden="true">
+        <div class="modal fade" id="modal_SelfTest_{{ session_id }}" role="dialog" aria-labelledby="myModalLabel"aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <form action="" method="post">
@@ -93,21 +95,24 @@
                                                 </tr>
                                               </thead>
                                               <tbody>
-                                                {% for each_index, each_test in patient_states.1.items %}
+                                               {% for scale_id, scale_detail in session_details.items %}
+                                                    {% if scale_id < 17 and scale_id > 6  %}
                                                     <tr>
-                                                      <td>{{ each_test.test_name }}</td>
-                                                      <td>{{ each_test.create_time }}</td>
+                                                      <td>{{ scale_detail|get_item:'scale__scale_name' }}</td>
                                                         {% if each_test.test_state == 1 %}
+                                                            <td>{{ scale_detail|get_item:'end_time' }}</td>
                                                             <td>已完成</td>
                                                             <td>-</td>
                                                             <td>-</td>
                                                         {% else %}
+                                                            <td>-</td>
                                                             <td>未完成</td>
-                                                            <td><a href="{{ each_test.update_test_url }}?patient_id=&patient_session_id=">续做</a></td>
-                                                            <td><button class="btn btn-xs btn-warning"><a href="{{ each_test.del_test_url }}?patient_id=&patient_session_id=" style="color:white">删除</a></button></td>
+                                                            <td><a href="">续做</a></td>
+                                                            <td><button class="btn btn-xs btn-warning"><a href="" style="color:white">删除</a></button></td>
                                                         {% endif %}
                                                     </tr>
-                                                {% endfor %}
+                                                    {% endif %}
+                                              {% endfor %}
                                               </tbody>
                                         </table>
                                     </div>
@@ -118,15 +123,68 @@
                     </div>
         </div>
     <!-- 自测表量表详细模态框 结束-->
+    <!-- 他测表量表详细模态框 开始 -->
+        <div class="modal fade" id="modal_OtherTest_{{ session_id }}" role="dialog" aria-labelledby="myModalLabel"aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <form action="" method="post">
+                            <div class="modal-header">
+                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                <h4 class="modal-title" id="myModalLabel">
+                                    他测量表信息列表
+                                </h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class = "row">
+                                    <div class="col-md-12">
+                                        <table class="table table-hover table-bordered"  style="font-size: 10px;" >
+                                              <thead>
+                                                <tr>
+                                                  <th>测查种类</th>
+                                                  <th>测查时间</th>
+                                                  <th>状态</th>
+                                                  <th>重做</th>
+                                                  <th>操作</th>
+                                                </tr>
+                                              </thead>
+                                              <tbody>
+                                                  {% for scale_id, scale_detail in session_details.items %}
+                                                      {% if scale_id < 21 and scale_id > 16 %}
+                                                        <tr>
+                                                          <td>{{ scale_detail|get_item:'scale__scale_name' }}</td>
+                                                            {% if each_test.test_state == 1 %}
+                                                                <td>{{ scale_detail|get_item:'end_time' }}</td>
+                                                                <td>已完成</td>
+                                                                <td>-</td>
+                                                                <td>-</td>
+                                                            {% else %}
+                                                                <td>-</td>
+                                                                <td>未完成</td>
+                                                                <td><a href="">续做</a></td>
+                                                                <td><button class="btn btn-xs btn-warning"><a href="" style="color:white">删除</a></button></td>
+                                                            {% endif %}
+                                                        </tr>
+                                                      {% endif %}
+                                                  {% endfor %}
+                                              </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            </form>
+                        </div>
+                    </div>
+        </div>
+    <!-- 他测表量表详细模态框 结束-->
     <!-- 认知表量表详细模态框 开始 -->
-        <div class="modal fade" id="modal_cognitionTest_{{ index }}" role="dialog" aria-labelledby="myModalLabel"aria-hidden="true">
+        <div class="modal fade" id="modal_cognitionTest_{{ session_id }}" role="dialog" aria-labelledby="myModalLabel"aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <form action="" method="post">
                             <div class="modal-header">
                                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                                 <h4 class="modal-title" >
-                                    自测量表信息列表
+                                    认知量表信息列表
                                 </h4>
                             </div>
                             <div class="modal-body">
@@ -143,21 +201,24 @@
                                                 </tr>
                                               </thead>
                                               <tbody>
-                                                {% for each_index, each_test in patient_states.2.items %}
+                                                {% for scale_id, scale_detail in session_details.items %}
+                                                    {% if scale_id > 20 and scale_id < 25 %}
                                                     <tr>
-                                                      <td>{{ each_test.test_name }}</td>
-                                                      <td>{{ each_test.create_time }}</td>
+                                                      <td>{{ scale_detail|get_item:'scale__scale_name' }}</td>
                                                         {% if each_test.test_state == 1 %}
+                                                            <td>{{ scale_detail|get_item:'end_time' }}</td>
                                                             <td>已完成</td>
                                                             <td>-</td>
                                                             <td>-</td>
                                                         {% else %}
+                                                            <td>-</td>
                                                             <td>未完成</td>
-                                                            <td><a href="{{ each_test.update_test_url }}?patient_id=&patient_session_id=">续做</a></td>
-                                                            <td><button class="btn btn-xs btn-warning"><a href="{{ each_test.del_test_url }}?patient_id=&patient_session_id=" style="color:white">删除</a></button></td>
+                                                            <td><a href="">续做</a></td>
+                                                            <td><button class="btn btn-xs btn-warning"><a href="" style="color:white">删除</a></button></td>
                                                         {% endif %}
                                                     </tr>
-                                                {% endfor %}
+                                                    {% endif %}
+                                              {% endfor %}
                                               </tbody>
                                         </table>
                                     </div>
@@ -168,8 +229,8 @@
                     </div>
         </div>
     <!-- 认知表量表详细模态框 结束-->
-
 {% endfor %}
+
     <div class="right_col" role="main">
         <div class="row " style="margin-left:-20px">
             <div class="col-md-12 col-sm-12 col-xs-12">
@@ -287,36 +348,39 @@
 						                </tr>
 					                </thead>
 					                <tbody>
-                                        {% load SelfDefinedFilter %}
+
                                         {% for patient_detail in patient_detail_res %}
-                                            {% if patient_detail.id|divisibleby:"2" %}
+
+                                            {% if patient_detail|get_item:'session_id'|divisibleby:"2" %}
                                                 <tr class="success">
                                             {% else %}
                                                 <tr >
                                             {% endif %}
                                                 <td>
-                                                    {{ patient_detail.standard_id }}
+                                                    {{ patient_detail|get_item:'standard_id' }}
                                                 </td>
                                                 <td>
-                                                    {{ patient_detail.create_time }}
+                                                    {{ patient_detail|get_item:'create_time' }}
                                                 </td>
                                                 <td>
-                                                    {{ patient_detail.get_diagnosis_display }}
+                                                    {{ patient_detail|get_item:'diagnosis' }}
                                                 </td>
                                                 <td>
-                                                    {{ patient_detail.doctor.name }}
+                                                    {{ patient_detail|get_item:'doctor__name' }}
                                                 </td>
                                                 <td>
-                                                    <a href="/patients/subjectDetailInfo?patient_id = {{ patient_id }}&patient_session_id={{ patient_detail.session_id }}">查看</a>
+                                                    <a href="#modal_DetailInfo_{{ patient_detail|get_item:'session_id' }}" data-toggle="modal" data-orderId="{{ patient_detail.id }}">量表详情</a>
+
                                                 </td>
                                                 <td>
-                                                    <a href="#modal_OtherTest_{{forloop.counter0}}" onclick="SetOther(patient_detail.id, )" data-toggle="modal" data-orderId="{{ patient_detail.id }}">量表详情</a>
+                                                    {{ patient_detail|get_item:'session_id' }}
+                                                    <a href="#modal_OtherTest_{{ patient_detail|get_item:'session_id' }}" data-toggle="modal" data-orderId="{{ patient_detail.id }}">量表详情</a>
                                                 </td>
                                                 <td>
-                                                    <a href="#modal_SelfTest_{{forloop.counter0}}" onclick="" data-toggle="modal">量表详情</a>
+                                                    <a href="#modal_SelfTest_{{ patient_detail|get_item:'session_id' }}" data-toggle="modal">量表详情</a>
                                                 </td>
                                                 <td>
-                                                    <a href="#modal_cognitionTest_{{forloop.counter0}}" onclick="" data-toggle="modal">量表详情</a>
+                                                    <a href="#modal_cognitionTest_{{ patient_detail|get_item:'session_id' }}" data-toggle="modal">量表详情</a>
                                                 </td>
                                                 <td>
                                                     <button class="btn btn-warning btn-xs">
@@ -327,6 +391,7 @@
                                         {% endfor %}
 					                </tbody>
 				                </table>
+
 			                </div>
                         </div>
                     </div>

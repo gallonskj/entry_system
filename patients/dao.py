@@ -105,6 +105,7 @@ def del_patient_base_info_byPK(patient_id):
 ################ get 部分 ################
 ################ get 部分 ################
 
+
 def get_patient_detail_last_byPatientId(patient_id):
     patient_detail_res = patients_models.DPatientDetail.objects.filter(patient_id=patient_id)
     if patient_detail_res.count()==0:
@@ -134,7 +135,7 @@ def get_base_info_all():
     return base_info_list
 
 def get_base_info_byPK(patient_id):
-    patient = patients_models.BPatientBaseInfo.objects.filter(pk=patient_id)[0]
+    patient = patients_models.BPatientBaseInfo.objects.select_related().filter(pk=patient_id)[0]
     return patient
 
 
