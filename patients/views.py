@@ -12,9 +12,10 @@ import tools.config as tools_config
 import json
 import time
 
-scale_class_dict = {1: [scales_models.RPatientHama, 10], 2: [scales_models.RPatientHamd17, 20],
-                    3: [scales_models.RPatientYmrs, 15]}
-
+scale_class_dict = {1:[scales_models.RPatientHamd17,[8,21,35],['正常','可能有抑郁症','可能是轻或中度抑郁','可能为严重抑郁']],\
+    2:[scales_models.RPatientHama,[7,14,21,29],['没有焦虑','可能有焦虑','肯定有焦虑','肯定有明显焦虑','可能为严重焦虑']],\
+        3:[scales_models.RPatientYmrs,[5,13,20,30],['正常','轻度','中度','重度','极重度']],\
+            4:[scales_models.RPatientBprs,[36],['正常','偏高']]}
 
 # 获取所有被试基础信息,以及民族字典表信息（创建被试时会使用到）
 def get_all_patients_baseinfo(request):
@@ -243,6 +244,10 @@ def patient_statistics(request):
     bd_n = 35
     sz_n = 23
 
+    subject_n = patients_n+hc_n
+    woman_n = len(woman_age_list) 
+    man_n = len(man_age_list)
+
     # age
     man_age_num_list = []
     woman_age_num_list = []
@@ -315,17 +320,22 @@ def patient_statistics(request):
                     scale_score_list.append(scale_info['total_score'])
 
         patient.scale_id_list = scale_id_list
+        patient.scale_score_list = scale_score_list
 
     scales = patients_dao.get_scales_all()
     all_scale_id_list = []
     all_scale_name_list = []
-    all_scale_normal_value_list = []
+    all_scale_value_range_list = []
+    all_scale_value_str_range_list = []
     for scale in scales:
         all_scale_id_list.append(scale.id)
         all_scale_name_list.append(scale.scale_name)
         if scale.id in scale_class_dict.keys():
-            all_scale_normal_value_list.append(scale_class_dict[scale.id][1])
+            all_scale_value_range_list.append(scale_class_dict[scale.id][1])
+            all_scale_value_str_range_list.append(scale_class_dict[scale.id][2])
 
+    print('-'*100)
+    print(scale_score_list)
     return render(request, 'patient_statistics.html', {
         'username': request.session.get('username'),
         'man_age_num_list': json.dumps(man_age_num_list),
@@ -339,4 +349,13 @@ def patient_statistics(request):
         'mdd_n': mdd_n,
         'bd_n': bd_n,
         'sz_n': sz_n,
+        'subject_n':subject_n,
+        'woman_n':woman_n,
+        'man_n':man_n,
+        'patients':patients,
+        'scales':scales,
+        'all_scale_id_list':json.dumps(all_scale_id_list),
+        'all_scale_name_list':json.dumps(all_scale_name_list),
+        'all_scale_value_range_list':json.dumps(all_scale_value_range_list),
+        'all_scale_value_str_range_list':json.dumps(all_scale_value_str_range_list)
     })
