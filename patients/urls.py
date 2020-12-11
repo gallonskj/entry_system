@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.urls import path, re_path
 from . import views
 from django.conf.urls import url
+import scales.views as scales_views
 
 urlpatterns = [
 
@@ -15,7 +16,7 @@ urlpatterns = [
     url(r'^get_patient_detail', views.get_patient_detail),
     url(r'^patient_statistics', views.patient_statistics, name='patient_statistics'),
     url(r'^get_generateId_and_nation', views.get_generateId),
-    url(r'^get_select_scales', views.get_select_scales),
+    url(r'^get_select_scales', scales_views.get_select_scales),
     url(r'^del_patient', views.del_patient),
     url(r'^del_followup', views.del_followup),
     # 貌似未使用

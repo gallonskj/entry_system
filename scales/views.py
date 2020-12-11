@@ -38,17 +38,24 @@ def get_cognition_forms(request):
     redirect_url = get_redirect_url(patient_session_id,patient_id,tools_config.cognition_next_type_url,tools_config.cognition_type)
     return redirect(redirect_url)
 
-
-# 四个大选项的界面
+# 进入四个选择项的界面，需要获取到各个量表类型他的list
 def get_select_scales(request):
-    patient_id = request.GET.get('patient_id')
     patient_session_id = request.GET.get('patient_session_id')
-    patient_detail = patients_dao.get_patient_detail_byPK(patient_session_id)
-    patient_baseinfo = patients_dao.get_base_info_byPK(patient_detail.patient_id)
-    return render(request, 'select_scales.html', {'patient': patient_baseinfo,
+    patient_id = request.GET.get('patient_id')
+    patient = patients_dao.get_base_info_byPK(patient_id)
+    patient_detail = patients_dao.get_patient_detail_last_byPatientId(patient_id)
+    # 获取各个scaleType的list信息
+    scales_list = patients_dao.judgment_scales(patient_session_id)
+    generalinfo_scale_list, other_test_scale_list, self_test_scale_list, cognition_scale_list = patients_dao.judgment_do_scales(scales_list)
+    return render(request, 'select_scales.html', {'patient': patient,
+                                                  'patient_id': patient.id,
                                                   'patient_session_id': patient_session_id,
                                                   "username": request.session.get('username'),
-                                                  "patient_detail": patient_detail,
+                                                  'patient_detail':patient_detail,
+                                                  "generalinfo_scale_size": len(generalinfo_scale_list),
+                                                  "other_test_scale_size": len(other_test_scale_list),
+                                                  "self_test_scale_size": len(self_test_scale_list),
+                                                  "cognition_scale_size": len(cognition_scale_list),
                                                   })
 
 
@@ -319,6 +326,8 @@ def add_manicsymptom(request):
     for ele in fields_data:
         data_dict[ele.name] = request.POST.get(ele.name)
 
+    if rPatientManicsymptom.question8 == '':
+        rPatientManicsymptom.question8 = None
     scales_dao.add_manicsymptom_database(rPatientManicsymptom)
     patient_id = request.GET.get('patient_id')
     redirect_url = get_redirect_url(patient_session_id,patient_id,tools_config.self_test_next_type_url,tools_config.self_test_type)
