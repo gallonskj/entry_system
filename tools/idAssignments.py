@@ -14,8 +14,9 @@ def patient_Id_assignment():
 def patient_session_id_assignment(patient_id):
     patient_session_res = models.DPatientDetail.objects.filter(patient_id=patient_id).order_by('-session_id')
     if patient_session_res.count() == 0:
-        return 1
-    session_id = patient_session_res[0].session_id + 1
+        session_id = 1
+    else:
+        session_id = patient_session_res[0].session_id + 1
     standard_id = generate_standard_id(patient_id, session_id)
     return patient_id, session_id, standard_id
 

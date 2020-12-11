@@ -363,7 +363,7 @@
                                                     {{ patient_detail|get_item:'create_time' }}
                                                 </td>
                                                 <td>
-                                                    {{ patient_detail|get_item:'diagnosis' }}
+                                                    {{ patient_detail|get_diagnosis_by_dict }}
                                                 </td>
                                                 <td>
                                                     {{ patient_detail|get_item:'doctor__name' }}

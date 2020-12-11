@@ -24,5 +24,13 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('patients/', include('patients.urls')),
     path('scales/', include('scales.urls')),
-
 ]
+# 在原有的urlpatterns下面添加以下代码
+from django.conf import settings
+if settings.DEBUG:
+    from django.conf.urls import include, url
+    import debug_toolbar
+    urlpatterns = [
+        url(r'^__debug__/', include(debug_toolbar.urls)),
+    ] + urlpatterns
+

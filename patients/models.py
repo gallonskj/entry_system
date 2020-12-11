@@ -25,6 +25,7 @@ class BPatientBaseInfo(models.Model):
         (8, '临床高危'),
         (9, '抑郁症状'),
         (99, '其他诊断')
+
     )
     id = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=20)
@@ -35,7 +36,7 @@ class BPatientBaseInfo(models.Model):
     create_time = models.DateTimeField(auto_now_add=True)
     update_time = models.DateTimeField(auto_now=True)
     diagnosis = models.IntegerField(blank=True, null=True, choices=DIAGNOSIS_TYPE)
-    other_diagnosis = models.TextField(blank=True, null=True)
+    other_diagnosis = models.CharField(max_length=45)
 
 
     class Meta:
