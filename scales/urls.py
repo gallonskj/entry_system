@@ -34,6 +34,7 @@ urlpatterns = [
     url(r'^get_rbans_form', views.get_rbans_form),
     url(r'^get_fept_form', views.get_fept_form),
     url(r'^get_vept_form', views.get_vept_form),
+    url(r'^get_patient_medical_history_form', views.get_patient_medical_history_form),
     ##################################################
 
     url(r'^patient_basic_information', views.patient_basic_information),
@@ -45,6 +46,7 @@ urlpatterns = [
     url(r'^add_ybo', views.add_ybo),
     url(r'^add_suicide', views.add_suicide),
     url(r'^add_family_info', views.add_family_info),
+    url(r'^add_patient_medical_history',views.add_patient_medical_history),
     #####################################################
 
     url(r'^add_bprs', views.add_bprs),

@@ -13,6 +13,20 @@ class BPatientBaseInfo(models.Model):
         (0, '男'),
         (1, '女'),
     )
+    DIAGNOSIS_TYPE = (
+        (0, '未诊断'),
+        (1, '健康'),
+        (2, '重症抑郁障碍'),
+        (3, '焦虑障碍'),
+        (4, '双相障碍'),
+        (5, '精神分裂症'),
+        (6, '强迫症'),
+        (7, '高危遗传'),
+        (8, '临床高危'),
+        (9, '抑郁症状'),
+        (99, '其他诊断')
+
+    )
     id = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=20)
     sex = models.IntegerField(blank=True, null=True, choices=SEX_TYPE)
@@ -21,6 +35,9 @@ class BPatientBaseInfo(models.Model):
     doctor = models.ForeignKey('users.SUser', models.DO_NOTHING)
     create_time = models.DateTimeField(auto_now_add=True)
     update_time = models.DateTimeField(auto_now=True)
+    diagnosis = models.IntegerField(blank=True, null=True, choices=DIAGNOSIS_TYPE)
+    other_diagnosis = models.CharField(max_length=45)
+
 
     class Meta:
         managed = False
@@ -28,11 +45,6 @@ class BPatientBaseInfo(models.Model):
 
 
 class DPatientDetail(models.Model):
-    DIAGNOSIS_TYPE = (
-        (0, '未诊断'),
-        (1, '健康人'),
-        (2, '重症抑郁'),
-    )
     patient = models.ForeignKey(BPatientBaseInfo, models.DO_NOTHING, blank=True, null=True)
     session_id = models.IntegerField(blank=True, null=True)
     standard_id = models.CharField(max_length=20, blank=True, null=True)
@@ -50,7 +62,6 @@ class DPatientDetail(models.Model):
     years = models.IntegerField(blank=True, null=True)
     emotional_state = models.IntegerField(blank=True, null=True)
     phone = models.CharField(max_length=20, blank=True, null=True)
-    diagnosis = models.IntegerField(blank=True, null=True, choices=DIAGNOSIS_TYPE)
     source = models.IntegerField(blank=True, null=True)
     height = models.FloatField(blank=True, null=True)
     weight = models.FloatField(blank=True, null=True)
@@ -58,10 +69,10 @@ class DPatientDetail(models.Model):
     hip = models.FloatField(blank=True, null=True)
     handy = models.IntegerField(blank=True, null=True)
     note = models.TextField(blank=True, null=True)
-    other_diagnosis = models.TextField(blank=True, null=True)
     doctor = models.ForeignKey('users.SUser', models.DO_NOTHING)
     create_time = models.DateTimeField(auto_now_add=True)
     update_time = models.DateTimeField(auto_now=True)
+    disease_state =  models.CharField(max_length=30, blank=True, null=True)
 
     class Meta:
         managed = False

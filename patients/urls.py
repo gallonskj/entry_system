@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.urls import path, re_path
 from . import views
 from django.conf.urls import url
+import scales.views as scales_views
 
 urlpatterns = [
     # 返回测试
@@ -19,7 +20,7 @@ urlpatterns = [
     # 自动生成id
     url(r'^get_generateId_and_nation', views.get_generateId),
     # 添加复扫
-    url(r'^get_select_scales', views.get_select_scales),
+    url(r'^get_select_scales', scales_views.get_select_scales),
     # 删除病人记录
     url(r'^del_patient', views.del_patient),
     # 删除复扫记录

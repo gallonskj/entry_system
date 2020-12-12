@@ -2,6 +2,7 @@
 {% load static %}
 {% block title %}新建被试{% endblock %}
 {% block css %}
+    <link href="{% static '/css/scales_style.css' %}" rel="stylesheet" >
     <link href="{% static '/vendors/iCheck/skins/flat/green.css' %}" rel="stylesheet" >
     <style>
         .table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th{
@@ -258,28 +259,44 @@
                         <label class="control-label col-md-2 col-sm-2 col-xs-12" for="name">姓名 <span class="required">*:</span>
                         </label>
                         <div id="name" class="col-md-4 col-sm-4 col-xs-12" style="padding-top: 7px;margin-bottom: 0;text-align: left">
-                         {{ name }}
+                            <div class="col-sm-4"><input type="text" class="form-control input-sm" name="name" required="required" value="{{ name }}" /></div>
                         </div>
                       </div>
                       <div class="row">
                         <label for="birth_date" class="control-label col-md-2 col-sm-2 col-xs-12">出生日期 <span class="required">*:</span></label>
-                        <div id="birth_date" class="col-md-4 col-sm-4 col-xs-12" style="padding-top: 7px;margin-bottom: 0;text-align: left">
-                            {{ birth_date }}
-                        </div>
+                            <div id="birth_date" class="col-sm-4" ><input  id="birth_date_input" type="date" class="form-control input-sm" name="birth_date"
+                                                             required="required" value="{{ birth_date }}"  /></div>
                         <label class="control-label col-md-2 col-sm-2 col-xs-6" for="sex">性别 <span class="required">*:</span></label>
-                        <div id="sex" class="col-md-4 col-sm-4 col-xs-12" style="padding-top: 7px;margin-bottom: 0;text-align: left">
-                            {% if sex == 0 %}
-                            男
-                            {% else %}
-                            女
-                            {% endif %}
-                        </div>
+                                     {% if sex == 0 %}
+                                          <div class="col-md-2 col-sm-3 form-group has-feedback row" style="width: 7%;">
+                                              <input type="radio" name="gender" value=0 data-labelauty="男" checked />
+                                          </div>
+                                          <div class="col-md-2 col-sm-3 form-group has-feedback row" style="width: 7%;">
+                                              <input type="radio" name="gender" value=1 data-labelauty="女"/>
+                                          </div>
+                                      {% else %}
+                                          <div class="col-md-2 col-sm-3 form-group has-feedback row" style="width: 7%;">
+                                              <input type="radio" name="gender" value=0 data-labelauty="男" />
+                                          </div>
+                                          <div class="col-md-2 col-sm-3 form-group has-feedback row" style="width: 7%;">
+                                              <input type="radio" name="gender" value=1 data-labelauty="女" checked/>
+                                          </div>
+                                      {% endif %}
                       </div>
                       <div class="row">
                         <label class="control-label col-md-2 col-sm-2 col-xs-12">民族 <span class="required">*:</span>
                         </label>
                         <div class="col-md-4 col-sm-4 col-xs-12" style="padding-top: 7px;margin-bottom: 0;text-align: left">
-                            {{ nation }}
+                            <select class="form-control" name="nation" id="nation">
+                              {% for items in nation_list %}
+                                {% if items.ethnicity_name == base_info.nation %}
+                                <option value="{{items.id}}"  selected="true">{{items.ethnicity_name}}={{items.id}}</option>
+                                {% else %}
+                                <option value="{{items.id}}">{{items.ethnicity_name}}={{items.id}}</option>
+                                {% endif %}
+                              }
+                              {% endfor %}
+                            </select>
                         </div>
                       </div>
                     </div>
@@ -346,7 +363,7 @@
                                                     {{ patient_detail|get_item:'create_time' }}
                                                 </td>
                                                 <td>
-                                                    {{ patient_detail|get_item:'diagnosis' }}
+                                                    {{ patient_detail|get_diagnosis_by_dict }}
                                                 </td>
                                                 <td>
                                                     {{ patient_detail|get_item:'doctor__name' }}
@@ -385,18 +402,22 @@
 {% endblock %}
 
 {% block js %}
+<script type="text/javascript" src="{% static '/js/jquery-radio-beauty.js'%}"></script>
+<script>
+    $(document).ready(function(){
+         $("input[type='radio']").labelauty();
+        });
 
-    <script type="text/javascript" language="JavaScript">
-		function deleteJob(id, date)
-		{
-		    var text = "确定要删除" + id + "患者" + date + "的复诊信息吗?"
-		     if(confirm(text))
-		     {
-		         return true;
-		     }else{
-		         return false;
-			 }
-		}
-    </script>
+    function deleteJob(id, date)
+    {
+        var text = "确定要删除" + id + "患者" + date + "的复诊信息吗?"
+         if(confirm(text))
+         {
+             return true;
+         }else{
+             return false;
+    	 }
+    }
+</script>
 
 {% endblock %}
