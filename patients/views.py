@@ -111,9 +111,13 @@ def get_patient_detail(request):
         patient_id = request.GET.get("patient_id")
         patient_baseinfo = patients_dao.get_base_info_byPK(patient_id)
         patient_detail_list = DPatientDetail.objects.all().select_related('patient__doctor').filter(
-            patient_id=patient_id).values('session_id', 'standard_id', 'create_time', 'diagnosis', 'doctor__name')
-        # print(patient_detail_list)
-        test_states = scales_models.RPatientScales.objects.all().select_related('patient_session_id__scale').\
+            patient_id=patient_id).values('id', 'patient__id', 'session_id', 'standard_id', 'create_time', 'diagnosis',
+                                          'doctor__name')
+        diagnosis_type = DPatientDetail.DIAGNOSIS_TYPE
+        for dic in patient_detail_list:
+            dic['diagnosis'] = diagnosis_type[dic['diagnosis']][1]
+        print(patient_detail_list)
+        test_states = scales_models.RPatientScales.objects.all().select_related('patient_session_id__scale'). \
             filter(patient_session_id__patient=patient_baseinfo).values(
             'patient_session_id__session_id',
             'scale_id',
@@ -159,9 +163,12 @@ def del_patient(request):
 def del_followup(request):
     patient_id = request.GET.get("patient_id")
     patient_session_id = request.GET.get("patient_session_id")
-    patient_detail = DPatientDetail.objects.filter(pk=patient_session_id)
+    patient_detail = DPatientDetail.objects.all().select_related('doctor').filter(
+        pk=patient_session_id)
     if patient_detail.count() == 1:
-        patient_detail.first().delete()
+        # 只有创建该条记录的用户才能够删除本条记录
+        if patient_detail.first().doctor.username == request.session.get('username'):
+            patient_detail.first().delete()
     return redirect('/patients/get_patient_detail?patient_id=' + patient_id)
 
 
@@ -340,3 +347,8 @@ def patient_statistics(request):
         'bd_n': bd_n,
         'sz_n': sz_n,
     })
+
+
+def test_view(request):
+    dic = request.session.get('history')
+    return HttpResponse(str(dic))

@@ -1,7 +1,7 @@
 import patients.models as models
 
 
-# 分配patientid
+# 分配patient_id
 def patient_Id_assignment():
     patient_res = models.BPatientBaseInfo.objects.order_by('-id')
     if patient_res.count() == 0:

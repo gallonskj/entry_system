@@ -46,9 +46,11 @@ def judgment_scales(patient_detail_id):
 # 当初扫和复扫时，依据被试需要做的scales_list，预先插入r_patient_scales表中多条记录
 def add_rscales(scales_list, patient_detail_id):
     # 插入r_patient_scales表
+    insert_list = []
     for scale in scales_list:
-        temp = scales_models.RPatientScales(patient_session_id=patient_detail_id, scale_id=scale.id, state=0)
-        temp.save()
+        insert_list.append(scales_models.RPatientScales(patient_session_id=patient_detail_id,
+                                                        scale_id=scale.id, state=0))
+    scales_models.RPatientScales.objects.bulk_create(insert_list)
 
 
 

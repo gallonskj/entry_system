@@ -15,7 +15,6 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
@@ -26,7 +25,6 @@ SECRET_KEY = 'fr0z^p#00@t1qrf2j!7aa68_aybm5$z$b_c9!yak&&b+8^qqa%'
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -51,6 +49,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'EntrySystem.MyMiddleware.AuthMiddleWare',
+    'EntrySystem.MyMiddleware.PageRecordMiddleWare',
 ]
 
 ROOT_URLCONF = 'EntrySystem.urls'
@@ -79,22 +78,20 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'EntrySystem.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',   # 数据库引擎
-        'NAME': 'entry_system',         # 你要存储数据的库名，事先要创建之
-        'USER': 'root',         # 数据库用户名
-        'PASSWORD': '123456',     # 密码
-        'HOST': 'localhost',    # 主机
-        'PORT': '3306',         # 数据库使用的端口
+        'ENGINE': 'django.db.backends.mysql',  # 数据库引擎
+        'NAME': 'entry_system',  # 你要存储数据的库名，事先要创建之
+        'USER': 'root',  # 数据库用户名
+        'PASSWORD': '123456',  # 密码
+        'HOST': 'localhost',  # 主机
+        'PORT': '3306',  # 数据库使用的端口
 
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
@@ -118,20 +115,19 @@ LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
     'handlers': {
-        'console':{
-            'level':'DEBUG',
-            'class':'logging.StreamHandler',
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
         },
     },
     'loggers': {
         'django.db.backends': {
             'handlers': ['console'],
             'propagate': True,
-            'level':'DEBUG',
+            'level': 'DEBUG',
         },
     }
 }
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
@@ -149,16 +145,16 @@ USE_TZ = False
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
-#access static files by url
-STATIC_URL = '/mystatic/' #别名  #直接可以听过url访问到css或者js文件
+# access static files by url
+STATIC_URL = '/mystatic/'  # 别名  #直接可以听过url访问到css或者js文件
 
-#locate the common static files
+# locate the common static files
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR,'common_static'),
+    os.path.join(BASE_DIR, 'common_static'),
 ]
 
-#the dir for command "python manage.py collectstatic"
-#不是必须的，可以不使用
+# the dir for command "python manage.py collectstatic"
+# 不是必须的，可以不使用
 STATIC_ROOT = os.path.join(BASE_DIR, "collect_static")
 
 SESSION_COOKIE_AGE = 60 * 60  # 设置过期时间60分钟，默认为两周

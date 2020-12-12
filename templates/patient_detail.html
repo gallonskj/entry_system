@@ -356,7 +356,6 @@
 
                                                 </td>
                                                 <td>
-                                                    {{ patient_detail|get_item:'session_id' }}
                                                     <a href="#modal_OtherTest_{{ patient_detail|get_item:'session_id' }}" data-toggle="modal" data-orderId="{{ patient_detail.id }}">量表详情</a>
                                                 </td>
                                                 <td>
@@ -367,7 +366,8 @@
                                                 </td>
                                                 <td>
                                                     <button class="btn btn-warning btn-xs">
-                                                        <a onclick='return deleteJob("{{ patient_detail.patient.name }}", "{{ patient_detail.create_time }}");' href="/patients/del_followup?patient_session_id={{ patient_detail.id }}&patient_id={{ patient_detail.patient_id }}" style="color:white;">删除</a>
+
+                                                        <a onclick='return deleteJob("{{ patient_detail.standard_id }}", "{{ patient_detail.create_time }}");' href="/patients/del_followup?patient_session_id={{ patient_detail.id }}&patient_id={{ patient_detail.patient__id }}" style="color:white;">删除</a>
                                                     </button>
                                                 </td>
                                             </tr>
