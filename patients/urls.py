@@ -19,6 +19,7 @@ urlpatterns = [
     url(r'^get_select_scales', scales_views.get_select_scales),
     url(r'^del_patient', views.del_patient),
     url(r'^del_followup', views.del_followup),
+    url(r'^update_patient_detail', views.update_patient_detail),
     # 貌似未使用
     url(r'^subjectDetailInfo', views.subjectDetailInfo),
     url(r'', views.get_all_patients_baseinfo),

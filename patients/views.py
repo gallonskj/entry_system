@@ -145,6 +145,15 @@ def del_followup(request):
         patient_detail.first().delete()
     return redirect('/patients/get_patient_detail?patient_id=' + patient_id)
 
+def update_patient_detail(request):
+    patient_session_id = request.GET.get('patient_sesison_id')
+    patient_detail = patients_dao.get_patient_detail_byPK(patient_session_id)
+    # 通过field的方式进行数据的传递，注意，需要保证form表单中各项的名称与数据库中字段名称是名称相同
+    fields_data = DPatientDetail._meta.fields
+    data_dict = patient_detail.__dict__
+    for ele in fields_data:
+        data_dict[ele.name] = request.POST.get(ele.name)
+    patients_dao.add_patient_detail(patient_detail)
 
 # 新建被试获取自动生成的id
 @csrf_exempt
