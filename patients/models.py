@@ -15,7 +15,7 @@ class BPatientBaseInfo(models.Model):
     )
     DIAGNOSIS_TYPE = (
         (0, '未诊断'),
-        (1, '健康人'),
+        (1, '健康'),
         (2, '重症抑郁障碍'),
         (3, '焦虑障碍'),
         (4, '双相障碍'),
@@ -23,7 +23,9 @@ class BPatientBaseInfo(models.Model):
         (6, '强迫症'),
         (7, '高危遗传'),
         (8, '临床高危'),
-        (9, '抑郁症状')
+        (9, '抑郁症状'),
+        (99, '其他诊断')
+
     )
     id = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=20)

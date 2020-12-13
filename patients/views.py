@@ -12,17 +12,20 @@ import tools.config as tools_config
 import json
 import time
 
-scale_class_dict = {1:[scales_models.RPatientHamd17,[8,21,35],['正常','可能有抑郁症','可能是轻或中度抑郁','可能为严重抑郁']],\
-    2:[scales_models.RPatientHama,[7,14,21,29],['没有焦虑','可能有焦虑','肯定有焦虑','肯定有明显焦虑','可能为严重焦虑']],\
-        3:[scales_models.RPatientYmrs,[5,13,20,30],['正常','轻度','中度','重度','极重度']],\
-            4:[scales_models.RPatientBprs,[36],['正常','偏高']]}
+scale_class_dict = {1: [scales_models.RPatientHamd17, [8, 21, 35], ['正常', '可能有抑郁症', '可能是轻或中度抑郁', '可能为严重抑郁']], \
+                    2: [scales_models.RPatientHama, [7, 14, 21, 29], ['没有焦虑', '可能有焦虑', '肯定有焦虑', '肯定有明显焦虑', '可能为严重焦虑']], \
+                    3: [scales_models.RPatientYmrs, [5, 13, 20, 30], ['正常', '轻度', '中度', '重度', '极重度']], \
+                    4: [scales_models.RPatientBprs, [36], ['正常', '偏高']]}
+
 
 # 获取所有被试基础信息,以及民族字典表信息（创建被试时会使用到）
 def get_all_patients_baseinfo(request):
     patients = patients_dao.get_base_info_all()
     username = request.session.get('username')
     nations = DEthnicity.objects.all()
-    return render(request, 'manage_patients.html', {"patients": patients, 'username': username, 'nations': nations})
+    return render(request, 'manage_patients.html', {"patients": patients,
+                                                    'username': username,
+                                                    'nations': nations})
 
 
 # 被试基本信息录入，需要生成id的信息，需要向patient_detail进行信息插入(session==1的信息)
@@ -35,15 +38,16 @@ def add_patient_baseinfo(request):
     doctor_id = request.session.get('doctor_id')
     diagnosis = request.POST.get("diagnosis")
     other_diagnosis = request.POST.get("other_diagnosis")
+
     # 自动分配id
     patient_id = tools_idAssignments.patient_Id_assignment()
-    patient_id,session_id,standard_id = tools_idAssignments.patient_session_id_assignment(patient_id)
+    patient_id, session_id, standard_id = tools_idAssignments.patient_session_id_assignment(patient_id)
 
     # 基本信息创建
     patient_base_info = patients_models.BPatientBaseInfo(id=patient_id, name=name, sex=sex, birth_date=birth_date,
                                                          nation=nation,
                                                          doctor_id=doctor_id,
-                                                         diagnosis = diagnosis,
+                                                         diagnosis=diagnosis,
                                                          other_diagnosis=other_diagnosis)
     patients_dao.add_base_info(patient_base_info)
 
@@ -61,6 +65,7 @@ def add_patient_baseinfo(request):
     redirect_url = '/scales/select_scales?patient_session_id={}&patient_id={}'.format(str(patient_detail_id),
                                                                                       str(patient_id))
     return redirect(redirect_url)
+
 
 # 添加复扫信息,需要获取到上次扫描的病人详细信息
 def add_patient_followup(request):
@@ -93,9 +98,13 @@ def get_patient_detail(request):
         patient_id = request.GET.get("patient_id")
         patient_baseinfo = patients_dao.get_base_info_byPK(patient_id)
         patient_detail_list = DPatientDetail.objects.all().select_related('patient__doctor').filter(
-            patient_id=patient_id).values('session_id', 'standard_id', 'create_time', 'patient_id__diagnosis', 'patient_id__other_diagnosis','doctor__name')
-        # print(patient_detail_list)
-        test_states = scales_models.RPatientScales.objects.all().select_related('patient_session_id__scale').\
+            patient_id=patient_id).values('id', 'patient__id', 'session_id', 'standard_id', 'create_time', 'diagnosis',
+                                          'doctor__name')
+        diagnosis_type = DPatientDetail.DIAGNOSIS_TYPE
+        for dic in patient_detail_list:
+            dic['diagnosis'] = diagnosis_type[dic['diagnosis']][1]
+        print(patient_detail_list)
+        test_states = scales_models.RPatientScales.objects.all().select_related('patient_session_id__scale'). \
             filter(patient_session_id__patient=patient_baseinfo).values(
             'patient_session_id__session_id',
             'scale_id',
@@ -109,17 +118,19 @@ def get_patient_detail(request):
                 ordered_dic[test_state['patient_session_id__session_id']] = {test_state['scale_id']: test_state}
             else:
                 ordered_dic[test_state['patient_session_id__session_id']][test_state['scale_id']] = test_state
+        nation_list = patients_dao.get_DEthnicity_all()
         return render(request, 'patient_detail.html',
                       {
                           'patient_id': 'NN_' + str(patient_baseinfo.id).zfill(8),
                           'name': patient_baseinfo.name,
-                          'birth_date': patient_baseinfo.birth_date,
+                          'birth_date': patient_baseinfo.birth_date.strftime('%Y-%m-%d'),
                           'sex': patient_baseinfo.sex,
                           'nation': patient_baseinfo.nation,
                           "patient_detail_res": patient_detail_list,
                           "username": request.session.get('username'),
                           "patients_states": ordered_dic,
-                          'test': ordered_dic
+                          'test': ordered_dic,
+                          'nation_list': nation_list,
                       })
     else:
         return render(request, 'patient_detail.html', {"username": request.session.get("username")})
@@ -140,9 +151,12 @@ def del_patient(request):
 def del_followup(request):
     patient_id = request.GET.get("patient_id")
     patient_session_id = request.GET.get("patient_session_id")
-    patient_detail = DPatientDetail.objects.filter(pk=patient_session_id)
+    patient_detail = DPatientDetail.objects.all().select_related('doctor').filter(
+        pk=patient_session_id)
     if patient_detail.count() == 1:
-        patient_detail.first().delete()
+        # 只有创建该条记录的用户才能够删除本条记录
+        if patient_detail.first().doctor.username == request.session.get('username'):
+            patient_detail.first().delete()
     return redirect('/patients/get_patient_detail?patient_id=' + patient_id)
 
 def update_patient_detail(request):
@@ -234,8 +248,8 @@ def patient_statistics(request):
     bd_n = 35
     sz_n = 23
 
-    subject_n = patients_n+hc_n
-    woman_n = len(woman_age_list) 
+    subject_n = patients_n + hc_n
+    woman_n = len(woman_age_list)
     man_n = len(man_age_list)
 
     # age
@@ -324,7 +338,7 @@ def patient_statistics(request):
             all_scale_value_range_list.append(scale_class_dict[scale.id][1])
             all_scale_value_str_range_list.append(scale_class_dict[scale.id][2])
 
-    print('-'*100)
+    print('-' * 100)
     print(scale_score_list)
     return render(request, 'patient_statistics.html', {
         'username': request.session.get('username'),
@@ -339,13 +353,18 @@ def patient_statistics(request):
         'mdd_n': mdd_n,
         'bd_n': bd_n,
         'sz_n': sz_n,
-        'subject_n':subject_n,
-        'woman_n':woman_n,
-        'man_n':man_n,
-        'patients':patients,
-        'scales':scales,
-        'all_scale_id_list':json.dumps(all_scale_id_list),
-        'all_scale_name_list':json.dumps(all_scale_name_list),
-        'all_scale_value_range_list':json.dumps(all_scale_value_range_list),
-        'all_scale_value_str_range_list':json.dumps(all_scale_value_str_range_list)
+        'subject_n': subject_n,
+        'woman_n': woman_n,
+        'man_n': man_n,
+        'patients': patients,
+        'scales': scales,
+        'all_scale_id_list': json.dumps(all_scale_id_list),
+        'all_scale_name_list': json.dumps(all_scale_name_list),
+        'all_scale_value_range_list': json.dumps(all_scale_value_range_list),
+        'all_scale_value_str_range_list': json.dumps(all_scale_value_str_range_list)
     })
+
+
+def test_view(request):
+    dic = request.session.get('history')
+    return HttpResponse(str(dic))

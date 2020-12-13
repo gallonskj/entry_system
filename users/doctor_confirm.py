@@ -9,10 +9,13 @@ from django.shortcuts import redirect, render
 def login_confirm(request, user_id, username):
     request.session['username'] = username
     request.session['doctor_id'] = user_id
+    request.session['history'] = {}
     request.session['active'] = True
+
 
 def clean_session(request):
     request.session.flush()
+
 
 def verify_login(request):
     if request.session.get('active'):

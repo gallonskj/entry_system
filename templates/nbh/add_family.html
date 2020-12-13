@@ -60,18 +60,25 @@
                                 <div class="form-group row">
                                     <label class="control-label col-md-1 col-sm-1" for="name">姓名<span class="required">*</span></label>
                                     <div class="col-md-2 col-sm-3 form-group has-feedback">
-                                        <input type="text" id="name" name="name" class="form-control has-feedback-left">
-                                        <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+                                      {{base_info.name}}
                                     </div>
                                     <label class="control-label col-md-1 col-sm-1" >性别<span class="required">*</span></label>
-                                    <div class="col-md-1 col-sm-1 " id="gender_1">
-                                        <input type="radio" name="gender" value=0 data-labelauty="男"/>
+                                      {% if base_info.sex == 0 %}
+                                      <div class="col-md-2 col-sm-3 form-group has-feedback row" style="width: 7%;">
+                                          <input type="radio" name="gender" value=0 data-labelauty="男" checked />
+                                      </div>
+                                      <div class="col-md-2 col-sm-3 form-group has-feedback row" style="width: 7%;">
+                                          <input type="radio" name="gender" value=1 data-labelauty="女"/>
+                                      </div>
+                                      {% else %}
+                                      <div class="col-md-2 col-sm-3 form-group has-feedback row" style="width: 7%;">
+                                          <input type="radio" name="gender" value=0 data-labelauty="男" />
+                                      </div>
+                                      <div class="col-md-2 col-sm-3 form-group has-feedback row" style="width: 7%;">
+                                          <input type="radio" name="gender" value=1 data-labelauty="女" checked/>
+                                      </div>
+                                      {% endif %}
 
-                                    </div>
-                                    <div class="col-md-1 col-sm-1 " id="gender_2">
-                                        <input type="radio" name="gender" value=1 data-labelauty="女"/>
-
-                                    </div>
                                     <label class="control-label col-md-1 col-sm-2" for="tele">联系方式<span class="required">*</span></label>
                                     <div class="col-md-2 col-sm-3 form-group has-feedback">
                                         <input type="text" id="tele" name="tele" class="form-control has-feedback-left">
@@ -83,11 +90,11 @@
                                 <div class="form-group row">
                             <label class="control-label col-md-1 col-sm-1" for="age">年龄<span class="required">*</span></label>
                             <div class="col-md-1 col-sm-1 form-group ">
-                                <input type="text" id="age" name="age" class="form-control">
+                                {{age}}
                             </div>
                             <label class="control-label col-md-1 col-sm-2" for="birthday">出生日期<span class="required">*</span></label>
                             <div class="col-md-2 col-sm-3 form-group">
-                                <input type="date" id="birthday" name="birthday" class="form-control">
+                                {{base_info.birth_date}}
                             </div>
                             <label class="control-label col-md-1 col-sm-2 " for="marital_status">婚姻状况<span class="required">*</span></label>
                             <div class="col-md-1 col-sm-2">
@@ -127,15 +134,16 @@
                                         <label class="control-label col-md-2 col-sm-2 " for="nation">民族<span class="required">*</span></label>
                                         <div class="col-md-3 col-sm-3">
                                             <select class="form-control" name="nation" id="nation">
-                                                <option value="0">汉族=0</option>
-                                                <option value="1">少数民族=1</option>
+                                              {% for items in nation_list %}
+                                                {% if items.id == base_info.nation %}
+                                                <option value="{{items.id}}"  selected="true">{{items.ethnicity_name}}={{items.id}}</option>
+                                                {% else %}
+                                                <option value="{{items.id}}">{{items.ethnicity_name}}={{items.id}}</option>
+                                                {% endif %}
+                                              }
+                                              {% endfor %}
                                             </select>
                                         </div>
-                                        <label class="control-label col-md-3 col-sm-3" for="minority">少数民族</label>
-                                        <div class="col-md-3 col-sm-3">
-                                            <input type="text" id="minority" name="minority" class="form-control">
-                                        </div>
-                                        <label class="control-label col-md-1 col-sm-1" >族</label>
                                     </div>
                                 </div>
                             </div>
