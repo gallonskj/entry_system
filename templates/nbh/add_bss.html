@@ -1,5 +1,6 @@
 {% extends 'templates/index.html' %}
 {% load static %}
+{% load SelfDefinedFilter %}
 {% block title %}自杀意念及行为史bss{% endblock %}
 {% block css %}
     <link href="{% static '/vendors/iCheck/skins/flat/green.css' %}" rel="stylesheet" >
@@ -18,9 +19,9 @@
                 </div>
             </div>
         </div>
-        <div class="dashboard_graph x_panel" style="margin-top: 0px;">
+        <div class="dashboard_graph x_panel" style="margin-top: 0px;height: 83%;">
             <div id="wrapper">
-                <div id = "left-side" style="height: 100%;" class="col-md-2">
+                <div id = "left-side" style="height: 100%;margin-left: 10px;" class="col-md-2">
                   <ul class="scales_progress">
                     <li class="step1 done">
                       <p>耶鲁布朗强迫症严重程度标准量表（ybocs）</p>
@@ -37,9 +38,7 @@
 					<li class="step5 nodone notclick">
 						<p>快感体验能力量表teps</p>
 					</li>
-					<li class="step6 nodone notclick">
-						<p>斯奈斯和汉密尔顿快乐量表(shaps)</p>
-					</li>
+
 					<li class="step7 nodone notclick">
 						<p>儿童期（16岁以前）的成长经历ctq-sf</p>
 					</li>
@@ -63,10 +62,10 @@
 				         
                 <div id="right-side" class="col-md-10" >
                   <div id="first" class="active">
-                      <form action="/scales/add_suicide?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}" method="POST" id="zisha_form">
+                      <form name="bssform" action="/scales/add_suicide?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}" method="POST" id="zisha_form" onSubmit="return myCheck(this)">
 						<div class="container">
-							<div>
-								<center> 贝克自杀意念及强度量表</center>
+							<div class="col-md-12 text-center">
+								<h4><strong> 贝克自杀意念及强度量表</strong></h4>
 							</div>
 							<div class="row suicide_title" style="margin-left:5px;margin-top: 5px;padding-bottom: 5px;">
 								<div style="float: left; margin-top: 5px;"><strong>您是否有过自杀行为史（自杀未遂或自伤）?</strong></div>
@@ -81,9 +80,8 @@
 							</div>
 							<div class="row">
 								<div class="col-md-12 column">
-									<table class="table table-bordered" style="width:100%;">
+									<table class="table " style="width:100%;">
 										<tbody>
-											<div>
 												<tr>
 													<th  colspan="6">
 														1. 您希望活下去的程度如何?
@@ -117,8 +115,6 @@
 														<input type="radio"  class="form-control" name="question1_mostdepressed" value=3 data-labelauty="没有活着的欲望"/>
 													</td>
 												</tr>
-											</div>
-											<div>
 												<tr>
 													<th  colspan="6">
 														2. 您希望死去的程度如何?
@@ -152,8 +148,6 @@
 														<input type="radio" class="form-control" name="question2_mostdepressed"  value=3 data-labelauty="中等到强烈"/>
 													</td>
 												</tr>
-											</div>
-											<div>
 												<tr>
 													<th  colspan="6">
 														3. 您要活下去的理由胜过您要死去的理由吗?
@@ -187,8 +181,6 @@
 														<input type="radio"  class="form-control" name="question3_mostdepressed"  value=3 data-labelauty="要死去胜过要活下来"/>
 													</td>
 												</tr>
-											</div>
-											<div>
 												<tr>
 													<th  colspan="6">
 														4. 您主动尝试自杀的愿望程度如何?
@@ -199,13 +191,13 @@
 														最近一周
 													</td>
 													<td>
-														<input type="radio" class="suicide_question_4_1 suicide_control" name="question4_lastweek" value=1 data-labelauty="没有"/>
+														<input type="radio" class="suicide_question_4_1_0 " name="question4_lastweek" value=1 data-labelauty="没有"/>
 													</td>
 													<td>
-														<input type="radio" class="suicide_question_4_1 suicide_control" name="question4_lastweek" value=2 data-labelauty="弱"/>
+														<input type="radio" class="suicide_question_4_1_other " name="question4_lastweek" value=2 data-labelauty="弱"/>
 													</td>
 													<td>
-														<input type="radio" class="suicide_question_4_1 suicide_control" name="question4_lastweek" value=3 data-labelauty="中等到强烈"/>
+														<input type="radio" class="suicide_question_4_1_other " name="question4_lastweek" value=3 data-labelauty="中等到强烈"/>
 													</td>
 												</tr>
 												<tr>
@@ -213,17 +205,15 @@
 														最消沉、最忧郁的时候
 													</td>
 													<td>
-														<input type="radio" class="suicide_question_4_2 suicide_control" name="question4_mostdepressed" value=1 data-labelauty="没有"/>
+														<input type="radio" class="suicide_question_4_2_0 " name="question4_mostdepressed" value=1 data-labelauty="没有"/>
 													</td>
 													<td>
-														<input type="radio" class="suicide_question_4_2 suicide_control" name="question4_mostdepressed" value=2 data-labelauty="弱"/>
+														<input type="radio" class="suicide_question_4_2_other " name="question4_mostdepressed" value=2 data-labelauty="弱"/>
 													</td>
 													<td>
-														<input type="radio" class="suicide_question_4_2 suicide_control" name="question4_mostdepressed" value=3 data-labelauty="中等到强烈"/>
+														<input type="radio" class="suicide_question_4_2_other " name="question4_mostdepressed" value=3 data-labelauty="中等到强烈"/>
 													</td>
 												</tr>
-											</div>
-											<div>
 												<tr>
 													<th  colspan="6">
 														5. 您希望外力结束自己生命，即有“被动自杀愿望”的程度如何?（如，希望一直睡下去不再醒来、意外地死去等）
@@ -234,13 +224,13 @@
 														最近一周
 													</td>
 													<td>
-														<input type="radio" class="suicide_question_5_1 suicide_control" name="question5_lastweek" value=1 data-labelauty="没有"/>
+														<input type="radio" class="suicide_question_5_1_0 " name="question5_lastweek" value=1 data-labelauty="没有"/>
 													</td>
 													<td>
-														<input type="radio" class="suicide_question_5_1 suicide_control" name="question5_lastweek" value=2 data-labelauty="弱" />
+														<input type="radio" class="suicide_question_5_1_other" name="question5_lastweek" value=2 data-labelauty="弱" />
 													</td>
 													<td>
-														<input type="radio" class="suicide_question_5_1 suicide_control" name="question5_lastweek" value=3 data-labelauty="中等到强烈"/>
+														<input type="radio" class="suicide_question_5_1_other" name="question5_lastweek" value=3 data-labelauty="中等到强烈"/>
 													</td>
 												</tr>
 												<tr>
@@ -248,23 +238,28 @@
 														最消沉、最忧郁的时候
 													</td>
 													<td>
-														<input type="radio" class="suicide_question_5_2 suicide_control" name="question5_mostdepressed"  value=1 data-labelauty="没有"/>
+														<input type="radio" class="suicide_question_5_2_0 " name="question5_mostdepressed"  value=1 data-labelauty="没有"/>
 													</td>
 													<td>
-														<input type="radio" class="suicide_question_5_2 suicide_control" name="question5_mostdepressed"  value=2 data-labelauty="弱"/>
+														<input type="radio" class="suicide_question_5_2_other " name="question5_mostdepressed"  value=2 data-labelauty="弱"/>
 													</td>
 													<td>
-														<input type="radio" class="suicide_question_5_2 suicide_control" name="question5_mostdepressed" value=3 data-labelauty="中等到强烈"/>
+														<input type="radio" class="suicide_question_5_2_other " name="question5_mostdepressed" value=3 data-labelauty="中等到强烈"/>
 													</td>
 												</tr>
-											</div>
-											<div class="control_question">
-												<tr id='zisha_question6'>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="col-md-12 column">
+                                    <div  class="suicides_next_question" id = "suicides_next_question001">
+                                        <table class="table " style="width:100%;">
+                                            <tbody>
+												<tr >
 													<th  colspan="6">
 														6. 您的这种自杀想法持续存在多长时间?
 													</th>
 												</tr>
-												<tr id='zisha_question6'>
+												<tr >
 													<td>
 														最近一周
 													</td>
@@ -281,7 +276,7 @@
 														<input type="radio" class="form-control" name="question6_lastweek" value=0 data-labelauty="近一周无自杀想法"/>
 													</td>
 												</tr>
-												<tr id='zisha_question6'>
+												<tr >
 													<td>
 														最消沉、最忧郁的时候
 													</td>
@@ -295,14 +290,13 @@
 														<input type="radio"  class="condition_required" name="question6_mostdepressed"  value=3 data-labelauty="持续或几乎是持续的"/>
 													</td>
 												</tr>
-											</div>
-											<div class="control_question">
-												<tr id='zisha_question7'>
+
+												<tr >
 													<th  colspan="6">
 														7. 您自杀想法出现的频度如何?
 													</th>
 												</tr>
-												<tr id='zisha_question7'>
+												<tr >
 													<td>
 														最近一周
 													</td>
@@ -319,7 +313,7 @@
 														<input type="radio"   class="condition_required" name="question7_lastweek" value=0 data-labelauty="近一周无自杀想法"/>
 													</td>
 												</tr>
-												<tr id='zisha_question7'>
+												<tr >
 													<td>
 														最消沉、最忧郁的时候
 													</td>
@@ -333,14 +327,13 @@
 														<input type="radio"  class="condition_required" name="question7_mostdepressed"  value=3 data-labelauty="经常或持续"/>
 													</td>
 												</tr>
-											</div>
-											<div class="control_question">
-												<tr id='zisha_question8'>
+
+												<tr >
 													<th  colspan="6">
 														8. 您对自杀持什么态度?
 													</th>
 												</tr>
-												<tr id='zisha_question8'>
+												<tr >
 													<td>
 														最近一周
 													</td>
@@ -354,7 +347,7 @@
 														<input type="radio"  class="condition_required" name="question8_lastweek"  value=3 data-labelauty="接受"/>
 													</td>
 												</tr>
-												<tr id='zisha_question8'>
+												<tr >
 													<td>
 														最消沉、最忧郁的时候
 													</td>
@@ -368,14 +361,13 @@
 														<input type="radio"  class="condition_required" name="question8_mostdepressed" value=3 data-labelauty="接受"/>
 													</td>
 												</tr>
-											</div>
-											<div class="control_question">
-												<tr id='zisha_question9'>
+
+												<tr >
 													<th  colspan="6">
 														9. 您觉得自己控制自杀想法、不把它变成行动的能力如何?
 													</th>
 												</tr>
-												<tr id='zisha_question9'>
+												<tr >
 													<td>
 														最近一周
 													</td>
@@ -389,7 +381,7 @@
 														<input type="radio"  class="condition_required" name="question9_lastweek" value=3 data-labelauty="不能控制"/>
 													</td>
 												</tr>
-												<tr id='zisha_question9'>
+												<tr >
 													<td>
 														最消沉、最忧郁的时候
 													</td>
@@ -400,17 +392,16 @@
 														<input type="radio"  class="condition_required" name="question9_mostdepressed" value=2 data-labelauty="不知能否控制"/>
 													</td>
 													<td>
-														<input type="radio"  class="condition_required" name="question9_mostdepressed" value=3 data-labelauty="不能控制"/> <span style="margin-right: 20px">不能控制</span>
+														<input type="radio"  class="condition_required" name="question9_mostdepressed" value=3 data-labelauty="不能控制"/>
 													</td>
 												</tr>
-											</div>
-											<div class="control_question">
-												<tr id='zisha_question10'>
+
+												<tr >
 													<th  colspan="6">
 														10. 如果出现自杀想法，某些顾虑（如顾及家人、死亡不可逆转等）在多大程度上能阻止您自杀?
 													</th>
 												</tr>
-												<tr id='zisha_question10'>
+												<tr >
 													<td>
 														最近一周
 													</td>
@@ -424,7 +415,7 @@
 														<input type="radio"  class="condition_required" name="question10_lastweek" value=3 data-labelauty="无顾虑或无影响"/>
 													</td>
 												</tr>
-												<tr id='zisha_question10'>
+												<tr >
 													<td>
 														最消沉、最忧郁的时候
 													</td>
@@ -438,14 +429,12 @@
 														<input type="radio"   class="condition_required" name="question10_mostdepressed" value=3 data-labelauty="无顾虑或无影响"/>
 													</td>
 												</tr>
-											</div>
-											<div class="control_question">
-												<tr id='zisha_question11'>
+												<tr >
 													<th  colspan="6">
 														11. 当您想自杀时，主要是为了什么?
 													</th>
 												</tr>
-												<tr id='zisha_question11'>
+												<tr >
 													<td>
 														最近一周
 													</td>
@@ -462,7 +451,7 @@
 														<input type="radio"  class="condition_required" name="question11_lastweek" value=0 data-labelauty="近一周无自杀想法"/>
 													</td>
 												</tr>
-												<tr id='zisha_question11'>
+												<tr >
 													<td>
 														最消沉、最忧郁的时候
 													</td>
@@ -476,14 +465,13 @@
 														<input type="radio" class="condition_required" name="question11_mostdepressed" value=3 data-labelauty="前两种情况均有"/>
 													</td>
 												</tr>
-											</div>
-											<div class="control_question">
-												<tr id='zisha_question12'>
+
+												<tr >
 													<th  colspan="6">
 														12. 您想过结束自己生命的方法了吗?
 													</th>
 												</tr>
-												<tr id='zisha_question12'>
+												<tr >
 													<td>
 														最近一周
 													</td>
@@ -497,7 +485,7 @@
 														<input type="radio"  class="condition_required" name="question12_lastweek" value=3 data-labelauty="制订出具体细节或计划得很周详"/>
 													</td>
 												</tr>
-												<tr id='zisha_question12'>
+												<tr >
 													<td>
 														最消沉、最忧郁的时候
 													</td>
@@ -511,19 +499,18 @@
 														<input type="radio"  class="condition_required" name="question12_mostdepressed"  value=3 data-labelauty="制订出具体细节或计划得很周详"/>
 													</td>
 												</tr>
-											</div>
-											<div class="control_question">
-												<tr id='zisha_question13'>
+
+												<tr >
 													<th  colspan="6">
 														13. 您把自杀想法落实的条件或机会如何?
 													</th>
 												</tr>
-												<tr id='zisha_question13'>
+												<tr>
 													<td>
 														最近一周
 													</td>
 													<td>
-														<input type="radio"  class="condition_required" name="question13_lastweek" value=1 data-labelauty="没有现成的方法、没有机会"/> <span style="margin-right: 20px">没有现成的方法、没有机会</span>
+														<input type="radio"  class="condition_required" name="question13_lastweek" value=1 data-labelauty="没有现成的方法、没有机会"/>
 													</td>
 													<td>
 														<input type="radio"  class="condition_required" name="question13_lastweek" value=2 data-labelauty="需要时间或精力准备自杀工具"/>
@@ -535,7 +522,7 @@
 														<input type="radio"  class="condition_required" name="question13_lastweek" value=0 data-labelauty="近一周无自杀想法"/>
 													</td>
 												</tr>
-												<tr id='zisha_question13'>
+												<tr >
 													<td>
 														最消沉、最忧郁的时候
 													</td>
@@ -549,14 +536,13 @@
 														<input type="radio"  class="condition_required" name="question13_mostdepressed" value=3 data-labelauty="有现成的方法和机会或预计将来有方法和机会"/>
 													</td>
 												</tr>
-											</div>
-											<div class="control_question">
-												<tr id='zisha_question14'>
+
+												<tr>
 													<th  colspan="6">
 														14. 您相信自己有能力并且有勇气去自杀吗?
 													</th>
 												</tr>
-												<tr id='zisha_question14'>
+												<tr >
 													<td>
 														最近一周
 													</td>
@@ -570,7 +556,7 @@
 														<input type="radio"  class="condition_required" name="question14_lastweek" value=3 data-labelauty="确信自己有能力、有勇气"/>
 													</td>
 												</tr>
-												<tr id='zisha_question14'>
+												<tr >
 													<td>
 														最消沉、最忧郁的时候
 													</td>
@@ -584,14 +570,13 @@
 														<input type="radio"  class="condition_required" name="question14_mostdepressed" value=3 data-labelauty="确信自己有能力、有勇气"/>
 													</td>
 												</tr>
-											</div>
-											<div class="control_question">
-												<tr id='zisha_question15'>
+
+												<tr >
 													<th  colspan="6">
 														15. 您预计某一时间您确实会尝试自杀吗?
 													</th>
 												</tr>
-												<tr id='zisha_question15'>
+												<tr >
 													<td>
 														最近一周
 													</td>
@@ -605,7 +590,7 @@
 														<input type="radio"  class="condition_required" name="question15_lastweek" value=3 data-labelauty="会"/>
 													</td>
 												</tr>
-												<tr id='zisha_question15'>
+												<tr >
 													<td>
 														最消沉、最忧郁的时候
 													</td>
@@ -619,14 +604,13 @@
 														<input type="radio"  class="condition_required" name="question15_mostdepressed"  value=3 data-labelauty="会"/>
 													</td>
 												</tr>
-											</div>
-											<div class="control_question">
-												<tr id='zisha_question16'>
+
+												<tr >
 													<th  colspan="6">
 														16. 为了自杀，您的准备行动完成得怎样?
 													</th>
 												</tr>
-												<tr id='zisha_question16'>
+												<tr >
 													<td>
 														最近一周
 													</td>
@@ -640,7 +624,7 @@
 														<input type="radio"  class="condition_required" name="question16_lastweek" value=3 data-labelauty="全部完成(如，有药片、刀片、有子弹的枪)"/>
 													</td>
 												</tr>
-												<tr id='zisha_question16'>
+												<tr >
 													<td>
 														最消沉、最忧郁的时候
 													</td>
@@ -654,14 +638,13 @@
 														<input type="radio"  class="condition_required" name="question16_mostdepressed" value=3 data-labelauty="全部完成(如，有药片、刀片、有子弹的枪)"/>
 													</td>
 												</tr>
-											</div>
-											<div class="control_question">
-												<tr id='zisha_question17'>
+
+												<tr >
 													<th  colspan="6">
 														17. 您已着手写自杀遗言了吗?
 													</th>
 												</tr>
-												<tr id='zisha_question17'>
+												<tr >
 													<td>
 														最近一周
 													</td>
@@ -675,7 +658,7 @@
 														<input type="radio" class="condition_required" name="question17_lastweek"  value=3 data-labelauty="写完"/>
 													</td>
 												</tr>
-												<tr id='zisha_question17'>
+												<tr >
 													<td>
 														最消沉、最忧郁的时候
 													</td>
@@ -689,14 +672,13 @@
 														<input type="radio"  class="condition_required" name="question17_mostdepressed" value=3 data-labelauty="写完"/>
 													</td>
 												</tr>
-											</div>
-											<div class="control_question">
-												<tr id='zisha_question18'>
+
+												<tr >
 													<th  colspan="6">
 														18. 您是否因为预计要结束自己的生命而抓紧处理一些事情？如买保险或准备遗嘱。
 													</th>
 												</tr>
-												<tr id='zisha_question18'>
+												<tr >
 													<td>
 														最近一周
 													</td>
@@ -710,7 +692,7 @@
 														<input type="radio"  class="condition_required" name="question18_lastweek" value=3 data-labelauty="有肯定的计划或安排完毕"/>
 													</td>
 												</tr>
-												<tr id='zisha_question18'>
+												<tr>
 													<td>
 														最消沉、最忧郁的时候
 													</td>
@@ -724,14 +706,13 @@
 														<input type="radio"  class="condition_required" name="question18_mostdepressed" value=3 data-labelauty="有肯定的计划或安排完毕"/>
 													</td>
 												</tr>
-											</div>
-											<div class="control_question">
-												<tr id='zisha_question19'>
+
+												<tr >
 													<th  colspan="6">
 														19. 您是否让人知道自己的自杀想法?
 													</th>
 												</tr>
-												<tr id='zisha_question19'>
+												<tr >
 													<td>
 														最近一周
 													</td>
@@ -748,7 +729,7 @@
 														<input type="radio"   class="form-control" name="question19_lastweek" value=0 data-labelauty="近一周无自杀想法"/>
 													</td>
 												</tr>
-												<tr id='zisha_question19'>
+												<tr >
 													<td>
 														最消沉、最忧郁的时候
 													</td>
@@ -764,9 +745,10 @@
 													<td>
 													</td>
 												</tr>
-											</div>
-										</tbody>
-									</table>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
 								</div>
 							</div>
 							<!-- <div class="row">
@@ -778,7 +760,7 @@
 								<div class="text-center">
 									{% csrf_token %}
 									<!-- {{ form }} -->
-									<input  type="submit" class="btn btn-success" value="提交" id="bss_bt"/>
+									<input  type="submit" class="btn btn-success" value="保存并提交量表，继续下一个量表" id="bss_bt"/>
 								</div>
 							</div>
 						</div>
@@ -791,52 +773,328 @@
 {% endblock %}
 
 {% block js %}
-<script>	
+<script>
+     function myhide(){
+         $("input[name='question6_lastweek'][value=1]").prop("checked",true);
+         $("input[name='question6_mostdepressed'][value=1]").prop("checked",true);
+         $("input[name='question7_lastweek'][value=1]").prop("checked",true);
+         $("input[name='question7_mostdepressed'][value=1]").prop("checked",true);
+         $("input[name='question8_lastweek'][value=1]").prop("checked",true);
+         $("input[name='question8_mostdepressed'][value=1]").prop("checked",true);
+         $("input[name='question9_lastweek'][value=1]").prop("checked",true);
+         $("input[name='question9_mostdepressed'][value=1]").prop("checked",true);
+         $("input[name='question10_lastweek'][value=1]").prop("checked",true);
+         $("input[name='question10_mostdepressed'][value=1]").prop("checked",true);
+         $("input[name='question11_lastweek'][value=1]").prop("checked",true);
+         $("input[name='question11_mostdepressed'][value=1]").prop("checked",true);
+         $("input[name='question12_lastweek'][value=1]").prop("checked",true);
+         $("input[name='question12_mostdepressed'][value=1]").prop("checked",true);
+         $("input[name='question13_lastweek'][value=1]").prop("checked",true);
+         $("input[name='question13_mostdepressed'][value=1]").prop("checked",true);
+         $("input[name='question14_lastweek'][value=1]").prop("checked",true);
+         $("input[name='question14_mostdepressed'][value=1]").prop("checked",true);
+         $("input[name='question15_lastweek'][value=1]").prop("checked",true);
+         $("input[name='question15_mostdepressed'][value=1]").prop("checked",true);
+         $("input[name='question16_lastweek'][value=1]").prop("checked",true);
+         $("input[name='question16_mostdepressed'][value=1]").prop("checked",true);
+         $("input[name='question17_lastweek'][value=1]").prop("checked",true);
+         $("input[name='question17_mostdepressed'][value=1]").prop("checked",true);
+         $("input[name='question18_lastweek'][value=1]").prop("checked",true);
+         $("input[name='question18_mostdepressed'][value=1]").prop("checked",true);
+         $("input[name='question19_lastweek'][value=1]").prop("checked",true);
+         $("input[name='question19_mostdepressed'][value=1]").prop("checked",true);
+     }
+     function myshow(){
+         $("input[name='question6_lastweek'][value=1]").prop("checked",false);
+         $("input[name='question6_mostdepressed'][value=1]").prop("checked",false);
+         $("input[name='question7_lastweek'][value=1]").prop("checked",false);
+         $("input[name='question7_mostdepressed'][value=1]").prop("checked",false);
+         $("input[name='question8_lastweek'][value=1]").prop("checked",false);
+         $("input[name='question8_mostdepressed'][value=1]").prop("checked",false);
+         $("input[name='question9_lastweek'][value=1]").prop("checked",false);
+         $("input[name='question9_mostdepressed'][value=1]").prop("checked",false);
+         $("input[name='question10_lastweek'][value=1]").prop("checked",false);
+         $("input[name='question10_mostdepressed'][value=1]").prop("checked",false);
+         $("input[name='question11_lastweek'][value=1]").prop("checked",false);
+         $("input[name='question11_mostdepressed'][value=1]").prop("checked",false);
+         $("input[name='question12_lastweek'][value=1]").prop("checked",false);
+         $("input[name='question12_mostdepressed'][value=1]").prop("checked",false);
+         $("input[name='question13_lastweek'][value=1]").prop("checked",false);
+         $("input[name='question13_mostdepressed'][value=1]").prop("checked",false);
+         $("input[name='question14_lastweek'][value=1]").prop("checked",false);
+         $("input[name='question14_mostdepressed'][value=1]").prop("checked",false);
+         $("input[name='question15_lastweek'][value=1]").prop("checked",false);
+         $("input[name='question15_mostdepressed'][value=1]").prop("checked",false);
+         $("input[name='question16_lastweek'][value=1]").prop("checked",false);
+         $("input[name='question16_mostdepressed'][value=1]").prop("checked",false);
+         $("input[name='question17_lastweek'][value=1]").prop("checked",false);
+         $("input[name='question17_mostdepressed'][value=1]").prop("checked",false);
+         $("input[name='question18_lastweek'][value=1]").prop("checked",false);
+         $("input[name='question18_mostdepressed'][value=1]").prop("checked",false);
+         $("input[name='question19_lastweek'][value=1]").prop("checked",false);
+         $("input[name='question19_mostdepressed'][value=1]").prop("checked",false);
+     }
 	$(document).ready(function(){
+	    $("#suicides_times_block").hide();
 		$("input[type='radio']").labelauty();
 		$(".suicide_no").on('click',function(event){
-        var val_num=document.getElementById("suicides_times_content").value;
-        val_num=0;
+        var val=document.getElementById("suicides_times_content").getAttribute("value");
+        val=0
 		$("#suicides_times_block").hide();
+        $("input[name='suicide_times']").prop("value","0");
+
 	    });
 		$(".suicide_yes").on('click',function(event){
+		    $("input[name='suicide_times']").prop("value","");
 			$("#suicides_times_block").show();
 		});
 
+
+        
+       /*若4和5题都选择选项1，则其他下面的题目直接隐藏 开始*/
+	   $(".suicides_next_question").hide();
+       var question4_lastweek;
+       $("input:radio[name='question4_lastweek']").click(function(){
+           question4_lastweek = $(this).val();
+		   if(Number(question4_lastweek>=2)) {
+               myshow();
+               $(".suicides_next_question").show();
+           }
+		   var num = Number(question4_lastweek)+Number(question5_lastweek)+Number(question4_lastweek_mostdepressed)+Number(question5_lastweek_mostdepressed);
+		   if(num<=4) {
+		       $(".suicides_next_question").hide();
+               myhide();
+           }
+        });
+       var question5_lastweek;
+       $("input:radio[name='question5_lastweek']").click(function(){
+           question5_lastweek = $(this).val();
+		   if(Number(question5_lastweek>=2)) {
+               myshow();
+               $(".suicides_next_question").show();
+           }
+		   var num = Number(question4_lastweek)+Number(question5_lastweek)+Number(question4_lastweek_mostdepressed)+Number(question5_lastweek_mostdepressed);
+		   if(num<=4) {
+               $(".suicides_next_question").hide();
+               myhide();
+           }
+       });
+
+       var question4_lastweek_mostdepressed;
+       $("input:radio[name='question4_mostdepressed']").click(function(){
+           question4_lastweek_mostdepressed = $(this).val();
+		   if(Number(question4_lastweek_mostdepressed>=2)) {
+               myshow();
+               $(".suicides_next_question").show();
+           }
+		   var num = Number(question4_lastweek)+Number(question5_lastweek)+Number(question4_lastweek_mostdepressed)+Number(question5_lastweek_mostdepressed);
+		   if(num<=4) {
+               $(".suicides_next_question").hide();
+               myhide();
+           }
+        });
+       var question5_lastweek_mostdepressed;
+       $("input:radio[name='question5_mostdepressed']").click(function(){
+           question5_lastweek_mostdepressed = $(this).val();
+           if(Number(question5_lastweek_mostdepressed>=2)) {
+               myshow();
+               $(".suicides_next_question").show();
+           }
+           var num = Number(question4_lastweek)+Number(question5_lastweek)+Number(question4_lastweek_mostdepressed)+Number(question5_lastweek_mostdepressed);
+		   if(num<=4) {
+               $(".suicides_next_question").hide();
+               myhide();
+           }
+
+       });
+
+       /*若4和5题都选择选项1，则其他下面的题目直接隐藏 开始*/
+
+
+       /*var question4_lastweek_1=$('input:radio[name="question4_lastweek"]:checked').val();
+       console.log(question4_lastweek_1)
+       var suicide_question_4_2_0 = $('.suicide_question_4_2_0').attr('value');
+       var suicide_question_5_1_0 = $('.suicide_question_5_1_0').attr('value');
+       var suicide_question_5_2_0 = $('.suicide_question_5_2_0').attr('value');
+       console.log(suicide_question_4_1_0);
+       if (suicide_question_4_1_0+suicide_question_4_2_0+suicide_question_5_1_0+suicide_question_5_2_0<=4){
+           alert("yes");
+
+       }*/
 	});
 
-	$(".suicide_control").on('click', function(event){
-
-	    $("input[suicide_question_4_1]").click(function() {
-            var val=val4_1 = $(this).val();
-           console.log(val4_1);
-
-        });
-	     $("input[suicide_question_4_2]").click(function() {
-            var val4_2 = $(this).val();
-        });
-	      $("input[suicide_question_5_1]").click(function() {
-            var val5_1 = $(this).val();
-        });
-	       $("input[suicide_question_5_2]").click(function() {
-            var val5_2 = $(this).val();
-        });
-
-
-		var score = $(".suicide_question_4_1:checked").val()*1 + $(".suicide_question_4_2:checked").val()*1 + $(".suicide_question_5_1:checked").val()*1 + $(".suicide_question_5_2:checked").val()*1;
-		if(score <= 4 ){
-			$(".control_question").hide();
-			$(".condition_required").removeAttr("required");
-		}else{
-			$(".control_question").show();
-			$(".condition_required").attr("required", "required");
-		}
-	});
 
 
 
 
 </script>
 <script type="text/javascript" src="{% static '/js/jquery-radio-beauty.js' %}"></script>
+    <script type="text/javascript">
+      function myCheck(bssform)
+      {
+          if (document.bssform.suicide_history.value=="") {
+              alert("请回答您是否有过自杀行为史！");
+              return false;
+          }
+          if (document.bssform.suicide_times.value=="") {
+              alert("自杀次数不能为空！");
+              return false;
+          }
+          if (document.bssform.question1_lastweek.value=="") {
+              alert("问题一不能为空！");
+              return false;
+          }
+          if (document.bssform.question1_mostdepressed.value=="") {
+              alert("问题一不能为空！");
+              return false;
+          }
+          if (document.bssform.question2_lastweek.value=="") {
+              alert("问题二不能为空！");
+              return false;
+          }
+          if (document.bssform.question2_mostdepressed.value=="") {
+              alert("问题二不能为空！");
+              return false;
+          }
+          if (document.bssform.question3_lastweek.value=="") {
+              alert("问题三不能为空！");
+              return false;
+          }
+          if (document.bssform.question3_mostdepressed.value=="") {
+              alert("问题三不能为空！");
+              return false;
+          }
+          if (document.bssform.question4_lastweek.value=="") {
+              alert("问题四不能为空！");
+              return false;
+          }
+          if (document.bssform.question4_mostdepressed.value=="") {
+              alert("问题四不能为空！");
+              return false;
+          }
+          if (document.bssform.question5_lastweek.value=="") {
+              alert("问题五不能为空！");
+              return false;
+          }
+          if (document.bssform.question5_mostdepressed.value=="") {
+              alert("问题五不能为空！");
+              return false;
+          }
+          if (document.bssform.question6_lastweek.value=="") {
+              alert("问题六不能为空！");
+              return false;
+          }
+          if (document.bssform.question6_mostdepressed.value=="") {
+              alert("问题六不能为空！");
+              return false;
+          }
+          if (document.bssform.question7_lastweek.value=="") {
+              alert("问题七不能为空！");
+              return false;
+          }
+          if (document.bssform.question7_mostdepressed.value=="") {
+              alert("问题七不能为空！");
+              return false;
+          }
+          if (document.bssform.question8_lastweek.value=="") {
+              alert("问题八不能为空！");
+              return false;
+          }
+          if (document.bssform.question8_mostdepressed.value=="") {
+              alert("问题八不能为空！");
+              return false;
+          }
+          if (document.bssform.question9_lastweek.value=="") {
+              alert("问题九不能为空！");
+              return false;
+          }
+          if (document.bssform.question9_mostdepressed.value=="") {
+              alert("问题九不能为空！");
+              return false;
+          }
+          if (document.bssform.question10_lastweek.value=="") {
+              alert("问题十不能为空！");
+              return false;
+          }
+          if (document.bssform.question10_mostdepressed.value=="") {
+              alert("问题十不能为空！");
+              return false;
+          }
+          if (document.bssform.question11_lastweek.value=="") {
+              alert("问题十一不能为空！");
+              return false;
+          }
+          if (document.bssform.question11_mostdepressed.value=="") {
+              alert("问题十一不能为空！");
+              return false;
+          }
+          if (document.bssform.question12_lastweek.value=="") {
+              alert("问题十二不能为空！");
+              return false;
+          }
+          if (document.bssform.question12_mostdepressed.value=="") {
+              alert("问题十二不能为空！");
+              return false;
+          }
+          if (document.bssform.question13_lastweek.value=="") {
+              alert("问题十三不能为空！");
+              return false;
+          }
+          if (document.bssform.question13_mostdepressed.value=="") {
+              alert("问题十三不能为空！");
+              return false;
+          }
+          if (document.bssform.question14_lastweek.value=="") {
+              alert("问题十四不能为空！");
+              return false;
+          }
+          if (document.bssform.question14_mostdepressed.value=="") {
+              alert("问题十四不能为空！");
+              return false;
+          }
+          if (document.bssform.question15_lastweek.value=="") {
+              alert("问题十五不能为空！");
+              return false;
+          }
+          if (document.bssform.question15_mostdepressed.value=="") {
+              alert("问题十五不能为空！");
+              return false;
+          }
+          if (document.bssform.question16_lastweek.value=="") {
+              alert("问题十六不能为空！");
+              return false;
+          }
+          if (document.bssform.question16_mostdepressed.value=="") {
+              alert("问题十六不能为空！");
+              return false;
+          }
+          if (document.bssform.question17_lastweek.value=="") {
+              alert("问题十七不能为空！");
+              return false;
+          }
+          if (document.bssform.question17_mostdepressed.value=="") {
+              alert("问题十七不能为空！");
+              return false;
+          }
+          if (document.bssform.question18_lastweek.value=="") {
+              alert("问题十八不能为空！");
+              return false;
+          }
+          if (document.bssform.question18_mostdepressed.value=="") {
+              alert("问题十八不能为空！");
+              return false;
+          }
+          if (document.bssform.question19_lastweek.value=="") {
+              alert("问题十九不能为空！");
+              return false;
+          }
+          if (document.bssform.question19_mostdepressed.value=="") {
+              alert("问题十九不能为空！");
+              return false;
+          }
+          alert("提交成功！");
+          return true;
+      }
+    </script>
 
 {% endblock %}

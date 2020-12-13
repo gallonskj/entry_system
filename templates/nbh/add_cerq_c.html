@@ -1,5 +1,6 @@
 {% extends 'templates/index.html'%}
 {% load static %}
+{% load SelfDefinedFilter %}
 {% block title %}认知情绪调节量表（cerq）{% endblock %}
 {% block css %}
     <link href="{% static '/css/scales_style.css' %}" rel="stylesheet" >
@@ -17,9 +18,9 @@
                 </div>
             </div>
         </div> 
-        <div class="dashboard_graph x_panel">
+        <div class="dashboard_graph x_panel" style="height: 80%;margin-top: 0px;">
             <div id="wrapper">
-                <div id = "left-side" style="height: 100%;" class="col-md-2">
+                <div id = "left-side" style="height: 100%;margin-left: 10px;" class="col-md-2">
                   <ul class="scales_progress">
                     <li class="step1 done">
                       <p>耶鲁布朗强迫症严重程度标准量表（ybocs）</p>
@@ -35,9 +36,6 @@
 					</li>
 					<li class="step5 done notclick">
 						<p>快感体验能力量表teps</p>
-					</li>
-					<li class="step6 done notclick">
-						<p>斯奈斯和汉密尔顿快乐量表(shaps)</p>
 					</li>
 					<li class="step7 done notclick">
 						<p>儿童期（16岁以前）的成长经历ctq-sf</p>
@@ -62,15 +60,15 @@
 				         
                 <div id="right-side" class="col-md-10">
                   <div id="first" class="active">
-                        <form action="/scales/add_cognitive_emotion?patient_session_id={{ patient_session_id }}&&patient_id={{ patient_id }}" method="POST">
+                        <form name="cerq_cform" action="/scales/add_cognitive_emotion?patient_session_id={{ patient_session_id }}&&patient_id={{ patient_id }}" method="POST" onSubmit="return myCheck(this)">
                            <div class="container">
                             <div class="row" style="margin-left:5px;margin-top: 5px;padding-bottom: 5px;">
-                                <h4><strong>认知情绪调节问卷<br/></strong></h4>
-                                <strong>请仔细阅读每个项目并考虑哪个情况与自己最符合。在遇到自己没有经历过的项目时，请先考虑和自己经历过的与其最相似的情境并作出选择。不必考虑你所选择的答案的一致性。1：从不 2：几乎不 3：有时 4：几乎总是 5：总是<br/></strong>
+                                <h4><strong><center>认知情绪调节问卷</center></strong></h4>
+                                <strong><i class="fa fa-hand-o-right"></i>&nbsp;<i class="fa fa-hand-o-right"></i>&nbsp;<i class="fa fa-hand-o-right"></i>&nbsp;请仔细阅读每个项目并考虑哪个情况与自己最符合。在遇到自己没有经历过的项目时，请先考虑和自己经历过的与其最相似的情境并作出选择。不必考虑你所选择的答案的一致性。1：从不 &nbsp;2：几乎不&nbsp; 3：有时&nbsp; 4：几乎总是&nbsp; 5：总是<br/></strong>
                             </div>
                             <div class="row">
                                 <div class="col-md-12 column">
-			                        <table   class="table table-bordered table-condensed" style="table-layout: fixed; width:100%;">
+			                        <table   class="table " style="width:100%;">
 				                        <thead>
 					                    <tr>
 						                    <th >
@@ -94,14 +92,14 @@
 
 					                    </tr>
 				                        </thead>
-				                        <tbody align="center">
+				                        <tbody align="left">
                                              <tr>
-						                         <td>1.我感到我应该被责备</td>
-                                                 <td><input type="radio" name="question1_answer" value=1 data-labelauty="从不"/></td>
-                                                 <td><input type="radio" name="question1_answer" value=2 data-labelauty="几乎不"/></td>
-                                                 <td><input type="radio" name="question1_answer" value=3 data-labelauty="有时"/></td>
-                                                 <td><input type="radio" name="question1_answer" value=4 data-labelauty="几乎总是"/></td>
-                                                 <td><input type="radio" name="question1_answer" value=5 data-labelauty="总是"/></td>
+						                         <td style="width: 50%;">1.我感到我应该被责备</td>
+                                                 <td style="width: 10%;"><input type="radio" name="question1_answer" value=1 data-labelauty="从不"/></td>
+                                                 <td style="width: 10%;"><input type="radio" name="question1_answer" value=2 data-labelauty="几乎不"/></td>
+                                                 <td style="width: 10%;"><input type="radio" name="question1_answer" value=3 data-labelauty="有时"/></td>
+                                                 <td style="width: 10%;"><input type="radio" name="question1_answer" value=4 data-labelauty="几乎总是"/></td>
+                                                 <td style="width: 10%;"><input type="radio" name="question1_answer" value=5 data-labelauty="总是"/></td>
 					                        </tr>
                                             <tr>
 						                        <td>2.我感到我是一个对发生过的事负责任的人</td>
@@ -393,7 +391,7 @@
                             <div class="row">
                                 <div class="text-center">
                                       {% csrf_token %}
-                                    <input  type="submit" class="btn btn-success" value="提交"  id="cognitive_bt"/>
+                                    <input  type="submit" class="btn btn-success" value="保存并提交量表，继续下一量表"  id="cognitive_bt"/>
 
                                 </div>
                             </div>
@@ -410,10 +408,159 @@
 
 {% block js %}
 <script type="text/javascript" src="{% static '/js/jquery-radio-beauty.js'%}"></script>
-
 <script>
 $(document).ready(function(){
 	$("input[type='radio']").labelauty();
 });
+</script>
+<script type="text/javascript">
+    function myCheck(cerq_cform)
+    {
+        if (document.cerq_cform.question1_answer.value=="") {
+            alert("问题一不能为空！");
+            return false;
+        }
+        if (document.cerq_cform.question2_answer.value=="") {
+            alert("问题二不能为空！");
+            return false;
+        }
+        if (document.cerq_cform.question3_answer.value=="") {
+            alert("问题三不能为空！");
+            return false;
+        }
+        if (document.cerq_cform.question4_answer.value=="") {
+            alert("问题四不能为空！");
+            return false;
+        }
+        if (document.cerq_cform.question5_answer.value=="") {
+            alert("问题五不能为空！");
+            return false;
+        }if (document.cerq_cform.question6_answer.value=="") {
+            alert("问题六不能为空！");
+            return false;
+        }
+        if (document.cerq_cform.question7_answer.value=="") {
+            alert("问题七不能为空！");
+            return false;
+        }
+        if (document.cerq_cform.question8_answer.value=="") {
+            alert("问题八不能为空！");
+            return false;
+        }
+        if (document.cerq_cform.question9_answer.value=="") {
+            alert("问题九不能为空！");
+            return false;
+        }
+        if (document.cerq_cform.question10_answer.value=="") {
+            alert("问题十不能为空！");
+            return false;
+        }
+        if (document.cerq_cform.question11_answer.value=="") {
+            alert("问题十一不能为空！");
+            return false;
+        }
+        if (document.cerq_cform.question12_answer.value=="") {
+            alert("问题十二不能为空！");
+            return false;
+        }
+        if (document.cerq_cform.question13_answer.value=="") {
+            alert("问题十三不能为空！");
+            return false;
+        }
+        if (document.cerq_cform.question14_answer.value=="") {
+            alert("问题十四不能为空！");
+            return false;
+        }
+        if (document.cerq_cform.question15_answer.value=="") {
+            alert("问题十五不能为空！");
+            return false;
+        }
+        if (document.cerq_cform.question16_answer.value=="") {
+            alert("问题十六不能为空！");
+            return false;
+        }
+        if (document.cerq_cform.question17_answer.value=="") {
+            alert("问题十七不能为空！");
+            return false;
+        }
+        if (document.cerq_cform.question18_answer.value=="") {
+            alert("问题十八不能为空！");
+            return false;
+        }
+        if (document.cerq_cform.question19_answer.value=="") {
+            alert("问题十九不能为空！");
+            return false;
+        }
+        if (document.cerq_cform.question20_answer.value=="") {
+            alert("问题二十不能为空！");
+            return false;
+        }
+        if (document.cerq_cform.question21_answer.value=="") {
+            alert("问题二十一不能为空！");
+            return false;
+        }
+        if (document.cerq_cform.question22_answer.value=="") {
+            alert("问题二十二不能为空！");
+            return false;
+        }
+        if (document.cerq_cform.question23_answer.value=="") {
+            alert("问题二十三不能为空！");
+            return false;
+        }
+        if (document.cerq_cform.question24_answer.value=="") {
+            alert("问题二十四不能为空！");
+            return false;
+        }
+        if (document.cerq_cform.question25_answer.value=="") {
+            alert("问题二十五不能为空！");
+            return false;
+        }
+        if (document.cerq_cform.question26_answer.value=="") {
+            alert("问题二十六不能为空！");
+            return false;
+        }
+        if (document.cerq_cform.question27_answer.value=="") {
+            alert("问题二十七不能为空！");
+            return false;
+        }
+        if (document.cerq_cform.question28_answer.value=="") {
+            alert("问题二十八不能为空！");
+            return false;
+        }
+        if (document.cerq_cform.question29_answer.value=="") {
+            alert("问题二十九不能为空！");
+            return false;
+        }
+        if (document.cerq_cform.question30_answer.value=="") {
+            alert("问题三十不能为空！");
+            return false;
+        }
+        if (document.cerq_cform.question31_answer.value=="") {
+            alert("问题三十一不能为空！");
+            return false;
+        }
+        if (document.cerq_cform.question32_answer.value=="") {
+            alert("问题三十二不能为空！");
+            return false;
+        }
+        if (document.cerq_cform.question33_answer.value=="") {
+            alert("问题三十三不能为空！");
+            return false;
+        }
+        if (document.cerq_cform.question34_answer.value=="") {
+            alert("问题三十四不能为空！");
+            return false;
+        }
+        if (document.cerq_cform.question35_answer.value=="") {
+            alert("问题三十五不能为空！");
+            return false;
+        }
+        if (document.cerq_cform.question36_answer.value=="") {
+            alert("问题三十六不能为空！");
+            return false;
+        }
+        alert("提交成功！");
+        return true;
+    }
 </script>
 {% endblock %}

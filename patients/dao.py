@@ -11,7 +11,6 @@ def judgment_do_scales(scales_list):
     other_test_list = []
     self_test_list = []
     cognition_list = []
-
     for scale in scales_list:
         if scale.do_scale_type == 0:
             information_list.append(scale)
@@ -19,7 +18,7 @@ def judgment_do_scales(scales_list):
             other_test_list.append(scale)
         elif scale.do_scale_type == 2:
             self_test_list.append(scale)
-        else:
+        elif scale.do_scale_type == 3 :
             cognition_list.append(scale)
     return information_list, other_test_list, self_test_list, cognition_list
 

@@ -5,11 +5,25 @@
 {% block css %}
     <link rel="stylesheet" href="{% static '/css/appointToday.css' %}">
     <link href="{% static '/vendors/iCheck/skins/flat/green.css' %}" rel="stylesheet">
+    <style>
+        .sel_beauty {
+            background: #fafdfe;
+            height: 28px;
+            width: 180px;
+            line-height: 28px;
+            border: 1px solid #9bc0dd;
+            -moz-border-radius: 2px;
+            -webkit-border-radius: 2px;
+            border-radius: 2px;
+            width: 160px;
+        }
+
+    </style>
 {% endblock %}
 
 {% block content %}
     <!--弹出模态框 ，完成病人的预约工作 -->
-    <div class="modal fade" id="modal_container_subjectBaseInfo_build" role="dialog" aria-labelledby="myModalLabel"
+  <div class="modal fade" id="modal_container_subjectBaseInfo_build" role="dialog" aria-labelledby="myModalLabel"
          aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -23,79 +37,67 @@
                     </div>
                     <div class="modal-body">
                         <div class="row" style="margin-bottom: 10px;">
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label" for="name">姓名：</label>
-                                <div class="col-sm-4"><input type="text" class="form-control input-sm" name="name"
-                                                             required="required"/></div>
-                            </div>
-                        </div>
 
-                        <div class="row" style="margin-bottom: 10px;">
-                            <div class="form-group ">
-                                <label class="col-sm-2 control-label" for="birth_date">出生日期：</label>
-                                <div id="birth_date" class="col-sm-4"><input type="date" class="form-control input-sm" name="birth_date"
-                                                             required="required"/></div>
-                                <label class="col-sm-2 control-label" for="sex">性别：</label>
+                                <label class="col-sm-2 control-label" for="name" style="text-align: right">姓名：</label>
                                 <div class="col-sm-4">
-                                    <input type="radio" class="flat" name="sex" value=0 checked="" required/>
+                                    <input type="text" class=" sel_beauty form-control input-sm " name="name" required="required"/>
+                                </div>
+                                <label class="col-sm-2 control-label" style="text-align: right" for="sex">性别：</label>
+                                <div class="col-sm-4">
+                                    <input type="radio" class=" flat" name="sex" value=0 checked="" required/>
                                     <span style="margin-right: 10px;"></span>男
                                     <span style="margin-right: 20px;"></span>
                                     <input type="radio" class="flat" name="sex" value=1><span style="margin-right: 10px;"></span>女
                                 </div>
-                            </div>
+
                         </div>
+
                         <div class="row" style="margin-bottom: 10px;">
-                            <div class="form-group ">
-                                <label class="col-sm-2 control-label" for="nation">民族：</label>
-                                <div id="nation" class="col-md-4 col-sm-4 col-xs-12">
-                                    <select tabindex="-1" class="select2_single form-control" name='nation' >
+                                <label class="col-sm-2 control-label" for="birth_date" style="text-align: right">出生日期：</label>
+                                <div id="birth_date" class="col-sm-4">
+                                    <input type="date" class="sel_beauty form-control input-sm" name="birth_date" required="required"/>
+                                </div>
+
+                                <label class="col-sm-2 control-label" for="nation" style="text-align: right">民族：</label>
+                                <div class="col-sm-4">
+                                    <select tabindex="-1" class="sel_beauty select2_single form-control col-md-4" name='nation' style="font-size: 10px">
                                         <option></option>
                                         {% for nation in nations %}
                                             <option value={{ nation.ethnicity_name }}>{{ nation.ethnicity_name }}</option>
                                         {% endfor %}
                                     </select>
                                 </div>
-                            </div>
-                              <div class="form-group ">
-                                <label class="col-sm-2 control-label" for="diagnosis">诊断：</label>
-                                <div id="diagnosis" class="col-md-4 col-sm-4 col-xs-12">
-                                    <select tabindex="-1" class="select2_single form-control" name='diagnosis' >
-                                        <option value=0>未诊断</option>
-                                        <option value=1>健康</option>
-                                        <option value=2>重症抑郁障碍</option>
-                                        <option value=3>焦虑障碍</option>
-                                        <option value=4>双相障碍</option>
-                                        <option value=5>精神分裂症</option>
-                                        <option value=6>强迫症</option>
-                                        <option value=7>高危遗传</option>
-                                        <option value=8>临床高危</option>
-                                        <option value=9>抑郁症状</option>
-                                        <option value=99>其他诊断</option>
-                                    </select>
-                                    <div class="col-sm-4"><input type="text" class="form-control input-sm" name="other_diagnosis" id="other_diagnosis" required="required"/></div>
-                                </div>
-                            </div>
+
                         </div>
-                    <div class="row" style="margin-bottom: 10px;">
-                         <div class="form-group ">
-                                <label class="col-sm-2 control-label" for="diagnosis">诊断：</label>
-                                <div id="diagnosis" class="col-md-4 col-sm-4 col-xs-12">
-                                    <select tabindex="-1" class="select2_single form-control" name='diagnosis' >
-                                        <option value=0>未诊断</option>
-                                        <option value=1>健康</option>
-                                        <option value=2>重症抑郁障碍</option>
-                                        <option value=3>焦虑障碍</option>
-                                        <option value=4>双相障碍</option>
-                                        <option value=5>精神分裂症</option>
-                                        <option value=6>强迫症</option>
-                                        <option value=7>高危遗传</option>
-                                        <option value=8>临床高危</option>
-                                        <option value=9>抑郁症状</option>
-                                        <option value=99>其他诊断</option>
-                                    </select>
-                                    <div class="col-sm-4"><input type="text" class="form-control input-sm" name="other_diagnosis" id="other_diagnosis"/></div>
-                                </div>
+
+                        <div class="row" style="margin-bottom: 10px;">
+
+                               <label class="col-sm-2 control-label" for="subject_number" style="text-align: right">诊断情况<span class="required">:</span></label>
+                               <input type="hidden" value="{{ patient_detail.diagnosis }}" id="diagnosis1">
+                               <div class="col-md-4">
+                                   <select tabindex="-1" style="font-size: 10px" name="diagnosis" id="diagnosis" class="sel_beauty select2_single form-control col-md-4" onchange="judge_diagnosis(this)">
+                                   <option value=0>未诊断</option>
+                                   <option value=1>健康者</option>
+                                   <option value=2>重性抑郁障碍</option>
+                                   <option value=3>焦虑障碍</option>
+                                   <option value=4>双相障碍</option>
+                                   <option value=5>精神分裂症</option>
+                                   <option value=6>强迫症</option>
+                                   <option value=7>高危遗传</option>
+                                   <option value=8>临床高危</option>
+                                   <option value=9>抑郁症状</option>
+                                   <option value=99>其他诊断</option>
+                               </select>
+                               </div>
+
+                            <div  id="other_diagnosis_div" style="display: none">
+                                <label class="col-sm-2 control-label" for="subject_number" style="text-align: right">其他诊断<span class="required">:</span></label>
+                               <div class="col-md-4">
+                                   <input type="text" class="sel_beauty form-control input-sm"  id="other_diagnosis" name="other_diagnosis" class="sel_beauty" >
+                               </div>
                             </div>
+
+
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -110,7 +112,6 @@
             </div>
         </div>
     </div>
-
     <!-- 模态框结束 -->
     <!-- 删除确认开始 -->
     {% for patient in patients %}
@@ -236,6 +237,14 @@
         function zeropadding(num, length) {
             //这里用slice和substr均可
             return (Array(length).join("0") + num).slice(-length);
+        }
+
+        function judge_diagnosis(obj) {
+            if (obj.options[obj.selectedIndex].value == 99) {
+                document.getElementById("other_diagnosis_div").style.display = "";
+            } else {
+                document.getElementById("other_diagnosis_div").style.display = "none";
+            }
         }
 
         /*获取生成id

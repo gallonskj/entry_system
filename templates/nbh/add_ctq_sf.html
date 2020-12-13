@@ -3,6 +3,17 @@
 {% block title %}儿童期（16岁以前）的成长经历(ctq_sf){% endblock %}
 {% block css %}
     <link href="{% static '/css/scales_style.css' %}" rel="stylesheet" >
+    <style>
+       /*添加inpyt type=num 去掉箭头 css样式*/
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        }
+ 
+        input[type="number"] {
+            -moz-appearance: textfield;
+        } 
+    </style>
 {% endblock %}
 {% block content %}
      <div class="right_col" role="main">
@@ -17,9 +28,9 @@
                 </div>
             </div>
         </div> 
-        <div class="dashboard_graph x_panel">
+        <div class="dashboard_graph x_panel" style="margin-top:0px;height:80%">
             <div id="wrapper">
-                <div id = "left-side" style="height: 100%;" class="col-md-2">
+                <div id = "left-side" style="height: 100%; margin-left: 10px;" class="col-md-2">
                   <ul class="scales_progress">
                     <li class="step1 done">
                       <p>耶鲁布朗强迫症严重程度标准量表（ybocs）</p>
@@ -35,9 +46,6 @@
 					</li>
 					<li class="step5 done notclick">
 						<p>快感体验能力量表teps</p>
-					</li>
-					<li class="step6 done notclick">
-						<p>斯奈斯和汉密尔顿快乐量表(shaps)</p>
 					</li>
 					<li class="step7 doing notclick">
 						<p>儿童期（16岁以前）的成长经历ctq-sf</p>
@@ -62,16 +70,19 @@
 				         
                 <div id="right-side" class="col-md-10">
                   <div id="first" class="active">
-                        <form action="/scales/add_growth?patient_id={{ patient_id }}&patient_session_id={{ patient_session_id }}" method="post">
+                        <form name="ctq_sfform" action="/scales/add_growth?patient_id={{ patient_id }}&patient_session_id={{ patient_session_id }}" method="post" onSubmit="return myCheck(this)" >
                             {%  csrf_token %}
                             <div class="container">
+                                <div class="col-md-12  text-center">
+                                    <h4><strong>儿童期（16岁以前）的成长经历</strong></h4>
+                                </div>
                                 <div class="row" style="margin: 5px;">
-                                <strong>本问卷调查的是您儿童期（16岁以前）的成长经历。请根据您当时的体会从“从来没有这种现象、偶尔、有时、经常、总是”五个选项中选出最适合您情况的答案，如果您不是很清楚，请尽量估计。<br/></strong>
-                                <strong><br/>在16岁之前：<br/></strong>
+                                <strong><i class="fa fa-hand-o-right"></i>&nbsp;<i class="fa fa-hand-o-right"></i>&nbsp;<i class="fa fa-hand-o-right"></i>&nbsp;本问卷调查的是您儿童期（16岁以前）的成长经历。请根据您当时的体会从“从来没有这种现象、偶尔、有时、经常、总是”五个选项中选出最适合您情况的答案，如果您不是很清楚，请尽量估计。<br/></strong>
+                                <strong><br/><i class="fa fa-star"></i>&nbsp;在16岁之前：<br/></strong>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <table class="table table-hover table-bordered">
+                                        <table class="table ">
 
 				                        <tbody>
                                              <tr>
@@ -311,8 +322,8 @@
                                
                                 <div class="row">
                                    <div class="text-center">
-                                       <input  type="submit" class="btn btn-success" value="提交"/>
-                                    
+                                       <input  type="submit" class="btn btn-success" value="保存并提交量表，继续下一个量表" />
+                                      
                                    </div>
                                 </div>
                             </div>
@@ -327,7 +338,6 @@
 {% endblock %}
 
 {% block js %}
-    <script type="text/javascript" src="{% static '/js/jquery-radio-beauty.min.js'%}"></script>
 <script type="text/javascript" src="{% static '/js/jquery-radio-beauty.js'%}"></script>
 
 <script>
@@ -335,4 +345,128 @@ $(document).ready(function(){
 	$("input[type='radio']").labelauty();
 });
 </script>
+<script type="text/javascript">
+  function myCheck(ctq_sfform)
+  {
+      if (document.ctq_sfform.question1_answer.value=="") {
+          alert("问题一不能为空！");
+          return false;
+      }
+      if (document.ctq_sfform.question2_answer.value=="") {
+          alert("问题二不能为空！");
+          return false;
+      }
+      if (document.ctq_sfform.question3_answer.value=="") {
+          alert("问题三不能为空！");
+          return false;
+      }
+      if (document.ctq_sfform.question4_answer.value=="") {
+          alert("问题四不能为空！");
+          return false;
+      }
+      if (document.ctq_sfform.question5_answer.value=="") {
+          alert("问题五不能为空！");
+          return false;
+      }if (document.ctq_sfform.question6_answer.value=="") {
+          alert("问题六不能为空！");
+          return false;
+      }
+      if (document.ctq_sfform.question7_answer.value=="") {
+          alert("问题七不能为空！");
+          return false;
+      }
+      if (document.ctq_sfform.question8_answer.value=="") {
+          alert("问题八不能为空！");
+          return false;
+      }
+      if (document.ctq_sfform.question9_answer.value=="") {
+          alert("问题九不能为空！");
+          return false;
+      }
+      if (document.ctq_sfform.question10_answer.value=="") {
+          alert("问题十不能为空！");
+          return false;
+      }
+      if (document.ctq_sfform.question11_answer.value=="") {
+          alert("问题十一不能为空！");
+          return false;
+      }
+      if (document.ctq_sfform.question12_answer.value=="") {
+          alert("问题十二不能为空！");
+          return false;
+      }
+      if (document.ctq_sfform.question13_answer.value=="") {
+          alert("问题十三不能为空！");
+          return false;
+      }
+      if (document.ctq_sfform.question14_answer.value=="") {
+          alert("问题十四不能为空！");
+          return false;
+      }
+      if (document.ctq_sfform.question15_answer.value=="") {
+          alert("问题十五不能为空！");
+          return false;
+      }
+      if (document.ctq_sfform.question16_answer.value=="") {
+          alert("问题十六不能为空！");
+          return false;
+      }
+      if (document.ctq_sfform.question17_answer.value=="") {
+          alert("问题十七不能为空！");
+          return false;
+      }
+      if (document.ctq_sfform.question18_answer.value=="") {
+          alert("问题十八不能为空！");
+          return false;
+      }
+      if (document.ctq_sfform.question19_answer.value=="") {
+          alert("问题十九不能为空！");
+          return false;
+      }
+      if (document.ctq_sfform.question20_answer.value=="") {
+          alert("问题二十不能为空！");
+          return false;
+      }
+      if (document.ctq_sfform.question21_answer.value=="") {
+          alert("问题二十一不能为空！");
+          return false;
+      }
+      if (document.ctq_sfform.question22_answer.value=="") {
+          alert("问题二十二不能为空！");
+          return false;
+      }
+      if (document.ctq_sfform.question23_answer.value=="") {
+          alert("问题二十三不能为空！");
+          return false;
+      }
+      if (document.ctq_sfform.question24_answer.value=="") {
+          alert("问题二十四不能为空！");
+          return false;
+      }
+      if (document.ctq_sfform.question25_answer.value=="") {
+          alert("问题二十五不能为空！");
+          return false;
+      }
+      if (document.ctq_sfform.question26_answer.value=="") {
+          alert("问题二十六不能为空！");
+          return false;
+      }
+      if (document.ctq_sfform.question27_answer.value=="") {
+          alert("问题二十七不能为空！");
+          return false;
+      }
+      if (document.ctq_sfform.question28_answer.value=="") {
+          alert("问题二十八不能为空！");
+          return false;
+      }
+      /*alert(document.ctq_sfform.first_sex_age.value);*/
+      if (document.ctq_sfform.first_sex_age.value<0 || document.ctq_sfform.first_sex_age.value>88 || document.ctq_sfform.first_sex_age.value=="") {
+          alert("请输入正确的格式！");
+          return false;
+      }
+
+      alert("提交成功！");
+      return true;
+  }
+  </script>
 {% endblock %}

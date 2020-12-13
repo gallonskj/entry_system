@@ -11,15 +11,15 @@
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <ul class="breadcrumb" style="background-color: white;font-weight:bold">
                          <li ><a href="#">量表录入</a></li>
-                         <li><a href="#" >他评量表</a></li>
+                         <li><a href="#" >自评量表</a></li>
 						 <li class="active"><a href="#" >33项轻躁狂症状清单hcl-33</a></li>
                     </ul>
                 </div>
             </div>
         </div>
-        <div class="dashboard_graph x_panel" style="margin-top: 0px;">
+        <div class="dashboard_graph x_panel" style="margin-top: 0px;height: 80%;">
             <div id="wrapper">
-                <div id = "left-side" style="height: 100%;" class="col-md-2">
+                <div id = "left-side" style="height: 100%;margin-left: 10px;" class="col-md-2">
                   <ul class="scales_progress">
                     <li class="step1 done">
                       <p>耶鲁布朗强迫症严重程度标准量表（ybocs）</p>
@@ -36,9 +36,7 @@
 					<li class="step5 nodone notclick">
 						<p>快感体验能力量表teps</p>
 					</li>
-					<li class="step6 nodone notclick">
-						<p>斯奈斯和汉密尔顿快乐量表(shaps)</p>
-					</li>
+
 					<li class="step7 nodone notclick">
 						<p>儿童期（16岁以前）的成长经历ctq-sf</p>
 					</li>
@@ -62,15 +60,15 @@
 				         
                 <div id="right-side" class="col-md-10">
                   <div id="first" class="active">
-                        <form action="/scales/add_manicsymptom?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}" method="post">
+                        <form name="hclform" action="/scales/add_manicsymptom?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}" method="post" onSubmit="return myCheck(this)">
                       <div class="container">
                       <div class="row show-grid">
-                              <div class="col-md-12">
-                                  <h4><strong><center>33项轻躁狂症状清单 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;精力、活力和情绪</center></strong></h4>
+                              <div class="col-md-12  text-center">
+                                  <h4><strong>33项轻躁狂症状清单 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;精力、活力和情绪</strong></h4>
                               </div>
                           </div>
                           <div class="row"  style="margin: 10px">
-                             <strong>每个人在一生中的不同时期都会体验到精力、活力和情绪上的变化或波动（“高涨”与
+                             <strong><i class="fa fa-hand-o-right"></i>&nbsp;<i class="fa fa-hand-o-right"></i>&nbsp;<i class="fa fa-hand-o-right"></i>&nbsp;每个人在一生中的不同时期都会体验到精力、活力和情绪上的变化或波动（“高涨”与
                               “低落”或“向上”与“向下”）。</strong>
 
                           </div>
@@ -121,7 +119,7 @@
                            <div class="row" style="margin: 10px"><strong>3. 请尽力回忆当您处于“高涨”状态时，您那个时候的感觉怎么样？请您对下列所有的描述进行回答,不管您现在的状态如何。<br/>
                            </strong></div>
                           <div >
-                          <table id="table" class="mania_table_33" width="60%" style="margin: 10px;font-size:13px;" >
+                          <table id="table" class="mania_table_33 table" width="60%" style="margin: 10px;font-size:13px;" >
                            <thead>
                               <tr>
                                   <th>
@@ -668,14 +666,203 @@
 	$(document).ready(function(){
 	     $("input[type='radio']").labelauty();
 		 $('.hcl-33_question7_yes').on('click',function(event){
+		     $("input[name='question8']").prop("value","");
 		 $('.hcl-33_question7_yes_days').show();
 	   });
 	   $('.hcl-33_question7_no').on('click',function(event){
 	        $('.hcl-33_question7_yes_days').val('')
-		 $('.hcl-33_question7_yes_days').hide();
+           $('.hcl-33_question7_yes_days').hide();
+            $("input[name='question8']").prop("value","0");
 	   });
 	});
 </script>	
 <script type="text/javascript" src="{% static '/js/jquery-radio-beauty.js'%}"></script>
+    <script type="text/javascript">
+      function myCheck(hclform)
+      {
+          if (document.hclform.question1.value=="") {
+              alert("问题一不能为空！");
+              return false;
+          }
+          if (document.hclform.question2.value=="") {
+              alert("问题二不能为空！");
+              return false;
+          }
+          if (document.hclform.question3_1.value=="") {
+              alert("问题三(1)不能为空！");
+              return false;
+          }
+          if (document.hclform.question3_2.value=="") {
+              alert("问题三(2)不能为空！");
+              return false;
+          }
+          if (document.hclform.question3_3.value=="") {
+              alert("问题三(3)不能为空！");
+              return false;
+          }
+          if (document.hclform.question3_4.value=="") {
+              alert("问题三(4)不能为空！");
+              return false;
+          }
+          if (document.hclform.question3_5.value=="") {
+              alert("问题三(5)不能为空！");
+              return false;
+          }
+          if (document.hclform.question3_6.value=="") {
+              alert("问题三(6)不能为空！");
+              return false;
+          }
+          if (document.hclform.question3_7.value=="") {
+              alert("问题三(7)不能为空！");
+              return false;
+          }
+          if (document.hclform.question3_8.value=="") {
+              alert("问题三(8)不能为空！");
+              return false;
+          }
+          if (document.hclform.question3_9.value=="") {
+              alert("问题三(9)不能为空！");
+              return false;
+          }
+          if (document.hclform.question3_10.value=="") {
+              alert("问题三(10)不能为空！");
+              return false;
+          }
+          if (document.hclform.question3_11.value=="") {
+              alert("问题三(11)不能为空！");
+              return false;
+          }
+          if (document.hclform.question3_12.value=="") {
+              alert("问题三(12)不能为空！");
+              return false;
+          }
+          if (document.hclform.question3_13.value=="") {
+              alert("问题三(13)不能为空！");
+              return false;
+          }
+          if (document.hclform.question3_14.value=="") {
+              alert("问题三(14)不能为空！");
+              return false;
+          }
+          if (document.hclform.question3_15.value=="") {
+              alert("问题三(15)不能为空！");
+              return false;
+          }
+          if (document.hclform.question3_16.value=="") {
+              alert("问题三(16)不能为空！");
+              return false;
+          }
+          if (document.hclform.question3_17.value=="") {
+              alert("问题三(17)不能为空！");
+              return false;
+          }if (document.hclform.question3_18.value=="") {
+              alert("问题三(18)不能为空！");
+              return false;
+          }
+          if (document.hclform.question3_19.value=="") {
+              alert("问题三(19)不能为空！");
+              return false;
+          }
+          if (document.hclform.question3_20.value=="") {
+              alert("问题三(20)不能为空！");
+              return false;
+          }
+          if (document.hclform.question3_21.value=="") {
+              alert("问题三(21)不能为空！");
+              return false;
+          }
+          if (document.hclform.question3_22.value=="") {
+              alert("问题三(22)不能为空！");
+              return false;
+          }
+          if (document.hclform.question3_23.value=="") {
+              alert("问题三(23)不能为空！");
+              return false;
+          }
+          if (document.hclform.question3_24.value=="") {
+              alert("问题三(24)不能为空！");
+              return false;
+          }if (document.hclform.question3_25.value=="") {
+              alert("问题三(25)不能为空！");
+              return false;
+          }if (document.hclform.question3_26.value=="") {
+              alert("问题三(26)不能为空！");
+              return false;
+          }
+          if (document.hclform.question3_27.value=="") {
+              alert("问题三(27)不能为空！");
+              return false;
+          }
+          if (document.hclform.question3_28.value=="") {
+              alert("问题三(28)不能为空！");
+              return false;
+          }
+          if (document.hclform.question3_29.value=="") {
+              alert("问题三(29)不能为空！");
+              return false;
+          }
+          if (document.hclform.question3_30.value=="") {
+              alert("问题三(30)不能为空！");
+              return false;
+          }
+          if (document.hclform.question3_31.value=="") {
+              alert("问题三(31)不能为空！");
+              return false;
+          }if (document.hclform.question3_32.value=="") {
+              alert("问题三(32)不能为空！");
+              return false;
+          }
+          if (document.hclform.question3_33.value=="") {
+              alert("问题三(33)不能为空！");
+              return false;
+          }
+          if (document.hclform.question4_1.value=="") {
+              alert("问题四(1)不能为空！");
+              return false;
+          }
+          if (document.hclform.question4_2.value=="") {
+              alert("问题四(2)不能为空！");
+              return false;
+          }
+          if (document.hclform.question4_3.value=="") {
+              alert("问题四(3)不能为空！");
+              return false;
+          }
+          if (document.hclform.question4_4.value=="") {
+              alert("问题四(4)不能为空！");
+              return false;
+          }
+          if (document.hclform.question5.value=="") {
+              alert("问题五不能为空！");
+              return false;
+          }
+          if (document.hclform.question6_1.value=="") {
+              alert("问题六(1)不能为空！");
+              return false;
+          }
+          if (document.hclform.question6_2.value=="") {
+              alert("问题六(2))不能为空！");
+              return false;
+          }
+          if (document.hclform.question7.value=="") {
+              alert("问题七不能为空！");
+              return false;
+          }
+          if (document.hclform.question8.value=="") {
+              alert("问题八不能为空！");
+              return false;
+          }
+          if (document.hclform.question9.value=="") {
+              alert("问题九不能为空！");
+              return false;
+          }
+          if (document.hclform.question10.value=="") {
+              alert("问题十不能为空！");
+              return false;
+          }
+          alert("提交成功！");
+          return true;
+      }
+    </script>
 
 {% endblock %}

@@ -47,16 +47,16 @@ def get_select_scales(request):
     patient_detail = patients_dao.get_patient_detail_last_byPatientId(patient_id)
     # 获取各个scaleType的list信息
     scales_list = patients_dao.judgment_scales(patient_session_id)
-    generalinfo_scale_list, other_test_scale_list, self_test_scale_list, cognition_scale_list = patients_dao.judgment_do_scales(scales_list)
+    generalinfo_scale_list, other_test_scale_list, self_test_scale_list, cognition_scale_list = scales_dao.get_uodo_scales(patient_session_id)
     return render(request, 'select_scales.html', {'patient': patient,
                                                   'patient_id': patient.id,
                                                   'patient_session_id': patient_session_id,
                                                   "username": request.session.get('username'),
                                                   'patient_detail':patient_detail,
-                                                  "generalinfo_scale_size": len(generalinfo_scale_list),
-                                                  "other_test_scale_size": len(other_test_scale_list),
-                                                  "self_test_scale_size": len(self_test_scale_list),
-                                                  "cognition_scale_size": len(cognition_scale_list),
+                                                  "todo_generalinfo_scale_size": len(generalinfo_scale_list),
+                                                  "todo_other_test_scale_size": len(other_test_scale_list),
+                                                  "todo_self_test_scale_size": len(self_test_scale_list),
+                                                  "todo_cognition_scale_size": len(cognition_scale_list),
                                                   })
 
 
@@ -67,140 +67,240 @@ def get_family_form(request):
     base_info = patients_dao.get_base_info_byPK(patient_id)
     age = tools_utils.calculate_age(str(base_info.birth_date))
     nation_list = patients_dao.get_DEthnicity_all()
+    patient_session_id = request.GET.get('patient_session_id')
+    scale_name_list = scales_dao.get_scalename_bytype(tools_config.general_info_type,patient_session_id)
     return render(request,'nbh/add_family.html',{'patient_session_id':request.GET.get('patient_session_id'),
                                                  'patient_id':request.GET.get('patient_id'),
                                                  'username':request.session.get('username'),
                                                  'base_info':base_info,
                                                  'age':age,
-                                                 'nation_list':nation_list})
+                                                 'nation_list':nation_list,
+                                                 'scale_name_list':scale_name_list,})
 
 # 获取学习情况表单
 def get_study_form(request):
-    return render(request,'nbh/add_study.html',{'patient_session_id':request.GET.get('patient_session_id'),
-                                                 'patient_id':request.GET.get('patient_id'),
-                                                 'username':request.session.get('username'),})
+    patient_session_id = request.GET.get('patient_session_id')
+    scale_name_list = scales_dao.get_scalename_bytype(tools_config.general_info_type,patient_session_id)
+    return render(request,'nbh/add_study.html',{'patient_session_id':patient_session_id,
+                                                'patient_id':request.GET.get('patient_id'),
+                                                'username':request.session.get('username'),
+                                                'scale_name_list':scale_name_list,
+                                                })
 
 # 获取健康情况表单
 def get_health_form(request):
-    return render(request,'nbh/add_health.html',{'patient_session_id':request.GET.get('patient_session_id'),
-                                                 'patient_id':request.GET.get('patient_id'),
-                                                 'username':request.session.get('username'),})
+    patient_session_id = request.GET.get('patient_session_id')
+    scale_name_list = scales_dao.get_scalename_bytype(tools_config.general_info_type, patient_session_id)
+    return render(request,'nbh/add_health.html',{'patient_session_id':patient_session_id,
+                                                'patient_id':request.GET.get('patient_id'),
+                                                'username':request.session.get('username'),
+                                                'scale_name_list':scale_name_list,
+                                                })
 # 获取物质依赖表单
 def get_abuse_form(request):
-    return render(request,'nbh/add_abuse.html',{'patient_session_id':request.GET.get('patient_session_id'),
-                                                 'patient_id':request.GET.get('patient_id'),
-                                                 'username':request.session.get('username'),})
+    patient_session_id = request.GET.get('patient_session_id')
+    scale_name_list = scales_dao.get_scalename_bytype(tools_config.general_info_type, patient_session_id)
+    return render(request,'nbh/add_abuse.html',{'patient_session_id':patient_session_id,
+                                                'patient_id':request.GET.get('patient_id'),
+                                                'username':request.session.get('username'),
+                                                'scale_name_list':scale_name_list,
+                                                })
 
 # 获取其他资料表单
 def get_other_form(request):
-    return render(request,'nbh/add_other.html',{'patient_session_id':request.GET.get('patient_session_id'),
-                                                 'patient_id':request.GET.get('patient_id'),
-                                                 'username':request.session.get('username'),})
+    patient_session_id = request.GET.get('patient_session_id')
+    scale_name_list = scales_dao.get_scalename_bytype(tools_config.general_info_type, patient_session_id)
+    return render(request,'nbh/add_other.html',{'patient_session_id':patient_session_id,
+                                                'patient_id':request.GET.get('patient_id'),
+                                                'username':request.session.get('username'),
+                                                'scale_name_list':scale_name_list,
+                                                })
 
 # 获取利手量表表单
 def get_chi_form(request):
-    return render(request,'nbh/add_chi.html',{'patient_session_id':request.GET.get('patient_session_id'),
-                                                 'patient_id':request.GET.get('patient_id'),
-                                                 'username':request.session.get('username'),})
-
+    patient_session_id = request.GET.get('patient_session_id')
+    scale_name_list = scales_dao.get_scalename_bytype(tools_config.general_info_type, patient_session_id)
+    return render(request,'nbh/add_chi.html',{'patient_session_id':patient_session_id,
+                                                'patient_id':request.GET.get('patient_id'),
+                                                'username':request.session.get('username'),
+                                                'scale_name_list':scale_name_list,
+                                                })
 #获取病人病史表单
 def get_patient_medical_history_form(request):
-    return render(request,'nbh/add_patient_medical_history.html',{'patient_session_id':request.GET.get('patient_session_id'),
-                                                 'patient_id':request.GET.get('patient_id'),
-                                                 'username':request.session.get('username'),})
+    # 获取需要做的量表列表
+    patient_session_id = request.GET.get('patient_session_id')
+    scale_name_list = scales_dao.get_scalename_bytype(tools_config.general_info_type, patient_session_id)
+    return render(request,'nbh/add_patient_medical_history.html',{'patient_session_id':patient_session_id,
+                                                'patient_id':request.GET.get('patient_id'),
+                                                'username':request.session.get('username'),
+                                                'scale_name_list':scale_name_list,
+                                                })
 
-# 获取耶鲁布朗表单
-def get_ybocs_form(request):
-    return render(request,'nbh/add_ybocs.html',{'patient_session_id':request.GET.get('patient_session_id'),
-                                                 'patient_id':request.GET.get('patient_id'),
-                                                 'username':request.session.get('username'),})
-# 获取自杀量表表单
-def get_bss_form(request):
-    return render(request,'nbh/add_bss.html',{'patient_session_id':request.GET.get('patient_session_id'),
-                                                 'patient_id':request.GET.get('patient_id'),
-                                                 'username':request.session.get('username'),})
-
-# 获取33项轻躁狂表单
-def get_hcl_33_form(request):
-    return render(request,'nbh/add_hcl_33.html',{'patient_session_id':request.GET.get('patient_session_id'),
-                                                 'patient_id':request.GET.get('patient_id'),
-                                                 'username':request.session.get('username'),})
-# 获取斯奈斯快乐量表
-def get_shaps_form(request):
-    return render(request,'nbh/add_shaps.html',{'patient_session_id':request.GET.get('patient_session_id'),
-                                                 'patient_id':request.GET.get('patient_id'),
-                                                 'username':request.session.get('username'),})
-# 获取快感体验能力表单
-def get_teps_form(request):
-    return render(request,'nbh/add_teps.html',{'patient_session_id':request.GET.get('patient_session_id'),
-                                                 'patient_id':request.GET.get('patient_id'),
-                                                 'username':request.session.get('username'),})
-# 获取儿童期成长经历表单
-def get_ctq_sf_form(request):
-    return render(request,'nbh/add_ctq_sf.html',{'patient_session_id':request.GET.get('patient_session_id'),
-                                                 'patient_id':request.GET.get('patient_id'),
-                                                 'username':request.session.get('username'),})
-# 获取认知情绪调节表单
-def get_cerq_c_form(request):
-    return render(request,'nbh/add_cerq_c.html',{'patient_session_id':request.GET.get('patient_session_id'),
-                                                 'patient_id':request.GET.get('patient_id'),
-                                                 'username':request.session.get('username'),})
-# 获取青少年生活事件表单
-def get_aslec_form(request):
-    return render(request,'nbh/add_aslec.html',{'patient_session_id':request.GET.get('patient_session_id'),
-                                                 'patient_id':request.GET.get('patient_id'),
-                                                 'username':request.session.get('username'),})
-# 获取简氏父母教育表单
-def get_s_embu_form(request):
-    return render(request,'nbh/add_s_embu.html',{'patient_session_id':request.GET.get('patient_session_id'),
-                                                 'patient_id':request.GET.get('patient_id'),
-                                                 'username':request.session.get('username'),})
-# 获取自动思维问卷表单
-def get_atq_form(request):
-    return render(request,'nbh/add_atq.html',{'patient_session_id':request.GET.get('patient_session_id'),
-                                                 'patient_id':request.GET.get('patient_id'),
-
-                                                 'username':request.session.get('username'),})
 # 获取汉密尔顿抑郁表单
 def get_hamd_17_form(request):
-    return render(request,'nbh/add_hamd_17.html',{'patient_session_id':request.GET.get('patient_session_id'),
+    patient_session_id = request.GET.get('patient_session_id')
+    scale_name_list = scales_dao.get_scalename_bytype(tools_config.other_test_type, patient_session_id)
+    return render(request,'nbh/add_hamd_17.html',{'patient_session_id':patient_session_id,
                                                  'patient_id':request.GET.get('patient_id'),
-                                                 'username':request.session.get('username'),})
+                                                 'username':request.session.get('username'),
+                                                 'scale_name_list': scale_name_list,
+                                                  })
 # 获取汉密尔顿焦虑
 def get_hama_form(request):
-    return render(request,'nbh/add_hama.html',{'patient_session_id':request.GET.get('patient_session_id'),
-                                                 'patient_id':request.GET.get('patient_id'),
-                                                 'username':request.session.get('username'),})
+    patient_session_id = request.GET.get('patient_session_id')
+    scale_name_list = scales_dao.get_scalename_bytype(tools_config.other_test_type, patient_session_id)
+    return render(request, 'nbh/add_hama.html', {'patient_session_id': patient_session_id,
+                                                    'patient_id': request.GET.get('patient_id'),
+                                                    'username': request.session.get('username'),
+                                                    'scale_name_list': scale_name_list,
+                                                    })
 # 获取杨氏躁狂
 def get_ymrs_form(request):
-    return render(request,'nbh/add_ymrs.html',{'patient_session_id':request.GET.get('patient_session_id'),
-                                                 'patient_id':request.GET.get('patient_id'),
-                                                 'username':request.session.get('username'),})
+    patient_session_id = request.GET.get('patient_session_id')
+    scale_name_list = scales_dao.get_scalename_bytype(tools_config.other_test_type, patient_session_id)
+    return render(request,'nbh/add_ymrs.html',{'patient_session_id': patient_session_id,
+                                                    'patient_id': request.GET.get('patient_id'),
+                                                    'username': request.session.get('username'),
+                                                    'scale_name_list': scale_name_list,
+                                                    })
 # 获取简明精神病表单
 def get_bprs_form(request):
-    return render(request,'nbh/add_bprs.html',{'patient_session_id':request.GET.get('patient_session_id'),
-                                                 'patient_id':request.GET.get('patient_id'),
-                                                 'username':request.session.get('username'),})
+    patient_session_id = request.GET.get('patient_session_id')
+    scale_name_list = scales_dao.get_scalename_bytype(tools_config.other_test_type, patient_session_id)
+    return render(request,'nbh/add_bprs.html',{'patient_session_id': patient_session_id,
+                                                    'patient_id': request.GET.get('patient_id'),
+                                                    'username': request.session.get('username'),
+                                                    'scale_name_list': scale_name_list,
+                                                    })
+# 获取耶鲁布朗表单
+def get_ybocs_form(request):
+
+    patient_session_id = request.GET.get('patient_session_id')
+    scale_name_list = scales_dao.get_scalename_bytype(tools_config.self_test_type, patient_session_id)
+    return render(request,'nbh/add_ybocs.html',{'patient_session_id':request.GET.get('patient_session_id'),
+                                                'patient_id':request.GET.get('patient_id'),
+                                                'username':request.session.get('username'),
+                                                'scale_name_list':scale_name_list,
+                                                })
+# 获取自杀量表表单
+def get_bss_form(request):
+    patient_session_id = request.GET.get('patient_session_id')
+    scale_name_list = scales_dao.get_scalename_bytype(tools_config.self_test_type, patient_session_id)
+    return render(request,'nbh/add_bss.html',{'patient_session_id':request.GET.get('patient_session_id'),
+                                                'patient_id':request.GET.get('patient_id'),
+                                                'username':request.session.get('username'),
+                                                'scale_name_list':scale_name_list,
+                                                })
+# 获取33项轻躁狂表单
+def get_hcl_33_form(request):
+    patient_session_id = request.GET.get('patient_session_id')
+    scale_name_list = scales_dao.get_scalename_bytype(tools_config.self_test_type, patient_session_id)
+    return render(request,'nbh/add_hcl_33.html',{'patient_session_id':request.GET.get('patient_session_id'),
+                                                'patient_id':request.GET.get('patient_id'),
+                                                'username':request.session.get('username'),
+                                                'scale_name_list':scale_name_list,
+                                                })
+# 获取斯奈斯快乐量表
+def get_shaps_form(request):
+    patient_session_id = request.GET.get('patient_session_id')
+    scale_name_list = scales_dao.get_scalename_bytype(tools_config.self_test_type, patient_session_id)
+    return render(request,'nbh/add_shaps.html',{'patient_session_id':request.GET.get('patient_session_id'),
+                                                'patient_id':request.GET.get('patient_id'),
+                                                'username':request.session.get('username'),
+                                                'scale_name_list':scale_name_list,
+                                                })
+# 获取快感体验能力表单
+def get_teps_form(request):
+    patient_session_id = request.GET.get('patient_session_id')
+    scale_name_list = scales_dao.get_scalename_bytype(tools_config.self_test_type, patient_session_id)
+    return render(request,'nbh/add_teps.html',{'patient_session_id':request.GET.get('patient_session_id'),
+                                                'patient_id':request.GET.get('patient_id'),
+                                                'username':request.session.get('username'),
+                                                'scale_name_list':scale_name_list,
+                                                })
+# 获取儿童期成长经历表单
+def get_ctq_sf_form(request):
+    patient_session_id = request.GET.get('patient_session_id')
+    scale_name_list = scales_dao.get_scalename_bytype(tools_config.self_test_type, patient_session_id)
+    return render(request,'nbh/add_ctq_sf.html',{'patient_session_id':request.GET.get('patient_session_id'),
+                                                'patient_id':request.GET.get('patient_id'),
+                                                'username':request.session.get('username'),
+                                                'scale_name_list':scale_name_list,
+                                                })
+# 获取认知情绪调节表单
+def get_cerq_c_form(request):
+    patient_session_id = request.GET.get('patient_session_id')
+    scale_name_list = scales_dao.get_scalename_bytype(tools_config.self_test_type, patient_session_id)
+    return render(request,'nbh/add_cerq_c.html',{'patient_session_id':request.GET.get('patient_session_id'),
+                                                'patient_id':request.GET.get('patient_id'),
+                                                'username':request.session.get('username'),
+                                                'scale_name_list':scale_name_list,
+                                                })
+# 获取青少年生活事件表单
+def get_aslec_form(request):
+    patient_session_id = request.GET.get('patient_session_id')
+    scale_name_list = scales_dao.get_scalename_bytype(tools_config.self_test_type, patient_session_id)
+    return render(request,'nbh/add_aslec.html',{'patient_session_id':request.GET.get('patient_session_id'),
+                                                'patient_id':request.GET.get('patient_id'),
+                                                'username':request.session.get('username'),
+                                                'scale_name_list':scale_name_list,
+                                                })
+# 获取简氏父母教育表单
+def get_s_embu_form(request):
+    patient_session_id = request.GET.get('patient_session_id')
+    scale_name_list = scales_dao.get_scalename_bytype(tools_config.self_test_type, patient_session_id)
+    return render(request,'nbh/add_s_embu.html',{'patient_session_id':request.GET.get('patient_session_id'),
+                                                'patient_id':request.GET.get('patient_id'),
+                                                'username':request.session.get('username'),
+                                                'scale_name_list':scale_name_list,
+                                                })
+# 获取自动思维问卷表单
+def get_atq_form(request):
+    patient_session_id = request.GET.get('patient_session_id')
+    scale_name_list = scales_dao.get_scalename_bytype(tools_config.self_test_type, patient_session_id)
+    return render(request,'nbh/add_atq.html',{'patient_session_id':request.GET.get('patient_session_id'),
+                                                'patient_id':request.GET.get('patient_id'),
+                                                'username':request.session.get('username'),
+                                                'scale_name_list':scale_name_list,
+                                                })
 # 获取威斯康辛表单
 def get_wcst_form(request):
+    patient_session_id = request.GET.get('patient_session_id')
+    scale_name_list = scales_dao.get_scalename_bytype(tools_config.cognition_type, patient_session_id)
+    patient_session_id = request.GET.get('patient_session_id')
+    scale_name_list = scales_dao.get_scalename_bytype(tools_config.self_test_type, patient_session_id)
     return render(request,'nbh/add_wcst.html',{'patient_session_id':request.GET.get('patient_session_id'),
-                                                 'patient_id':request.GET.get('patient_id'),
-                                                 'username':request.session.get('username'),})
+                                                'patient_id':request.GET.get('patient_id'),
+                                                'username':request.session.get('username'),
+                                                'scale_name_list':scale_name_list,
+                                                })
 # 获取重复成套性测试表单
 def get_rbans_form(request):
+    patient_session_id = request.GET.get('patient_session_id')
+    scale_name_list = scales_dao.get_scalename_bytype(tools_config.cognition_type, patient_session_id)
     return render(request,'nbh/add_rbans.html',{'patient_session_id':request.GET.get('patient_session_id'),
-                                                 'patient_id':request.GET.get('patient_id'),
-                                                 'username':request.session.get('username'),})
+                                                'patient_id':request.GET.get('patient_id'),
+                                                'username':request.session.get('username'),
+                                                'scale_name_list':scale_name_list,
+                                                })
 # 获取面孔认知表单
 def get_fept_form(request):
+    patient_session_id = request.GET.get('patient_session_id')
+    scale_name_list = scales_dao.get_scalename_bytype(tools_config.cognition_type, patient_session_id)
     return render(request,'nbh/add_fept.html',{'patient_session_id':request.GET.get('patient_session_id'),
-                                                 'patient_id':request.GET.get('patient_id'),
-                                                 'username':request.session.get('username'),})
+                                                'patient_id':request.GET.get('patient_id'),
+                                                'username':request.session.get('username'),
+                                                'scale_name_list':scale_name_list,
+                                                })
 # 获取语音认知表单
 def get_vept_form(request):
+    patient_session_id = request.GET.get('patient_session_id')
+    scale_name_list = scales_dao.get_scalename_bytype(tools_config.cognition_type, patient_session_id)
     return render(request,'nbh/add_vept.html',{'patient_session_id':request.GET.get('patient_session_id'),
-                                                 'patient_id':request.GET.get('patient_id'),
-                                                 'username':request.session.get('username'),})
+                                                'patient_id':request.GET.get('patient_id'),
+                                                'username':request.session.get('username'),
+                                                'scale_name_list':scale_name_list,
+                                                })
 '''
 量表具体操作
 '''
@@ -208,7 +308,7 @@ def get_vept_form(request):
 def add_patient_medical_history(request):
     if request.POST:
         patient_session_id = request.GET.get('patient_session_id')
-        scale_id = 1
+        scale_id = tools_config.mediacal_history
         doctor_id = request.session.get('doctor_id')
         rPatientMedicalHistory = scales_models.RPatientMedicalHistory(patient_session_id=patient_session_id, scale_id=scale_id,
                                                         doctor_id=doctor_id)
@@ -240,7 +340,7 @@ def add_patient_medical_history(request):
     scales_dao.add_medical_history(rPatientMedicalHistory)
     # 页面跳转
     patient_id = request.GET.get('patient_id')
-    redirect_url = get_redirect_url(patient_session_id,patient_id,tools_config.self_test_next_type_url,tools_config.self_test_type)
+    redirect_url = get_redirect_url(patient_session_id,patient_id,tools_config.general_info_next_url,tools_config.general_info_type)
     return redirect(redirect_url)
 
 

@@ -1,5 +1,6 @@
 {% extends 'templates/index.html'%}
 {% load static %}
+{% load SelfDefinedFilter %}
 {% block title %}自动思维问卷表(atq){% endblock %}
 {% block css %}
     <link href="{% static '/css/scales_style.css' %}" rel="stylesheet" >
@@ -17,52 +18,34 @@
                 </div>
             </div>
         </div>  
-        <div class="dashboard_graph x_panel">
-            <div id="wrapper">
-                <div id = "left-side" style="height: 100%;" class="col-md-2">
-                  <ul class="scales_progress">
-                    <li class="step1 done">
-                      <p>耶鲁布朗强迫症严重程度标准量表（ybocs）</p>
+        <div class="dashboard_graph x_panel" style="margin-top:0px;height: 80%;">
+                  <div class="dashboard_graph x_panel" style="margin-top:0px;height: 80%;">
+                   <div id="left-side" style="height: 100%;" class="col-md-3">
+                <ul class="scales_progress">
+                    {% for scale_name in scale_name_list %}
+                        {% if scale_name|get_item:'scale__scale_name' == '自动思维问卷（ATQ）' %}
+                            <li class="step doing">
+                                <p>{{ scale_name|get_item:'scale__scale_name' }}</p>
+                            </li>
+                        {% elif scale_name|get_item:'state' == 1 %}
+                            <li class="step done notclick">
+                                <p>{{ scale_name|get_item:'scale__scale_name' }}</p>
+                            </li>
+                        {% else %}
+                             <li class="step nodone notclick">
+                                <p>{{ scale_name|get_item:'scale__scale_name' }}</p>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                    <li class="finish nodone notclick">
+                        <p>完成</p>
                     </li>
-                    <li class="step2 done">
-                      <p>自杀意念及行为史（bss）</p>
-                    </li>
-                    <li class="step3 done">
-                      <p>33项轻躁狂症状清单(hcl-33)</p>
-                    </li>
-                    <li class="step4 done">
-                      <p>斯奈斯和汉密尔顿快乐量表(shaps)</p>
-					</li>
-					<li class="step5 done">
-						<p>快感体验能力量表teps</p>
-					</li>
-					<li class="step6 done">
-						<p>斯奈斯和汉密尔顿快乐量表(shaps)</p>
-					</li>
-					<li class="step7 done">
-						<p>儿童期（16岁以前）的成长经历ctq-sf</p>
-					</li>
-					<li class="step8 done">
-						<p>认知情绪调节量表cerq-c</p>
-					</li>
-					<li class="step9 done">
-						<p>青少年生活事件量表aslec</p>
-					</li>
-					<li class="step10 done">
-						<p>简式父母养育方式问卷表s-embu</p>
-					</li>
-					<li class="step11 doing">
-						<p>自动思维问卷表atq</p>
-					</li>
-                    <li class="finish nodone">
-                      <p>完成</p>
-                    </li>
-                  </ul>
-                </div>  
+                </ul>
+            </div>
 				         
                 <div id="right-side" class="col-md-10">
                   <div id="first" class="active">
-                     <form action="/scales/add_atq?patient_id={{ patient_id }}&patient_session_id={{ patient_session_id }}" method="post">
+                     <form name="atqform" action="/scales/add_atq?patient_id={{ patient_id }}&patient_session_id={{ patient_session_id }}" method="post" onSubmit="return myCheck(this)">
                             <div class="container">
 
                             <div class="row" style="margin-left:5px;margin-top: 5px;padding-bottom: 5px;">
@@ -369,4 +352,131 @@ $(document).ready(function(){
 	$("input[type='radio']").labelauty();
 });
 </script>
+<script type="text/javascript">
+    function myCheck(atqform)
+    {
+        if (document.atqform.atq_question1.value=="") {
+            alert("问题一不能为空！");
+            return false;
+        }
+        if (document.atqform.atq_question2.value=="") {
+            alert("问题二不能为空！");
+            return false;
+        }
+        if (document.atqform.atq_question3.value=="") {
+            alert("问题三不能为空！");
+            return false;
+        }
+        if (document.atqform.atq_question4.value=="") {
+            alert("问题四不能为空！");
+            return false;
+        }
+        if (document.atqform.atq_question5.value=="") {
+            alert("问题五不能为空！");
+            return false;
+        }if (document.atqform.atq_question6.value=="") {
+            alert("问题六不能为空！");
+            return false;
+        }
+        if (document.atqform.atq_question7.value=="") {
+            alert("问题七不能为空！");
+            return false;
+        }
+        if (document.atqform.atq_question8.value=="") {
+            alert("问题八不能为空！");
+            return false;
+        }
+        if (document.atqform.atq_question9.value=="") {
+            alert("问题九不能为空！");
+            return false;
+        }
+        if (document.atqform.atq_question10.value=="") {
+            alert("问题十不能为空！");
+            return false;
+        }
+        if (document.atqform.atq_question11.value=="") {
+            alert("问题十一不能为空！");
+            return false;
+        }
+        if (document.atqform.atq_question12.value=="") {
+            alert("问题十二不能为空！");
+            return false;
+        }
+        if (document.atqform.atq_question13.value=="") {
+            alert("问题十三不能为空！");
+            return false;
+        }
+        if (document.atqform.atq_question14.value=="") {
+            alert("问题十四不能为空！");
+            return false;
+        }
+        if (document.atqform.atq_question15.value=="") {
+            alert("问题十五不能为空！");
+            return false;
+        }
+        if (document.atqform.atq_question16.value=="") {
+            alert("问题十六不能为空！");
+            return false;
+        }
+        if (document.atqform.atq_question17.value=="") {
+            alert("问题十七不能为空！");
+            return false;
+        }
+        if (document.atqform.atq_question18.value=="") {
+            alert("问题十八不能为空！");
+            return false;
+        }
+        if (document.atqform.atq_question19.value=="") {
+            alert("问题十九不能为空！");
+            return false;
+        }
+        if (document.atqform.atq_question20.value=="") {
+            alert("问题二十不能为空！");
+            return false;
+        }
+        if (document.atqform.atq_question21.value=="") {
+            alert("问题二十一不能为空！");
+            return false;
+        }
+        if (document.atqform.atq_question22.value=="") {
+            alert("问题二十二不能为空！");
+            return false;
+        }
+        if (document.atqform.atq_question23.value=="") {
+            alert("问题二十三不能为空！");
+            return false;
+        }
+        if (document.atqform.atq_question24.value=="") {
+            alert("问题二十四不能为空！");
+            return false;
+        }
+        if (document.atqform.atq_question25.value=="") {
+            alert("问题二十五不能为空！");
+            return false;
+        }
+        if (document.atqform.atq_question26.value=="") {
+            alert("问题二十六不能为空！");
+            return false;
+        }
+        if (document.atqform.atq_question27.value=="") {
+            alert("问题二十七不能为空！");
+            return false;
+        }
+        if (document.atqform.atq_question28.value=="") {
+            alert("问题二十八不能为空！");
+            return false;
+        }
+        if (document.atqform.atq_question29.value=="") {
+            alert("问题二十八不能为空！");
+            return false;
+        }
+        if (document.atqform.atq_question30.value=="") {
+            alert("问题二十八不能为空！");
+            return false;
+        }
+  
+        alert("提交成功！");
+        return true;
+    }
+    </script>
 {% endblock %}

@@ -98,17 +98,15 @@ def get_patient_detail(request):
         patient_id = request.GET.get("patient_id")
         patient_baseinfo = patients_dao.get_base_info_byPK(patient_id)
         patient_detail_list = DPatientDetail.objects.all().select_related('patient__doctor').filter(
-            patient_id=patient_id).values('id', 'patient__id', 'session_id', 'standard_id', 'create_time', 'diagnosis',
-                                          'doctor__name')
-        diagnosis_type = DPatientDetail.DIAGNOSIS_TYPE
-        for dic in patient_detail_list:
-            dic['diagnosis'] = diagnosis_type[dic['diagnosis']][1]
-        print(patient_detail_list)
+            patient_id=patient_id).values('id','patient_id','session_id', 'standard_id', 'create_time', 'patient_id__diagnosis',
+                                          'patient_id__other_diagnosis', 'doctor__name')
+        # print(patient_detail_list)
         test_states = scales_models.RPatientScales.objects.all().select_related('patient_session_id__scale'). \
             filter(patient_session_id__patient=patient_baseinfo).values(
             'patient_session_id__session_id',
             'scale_id',
             'scale__scale_name',
+            'scale__do_scale_type',
             'state',
             'end_time'
         )
@@ -159,16 +157,25 @@ def del_followup(request):
             patient_detail.first().delete()
     return redirect('/patients/get_patient_detail?patient_id=' + patient_id)
 
+# 更新patient_detail以及patient_base_info
 def update_patient_detail(request):
-    patient_session_id = request.GET.get('patient_sesison_id')
+    patient_session_id = request.GET.get('patient_session_id')
+    patient_id = request.GET.get('patient_id')
     patient_detail = patients_dao.get_patient_detail_byPK(patient_session_id)
     # 通过field的方式进行数据的传递，注意，需要保证form表单中各项的名称与数据库中字段名称是名称相同
     fields_data = DPatientDetail._meta.fields
     data_dict = patient_detail.__dict__
     for ele in fields_data:
-        data_dict[ele.name] = request.POST.get(ele.name)
+        if request.POST.get(ele.name) is not None:
+            data_dict[ele.name] = request.POST.get(ele.name)
     patients_dao.add_patient_detail(patient_detail)
-
+    patient_base_info = patients_dao.get_base_info_byPK(patient_id)
+    patient_base_info.diagnosis = request.POST.get('diagnosis')
+    patient_base_info.other_diagnosis = request.POST.get('other_diagnosis')
+    patients_dao.add_base_info(patient_base_info)
+    redirect_url = '/scales/select_scales?patient_session_id={}&patient_id={}'.format(str(patient_session_id),
+                                                                                      str(patient_id))
+    return redirect(redirect_url)
 # 新建被试获取自动生成的id
 @csrf_exempt
 def get_generateId(id):
