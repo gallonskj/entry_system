@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'scales',
     'patients',
     'users',
-    'debug_toolbar',
+    # 'debug_toolbar',
 ]
 
 MIDDLEWARE = [
@@ -51,7 +51,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'EntrySystem.MyMiddleware.AuthMiddleWare',
     'EntrySystem.MyMiddleware.PageRecordMiddleWare',
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
+    # 'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'EntrySystem.urls'

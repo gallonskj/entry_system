@@ -10,6 +10,7 @@ import scales.models as scales_models
 import patients.dao as patients_dao
 import tools.config as tools_config
 import json
+import scales.dao as scales_dao
 import time
 
 scale_class_dict = {1: [scales_models.RPatientHamd17, [8, 21, 35], ['正常', '可能有抑郁症', '可能是轻或中度抑郁', '可能为严重抑郁']], \
@@ -73,6 +74,8 @@ def add_patient_followup(request):
     doctor_id = request.session.get('doctor_id')
     patient_baseinfo = patients_dao.get_base_info_byPK(patient_id)
     patient_id, session_id, standard_id = tools_idAssignments.patient_session_id_assignment(patient_baseinfo.id)
+    patient_detail_last = patients_dao.get_patient_detail_last_byPatientId(patient_id)
+
     patient_detail = patients_models.DPatientDetail(patient_id=patient_id, session_id=session_id,
                                                     standard_id=standard_id,
                                                     age=tools_utils.calculate_age(str(patient_baseinfo.birth_date)),
@@ -85,6 +88,21 @@ def add_patient_followup(request):
     scales_list = patients_dao.judgment_scales(patient_detail_id)
     # 为初扫/复扫的病人预先在r_patient_scales中插入多条记录，依据被试需要做的scales_list
     patients_dao.add_rscales(scales_list, patient_detail.id)
+
+    patient = patients_dao.get_base_info_byPK(patient_id)
+    # 获取各个scaleType的list信息
+    scales_list = patients_dao.judgment_scales(patient_detail_id)
+    generalinfo_scale_list, other_test_scale_list, self_test_scale_list, cognition_scale_list = scales_dao.get_uodo_scales(patient_detail_id)
+    return render(request, 'select_scales.html', {'patient': patient,
+                                                  'patient_id': patient.id,
+                                                  'patient_session_id': patient_detail_id,
+                                                  "username": request.session.get('username'),
+                                                  'patient_detail':patient_detail_last,
+                                                  "todo_generalinfo_scale_size": len(generalinfo_scale_list),
+                                                  "todo_other_test_scale_size": len(other_test_scale_list),
+                                                  "todo_self_test_scale_size": len(self_test_scale_list),
+                                                  "todo_cognition_scale_size": len(cognition_scale_list),
+                                                  })
     # 将上一次的detail信息返回到前台
     redirect_url = '/scales/select_scales?patient_session_id={}&patient_id={}'.format(str(patient_detail_id),
                                                                                       str(patient_id))
@@ -103,7 +121,9 @@ def get_patient_detail(request):
         # print(patient_detail_list)
         test_states = scales_models.RPatientScales.objects.all().select_related('patient_session_id__scale'). \
             filter(patient_session_id__patient=patient_baseinfo).values(
+            'patient_session_id',
             'patient_session_id__session_id',
+            'patient_session_id__patient_id',
             'scale_id',
             'scale__scale_name',
             'scale__do_scale_type',
@@ -119,7 +139,7 @@ def get_patient_detail(request):
         nation_list = patients_dao.get_DEthnicity_all()
         return render(request, 'patient_detail.html',
                       {
-                          'patient_id': 'NN_' + str(patient_baseinfo.id).zfill(8),
+                          'patient_id':patient_id,
                           'name': patient_baseinfo.name,
                           'birth_date': patient_baseinfo.birth_date.strftime('%Y-%m-%d'),
                           'sex': patient_baseinfo.sex,

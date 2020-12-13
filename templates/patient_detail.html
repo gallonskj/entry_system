@@ -56,13 +56,13 @@
                                                         {% if scale_detail|get_item:'state' == 1 %}
                                                             <td>{{ scale_detail|get_item:'end_time' }}</td>
                                                             <td>已完成</td>
-                                                            <td><a href="">乘坐</a></td>
+                                                            <td><a href={{ scale_detail|get_scale_url }}>重做</a></td>
                                                             <td>-</td>
                                                         {% else %}
                                                             <td>-</td>
                                                             <td>未完成</td>
-                                                            <td><a href="">续做</a></td>
-                                                            <td><button class="btn btn-xs btn-warning"><a href="" style="color:white">删除</a></button></td>
+                                                            <td><a href={{ scale_detail|get_scale_url }}>续做</a></td>
+                                                            <td>-</td>
                                                         {% endif %}
                                                     </tr>
                                                     {% endif %}
@@ -103,19 +103,19 @@
                                               </thead>
                                               <tbody>
                                                {% for scale_id, scale_detail in session_details.items %}
-                                                    {% if scale_id < 17 and scale_id > 6  %}
+                                                    {% if scale_detail|get_item:'scale__do_scale_type' == 2 %}
                                                     <tr>
                                                       <td>{{ scale_detail|get_item:'scale__scale_name' }}</td>
                                                         {% if scale_detail|get_item:'state' == 1 %}
                                                             <td>{{ scale_detail|get_item:'end_time' }}</td>
                                                             <td>已完成</td>
-                                                            <td>-</td>
+                                                            <td><a href={{ scale_detail|get_scale_url }}>重做</a></td>
                                                             <td>-</td>
                                                         {% else %}
                                                             <td>-</td>
                                                             <td>未完成</td>
-                                                            <td><a href="">续做</a></td>
-                                                            <td><button class="btn btn-xs btn-warning"><a href="" style="color:white">删除</a></button></td>
+                                                             <td><a href={{ scale_detail|get_scale_url }}>续做</a></td>
+                                                            <td>-</td>
                                                         {% endif %}
                                                     </tr>
                                                     {% endif %}
@@ -156,22 +156,22 @@
                                               </thead>
                                               <tbody>
                                                   {% for scale_id, scale_detail in session_details.items %}
-                                                      {% if scale_id < 21 and scale_id > 16 %}
-                                                        <tr>
-                                                          <td>{{ scale_detail|get_item:'scale__scale_name' }}</td>
-                                                            {% if scale_detail|get_item:'state' == 1 %}
-                                                                <td>{{ scale_detail|get_item:'end_time' }}</td>
-                                                                <td>已完成</td>
-                                                                <td>-</td>
-                                                                <td>-</td>
-                                                            {% else %}
-                                                                <td>-</td>
-                                                                <td>未完成</td>
-                                                                <td><a href="">续做</a></td>
-                                                                <td><button class="btn btn-xs btn-warning"><a href="" style="color:white">删除</a></button></td>
-                                                            {% endif %}
-                                                        </tr>
-                                                      {% endif %}
+                                                     {% if scale_detail|get_item:'scale__do_scale_type' == 1 %}
+                                                    <tr>
+                                                      <td>{{ scale_detail|get_item:'scale__scale_name' }}</td>
+                                                        {% if scale_detail|get_item:'state' == 1 %}
+                                                            <td>{{ scale_detail|get_item:'end_time' }}</td>
+                                                            <td>已完成</td>
+                                                            <td><a href={{ scale_detail|get_scale_url }}>重做</a></td>
+                                                            <td>-</td>
+                                                        {% else %}
+                                                            <td>-</td>
+                                                            <td>未完成</td>
+                                                            <td><a href={{ scale_detail|get_scale_url }}>续做</a></td>
+                                                            <td>-</td>
+                                                        {% endif %}
+                                                    </tr>
+                                                    {% endif %}
                                                   {% endfor %}
                                               </tbody>
                                         </table>
@@ -209,19 +209,19 @@
                                               </thead>
                                               <tbody>
                                                 {% for scale_id, scale_detail in session_details.items %}
-                                                    {% if scale_id > 20 and scale_id < 25 %}
+                                                    {% if scale_detail|get_item:'scale__do_scale_type' == 3 %}
                                                     <tr>
                                                       <td>{{ scale_detail|get_item:'scale__scale_name' }}</td>
                                                         {% if scale_detail|get_item:'state' == 1 %}
                                                             <td>{{ scale_detail|get_item:'end_time' }}</td>
                                                             <td>已完成</td>
-                                                            <td>-</td>
+                                                            <td><a href={{ scale_detail|get_scale_url }}>重做</a></td>
                                                             <td>-</td>
                                                         {% else %}
                                                             <td>-</td>
                                                             <td>未完成</td>
-                                                            <td><a href="">续做</a></td>
-                                                            <td><button class="btn btn-xs btn-warning"><a href="" style="color:white">删除</a></button></td>
+                                                             <td><a href={{ scale_detail|get_scale_url }}>续做</a></td>
+                                                            <td>-</td>
                                                         {% endif %}
                                                     </tr>
                                                     {% endif %}
@@ -504,18 +504,18 @@
                                                              required="required" value="{{ birth_date }}"  /></div>
                         <label class="control-label col-md-2 col-sm-2 col-xs-6" for="sex">性别 <span class="required">*:</span></label>
                                      {% if sex == 0 %}
-                                          <div class="col-md-2 col-sm-3 form-group has-feedback row" style="width: 7%;">
-                                              <input type="radio" name="gender" value=0 data-labelauty="男" checked />
+                                          <div class="col-md-2 col-sm-3 form-group has-feedback row" style="width: 7%;margin-top: 7px;margin-left: 15px;">
+                                              <input type="radio" class="flat" name="gender" value=0  checked />男
                                           </div>
-                                          <div class="col-md-2 col-sm-3 form-group has-feedback row" style="width: 7%;">
-                                              <input type="radio" name="gender" value=1 data-labelauty="女"/>
+                                          <div class="col-md-2 col-sm-3 form-group has-feedback row" style="width: 7%;margin-top: 7px;">
+                                              <input type="radio" class="flat" name="gender" value=1 />女
                                           </div>
                                       {% else %}
-                                          <div class="col-md-2 col-sm-3 form-group has-feedback row" style="width: 7%;">
-                                              <input type="radio" name="gender" value=0 data-labelauty="男" />
+                                          <div class="col-md-2 col-sm-3 form-group has-feedback row" style="width: 7%;margin-top: 7px;margin-left: 15px;">
+                                              <input type="radio" class="flat" name="gender" value=0  />男
                                           </div>
-                                          <div class="col-md-2 col-sm-3 form-group has-feedback row" style="width: 7%;">
-                                              <input type="radio" name="gender" value=1 data-labelauty="女" checked/>
+                                          <div class="col-md-2 col-sm-3 form-group has-feedback row" style="width: 7%;margin-top: 7px;">
+                                              <input type="radio" class="flat" name="gender" value=1  checked/>女
                                           </div>
                                       {% endif %}
                       </div>
