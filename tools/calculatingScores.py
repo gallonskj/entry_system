@@ -477,8 +477,8 @@ def growth_total_score(rPatientGrowth_object):
                                int(rPatientGrowth_object.question23_answer) + int(rPatientGrowth_object.question24_answer) + \
                                int(rPatientGrowth_object.question27_answer)
         emotional_ignorance_total_score = (6 - int(rPatientGrowth_object.question5_answer)) + (6 - int(rPatientGrowth_object.question7_answer)) + \
-                                      (6 - int(rPatientGrowth_object.question13_answer)) + int(rPatientGrowth_object.question19_answer) + \
-                                      int(rPatientGrowth_object.question28_answer)
+                                      (6 - int(rPatientGrowth_object.question13_answer)) + (6-int(rPatientGrowth_object.question19_answer)) + \
+                                          (6-int(rPatientGrowth_object.question28_answer))
         physical_ignorance_total_score = int(rPatientGrowth_object.question1_answer) + (6 - int(rPatientGrowth_object.question2_answer)) + \
                                      int(rPatientGrowth_object.question4_answer) + int(rPatientGrowth_object.question6_answer) + (6 - int(rPatientGrowth_object.question26_answer))
 
@@ -623,7 +623,6 @@ def CognitiveEmotion_total_score(rPatientCognitiveEmotion_object):
 
 
         program_refocus = int(rPatientCognitiveEmotion_object.question25_answer) + int(rPatientCognitiveEmotion_object.question26_answer) + \
-                     int(rPatientCognitiveEmotion_object.question27_answer) + int(rPatientCognitiveEmotion_object.question28_answer) + \
                      int(rPatientCognitiveEmotion_object.question27_answer) + int(rPatientCognitiveEmotion_object.question28_answer)
 
 
@@ -728,11 +727,11 @@ def SEmbu_total_score(rPatientSembu_object):
 
         overprotection_mother_total =int(rPatientSembu_object.question14_mother) + int(rPatientSembu_object.question15_mother) + int(rPatientSembu_object.question16_mother) + \
                      int(rPatientSembu_object.question17_mother) + int(rPatientSembu_object.question18_mother) + int(rPatientSembu_object.question19_mother) + \
-                                 (5 - int(rPatientSembu_object.question13_mother)) + int(rPatientSembu_object.question21_mother)
+                                 (5 - int(rPatientSembu_object.question20_mother)) + int(rPatientSembu_object.question21_mother)
 
         overprotection_father_total =int(rPatientSembu_object.question14_father) +int(rPatientSembu_object.question15_father)  +int(rPatientSembu_object.question16_father)  + \
                      int(rPatientSembu_object.question17_father )+ int(rPatientSembu_object.question18_father) + int(rPatientSembu_object.question19_father) + \
-                                 (5 - int(rPatientSembu_object.question13_father)) + int(rPatientSembu_object.question21_father)
+                                 (5 - int(rPatientSembu_object.question20_father)) + int(rPatientSembu_object.question21_father)
 
         if refusal_mother_total >= 6 and refusal_mother_total <= 24 and refusal_father_total >= 6 and refusal_father_total <= 24 \
                 and emotional_warmth_mother_total >= 7 and emotional_warmth_mother_total <= 28 and emotional_warmth_father_total >= 7 \
