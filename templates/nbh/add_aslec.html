@@ -1,5 +1,6 @@
 {% extends 'templates/index.html'%}
 {% load static %}
+{% load SelfDefinedFilter %}
 {% block title %}青少年生活事件量表(aslec){% endblock %}
 {% block css %}
     <link href="{% static '/css/scales_style.css' %}" rel="stylesheet" >
@@ -17,60 +18,44 @@
                 </div>
             </div>
         </div>  
-        <div class="dashboard_graph x_panel">
-            <div id="wrapper">
-                <div id = "left-side" style="height: 100%;" class="col-md-2">
-                  <ul class="scales_progress">
-                    <li class="step1 done">
-                      <p>耶鲁布朗强迫症严重程度标准量表（ybocs）</p>
+        <div class="dashboard_graph x_panel" style="margin-top:0px;height: 80%;">
+                   <div id="left-side" style="height: 100%;" class="col-md-3">
+                <ul class="scales_progress">
+                    {% for scale_name in scale_name_list %}
+                        {% if scale_name|get_item:'scale__scale_name' == '青少年生活事件量表' %}
+                            <li class="step doing">
+                                <p>{{ scale_name|get_item:'scale__scale_name' }}</p>
+                            </li>
+                        {% elif scale_name|get_item:'state' == 1 %}
+                            <li class="step done notclick">
+                                <p>{{ scale_name|get_item:'scale__scale_name' }}</p>
+                            </li>
+                        {% else %}
+                             <li class="step nodone notclick">
+                                <p>{{ scale_name|get_item:'scale__scale_name' }}</p>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                    <li class="finish nodone notclick">
+                        <p>完成</p>
                     </li>
-                    <li class="step2 done">
-                      <p>自杀意念及行为史（bss）</p>
-                    </li>
-                    <li class="step3 done">
-                      <p>33项轻躁狂症状清单(hcl-33)</p>
-                    </li>
-                    <li class="step4 done">
-                      <p>斯奈斯和汉密尔顿快乐量表(shaps)</p>
-					</li>
-					<li class="step5 done">
-						<p>快感体验能力量表teps</p>
-					</li>
-					<li class="step6 done">
-						<p>斯奈斯和汉密尔顿快乐量表(shaps)</p>
-					</li>
-					<li class="step7 done">
-						<p>儿童期（16岁以前）的成长经历ctq-sf</p>
-					</li>
-					<li class="step8 done">
-						<p>认知情绪调节量表cerq-c</p>
-					</li>
-					<li class="step9 doing">
-						<p>青少年生活事件量表aslec</p>
-					</li>
-					<li class="step10 nodone">
-						<p>简式父母养育方式问卷表s-embu</p>
-					</li>
-					<li class="step11 nodone">
-						<p>自动思维问卷表atq</p>
-					</li>
-                    <li class="finish nodone">
-                      <p>完成</p>
-                    </li>
-                  </ul>
-                </div>  
+                </ul>
+            </div>
 				         
                 <div id="right-side" class="col-md-10">
                   <div id="first" class="active">
-                        <form action="/scales/add_adolescent_events?patient_id={{ patient_id }}&patient_session_id={{ patient_session_id }}" method="post">
+                        <form name="aslecform" action="/scales/add_adolescent_events?patient_id={{ patient_id }}&patient_session_id={{ patient_session_id }}" method="post" onSubmit="return myCheck(this)">
                             {%  csrf_token %}
                             <div class="container">
+                                <div class="col-md-12  text-center">
+                                    <h4><strong>青少年生活事件量表 </strong></h4>
+                                </div>
                                 <div class="row" style="margin: 5px;">
-                                    <strong><br/>过去12个月内，你和你的家庭是否发生过下列事件？请仔细阅读下列每一个项目，如发生过，并根据事件给你造成的苦恼程度在相对方格内打个勾 。如果某件事未发生，仅在事件未发生栏内打个勾就可以了。<br/></strong>
+                                    <strong><br/><i class="fa fa-hand-o-right"></i>&nbsp;<i class="fa fa-hand-o-right"></i>&nbsp;<i class="fa fa-hand-o-right"></i>&nbsp;过去12个月内，你和你的家庭是否发生过下列事件？请仔细阅读下列每一个项目，如发生过，并根据事件给你造成的苦恼程度在相对方格内打个勾 。如果某件事未发生，仅在事件未发生栏内打个勾就可以了。<br/></strong>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <table class="table table-hover table-bordered" >
+                                        <table class="table" >
 
 				                        <tbody>
                                              <tr>
@@ -128,7 +113,7 @@
                                                  <td><input type="radio" name="question5_answer" value=2 data-labelauty="轻度" /> </td>
                                                  <td><input type="radio" name="question5_answer" value=3 data-labelauty="中度" /></td>
                                                  <td><input type="radio" name="question5_answer" value=4 data-labelauty="重度" /> </td>
-                                                 <td><input type="radio" name="question5_answer" value=5 data-labelauty="极重" /> ></td>
+                                                 <td><input type="radio" name="question5_answer" value=5 data-labelauty="极重" /> </td>
 					                        </tr>
                                            <tr>
 						                        <td>6.不喜欢上学</td>
@@ -321,7 +306,12 @@
 					                        </tr>
                                            <tr>
 						                        <td>27.如有其他事件说明</td>
-                                               <td colspan="6"> <input type="text" name="other_event_note" style="width:100%"/></td>
+                                                <td><input type="radio" name="question27_answer" value=0 data-labelauty="未发生" /> </td>
+                                                <td><input type="radio" name="question27_answer" value=1 data-labelauty="没有" /> </td>
+                                                <td><input type="radio" name="question27_answer" value=2 data-labelauty="轻度" /> </td>
+                                                <td><input type="radio" name="question27_answer" value=3 data-labelauty="中度" /> </td>
+                                                <td><input type="radio" name="question27_answer" value=4 data-labelauty="重度" /> </td>
+                                                <td><input type="radio" name="question27_answer" value=5 data-labelauty="极重" /> </td>
 					                        </tr>
                                         </tbody>
                                         </table>
@@ -329,7 +319,7 @@
                                 </div>
                                 <div class="row">
                                    <div class="text-center">
-                                       <input  type="submit" class="btn btn-success" value="提交"/>
+                                       <input  type="submit" class="btn btn-success" value="保存并提交量表，继续下一量表"/>
                                    
                                    </div>
                                 </div>
@@ -351,5 +341,119 @@
 $(document).ready(function(){
 	$("input[type='radio']").labelauty();
 });
+</script>
+<script type="text/javascript">
+    function myCheck(aslecform)
+    {
+        if (document.aslecform.question1_answer.value=="") {
+            alert("问题一不能为空！");
+            return false;
+        }
+        if (document.aslecform.question2_answer.value=="") {
+            alert("问题二不能为空！");
+            return false;
+        }
+        if (document.aslecform.question3_answer.value=="") {
+            alert("问题三不能为空！");
+            return false;
+        }
+        if (document.aslecform.question4_answer.value=="") {
+            alert("问题四不能为空！");
+            return false;
+        }
+        if (document.aslecform.question5_answer.value=="") {
+            alert("问题五不能为空！");
+            return false;
+        }if (document.aslecform.question6_answer.value=="") {
+            alert("问题六不能为空！");
+            return false;
+        }
+        if (document.aslecform.question7_answer.value=="") {
+            alert("问题七不能为空！");
+            return false;
+        }
+        if (document.aslecform.question8_answer.value=="") {
+            alert("问题八不能为空！");
+            return false;
+        }
+        if (document.aslecform.question9_answer.value=="") {
+            alert("问题九不能为空！");
+            return false;
+        }
+        if (document.aslecform.question10_answer.value=="") {
+            alert("问题十不能为空！");
+            return false;
+        }
+        if (document.aslecform.question11_answer.value=="") {
+            alert("问题十一不能为空！");
+            return false;
+        }
+        if (document.aslecform.question12_answer.value=="") {
+            alert("问题十二不能为空！");
+            return false;
+        }
+        if (document.aslecform.question13_answer.value=="") {
+            alert("问题十三不能为空！");
+            return false;
+        }
+        if (document.aslecform.question14_answer.value=="") {
+            alert("问题十四不能为空！");
+            return false;
+        }
+        if (document.aslecform.question15_answer.value=="") {
+            alert("问题十五不能为空！");
+            return false;
+        }
+        if (document.aslecform.question16_answer.value=="") {
+            alert("问题十六不能为空！");
+            return false;
+        }
+        if (document.aslecform.question17_answer.value=="") {
+            alert("问题十七不能为空！");
+            return false;
+        }
+        if (document.aslecform.question18_answer.value=="") {
+            alert("问题十八不能为空！");
+            return false;
+        }
+        if (document.aslecform.question19_answer.value=="") {
+            alert("问题十九不能为空！");
+            return false;
+        }
+        if (document.aslecform.question20_answer.value=="") {
+            alert("问题二十不能为空！");
+            return false;
+        }
+        if (document.aslecform.question21_answer.value=="") {
+            alert("问题二十一不能为空！");
+            return false;
+        }
+        if (document.aslecform.question22_answer.value=="") {
+            alert("问题二十二不能为空！");
+            return false;
+        }
+        if (document.aslecform.question23_answer.value=="") {
+            alert("问题二十三不能为空！");
+            return false;
+        }
+        if (document.aslecform.question24_answer.value=="") {
+            alert("问题二十四不能为空！");
+            return false;
+        }
+        if (document.aslecform.question25_answer.value=="") {
+            alert("问题二十五不能为空！");
+            return false;
+        }
+        if (document.aslecform.question26_answer.value=="") {
+            alert("问题二十六不能为空！");
+            return false;
+        }
+        if (document.aslecform.question27_answer.value=="") {
+            alert("问题二十七不能为空！");
+            return false;
+        }
+        alert("提交成功！");
+        return true;
+    }
 </script>
 {% endblock %}

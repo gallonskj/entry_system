@@ -1,24 +1,26 @@
-##############表插入前的外键表检验接口#############
-##############表插入前的外键表检验接口#############
-##############表插入前的外键表检验接口#############
-##############表插入前的外键表检验接口#############
-
 import patients.models as patients_models
 import scales.models as scales_models
 import users.models as users_models
 import tools.Utils as tools_utils
 
+"""##############表插入前的外键表检验接口#############"""
+'''##############表插入前的外键表检验接口#############'''
+'''##############表插入前的外键表检验接口#############'''
+'''##############表插入前的外键表检验接口#############'''
+
+
 # patient_medical_history 表插入前的外键检验
 def insert_patient_medical_history_check(rPatientMedicalHistory_object):
     # 空值判断
     if rPatientMedicalHistory_object is None \
-        or rPatientMedicalHistory_object.patient_session_id is None \
-        or rPatientMedicalHistory_object.scale_id is None \
-        or rPatientMedicalHistory_object.doctor_id is None:
+            or rPatientMedicalHistory_object.patient_session_id is None \
+            or rPatientMedicalHistory_object.scale_id is None \
+            or rPatientMedicalHistory_object.doctor_id is None:
         tools_utils.object_judgment(True)
     else:
         # 非空时外键判断
-        dPatientDetail = patients_models.DPatientDetail.objects.filter(pk=rPatientMedicalHistory_object.patient_session_id)[0]
+        dPatientDetail = \
+            patients_models.DPatientDetail.objects.filter(pk=rPatientMedicalHistory_object.patient_session_id)[0]
         dScales = scales_models.DScales.objects.filter(pk=rPatientMedicalHistory_object.scale_id)[0]
         doctor = users_models.SUser.objects.filter(pk=rPatientMedicalHistory_object.doctor_id)[0]
         if dPatientDetail is None or dScales is None or doctor is None:
@@ -32,13 +34,14 @@ def insert_patient_medical_history_check(rPatientMedicalHistory_object):
 def insert_patient_drug_information_check(rPatientDrugInformation_object):
     # 空值判断
     if rPatientDrugInformation_object is None \
-        or rPatientDrugInformation_object.patient_session_id is None \
-        or rPatientDrugInformation_object.scale_id is None \
-        or rPatientDrugInformation_object.doctor_id is None:
+            or rPatientDrugInformation_object.patient_session_id is None \
+            or rPatientDrugInformation_object.scale_id is None \
+            or rPatientDrugInformation_object.doctor_id is None:
         tools_utils.object_judgment(True)
     else:
         # 非空时外键判断
-        dPatientDetail = patients_models.DPatientDetail.objects.filter(pk=rPatientDrugInformation_object.patient_session_id)[0]
+        dPatientDetail = \
+            patients_models.DPatientDetail.objects.filter(pk=rPatientDrugInformation_object.patient_session_id)[0]
         dScales = scales_models.DScales.objects.filter(pk=rPatientDrugInformation_object.scale_id)[0]
         doctor = users_models.SUser.objects.filter(pk=rPatientDrugInformation_object.doctor_id)[0]
         if dPatientDetail is None or dScales is None or doctor is None:
@@ -52,8 +55,8 @@ def insert_patient_drug_information_check(rPatientDrugInformation_object):
 def insert_patient_detail_check(patient_detail_objct):
     # 空值判断
     if patient_detail_objct is None \
-        or patient_detail_objct.patient_id is None \
-        or patient_detail_objct.doctor_id is None:
+            or patient_detail_objct.patient_id is None \
+            or patient_detail_objct.doctor_id is None:
         tools_utils.object_judgment(True)
     else:
         # 非空时的外键判断
@@ -70,7 +73,7 @@ def insert_patient_detail_check(patient_detail_objct):
 def insert_patient_base_info_check(bPatientBaseInfo_object):
     # 空值判断
     if bPatientBaseInfo_object is None \
-        or bPatientBaseInfo_object.doctor_id is None:
+            or bPatientBaseInfo_object.doctor_id is None:
         tools_utils.object_judgment(True)
     else:
         # 非空时外键判断
@@ -86,9 +89,9 @@ def insert_patient_base_info_check(bPatientBaseInfo_object):
 def insert_hamd_check(rPatientHAMD17_object):
     # 空值判断
     if rPatientHAMD17_object is None \
-        or rPatientHAMD17_object.patient_session_id is None \
-        or rPatientHAMD17_object.scale_id is None \
-        or rPatientHAMD17_object.doctor_id is None:
+            or rPatientHAMD17_object.patient_session_id is None \
+            or rPatientHAMD17_object.scale_id is None \
+            or rPatientHAMD17_object.doctor_id is None:
         tools_utils.object_judgment(True)
     else:
         # 非空时外键判断
@@ -106,13 +109,14 @@ def insert_hamd_check(rPatientHAMD17_object):
 def insert_mainicsymptom_check(rPatientManicsymptom_object):
     # 空值判断
     if rPatientManicsymptom_object is None \
-        or rPatientManicsymptom_object.patient_session_id is None \
-        or rPatientManicsymptom_object.scale_id is None \
-        or rPatientManicsymptom_object.doctor_id is None:
+            or rPatientManicsymptom_object.patient_session_id is None \
+            or rPatientManicsymptom_object.scale_id is None \
+            or rPatientManicsymptom_object.doctor_id is None:
         tools_utils.object_judgment(True)
     else:
         # 非空时外键判断
-        dPatientDetail = patients_models.DPatientDetail.objects.filter(pk=rPatientManicsymptom_object.patient_session_id)[0]
+        dPatientDetail = \
+            patients_models.DPatientDetail.objects.filter(pk=rPatientManicsymptom_object.patient_session_id)[0]
         dScales = scales_models.DScales.objects.filter(pk=rPatientManicsymptom_object.scale_id)[0]
         doctor = users_models.SUser.objects.filter(pk=rPatientManicsymptom_object.doctor_id)[0]
         if dPatientDetail is None or dScales is None or doctor is None:
@@ -126,13 +130,14 @@ def insert_mainicsymptom_check(rPatientManicsymptom_object):
 def insert_hapiness_check(rPatienthappiness_object):
     # 空值判断
     if rPatienthappiness_object is None \
-        or rPatienthappiness_object.patient_session_id is None \
-        or rPatienthappiness_object.scale_id is None \
-        or rPatienthappiness_object.doctor_id is None:
+            or rPatienthappiness_object.patient_session_id is None \
+            or rPatienthappiness_object.scale_id is None \
+            or rPatienthappiness_object.doctor_id is None:
         tools_utils.object_judgment(True)
     else:
         # 非空时外键判断
-        dPatientDetail = patients_models.DPatientDetail.objects.filter(pk=rPatienthappiness_object.patient_session_id)[0]
+        dPatientDetail = patients_models.DPatientDetail.objects.filter(pk=rPatienthappiness_object.patient_session_id)[
+            0]
         dScales = scales_models.DScales.objects.filter(pk=rPatienthappiness_object.scale_id)[0]
         doctor = users_models.SUser.objects.filter(pk=rPatienthappiness_object.doctor_id)[0]
         if dPatientDetail is None or dScales is None or doctor is None:
@@ -146,13 +151,14 @@ def insert_hapiness_check(rPatienthappiness_object):
 def insert_handle_check(rPatientChineseHandy_object):
     # 空值判断
     if rPatientChineseHandy_object is None \
-        or rPatientChineseHandy_object.patient_session_id is None \
-        or rPatientChineseHandy_object.scale_id is None \
-        or rPatientChineseHandy_object.doctor_id is None:
+            or rPatientChineseHandy_object.patient_session_id is None \
+            or rPatientChineseHandy_object.scale_id is None \
+            or rPatientChineseHandy_object.doctor_id is None:
         tools_utils.object_judgment(True)
     else:
         # 非空时外键判断
-        dPatientDetail = patients_models.DPatientDetail.objects.filter(pk=rPatientChineseHandy_object.patient_session_id)[0]
+        dPatientDetail = \
+            patients_models.DPatientDetail.objects.filter(pk=rPatientChineseHandy_object.patient_session_id)[0]
         dScales = scales_models.DScales.objects.filter(pk=rPatientChineseHandy_object.scale_id)[0]
         doctor = users_models.SUser.objects.filter(pk=rPatientChineseHandy_object.doctor_id)[0]
         if dPatientDetail is None or dScales is None or doctor is None:
@@ -166,13 +172,14 @@ def insert_handle_check(rPatientChineseHandy_object):
 def insert_information_study_check(rPatientBasicInformationStudy_object):
     # 空值判断
     if rPatientBasicInformationStudy_object is None \
-        or rPatientBasicInformationStudy_object.patient_session_id is None \
-        or rPatientBasicInformationStudy_object.scale_id is None \
-        or rPatientBasicInformationStudy_object.doctor_id is None:
+            or rPatientBasicInformationStudy_object.patient_session_id is None \
+            or rPatientBasicInformationStudy_object.scale_id is None \
+            or rPatientBasicInformationStudy_object.doctor_id is None:
         tools_utils.object_judgment(True)
     else:
         # 非空时外键判断
-        dPatientDetail = patients_models.DPatientDetail.objects.filter(pk=rPatientBasicInformationStudy_object.patient_session_id)[0]
+        dPatientDetail = \
+            patients_models.DPatientDetail.objects.filter(pk=rPatientBasicInformationStudy_object.patient_session_id)[0]
         dScales = scales_models.DScales.objects.filter(pk=rPatientBasicInformationStudy_object.scale_id)[0]
         doctor = users_models.SUser.objects.filter(pk=rPatientBasicInformationStudy_object.doctor_id)[0]
         if dPatientDetail is None or dScales is None or doctor is None:
@@ -186,13 +193,14 @@ def insert_information_study_check(rPatientBasicInformationStudy_object):
 def insert_cognitive_emotion_check(rPatientCognitiveEmotion_object):
     # 空值判断
     if rPatientCognitiveEmotion_object is None \
-        or rPatientCognitiveEmotion_object.patient_session_id is None \
-        or rPatientCognitiveEmotion_object.scale_id is None \
-        or rPatientCognitiveEmotion_object.doctor_id is None:
+            or rPatientCognitiveEmotion_object.patient_session_id is None \
+            or rPatientCognitiveEmotion_object.scale_id is None \
+            or rPatientCognitiveEmotion_object.doctor_id is None:
         tools_utils.object_judgment(True)
     else:
         # 非空时外键判断
-        dPatientDetail = patients_models.DPatientDetail.objects.filter(pk=rPatientCognitiveEmotion_object.patient_session_id)[0]
+        dPatientDetail = \
+            patients_models.DPatientDetail.objects.filter(pk=rPatientCognitiveEmotion_object.patient_session_id)[0]
         dScales = scales_models.DScales.objects.filter(pk=rPatientCognitiveEmotion_object.scale_id)[0]
         doctor = users_models.SUser.objects.filter(pk=rPatientCognitiveEmotion_object.doctor_id)[0]
         if dPatientDetail is None or dScales is None or doctor is None:
@@ -206,9 +214,9 @@ def insert_cognitive_emotion_check(rPatientCognitiveEmotion_object):
 def insert_pleasure_check(rPatientPleasure_object):
     # 空值判断
     if rPatientPleasure_object is None \
-        or rPatientPleasure_object.patient_session_id is None \
-        or rPatientPleasure_object.scale_id is None \
-        or rPatientPleasure_object.doctor_id is None:
+            or rPatientPleasure_object.patient_session_id is None \
+            or rPatientPleasure_object.scale_id is None \
+            or rPatientPleasure_object.doctor_id is None:
         tools_utils.object_judgment(True)
     else:
         # 非空时外键判断
@@ -226,9 +234,9 @@ def insert_pleasure_check(rPatientPleasure_object):
 def insert_bprs_check(rPatientbprs_object):
     # 空值判断
     if rPatientbprs_object is None \
-        or rPatientbprs_object.patient_session_id is None \
-        or rPatientbprs_object.scale_id is None \
-        or rPatientbprs_object.doctor_id is None:
+            or rPatientbprs_object.patient_session_id is None \
+            or rPatientbprs_object.scale_id is None \
+            or rPatientbprs_object.doctor_id is None:
         tools_utils.object_judgment(True)
     else:
         # 非空时外键判断
@@ -246,9 +254,9 @@ def insert_bprs_check(rPatientbprs_object):
 def insert_rbans_check(rPatientrbans_object):
     # 空值判断
     if rPatientrbans_object is None \
-        or rPatientrbans_object.patient_session_id is None \
-        or rPatientrbans_object.scale_id is None \
-        or rPatientrbans_object.doctor_id is None:
+            or rPatientrbans_object.patient_session_id is None \
+            or rPatientrbans_object.scale_id is None \
+            or rPatientrbans_object.doctor_id is None:
         tools_utils.object_judgment(True)
     else:
         # 非空时外键判断
@@ -266,13 +274,15 @@ def insert_rbans_check(rPatientrbans_object):
 def insert_information_health_check(rPatientBasicInformationHealth_object):
     # 空值判断
     if rPatientBasicInformationHealth_object is None \
-        or rPatientBasicInformationHealth_object.patient_session_id is None \
-        or rPatientBasicInformationHealth_object.scale_id is None \
-        or rPatientBasicInformationHealth_object.doctor_id is None:
+            or rPatientBasicInformationHealth_object.patient_session_id is None \
+            or rPatientBasicInformationHealth_object.scale_id is None \
+            or rPatientBasicInformationHealth_object.doctor_id is None:
         tools_utils.object_judgment(True)
     else:
         # 非空时外键判断
-        dPatientDetail = patients_models.DPatientDetail.objects.filter(pk=rPatientBasicInformationHealth_object.patient_session_id)[0]
+        dPatientDetail = \
+            patients_models.DPatientDetail.objects.filter(pk=rPatientBasicInformationHealth_object.patient_session_id)[
+                0]
         dScales = scales_models.DScales.objects.filter(pk=rPatientBasicInformationHealth_object.scale_id)[0]
         doctor = users_models.SUser.objects.filter(pk=rPatientBasicInformationHealth_object.doctor_id)[0]
         if dPatientDetail is None or dScales is None or doctor is None:
@@ -286,9 +296,9 @@ def insert_information_health_check(rPatientBasicInformationHealth_object):
 def insert_hama_check(rPatientHama_object):
     # 空值判断
     if rPatientHama_object is None \
-        or rPatientHama_object.patient_session_id is None \
-        or rPatientHama_object.scale_id is None \
-        or rPatientHama_object.doctor_id is None:
+            or rPatientHama_object.patient_session_id is None \
+            or rPatientHama_object.scale_id is None \
+            or rPatientHama_object.doctor_id is None:
         tools_utils.object_judgment(True)
     else:
         # 非空时外键判断
@@ -306,13 +316,14 @@ def insert_hama_check(rPatientHama_object):
 def insert_information_abuse_check(rPatientBasicInformationAbuse_object):
     # 空值判断
     if rPatientBasicInformationAbuse_object is None \
-        or rPatientBasicInformationAbuse_object.patient_session_id is None \
-        or rPatientBasicInformationAbuse_object.scale_id is None \
-        or rPatientBasicInformationAbuse_object.doctor_id is None:
+            or rPatientBasicInformationAbuse_object.patient_session_id is None \
+            or rPatientBasicInformationAbuse_object.scale_id is None \
+            or rPatientBasicInformationAbuse_object.doctor_id is None:
         tools_utils.object_judgment(True)
     else:
         # 非空时外键判断
-        dPatientDetail = patients_models.DPatientDetail.objects.filter(pk=rPatientBasicInformationAbuse_object.patient_session_id)[0]
+        dPatientDetail = \
+            patients_models.DPatientDetail.objects.filter(pk=rPatientBasicInformationAbuse_object.patient_session_id)[0]
         dScales = scales_models.DScales.objects.filter(pk=rPatientBasicInformationAbuse_object.scale_id)[0]
         doctor = users_models.SUser.objects.filter(pk=rPatientBasicInformationAbuse_object.doctor_id)[0]
         if dPatientDetail is None or dScales is None or doctor is None:
@@ -326,9 +337,9 @@ def insert_information_abuse_check(rPatientBasicInformationAbuse_object):
 def insert_growth_check(rPatientGrowth_object):
     # 空值判断
     if rPatientGrowth_object is None \
-        or rPatientGrowth_object.patient_session_id is None \
-        or rPatientGrowth_object.scale_id is None \
-        or rPatientGrowth_object.doctor_id is None:
+            or rPatientGrowth_object.patient_session_id is None \
+            or rPatientGrowth_object.scale_id is None \
+            or rPatientGrowth_object.doctor_id is None:
         tools_utils.object_judgment(True)
     else:
         # 非空时外键判断
@@ -346,13 +357,14 @@ def insert_growth_check(rPatientGrowth_object):
 def insert_adolescnet_event_check(rPatientAdolescentEvents_object):
     # 空值判断
     if rPatientAdolescentEvents_object is None \
-        or rPatientAdolescentEvents_object.patient_session_id is None \
-        or rPatientAdolescentEvents_object.scale_id is None \
-        or rPatientAdolescentEvents_object.doctor_id is None:
+            or rPatientAdolescentEvents_object.patient_session_id is None \
+            or rPatientAdolescentEvents_object.scale_id is None \
+            or rPatientAdolescentEvents_object.doctor_id is None:
         tools_utils.object_judgment(True)
     else:
         # 非空时外键判断
-        dPatientDetail = patients_models.DPatientDetail.objects.filter(pk=rPatientAdolescentEvents_object.patient_session_id)[0]
+        dPatientDetail = \
+            patients_models.DPatientDetail.objects.filter(pk=rPatientAdolescentEvents_object.patient_session_id)[0]
         dScales = scales_models.DScales.objects.filter(pk=rPatientAdolescentEvents_object.scale_id)[0]
         doctor = users_models.SUser.objects.filter(pk=rPatientAdolescentEvents_object.doctor_id)[0]
         if dPatientDetail is None or dScales is None or doctor is None:
@@ -366,9 +378,9 @@ def insert_adolescnet_event_check(rPatientAdolescentEvents_object):
 def insert_fept_check(rPatientFept_object):
     # 空值判断
     if rPatientFept_object is None \
-        or rPatientFept_object.patient_session_id is None \
-        or rPatientFept_object.scale_id is None \
-        or rPatientFept_object.doctor_id is None:
+            or rPatientFept_object.patient_session_id is None \
+            or rPatientFept_object.scale_id is None \
+            or rPatientFept_object.doctor_id is None:
         tools_utils.object_judgment(True)
     else:
         # 非空时外键判断
@@ -386,9 +398,9 @@ def insert_fept_check(rPatientFept_object):
 def insert_vept_check(rPatientVept_object):
     # 空值判断
     if rPatientVept_object is None \
-        or rPatientVept_object.patient_session_id is None \
-        or rPatientVept_object.scale_id is None \
-        or rPatientVept_object.doctor_id is None:
+            or rPatientVept_object.patient_session_id is None \
+            or rPatientVept_object.scale_id is None \
+            or rPatientVept_object.doctor_id is None:
         tools_utils.object_judgment(True)
     else:
         # 非空时外键判断
@@ -406,9 +418,9 @@ def insert_vept_check(rPatientVept_object):
 def insert_ymrs_check(rPatientYmrs_object):
     # 空值判断
     if rPatientYmrs_object is None \
-        or rPatientYmrs_object.patient_session_id is None \
-        or rPatientYmrs_object.scale_id is None \
-        or rPatientYmrs_object.doctor_id is None:
+            or rPatientYmrs_object.patient_session_id is None \
+            or rPatientYmrs_object.scale_id is None \
+            or rPatientYmrs_object.doctor_id is None:
         tools_utils.object_judgment(True)
     else:
         # 非空时外键判断
@@ -426,9 +438,9 @@ def insert_ymrs_check(rPatientYmrs_object):
 def insert_sembu_check(rPatientSembu_object):
     # 空值判断
     if rPatientSembu_object is None \
-        or rPatientSembu_object.patient_session_id is None \
-        or rPatientSembu_object.scale_id is None \
-        or rPatientSembu_object.doctor_id is None:
+            or rPatientSembu_object.patient_session_id is None \
+            or rPatientSembu_object.scale_id is None \
+            or rPatientSembu_object.doctor_id is None:
         tools_utils.object_judgment(True)
     else:
         # 非空时外键判断
@@ -446,13 +458,14 @@ def insert_sembu_check(rPatientSembu_object):
 def insert_information_family_check(patient_basic_info_family_object):
     # 空值判断
     if patient_basic_info_family_object is None \
-        or patient_basic_info_family_object.patient_session_id is None \
-        or patient_basic_info_family_object.scale_id is None \
-        or patient_basic_info_family_object.doctor_id is None:
+            or patient_basic_info_family_object.patient_session_id is None \
+            or patient_basic_info_family_object.scale_id is None \
+            or patient_basic_info_family_object.doctor_id is None:
         tools_utils.object_judgment(True)
     else:
         # 非空时外键判断
-        dPatientDetail = patients_models.DPatientDetail.objects.filter(pk=patient_basic_info_family_object.patient_session_id)[0]
+        dPatientDetail = \
+            patients_models.DPatientDetail.objects.filter(pk=patient_basic_info_family_object.patient_session_id)[0]
         dScales = scales_models.DScales.objects.filter(pk=patient_basic_info_family_object.scale_id)[0]
         doctor = users_models.SUser.objects.filter(pk=patient_basic_info_family_object.doctor_id)[0]
         if dPatientDetail is None or dScales is None or doctor is None:
@@ -466,9 +479,9 @@ def insert_information_family_check(patient_basic_info_family_object):
 def insert_suicide_check(rpatientsuicidal_object):
     # 空值判断
     if rpatientsuicidal_object is None \
-        or rpatientsuicidal_object.patient_session_id is None \
-        or rpatientsuicidal_object.scale_id is None \
-        or rpatientsuicidal_object.doctor_id is None:
+            or rpatientsuicidal_object.patient_session_id is None \
+            or rpatientsuicidal_object.scale_id is None \
+            or rpatientsuicidal_object.doctor_id is None:
         tools_utils.object_judgment(True)
     else:
         # 非空时外键判断
@@ -486,13 +499,14 @@ def insert_suicide_check(rpatientsuicidal_object):
 def insert_YBO_check(rpatientybobsessiontable_object):
     # 空值判断
     if rpatientybobsessiontable_object is None \
-        or rpatientybobsessiontable_object.patient_session_id is None \
-        or rpatientybobsessiontable_object.scale_id is None \
-        or rpatientybobsessiontable_object.doctor_id is None:
+            or rpatientybobsessiontable_object.patient_session_id is None \
+            or rpatientybobsessiontable_object.scale_id is None \
+            or rpatientybobsessiontable_object.doctor_id is None:
         tools_utils.object_judgment(True)
     else:
         # 非空时外键判断
-        dPatientDetail = patients_models.DPatientDetail.objects.filter(pk=rpatientybobsessiontable_object.patient_session_id)[0]
+        dPatientDetail = \
+            patients_models.DPatientDetail.objects.filter(pk=rpatientybobsessiontable_object.patient_session_id)[0]
         dScales = scales_models.DScales.objects.filter(pk=rpatientybobsessiontable_object.scale_id)[0]
         doctor = users_models.SUser.objects.filter(pk=rpatientybobsessiontable_object.doctor_id)[0]
         if dPatientDetail is None or dScales is None or doctor is None:
@@ -506,9 +520,9 @@ def insert_YBO_check(rpatientybobsessiontable_object):
 def insert_ATQ_check(rPatientAtq_object):
     # 空值判断
     if rPatientAtq_object is None \
-        or rPatientAtq_object.patient_session_id is None \
-        or rPatientAtq_object.scale_id is None \
-        or rPatientAtq_object.doctor_id is None:
+            or rPatientAtq_object.patient_session_id is None \
+            or rPatientAtq_object.scale_id is None \
+            or rPatientAtq_object.doctor_id is None:
         tools_utils.object_judgment(True)
     else:
         # 非空时外键判断
@@ -526,13 +540,14 @@ def insert_ATQ_check(rPatientAtq_object):
 def insert_information_other_check(rPatientBasicInformationOther_object):
     # 空值判断
     if rPatientBasicInformationOther_object is None \
-        or rPatientBasicInformationOther_object.patient_session_id is None \
-        or rPatientBasicInformationOther_object.scale_id is None \
-        or rPatientBasicInformationOther_object.doctor_id is None:
+            or rPatientBasicInformationOther_object.patient_session_id is None \
+            or rPatientBasicInformationOther_object.scale_id is None \
+            or rPatientBasicInformationOther_object.doctor_id is None:
         tools_utils.object_judgment(True)
     else:
         # 非空时外键判断
-        dPatientDetail = patients_models.DPatientDetail.objects.filter(pk=rPatientBasicInformationOther_object.patient_session_id)[0]
+        dPatientDetail = \
+            patients_models.DPatientDetail.objects.filter(pk=rPatientBasicInformationOther_object.patient_session_id)[0]
         dScales = scales_models.DScales.objects.filter(pk=rPatientBasicInformationOther_object.scale_id)[0]
         doctor = users_models.SUser.objects.filter(pk=rPatientBasicInformationOther_object.doctor_id)[0]
         if dPatientDetail is None or dScales is None or doctor is None:
@@ -541,7 +556,7 @@ def insert_information_other_check(rPatientBasicInformationOther_object):
             object_flag = False
         tools_utils.object_judgment(object_flag)
 
+
 # 威斯康星
 def insert_wcst_check(rPatientWcst_object):
     tools_utils.object_judgment(False)
-

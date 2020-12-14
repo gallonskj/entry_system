@@ -17,7 +17,7 @@
                 </div>
             </div>
         </div>
-        <div class="dashboard_graph x_panel">
+        <div class="dashboard_graph x_panel" style="margin-top: 0px;height: 80%;">
             <div id="wrapper">
                 <div id = "left-side" style="height: 100%;" class="col-md-2">
                   <ul class="scales_progress">
@@ -36,9 +36,7 @@
 					<li class="step5 doing notclick">
 						<p>快感体验能力量表teps</p>
 					</li>
-					<li class="step6 nodone notclick">
-						<p>斯奈斯和汉密尔顿快乐量表(shaps)</p>
-					</li>
+
 					<li class="step7 nodone notclick">
 						<p>儿童期（16岁以前）的成长经历ctq-sf</p>
 					</li>
@@ -62,15 +60,15 @@
 				         
                 <div id="right-side" class="col-md-10">
                   <div id="first" class="active">
-                       <form action="/scales/add_pleasure?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}" method="POST">
+                       <form name="tepsform" action="/scales/add_pleasure?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}" method="POST" onSubmit="return myCheck(this)">
                            <div class="container">
                             <div class="row" style="margin-left:5px;margin-top: 5px;padding-bottom: 5px;">
-                                <h4><strong>快感体验能力量表<br/></strong></h4>
-                                <strong>请仔细阅读每个项目并考虑哪个情况与自己最符合。在遇到自己没有经历过的项目时，请先考虑和自己经历过的与其最相似的情境并作出选择。不必考虑你所选择的答案的一致性。1完全不符合：2 不符合：3基本不符合：4 基本符合：5 符合：6.完全符合<br/></strong>
+                                <h4><strong><center>快感体验能力量表</center></strong></h4>
+                                <strong><i class="fa fa-hand-o-right"></i>&nbsp;<i class="fa fa-hand-o-right"></i>&nbsp;<i class="fa fa-hand-o-right"></i>&nbsp;请仔细阅读每个项目并考虑哪个情况与自己最符合。在遇到自己没有经历过的项目时，请先考虑和自己经历过的与其最相似的情境并作出选择。不必考虑你所选择的答案的一致性。1:完全不符合 &nbsp;2:不符合&nbsp;3:基本不符合&nbsp;4:基本符合&nbsp;5:符合&nbsp;6:完全符合<br/></strong>
                             </div>
                             <div class="row">
                                 <div class="col-md-12 column">
-			                        <table   class="table table-bordered table-condensed" style="table-layout: fixed; width:100%;">
+			                        <table   class="table " style="width:100%;">
 				                        <thead>
 					                    <tr>
 						                    <th >
@@ -96,15 +94,15 @@
 						                    </th>
 					                    </tr>
 				                        </thead>
-				                        <tbody align="center">
+				                        <tbody align="left">
                                              <tr>
-						                        <td>1.当我得知我最喜欢演员的新片上映时，我非常渴望立刻看到。</td>
-						                         <td><input type="radio" name="question1_answer" value=1 data-labelauty="完全不符合"/> </td>
-                                                 <td><input type="radio" name="question1_answer" value=2 data-labelauty="不符合"/> </td>
-                                                 <td><input type="radio" name="question1_answer" value=3 data-labelauty="基本不符合"/> </td>
-                                                 <td><input type="radio" name="question1_answer" value=4 data-labelauty="基本符合"/> </td>
-                                                 <td><input type="radio" name="question1_answer" value=5 data-labelauty="符合"/> </td>
-                                                 <td><input type="radio" name="question1_answer" value=6 data-labelauty="完全符合"/> </td>
+						                        <td style="width: 40%;">1.当我得知我最喜欢演员的新片上映时，我非常渴望立刻看到。</td>
+						                         <td style="width: 10%;"><input type="radio" name="question1_answer" value=1 data-labelauty="完全不符合"/> </td>
+                                                 <td style="width: 10%;"><input type="radio" name="question1_answer" value=2 data-labelauty="不符合"/> </td>
+                                                 <td style="width: 10%;"><input type="radio" name="question1_answer" value=3 data-labelauty="基本不符合"/> </td>
+                                                 <td style="width: 10%;"><input type="radio" name="question1_answer" value=4 data-labelauty="基本符合"/> </td>
+                                                 <td style="width: 10%;"><input type="radio" name="question1_answer" value=5 data-labelauty="符合"/> </td>
+                                                 <td style="width: 10%;"><input type="radio" name="question1_answer" value=6 data-labelauty="完全符合"/> </td>
 					                        </tr>
                                             <tr>
 						                        <td>2.当我外出散步时，我很享受深呼吸新鲜空气的感觉</td>
@@ -197,7 +195,7 @@
                                                  <td><input type="radio" name="question11_answer" value=6 data-labelauty="完全符合"/> </td>
 					                        </tr>
                                             <tr>
-						                        <td2>12.一个大哈欠会让我浑身舒坦</td2>
+						                        <td>12.一个大哈欠会让我浑身舒坦</td>
 						                         <td><input type="radio" name="question12_answer" value=1 data-labelauty="完全不符合"/> </td>
                                                  <td><input type="radio" name="question12_answer" value=2 data-labelauty="不符合"/> </td>
                                                  <td><input type="radio" name="question12_answer" value=3 data-labelauty="基本不符合"/> </td>
@@ -266,7 +264,7 @@
                             <div class="row">
                                 <div class="text-center">
                                       {% csrf_token %}
-                                    <input  type="submit" class="btn btn-success" value="提交"  id="pleasure_bt"/>
+                                    <input  type="submit" class="btn btn-success" value="保存并提交量表，继续下一量表"  id="pleasure_bt"/>
 
                                 </div>
                             </div>
@@ -288,5 +286,83 @@
 $(document).ready(function(){
 	$("input[type='radio']").labelauty();
 });
+</script>
+<script type="text/javascript">
+  function myCheck(tepsform)
+  {
+      if (document.tepsform.question1_answer.value=="") {
+          alert("问题一不能为空！");
+          return false;
+      }
+      if (document.tepsform.question2_answer.value=="") {
+          alert("问题二不能为空！");
+          return false;
+      }
+      if (document.tepsform.question3_answer.value=="") {
+          alert("问题三不能为空！");
+          return false;
+      }
+      if (document.tepsform.question4_answer.value=="") {
+          alert("问题四不能为空！");
+          return false;
+      }
+      if (document.tepsform.question5_answer.value=="") {
+          alert("问题五不能为空！");
+          return false;
+      }if (document.tepsform.question6_answer.value=="") {
+          alert("问题六不能为空！");
+          return false;
+      }
+      if (document.tepsform.question7_answer.value=="") {
+          alert("问题七不能为空！");
+          return false;
+      }
+      if (document.tepsform.question8_answer.value=="") {
+          alert("问题八不能为空！");
+          return false;
+      }
+      if (document.tepsform.question9_answer.value=="") {
+          alert("问题九不能为空！");
+          return false;
+      }
+      if (document.tepsform.question10_answer.value=="") {
+          alert("问题十不能为空！");
+          return false;
+      }
+      if (document.tepsform.question11_answer.value=="") {
+          alert("问题十一不能为空！");
+          return false;
+      }
+      if (document.tepsform.question12_answer.value=="") {
+          alert("问题十二不能为空！");
+          return false;
+      }
+      if (document.tepsform.question13_answer.value=="") {
+          alert("问题十三不能为空！");
+          return false;
+      }
+      if (document.tepsform.question14_answer.value=="") {
+          alert("问题十四不能为空！");
+          return false;
+      }
+      if (document.tepsform.question15_answer.value=="") {
+          alert("问题十五不能为空！");
+          return false;
+      }
+      if (document.tepsform.question16_answer.value=="") {
+          alert("问题十六不能为空！");
+          return false;
+      }
+      if (document.tepsform.question17_answer.value=="") {
+          alert("问题十七不能为空！");
+          return false;
+      }
+      if (document.tepsform.question18_answer.value=="") {
+          alert("问题十八不能为空！");
+          return false;
+      }
+      alert("提交成功！");
+      return true;
+  }
 </script>
 {% endblock %}

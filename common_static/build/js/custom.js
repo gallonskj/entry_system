@@ -55,15 +55,21 @@ $(document).ready(function() {
     var setContentHeight = function () {
         // reset height
         $RIGHT_COL.css('min-height', $(window).height());
-
+        
+        //alert($FOOTER.height());
         var bodyHeight = $BODY.outerHeight(),
-            footerHeight = $BODY.hasClass('footer_fixed') ? -10 : $FOOTER.height(),
+            footerHeight = $BODY.hasClass('footer_fixed') ? -10 : 30,
             leftColHeight = $LEFT_COL.eq(1).height() + $SIDEBAR_FOOTER.height(),
+
             contentHeight = bodyHeight < leftColHeight ? leftColHeight : bodyHeight;
-
+        //alert(leftColHeight);
+        //alert(contentHeight);
+        //alert(bodyHeight);
+        //alert(footerHeight);
         // normalize content
-        contentHeight -= $NAV_MENU.height() + footerHeight;
-
+        //contentHeight -= $NAV_MENU.height() + footerHeight;
+        contentHeight = bodyHeight  - footerHeight ;
+        //alert(footerHeight);
         $RIGHT_COL.css('min-height', contentHeight);
     };
 

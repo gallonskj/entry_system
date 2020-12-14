@@ -3,6 +3,22 @@
 {% block title %}家庭信息{% endblock %}
 {% block css %}
 <link href="{% static '/css/scales_style.css' %}" rel="stylesheet" >
+    <style>
+  .row input.labelauty + label{
+    margin-bottom:0px;
+    width:70px;
+	  display:inline-block;
+	  font-size: 13px;
+    padding: 3px;
+    text-align: center;
+	  background-color: #efefef;
+	  color: #b3b3b3;
+	  cursor: pointer;
+	  border-radius: 3px 3px 3px 3px;
+	  -moz-border-radius: 3px 3px 3px 3px;
+	  -webkit-border-radius: 3px 3px 3px 3px;
+  }
+</style>
 {% endblock %}
 {% block content %}
      <div class="right_col" role="main">
@@ -17,7 +33,7 @@
           </div>
         </div>
         </div> 
-        <div class="dashboard_graph x_panel">
+        <div class="dashboard_graph x_panel" style="height: 80%;overflow-x: hidden;">
           <div id="wrapper">
             <div id = "left-side" style="height: 100%;" class="col-md-2">
               <ul class="scales_progress">
@@ -52,8 +68,6 @@
                             <div class="row" style=" margin: 20px;">
                                 <h4><strong><center>家庭资料</center><br/></strong></h4>
                                </div>
-
-                            <br>
                             <div class="x_content">
                                 <br>
                                 <!-- 姓名 性别 联系电话-->
@@ -64,17 +78,17 @@
                                     </div>
                                     <label class="control-label col-md-1 col-sm-1" >性别<span class="required">*</span></label>
                                       {% if base_info.sex == 0 %}
-                                      <div class="col-md-2 col-sm-3 form-group has-feedback row" style="width: 7%;">
+                                      <div class="col-md-2 col-sm-3 form-group has-feedback row" >
                                           <input type="radio" name="gender" value=0 data-labelauty="男" checked />
                                       </div>
-                                      <div class="col-md-2 col-sm-3 form-group has-feedback row" style="width: 7%;">
+                                      <div class="col-md-2 col-sm-3 form-group has-feedback row" >
                                           <input type="radio" name="gender" value=1 data-labelauty="女"/>
                                       </div>
                                       {% else %}
-                                      <div class="col-md-2 col-sm-3 form-group has-feedback row" style="width: 7%;">
+                                      <div class="col-md-2 col-sm-3 form-group has-feedback row">
                                           <input type="radio" name="gender" value=0 data-labelauty="男" />
                                       </div>
-                                      <div class="col-md-2 col-sm-3 form-group has-feedback row" style="width: 7%;">
+                                      <div class="col-md-2 col-sm-3 form-group has-feedback row" >
                                           <input type="radio" name="gender" value=1 data-labelauty="女" checked/>
                                       </div>
                                       {% endif %}
@@ -417,7 +431,7 @@
                             <div class="row">
                                 <div class="text-center">
                                      {% csrf_token %}
-                                    <input  type="submit" class="btn btn-success" value="提交" id="happiness_bt"/>
+                                    <input  type="submit" class="btn btn-success" value="保存并提交量表，继续下一个量表" id="happiness_bt"/>
 
                                 </div>
                             </div>
@@ -442,7 +456,6 @@ $(document).ready(function(){
 });
 <!--独生子女-->
 $(".only_child_1").on('click', function(event){
-      alert('yes');
       $("#brother_num_1").hide();
       $("#brother_num_2").hide();
       $(".brother_num_2_val").val("");

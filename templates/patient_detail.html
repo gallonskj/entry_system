@@ -2,7 +2,6 @@
 {% load static %}
 {% block title %}新建被试{% endblock %}
 {% block css %}
-    <link href="{% static '/css/scales_style.css' %}" rel="stylesheet" >
     <link href="{% static '/vendors/iCheck/skins/flat/green.css' %}" rel="stylesheet" >
     <style>
         .table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th{
@@ -11,6 +10,14 @@
             font-size: 10px;
             text-align: center;
         }
+        .tab1{
+            {#background-color: #E8E8E8;#}
+            font-weight: bold;
+            font-size: larger;
+        }
+
+
+
     </style>
 {% endblock %}
 {% block content %}
@@ -37,25 +44,25 @@
                                                   <th>测查种类</th>
                                                   <th>测查时间</th>
                                                   <th>状态</th>
+                                                  <th>续做</th>
                                                   <th>重做</th>
-                                                  <th>操作</th>
                                                 </tr>
                                               </thead>
                                               <tbody>
                                               {% for scale_id, scale_detail in session_details.items %}
-                                                    {% if scale_id < 7 %}
+                                                    {% if scale_detail|get_item:'scale__do_scale_type' == 0 %}
                                                     <tr>
                                                       <td>{{ scale_detail|get_item:'scale__scale_name' }}</td>
-                                                        {% if scale_detail.state == 1 %}
+                                                        {% if scale_detail|get_item:'state' == 1 %}
                                                             <td>{{ scale_detail|get_item:'end_time' }}</td>
                                                             <td>已完成</td>
-                                                            <td>-</td>
+                                                            <td><a href={{ scale_detail|get_scale_url }}>重做</a></td>
                                                             <td>-</td>
                                                         {% else %}
                                                             <td>-</td>
                                                             <td>未完成</td>
-                                                            <td><a href="">续做</a></td>
-                                                            <td><button class="btn btn-xs btn-warning"><a href="" style="color:white">删除</a></button></td>
+                                                            <td><a href={{ scale_detail|get_scale_url }}>续做</a></td>
+                                                            <td>-</td>
                                                         {% endif %}
                                                     </tr>
                                                     {% endif %}
@@ -96,19 +103,19 @@
                                               </thead>
                                               <tbody>
                                                {% for scale_id, scale_detail in session_details.items %}
-                                                    {% if scale_id < 17 and scale_id > 6  %}
+                                                    {% if scale_detail|get_item:'scale__do_scale_type' == 2 %}
                                                     <tr>
                                                       <td>{{ scale_detail|get_item:'scale__scale_name' }}</td>
-                                                        {% if each_test.test_state == 1 %}
+                                                        {% if scale_detail|get_item:'state' == 1 %}
                                                             <td>{{ scale_detail|get_item:'end_time' }}</td>
                                                             <td>已完成</td>
-                                                            <td>-</td>
+                                                            <td><a href={{ scale_detail|get_scale_url }}>重做</a></td>
                                                             <td>-</td>
                                                         {% else %}
                                                             <td>-</td>
                                                             <td>未完成</td>
-                                                            <td><a href="">续做</a></td>
-                                                            <td><button class="btn btn-xs btn-warning"><a href="" style="color:white">删除</a></button></td>
+                                                             <td><a href={{ scale_detail|get_scale_url }}>续做</a></td>
+                                                            <td>-</td>
                                                         {% endif %}
                                                     </tr>
                                                     {% endif %}
@@ -149,22 +156,22 @@
                                               </thead>
                                               <tbody>
                                                   {% for scale_id, scale_detail in session_details.items %}
-                                                      {% if scale_id < 21 and scale_id > 16 %}
-                                                        <tr>
-                                                          <td>{{ scale_detail|get_item:'scale__scale_name' }}</td>
-                                                            {% if each_test.test_state == 1 %}
-                                                                <td>{{ scale_detail|get_item:'end_time' }}</td>
-                                                                <td>已完成</td>
-                                                                <td>-</td>
-                                                                <td>-</td>
-                                                            {% else %}
-                                                                <td>-</td>
-                                                                <td>未完成</td>
-                                                                <td><a href="">续做</a></td>
-                                                                <td><button class="btn btn-xs btn-warning"><a href="" style="color:white">删除</a></button></td>
-                                                            {% endif %}
-                                                        </tr>
-                                                      {% endif %}
+                                                     {% if scale_detail|get_item:'scale__do_scale_type' == 1 %}
+                                                    <tr>
+                                                      <td>{{ scale_detail|get_item:'scale__scale_name' }}</td>
+                                                        {% if scale_detail|get_item:'state' == 1 %}
+                                                            <td>{{ scale_detail|get_item:'end_time' }}</td>
+                                                            <td>已完成</td>
+                                                            <td><a href={{ scale_detail|get_scale_url }}>重做</a></td>
+                                                            <td>-</td>
+                                                        {% else %}
+                                                            <td>-</td>
+                                                            <td>未完成</td>
+                                                            <td><a href={{ scale_detail|get_scale_url }}>续做</a></td>
+                                                            <td>-</td>
+                                                        {% endif %}
+                                                    </tr>
+                                                    {% endif %}
                                                   {% endfor %}
                                               </tbody>
                                         </table>
@@ -202,19 +209,19 @@
                                               </thead>
                                               <tbody>
                                                 {% for scale_id, scale_detail in session_details.items %}
-                                                    {% if scale_id > 20 and scale_id < 25 %}
+                                                    {% if scale_detail|get_item:'scale__do_scale_type' == 3 %}
                                                     <tr>
                                                       <td>{{ scale_detail|get_item:'scale__scale_name' }}</td>
-                                                        {% if each_test.test_state == 1 %}
+                                                        {% if scale_detail|get_item:'state' == 1 %}
                                                             <td>{{ scale_detail|get_item:'end_time' }}</td>
                                                             <td>已完成</td>
-                                                            <td>-</td>
+                                                            <td><a href={{ scale_detail|get_scale_url }}>重做</a></td>
                                                             <td>-</td>
                                                         {% else %}
                                                             <td>-</td>
                                                             <td>未完成</td>
-                                                            <td><a href="">续做</a></td>
-                                                            <td><button class="btn btn-xs btn-warning"><a href="" style="color:white">删除</a></button></td>
+                                                             <td><a href={{ scale_detail|get_scale_url }}>续做</a></td>
+                                                            <td>-</td>
                                                         {% endif %}
                                                     </tr>
                                                     {% endif %}
@@ -230,6 +237,235 @@
         </div>
     <!-- 认知表量表详细模态框 结束-->
 {% endfor %}
+
+    <!-- 详细信息模态框 开始 -->
+{% for patient_detail in patient_detail_res %}
+    <div class="modal fade" id="modal_detail_{{ forloop.counter }}" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+							<h4 class="modal-title" id="myModalLabel">
+								详细信息
+							</h4>
+						</div>
+						<div class="modal-body">
+							<div class = "row">
+                                <div class="col-md-12">
+                                <form action="#" method="post">
+
+                                <div style="text-align: center">
+                                    <div>
+                                    <table class="table table-hover table-bordered"  align="center" valign="center" style="font-size: 10px;" >
+
+                                        <tbody>
+                                            <tr>
+                                              <td class="tab1" >认知是否完成</td>
+                                              <td>
+                                                  {% if  patient_detail.cognitive  == False or 'NULL'%}
+                                                      <input type="radio" class="flat" name="cognitive" value=0 checked="checked" />未完成
+                                                      <input type="radio" class="flat" name="cognitive" value=1 />已完成
+                                                  {% elif patient_detail.cognitive == True %}
+                                                      <input type="radio" class="flat" name="cognitive" value=0 />未完成
+                                                      <input type="radio" class="flat" name="cognitive" value=1 checked="checked" />已完成
+                                                  {% endif %}
+                                              </td>
+                                            </tr>
+                                            <tr>
+                                              <td class="tab1">录音是否完成</td>
+                                              <td>
+                                                 {% if  patient_detail.sound  == False or 'NULL'%}
+                                                      <input type="radio" class="flat" name="sound" value=0 checked="checked" />未完成
+                                                      <input type="radio" class="flat" name="sound" value=1 />已完成
+                                                  {% elif patient_detail.sound == True%}
+                                                      <input type="radio" class="flat" name="sound" value=0 />未完成
+                                                      <input type="radio" class="flat" name="sound" value=1 checked="checked" />已完成
+                                                 {% endif %}
+                                              </td>
+                                            </tr>
+                                            <tr>
+                                              <td class="tab1">血液是否采集</td>
+                                              <td>
+                                                  {% if  patient_detail.blood  == False or 'NULL'%}
+                                                      <input type="radio" class="flat" name="blood" value=0 checked="checked" />未完成
+                                                      <input type="radio" class="flat" name="blood" value=1 />已完成
+                                                  {% elif patient_detail.blood == True%}
+                                                      <input type="radio" class="flat" name="blood" value=0 />未完成
+                                                      <input type="radio" class="flat" name="blood" value=1 checked="checked" />已完成
+                                                  {% endif %}
+                                              </td>
+
+                                            </tr>
+                                            <tr>
+                                              <td class="tab1">毛发是否收集</td>
+                                              <td>
+                                                  {% if  patient_detail.hairs  == False or 'NULL'%}
+                                                      <input type="radio" class="flat" name="hairs" value=0 checked="checked" />未完成
+                                                      <input type="radio" class="flat" name="hairs" value=1 />已完成
+                                                  {% elif patient_detail.hairs == True%}
+                                                      <input type="radio" class="flat" name="hairs" value=0 />未完成
+                                                      <input type="radio" class="flat" name="hairs" value=1 checked="checked" />已完成
+                                                  {% endif %}
+                                              </td>
+
+                                            </tr>
+                                            <tr>
+                                              <td class="tab1">粪便是否检测</td>
+                                              <td>
+                                                  {% if  patient_detail.manure  == False or 'NULL'%}
+                                                      <input type="radio" class="flat" name="manure" value=0 checked="checked" />未完成
+                                                      <input type="radio" class="flat" name="manure" value=1 />已完成
+                                                  {% elif patient_detail.manure == True%}
+                                                      <input type="radio" class="flat" name="manure" value=0  />未完成
+                                                      <input type="radio" class="flat" name="manure" value=1 checked="checked" />已完成
+                                                  {% endif %}
+                                              </td>
+                                            </tr>
+                                            <tr>
+                                              <td class="tab1">是否用药</td>
+                                              <td >
+                                                  {% if  patient_detail.drugs_information  == False or 'NULL'%}
+                                                      <input type="radio" class="flat" name="drugs_information" value=0 checked="checked" />未完成
+                                                      <input type="radio" class="flat" name="drugs_information" value=1 />已完成
+                                                  {% elif patient_detail.drugs_information == True%}
+                                                      <input type="radio" class="flat" name="drugs_information" value=0  />未完成
+                                                      <input type="radio" class="flat" name="drugs_information" value=1 checked="checked"/>已完成
+                                                  {% endif %}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                              <td class="tab1">磁共振检查是否完成</td>
+                                              <td>
+                                                  {% if  patient_detail.mri_examination  == False or 'NULL'%}
+                                                      <input type="radio" class="flat" name="mri_examination" value=0 checked="checked" />未完成
+                                                      <input type="radio" class="flat" name="mri_examination" value=1 />已完成
+                                                  {% elif patient_detail.mri_examination == True%}
+                                                      <input type="radio" class="flat" name="mri_examination" value=0  />未完成
+                                                      <input type="radio" class="flat" name="mri_examination" value=1 checked="checked"/>已完成
+                                                  {% endif %}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                              <td class="tab1">tms治疗情况</td>
+                                              <td>
+                                                  {% if  patient_detail.tms  == False or 'NULL'%}
+                                                      <input type="radio" class="flat" name="tms" value=0  checked="checked"/>未完成
+                                                      <input type="radio" class="flat" name="tms" value=1 />已完成
+                                                  {% elif patient_detail.tms == True%}
+                                                      <input type="radio" class="flat" name="tms" value=0  />未完成
+                                                      <input type="radio" class="flat" name="tms" value=1 checked="checked"/>已完成
+                                                  {% endif %}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                              <td class="tab1">年龄</td>
+                                              <td>
+                                                  {{ patient_detail.age|processNone }}
+                                              </td>
+                                            </tr>
+                                            <tr>
+                                              <td class="tab1">职业</td>
+                                              <td>
+                                                  {{ patient_detail.occupation|processNone }}
+                                              </td>
+                                            </tr>
+                                            <tr>
+                                              <td class="tab1">教育背景</td>
+                                              <td>
+                                                  {{ patient_detail.education|processNone }}
+                                              </td>
+                                            </tr>
+                                          <tr>
+                                              <td class="tab1">受教育年限</td>
+                                              <td>
+
+                                                  {{ patient_detail.years|processNone }}</td>
+                                            </tr>
+                                            <tr>
+                                              <td class="tab1">情感状态</td>
+                                              <td>
+
+                                                  {{ patient_detail.emotional_state|processNone }}</td>
+                                            </tr>
+                                            <tr>
+                                              <td class="tab1">电话</td>
+                                              <td>{{ patient_detail.phone|processNone }}</td>
+                                            </tr>
+                                          <tr>
+                                              <td class="tab1">诊断</td>
+                                              <td>
+
+                                                  {% if  patient_detail.diagnosis  == '0' or 'NULL'%}
+                                                      <input type="radio" class="flat" name="diagnosis" value=0  checked="checked"/>未完成
+                                                      <input type="radio" class="flat" name="diagnosis" value=1 />已完成
+                                                  {% elif patient_detail.diagnosis == '1'%}
+                                                      <input type="radio" class="flat" name="diagnosis" value=0  />未完成
+                                                      <input type="radio" class="flat" name="diagnosis" value=1 checked="checked"/>已完成
+                                                  {% endif %}
+                                            </tr>
+                                            <tr>
+                                              <td class="tab1">被试来源</td>
+                                              <td>{{ patient_detail.source|processNone }}</td>
+                                            </tr>
+                                            <tr>
+                                              <td class="tab1">身高</td>
+                                              <td>{{ patient_detail.height|processNone }}</td>
+                                            </tr>
+                                          <tr>
+                                              <td class="tab1">体重</td>
+                                              <td>{{ patient_detail.weight|processNone }}</td>
+                                            </tr>
+                                            <tr>
+                                              <td class="tab1">腰围</td>
+                                              <td>{{ patient_detail.waist|processNone }}</td>
+                                            </tr>
+                                            <tr>
+                                              <td class="tab1">臀围</td>
+                                              <td>{{ patient_detail.hip|processNone }}</td>
+                                            </tr>
+                                          <tr>
+                                              <td class="tab1">利手</td>
+                                              <td>{{ patient_detail.handy|processNone }}</td>
+                                            </tr>
+                                            <tr>
+                                              <td class="tab1">备注</td>
+                                              <td>{{ patient_detail.note|processNone }}</td>
+                                            </tr>
+                                            <tr>
+                                              <td class="tab1">医生</td>
+                                              <td>{{ patient_detail.doctor.name|processNone }}</td>
+                                            </tr>
+                                          <tr>
+                                              <td class="tab1">创建时间</td>
+                                              <td>{{ patient_detail.create_time|processNone }}</td>
+                                            </tr>
+                                            <tr>
+                                              <td class="tab1">更新时间</td>
+                                              <td>{{ patient_detail.update_time|processNone }}</td>
+                                            </tr>
+
+                                          </tbody>
+
+                                    </table>
+                                </div>
+                                    <div class="text-center">
+                                        {% csrf_token %}
+                                        <input  type="submit" class="btn btn-success" value="完成"/>
+                                        <button class="btn btn-danger">取消</button>
+                                    </div>
+                                </div>
+
+
+                                </form>
+                                </div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+    </div>
+    {% endfor %}
+<!-- 详细信息模态框模态框 结束-->
 
     <div class="right_col" role="main">
         <div class="row " style="margin-left:-20px">
@@ -268,18 +504,18 @@
                                                              required="required" value="{{ birth_date }}"  /></div>
                         <label class="control-label col-md-2 col-sm-2 col-xs-6" for="sex">性别 <span class="required">*:</span></label>
                                      {% if sex == 0 %}
-                                          <div class="col-md-2 col-sm-3 form-group has-feedback row" style="width: 7%;">
-                                              <input type="radio" name="gender" value=0 data-labelauty="男" checked />
+                                          <div class="col-md-2 col-sm-3 form-group has-feedback row" style="width: 7%;margin-top: 7px;margin-left: 15px;">
+                                              <input type="radio" class="flat" name="gender" value=0  checked />男
                                           </div>
-                                          <div class="col-md-2 col-sm-3 form-group has-feedback row" style="width: 7%;">
-                                              <input type="radio" name="gender" value=1 data-labelauty="女"/>
+                                          <div class="col-md-2 col-sm-3 form-group has-feedback row" style="width: 7%;margin-top: 7px;">
+                                              <input type="radio" class="flat" name="gender" value=1 />女
                                           </div>
                                       {% else %}
-                                          <div class="col-md-2 col-sm-3 form-group has-feedback row" style="width: 7%;">
-                                              <input type="radio" name="gender" value=0 data-labelauty="男" />
+                                          <div class="col-md-2 col-sm-3 form-group has-feedback row" style="width: 7%;margin-top: 7px;margin-left: 15px;">
+                                              <input type="radio" class="flat" name="gender" value=0  />男
                                           </div>
-                                          <div class="col-md-2 col-sm-3 form-group has-feedback row" style="width: 7%;">
-                                              <input type="radio" name="gender" value=1 data-labelauty="女" checked/>
+                                          <div class="col-md-2 col-sm-3 form-group has-feedback row" style="width: 7%;margin-top: 7px;">
+                                              <input type="radio" class="flat" name="gender" value=1  checked/>女
                                           </div>
                                       {% endif %}
                       </div>
@@ -356,9 +592,7 @@
                                             {% else %}
                                                 <tr >
                                             {% endif %}
-                                                <td>
-                                                    {{ patient_detail|get_item:'standard_id' }}
-                                                </td>
+                                               <td><a href="#modal_detail_{{ forloop.counter }}" data-toggle="modal" style="text-decoration: underline" >{{ patient_detail.standard_id }}</a></td>
                                                 <td>
                                                     {{ patient_detail|get_item:'create_time' }}
                                                 </td>
@@ -373,7 +607,6 @@
 
                                                 </td>
                                                 <td>
-                                                    {{ patient_detail|get_item:'session_id' }}
                                                     <a href="#modal_OtherTest_{{ patient_detail|get_item:'session_id' }}" data-toggle="modal" data-orderId="{{ patient_detail.id }}">量表详情</a>
                                                 </td>
                                                 <td>
@@ -384,7 +617,8 @@
                                                 </td>
                                                 <td>
                                                     <button class="btn btn-warning btn-xs">
-                                                        <a onclick='return deleteJob("{{ patient_detail.patient.name }}", "{{ patient_detail.create_time }}");' href="/patients/del_followup?patient_session_id={{ patient_detail.id }}&patient_id={{ patient_detail.patient_id }}" style="color:white;">删除</a>
+
+                                                        <a onclick='return deleteJob("{{ patient_detail.standard_id }}", "{{ patient_detail.create_time }}");' href="/patients/del_followup?patient_session_id={{  patient_detail|get_item:'id' }}&patient_id={{ patient_detail|get_item:'patient_id' }}" style="color:white;">删除</a>
                                                     </button>
                                                 </td>
                                             </tr>
@@ -404,9 +638,6 @@
 {% block js %}
 <script type="text/javascript" src="{% static '/js/jquery-radio-beauty.js'%}"></script>
 <script>
-    $(document).ready(function(){
-         $("input[type='radio']").labelauty();
-        });
 
     function deleteJob(id, date)
     {

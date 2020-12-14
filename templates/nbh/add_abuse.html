@@ -3,6 +3,22 @@
 {% block title %}物质依赖{% endblock %}
 {% block css %}
   <link href="{% static '/css/scales_style.css' %}" rel="stylesheet" >
+  <style>
+  .row input.labelauty + label{
+    margin-bottom:0px;
+    width:150px;
+	  display:inline-block;
+	  font-size: 13px;
+    padding: 3px;
+    text-align: center;
+	  background-color: #efefef;
+	  color: #b3b3b3;
+	  cursor: pointer;
+	  border-radius: 3px 3px 3px 3px;
+	  -moz-border-radius: 3px 3px 3px 3px;
+	  -webkit-border-radius: 3px 3px 3px 3px;
+  }
+</style>
 {% endblock %}
 {% block content %}
      <div class="right_col" role="main">
@@ -17,9 +33,9 @@
             </div>
           </div>
         </div> 
-        <div class="dashboard_graph x_panel">
+        <div class="dashboard_graph x_panel" style="margin-top: 0px; height:80%;">
           <div id="wrapper">
-            <div id = "left-side" style="height: 100%;" class="col-md-2">
+            <div id = "left-side" style="height: 100%;margin-left: 10px;" class="col-md-2">
               <ul class="scales_progress">
                 <li class="step1 done">
                   <p>家庭信息</p>
@@ -58,71 +74,76 @@
                   <div class="x_content">
 <!--                    js 选择是偏移1 默认偏移4 -->
                       <br>
-                      <div class="form-group row " style="font-size: larger">
-                      <label class="control-label col-md-2 col-sm-2 col-md-offset-1 " style="">&nbsp;是否吸烟<span class="required">:</span></label>
-                      <div class="col-md-1 col-sm-1" id="patient_smoke_1">
+                      <div class="form-group row ">
+                      <label class="control-label col-md-2 col-sm-2 col-md-offset-1 ">&nbsp;是否吸烟<span class="required">:</span></label>
+                      <div class="col-md-2 col-sm-1" id="patient_smoke_1">
                         <input type="radio" name="patient_smoke" value=1  data-labelauty="是"/>
                       </div>
-                      <div class="col-md-1 col-sm-1" id="patient_smoke_2">
+                      <div class="col-md-2 col-sm-1" id="patient_smoke_2">
                         <input type="radio" name="patient_smoke" value=0 data-labelauty="否"/>
                       </div>
 
                     </div>
                       <br>
-                      <div class="form-group row" style="font-size: larger">
+                      <div class="form-group row smoke_detail" >
                           <label class="control-label col-md-2 col-sm-2 col-md-offset-1  ">起始吸烟年龄<span class="required">:</span></label>
-                          <div class="col-md-1 col-sm-1 form-group has-feedback ">
-                              <input type="text" id="patient_smoke_age" name="patient_smoke_age" class="form-control" disabled="disabled">
+                          <div class="col-md-2 col-sm-2 form-group has-feedback ">
+                              <input type="text" id="patient_smoke_age" name="patient_smoke_age" class="form-control" style="width: 150px;">
                           </div>
-                           <label class="control-label col-md-1 col-sm-1  ">每日吸烟支数<span class="required">:</span></label>
-                          <div class="col-md-1 col-sm-1 form-group has-feedback ">
-                              <input type="text" id="patient_daily_smoke_num" name="patient_daily_smoke_num" class="form-control" disabled="disabled">
+                           <label class="control-label col-md-2 col-sm-2  ">每日吸烟支数<span class="required">:</span></label>
+                          <div class="col-md-2 col-sm-2 form-group has-feedback ">
+                              <input type="text" id="patient_daily_smoke_num" name="patient_daily_smoke_num" class="form-control" style="width: 150px;" >
                           </div>
                           <label class="control-label col-md-1 col-sm-1 ">戒烟年龄<span class="required">:</span></label>
-                          <div class="col-md-1 col-sm-1 form-group has-feedback ">
-                              <input type="text" id="patient_stop_smoke_age" name="patient_stop_smoke_age" class="form-control" disabled="disabled">
+                          <div class="col-md-2 col-sm-2 form-group has-feedback ">
+                              <input type="text" id="patient_stop_smoke_age" name="patient_stop_smoke_age" class="form-control" style="width: 150px;">
                           </div>
                       </div>
 
 
                       <br>
-                     <div class="form-group row" style="font-size: larger">
+                     <div class="form-group row">
                       <label class="control-label col-md-2 col-sm-2 col-md-offset-1 ">是否饮酒<span class="required">*:</span></label>
                       <div class="col-md-2 col-sm-3">
-                          <select class="form-control" name="patient_alcohol" id="patient_alcohol">
-                            <option value="1">从不饮酒=1</option>
-                            <option value="2">偶尔饮酒（每周<1次）=2</option>
-                            <option value="3">以前饮酒，近1年不饮=3</option>
-                            <option value="4">现在习惯饮酒=4</option>
-                          </select>
+                        <select class="form-control" name="patient_alcohol" id="alcoholSelect" style="width: 150px;">
+                          <option value="1">从不饮酒=1</option>
+                          <option value="2">偶尔饮酒（每周<1次）=2</option>
+                          <option value="3">以前饮酒，近1年不饮=3</option>
+                          <option value="4">现在习惯饮酒=4</option>
+                        </select>
                       </div>
-                         <label class="control-label col-md-2 col-sm-2 col-md-offset-1 ">起始饮酒的年龄<span class="required">:</span></label>
-                      <div class="col-md-1 col-sm-3 form-group has-feedback alcohol_age">
-                        <input type="text" id="patient_alcohol_age" name="patient_alcohol_age" class="form-control " disabled="disabled">
-                      </div>
-                     </div>
+                      <div class="alcohol_detail">
+                        <label class="control-label col-md-2 col-sm-2 col-md-offset-1 ">起始饮酒的年龄<span class="required">:</span></label>
+                        <div class="col-md-1 col-sm-3 form-group has-feedback alcohol_age">
+                          <input type="text" id="patient_alcohol_age" name="patient_alcohol_age" class="form-control">
+                        </div>
+                      </div>  
+                     </div> 
+                         
                       <br>
 
-                    <div class="form-group row" style="font-size: larger">
-                      <label class="control-label col-md-2 col-sm-2 col-md-offset-1">是否存在其他物质（非烟和酒）滥用<span class="required">*:</span></label>
+                    <div class="form-group row" >
+                      <label class="control-label col-md-4 col-sm-2 col-md-offset-1">是否存在其他物质（非烟和酒）滥用<span class="required">*:</span></label>
                       <div class="col-md-1 col-sm-1 " id="patient_other_abuse_1">
-                        <input type="radio" name="patient_other_abuse" value=1 data-labelauty="是"/>
+                        <input type="radio" name="patient_other_abuse" class="other_abuse_yes" value=1 data-labelauty="是"/>
                       </div>
                       <div class="col-md-1 col-sm-1 " id="patient_other_abuse_2">
-                        <input type="radio" name="patient_other_abuse" value=0 data-labelauty="否"/>
+                        <input type="radio" name="patient_other_abuse" class="other_abuse_no" value=0 data-labelauty="否"/>
                       </div>
+                      <div class="other_abuse_detail">
                         <label class="control-label col-md-2 col-sm-2 col-md-offset-1 ">起始年龄<span class="required">:</span></label>
-                      <div class="col-md-1 col-sm-1 form-group has-feedback ">
-                        <input type="text" id="patient_other_abuse_age" name="patient_other_abuse_age" required="required" class="form-control" disabled="disabled">
-                      </div>
-                          </div>
-<br>
+                        <div class="col-md-1 col-sm-1 form-group has-feedback ">
+                           <input type="text" id="patient_other_abuse_age" name="patient_other_abuse_age"  class="form-control" >
+                        </div>
+                      </div>  
+                    </div>
+                    <br>
 
                   </div>
                   <div class="row">
                         {% csrf_token %}
                         <div class="text-center">
-                            <input  type="submit" class="btn btn-success" value="提交"/>
+                            <input  type="submit" class="btn btn-success" value="保存并提交量表，继续下一个量表"/>
                         </div>
                   </div>
 
@@ -141,7 +162,43 @@
 
 <script>
 $(document).ready(function(){
-	$("input[type='radio']").labelauty();
+    $("input[type='radio']").labelauty();
+    $('.smoke_detail').hide();
+    $("#patient_smoke_1").on('click', function(event){
+        $('.smoke_detail').show();
+        $("input[name='patient_smoke_age']").removeAttr("disabled");
+        $("input[name='patient_daily_smoke_num']").removeAttr("disabled");
+        $("input[name='patient_stop_smoke_age']").removeAttr("disabled");
+    });
+    $("#patient_smoke_2").on('click', function(event){
+        $('.smoke_detail').hide();
+        $("input[name='patient_smoke_age']").attr('disabled','disabled');
+        $("input[name='patient_daily_smoke_num']").attr('disabled','disabled');
+        $("input[name='patient_stop_smoke_age']").attr('disabled','disabled');
+    });
+  
+    $('.alcohol_detail').hide();
+    $('#alcoholSelect').change(function(){
+       if ($('#alcoholSelect option:selected').val()>1){
+           $('.alcohol_detail').show();
+           $("input[name='patient_alcohol_age']").removeAttr("disabled");
+       }
+       else{
+           $('.alcohol_detail').hide();
+           $("input[name='patient_alcohol_age']").attr('disabled','disabled');
+       }
+    });
+    $('.other_abuse_detail').hide();
+    $(".other_abuse_yes").on('click', function(event){
+        $('.other_abuse_detail').show();
+        $("input[name='patient_other_abuse_age']").removeAttr("disabled");
+    });
+    $(".other_abuse_no").on('click', function(event){
+        $('.other_abuse_detail').hide();
+        $("input[name='patient_other_abuse_age']").attr('disabled','disabled');
+    });
 });
+
+
 </script>
 {% endblock %}

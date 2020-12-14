@@ -36,6 +36,8 @@ def add_medical_history(rPatientMedicalHistory):
     #插入前的级联检验
     #存入数据库
     rPatientMedicalHistory.save()
+    update_rscales_state(rPatientMedicalHistory.patient_session_id, rPatientMedicalHistory.scale_id)
+
 
 # 汉密尔顿焦虑量表
 def add_hamd_database(rPatientHAMD17):
@@ -489,3 +491,29 @@ def get_min_unfinished_scale(do_scale_type,patient_session_id):
     if res.count() == 0:
         return None
     return res[0].scale_id
+
+def get_scalename_bytype(do_scale_type,patient_session_id):
+    res = scales_models.RPatientScales.objects.all().select_related().filter(scale__do_scale_type = do_scale_type,patient_session_id = patient_session_id).values('scale__scale_name','state')
+    return res
+
+# 获取未完成的scale量表
+def get_uodo_scales(patient_session_id):
+    scales_list = scales_models.RPatientScales.objects.all().select_related('scale').\
+        filter(patient_session_id = patient_session_id,state__in =  [0,2]).values('scale__do_scale_type','scale__scale_name')
+    information_list = []
+    other_test_list = []
+    self_test_list = []
+    cognition_list = []
+    no_type_list = []
+    for scale in scales_list:
+        if scale['scale__do_scale_type'] == 0:
+            information_list.append(scale)
+        elif scale['scale__do_scale_type'] == 1:
+            other_test_list.append(scale)
+        elif scale['scale__do_scale_type'] == 2:
+            self_test_list.append(scale)
+        elif scale['scale__do_scale_type'] == 3:
+            cognition_list.append(scale)
+        else:
+            no_type_list.append(scale)
+    return information_list, other_test_list, self_test_list, cognition_list

@@ -2,235 +2,354 @@
 {% load static %}
 {% block title %}汉密尔顿抑郁量表（HAMD-17）{% endblock %}
 {% block css %}
-    <link href="{% static '/css/scales_style.css' %}" rel="stylesheet" >
+    <link href="{% static '/css/scales_style.css' %}" rel="stylesheet">
+    <style>
+    .hamd_17_table input.labelauty + label {
+    margin-bottom: 2px;
+    width: 100%;
+    display: table;
+    font-size: 13px;
+    padding: 20px;
+    text-align: center;
+    background-color: #efefef;
+    color: #b3b3b3;
+    cursor: pointer;
+    border-radius: 3px 3px 3px 3px;
+    -moz-border-radius: 3px 3px 3px 3px;
+    -webkit-border-radius: 3px 3px 3px 3px;
+    transition: background-color 0.25s;
+    -moz-transition: background-color 0.25s;
+    -webkit-transition: background-color 0.25s;
+    -o-transition: background-color 0.25s;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -o-user-select: none;}
+    </style>
 {% endblock %}
 {% block content %}
-    <div class="right_col" role="main" >
+    <div class="right_col" role="main">
         <div class="container">
             <div class="row show-grid">
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <ul class="breadcrumb" style="background-color: white;font-weight:bold">
-                         <li ><a href="#">量表录入</a></li>
-                         <li><a href="#" >他评量表</a></li>
-						 <li class="active"><a href="#" >汉密尔顿抑郁量表（HAMD-17）</a></li>
+                        <li><a href="#">量表录入</a></li>
+                        <li><a href="#">他评量表</a></li>
+                        <li class="active"><a href="#">汉密尔顿抑郁量表（HAMD-17）</a></li>
                     </ul>
                 </div>
             </div>
         </div>
-        <div class="dashboard_graph x_panel" style="margin-top: 0px;">
+        <div class="dashboard_graph x_panel" style="margin-top: 0px;height: 80%;">
             <div id="wrapper">
-                <div id = "left-side" style="height: 100%;" class="col-md-2">
-                  <ul class="scales_progress">
-                    <li class="step1 doing">
-                      <p>汉密尔顿抑郁量表（HAMD-17）</p>
-                    </li>
-                    <li class="step2 nodone">
-                      <p>汉密尔顿焦虑量表（HAMA）</p>
-                    </li>
-                    <li class="step3 nodone">
-                      <p>杨氏躁狂量表（YMRS）</p>
-                    </li>
-                    <li class="step4 nodone">
-                      <p>简明精神量表（BPRS）</p>
-                    </li>
-                    <li class="finish nodone">
-                      <p>完成</p>
-                    </li>
-                  </ul>
+                <div id="left-side" style="height: 100%;" class="col-md-2">
+                    <ul class="scales_progress">
+                        <li class="step1 doing">
+                            <p>汉密尔顿抑郁量表（HAMD-17）</p>
+                        </li>
+                        <li class="step2 nodone">
+                            <p>汉密尔顿焦虑量表（HAMA）</p>
+                        </li>
+                        <li class="step3 nodone">
+                            <p>杨氏躁狂量表（YMRS）</p>
+                        </li>
+                        <li class="step4 nodone">
+                            <p>简明精神量表（BPRS）</p>
+                        </li>
+                        <li class="finish nodone">
+                            <p>完成</p>
+                        </li>
+                    </ul>
                 </div>
                 <div id="right-side" class="col-md-10">
-                  <div id="first" class="active">
-                    <form action="/scales/add_hamd?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}" method="post">
-						{% csrf_token %}
-                      <div class="container">
-                        <div class="row title">
-                            <h5><i class="fa fa-hand-o-right"></i>&nbsp;<i class="fa fa-hand-o-right"></i>&nbsp;<i class="fa fa-hand-o-right"></i>&nbsp;请参考评分指导，根据您过去1周的表现，在合适的分数上打勾：<br/></h5>
-                            <strong>无症状=0 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  轻微=1  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 中等=2 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  较重=3  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 严重=4<br/></strong>
-                        </div>
-                        <div class="row">
-                          <div class="col-md-12">
-                          <table class="table table-bordered">
-                            <tbody>
-                                        <tr>
-                                <td>
-                                 1.抑郁情绪
-                       <input type="radio" name="depression" value = 0 data-labelauty="0"/>
-                       <input type="radio" name="depression" value = 1 data-labelauty="1"/>
-                       <input type="radio" name="depression" value = 2 data-labelauty="2"/>
-                       <input type="radio" name="depression" value = 3 data-labelauty="3"/>
-                       <input type="radio" name="depression" value = 4 data-labelauty="4"/>
-                                </td>
-                    <td>
-                                 2.有罪感
-                                <input type="radio" name="guilt" value = 0 data-labelauty="0"/>
-                    <input type="radio" name="guilt" value = 1 data-labelauty="1"/>
-                    <input type="radio" name="guilt" value = 2 data-labelauty="2"/>
-                    <input type="radio" name="guilt" value = 3 data-labelauty="3"/>
-                    <input type="radio" name="guilt" value = 4 data-labelauty="4"/>
-                    </td>
-                    <td>
-                                 3.自杀
-                    <input type="radio" name="suicide" value = 0 data-labelauty="0"/>
-                    <input type="radio" name="suicide" value = 1 data-labelauty="1"/>
-                    <input type="radio" name="suicide" value = 2 data-labelauty="2"/>
-                    <input type="radio" name="suicide" value = 3 data-labelauty="3"/>
-                    <input type="radio" name="suicide" value = 4 data-labelauty="4"/>
-                    </td>
-                    <td>
-                                 4.入睡困难
-                    <input type="radio" name="difficulty_sleeping" value = 0 data-labelauty="0"/>
-                    <input type="radio" name="difficulty_sleeping" value = 1 data-labelauty="1"/>
-                    <input type="radio" name="difficulty_sleeping" value = 2 data-labelauty="2"/>
-<!--                    <input type="radio" name="difficulty_sleeping" value = 3 data-labelauty="3"/> -->
-<!--                    <input type="radio" name="difficulty_sleeping" value = 4 data-labelauty="4"/> -->
-                    </td>
-                              </tr>
-                                        <tr>
-                                <td>
-                                 5.睡眠不深
+                    <div id="first" class="active">
+                        <form action="/scales/add_hamd?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}"
+                              name="hamd_form" method="post" onSubmit="return myCheck(this)">
+                            {% csrf_token %}
+                            <div class="container">
+                                <div class="col-md-12 text-center">
+                                    <h4><strong> 汉密尔顿抑郁量表</strong></h4>
+                                </div>
+                                <div class="row title">
+                                    <strong style="FONT-SIZE: 17px">
+                                        <i class="fa fa-hand-o-right"></i>&nbsp;
+                                        <i class="fa fa-hand-o-right"></i>&nbsp;
+                                        <i class="fa fa-hand-o-right"></i>&nbsp;
+                                        请参考评分指导，根据您过去1周的表现，在合适的分数上打勾：
+                                        <br/>
+                                    </strong>
+                                    <strong>无症状=0 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 轻微=1 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;中等=2 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 较重=3 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;严重=4<br/></strong>
+                                    <div class="ln_solid"></div>
+                                </div>
 
-                                <input type="radio" name="sleep_deep" value = 0 data-labelauty="0"/>
-                    <input type="radio" name="sleep_deep" value = 1 data-labelauty="1"/>
-                    <input type="radio" name="sleep_deep" value = 2 data-labelauty="2"/>
-<!--                    <input type="radio" name="sleep_deep" value = 3 data-labelauty="3"/> -->
-<!--                    <input type="radio" name="sleep_deep" value = 4 data-labelauty="4"/> -->
-                      </td>
-                    <td>
-                                 6.早醒
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <table class="table hamd_17_table" frame="void" style="font-weight:bold;">
+                                            <tbody>
+                                            <tr style="vertical-align:top;">
+                                                <td width="20%"  >1.抑郁情绪
+                                                        <input type="radio" name="depression" value=0 data-labelauty="0"/>
+                                                        <input type="radio" name="depression" value=1 data-labelauty="1"/>
+                                                        <input type="radio" name="depression" value=2 data-labelauty="2"/>
+                                                        <input type="radio" name="depression" value=3 data-labelauty="3"/>
+                                                        <input type="radio" name="depression" value=4 data-labelauty="4"/>
+                                                </td>
+                                                <td width="5%"></td>
+                                                <td width="20%">
+                                                    2.有罪感
+                                                    <input type="radio" name="guilt" value=0 data-labelauty="0"/>
+                                                    <input type="radio" name="guilt" value=1 data-labelauty="1"/>
+                                                    <input type="radio" name="guilt" value=2 data-labelauty="2"/>
+                                                    <input type="radio" name="guilt" value=3 data-labelauty="3"/>
+                                                    <input type="radio" name="guilt" value=4 data-labelauty="4"/>
+                                                </td>
+                                                <td width="5%"></td>
+                                                <td width="20%">
+                                                    3.自杀
+                                                    <input type="radio" name="suicide" value=0 data-labelauty="0"/>
+                                                    <input type="radio" name="suicide" value=1 data-labelauty="1"/>
+                                                    <input type="radio" name="suicide" value=2 data-labelauty="2"/>
+                                                    <input type="radio" name="suicide" value=3 data-labelauty="3"/>
+                                                    <input type="radio" name="suicide" value=4 data-labelauty="4"/>
+                                                </td>
+                                                <td width="5%"></td>
+                                                <td width="20%">
+                                                    4.入睡困难
+                                                    <input type="radio" name="difficulty_sleeping" value=0 data-labelauty="0"/>
+                                                    <input type="radio" name="difficulty_sleeping" value=1 data-labelauty="1"/>
+                                                    <input type="radio" name="difficulty_sleeping" value=2 data-labelauty="2"/>
+                                                    <input type="radio" name="difficulty_sleeping" value = 3 data-labelauty="3"/>
+                                                    <input type="radio" name="difficulty_sleeping" value = 4 data-labelauty="4"/>
+                                                </td>
+                                            </tr >
 
-                                <input type="radio" name="wake_early" value = 0 data-labelauty="0"/>
-                    <input type="radio" name="wake_early" value = 1 data-labelauty="1"/>
-                    <input type="radio" name="wake_early" value = 2 data-labelauty="2"/>
-<!--                    <input type="radio" name="wake_early" value = 3 data-labelauty="3"/> -->
-<!--                    <input type="radio" name="wake_early" value = 4 data-labelauty="4"/> -->
-                    </td>
-                    <td>
-                                 7.工作和兴趣
+                                            <tr>
+                                                <td width="20%">
+                                                    5.睡眠不深
 
-                                <input type="radio" name="work_interest" value = 0 data-labelauty="0"/>
-                    <input type="radio" name="work_interest" value = 1 data-labelauty="1"/>
-                    <input type="radio" name="work_interest" value = 2 data-labelauty="2"/>
-                    <input type="radio" name="work_interest" value = 3 data-labelauty="3"/>
-                    <input type="radio" name="work_interest" value = 4 data-labelauty="4"/>
-                    </td>
-                    <td>
-                                 8.迟缓
-                                <input type="radio" name="slow" value = 0 data-labelauty="0"/>
-                    <input type="radio" name="slow" value = 1 data-labelauty="1"/>
-                    <input type="radio" name="slow" value = 2 data-labelauty="2"/>
-                    <input type="radio" name="slow" value = 3 data-labelauty="3"/>
-                    <input type="radio" name="slow" value = 4 data-labelauty="4"/>
-                    </td>
-                              </tr>
-                                        <tr>
-                                <td>
-                                 9.激越
-                                <input type="radio" name="intense" value = 0 data-labelauty="0"/>
-                    <input type="radio" name="intense" value = 1 data-labelauty="1"/>
-                    <input type="radio" name="intense" value = 2 data-labelauty="2"/>
-                    <input type="radio" name="intense" value = 3 data-labelauty="3"/>
-                    <input type="radio" name="intense" value = 4 data-labelauty="4"/>
-                    </td>
-                    <td>
-                                 10.精神性焦虑
-                                <input type="radio" name="psycho_anxiety" value = 0 data-labelauty="0"/>
-                    <input type="radio" name="psycho_anxiety" value = 1 data-labelauty="1"/>
-                      <input type="radio" name="psycho_anxiety" value = 2 data-labelauty="2"/>
-                    <input type="radio" name="psycho_anxiety" value = 3 data-labelauty="3"/>
-                    <input type="radio" name="psycho_anxiety" value = 4 data-labelauty="4"/>
-                    </td>
-                    <td>
-                                 11.躯体性焦虑
-                                <input type="radio" name="somatic_anxiety" value = 0 data-labelauty="0"/>
-                    <input type="radio" name="somatic_anxiety" value = 1 data-labelauty="1"/>
-                    <input type="radio" name="somatic_anxiety" value = 2 data-labelauty="2"/>
-                    <input type="radio" name="somatic_anxiety" value = 3 data-labelauty="3"/>
-                    <input type="radio" name="somatic_anxiety" value = 4 data-labelauty="4"/>
-                    </td>
-                    <td>
-                                 12.胃肠道症状
-                                <input type="radio" name="gastrointestinal_symptoms" value = 0 data-labelauty="0"/>
-                    <input type="radio" name="gastrointestinal_symptoms" value = 1 data-labelauty="1"/>
-                    <input type="radio" name="gastrointestinal_symptoms" value = 2 data-labelauty="2"/>
-<!--                    <input type="radio" name="gastrointestinal_symptoms" value = 3 data-labelauty="3"/> -->
-<!--                    <input type="radio" name="gastrointestinal_symptoms" value = 4 data-labelauty="4"/> -->
-                    </td>
-                              </tr>
-                                        <tr>
-                                <td>
-                                 13.全身症状
-                                <input type="radio" name="systemic_symptoms" value = 0 data-labelauty="0"/>
-                    <input type="radio" name="systemic_symptoms" value = 1 data-labelauty="1"/>
-                    <input type="radio" name="systemic_symptoms" value = 2 data-labelauty="2"/>
-<!--                    <input type="radio" name="systemic_symptoms" value = 3 data-labelauty="3"/> -->
-<!--                    <input type="radio" name="systemic_symptoms" value = 4 data-labelauty="4"/> -->
-                    </td>
-                    <td>
-                                 14.性症状
-                                <input type="radio" name="sexual_symptoms" value = 0 data-labelauty="0"/>
-                    <input type="radio" name="sexual_symptoms" value = 1 data-labelauty="1"/>
-                    <input type="radio" name="sexual_symptoms" value = 2 data-labelauty="2"/>
-<!--                    <input type="radio" name="sexual_symptoms" value = 3 data-labelauty="3"/> -->
-<!--                    <input type="radio" name="sexual_symptoms" value = 4 data-labelauty="4"/> -->
-                    </td>
-                    <td>
-                                 15.疑病
-                                <input type="radio" name="hypochondria" value = 0 data-labelauty="0"/>
-                    <input type="radio" name="hypochondria" value = 1 data-labelauty="1"/>
-                    <input type="radio" name="hypochondria" value = 2 data-labelauty="2"/>
-                    <input type="radio" name="hypochondria" value = 3 data-labelauty="3"/>
-                    <input type="radio" name="hypochondria" value = 4 data-labelauty="4"/>
-                    </td>
-                    <td>
-                                 16.体重减轻
-                                <input type="radio" name="lose_weight" value = 0 data-labelauty="0"/>
-                    <input type="radio" name="lose_weight" value = 1 data-labelauty="1"/>
-                    <input type="radio" name="lose_weight" value = 2 data-labelauty="2"/>
-<!--                    <input type="radio" name="lose_weight" value = 3 data-labelauty="3"/> -->
-<!--                    <input type="radio" name="lose_weight" value = 4 data-labelauty="4"/> -->
-                    </td>
-                              </tr>
-                                        <tr>
-                                <td>
-                                 17.自知力
-                    <input type="radio" name="self_awareness" value = 0 data-labelauty="0"/>
-                    <input type="radio" name="self_awareness" value = 1 data-labelauty="1"/>
-                    <input type="radio" name="self_awareness" value = 2 data-labelauty="2"/>
-<!--                    <input type="radio" name="self_awareness" value = 3 data-labelauty="3"/> -->
-<!--                    <input type="radio" name="self_awareness" value = 4 data-labelauty="4"/> -->
-                      </td>
-                    <td>
-                    </td>
-                    <td>
-                    </td>
-                    <td>
-                    </td>
-                              </tr>
-                                    </tbody>
-                                </table>
-                           </div>
-                        </div>
-                        <div class="row">
-                            <div class="text-center">
-                                <input  type="submit" class="btn btn-success"  id="hamd_bt"  value="提交"/>
+                                                    <input type="radio" name="sleep_deep" value=0 data-labelauty="0"/>
+                                                    <input type="radio" name="sleep_deep" value=1 data-labelauty="1"/>
+                                                    <input type="radio" name="sleep_deep" value=2 data-labelauty="2"/>
+                                                    <input type="radio" name="sleep_deep" value=3 data-labelauty="3"/>
+                                                    <input type="radio" name="sleep_deep" value=4 data-labelauty="4"/>
+                                                </td>
+                                                <td width="5%"></td>
+                                                <td width="20%">
+                                                    6.早醒
 
+                                                    <input type="radio" name="wake_early" value=0 data-labelauty="0"/>
+                                                    <input type="radio" name="wake_early" value=1 data-labelauty="1"/>
+                                                    <input type="radio" name="wake_early" value=2 data-labelauty="2"/>
+                                                    <input type="radio" name="wake_early" value=3 data-labelauty="3"/>
+                                                    <input type="radio" name="wake_early" value=4 data-labelauty="4"/>
+                                                </td>
+                                                <td width="5%"></td>
+                                                <td width="20%">
+                                                    7.工作和兴趣
+
+                                                    <input type="radio" name="work_interest" value=0 data-labelauty="0"/>
+                                                    <input type="radio" name="work_interest" value=1 data-labelauty="1"/>
+                                                    <input type="radio" name="work_interest" value=2 data-labelauty="2"/>
+                                                    <input type="radio" name="work_interest" value=3 data-labelauty="3"/>
+                                                    <input type="radio" name="work_interest" value=4 data-labelauty="4"/>
+                                                </td>
+                                                <td width="5%"></td>
+                                                <td width="20%">
+                                                    8.迟缓
+                                                    <input type="radio" name="slow" value=0 data-labelauty="0"/>
+                                                    <input type="radio" name="slow" value=1 data-labelauty="1"/>
+                                                    <input type="radio" name="slow" value=2 data-labelauty="2"/>
+                                                    <input type="radio" name="slow" value=3 data-labelauty="3"/>
+                                                    <input type="radio" name="slow" value=4 data-labelauty="4"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td width="20%">
+                                                    9.激越
+                                                    <input type="radio" name="intense" value=0 data-labelauty="0"/>
+                                                    <input type="radio" name="intense" value=1 data-labelauty="1"/>
+                                                    <input type="radio" name="intense" value=2 data-labelauty="2"/>
+                                                    <input type="radio" name="intense" value=3 data-labelauty="3"/>
+                                                    <input type="radio" name="intense" value=4 data-labelauty="4"/>
+                                                </td>
+                                                <td width="5%"></td>
+                                                <td width="20%">
+                                                    10.精神性焦虑
+                                                    <input type="radio" name="psycho_anxiety" value=0 data-labelauty="0"/>
+                                                    <input type="radio" name="psycho_anxiety" value=1 data-labelauty="1"/>
+                                                    <input type="radio" name="psycho_anxiety" value=2 data-labelauty="2"/>
+                                                    <input type="radio" name="psycho_anxiety" value=3 data-labelauty="3"/>
+                                                    <input type="radio" name="psycho_anxiety" value=4 data-labelauty="4"/>
+                                                </td>
+                                                <td width="5%"></td>
+                                                <td width="20%">
+                                                    11.躯体性焦虑
+                                                    <input type="radio" name="somatic_anxiety" value=0 data-labelauty="0"/>
+                                                    <input type="radio" name="somatic_anxiety" value=1 data-labelauty="1"/>
+                                                    <input type="radio" name="somatic_anxiety" value=2 data-labelauty="2"/>
+                                                    <input type="radio" name="somatic_anxiety" value=3 data-labelauty="3"/>
+                                                    <input type="radio" name="somatic_anxiety" value=4 data-labelauty="4"/>
+                                                </td>
+                                                <td width="5%"></td>
+                                                <td width="20%">
+                                                    12.胃肠道症状
+                                                    <input type="radio" name="gastrointestinal_symptoms" value=0 data-labelauty="0"/>
+                                                    <input type="radio" name="gastrointestinal_symptoms" value=1 data-labelauty="1"/>
+                                                    <input type="radio" name="gastrointestinal_symptoms" value=2 data-labelauty="2"/>
+                                                    <input type="radio" name="gastrointestinal_symptoms" value=3 data-labelauty="3"/>
+                                                    <input type="radio" name="gastrointestinal_symptoms" value=4 data-labelauty="4"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td width="20%">
+                                                    13.全身症状
+                                                    <input type="radio" name="systemic_symptoms" value=0 data-labelauty="0"/>
+                                                    <input type="radio" name="systemic_symptoms" value=1 data-labelauty="1"/>
+                                                    <input type="radio" name="systemic_symptoms" value=2 data-labelauty="2"/>
+                                                    <input type="radio" name="systemic_symptoms" value = 3 data-labelauty="3"/>
+                                                    <input type="radio" name="systemic_symptoms" value = 4 data-labelauty="4"/>
+                                                </td>
+                                                <td width="5%"></td>
+                                                <td width="20%">
+                                                    14.性症状
+                                                    <input type="radio" name="sexual_symptoms" value=0 data-labelauty="0"/>
+                                                    <input type="radio" name="sexual_symptoms" value=1 data-labelauty="1"/>
+                                                    <input type="radio" name="sexual_symptoms" value=2 data-labelauty="2"/>
+                                                    <input type="radio" name="sexual_symptoms" value=3 data-labelauty="3"/>
+                                                    <input type="radio" name="sexual_symptoms" value=4 data-labelauty="4"/>
+                                                </td>
+                                                <td width="5%"></td>
+                                                <td width="20%">
+                                                    15.疑病
+                                                    <input type="radio" name="hypochondria" value=0 data-labelauty="0"/>
+                                                    <input type="radio" name="hypochondria" value=1 data-labelauty="1"/>
+                                                    <input type="radio" name="hypochondria" value=2 data-labelauty="2"/>
+                                                    <input type="radio" name="hypochondria" value=3 data-labelauty="3"/>
+                                                    <input type="radio" name="hypochondria" value=4 data-labelauty="4"/>
+                                                </td>
+                                                <td width="5%"></td>
+                                                <td width="20%">
+                                                    16.体重减轻
+                                                    <input type="radio" name="lose_weight" value=0 data-labelauty="0"/>
+                                                    <input type="radio" name="lose_weight" value=1 data-labelauty="1"/>
+                                                    <input type="radio" name="lose_weight" value=2 data-labelauty="2"/>
+                                                    <input type="radio" name="lose_weight" value=3 data-labelauty="3"/>
+                                                    <input type="radio" name="lose_weight" value=4 data-labelauty="4"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    17.自知力
+                                                    <input type="radio" name="self_awareness" value=0 data-labelauty="0"/>
+                                                    <input type="radio" name="self_awareness" value=1 data-labelauty="1"/>
+                                                    <input type="radio" name="self_awareness" value=2 data-labelauty="2"/>
+                                                    <input type="radio" name="self_awareness" value=3 data-labelauty="3"/>
+                                                    <input type="radio" name="self_awareness" value=4 data-labelauty="4"/>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="text-center">
+                                        <input type="submit" class="btn btn-success" id="hamd_bt" value="保存并提交量表，继续下一个量表"/>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                      </div>
-                    </form>
-                  </div>
-			    </div>
-	          </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
-	</div>
+    </div>
 {% endblock %}
 
 {% block js %}
 
-<script type="text/javascript" language="JavaScript">
-$(document).ready(function(){
-    $("input[type='radio']").labelauty();
-});
-</script>
-<script type="text/javascript" src="{% static '/js/jquery-radio-beauty.js'%}"></script>
+    <script type="text/javascript" language="JavaScript">
+        $(document).ready(function () {
+            $("input[type='radio']").labelauty();
+        });
+    </script>
+    <script type="text/javascript" src="{% static '/js/jquery-radio-beauty.js' %}"></script>
+
+    <script type="text/javascript">
+      function myCheck(hamd_form)
+      {
+          if (document.hamd_form.depression.value=="") {
+              alert("问题一不能为空！");
+              return false;
+          }
+          if (document.hamd_form.guilt.value=="") {
+              alert("问题二不能为空！");
+              return false;
+          }
+          if (document.hamd_form.suicide.value=="") {
+              alert("问题三不能为空！");
+              return false;
+          }
+          if (document.hamd_form.difficulty_sleeping.value=="") {
+              alert("问题四不能为空！");
+              return false;
+          }
+          if (document.hamd_form.sleep_deep.value=="") {
+              alert("问题五不能为空！");
+              return false;
+          }if (document.hamd_form.wake_early.value=="") {
+              alert("问题六不能为空！");
+              return false;
+          }
+          if (document.hamd_form.work_interest.value=="") {
+              alert("问题七不能为空！");
+              return false;
+          }
+          if (document.hamd_form.slow.value=="") {
+              alert("问题八不能为空！");
+              return false;
+          }
+          if (document.hamd_form.intense.value=="") {
+              alert("问题九不能为空！");
+              return false;
+          }
+          if (document.hamd_form.psycho_anxiety.value=="") {
+              alert("问题十不能为空！");
+              return false;
+          }
+          if (document.hamd_form.somatic_anxiety.value=="") {
+              alert("问题十一不能为空！");
+              return false;
+          }
+          if (document.hamd_form.gastrointestinal_symptoms.value=="") {
+              alert("问题十二不能为空！");
+              return false;
+          }
+          if (document.hamd_form.systemic_symptoms.value=="") {
+              alert("问题十三不能为空！");
+              return false;
+          }
+          if (document.hamd_form.sexual_symptoms.value=="") {
+              alert("问题十四不能为空！");
+              return false;
+          }
+          if (document.hamd_form.hypochondria.value=="") {
+              alert("问题十五不能为空！");
+              return false;
+          }
+          if (document.hamd_form.lose_weight.value=="") {
+              alert("问题十六不能为空！");
+              return false;
+          }
+          if (document.hamd_form.self_awareness.value=="") {
+              alert("问题十七不能为空！");
+              return false;
+          }
+
+          alert("提交成功！");
+          return true;
+      }
+    </script>
+
+
+
 {% endblock %}

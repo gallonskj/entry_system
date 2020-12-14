@@ -3,6 +3,39 @@
 {% block title %}简式父母养育方式问卷表（s_embu）{% endblock %}
 {% block css %}
     <link href="{% static '/css/scales_style.css' %}" rel="stylesheet" >
+    <style>
+    .area_block input.labelauty + label{
+	    margin-bottom:0px;
+        width:100px;
+	    display:inline-block;
+	    font-size: 13px;
+        padding: 1px;
+        text-align: center;
+	    background-color: #efefef;
+	    color: #b3b3b3;
+	    cursor: pointer;
+	    border-radius: 3px 3px 3px 3px;
+	    -moz-border-radius: 3px 3px 3px 3px;
+	    -webkit-border-radius: 3px 3px 3px 3px;
+    }
+    .patient_block input.labelauty + label{
+	    margin-bottom:0px;
+        width:200px;
+	    display:inline-block;
+	    font-size: 13px;
+        padding: 1px;
+        text-align: center;
+	    background-color: #efefef;
+	    color: #b3b3b3;
+	    cursor: pointer;
+	    border-radius: 3px 3px 3px 3px;
+	    -moz-border-radius: 3px 3px 3px 3px;
+	    -webkit-border-radius: 3px 3px 3px 3px;
+    }
+    .area_block label{
+        vertical-align: middle;
+    }
+    </style>
 {% endblock %}
 {% block content %}
      <div class="right_col" role="main">
@@ -17,9 +50,9 @@
                 </div>
             </div>
         </div> 
-        <div class="dashboard_graph x_panel">
+        <div class="dashboard_graph x_panel" style="margin-top:0px;height:85%">
             <div id="wrapper">
-                <div id = "left-side" style="height: 100%;" class="col-md-2">
+                <div id = "left-side" style="height: 100%;margin-left: 10px;" class="col-md-2">
                   <ul class="scales_progress">
                     <li class="step1 done">
                       <p>耶鲁布朗强迫症严重程度标准量表（ybocs）</p>
@@ -35,9 +68,6 @@
 					</li>
 					<li class="step5 done notclick">
 						<p>快感体验能力量表teps</p>
-					</li>
-					<li class="step6 done notclick">
-						<p>斯奈斯和汉密尔顿快乐量表(shaps)</p>
 					</li>
 					<li class="step7 done notclick">
 						<p>儿童期（16岁以前）的成长经历ctq-sf</p>
@@ -62,36 +92,58 @@
 				         
                 <div id="right-side" class="col-md-10">
                   <div id="first" class="active">
-			            <form action="/scales/add_sembu?patient_id={{ patient_id }}&patient_session_id={{ patient_session_id }}" method="post">
+			            <form name="s_embuform" action="/scales/add_sembu?patient_id={{ patient_id }}&patient_session_id={{ patient_session_id }}" method="post"  onSubmit="return myCheck(this)">
                             <div class="container">
-                                <div>
-                                    入学年份<input type="text" name="enrollmentyear"/>
-                                    年级  <input type="text" name="grade"/>
+                                <div class="col-md-12  text-center">
+                                    <h4><strong>简式父母养育方式问卷（s-embu）</strong></h4>
                                 </div>
-                                <div>
-                                    地区：
-                                    <input type="radio" name="area" value=0 data-labelauty="城市" />
-                                    <input type="radio" name="area" value=1 data-labelauty="乡村" /> <br>
-                                    你认为你的成绩在班级中为：
-                                    <input type="radio" name="gradelevel" value=0 data-labelauty="上" />
-                                    <input type="radio" name="gradelevel" value=1 data-labelauty="中上"/>
-                                    <input type="radio" name="gradelevel" value=2 data-labelauty="中"/>
-                                    <input type="radio" name="gradelevel" value=3 data-labelauty="中下"/>
-                                    <input type="radio" name="gradelevel" value=4 data-labelauty="下"/> <br>
-                                    父母情况：
-                                    <input type="radio" name="parent" value=0 data-labelauty="双亲家庭"/>
-                                    <input type="radio" name="parent" value=1 data-labelauty="单亲（母亲死亡）"/>
-                                    <input type="radio" name="parent" value=2 data-labelauty="单亲（父亲死亡）"/>
-                                    <input type="radio" name="parent" value=3 data-labelauty="单亲（父母离异，跟母亲）"/>
-                                    <input type="radio" name="parent" value=4 data-labelauty="单亲（父母离异，跟父亲）"/>
-                                    <input type="radio" name="parent" value=5 data-labelauty="父母死亡"/><br>
-                                </div>
+  
                                 <div class="row" style="margin: 5px;">
-                                    指导语：请您分别选择最适合您父亲和您母亲的等级。每题只准选一个答案。您父亲和母亲对您的教养方式可能是相同的，也可能是不同的。请您实事求是地分别回答。如果您幼小时候父母不全，可以只回答父亲或母亲一栏。
+                                    <div class="col-md-3">
+                                        <label>入学年份:</label><input type="text" name="enrollmentyear"/>
+                                    </div>
+                                    <div class="col-md-3">    
+                                        <label>年级: </label> <input type="text" name="grade"/>
+                                    </div>
+                                    <div class="col-md-6 area_block">
+                                        <label>地区：</label>
+                                        <input type="radio" name="area" value=0 data-labelauty="城市" />
+                                        <input type="radio" name="area" value=1 data-labelauty="乡村" />
+                                    </div>
+                                </div>
+                                <div class="row" style="margin: 5px;"> 
+                                    <div class="col-md-3 area_block">
+                                        <label>父母情况:</label>
+                                    </div>  
+                                    <div class="col-md-6 patient_block">
+                                        <input type="radio" name="parent" value=0 data-labelauty="双亲家庭" style="width: 60px;"/>
+                                        <input type="radio" name="parent" value=1 data-labelauty="单亲（母亲死亡）"/>
+                                        <input type="radio" name="parent" value=2 data-labelauty="单亲（父亲死亡）"/>
+                                        <input type="radio" name="parent" value=3 data-labelauty="单亲（父母离异，跟母亲）"/>
+                                        <input type="radio" name="parent" value=4 data-labelauty="单亲（父母离异，跟父亲）"/>
+                                        <input type="radio" name="parent" value=5 data-labelauty="父母死亡"/>
+                                    </div>    
+                                </div> 
+                                <div class="row" style="margin: 5px;">
+                                    <div class="col-md-3 area_block">
+                                        <label>你认为你的成绩在班级中为：</label>
+                                    </div> 
+                                    <div class="col-md-6 area_block">   
+                                        <input type="radio" name="gradelevel" value=0 data-labelauty="上" >
+                                        <input type="radio" name="gradelevel" value=1 data-labelauty="中上"/>
+                                        <input type="radio" name="gradelevel" value=2 data-labelauty="中"/>
+                                        <input type="radio" name="gradelevel" value=3 data-labelauty="中下"/>
+                                        <input type="radio" name="gradelevel" value=4 data-labelauty="下"/>
+                                    </div>
+                                </div>
+                                <div style="border: 1px solid #DDDDDD;margin-bottom: 10px;">
+                                </div>       
+                                <div class="row" style="margin: 5px;">
+                                    <strong>指导语：请您分别选择最适合您父亲和您母亲的等级。每题只准选一个答案。您父亲和母亲对您的教养方式可能是相同的，也可能是不同的。请您实事求是地分别回答。如果您幼小时候父母不全，可以只回答父亲或母亲一栏。</strong>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <table class="table table-hover table-bordered">
+                                        <table class="table ">
 
 				                        <tbody>
                                              <tr>
@@ -417,8 +469,7 @@
                                 <div class="row">
                                    <div class="text-center">
                                        {% csrf_token %}
-                                       <input  type="submit" class="btn btn-success" value="提交"/>
-                                    
+                                       <input  type="submit" class="btn btn-success" value="保存并提交量表，继续下一量表"/>
                                    </div>
                                 </div>
                             </div>
@@ -440,4 +491,197 @@ $(document).ready(function(){
 	$("input[type='radio']").labelauty();
 });
 </script>
+<script type="text/javascript">
+    
+   function myCheck(s_embuform)
+    {
+        alert(进来哦);
+        if (document.s_embuform.enrollmentyear.value=="") {
+            alert("入学年份不能为空！");
+            return false;
+        }
+        if (document.s_embuform.grade.value=="") {
+            alert("年级不能为空！");
+            return false;
+        }
+        if (document.s_embuform.patient.value=="") {
+            alert("家庭情况不能为空！");
+            return false;
+        }
+        if (document.s_embuform.area.value=="") {
+            alert("地区类型不能为空！");
+            return false;
+        }
+        if (document.s_embuform.question1_father.value=="") {
+            alert("问题一不能为空！");
+            return false;
+        }
+        if (document.s_embuform.question1_mother.value=="") {
+            alert("问题一不能为空！");
+            return false;
+        }
+        if (document.s_embuform.question2_father.value=="") {
+            alert("问题二不能为空！");
+            return false;
+        }
+        if (document.s_embuform.question2_mother.value=="") {
+            alert("问题二不能为空！");
+            return false;
+        }
+        if (document.s_embuform.question3_father.value=="") {
+            alert("问题三不能为空！");
+            return false;
+        }
+        if (document.s_embuform.question3_mother.value=="") {
+            alert("问题三不能为空！");
+            return false;
+        }
+        if (document.s_embuform.question4_father.value=="") {
+            alert("问题四不能为空！");
+            return false;
+        }
+        if (document.s_embuform.question4_mother.value=="") {
+            alert("问题四不能为空！");
+            return false;
+        }
+        if (document.s_embuform.question5_father.value=="") {
+            alert("问题五不能为空！");
+            return false;
+        }
+        if (document.s_embuform.question5_mother.value=="") {
+            alert("问题五不能为空！");
+            return false;father
+        }
+        if (document.s_embuform.question6_father.value=="") {
+            alert("问题六不能为空！");
+            return false;
+        }
+        if (document.s_embuform.question6_mother.value=="") {
+            alert("问题六不能为空！");
+            return false;father
+        }
+        if (document.s_embuform.question7_father.value=="") {
+            alert("问题七不能为空！");
+            return false;
+        }
+        if (document.s_embuform.question7_mother.value=="") {
+            alert("问题七不能为空！");
+            return false;
+        }
+        if (document.s_embuform.question8_father.value=="") {
+            alert("问题八不能为空！");
+            return false;
+        }
+        if (document.s_embuform.question8_mother.value=="") {
+            alert("问题八不能为空！");
+            return false;
+        }
+        if (document.s_embuform.question9_father.value=="") {
+            alert("问题九不能为空！");
+            return false;
+        }
+        if (document.s_embuform.question9_mother.value=="") {
+            alert("问题九不能为空！");
+            return false;
+        }
+        if (document.s_embuform.question10_father.value=="") {
+            alert("问题十不能为空！");
+            return false;
+        }
+        if (document.s_embuform.question10_mother.value=="") {
+            alert("问题十不能为空！");
+            return false;
+        }
+        if (document.s_embuform.question11_father.value=="") {
+            alert("问题十一不能为空！");
+            return false;
+        }
+        if (document.s_embuform.question11_mother.value=="") {
+            alert("问题十一不能为空！");
+            return false;
+        }
+        if (document.s_embuform.question12_father.value=="") {
+            alert("问题十二不能为空！");
+            return false;
+        }
+        if (document.s_embuform.question12_mother.value=="") {
+            alert("问题十二不能为空！");
+            return false;
+        }
+        if (document.s_embuform.question13_father.value=="") {
+            alert("问题十三不能为空！");
+            return false;
+        }
+        if (document.s_embuform.question13_mother.value=="") {
+            alert("问题十三不能为空！");
+            return false;
+        }
+        if (document.s_embuform.question14_father.value=="") {
+            alert("问题十四不能为空！");
+            return false;
+        }
+        if (document.s_embuform.question14_mother.value=="") {
+            alert("问题十四不能为空！");
+            return false;
+        }
+        if (document.s_embuform.question15_father.value=="") {
+            alert("问题十五不能为空！");
+            return false;
+        }
+        if (document.s_embuform.question15_mother.value=="") {
+            alert("问题十五不能为空！");
+            return false;
+        }
+        if (document.s_embuform.question16_father.value=="") {
+            alert("问题十六不能为空！");
+            return false;
+        }
+        if (document.s_embuform.question16_mother.value=="") {
+            alert("问题十六不能为空！");
+            return false;
+        }
+        if (document.s_embuform.question17_father.value=="") {
+            alert("问题十七不能为空！");
+            return false;
+        }
+        if (document.s_embuform.question17_mother.value=="") {
+            alert("问题十七不能为空！");
+            return false;
+        }
+        if (document.s_embuform.question18_father.value=="") {
+            alert("问题十八不能为空！");
+            return false;
+        }
+        if (document.s_embuform.question18_mother.value=="") {
+            alert("问题十八不能为空！");
+            return false;
+        }
+        if (document.s_embuform.question19_father.value=="") {
+            alert("问题十九不能为空！");
+            return false;
+        }
+        if (document.s_embuform.question19_mother.value=="") {
+            alert("问题十九不能为空！");
+            return false;
+        }
+        if (document.s_embuform.question20_father.value=="") {
+            alert("问题二十不能为空！");
+            return false;
+        }
+        if (document.s_embuform.question20_mother.value=="") {
+            alert("问题二十不能为空！");
+            return false;
+        }
+        if (document.s_embuform.question21_father.value=="") {
+            alert("问题二十一不能为空！");
+            return false;
+        }
+        if (document.s_embuform.question21_mother.value=="") {
+            alert("问题二十一不能为空！");
+            return false;
+        }
+        alert("提交成功！");
+        return true;
+    }
+    </script>
 {% endblock %}

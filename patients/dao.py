@@ -11,7 +11,6 @@ def judgment_do_scales(scales_list):
     other_test_list = []
     self_test_list = []
     cognition_list = []
-
     for scale in scales_list:
         if scale.do_scale_type == 0:
             information_list.append(scale)
@@ -19,7 +18,7 @@ def judgment_do_scales(scales_list):
             other_test_list.append(scale)
         elif scale.do_scale_type == 2:
             self_test_list.append(scale)
-        else:
+        elif scale.do_scale_type == 3 :
             cognition_list.append(scale)
     return information_list, other_test_list, self_test_list, cognition_list
 
@@ -46,9 +45,11 @@ def judgment_scales(patient_detail_id):
 # 当初扫和复扫时，依据被试需要做的scales_list，预先插入r_patient_scales表中多条记录
 def add_rscales(scales_list, patient_detail_id):
     # 插入r_patient_scales表
+    insert_list = []
     for scale in scales_list:
-        temp = scales_models.RPatientScales(patient_session_id=patient_detail_id, scale_id=scale.id, state=0)
-        temp.save()
+        insert_list.append(scales_models.RPatientScales(patient_session_id=patient_detail_id,
+                                                        scale_id=scale.id, state=0))
+    scales_models.RPatientScales.objects.bulk_create(insert_list)
 
 
 

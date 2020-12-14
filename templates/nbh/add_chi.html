@@ -17,7 +17,7 @@
 			  </div>
 			</div>
 		</div>  
-        <div class="dashboard_graph x_panel">
+        <div class="dashboard_graph x_panel" style="height: 80%">
 			<div id="wrapper">
 				<div id = "left-side" style="height: 100%;" class="col-md-2">
 				  <ul class="scales_progress">
@@ -46,12 +46,17 @@
 				</div>  				 
 				<div id="right-side" class="col-md-10">
 				  <div id="first" class="active">
-                        <form action="/scales/add_basic_information?patient_id={{ patient_id }}&patient_session_id={{ patient_session_id }}&questionnaire_type={{ questionnaire_type|add:1 }}" method="post">
+                        <form name="chiform" action="/scales/add_chinesehandle?patient_id={{ patient_id }}&patient_session_id={{ patient_session_id }}&questionnaire_type={{ questionnaire_type|add:1 }}" method="post" onSubmit="return myCheck(this)">
                         	{%  csrf_token %}
 							<div class="container">
+                                <div class="x_title">
+                    <div class="clearfix"></div>
+                    <h2>左右利手量表 </h2>
+                    <div class="clearfix"></div>
+                  </div>
 	                        <div class="row clearfix">
 		                        <div class="col-md-12 column">
-			                        <table class="table table-hover table-bordered">
+			                        <table class="table">
 				                        <thead>
 					                    <tr>
 						                    <th>
@@ -188,7 +193,7 @@
                             </div>
                             <div class="row">
                                 <div class="text-center">
-                                    <input  type="submit" class="btn btn-success" value="提交"/>
+                                    <input  type="submit" class="btn btn-success" value="保存并提交量表，继续下一个量表"/>
                                    
                                 </div>
                             </div>
@@ -212,4 +217,52 @@ $(document).ready(function(){
 	$("input[type='radio']").labelauty();
 });
 </script>
+<script type="text/javascript">
+      function myCheck(chiform)
+      {
+          if (document.chiform.hold_pen.value=="") {
+              alert("问题一不能为空！");
+              return false;
+          }
+          if (document.chiform.hold_chopsticks.value=="") {
+              alert("问题二不能为空！");
+              return false;
+          }
+          if (document.chiform.throw_things.value=="") {
+              alert("问题三不能为空！");
+              return false;
+          }
+          if (document.chiform.brush_tooth.value=="") {
+              alert("问题四不能为空！");
+              return false;
+          }
+          if (document.chiform.use_scissors.value=="") {
+              alert("问题五不能为空！");
+              return false;
+          }
+          if (document.chiform.use_match.value=="") {
+              alert("问题六不能为空！");
+              return false;
+          }
+          if (document.chiform.use_needle.value=="") {
+              alert("问题七不能为空！");
+              return false;
+          }
+
+          if (document.chiform.hold_hammer.value=="") {
+              alert("问题八不能为空！");
+              return false;
+          }
+          if (document.chiform.hold_racket.value=="") {
+              alert("问题九不能为空！");
+              return false;
+          }
+          if (document.chiform.wash_face.value=="") {
+              alert("问题十不能为空！");
+              return false;
+          }
+          alert("提交成功！");
+          return true;
+      }
+    </script>    
 {% endblock %}
