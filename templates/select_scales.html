@@ -39,7 +39,7 @@
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
-                        <a href="/scales/get_general_info_forms?patient_session_id={{ patient_session_id }}&patient_id={{ patient.id }}"
+                        <a href="/scales/get_general_info_forms?patient_session_id={{ patient_session_id }}&patient_id={{ patient_baseinfo.id }}"
                            style="color: white">
                             {% if todo_generalinfo_scale_size == 0 %}
                                 <button class="btn btn-success btn-block " disabled="disabled">个人一般信息录入</button>
@@ -48,7 +48,7 @@
                             {% endif %}
                         </a>
                         <br/>
-                        <a href="/scales/get_other_test_forms?patient_session_id={{ patient_session_id }}&patient_id={{ patient.id }}"
+                        <a href="/scales/get_other_test_forms?patient_session_id={{ patient_session_id }}&patient_id={{ patient_baseinfo.id }}"
                            style="color: white">
                             {% if todo_other_test_scale_size == 0 %}
                                 <button class="btn btn-warning btn-block" disabled="disabled">他测量表录入</button>
@@ -57,7 +57,7 @@
                             {% endif %}
                         </a>
                         <br/>
-                        <a href="/scales/get_self_test_forms?patient_session_id={{ patient_session_id }}&patient_id={{ patient.id }}"
+                        <a href="/scales/get_self_test_forms?patient_session_id={{ patient_session_id }}&patient_id={{ patient_baseinfo.id }}"
                            style="color: white">
                             {% if todo_self_test_scale_size == 0 %}
                                 <button class="btn btn-primary btn-block " disabled="disabled">自评量表录入</button>
@@ -66,7 +66,7 @@
                             {% endif %}
                         </a>
                         <br/>
-                        <a href="/scales/get_cognition_forms?patient_session_id={{ patient_session_id }}&patient_id={{ patient.id }}"
+                        <a href="/scales/get_cognition_forms?patient_session_id={{ patient_session_id }}&patient_id={{ patient_baseinfo.id }}"
                            style="color: white">
                             {% if todo_cognition_scale_size == 0 %}
                                 <button class="btn btn-info btn-block " disabled="disabled">认知量表录入</button>
@@ -87,7 +87,7 @@
                         <h2>个人信息<small>基本信息{{ patient_detail.standard_id }}</small></h2>
                         <div class="clearfix"></div>
                     </div>
-                    <form class="form-horizontal form-label-left" action="/patients/update_patient_detail?patient_session_id={{ patient_session_id }}&patient_id={{ patient.id }}"  method="POST">
+                    <form class="form-horizontal form-label-left" action="/patients/update_patient_detail?patient_session_id={{ patient_session_id }}&patient_id={{ patient_baseinfo.id }}"  method="POST">
                         <div class="x_content">
                             <div>
                                 <div class="col-md-4 col-xs-12">
@@ -99,13 +99,13 @@
 
                                     <div class="form-group">
                                         <label class="control-label col-md-4 col-sm-4 col-xs-6" for="last-name">姓名 <span class="required">:</span></label>
-                                        <p class="col-md-4 col-sm-4 col-xs-6" style="padding-top: 7px;margin-bottom: 0;text-align: left">{{ patient.name }}</p>
+                                        <p class="col-md-4 col-sm-4 col-xs-6" style="padding-top: 7px;margin-bottom: 0;text-align: left">{{ patient_baseinfo.name }}</p>
                                     </div>
 
                                     <div class="form-group">
                                         <label class="control-label col-md-4 col-sm-4 col-xs-6">性别 <span class="required">:</span></label>
                                         <p class="col-md-4 col-sm-4 col-xs-6" style="padding-top: 7px;margin-bottom: 0;text-align: left">
-                                            {% if patient.sex == 0 %}
+                                            {% if patient_baseinfo.sex == 0 %}
                                                 男
                                             {% else %}
                                                 女
@@ -117,12 +117,12 @@
                                         <label class="control-label col-md-4 col-sm-4 col-xs-6">民族 <span
                                                 class="required">:</span></label>
                                         <p class="col-md-4 col-sm-4 col-xs-6"
-                                           style="padding-top: 7px;margin-bottom: 0;text-align: left">{{ patient.nation }}</p>
+                                           style="padding-top: 7px;margin-bottom: 0;text-align: left">{{ patient_baseinfo.nation }}</p>
                                     </div>
 
                                     <div class="form-group">
                                         <label for="birth_date" class="control-label col-md-4 col-sm-4 col-xs-6">出生日期<span class="required">:</span></label>
-                                        <p class="col-md-4 col-sm-4 col-xs-6" style="width: 120px; padding-top: 7px;margin-bottom: 0;text-align: left;">{{ patient.birth_date }}</p>
+                                        <p class="col-md-4 col-sm-4 col-xs-6" style="width: 120px; padding-top: 7px;margin-bottom: 0;text-align: left;">{{ patient_baseinfo.birth_date }}</p>
                                     </div>
 
                                     <div class="form-group">
@@ -174,8 +174,7 @@
 
                                     <div class="form-group">
                                         <label class="control-label col-md-4 col-sm-4 col-xs-6" for="subject_number">感情状态<span class="required">:</span></label>
-                                        <input type="hidden" value="{{ patient_detail.emotional_state }}" id="emotional_state1">
-                                        <select name="emotional_state" id="emotional_state" value=3 class="sel_beauty">
+                                        <select name="emotional_state" id="emotional_state"  class="sel_beauty">
                                             <option value=1>单身</option>
                                             <option value=2>未婚</option>
                                             <option value=3>已婚</option>
@@ -188,7 +187,6 @@
 
                                     <div class="form-group">
                                         <label class="control-label col-md-4 col-sm-4 col-xs-6" for="subject_number">被试来源<span class="required">:</span></label>
-                                        <input type="hidden" value="{{ patient_detail.source }}" id="source1">
                                         <select name="source" id="source" class="sel_beauty">
                                             <option value=0>门诊</option>
                                             <option value=1>病区</option>
@@ -198,7 +196,6 @@
 
                                     <div class="form-group">
                                         <label class="control-label col-md-4 col-sm-4 col-xs-6" for="subject_number">诊断情况<span class="required">:</span></label>
-                                        <input type="hidden" value="{{ patient_detail.diagnosis }}" id="diagnosis1">
                                         <select name="diagnosis" id="diagnosis" class="sel_beauty" onchange="judge_diagnosis(this)">
                                             <option value=0>未诊断</option>
                                             <option value=1>健康者</option>
@@ -287,10 +284,22 @@
         </div>
     </div>
     <script>
+       function getData(){
         var patient_detail_emotional_state = "{{ patient_detail.emotional_state  }}";
-        //alert(patient_detail_emotional_state);
-        var select = document.getElementById("emotional_state");
-        select.options[patient_detail_emotional_state].selected = "selected";
+        var emotional_state = Number(patient_detail_emotional_state);
+        $("#emotional_state option[value="+emotional_state+"]").prop("selected",true);
+
+        var patient_detail_source = "{{ patient_detail.source  }}";
+        var source = Number(patient_detail_source);
+        $("#source option[value="+source+"]").prop("selected",true);
+
+        var patient_detail_diagnosis = "{{ patient_baseinfo.diagnosis }}";
+        var diagnosis = Number(patient_detail_diagnosis);
+        alert(patient_detail_diagnosis);
+        $("#diagnosis option[value="+diagnosis+"]").prop("selected",true);
+
+       }
+
     </script>
 {% endblock %}
 
@@ -298,7 +307,7 @@
     <script type="text/javascript" language="JavaScript">
 
         $(document).ready(function () {
-            document.getElementById("patient_id").innerHTML = 'NN_' + formatZero({{ patient.id }}, 8)
+            document.getElementById("patient_id").innerHTML = 'NN_' + formatZero({{ patient_baseinfo.id }}, 8)
         });
 
         function formatZero(num, len) {
@@ -316,6 +325,7 @@
         });
     </script>
     <script type="text/javascript" src="{% static '/js/jquery-radio-beauty.js' %}"></script>
+
     <script>
         $(document).ready(function () {
             $("input[type='radio']").labelauty();

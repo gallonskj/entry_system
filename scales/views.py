@@ -48,7 +48,7 @@ def get_select_scales(request):
     # 获取各个scaleType的list信息
     scales_list = patients_dao.judgment_scales(patient_session_id)
     generalinfo_scale_list, other_test_scale_list, self_test_scale_list, cognition_scale_list = scales_dao.get_uodo_scales(patient_session_id)
-    return render(request, 'select_scales.html', {'patient': patient,
+    return render(request, 'select_scales.html', {'patient_baseinfo': patient,
                                                   'patient_id': patient.id,
                                                   'patient_session_id': patient_session_id,
                                                   "username": request.session.get('username'),
@@ -450,7 +450,7 @@ def add_chinesehandle(request):
     patient_session_id = request.GET.get('patient_session_id')
     scale_id = tools_config.chi
     doctor_id = request.session.get('doctor_id')
-    rPatientChineseHandy = scales_dao.get_chinese_handy_byPatientDetailId(patient_session_id)
+    rPatientChineseHandy = scales_dao.get_handy_byPatientDetailId(patient_session_id)
     if rPatientChineseHandy is None:
         rPatientChineseHandy = scales_models.RPatientChineseHandy(patient_session_id=patient_session_id, scale_id=scale_id, doctor_id=doctor_id)
     rPatientChineseHandy = set_attr_by_post(request,rPatientChineseHandy)

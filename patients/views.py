@@ -96,6 +96,7 @@ def add_patient_followup(request):
                                                   'patient_id': patient.id,
                                                   'patient_baseinfo':patient_baseinfo,
                                                   'patient_session_id': patient_detail_id,
+                                                  'patient_baseinfo' : patient_baseinfo,
                                                   "username": request.session.get('username'),
                                                   'patient_detail':patient_detail_last,
                                                   "todo_generalinfo_scale_size": len(generalinfo_scale_list),
