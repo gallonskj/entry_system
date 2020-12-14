@@ -50,6 +50,7 @@ def get_select_scales(request):
     generalinfo_scale_list, other_test_scale_list, self_test_scale_list, cognition_scale_list = scales_dao.get_uodo_scales(patient_session_id)
     return render(request, 'select_scales.html', {'patient_baseinfo': patient,
                                                   'patient_id': patient.id,
+                                                  'standard_id':patient_detail.standard_id,
                                                   'patient_session_id': patient_session_id,
                                                   "username": request.session.get('username'),
                                                   'patient_detail':patient_detail,

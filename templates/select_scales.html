@@ -84,7 +84,7 @@
             <div class="col-md-9 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2>个人信息<small>基本信息{{ patient_detail.standard_id }}</small></h2>
+                        <h2>个人信息<small>基本信息{{ standard_id }}</small></h2>
                         <div class="clearfix"></div>
                     </div>
                     <form class="form-horizontal form-label-left" action="/patients/update_patient_detail?patient_session_id={{ patient_session_id }}&patient_id={{ patient_baseinfo.id }}"  method="POST">
@@ -216,45 +216,84 @@
                                         <input id="other_diagnosis" name="other_diagnosis" class="sel_beauty" >
                                     </div>
 
-
-
                                 </div>
 
                                 <div class="col-md-4 col-xs-12">
                                     <div class="form-group">
                                         <label class="control-label col-md-4 col-sm-4 col-xs-12" for="subject_number">认知是否完成<span class="required">:</span></label>
-                                        <td><input type="radio" name="cognitive" value=0 data-labelauty="否" checked/></td>
-                                        <td><input type="radio" name="cognitive" value=1 data-labelauty="是"/></td>
+                                        {% if patient_detail.cognitive == 0 or patient_detail.cognitive is null %}
+                                            <input type="radio" name="cognitive" value=0 data-labelauty="否" checked/>
+                                            <input type="radio" name="cognitive" value=1 data-labelauty="是"/>
+                                        {% else%}
+                                            <input type="radio" name="cognitive" value=0 data-labelauty="否" />
+                                            <input type="radio" name="cognitive" value=1 data-labelauty="是" checked/>
+                                        {% endif %}
                                     </div>
                                     <div class="form-group">
                                         <label class="control-label col-md-4 col-sm-4 col-xs-12" for="subject_number">录音是否完成<span class="required">:</span></label>
-                                        <td><input type="radio" name="sound" value=0 data-labelauty="否" checked/></td>
-                                        <td><input type="radio" name="sound" value=1 data-labelauty="是"/></td>
+                                        {% if  patient_detail.sound  == 0 or patient_detail.sound is null %}
+                                            <input type="radio" name="sound" value=0 data-labelauty="否" checked/>
+                                            <input type="radio" name="sound" value=1 data-labelauty="是"/>
+                                        {% else %}
+                                            <input type="radio" name="sound" value=0 data-labelauty="否" />
+                                            <input type="radio" name="sound" value=1 data-labelauty="是" checked/>
+                                        {% endif %}
+
                                     </div>
                                     <div class="form-group">
                                         <label class="control-label col-md-4 col-sm-4 col-xs-12" for="subject_number">血液是否采集<span class="required">:</span></label>
-                                        <td><input type="radio" name="blood" value=0 data-labelauty="否" checked/></td>
-                                        <td><input type="radio" name="blood" value=1 data-labelauty="是"/></td>
+
+                                        {% if  patient_detail.blood  == 0 or patient_detail.blood is null%}
+                                            <input type="radio" name="blood" value=0 data-labelauty="否" checked/>
+                                            <input type="radio" name="blood" value=1 data-labelauty="是"/>
+                                        {% else %}
+                                            <input type="radio" name="blood" value=0 data-labelauty="否" />
+                                            <input type="radio" name="blood" value=1 data-labelauty="是" checked/>
+                                        {% endif %}
                                     </div>
                                     <div class="form-group">
                                         <label class="control-label col-md-4 col-sm-4 col-xs-12" for="subject_number">毛发是否采集<span class="required">:</span></label>
-                                        <td><input type="radio" name="hairs" value=0 data-labelauty="否" checked/></td>
-                                        <td><input type="radio" name="hairs" value=1 data-labelauty="是"/></td>
+
+                                        {% if  patient_detail.hairs  == 0 or patient_detail.hairs is null%}
+                                            <input type="radio" name="hairs" value=0 data-labelauty="否" checked/>
+                                            <input type="radio" name="hairs" value=1 data-labelauty="是"/>
+                                        {% else %}
+                                            <input type="radio" name="hairs" value=0 data-labelauty="否" />
+                                            <input type="radio" name="hairs" value=1 data-labelauty="是" checked/>
+                                        {% endif %}
                                     </div>
                                     <div class="form-group">
                                         <label class="control-label col-md-4 col-sm-4 col-xs-12" for="subject_number">粪便是否检测<span class="required">:</span></label>
-                                        <td><input type="radio" name="manure" value=0 data-labelauty="否" checked/></td>
-                                        <td><input type="radio" name="manure" value=1 data-labelauty="是"/></td>
+
+                                        {% if  patient_detail.manure  == 0 or patient_detail.manure is null%}
+                                            <input type="radio" name="manure" value=0 data-labelauty="否" checked/>
+                                            <input type="radio" name="manure" value=1 data-labelauty="是"/>
+                                        {% else %}
+                                            <input type="radio" name="manure" value=0 data-labelauty="否" />
+                                            <input type="radio" name="manure" value=1 data-labelauty="是" checked/>
+                                        {% endif %}
                                     </div>
                                     <div class="form-group">
                                         <label class="control-label col-md-4 col-sm-4 col-xs-12" for="subject_number">是否用药<span class="required">:</span></label>
-                                        <td><input type="radio" name="drugs_information" value=0 data-labelauty="否" checked/></td>
-                                        <td><input type="radio" name="drugs_information" value=1 data-labelauty="是"/></td>
+
+                                        {% if  patient_detail.drugs_information  == 0 or patient_detail.drugs_information is null %}
+                                            <input type="radio" name="drugs_information" value=0 data-labelauty="否" checked/>
+                                            <input type="radio" name="drugs_information" value=1 data-labelauty="是"/>
+                                        {% else%}
+                                            <input type="radio" name="drugs_information" value=0 data-labelauty="否" />
+                                            <input type="radio" name="drugs_information" value=1 data-labelauty="是" checked/>
+                                        {% endif %}
                                     </div>
                                     <div class="form-group">
                                         <label class="control-label col-md-4 col-sm-4 col-xs-12" for="subject_number">磁共振情况<span class="required">:</span></label>
-                                        <td><input type="radio" name="mri_examination" value=0 data-labelauty="否" checked/></td>
-                                        <td><input type="radio" name="mri_examination" value=1 data-labelauty="是"/></td>
+
+                                        {% if  patient_detail.mri_examination  == 0 or patient_detail.mri_examination is null %}
+                                            <input type="radio" name="mri_examination" value=0 data-labelauty="否" checked/>
+                                            <input type="radio" name="mri_examination" value=1 data-labelauty="是"/>
+                                        {% else %}
+                                            <input type="radio" name="mri_examination" value=0 data-labelauty="否" />
+                                            <input type="radio" name="mri_examination" value=1 data-labelauty="是" checked/>
+                                        {% endif %}
                                     </div>
                                 </div>
 
@@ -283,6 +322,7 @@
 
         </div>
     </div>
+
     <script>
        function getData(){
         var patient_detail_emotional_state = "{{ patient_detail.emotional_state  }}";
@@ -295,11 +335,13 @@
 
         var patient_detail_diagnosis = "{{ patient_baseinfo.diagnosis }}";
         var diagnosis = Number(patient_detail_diagnosis);
-        alert(patient_detail_diagnosis);
         $("#diagnosis option[value="+diagnosis+"]").prop("selected",true);
 
+        if(diagnosis == 99) {
+                document.getElementById("other_diagnosis_div").style.display = "";
+                document.getElementById("other_diagnosis").value="{{ patient_baseinfo.other_diagnosis }}";
+            }
        }
-
     </script>
 {% endblock %}
 
@@ -317,63 +359,12 @@
 
     </script>
 
-    <script>
-        $(document).ready(function () {
-            $("#emotional_state").val($("#cert_type").val());
-            var test = $('#emotional_state').val();
-            //alert(test) ;
-        });
-    </script>
     <script type="text/javascript" src="{% static '/js/jquery-radio-beauty.js' %}"></script>
 
     <script>
         $(document).ready(function () {
             $("input[type='radio']").labelauty();
-
-            $("set_emotional_default").val($("emotional_state"));
-
-            function setDefault1() {
-                var value = document.getElementById("emotional_state1").value;
-                var select = document.getElementById("emotional_state");
-                for (i = 0; i < select.options.length; i++) {
-                    if (select.options[i].value == value) {
-                        select.options[i].selected = "selected";
-                        break;
-                    }
-                }
-            }
-
-            function setDefault3() {
-                var value = document.getElementById("diagnosis1").value;
-                var select = document.getElementById("diagnosis");
-                for (i = 0; i < select.options.length; i++) {
-                    if (select.options[i].value == value) {
-                        select.options[i].selected = "selected";
-                        break;
-                    }
-                }
-            }
-
-
-            function setDefault4() {
-                var value = document.getElementById("source1").value;
-                var select = document.getElementById("source");
-                for (i = 0; i < select.options.length; i++) {
-                    if (select.options[i].value == value) {
-                        select.options[i].selected = "selected";
-                        break;
-                    }
-                }
-            }
-
         });
-
-        function load(emotion_value) {
-            //alert('yes');
-            //alert(emotion_value);
-            var select = document.getElementById("emotional_state");
-            select.options[emotion_value].selected = "selected";
-        }
     </script>
 
     <script>
