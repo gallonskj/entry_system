@@ -48,7 +48,7 @@ def get_select_scales(request):
     # 获取各个scaleType的list信息
     scales_list = patients_dao.judgment_scales(patient_session_id)
     generalinfo_scale_list, other_test_scale_list, self_test_scale_list, cognition_scale_list = scales_dao.get_uodo_scales(patient_session_id)
-    return render(request, 'select_scales.html', {'patient': patient,
+    return render(request, 'select_scales.html', {'patient_baseinfo': patient,
                                                   'patient_id': patient.id,
                                                   'patient_session_id': patient_session_id,
                                                   "username": request.session.get('username'),

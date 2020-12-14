@@ -96,6 +96,7 @@ def add_patient_followup(request):
     return render(request, 'select_scales.html', {'patient': patient,
                                                   'patient_id': patient.id,
                                                   'patient_session_id': patient_detail_id,
+                                                  'patient_baseinfo' : patient_baseinfo,
                                                   "username": request.session.get('username'),
                                                   'patient_detail':patient_detail_last,
                                                   "todo_generalinfo_scale_size": len(generalinfo_scale_list),
@@ -103,10 +104,7 @@ def add_patient_followup(request):
                                                   "todo_self_test_scale_size": len(self_test_scale_list),
                                                   "todo_cognition_scale_size": len(cognition_scale_list),
                                                   })
-    # 将上一次的detail信息返回到前台
-    redirect_url = '/scales/select_scales?patient_session_id={}&patient_id={}'.format(str(patient_detail_id),
-                                                                                      str(patient_id))
-    return redirect(redirect_url)
+
 
 
 #  todo 所有病人详细信息获取
