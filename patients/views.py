@@ -88,13 +88,13 @@ def add_patient_followup(request):
     scales_list = patients_dao.judgment_scales(patient_detail_id)
     # 为初扫/复扫的病人预先在r_patient_scales中插入多条记录，依据被试需要做的scales_list
     patients_dao.add_rscales(scales_list, patient_detail.id)
-
     patient = patients_dao.get_base_info_byPK(patient_id)
     # 获取各个scaleType的list信息
     scales_list = patients_dao.judgment_scales(patient_detail_id)
     generalinfo_scale_list, other_test_scale_list, self_test_scale_list, cognition_scale_list = scales_dao.get_uodo_scales(patient_detail_id)
     return render(request, 'select_scales.html', {'patient': patient,
                                                   'patient_id': patient.id,
+                                                  'patient_baseinfo':patient_baseinfo,
                                                   'patient_session_id': patient_detail_id,
                                                   "username": request.session.get('username'),
                                                   'patient_detail':patient_detail_last,
@@ -103,11 +103,6 @@ def add_patient_followup(request):
                                                   "todo_self_test_scale_size": len(self_test_scale_list),
                                                   "todo_cognition_scale_size": len(cognition_scale_list),
                                                   })
-    # 将上一次的detail信息返回到前台
-    redirect_url = '/scales/select_scales?patient_session_id={}&patient_id={}'.format(str(patient_detail_id),
-                                                                                      str(patient_id))
-    return redirect(redirect_url)
-
 
 #  todo 所有病人详细信息获取
 def get_patient_detail(request):

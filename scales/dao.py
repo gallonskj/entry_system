@@ -361,6 +361,10 @@ def get_patient_base_info_health_byPatientDetailId(patient_detail_id):
     patient_base_info_health = scales_models.RPatientBasicInformationHealth.objects.filter(patient_session=patient_detail_id)[0]
     return patient_base_info_health
 
+def get_chinese_handy_byPatientDetailId(patient_detail_id):
+    chinese_handy = scales_models.RPatientChineseHandy.objects.filter(patient_session=patient_detail_id)[0]
+    return chinese_handy
+
 
 def get_patient_base_info_abuse_byPatientDetailId(patient_detail_id):
     patient_base_info_abuse = scales_models.RPatientBasicInformationAbuse.objects.filter(patient_session=patient_detail_id)[0]
@@ -386,8 +390,11 @@ def get_patient_HAMD17_byPatientDetailId(patient_detail_id):
 
 # 汉密尔顿焦虑量表HAMA
 def get_patient_HAMA_byPatientDetailId(patient_detail_id):
-    patient_HAMA = scales_models.RPatientHAMA.objects.filter(patient_session=patient_detail_id)[0]
-    return patient_HAMA
+    patient_HAMA = scales_models.RPatientHAMA.objects.filter(patient_session=patient_detail_id)
+    if patient_HAMA.exsits():
+        return patient_HAMA[0]
+    else:
+        return None
 
 
 # 杨氏躁狂量表YMRS
