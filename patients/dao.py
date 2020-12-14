@@ -85,17 +85,6 @@ def add_patient_appointment(PatientAppoientment_object):
 def del_patient_detail_byPK(patient_detail_id):
     patients_models.DPatientDetail.object.filter(id=patient_detail_id)[0].delete()
 
-# patient_base_info表
-def del_patient_base_info_byPK(patient_id):
-    if patients_models.BPatientBaseInfo.objects.filter(pk=patient_id).count() == 1:
-        patients_models.BPatientBaseInfo.objects.filter(pk=patient_id).first().delete()
-
-# patient_detail表
-def del_patient_detail_byPK(patient_session_id):
-    if patients_models.DPatientDetail.objects.filter(pk=patient_session_id).count() == 1:
-        patients_models.DPatientDetail.objects.filter(pk=patient_session_id).first().delete()
-
-
 # del patient_base_info表
 def del_patient_base_info_byPK(patient_id):
     if patients_models.BPatientBaseInfo.objects.filter(pk=patient_id).count() > 0:
@@ -136,24 +125,36 @@ def get_base_info_all():
     return base_info_list
 
 def get_base_info_byPK(patient_id):
-    patient = patients_models.BPatientBaseInfo.objects.select_related().filter(pk=patient_id)[0]
-    return patient
+    patient = patients_models.BPatientBaseInfo.objects.select_related().filter(pk=patient_id)
+    if patient.count() == 0:
+        return None
+    else:
+        return patient[0]
 
 
 # get patient_detail 主体
 def get_patient_detail_byPK(patient_detail_id):
-    patient_detail = patients_models.DPatientDetail.objects.filter(id=patient_detail_id)[0]
-    return patient_detail
+    patient_detail = patients_models.DPatientDetail.objects.filter(id=patient_detail_id)
+    if patient_detail.count() == 0:
+        return None
+    else:
+        return patient_detail[0]
 
 
 def get_patient_detail_byPatientIdAndSessionId(patient_id,session_id):
-    dPatientDetail = patients_models.DPatientDetail.objects.filter(patient_id=patient_id, session_id=session_id)[0]
-    return dPatientDetail
+    dPatientDetail = patients_models.DPatientDetail.objects.filter(patient_id=patient_id, session_id=session_id)
+    if dPatientDetail.count() == 0:
+        return None
+    else:
+        return dPatientDetail[0]
 
 
 def get_patient_detail_byForeignPatientId(patient_id):
     patient_detail_list = patients_models.DPatientDetail.objects.filter(patient__id=patient_id)
-    return patient_detail_list
+    if patient_detail_list.count() == 0:
+        return None
+    else:
+        return patient_detail_list
 
 def get_patient_detail_all():
     patient_detail_list = patients_models.DPatientDetail.objects.all()
@@ -187,7 +188,10 @@ def get_patient_scales_byPatientDetailId_cognition(patient_detail_id):
 # get r patient_detail表
 def get_patient_scales_byPatientDetailId(patient_detail_id):
     patient_scales_list = scales_models.RPatientScales.objects.filter(patient_session=patient_detail_id)
-    return patient_scales_list
+    if patient_scales_list.count() == 0:
+        return None
+    else:
+        return patient_scales_list
 
 
 # d_patient_appointment表

@@ -88,8 +88,8 @@ def add_patient_followup(request):
     scales_list = patients_dao.judgment_scales(patient_detail_id)
     # 为初扫/复扫的病人预先在r_patient_scales中插入多条记录，依据被试需要做的scales_list
     patients_dao.add_rscales(scales_list, patient_detail.id)
-
     patient = patients_dao.get_base_info_byPK(patient_id)
+    patient.birth_date= patient.birth_date.strftime('%Y-%m-%d')
     # 获取各个scaleType的list信息
     scales_list = patients_dao.judgment_scales(patient_detail_id)
     generalinfo_scale_list, other_test_scale_list, self_test_scale_list, cognition_scale_list = scales_dao.get_uodo_scales(patient_detail_id)
