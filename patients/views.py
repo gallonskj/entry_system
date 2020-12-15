@@ -88,25 +88,34 @@ def add_patient_followup(request):
     scales_list = patients_dao.judgment_scales(patient_detail_id)
     # 为初扫/复扫的病人预先在r_patient_scales中插入多条记录，依据被试需要做的scales_list
     patients_dao.add_rscales(scales_list, patient_detail.id)
-    patient = patients_dao.get_base_info_byPK(patient_id)
-    patient.birth_date= patient.birth_date.strftime('%Y-%m-%d')
-    # 获取各个scaleType的list信息
-    scales_list = patients_dao.judgment_scales(patient_detail_id)
-    generalinfo_scale_list, other_test_scale_list, self_test_scale_list, cognition_scale_list = scales_dao.get_uodo_scales(patient_detail_id)
-    return render(request, 'select_scales.html', {'patient': patient,
-                                                  'patient_id': patient.id,
-                                                  'patient_session_id': patient_detail_id,
+    redirect_url = '/patients/get_selected_scales_with_lastsession?last_patient_session_id={}&patient_id={}'.format(str(patient_detail_last.id),
+                                                                   str(patient_id))
+    return redirect(redirect_url)
+
+def get_selected_scales_with_lastsession(request):
+    patient_id = request.GET.get('patient_id')
+    last_patient_session_id = request.GET.get('last_patient_session_id')
+    # 获取上一次的复扫详情信息
+    last_patient_detail = patients_dao.get_patient_detail_byPK(last_patient_session_id)
+    # 获取这一次复扫信息
+    patient_baseinfo = patients_dao.get_base_info_byPK(patient_id)
+    patient_detail = patients_dao.get_patient_detail_last_byPatientId(patient_id)
+    scales_list = patients_dao.judgment_scales(patient_detail.id)
+    patients_dao.add_rscales(scales_list, patient_detail.id)
+    generalinfo_scale_list, other_test_scale_list, self_test_scale_list, cognition_scale_list = scales_dao.get_uodo_scales(patient_detail.id)
+    return render(request, 'select_scales.html', {
+                                                  'patient_id': patient_baseinfo.id,
+                                                  'patient_baseinfo': patient_baseinfo,
+                                                  'patient_session_id': patient_detail.id,
+                                                  'standard_id':patient_detail.standard_id,
                                                   "username": request.session.get('username'),
-                                                  'patient_detail':patient_detail_last,
+                                                  'patient_detail': last_patient_detail,
                                                   "todo_generalinfo_scale_size": len(generalinfo_scale_list),
                                                   "todo_other_test_scale_size": len(other_test_scale_list),
                                                   "todo_self_test_scale_size": len(self_test_scale_list),
                                                   "todo_cognition_scale_size": len(cognition_scale_list),
                                                   })
-    # 将上一次的detail信息返回到前台
-    redirect_url = '/scales/select_scales?patient_session_id={}&patient_id={}'.format(str(patient_detail_id),
-                                                                                      str(patient_id))
-    return redirect(redirect_url)
+
 
 
 #  todo 所有病人详细信息获取
@@ -149,6 +158,8 @@ def get_patient_detail(request):
                           "patients_states": ordered_dic,
                           'test': ordered_dic,
                           'nation_list': nation_list,
+                          'diagnosis': patient_baseinfo.diagnosis,
+                          'other_diagnosis': patient_baseinfo.other_diagnosis,
                       })
     else:
         return render(request, 'patient_detail.html', {"username": request.session.get("username")})
@@ -176,6 +187,21 @@ def del_followup(request):
         if patient_detail.first().doctor.username == request.session.get('username'):
             patient_detail.first().delete()
     return redirect('/patients/get_patient_detail?patient_id=' + patient_id)
+
+
+#更新base_info
+def update_base_info(request):
+    patient_id = request.GET.get("patient_id")
+    print("#################" + str(request.POST.get('nation')))
+    patient_base_info = patients_dao.get_base_info_byPK(patient_id)
+    print("################"+ str(patient_base_info.nation))
+    patient_base_info = set_attr_by_post(request, patient_base_info)
+    print("################"+ str(patient_base_info.nation))
+    patients_dao.add_base_info(patient_base_info)
+    return redirect('/patients/get_patient_detail?patient_id=' + patient_id)
+
+
+
 
 # 更新patient_detail以及patient_base_info
 def update_patient_detail(request):
@@ -395,3 +421,11 @@ def patient_statistics(request):
 def test_view(request):
     dic = request.session.get('history')
     return HttpResponse(str(dic))
+
+
+# 根据request post信息设置models的值
+def set_attr_by_post(request, object):
+    for key in request.POST.keys():
+        if hasattr(object, key) and request.POST.get(key)!='':
+            setattr(object, key, request.POST.get(key))
+    return object

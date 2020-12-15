@@ -25,11 +25,15 @@ urlpatterns = [
     url(r'^del_patient', views.del_patient),
     # 删除复扫记录
     url(r'^del_followup', views.del_followup),
+    # 修改病人基本信息
+    url(r'^update_base_info',views.update_base_info),
 
     url(r'^update_patient_detail', views.update_patient_detail),
+    url(r'^get_selected_scales_with_lastsession', views.get_selected_scales_with_lastsession),
     # 貌似未使用
     url(r'^subjectDetailInfo', views.subjectDetailInfo),
     # 用来捕获未匹配成功的url
     url(r'', views.get_all_patients_baseinfo),
+
 
 ]
