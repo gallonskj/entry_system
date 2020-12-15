@@ -21,12 +21,14 @@ def Handy_total_score(rPatientChineseHandy_object):
     else:
         six_item = int(rPatientChineseHandy_object.hold_pen) + int(rPatientChineseHandy_object.hold_chopsticks) + int(rPatientChineseHandy_object.throw_things) + \
                 int(rPatientChineseHandy_object.brush_tooth) + int(rPatientChineseHandy_object.use_scissors) + int(rPatientChineseHandy_object.use_match)
-        if six_item == 6:
+
+        if int(rPatientChineseHandy_object.hold_pen) == 2 or int(rPatientChineseHandy_object.hold_chopsticks) == 2 or int(rPatientChineseHandy_object.throw_things) == 2 \
+            or int(rPatientChineseHandy_object.brush_tooth) == 2 or int(rPatientChineseHandy_object.use_scissors) == 2 or int(rPatientChineseHandy_object.use_match) == 2:
+            total_score = 3
+        elif six_item == 6:
             total_score = 1
         elif six_item == 0:
             total_score = 2
-        else :
-            total_score = 3
 
         object_flag = False
 

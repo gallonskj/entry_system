@@ -31,13 +31,13 @@
                      <li><a href="#" >个人详细信息录入</a></li>
                      <li class="active"><a href="#" >物质依赖</a></li>
                      <div style="float: right;margin-bottom: 0px;">
-                      <a href="#" class="btn btn-warning btn-sm"><i class="fa fa-arrow-left"><strong></i>&nbsp;返&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回</strong></a>
-                      <a href="#" class="btn btn-warning btn-sm"><i class="fa fa-arrow-right"><strong></i>&nbsp;跳过该量表</strong></a>	
+                      <a href="#" class="btn btn-warning btn-sm"><i class="fa fa-arrow-left"></i><strong>&nbsp;返&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回</strong></a>
+                      <a href="#" class="btn btn-warning btn-sm"><i class="fa fa-arrow-right"></i><strong>&nbsp;跳过该量表</strong></a>
                      </div>
                 </ul>
             </div>
           </div>
-        </div> 
+        </div>
         <div class="dashboard_graph x_panel" style="margin-top: 0px; height:80%;">
           <div id="wrapper">
             <div id = "left-side" style="height: 100%;margin-left: 10px;" class="col-md-2">
@@ -61,8 +61,8 @@
                           <p>完成</p>
                         </li>
               </ul>
-            </div>  
-             
+            </div>
+
             <div id="right-side" class="col-md-10">
               <div id="first" class="active">
                   <form action="/scales/add_abuse?patient_id={{ patient_id }}&patient_session_id={{ patient_session_id }}&questionnaire_type={{ questionnaire_type|add:1 }}" method="post">
@@ -78,11 +78,14 @@
                       <br>
                       <div class="form-group row ">
                       <label class="control-label col-md-2 col-sm-2 col-md-offset-1 ">&nbsp;是否吸烟<span class="required">:</span></label>
-                      <div class="col-md-2 col-sm-1" id="patient_smoke_1">
-                        <input type="radio" name="patient_smoke" value=1  data-labelauty="是"/>
-                      </div>
-                      <div class="col-md-2 col-sm-1" id="patient_smoke_2">
-                        <input type="radio" name="patient_smoke" value=0 data-labelauty="否"/>
+
+                     <div class="col-md-2 col-sm-3">
+                        <select class="form-control" name="patient_smoke" id="patient_smoke_1" style="width: 150px;">
+                          <option value="1">从不吸烟=1</option>
+                          <option value="2">偶尔吸（累计吸烟<10包）=2</option>
+                          <option value="3">以前吸，近1年不吸=3</option>
+                          <option value="4">现在吸（累计吸烟>10包）=4</option>
+                        </select>
                       </div>
 
                     </div>
@@ -119,9 +122,9 @@
                         <div class="col-md-1 col-sm-3 form-group has-feedback alcohol_age">
                           <input type="text" id="patient_alcohol_age" name="patient_alcohol_age" class="form-control">
                         </div>
-                      </div>  
-                     </div> 
-                         
+                      </div>
+                     </div>
+
                       <br>
 
                     <div class="form-group row" >
@@ -137,7 +140,7 @@
                         <div class="col-md-1 col-sm-1 form-group has-feedback ">
                            <input type="text" id="patient_other_abuse_age" name="patient_other_abuse_age" style="width: 200px;align-content: center"  class="form-control" >
                         </div>
-                      </div>  
+                      </div>
                     </div>
                     <br>
 
@@ -165,7 +168,7 @@
 <script>
 $(document).ready(function(){
     $("input[type='radio']").labelauty();
-    $('.smoke_detail').hide();
+  {% comment %}  $('.smoke_detail').hide();
     $("#patient_smoke_1").on('click', function(event){
         $('.smoke_detail').show();
         $("input[name='patient_smoke_age']").removeAttr("disabled");
@@ -177,11 +180,31 @@ $(document).ready(function(){
         $("input[name='patient_smoke_age']").attr('disabled','disabled');
         $("input[name='patient_daily_smoke_num']").attr('disabled','disabled');
         $("input[name='patient_stop_smoke_age']").attr('disabled','disabled');
+    });{% endcomment %}
+
+
+        $('.smoke_detail').hide();
+        $('#patient_smoke_1').change(function(){
+       if ($('#patient_smoke_1 option:selected').val()>2){
+           $('.smoke_detail').show();
+        $("input[name='patient_smoke_age']").removeAttr("disabled");
+        $("input[name='patient_daily_smoke_num']").removeAttr("disabled");
+        $("input[name='patient_stop_smoke_age']").removeAttr("disabled");
+       }
+       else{
+           $('.smoke_detail').hide();
+        $("input[name='patient_smoke_age']").attr('disabled','disabled');
+        $("input[name='patient_daily_smoke_num']").attr('disabled','disabled');
+        $("input[name='patient_stop_smoke_age']").attr('disabled','disabled');
+       }
     });
-  
+
+
+
+
     $('.alcohol_detail').hide();
     $('#alcoholSelect').change(function(){
-       if ($('#alcoholSelect option:selected').val()>1){
+       if ($('#alcoholSelect option:selected').val()>2){
            $('.alcohol_detail').show();
            $("input[name='patient_alcohol_age']").removeAttr("disabled");
        }
@@ -190,6 +213,8 @@ $(document).ready(function(){
            $("input[name='patient_alcohol_age']").attr('disabled','disabled');
        }
     });
+
+
     $('.other_abuse_detail').hide();
     $(".other_abuse_yes").on('click', function(event){
         $('.other_abuse_detail').show();

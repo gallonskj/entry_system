@@ -31,8 +31,8 @@
                    <li><a href="#" >个人详细信息录入</a></li>
                    <li class="active"><a href="#" >家族及疾病史</a></li>
                    <div style="float: right;margin-bottom: 0px;">
-                    <a href="#" class="btn btn-warning btn-sm"><i class="fa fa-arrow-left"><strong></i>&nbsp;返&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回</strong></a>
-                    <a href="#" class="btn btn-warning btn-sm"><i class="fa fa-arrow-right"><strong></i>&nbsp;跳过该量表</strong></a>	
+                    <a href="#" class="btn btn-warning btn-sm"><i class="fa fa-arrow-left"></i><strong>&nbsp;返&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回</strong></a>
+                    <a href="#" class="btn btn-warning btn-sm"><i class="fa fa-arrow-right"></i><strong>&nbsp;跳过该量表</strong></a>
                    </div>
                 </ul>
             </div>
@@ -89,7 +89,7 @@
                       </div>
                       <label class="control-label col-md-1 col-sm-2 ">患病时长<span class="required">:</span></label>
                       <div class="col-md-2 col-sm-1 form-group  ">
-                        <input type="text" id="patient_somatic_diseases_year" name="patient_somatic_diseases_year" class="form-control" required>
+                        <input type="text" id="patient_somatic_diseases_year" placeholder="年" name="patient_somatic_diseases_year" class="form-control" required>
                       </div>
                         </div>
                     </div>
@@ -110,7 +110,7 @@
                       </div>
                       <label class="control-label col-md-1 col-sm-2 ">患病时长<span class="required">:</span></label>
                       <div class="col-md-2 col-sm-1 form-group ">
-                        <input type="text" id="patient_mental_diseases_year" name="patient_mental_diseases_year" class="form-control" required>
+                        <input type="text" id="patient_mental_diseases_year" placeholder="年" name="patient_mental_diseases_year" class="form-control" required>
                       </div>
                         </div>
                     </div>
@@ -134,19 +134,20 @@
                     <br>
 
                     <div class="form-group row">
-                      <label class="control-label col-md-3 col-sm-6 col-md-offset-3">用药情况（药物名称、剂量、用药周期）<span class="required">:</span></label>
+                      <label class="control-label col-md-3 col-sm-6 col-md-offset-1 ">用药情况（药物名称、剂量、用药周期）<span class="required">:</span></label>
                       <div class="col-md-4 col-sm-4 form-group ">
-                        <input type="text" id="patient_medicine_information" name="patient_medicine_information" class="form-control ">
+                          <textarea id="patient_medicine_information" name="patient_medicine_information" class="form-control " rows="3" style="resize: none"></textarea>
                       </div>
                     </div>
                     <br>
 
-                    <div class="form-group row">
-                      <label class="control-label col-md-4 col-sm-6 col-md-offset-2">治疗情况（治疗种类、治疗方案、治疗时长）<span class="required">:</span></label>
+                      <div class="form-group row">
+                      <label class="control-label col-md-3 col-sm-6 col-md-offset-1 ">治疗情况（治疗种类、治疗方案、治疗时长）<span class="required">:</span></label>
                       <div class="col-md-4 col-sm-4 form-group ">
-                        <input type="text" id="patient_treatment_information" name="patient_treatment_information" class="form-control ">
+                          <textarea id="patient_treatment_information" name="patient_treatment_information" class="form-control " rows="3" style="resize: none"></textarea>
                       </div>
                     </div>
+
                     <br>
 
                   </div>
@@ -262,14 +263,14 @@ $(document).ready(function(){
               alert("问题三不能为空！");
               return false;
           }*/
-          if (document.healthform.patient_medicine_information.value=="") {
+          {% comment %}if (document.healthform.patient_medicine_information.value=="") {
               alert("问题四不能为空！");
               return false;
           }
           if (document.healthform.patient_treatment_information.value=="") {
               alert("问题五不能为空！");
               return false;
-          }
+          }{% endcomment %}
           alert("提交成功！");
           return true;
       }
