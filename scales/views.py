@@ -268,8 +268,6 @@ def get_atq_form(request):
 def get_wcst_form(request):
     patient_session_id = request.GET.get('patient_session_id')
     scale_name_list = scales_dao.get_scalename_bytype(tools_config.cognition_type, patient_session_id)
-    patient_session_id = request.GET.get('patient_session_id')
-    scale_name_list = scales_dao.get_scalename_bytype(tools_config.self_test_type, patient_session_id)
     return render(request,'nbh/add_wcst.html',{'patient_session_id':request.GET.get('patient_session_id'),
                                                 'patient_id':request.GET.get('patient_id'),
                                                 'username':request.session.get('username'),

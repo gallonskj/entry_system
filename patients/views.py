@@ -7,6 +7,7 @@ import tools.Utils as tools_utils
 import tools.idAssignments as tools_idAssignments
 import patients.models as patients_models
 import scales.models as scales_models
+import scales.views as scale_views
 import patients.dao as patients_dao
 import tools.config as tools_config
 import json
@@ -116,9 +117,7 @@ def get_selected_scales_with_lastsession(request):
                                                   "todo_cognition_scale_size": len(cognition_scale_list),
                                                   })
 
-
-
-#  todo 所有病人详细信息获取
+# 获取病人详细信息
 def get_patient_detail(request):
     if request.GET:
 
@@ -163,7 +162,6 @@ def get_patient_detail(request):
                       })
     else:
         return render(request, 'patient_detail.html', {"username": request.session.get("username")})
-
 
 # 删除病人信息
 def del_patient(request):
@@ -222,6 +220,18 @@ def update_patient_detail(request):
     redirect_url = '/scales/select_scales?patient_session_id={}&patient_id={}'.format(str(patient_session_id),
                                                                                       str(patient_id))
     return redirect(redirect_url)
+
+#更新base_info
+def update_base_info(request):
+    patient_id = request.GET.get("patient_id")
+    print("#################" + str(request.POST.get('nation')))
+    patient_base_info = patients_dao.get_base_info_byPK(patient_id)
+    print("################"+ str(patient_base_info.nation))
+    patient_base_info = scale_views.set_attr_by_post(request, patient_base_info)
+    print("################"+ str(patient_base_info.nation))
+    patients_dao.add_base_info(patient_base_info)
+    return redirect('/patients/get_patient_detail?patient_id=' + patient_id)
+
 # 新建被试获取自动生成的id
 @csrf_exempt
 def get_generateId(id):

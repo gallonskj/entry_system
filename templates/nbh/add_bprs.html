@@ -36,7 +36,11 @@
                     <ul class="breadcrumb" style="background-color: white;font-weight:bold">
                          <li ><a href="#">量表录入</a></li>
                          <li><a href="#" >他评量表</a></li>
-						             <li class="active"><a href="#" >简明精神量表（BPRS）</a></li>
+                         <li class="active"><a href="#" >简明精神量表（BPRS）</a></li>
+                         <div style="float: right;margin-bottom: 0px;">
+                          <a href="#" class="btn btn-warning btn-sm"><i class="fa fa-arrow-left"><strong></i>&nbsp;返&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回</strong></a>
+                          <a href="#" class="btn btn-warning btn-sm"><i class="fa fa-arrow-right"><strong></i>&nbsp;跳过该量表</strong></a>	
+                         </div>
                     </ul>
                 </div>
             </div>
@@ -45,21 +49,24 @@
             <div id="wrapper">
                 <div id = "left-side" style="height: 100%;margin-left: 10px;" class="col-md-2">
                   <ul class="scales_progress">
-                    <li class="step1 done">
-                      <p>汉密尔顿抑郁量表（HAMD-17）</p>
-                    </li>
-                    <li class="step2 done">
-                      <p>汉密尔顿焦虑量表（HAMA）</p>
-                    </li>
-                    <li class="step3 done">
-                      <p>杨氏躁狂量表（YMRS）</p>
-                    </li>
-                    <li class="step4 doing">
-                      <p>简明精神量表（BPRS）</p>
-                    </li>
-                    <li class="finish nodone">
-                      <p>完成</p>
-                    </li>
+                    {% for scale_name in scale_name_list %}
+                        {% if scale_name|get_item:'scale__scale_name' == '简明精神病量表(BPRS)' %}
+                            <li class="step doing  ">
+                                <p>{{ scale_name|get_item:'scale__scale_name' }}</p>
+                            </li>
+                        {% elif scale_name|get_item:'state' == 0 %}
+                            <li class="step nodone notclick">
+                                <p>{{ scale_name|get_item:'scale__scale_name' }}</p>
+                            </li>
+                        {% else %}
+                            <li class="step done notclick">
+                                <p>{{ scale_name|get_item:'scale__scale_name' }}</p>
+                            </li>
+                        {% endif %}
+                        {% endfor %}
+                        <li class="finish nodone notclick">
+                          <p>完成</p>
+                        </li>
                   </ul>
                 </div>
                 <div id="right-side" class="col-md-10">
