@@ -32,12 +32,12 @@
                    <li class="active"><a href="#" >家庭信息</a></li>
                    <div style="float: right;margin-bottom: 0px;">
                     <a href="#" class="btn btn-warning btn-sm"><i class="fa fa-arrow-left"><strong></i>&nbsp;返&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回</strong></a>
-                    <a href="#" class="btn btn-warning btn-sm"><i class="fa fa-arrow-right"><strong></i>&nbsp;跳过该量表</strong></a>	
+                    <a href="#" class="btn btn-warning btn-sm"><i class="fa fa-arrow-right"><strong></i>&nbsp;跳过该量表</strong></a>
                    </div>
               </ul>
           </div>
         </div>
-        </div> 
+        </div>
         <div class="dashboard_graph x_panel" style="height: 80%;overflow-x: hidden;">
           <div id="wrapper">
             <div id = "left-side" style="height: 100%;" class="col-md-2">
@@ -61,8 +61,8 @@
                           <p>完成</p>
                         </li>
               </ul>
-            </div>  
-             
+            </div>
+
             <div id="right-side" class="col-md-10">
               <div id="first" class="active">
                   <form action="/scales/add_family_info?patient_id={{ patient_id }}&patient_session_id={{ patient_session_id }}&questionnaire_type={{ questionnaire_type|add:1 }}" method="POST">
@@ -103,17 +103,17 @@
                                  <label class="control-label col-md-2 col-sm-2" >性别<span class="required">*</span></label>
                                       {% if base_info.sex == 0 %}
                                       <div class="col-md-4 col-sm-3 form-group has-feedback row" >
-                                          <input type="radio" name="gender" value=0 data-labelauty="男" checked disabled/>
+                                          <input type="radio" name="sex" value=0 data-labelauty="男" checked disabled/>
                                       </div>
                                       <div class="col-md-4 col-sm-3 form-group has-feedback row" >
-                                          <input type="radio" name="gender" value=1 data-labelauty="女" disabled />
+                                          <input type="radio" name="sex" value=1 data-labelauty="女" disabled />
                                       </div>
                                       {% else %}
                                       <div class="col-md-4 col-sm-3 form-group has-feedback row">
-                                          <input type="radio" name="gender" value=0 data-labelauty="男" disabled />
+                                          <input type="radio" name="sex" value=0 data-labelauty="男" disabled />
                                       </div>
                                       <div class="col-md-4 col-sm-3 form-group has-feedback row" >
-                                          <input type="radio" name="gender" value=1 data-labelauty="女" checked disabled />
+                                          <input type="radio" name="sex" value=1 data-labelauty="女" checked disabled />
                                       </div>
                                       {% endif %}
                                   </div>
@@ -254,8 +254,8 @@
                                         <option value="6">其他=6</option>
                                       </select>
                               </div>
-							  
-							  
+
+
 							  <div class="other_living_type">
                                  <label class="control-label col-md-1 col-sm-3 " id="patient_live_text" name="patient_live_text" for="patient_live_type_other">其他居住 方式<span class="required">*</span></label>
                                  <div class="col-md-2 col-sm-3 form-group has-feedback ">
@@ -377,7 +377,7 @@
                               <label class="control-label col-md-2 col-sm-3  parent_pass_away_age" style="display: none;">父/母过世时自己的年龄</label>
         <!--                      hidden-->
                               <div class="col-md-1 col-sm-1 form-group  parent_pass_away_age" style="display: none;">
-                                  <input type="text" id="patient_parent_death_age" name="patient_parent_death_age" class="form-control">
+                                  <input type="text" id="parent_parent_death_age" name="parent_parent_death_age" class="form-control">
                               </div>
 
                               <label class="control-label col-md-1 col-sm-2">父母争吵 频率<span class="required">*</span></label>
@@ -447,7 +447,7 @@
           </div>
         </div>
       </div>
-        
+
 
 
 {% endblock %}
@@ -572,19 +572,19 @@ $("#parent_marry").change(function(){
 <!--       离异-->
        if (val == "2"){
               $(".StepParents").show();
-              $(".patient_parent_death_age").hide();
-              $(".patient_parent_death").hide();
-              $(".patient_parent_death_age").val("");
+              $(".parent_parent_death_age").hide();
+              $(".parent_parent_death").hide();
+              $(".parent_parent_death_age").val("");
 <!--有一方过世-->
        }else if(val == "4"){
-              $(".patient_parent_death_age").show();
-              $(".patient_parent_death").show();
+              $(".parent_parent_death_age").show();
+              $(".parent_parent_death").show();
               $(".StepParents").hide();
        }else{
-              $(".patient_parent_death_age").hide();
+              $(".parent_parent_death_age").hide();
               $(".StepParents").hide();
-              $(".patient_parent_death").hide();
-              $(".patient_parent_death_age").val("");
+              $(".parent_parent_death").hide();
+              $(".parent_parent_death_age").val("");
        }
 });
 <!--饮酒-->
