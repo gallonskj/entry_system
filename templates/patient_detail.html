@@ -609,7 +609,7 @@
                                 <div class="form-group" id="other_diagnosis_div" style="display: none">
                                     <label class="control-label col-md-2 col-sm-2 col-xs-6" for="subject_number">其他诊断<span class="required">:</span></label>
                                     <div class="col-md-2 col-sm-3 form-group has-feedback row" style="width: 15%;margin-top: 7px;">
-                                        <input id="other_diagnosis" name="other_diagnosis" class="sel_beauty" value="{{ other_diagnosis }}">
+                                        <input id="other_diagnosis" name="other_diagnosis" class="sel_beauty" value="{{ other_diagnosis|processNone }}">
                                     </div>
                                 </div>
                             </div>
