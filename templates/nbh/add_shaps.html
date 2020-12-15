@@ -1,5 +1,6 @@
 {% extends 'templates/index.html' %}
 {% load static %}
+{% load SelfDefinedFilter %}
 {% block title %}斯奈斯和汉密尔顿快乐量表(shape){% endblock %}
 {% block css %}
     <link href="{% static '/css/scales_style.css' %}" rel="stylesheet" >
@@ -12,7 +13,11 @@
                     <ul class="breadcrumb" style="background-color: white;font-weight:bold">
                          <li ><a href="#">量表录入</a></li>
                          <li><a href="#" >自评量表</a></li>
-						 <li class="active"><a href="#" >斯奈斯和汉密尔顿快乐量表(shape)</a></li>
+                         <li class="active"><a href="#" >斯奈斯和汉密尔顿快乐量表(shape)</a></li>
+                         <div style="float: right;margin-bottom: 0px;">
+							<a href="#" class="btn btn-warning btn-sm"><i class="fa fa-arrow-left"><strong></i>&nbsp;返&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回</strong></a>
+							<a href="#" class="btn btn-warning btn-sm"><i class="fa fa-arrow-right"><strong></i>&nbsp;跳过该量表</strong></a>	
+						 </div>
                     </ul>
                 </div>
             </div>
@@ -21,40 +26,24 @@
             <div id="wrapper">
                 <div id = "left-side" style="height: 100%;margin-left: 10px;" class="col-md-2">
                   <ul class="scales_progress">
-                    <li class="step1 done">
-                      <p>耶鲁布朗强迫症严重程度标准量表（ybocs）</p>
-                    </li>
-                    <li class="step2 done notclick">
-                      <p>自杀意念及行为史（bss）</p>
-                    </li>
-                    <li class="step3 done notclick">
-                      <p>33项轻躁狂症状清单(hcl-33)</p>
-                    </li>
-                    <li class="step4 doing ">
-                      <p>斯奈斯和汉密尔顿快乐量表(shaps)</p>
-					</li>
-					<li class="step5 nodone notclick">
-						<p>快感体验能力量表teps</p>
-					</li>
-
-					<li class="step7 nodone notclick">
-						<p>儿童期（16岁以前）的成长经历ctq-sf</p>
-					</li>
-					<li class="step8 nodone notclick">
-						<p>认知情绪调节量表cerq-c</p>
-					</li>
-					<li class="step9 nodone notclick">
-						<p>青少年生活事件量表aslec</p>
-					</li>
-					<li class="step10 nodone notclick">
-						<p>简式父母养育方式问卷表s-embu</p>
-					</li>
-					<li class="step11 nodone notclick">
-						<p>自动思维问卷表atq</p>
-					</li>
-                    <li class="finish nodone notclick">
-                      <p>完成</p>
-                    </li>
+                    {% for scale_name in scale_name_list %}
+                        {% if scale_name|get_item:'scale__scale_name' == '斯奈斯和汉密尔顿快乐量表' %}
+                            <li class="step doing  ">
+                                <p>{{ scale_name|get_item:'scale__scale_name' }}</p>
+                            </li>
+                        {% elif scale_name|get_item:'state' == 0 %}
+                            <li class="step nodone notclick">
+                                <p>{{ scale_name|get_item:'scale__scale_name' }}</p>
+                            </li>
+                        {% else %}
+                            <li class="step done notclick">
+                                <p>{{ scale_name|get_item:'scale__scale_name' }}</p>
+                            </li>
+                        {% endif %}
+                        {% endfor %}
+                        <li class="finish nodone notclick">
+                          <p>完成</p>
+                        </li>
                   </ul>
                 </div>  
 				         

@@ -1,6 +1,7 @@
 {% extends 'templates/index.html' %}
 {% load static %}
-{% block title %}家庭信息{% endblock %}
+{% load SelfDefinedFilter %}
+{% block title %}病人病史{% endblock %}
 {% block css %}
 <link href="{% static '/css/scales_style.css' %}" rel="stylesheet" >
 {% endblock %}
@@ -12,7 +13,11 @@
               <ul class="breadcrumb" style="background-color: white;font-weight:bold">
                    <li ><a href="#">量表录入</a></li>
                    <li><a href="#" >个人详细信息录入</a></li>
-                   <li class="active"><a href="#" >家庭信息</a></li>
+                   <li class="active"><a href="#" >病人病史</a></li>
+                   <div style="float: right;margin-bottom: 0px;">
+                    <a href="#" class="btn btn-warning btn-sm"><i class="fa fa-arrow-left"><strong></i>&nbsp;返&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回</strong></a>
+                    <a href="#" class="btn btn-warning btn-sm"><i class="fa fa-arrow-right"><strong></i>&nbsp;跳过该量表</strong></a>	
+                   </div>
               </ul>
           </div>
         </div>
@@ -21,30 +26,24 @@
           <div id="wrapper">
             <div id = "left-side" style="height: 100%;" class="col-md-2">
               <ul class="scales_progress">
-                <li class="step1 doing">
-                  <p>家庭信息</p>
-                </li>
-                <li class="step2 nodone ">
-                  <p>学习情况</p>
-                </li>
-                <li class="step3 nodone">
-                  <p>家庭及疾病史</p>
-                </li>
-                <li class="step4 nodone ">
-                  <p>物质依赖</p>
-                </li>
-                <li class="step5 nodone ">
-                  <p>其他资料</p>
-                </li>
-                <li class="step6 nodone ">
-                  <p>利手信息</p>
-                </li>
-                  <li class="step7 nodone ">
-                  <p>病人病史</p>
-                </li>
-                <li class="finish nodone ">
-                  <p>完成</p>
-                </li>
+                {% for scale_name in scale_name_list %}
+                        {% if scale_name|get_item:'scale__scale_name' == '简要病史' %}
+                            <li class="step doing  ">
+                                <p>一般资料-{{ scale_name|get_item:'scale__scale_name' }}</p>
+                            </li>
+                        {% elif scale_name|get_item:'state' == 0 %}
+                            <li class="step nodone notclick">
+                                <p>{{ scale_name|get_item:'scale__scale_name' }}</p>
+                            </li>
+                        {% else %}
+                            <li class="step done notclick">
+                                <p>{{ scale_name|get_item:'scale__scale_name' }}</p>
+                            </li>
+                        {% endif %}
+                        {% endfor %}
+                        <li class="finish nodone notclick">
+                          <p>完成</p>
+                        </li>
               </ul>
             </div>  
              
@@ -54,9 +53,11 @@
                                       id="patient_medical_history" method="post">
                                     {% csrf_token %}
                                     <div class="container "style="align-content: center">
-                                        <div class="row" style="margin-left:5px;margin-top: 15px;padding-bottom: 5px; align-content: center">
-                                            <center><strong><h4>简要病史</h4><br/></strong></center>
-                                        </div>
+                                         <div class="x_title">
+                                <div class="clearfix"></div>
+                                <h2>简要病史 <small>Brief history</small></h2>
+                                <div class="clearfix"></div>
+                            </div>
 
                                             <div class="" >
                                                 <label class="control-label control-label col-md-12" ><span>1.简要现病史记录：（其中是否有自杀观念、自杀行为、强迫观念、强迫行为等）</span></label>
@@ -65,8 +66,9 @@
 
                                             <div class=" " id="patient_big_event_1">
                                                  <div class="form-group" style='margin-top: 20px ;margin-left:30px; margin-bottom: 18px'>
+
                                                 <div class="row">
-                                                <textarea   name="disease_history" class="disease_history " style="width: 520px;height: 120px" ></textarea>
+                                                <textarea   name="disease_history" class="disease_history "  style="resize: none; width: 520px;height: 120px " ></textarea>
                                                     </div>
                                             </div>
                                             </div>
@@ -94,7 +96,7 @@
                                         </div>
                                         <div class="row" style="margin: 10px">
                                             <label class="control-label col-md-3 "><span>6.本次发作日期</span></label>
-                                            <input type="date" name="current_episode_date"  class="current_episode_date"/>
+                                            <input type="date" name="current_episode_date"  class="current_episode_date" style="width:200px"/>
 
                                         </div>
                                         <div class="row" style="margin: 10px">
@@ -103,16 +105,15 @@
 
                                         </div>
                                         <div class="row" style="margin: 10px">
-
-                                            <label class="control-label col-md-3 col-sm-7"><span>8.既往是否服用药物</span></label>
-                                            <input  type="radio" class="col-md-4 historical_drugs   " id="historical_drugs_no" name="historical_drugs" value=0 data-labelauty="否" />
-                                             <input   type="radio" class=" col-md-4 historical_drugs  " id="historical_drugs_yes" name="historical_drugs" value=1 data-labelauty="是" />
-                                        </div>
+                                            <label class="control-label "><span>8.既往是否服用药物</span></label>
+                                                <input   type="radio"  class="historical_drugs   " id="historical_drugs_no" name="historical_drugs" value=0 data-labelauty="否" />
+                                            <input  type="radio" class=" historical_drugs  " id="historical_drugs_yes" name="historical_drugs" value=1 data-labelauty="是" />
+                                             </div>
 
 
                                         <div class="row" id="use_time1" style="margin: 10px">
                                             <label class="control-label col-md-3 col-sm-7 historical_drugs_month_question "><span>多长时间未使用药物(从未使用请填0)</span></label>
-                                            <input type="text" class="historical_drugs_month " class="control-label" id="historical_drugs_month" name="historical_drugs_month"  value=0 disabled/>
+                                            <input type="text" class="historical_drugs_month " class="control-label" id="historical_drugs_month" name="historical_drugs_month" value=0 disabled/>
                                         </div>
 
 
@@ -248,7 +249,7 @@
                                         <div class="text-center">
                                             {% csrf_token %}
                                             <!-- {{ form }} -->
-                                            <input type="submit" class="btn btn-success" value="提交"
+                                            <input type="submit" class="btn btn-success" value="保存并提交量表"
                                                    id="medical_history_bt"/>
                                         </div>
                                     </div>
