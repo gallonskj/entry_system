@@ -90,6 +90,7 @@ def add_patient_followup(request):
     patients_dao.add_rscales(scales_list, patient_detail.id)
 
     patient = patients_dao.get_base_info_byPK(patient_id)
+    patient_baseinfo.birth_date = patient_baseinfo.birth_date.strftime('%Y-%m-%d')
     # 获取各个scaleType的list信息
     scales_list = patients_dao.judgment_scales(patient_detail_id)
     generalinfo_scale_list, other_test_scale_list, self_test_scale_list, cognition_scale_list = scales_dao.get_uodo_scales(patient_detail_id)

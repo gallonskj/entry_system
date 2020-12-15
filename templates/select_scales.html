@@ -39,7 +39,7 @@
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
-                        <a href="/scales/get_general_info_forms?patient_session_id={{ patient_session_id }}&patient_id={{ patient.id }}"
+                        <a href="/scales/get_general_info_forms?patient_session_id={{ patient_session_id }}&patient_id={{ patient_baseinfo.id }}"
                            style="color: white">
                             {% if todo_generalinfo_scale_size == 0 %}
                                 <button class="btn btn-success btn-block " disabled="disabled">个人一般信息录入</button>
@@ -48,7 +48,7 @@
                             {% endif %}
                         </a>
                         <br/>
-                        <a href="/scales/get_other_test_forms?patient_session_id={{ patient_session_id }}&patient_id={{ patient.id }}"
+                        <a href="/scales/get_other_test_forms?patient_session_id={{ patient_session_id }}&patient_id={{ patient_baseinfo.id }}"
                            style="color: white">
                             {% if todo_other_test_scale_size == 0 %}
                                 <button class="btn btn-warning btn-block" disabled="disabled">他测量表录入</button>
@@ -57,7 +57,7 @@
                             {% endif %}
                         </a>
                         <br/>
-                        <a href="/scales/get_self_test_forms?patient_session_id={{ patient_session_id }}&patient_id={{ patient.id }}"
+                        <a href="/scales/get_self_test_forms?patient_session_id={{ patient_session_id }}&patient_id={{ patient_baseinfo.id }}"
                            style="color: white">
                             {% if todo_self_test_scale_size == 0 %}
                                 <button class="btn btn-primary btn-block " disabled="disabled">自评量表录入</button>
@@ -66,7 +66,7 @@
                             {% endif %}
                         </a>
                         <br/>
-                        <a href="/scales/get_cognition_forms?patient_session_id={{ patient_session_id }}&patient_id={{ patient.id }}"
+                        <a href="/scales/get_cognition_forms?patient_session_id={{ patient_session_id }}&patient_id={{ patient_baseinfo.id }}"
                            style="color: white">
                             {% if todo_cognition_scale_size == 0 %}
                                 <button class="btn btn-info btn-block " disabled="disabled">认知量表录入</button>
@@ -87,7 +87,7 @@
                         <h2>个人信息<small>基本信息{{ patient_detail.standard_id }}</small></h2>
                         <div class="clearfix"></div>
                     </div>
-                    <form class="form-horizontal form-label-left" action="/patients/update_patient_detail?patient_session_id={{ patient_session_id }}&patient_id={{ patient.id }}"  method="POST">
+                    <form class="form-horizontal form-label-left" action="/patients/update_patient_detail?patient_session_id={{ patient_session_id }}&patient_id={{ patient_baseinfo.id }}"  method="POST">
                         <div class="x_content">
                             <div>
                                 <div class="col-md-4 col-xs-12">
@@ -168,11 +168,6 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <label class="control-label col-md-4 col-sm-4 col-xs-12" for="subject_number">疾病状态<span class="required">:</span></label>
-                                        <input type="text" name="disease_state" required="required" class="sel_beauty" value="{{ patient_detail.disease_state|processNone }}"/>
-                                    </div>
-
-                                    <div class="form-group">
                                         <label class="control-label col-md-4 col-sm-4 col-xs-6" for="subject_number">感情状态<span class="required">:</span></label>
                                         <select name="emotional_state" id="emotional_state"  class="sel_beauty">
                                             <option value=1>单身</option>
@@ -184,6 +179,8 @@
                                             <option value=7>丧偶</option>
                                         </select>
                                     </div>
+
+
 
                                     <div class="form-group">
                                         <label class="control-label col-md-4 col-sm-4 col-xs-6" for="subject_number">被试来源<span class="required">:</span></label>
@@ -216,45 +213,49 @@
                                         <input id="other_diagnosis" name="other_diagnosis" class="sel_beauty" >
                                     </div>
 
-
-
+                                    <div class="form-group">
+                                        <label class="control-label col-md-4 col-sm-4 col-xs-12" for="subject_number">疾病状态<span class="required">:</span></label>
+                                        <input type="text" name="disease_state" required="required" class="sel_beauty" value="{{ patient_detail.disease_state|processNone }}"/>
+                                    </div>
                                 </div>
 
                                 <div class="col-md-4 col-xs-12">
                                     <div class="form-group">
                                         <label class="control-label col-md-4 col-sm-4 col-xs-12" for="subject_number">认知是否完成<span class="required">:</span></label>
-                                        <td><input type="radio" name="cognitive" value=0 data-labelauty="否" checked/></td>
-                                        <td><input type="radio" name="cognitive" value=1 data-labelauty="是"/></td>
+                                            <input type="radio" name="cognitive"  value=0 data-labelauty="否" checked/>
+                                            <input type="radio" name="cognitive"  value=1 data-labelauty="是"/>
+
                                     </div>
                                     <div class="form-group">
                                         <label class="control-label col-md-4 col-sm-4 col-xs-12" for="subject_number">录音是否完成<span class="required">:</span></label>
-                                        <td><input type="radio" name="sound" value=0 data-labelauty="否" checked/></td>
-                                        <td><input type="radio" name="sound" value=1 data-labelauty="是"/></td>
+                                            <input type="radio" name="sound" value=0 data-labelauty="否" checked/>
+                                            <input type="radio" name="sound" value=1 data-labelauty="是"/>
+
                                     </div>
                                     <div class="form-group">
                                         <label class="control-label col-md-4 col-sm-4 col-xs-12" for="subject_number">血液是否采集<span class="required">:</span></label>
-                                        <td><input type="radio" name="blood" value=0 data-labelauty="否" checked/></td>
-                                        <td><input type="radio" name="blood" value=1 data-labelauty="是"/></td>
+                                            <input type="radio" name="blood" value=0 data-labelauty="否" checked/>
+                                            <input type="radio" name="blood" value=1 data-labelauty="是"/>
                                     </div>
                                     <div class="form-group">
                                         <label class="control-label col-md-4 col-sm-4 col-xs-12" for="subject_number">毛发是否采集<span class="required">:</span></label>
-                                        <td><input type="radio" name="hairs" value=0 data-labelauty="否" checked/></td>
-                                        <td><input type="radio" name="hairs" value=1 data-labelauty="是"/></td>
+                                            <input type="radio" name="hairs" value=0 data-labelauty="否" checked/>
+                                            <input type="radio" name="hairs" value=1 data-labelauty="是"/>
                                     </div>
                                     <div class="form-group">
                                         <label class="control-label col-md-4 col-sm-4 col-xs-12" for="subject_number">粪便是否检测<span class="required">:</span></label>
-                                        <td><input type="radio" name="manure" value=0 data-labelauty="否" checked/></td>
-                                        <td><input type="radio" name="manure" value=1 data-labelauty="是"/></td>
+                                            <input type="radio" name="manure" value=0 data-labelauty="否" checked/>
+                                            <input type="radio" name="manure" value=1 data-labelauty="是"/>
                                     </div>
                                     <div class="form-group">
                                         <label class="control-label col-md-4 col-sm-4 col-xs-12" for="subject_number">是否用药<span class="required">:</span></label>
-                                        <td><input type="radio" name="drugs_information" value=0 data-labelauty="否" checked/></td>
-                                        <td><input type="radio" name="drugs_information" value=1 data-labelauty="是"/></td>
+                                            <input type="radio" name="drugs_information" value=0 data-labelauty="否" checked/>
+                                            <input type="radio" name="drugs_information" value=1 data-labelauty="是"/>
                                     </div>
                                     <div class="form-group">
                                         <label class="control-label col-md-4 col-sm-4 col-xs-12" for="subject_number">磁共振情况<span class="required">:</span></label>
-                                        <td><input type="radio" name="mri_examination" value=0 data-labelauty="否" checked/></td>
-                                        <td><input type="radio" name="mri_examination" value=1 data-labelauty="是"/></td>
+                                            <input type="radio" name="mri_examination" value=0 data-labelauty="否" checked/>
+                                            <input type="radio" name="mri_examination" value=1 data-labelauty="是"/>
                                     </div>
                                 </div>
 
@@ -283,6 +284,7 @@
 
         </div>
     </div>
+
     <script>
        function getData(){
         var patient_detail_emotional_state = "{{ patient_detail.emotional_state  }}";
@@ -295,11 +297,44 @@
 
         var patient_detail_diagnosis = "{{ patient_baseinfo.diagnosis }}";
         var diagnosis = Number(patient_detail_diagnosis);
-        alert(patient_detail_diagnosis);
         $("#diagnosis option[value="+diagnosis+"]").prop("selected",true);
+        if(diagnosis == 99) {
+                document.getElementById("other_diagnosis_div").style.display = "";
+                document.getElementById("other_diagnosis").value="{{ patient_baseinfo.other_diagnosis }}";
+            }
+
+        var patient_detail_cognitive = "{{ patient_detail.cognitive }}";
+        var cognitive = Number(patient_detail_cognitive);
+        $("input[name='cognitive'][value="+cognitive+"]").prop("checked",true);
+
+        var patient_detail_sound = "{{ patient_detail.sound }}"
+        var sound = Number(patient_detail_sound);
+        $("input[name='sound'][value="+sound+"]").prop("checked",true);
+
+        var patient_detail_blood = "{{ patient_detail.blood }}"
+        var blood = Number(patient_detail_blood);
+        $("input[name='blood'][value="+blood+"]").prop("checked",true);
+
+        var patient_detail_hairs = "{{ patient_detail.hairs }}"
+        var hairs = Number(patient_detail_hairs);
+        $("input[name='hairs'][value="+hairs+"]").prop("checked",true);
+
+        var patient_detail_manure = "{{ patient_detail.manure }}"
+        var manure = Number(patient_detail_manure);
+        $("input[name='manure'][value="+manure+"]").prop("checked",true);
+
+        var patient_detail_drugs_information = "{{ patient_detail.drugs_information }}"
+        var drugs_information = Number(patient_detail_drugs_information);
+        $("input[name='drugs_information'][value="+drugs_information+"]").prop("checked",true);
+
+
+        var patient_detail_mri_examination = "{{ patient_detail.mri_examination }}"
+        var mri_examination = Number(patient_detail_mri_examination);
+        $("input[name='mri_examination'][value="+mri_examination+"]").prop("checked",true);
+
+
 
        }
-
     </script>
 {% endblock %}
 
@@ -317,63 +352,12 @@
 
     </script>
 
-    <script>
-        $(document).ready(function () {
-            $("#emotional_state").val($("#cert_type").val());
-            var test = $('#emotional_state').val();
-            //alert(test) ;
-        });
-    </script>
     <script type="text/javascript" src="{% static '/js/jquery-radio-beauty.js' %}"></script>
 
     <script>
         $(document).ready(function () {
             $("input[type='radio']").labelauty();
-
-            $("set_emotional_default").val($("emotional_state"));
-
-            function setDefault1() {
-                var value = document.getElementById("emotional_state1").value;
-                var select = document.getElementById("emotional_state");
-                for (i = 0; i < select.options.length; i++) {
-                    if (select.options[i].value == value) {
-                        select.options[i].selected = "selected";
-                        break;
-                    }
-                }
-            }
-
-            function setDefault3() {
-                var value = document.getElementById("diagnosis1").value;
-                var select = document.getElementById("diagnosis");
-                for (i = 0; i < select.options.length; i++) {
-                    if (select.options[i].value == value) {
-                        select.options[i].selected = "selected";
-                        break;
-                    }
-                }
-            }
-
-
-            function setDefault4() {
-                var value = document.getElementById("source1").value;
-                var select = document.getElementById("source");
-                for (i = 0; i < select.options.length; i++) {
-                    if (select.options[i].value == value) {
-                        select.options[i].selected = "selected";
-                        break;
-                    }
-                }
-            }
-
         });
-
-        function load(emotion_value) {
-            //alert('yes');
-            //alert(emotion_value);
-            var select = document.getElementById("emotional_state");
-            select.options[emotion_value].selected = "selected";
-        }
     </script>
 
     <script>
@@ -382,6 +366,8 @@
                 document.getElementById("other_diagnosis_div").style.display = "";
             } else {
                 document.getElementById("other_diagnosis_div").style.display = "none";
+                document.getElementById("other_diagnosis").value="NULL";
+
             }
         }
 
