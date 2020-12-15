@@ -27,6 +27,7 @@ urlpatterns = [
     url(r'^del_followup', views.del_followup),
 
     url(r'^update_patient_detail', views.update_patient_detail),
+    url(r'^get_selected_scales_with_lastsession', views.get_selected_scales_with_lastsession),
     # 貌似未使用
     url(r'^subjectDetailInfo', views.subjectDetailInfo),
     # 用来捕获未匹配成功的url

@@ -88,18 +88,28 @@ def add_patient_followup(request):
     scales_list = patients_dao.judgment_scales(patient_detail_id)
     # 为初扫/复扫的病人预先在r_patient_scales中插入多条记录，依据被试需要做的scales_list
     patients_dao.add_rscales(scales_list, patient_detail.id)
+    redirect_url = '/patients/get_selected_scales_with_lastsession?last_patient_session_id={}&patient_id={}'.format(str(patient_detail_last.id),
+                                                                   str(patient_id))
+    return redirect(redirect_url)
 
-    patient = patients_dao.get_base_info_byPK(patient_id)
-    patient_baseinfo.birth_date = patient_baseinfo.birth_date.strftime('%Y-%m-%d')
-    # 获取各个scaleType的list信息
-    scales_list = patients_dao.judgment_scales(patient_detail_id)
-    generalinfo_scale_list, other_test_scale_list, self_test_scale_list, cognition_scale_list = scales_dao.get_uodo_scales(patient_detail_id)
-    return render(request, 'select_scales.html', {'patient': patient,
-                                                  'patient_id': patient.id,
-                                                  'patient_session_id': patient_detail_id,
-                                                  'patient_baseinfo' : patient_baseinfo,
+def get_selected_scales_with_lastsession(request):
+    patient_id = request.GET.get('patient_id')
+    last_patient_session_id = request.GET.get('last_patient_session_id')
+    # 获取上一次的复扫详情信息
+    last_patient_detail = patients_dao.get_patient_detail_byPK(last_patient_session_id)
+    # 获取这一次复扫信息
+    patient_baseinfo = patients_dao.get_base_info_byPK(patient_id)
+    patient_detail = patients_dao.get_patient_detail_last_byPatientId(patient_id)
+    scales_list = patients_dao.judgment_scales(patient_detail.id)
+    patients_dao.add_rscales(scales_list, patient_detail.id)
+    generalinfo_scale_list, other_test_scale_list, self_test_scale_list, cognition_scale_list = scales_dao.get_uodo_scales(patient_detail.id)
+    return render(request, 'select_scales.html', {
+                                                  'patient_id': patient_baseinfo.id,
+                                                  'patient_baseinfo': patient_baseinfo,
+                                                  'patient_session_id': patient_detail.id,
+                                                  'standard_id':patient_detail.standard_id,
                                                   "username": request.session.get('username'),
-                                                  'patient_detail':patient_detail_last,
+                                                  'patient_detail': last_patient_detail,
                                                   "todo_generalinfo_scale_size": len(generalinfo_scale_list),
                                                   "todo_other_test_scale_size": len(other_test_scale_list),
                                                   "todo_self_test_scale_size": len(self_test_scale_list),

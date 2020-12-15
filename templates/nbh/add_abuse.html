@@ -1,5 +1,6 @@
 {% extends 'templates/index.html'%}
 {% load static %}
+{% load SelfDefinedFilter %}
 {% block title %}物质依赖{% endblock %}
 {% block css %}
   <link href="{% static '/css/scales_style.css' %}" rel="stylesheet" >
@@ -29,6 +30,10 @@
                      <li ><a href="#">量表录入</a></li>
                      <li><a href="#" >个人详细信息录入</a></li>
                      <li class="active"><a href="#" >物质依赖</a></li>
+                     <div style="float: right;margin-bottom: 0px;">
+                      <a href="#" class="btn btn-warning btn-sm"><i class="fa fa-arrow-left"><strong></i>&nbsp;返&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回</strong></a>
+                      <a href="#" class="btn btn-warning btn-sm"><i class="fa fa-arrow-right"><strong></i>&nbsp;跳过该量表</strong></a>	
+                     </div>
                 </ul>
             </div>
           </div>
@@ -37,27 +42,24 @@
           <div id="wrapper">
             <div id = "left-side" style="height: 100%;margin-left: 10px;" class="col-md-2">
               <ul class="scales_progress">
-                <li class="step1 done">
-                  <p>家庭信息</p>
-                </li>
-                <li class="step2 done ">
-                  <p>学习情况</p>
-                </li>
-                <li class="step3 done">
-                  <p>家庭及疾病史</p>
-                </li>
-                <li class="step4 doing ">
-                  <p>物质依赖</p>
-                </li>
-                <li class="step5 nodone ">
-                  <p>其他资料</p>
-                </li>
-                <li class="step6 nodone ">
-                  <p>利手信息</p>
-                </li>
-                <li class="finish nodone ">
-                  <p>完成</p>
-                </li>
+                {% for scale_name in scale_name_list %}
+                        {% if scale_name|get_item:'scale__scale_name' == '一般资料－物质依赖' %}
+                            <li class="step doing  ">
+                                <p>{{ scale_name|get_item:'scale__scale_name' }}</p>
+                            </li>
+                        {% elif scale_name|get_item:'state' == 0 %}
+                            <li class="step nodone notclick">
+                                <p>{{ scale_name|get_item:'scale__scale_name' }}</p>
+                            </li>
+                        {% else %}
+                            <li class="step done notclick">
+                                <p>{{ scale_name|get_item:'scale__scale_name' }}</p>
+                            </li>
+                        {% endif %}
+                        {% endfor %}
+                        <li class="finish nodone notclick">
+                          <p>完成</p>
+                        </li>
               </ul>
             </div>  
              
@@ -70,7 +72,7 @@
                                 <h2>烟酒和物质使用 <small>Tobacco, alcohol and material dependence</small></h2>
                                 <div class="clearfix"></div>
                             </div>
-                  <br>
+
                   <div class="x_content">
 <!--                    js 选择是偏移1 默认偏移4 -->
                       <br>
@@ -131,9 +133,9 @@
                         <input type="radio" name="patient_other_abuse" class="other_abuse_no" value=0 data-labelauty="否"/>
                       </div>
                       <div class="other_abuse_detail">
-                        <label class="control-label col-md-2 col-sm-2 col-md-offset-1 ">起始年龄<span class="required">:</span></label>
+                        <label class="control-label col-md-2 col-sm-2 col-md-offset-1 " style="align-content: center">起始年龄<span class="required">:</span></label>
                         <div class="col-md-1 col-sm-1 form-group has-feedback ">
-                           <input type="text" id="patient_other_abuse_age" name="patient_other_abuse_age"  class="form-control" >
+                           <input type="text" id="patient_other_abuse_age" name="patient_other_abuse_age" style="width: 200px;align-content: center"  class="form-control" >
                         </div>
                       </div>  
                     </div>

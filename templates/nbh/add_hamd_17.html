@@ -1,5 +1,6 @@
 {% extends 'templates/index.html' %}
 {% load static %}
+{% load SelfDefinedFilter %}
 {% block title %}汉密尔顿抑郁量表（HAMD-17）{% endblock %}
 {% block css %}
     <link href="{% static '/css/scales_style.css' %}" rel="stylesheet">
@@ -36,28 +37,35 @@
                         <li><a href="#">量表录入</a></li>
                         <li><a href="#">他评量表</a></li>
                         <li class="active"><a href="#">汉密尔顿抑郁量表（HAMD-17）</a></li>
+                        <div style="float: right;margin-bottom: 0px;">
+							<a href="#" class="btn btn-warning btn-sm"><i class="fa fa-arrow-left"><strong></i>&nbsp;返&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回</strong></a>
+							<a href="#" class="btn btn-warning btn-sm"><i class="fa fa-arrow-right"><strong></i>&nbsp;跳过该量表</strong></a>	
+						 </div>
                     </ul>
                 </div>
             </div>
         </div>
-        <div class="dashboard_graph x_panel" style="margin-top: 0px;">
+        <div class="dashboard_graph x_panel" style="margin-top: 0px;height: 80%;">
             <div id="wrapper">
                 <div id="left-side" style="height: 100%;" class="col-md-2">
                     <ul class="scales_progress">
-                        <li class="step1 doing">
-                            <p>汉密尔顿抑郁量表（HAMD-17）</p>
-                        </li>
-                        <li class="step2 nodone">
-                            <p>汉密尔顿焦虑量表（HAMA）</p>
-                        </li>
-                        <li class="step3 nodone">
-                            <p>杨氏躁狂量表（YMRS）</p>
-                        </li>
-                        <li class="step4 nodone">
-                            <p>简明精神量表（BPRS）</p>
-                        </li>
-                        <li class="finish nodone">
-                            <p>完成</p>
+                        {% for scale_name in scale_name_list %}
+                        {% if scale_name|get_item:'scale__scale_name' == '汉密尔顿抑郁量表（HAMD-17）' %}
+                            <li class="step doing  ">
+                                <p>{{ scale_name|get_item:'scale__scale_name' }}</p>
+                            </li>
+                        {% elif scale_name|get_item:'state' == 0 %}
+                            <li class="step nodone notclick">
+                                <p>{{ scale_name|get_item:'scale__scale_name' }}</p>
+                            </li>
+                        {% else %}
+                            <li class="step done notclick">
+                                <p>{{ scale_name|get_item:'scale__scale_name' }}</p>
+                            </li>
+                        {% endif %}
+                        {% endfor %}
+                        <li class="finish nodone notclick">
+                          <p>完成</p>
                         </li>
                     </ul>
                 </div>
@@ -67,6 +75,9 @@
                               name="hamd_form" method="post" onSubmit="return myCheck(this)">
                             {% csrf_token %}
                             <div class="container">
+                                <div class="col-md-12 text-center">
+                                    <h4><strong> 汉密尔顿抑郁量表</strong></h4>
+                                </div>
                                 <div class="row title">
                                     <strong style="FONT-SIZE: 17px">
                                         <i class="fa fa-hand-o-right"></i>&nbsp;
@@ -83,9 +94,8 @@
                                     <div class="col-md-12">
                                         <table class="table hamd_17_table" frame="void" style="font-weight:bold;">
                                             <tbody>
-                                            <tr >
-                                                <td width="20%"  >
-                                                    1.抑郁情绪
+                                            <tr style="vertical-align:top;">
+                                                <td width="20%"  >1.抑郁情绪
                                                         <input type="radio" name="depression" value=0 data-labelauty="0"/>
                                                         <input type="radio" name="depression" value=1 data-labelauty="1"/>
                                                         <input type="radio" name="depression" value=2 data-labelauty="2"/>
@@ -111,37 +121,40 @@
                                                     <input type="radio" name="suicide" value=4 data-labelauty="4"/>
                                                 </td>
                                                 <td width="5%"></td>
-                                                <td width="20%" style="vertical-align:top;">
+                                                <td width="20%">
                                                     4.入睡困难
                                                     <input type="radio" name="difficulty_sleeping" value=0 data-labelauty="0"/>
                                                     <input type="radio" name="difficulty_sleeping" value=1 data-labelauty="1"/>
                                                     <input type="radio" name="difficulty_sleeping" value=2 data-labelauty="2"/>
-                                                    {% comment %}<input type="radio" name="difficulty_sleeping" value = 3 data-labelauty="3"/>
-                                                    <input type="radio" name="difficulty_sleeping" value = 4 data-labelauty="4"/>{% endcomment %}
+                                                    <input type="radio" name="difficulty_sleeping" value = 3 data-labelauty="3"/>
+                                                    <input type="radio" name="difficulty_sleeping" value = 4 data-labelauty="4"/>
                                                 </td>
                                             </tr >
 
                                             <tr>
-                                                <td width="20%" style="vertical-align:top;">
+                                                <td width="20%">
                                                     5.睡眠不深
+
                                                     <input type="radio" name="sleep_deep" value=0 data-labelauty="0"/>
                                                     <input type="radio" name="sleep_deep" value=1 data-labelauty="1"/>
                                                     <input type="radio" name="sleep_deep" value=2 data-labelauty="2"/>
-                                                    {% comment %}<input type="radio" name="sleep_deep" value=3 data-labelauty="3"/>
-                                                    <input type="radio" name="sleep_deep" value=4 data-labelauty="4"/>{% endcomment %}
+                                                    <input type="radio" name="sleep_deep" value=3 data-labelauty="3"/>
+                                                    <input type="radio" name="sleep_deep" value=4 data-labelauty="4"/>
                                                 </td>
                                                 <td width="5%"></td>
-                                                <td width="20%" style="vertical-align:top;">
+                                                <td width="20%">
                                                     6.早醒
+
                                                     <input type="radio" name="wake_early" value=0 data-labelauty="0"/>
                                                     <input type="radio" name="wake_early" value=1 data-labelauty="1"/>
                                                     <input type="radio" name="wake_early" value=2 data-labelauty="2"/>
-                                                    {% comment %}<input type="radio" name="wake_early" value=3 data-labelauty="3"/>
-                                                    <input type="radio" name="wake_early" value=4 data-labelauty="4"/>{% endcomment %}
+                                                    <input type="radio" name="wake_early" value=3 data-labelauty="3"/>
+                                                    <input type="radio" name="wake_early" value=4 data-labelauty="4"/>
                                                 </td>
                                                 <td width="5%"></td>
                                                 <td width="20%">
                                                     7.工作和兴趣
+
                                                     <input type="radio" name="work_interest" value=0 data-labelauty="0"/>
                                                     <input type="radio" name="work_interest" value=1 data-labelauty="1"/>
                                                     <input type="radio" name="work_interest" value=2 data-labelauty="2"/>
@@ -186,32 +199,32 @@
                                                     <input type="radio" name="somatic_anxiety" value=4 data-labelauty="4"/>
                                                 </td>
                                                 <td width="5%"></td>
-                                                <td width="20%" style="vertical-align:top;">
+                                                <td width="20%">
                                                     12.胃肠道症状
                                                     <input type="radio" name="gastrointestinal_symptoms" value=0 data-labelauty="0"/>
                                                     <input type="radio" name="gastrointestinal_symptoms" value=1 data-labelauty="1"/>
                                                     <input type="radio" name="gastrointestinal_symptoms" value=2 data-labelauty="2"/>
-                                                    {% comment %}<input type="radio" name="gastrointestinal_symptoms" value=3 data-labelauty="3"/>
-                                                    <input type="radio" name="gastrointestinal_symptoms" value=4 data-labelauty="4"/>{% endcomment %}
+                                                    <input type="radio" name="gastrointestinal_symptoms" value=3 data-labelauty="3"/>
+                                                    <input type="radio" name="gastrointestinal_symptoms" value=4 data-labelauty="4"/>
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td width="20%" style="vertical-align:top;">
+                                                <td width="20%">
                                                     13.全身症状
                                                     <input type="radio" name="systemic_symptoms" value=0 data-labelauty="0"/>
                                                     <input type="radio" name="systemic_symptoms" value=1 data-labelauty="1"/>
                                                     <input type="radio" name="systemic_symptoms" value=2 data-labelauty="2"/>
-                                                    {% comment %}<input type="radio" name="systemic_symptoms" value = 3 data-labelauty="3"/>
-                                                    <input type="radio" name="systemic_symptoms" value = 4 data-labelauty="4"/>{% endcomment %}
+                                                    <input type="radio" name="systemic_symptoms" value = 3 data-labelauty="3"/>
+                                                    <input type="radio" name="systemic_symptoms" value = 4 data-labelauty="4"/>
                                                 </td>
                                                 <td width="5%"></td>
-                                                <td width="20%" style="vertical-align:top;">
+                                                <td width="20%">
                                                     14.性症状
                                                     <input type="radio" name="sexual_symptoms" value=0 data-labelauty="0"/>
                                                     <input type="radio" name="sexual_symptoms" value=1 data-labelauty="1"/>
                                                     <input type="radio" name="sexual_symptoms" value=2 data-labelauty="2"/>
-                                                    {% comment %}<input type="radio" name="sexual_symptoms" value=3 data-labelauty="3"/>
-                                                    <input type="radio" name="sexual_symptoms" value=4 data-labelauty="4"/>{% endcomment %}
+                                                    <input type="radio" name="sexual_symptoms" value=3 data-labelauty="3"/>
+                                                    <input type="radio" name="sexual_symptoms" value=4 data-labelauty="4"/>
                                                 </td>
                                                 <td width="5%"></td>
                                                 <td width="20%">
@@ -223,23 +236,23 @@
                                                     <input type="radio" name="hypochondria" value=4 data-labelauty="4"/>
                                                 </td>
                                                 <td width="5%"></td>
-                                                <td width="20%" style="vertical-align:top;">
+                                                <td width="20%">
                                                     16.体重减轻
                                                     <input type="radio" name="lose_weight" value=0 data-labelauty="0"/>
                                                     <input type="radio" name="lose_weight" value=1 data-labelauty="1"/>
                                                     <input type="radio" name="lose_weight" value=2 data-labelauty="2"/>
-                                                    {% comment %}<input type="radio" name="lose_weight" value=3 data-labelauty="3"/>
-                                                    <input type="radio" name="lose_weight" value=4 data-labelauty="4"/>{% endcomment %}
+                                                    <input type="radio" name="lose_weight" value=3 data-labelauty="3"/>
+                                                    <input type="radio" name="lose_weight" value=4 data-labelauty="4"/>
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td style="vertical-align:top;">
+                                                <td>
                                                     17.自知力
                                                     <input type="radio" name="self_awareness" value=0 data-labelauty="0"/>
                                                     <input type="radio" name="self_awareness" value=1 data-labelauty="1"/>
                                                     <input type="radio" name="self_awareness" value=2 data-labelauty="2"/>
-                                                    {% comment %}<input type="radio" name="self_awareness" value=3 data-labelauty="3"/>
-                                                    <input type="radio" name="self_awareness" value=4 data-labelauty="4"/>{% endcomment %}
+                                                    <input type="radio" name="self_awareness" value=3 data-labelauty="3"/>
+                                                    <input type="radio" name="self_awareness" value=4 data-labelauty="4"/>
                                                 </td>
                                             </tr>
                                             </tbody>

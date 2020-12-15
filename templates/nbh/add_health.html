@@ -1,8 +1,25 @@
 {% extends 'templates/index.html'%}
 {% load static %}
+{% load SelfDefinedFilter %}
 {% block title %}家族及疾病史{% endblock %}
 {% block css %}
 <link href="{% static '/css/scales_style.css' %}" rel="stylesheet" >
+<style>
+  .row input.labelauty + label{
+    margin-bottom:0px;
+    width:70px;
+	  display:inline-block;
+	  font-size: 13px;
+    padding: 3px;
+    text-align: center;
+	  background-color: #efefef;
+	  color: #b3b3b3;
+	  cursor: pointer;
+	  border-radius: 3px 3px 3px 3px;
+	  -moz-border-radius: 3px 3px 3px 3px;
+	  -webkit-border-radius: 3px 3px 3px 3px;
+  }
+</style>
 {% endblock %}
 {% block content %}
     <div class="right_col" role="main">
@@ -13,6 +30,10 @@
                    <li ><a href="#">量表录入</a></li>
                    <li><a href="#" >个人详细信息录入</a></li>
                    <li class="active"><a href="#" >家族及疾病史</a></li>
+                   <div style="float: right;margin-bottom: 0px;">
+                    <a href="#" class="btn btn-warning btn-sm"><i class="fa fa-arrow-left"><strong></i>&nbsp;返&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回</strong></a>
+                    <a href="#" class="btn btn-warning btn-sm"><i class="fa fa-arrow-right"><strong></i>&nbsp;跳过该量表</strong></a>	
+                   </div>
                 </ul>
             </div>
           </div>
@@ -21,27 +42,24 @@
           <div id="wrapper">
             <div id = "left-side" style="height: 100%;" class="col-md-2">
               <ul class="scales_progress">
-                <li class="step1 done">
-                  <p>家庭信息</p>
-                </li>
-                <li class="step2 done ">
-                  <p>学习情况</p>
-                </li>
-                <li class="step3 doing">
-                  <p>家庭及疾病史</p>
-                </li>
-                <li class="step4 nodone ">
-                  <p>物质依赖</p>
-                </li>
-                <li class="step5 nodone ">
-                  <p>其他资料</p>
-                </li>
-                <li class="step6 nodone ">
-                  <p>利手信息</p>
-                </li>
-                <li class="finish nodone ">
-                  <p>完成</p>
-                </li>
+                {% for scale_name in scale_name_list %}
+                        {% if scale_name|get_item:'scale__scale_name' == '一般资料－家族及疾病史' %}
+                            <li class="step doing  ">
+                                <p>{{ scale_name|get_item:'scale__scale_name' }}</p>
+                            </li>
+                        {% elif scale_name|get_item:'state' == 0 %}
+                            <li class="step nodone notclick">
+                                <p>{{ scale_name|get_item:'scale__scale_name' }}</p>
+                            </li>
+                        {% else %}
+                            <li class="step done notclick">
+                                <p>{{ scale_name|get_item:'scale__scale_name' }}</p>
+                            </li>
+                        {% endif %}
+                        {% endfor %}
+                        <li class="finish nodone notclick">
+                          <p>完成</p>
+                        </li>
               </ul>
             </div>  
              
@@ -67,7 +85,7 @@
                         <div  class="suicides_next_question" id = "suicides_next_question001">
                       <label class="control-label col-md-1 col-sm-2 ">所患疾病<span class="required">:</span></label>
                       <div class="col-md-2 col-sm-2 form-group  ">
-                        <input type="text" id="patient_somatic_diseases_name" name="patient_somatic_diseases_name" class="form-control" requierd>
+                        <input type="text" id="patient_somatic_diseases_name" name="patient_somatic_diseases_name" class="form-control" required>
                       </div>
                       <label class="control-label col-md-1 col-sm-2 ">患病时长<span class="required">:</span></label>
                       <div class="col-md-2 col-sm-1 form-group  ">
@@ -133,7 +151,7 @@
 
                   </div>
 
-
+                </br>
                   <div class="row">
                         {% csrf_token %}
                         <div class="text-center">
@@ -167,6 +185,11 @@ $(document).ready(function(){
         if (Number(patient_somatic_diseases == 1)) {
             $("input[name='patient_somatic_diseases_name']").removeAttr("disabled");
             $("input[name='patient_somatic_diseases_year']").removeAttr("disabled");
+
+           $("input[name='patient_somatic_diseases_name']").attr('required',true);
+            $("input[name='patient_somatic_diseases_year']").attr('required',true);
+
+
             $(".suicides_next_question").show();
         }
     });

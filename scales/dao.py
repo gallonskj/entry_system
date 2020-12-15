@@ -336,8 +336,11 @@ def add_other_database(rPatientBasicInformationOther):
 
 # r_patient_medical_history 表
 def get_patient_medical_history_byPatientId(patient_detail_id):
-    patient_medical_history = scales_models.RPatientMedicalHistory.objects.filter(patient_session=patient_detail_id)[0]
-    return patient_medical_history
+    patient_medical_history = scales_models.RPatientMedicalHistory.objects.filter(patient_session=patient_detail_id)
+    if patient_medical_history.count() == 0:
+        return None
+    else:
+        return patient_medical_history[0]
 
 
 # r_patient_drugs_information 表
@@ -348,142 +351,220 @@ def get_patient_drugs_information_byPatientId(patient_detail_id):
 
 # patient base info 表
 def get_patient_base_info_family_byPatientDetailId(patient_detail_id):
-    patient_base_info_family = scales_models.RPatientBasicInformationFamily.objects.filter(patient_session=patient_detail_id)[0]
-    return patient_base_info_family
+    patient_base_info_family = scales_models.RPatientBasicInformationFamily.objects.filter(patient_session=patient_detail_id)
+    if patient_base_info_family.count() == 0:
+        return None
+    else:
+        return patient_base_info_family[0]
 
 
 def get_patient_base_info_study_byPatientDetailId(patient_detail_id):
-    patient_base_info_study = scales_models.RPatientBasicInformationStudy.objects.filter(patient_session=patient_detail_id)[0]
-    return patient_base_info_study
+    patient_base_info_study = scales_models.RPatientBasicInformationStudy.objects.filter(patient_session=patient_detail_id)
+    if patient_base_info_study.count() == 0:
+        return None
+    else:
+        return patient_base_info_study[0]
 
 
 def get_patient_base_info_health_byPatientDetailId(patient_detail_id):
-    patient_base_info_health = scales_models.RPatientBasicInformationHealth.objects.filter(patient_session=patient_detail_id)[0]
-    return patient_base_info_health
+    patient_base_info_health = scales_models.RPatientBasicInformationHealth.objects.filter(patient_session=patient_detail_id)
+    if patient_base_info_health.count() == 0:
+        return None
+    else:
+        return patient_base_info_health[0]
 
 
 def get_patient_base_info_abuse_byPatientDetailId(patient_detail_id):
-    patient_base_info_abuse = scales_models.RPatientBasicInformationAbuse.objects.filter(patient_session=patient_detail_id)[0]
-    return patient_base_info_abuse
+    patient_base_info_abuse = scales_models.RPatientBasicInformationAbuse.objects.filter(patient_session=patient_detail_id)
+    if patient_base_info_abuse.count() == 0:
+        return None
+    else:
+        return patient_base_info_abuse[0]
 
 
 def get_patient_base_info_other_byPatientDetailId(patient_detail_id):
-    patient_base_info_other = scales_models.RPatientBasicInformationOther.objects.filter(patient_session=patient_detail_id)[0]
-    return patient_base_info_other
+    patient_base_info_other = scales_models.RPatientBasicInformationOther.objects.filter(patient_session=patient_detail_id)
+    if patient_base_info_other.count() == 0:
+        return None
+    else:
+        return patient_base_info_other[0]
 
 
 # 中国人利手量表
 def get_patient_handy_byPatientDetailId(patient_detail_id):
-    patient_handy = scales_models.RPatientChineseHandy.objects.filter(patient_session=patient_detail_id)[0]
-    return patient_handy
+    patient_handy = scales_models.RPatientChineseHandy.objects.filter(patient_session=patient_detail_id)
+    if patient_handy.count() == 0:
+        return None
+    else:
+        return patient_handy[0]
 
 
 # 汉密尔顿抑郁量表HAMD17
 def get_patient_HAMD17_byPatientDetailId(patient_detail_id):
-    patient_HAMD17 = scales_models.RPatientHamd17.objects.filter(patient_session=patient_detail_id)[0]
-    return patient_HAMD17
+    patient_HAMD17 = scales_models.RPatientHamd17.objects.filter(patient_session=patient_detail_id)
+    if patient_HAMD17.count() == 0:
+        return None
+    else:
+        return patient_HAMD17[0]
 
 
 # 汉密尔顿焦虑量表HAMA
 def get_patient_HAMA_byPatientDetailId(patient_detail_id):
-    patient_HAMA = scales_models.RPatientHAMA.objects.filter(patient_session=patient_detail_id)[0]
-    return patient_HAMA
+    patient_HAMA = scales_models.RPatientHama.objects.filter(patient_session=patient_detail_id)
+    if patient_HAMA.count() == 0:
+        return None
+    else:
+        return patient_HAMA[0]
 
 
 # 杨氏躁狂量表YMRS
 def get_patient_YMRS_byPatientDetailId(patient_detail_id):
-    patient_YMRS = scales_models.RPatientYmrs.objects.filter(patient_session=patient_detail_id)[0]
-    return patient_YMRS
+    patient_YMRS = scales_models.RPatientYmrs.objects.filter(patient_session=patient_detail_id)
+    if patient_YMRS.count() == 0:
+        return None
+    else:
+        return patient_YMRS[0]
 
 
 # BPRS简明精神量表
 def get_patient_BPRS_byPatientDetailId(patient_detail_id):
-    patient_BPRS = scales_models.RPatientBprs.objects.filter(patient_session=patient_detail_id)[0]
-    return patient_BPRS
+    patient_BPRS = scales_models.RPatientBprs.objects.filter(patient_session=patient_detail_id)
+    if patient_BPRS.count() == 0:
+        return None
+    else:
+        return patient_BPRS[0]
 
 
 # 耶鲁布朗
 def get_patient_YBO_byPatientDetailId(patient_detail_id):
-    patient_YBO = scales_models.RPatientYbobsessiontable.objects.filter(patient_session=patient_detail_id)[0]
-    return patient_YBO
+    patient_YBO = scales_models.RPatientYbobsessiontable.objects.filter(patient_session=patient_detail_id)
+    if patient_YBO.count() == 0:
+        return None
+    else:
+        return patient_YBO[0]
 
 
 # 自杀意念及行为史
 def get_patient_suicidal_byPatientDetailId(patient_detail_id):
-    patient_suicidal = scales_models.RPatientSuicidal.objects.filter(patient_session=patient_detail_id)[0]
-    return patient_suicidal
+    patient_suicidal = scales_models.RPatientSuicidal.objects.filter(patient_session=patient_detail_id)
+    if patient_suicidal.count() == 0:
+        return None
+    else:
+        return patient_suicidal[0]
 
 
 # 33项轻躁狂
 def get_patient_manicSymptom_byPatientDetailId(patient_detail_id):
-    patient_manicSymptom = scales_models.RPatientManicsymptom.objects.filter(patient_session=patient_detail_id)[0]
-    return patient_manicSymptom
+    patient_manicSymptom = scales_models.RPatientManicsymptom.objects.filter(patient_session=patient_detail_id)
+    if patient_manicSymptom.count() == 0:
+        return None
+    else:
+        return patient_manicSymptom[0]
 
 
 # 斯奈斯和汉密尔顿快乐
 def get_patient_happiness_byPatientDetailId(patient_detail_id):
-    patient_happiness = scales_models.RPatientHappiness.objects.filter(patient_session=patient_detail_id)[0]
-    return patient_happiness
+    patient_happiness = scales_models.RPatientHappiness.objects.filter(patient_session=patient_detail_id)
+    if patient_happiness.count() == 0:
+        return None
+    else:
+        return patient_happiness[0]
 
 
 # 快感体验能力量表
 def get_patient_pleasure_byPatientDetailId(patient_detail_id):
-    patient_pleasure = scales_models.RPatientPleasure.objects.filter(patient_session=patient_detail_id)[0]
-
-    return patient_pleasure
+    patient_pleasure = scales_models.RPatientPleasure.objects.filter(patient_session=patient_detail_id)
+    if patient_pleasure.count() == 0:
+        return None
+    else:
+        return patient_pleasure[0]
 
 # 儿童期（16岁前）成长经历
 def get_patient_growth_byPatientDetailId(patient_detail_id):
-    patient_growth = scales_models.RPatientGrowth.objects.filter(patient_session=patient_detail_id)[0]
-    return patient_growth
+    patient_growth = scales_models.RPatientGrowth.objects.filter(patient_session=patient_detail_id)
+    if patient_growth.count() == 0:
+        return None
+    else:
+        return patient_growth[0]
 
 
 # 青少年生活事件量表
 def get_patient_adolescent_byPatientDetailId(patient_detail_id):
-    patient_adolescent = scales_models.RPatientAdolescentEvents.objects.filter(patient_session=patient_detail_id)[0]
-    return patient_adolescent
+    patient_adolescent = scales_models.RPatientAdolescentEvents.objects.filter(patient_session=patient_detail_id)
+    if patient_adolescent.count() == 0:
+        return None
+    else:
+        return patient_adolescent[0]
 
 
 # 认知情绪调节量表
 def get_patient_cognitive_byPatientDetailId(patient_detail_id):
-    patient_cognitive = scales_models.RPatientCognitiveEmotion.objects.filter(patient_session=patient_detail_id)[0]
-    return patient_cognitive
+    patient_cognitive = scales_models.RPatientCognitiveEmotion.objects.filter(patient_session=patient_detail_id)
+    if patient_cognitive.count() == 0:
+        return None
+    else:
+        return patient_cognitive[0]
 
 
 # 简式父母养育方式问卷表
 def get_patient_SEmbu_byPatientDetailId(patient_detail_id):
-    patient_SEmbu = scales_models.RPatientSembu.objects.filter(patient_session=patient_detail_id)[0]
-    return patient_SEmbu
+    patient_SEmbu = scales_models.RPatientSembu.objects.filter(patient_session=patient_detail_id)
+    if patient_SEmbu.count() == 0:
+        return None
+    else:
+        return patient_SEmbu[0]
 
 
 # 自动思维问卷表
 def get_patient_ATQ_byPatientDetailId(patient_detail_id):
-    patient_ATQ = scales_models.RPatientAtq.objects.filter(patient_session=patient_detail_id)[0]
-    return patient_ATQ
+    patient_ATQ = scales_models.RPatientAtq.objects.filter(patient_session=patient_detail_id)
+    if patient_ATQ.count() == 0:
+        return None
+    else:
+        return patient_ATQ[0]
 
 
 # 威斯康星WCST
 def get_patient_wcst_byPatientDetailId(patient_detail_id):
-    patient_wcst = scales_models.RPatientWcst.objects.filter(patient_session=patient_detail_id)[0]
-    return patient_wcst
+    patient_wcst = scales_models.RPatientWcst.objects.filter(patient_session=patient_detail_id)
+    if patient_wcst.count() == 0:
+        return None
+    else:
+        return patient_wcst[0]
 
 
 # 重复成套性神经心理状态测验系统RBANS
 def get_patient_rbans_byPatientDetailId(patient_detail_id):
-    patient_rbans = scales_models.RPatientRbans.objects.filter(patient_session=patient_detail_id)[0]
-    return patient_rbans
+    patient_rbans = scales_models.RPatientRbans.objects.filter(patient_session=patient_detail_id)
+    if patient_rbans.count() == 0:
+        return None
+    else:
+        return patient_rbans[0]
 
 
 # 面孔情绪感知能力测试
 def get_patient_fept_byPatientDetailId(patient_detail_id):
-    patient_fept = scales_models.RPatientFept.objects.filter(patient_session=patient_detail_id)[0]
-    return patient_fept
+    patient_fept = scales_models.RPatientFept.objects.filter(patient_session=patient_detail_id)
+    if patient_fept.count() == 0:
+        return None
+    else:
+        return patient_fept[0]
 
 
 # 语音情绪感知能力测试VEPT
 def get_patient_vept_byPatientDetailId(patient_detail_id):
-    patient_vept = scales_models.RPatientVept.objects.filter(patient_session=patient_detail_id)[0]
-    return patient_vept
+    patient_vept = scales_models.RPatientVept.objects.filter(patient_session=patient_detail_id)
+    if patient_vept.count() == 0:
+        return None
+    else:
+        return patient_vept[0]
+
+def get_handy_byPatientDetailId(patient_detail_id):
+    patient_handy = scales_models.RPatientChineseHandy.objects.filter(patient_session_id=patient_detail_id)
+    if patient_handy.count()==0:
+        return None
+    else:
+        return patient_handy[0]
 
 # 获取某个类别的量表未完成的最小值,都已经完成了，那么返回None
 def get_min_unfinished_scale(do_scale_type,patient_session_id):

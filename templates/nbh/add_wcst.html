@@ -1,5 +1,6 @@
 {% extends 'templates/index.html'%}
 {% load static %}
+{% load SelfDefinedFilter %}
 {% block title %}威斯康星卡片分类测验（wcst）{% endblock %}
 {% block css %}
 <link href="{% static '/css/scales_style.css' %}" rel="stylesheet" >
@@ -26,7 +27,10 @@
                          <li ><a href="#">量表录入</a></li>
                          <li><a href="#" >认知分数录入</a></li>
 						 <li class="active"><a href="#" >威斯康星卡片分类测验（wcst）</a></li>
-
+                         <div style="float: right;margin-bottom: 0px;">
+							<a href="#" class="btn btn-warning btn-sm"><i class="fa fa-arrow-left"><strong></i>&nbsp;返&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回</strong></a>
+							<a href="#" class="btn btn-warning btn-sm"><i class="fa fa-arrow-right"><strong></i>&nbsp;跳过该量表</strong></a>	
+						</div>
                     </ul>
 				</div>
             </div>
@@ -35,21 +39,24 @@
         	<div id="wrapper">
                 <div id = "left-side" style="height: 100%;margin-left: 10px;" class="col-md-2">
                   <ul class="scales_progress">
-                    <li class="step1 doing">
-                      <p>维斯康星卡片分类测验（wcst）</p>
-                    </li>
-                    <li class="step2 nodone ">
-                      <p>重复成套性神经心理状态测验系统（rbans）</p>
-                    </li>
-                    <li class="step3 nodone">
-                      <p>面孔情绪感知能力测试（fept）</p>
-                    </li>
-                    <li class="step4 nodone ">
-                      <p>语音情绪感知能力测试（vept）</p>
-					</li>
-					<li class="finish nodone ">
-                      <p>完成</p>
-					</li>
+                    {% for scale_name in scale_name_list %}
+                        {% if scale_name|get_item:'scale__scale_name' == '威斯康星卡片分类测验（WCST）' %}
+                            <li class="step doing  ">
+                                <p>{{ scale_name|get_item:'scale__scale_name' }}</p>
+                            </li>
+                        {% elif scale_name|get_item:'state' == 0 %}
+                            <li class="step nodone notclick">
+                                <p>{{ scale_name|get_item:'scale__scale_name' }}</p>
+                            </li>
+                        {% else %}
+                            <li class="step done notclick">
+                                <p>{{ scale_name|get_item:'scale__scale_name' }}</p>
+                            </li>
+                        {% endif %}
+                        {% endfor %}
+                        <li class="finish nodone notclick">
+                          <p>完成</p>
+                        </li>
                   </ul>
                 </div>
 
@@ -393,31 +400,42 @@ $("#sub").click(function(){
 
 	ra = $('#ra').val();
 	ra1 = (parseInt(ra) == parseFloat(ra));
+
 	cc= $('#cc').val();
 	cc1 = (parseInt(cc) == parseFloat(cc));
+
 	rc = $('#rc').val();
 	rc1 = (parseInt(rc) == parseFloat(rc));
+
 	rcp = $('#rcp').val();
 
 	re = $('#re').val();
 	re1 = (parseInt(re) == parseFloat(re));
+
 	rf = $('#rf').val();
 	rf1 = (parseInt(rf) == parseFloat(rf));
+
 	rfp = $('#rfp').val();
 
 	rp = $('#rp').val();
 	rp1 = (parseInt(rp) == parseFloat(rp));
+
 	rpe = $('#rpe').val();
 	rpe1 = (parseInt(rpe) == parseFloat(rpe));
+
 	rpep = $('#rpep').val();
 
 	nrpe = $('#nrpe').val();
 	nrpe1 = (parseInt(nrpe) == parseFloat(nrpe));
+
 	fm = $('#fm').val();
 	fm1 = (parseInt(fm) == parseFloat(fm));
-	if (ra>0 && ra1 && cc>0 && cc1 && rc>0 && rc1 && rcp>0 && rcp<100 && re>0 && re1 && rf>0 && rf1 && rfp>0 && rfp<100 && rp>0 && rp1 && rpe>0 && rpe1 && rpep>=0 && rpep<100 && nrpe>0 && nrpe1 && fm>=0 && fm1){
+
+	if (ra>=0 && ra1 && cc>=0 && cc1 && rc>=0 && rc1 && rcp>=0 && rcp<=100 && re>=0 && re1 && rf>=0 && rf1 && rfp>=0
+        && rfp<=100 && rp>=0 && rp1 && rpe>=0 && rpe1 && rpep>=0 && rpep<=100 && nrpe>=0 && nrpe1 && fm>=0 && fm1){
 		$('#sub_wcst').submit();
-	}else if(ra=='' || cc=='' || rc=='' || rcp=='' || re=='' || rf=='' || rfp=='' || rp=='' || rpe=='' || rpep=='' || nrpe=='' || fm==''){
+	}
+	else if(ra=='' || cc=='' || rc=='' || rcp=='' || re=='' || rf=='' || rfp=='' || rp=='' || rpe=='' || rpep=='' || nrpe=='' || fm==''){
 		alert("请填写完毕后提交！");
 		return false;
 	}else{

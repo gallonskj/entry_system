@@ -1,5 +1,6 @@
 {% extends 'templates/index.html'%}
 {% load static %}
+{% load SelfDefinedFilter %}
 {% block title %}学习情况{% endblock %}
 {% block css %}
 <link href="{% static '/css/scales_style.css' %}" rel="stylesheet" >
@@ -29,6 +30,10 @@
                    <li ><a href="#">量表录入</a></li>
                    <li><a href="#" >个人详细信息录入</a></li>
                    <li class="active"><a href="#" >家庭信息</a></li>
+                   <div style="float: right;margin-bottom: 0px;">
+                    <a href="#" class="btn btn-warning btn-sm"><i class="fa fa-arrow-left"><strong></i>&nbsp;返&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回</strong></a>
+                    <a href="#" class="btn btn-warning btn-sm"><i class="fa fa-arrow-right"><strong></i>&nbsp;跳过该量表</strong></a>	
+                   </div>
               </ul>
           </div>
         </div>
@@ -37,36 +42,41 @@
           <div id="wrapper">
             <div id = "left-side" style="height: 100%;" class="col-md-2">
               <ul class="scales_progress">
-                <li class="step1 done">
-                  <p>家庭信息</p>
-                </li>
-                <li class="step2 doing ">
-                  <p>学习情况</p>
-                </li>
-                <li class="step3 nodone">
-                  <p>家庭及疾病史</p>
-                </li>
-                <li class="step4 nodone ">
-                  <p>物质依赖</p>
-                </li>
-                <li class="step5 nodone ">
-                  <p>其他资料</p>
-                </li>
-                <li class="finish nodone ">
-                  <p>利手信息</p>
-                </li>
+                {% for scale_name in scale_name_list %}
+                        {% if scale_name|get_item:'scale__scale_name' == '一般资料－学习情况' %}
+                            <li class="step doing  ">
+                                <p>一般资料-{{ scale_name|get_item:'scale__scale_name' }}</p>
+                            </li>
+                        {% elif scale_name|get_item:'state' == 0 %}
+                            <li class="step nodone notclick">
+                                <p>{{ scale_name|get_item:'scale__scale_name' }}</p>
+                            </li>
+                        {% else %}
+                            <li class="step done notclick">
+                                <p>{{ scale_name|get_item:'scale__scale_name' }}</p>
+                            </li>
+                        {% endif %}
+                        {% endfor %}
+                        <li class="finish nodone notclick">
+                          <p>完成</p>
+                        </li>
               </ul>
             </div>   
             <div id="right-side" class="col-md-10">
               <div id="first" class="active">
                   <form name="studyform" action="/scales/add_study?patient_id={{ patient_id }}&patient_session_id={{ patient_session_id }}&questionnaire_type={{ questionnaire_type|add:1 }}" method="post" onSubmit="return myCheck(this)">
                                 <div class="x_content">
+                                     <div class="x_title">
+                    <div class="clearfix"></div>
+                    <h2>学习情况 <small>Study</small></h2>
+                    <div class="clearfix"></div>
+                  </div>
                     <br>
 <!--                    最后一次大考-->
                     <div class="form-group row">
-                      <label class="control-label col-md-4 col-sm-6 col-md-offset-3">最近一次大考（期中或期末）中，您在班级的排名大约为<span class="required">*</span></label>
+                      <label class="control-label col-md-4 col-sm-6 col-md-offset-3">最近一次大考(期中或期末)中，您在班级的排名大约为:<span class="required"></span></label>
                       <div class="col-md-2 col-sm-3">
-                          <select class="form-control" name="patient_current_achievement" id="patient_current_achievement">
+                          <select class="form-control" name="patient_current_achievement" id="patient_current_achievement" style="width:200px">
                             <option value="1">前10%=1</option>
                             <option value="2">11-25%=2</option>
                             <option value="3">26-50%=3</option>
@@ -79,9 +89,9 @@
                     <br>
 <!--本学期相比于上个学期，学习成绩变动情况-->
                     <div class="form-group row">
-                      <label class="control-label col-md-3 col-sm-5 col-md-offset-4">本学期相比于上个学期，学习成绩变动情况<span class="required">*：</span></label>
+                      <label class="control-label col-md-3 col-sm-5 col-md-offset-4">本学期相比于上个学期，学习成绩变动情况:<span class="required"></span></label>
                       <div class="col-md-1 col-sm-3">
-                          <select class="form-control" name="patient_last_semester_achievement_difference" id="patient_last_semester_achievement_difference">
+                          <select class="form-control" name="patient_last_semester_achievement_difference" id="patient_last_semester_achievement_difference" style="width:200px">
                             <option value="1">进步=1</option>
                             <option value="2">退步=2</option>
                             <option value="3">稳定=3</option>
@@ -91,9 +101,9 @@
                     <br>
 <!--                    有情绪方面的症状前后，学习成绩变动情况-->
                     <div class="form-group row" >
-                      <label class="control-label col-md-3 col-sm-5 col-md-offset-4">有情绪方面的症状前后，学习成绩变动情况<span class="required">*：</span></label>
+                      <label class="control-label col-md-3 col-sm-5 col-md-offset-4">有情绪方面的症状前后，学习成绩变动情况:<span class="required"></span></label>
                       <div class="col-md-1 col-sm-3">
-                          <select class="form-control" name="patient_mood_symptom_achievement_difference" id="patient_mood_symptom_achievement_difference">
+                          <select class="form-control" name="patient_mood_symptom_achievement_difference" id="patient_mood_symptom_achievement_difference" style="width:200px">
                             <option value="1">进步=1</option>
                             <option value="2">退步=2</option>
                             <option value="3">稳定=3</option>
@@ -102,7 +112,7 @@
                     </div>
                     <br>
                     <div class="form-group row">
-                      <label class="control-label col-md-3 col-sm-4 col-md-offset-2">是否担任过班级或学校的学生干部<span class="required">*:</span></label>
+                      <label class="control-label col-md-3 col-sm-4 col-md-offset-2">是否担任过班级或学校的学生干部:<span class="required"></span></label>
                       <div class="col-md-1 col-sm-1 " id="patient_leader_1">
                         <input type="radio" name="patient_leader" value=1 data-labelauty="是"/>
                       </div>
@@ -110,7 +120,7 @@
                         <input type="radio" name="patient_leader" value=0 data-labelauty="否"/>
                       </div>
                         <div  class="suicides_next_question" id = "suicides_next_question001">
-                      <label class="control-label col-md-1 col-sm-2 " >担任职务<span class="required">*:</span></label>
+                      <label class="control-label col-md-2 col-sm-2 " >担任职务:<span class="required"></span></label>
                       <div class="col-md-2 col-sm-2 form-group" >
                         <input type="text" id="patient_leader_occupation" name="patient_leader_occupation" class="form-control" required >
                       </div>
@@ -118,7 +128,7 @@
                     </div>
                     <br>
                     <div class="form-group row">
-                        <label class="control-label col-md-2 col-sm-3 col-md-offset-3 col-sm-offset-1">是否在学校寄宿<span class="required">*:</span></label>
+                        <label class="control-label  col-md-2 col-sm-3 col-md-offset-3 col-sm-offset-1">是否在学校寄宿:<span class="required"></span></label>
                       <div class="col-md-1 col-sm-1 " id="patient_live_school_1">
                         <input type="radio"  name="patient_live_school" value=1 data-labelauty="是"/>
                       </div>
@@ -126,7 +136,7 @@
                         <input type="radio" name="patient_live_school" value=0 data-labelauty="否" />
                       </div>
                         <div  class="suicides_question" id = "suicides_next_question001">
-                      <label class="control-label col-md-1 col-sm-2 ">每月回家次数<span class="required">*:</span></label>
+                      <label class="control-label col-md-2 col-sm-2 ">每月回家的次数:<span class="required"></span></label>
                       <div class="col-md-2 col-sm-2 form-group ">
                         <input type="text" id="patient_home_frequency" name="patient_home_frequency" class="form-control" required>
                       </div>

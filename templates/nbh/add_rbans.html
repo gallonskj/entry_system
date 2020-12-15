@@ -1,5 +1,6 @@
 {% extends 'templates/index.html'%}
 {% load static %}
+{% load SelfDefinedFilter %}
 {% block title %}重复成套性神经心理状态测验系统{% endblock %}
 {% block css %}
 <link href="{% static '/css/scales_style.css' %}" rel="stylesheet" >
@@ -27,6 +28,10 @@
                          <li ><a href="#">量表录入</a></li>
                          <li><a href="#" >认知分数录入</a></li>
 						 <li class="active"><a href="#" >重复成套性神经心理状态测验系统（rbans）</a></li>
+						 <div style="float: right;margin-bottom: 0px;">
+							<a href="#" class="btn btn-warning btn-sm"><i class="fa fa-arrow-left"><strong></i>&nbsp;返&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回</strong></a>
+							<a href="#" class="btn btn-warning btn-sm"><i class="fa fa-arrow-right"><strong></i>&nbsp;跳过该量表</strong></a>	
+						</div>
                     </ul>
                 </div>
             </div>
@@ -35,20 +40,23 @@
         	<div id="wrapper">
                 <div id = "left-side" style="height: 100%;margin-left: 10px;" class="col-md-2">
                   <ul class="scales_progress">
-                    <li class="step1 done">
-                      <p>维斯康星卡片分类测验（wcst）</p>
-                    </li>
-                    <li class="step2 doing ">
-                      <p>重复成套性神经心理状态测验系统（rbans）</p>
-                    </li>
-                    <li class="step3 nodone">
-                      <p>面孔情绪感知能力测试（fept）</p>
-                    </li>
-                    <li class="step4 nodone ">
-                      <p>语音情绪感知能力测试（vept）</p>
-					</li>
-					<li class="finish nodone ">
-                      <p>完成</p>
+					{% for scale_name in scale_name_list %}
+					{% if scale_name|get_item:'scale__scale_name' == '重复成套性神经心理状态测验系统 (RBANS)' %}
+						<li class="step doing  ">
+							<p>{{ scale_name|get_item:'scale__scale_name' }}</p>
+						</li>
+					{% elif scale_name|get_item:'state' == 0 %}
+						<li class="step nodone notclick">
+							<p>{{ scale_name|get_item:'scale__scale_name' }}</p>
+						</li>
+					{% else %}
+						<li class="step done notclick">
+							<p>{{ scale_name|get_item:'scale__scale_name' }}</p>
+						</li>
+					{% endif %}
+					{% endfor %}
+					<li class="finish nodone notclick">
+					  <p>完成</p>
 					</li>
                   </ul>
                 </div>  
@@ -588,7 +596,7 @@ $("#sub1").click(function(){
 	a18 = (parseInt(r18) == parseFloat(r18));
 
 
-	if (r1>0 && a1 && r2>=0 && a2 && r3>0 && a3 && r4>0 && a4 && r5>0 && a5 && r6>0 && a6 && r7>0 && a7 && r8>0 && a8 && r9>0 && a9 && r10>0 && a10 && r11>0 && a11 && r12>0 && a12 && r13>0 && a13 && r14>0 && a14 && r15>0 && a15 && r16>0 && a16 && r17>0 && a17 && r18>0 && a18){
+	if (r1>0 && a1 && r2>0 && a2 && r3>0 && a3 && r4>0 && a4 && r5>0 && a5 && r6>0 && a6 && r7>0 && a7 && r8>0 && a8 && r9>0 && a9 && r10>0 && a10 && r11>0 && a11 && r12>0 && a12 && r13>0 && a13 && r14>0 && a14 && r15>0 && a15 && r16>0 && a16 && r17>0 && a17 && r18>0 && a18){
 		$('#sub_rbans').submit();
 	}else if(r1=='' || r2=='' || r3=='' || r4=='' || r5=='' || r6=='' || r7=='' || r8=='' || r9=='' || r10=='' || r11=='' || r12=='' || r13=='' || r14=='' || r15=='' || r16=='' || r17=='' || r18==''){
 		alert("请填写完毕后提交！");

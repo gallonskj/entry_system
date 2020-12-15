@@ -50,6 +50,7 @@ def get_select_scales(request):
     generalinfo_scale_list, other_test_scale_list, self_test_scale_list, cognition_scale_list = scales_dao.get_uodo_scales(patient_session_id)
     return render(request, 'select_scales.html', {'patient_baseinfo': patient,
                                                   'patient_id': patient.id,
+                                                  'standard_id':patient_detail.standard_id,
                                                   'patient_session_id': patient_session_id,
                                                   "username": request.session.get('username'),
                                                   'patient_detail':patient_detail,
@@ -310,7 +311,9 @@ def add_patient_medical_history(request):
         patient_session_id = request.GET.get('patient_session_id')
         scale_id = tools_config.mediacal_history
         doctor_id = request.session.get('doctor_id')
-        rPatientMedicalHistory = scales_models.RPatientMedicalHistory(patient_session_id=patient_session_id, scale_id=scale_id,
+        rPatientMedicalHistory = scales_dao.get_patient_medical_history_byPatientId(patient_session_id)
+        if rPatientMedicalHistory is None:
+            rPatientMedicalHistory = scales_models.RPatientMedicalHistory(patient_session_id=patient_session_id, scale_id=scale_id,
                                                         doctor_id=doctor_id)
         rPatientDrugsInformation = scales_models.RPatientDrugsInformation(patient_session_id=patient_session_id, scale_id=scale_id,
                                                             doctor_id=doctor_id)
@@ -349,12 +352,12 @@ def add_ybo(request):
         patient_session_id = request.GET.get('patient_session_id')
         doctor_id = request.session.get('doctor_id')
         scale_id = tools_config.ybocs
-        rpatientybobsessiontable = scales_models.RPatientYbobsessiontable(patient_session_id=patient_session_id,
+        rpatientybobsessiontable = scales_dao.get_patient_YBO_byPatientDetailId(patient_session_id)
+        if rpatientybobsessiontable is None:
+            rpatientybobsessiontable = scales_models.RPatientYbobsessiontable(patient_session_id=patient_session_id,
                                                             doctor_id=doctor_id,
                                                             scale_id=scale_id)
-        for key in request.POST.keys():
-            if hasattr(rpatientybobsessiontable, key):
-                setattr(rpatientybobsessiontable, key, request.POST.get(key))
+        rpatientybobsessiontable = set_attr_by_post(request,rpatientybobsessiontable)
     # 添加数据库
     scales_dao.dao_add_ybo(rpatientybobsessiontable)
     # 页面跳转
@@ -368,13 +371,13 @@ def add_suicide(request):
         patient_session_id = request.GET.get('patient_session_id')
         doctor_id = request.session.get('doctor_id')
         scales_id = tools_config.bss
-        rpatientsuicidal = scales_models.RPatientSuicidal(patient_session_id=patient_session_id,
+        rpatientsuicidal = scales_dao.get_patient_suicidal_byPatientDetailId(patient_session_id)
+        if rpatientsuicidal is None:
+            rpatientsuicidal = scales_models.RPatientSuicidal(patient_session_id=patient_session_id,
                                             doctor_id=doctor_id,
                                             scale_id=scales_id)
 
-        for key in request.POST.keys():
-            if hasattr(rpatientsuicidal, key):
-                setattr(rpatientsuicidal, key, request.POST.get(key))
+        rpatientsuicidal = set_attr_by_post(request,rpatientsuicidal)
     # 保存数据库
     scales_dao.dao_add_suicide(rpatientsuicidal)
     patient_id = request.GET.get('patient_id')
@@ -388,7 +391,9 @@ def add_family_info(request):
         patient_session_id = request.GET.get('patient_session_id')
         scales_id = tools_config.information_family
         dpatientdetail = scales_models.DPatientDetail.objects.filter(pk=patient_session_id).first()
-        patient_basic_info_family = scales_models.RPatientBasicInformationFamily(patient_session=dpatientdetail,
+        patient_basic_info_family = scales_dao.get_patient_base_info_family_byPatientDetailId(patient_session_id)
+        if patient_basic_info_family is None:
+            patient_basic_info_family = scales_models.RPatientBasicInformationFamily(patient_session=dpatientdetail,
                                                                    doctor_id=doctor_id,
                                                                    scale_id=scales_id)
 
@@ -418,13 +423,10 @@ def add_hamd(request):
     patient_session_id = request.GET.get('patient_session_id')
     scale_id = tools_config.hamd_17
     doctor_id = request.session.get('doctor_id')
-    # 创建一个对象
-    rPatientHAMD17 = scales_models.RPatientHamd17(patient_session_id=patient_session_id, scale_id=scale_id, doctor_id=doctor_id)
-    # 通过field的方式进行数据的传递，注意，需要保证form表单中各项的名称与数据库中字段名称是名称相同
-    fields_data = scales_models.RPatientHamd17._meta.fields
-    data_dict = rPatientHAMD17.__dict__
-    for ele in fields_data:
-        data_dict[ele.name] = request.POST.get(ele.name)
+    rPatientHAMD17 = scales_dao.get_patient_HAMD17_byPatientDetailId(patient_session_id)
+    if rPatientHAMD17 is None:
+        rPatientHAMD17 = scales_models.RPatientHamd17(patient_session_id=patient_session_id, scale_id=scale_id, doctor_id=doctor_id)
+    rPatientHAMD17 = set_attr_by_post(request,rPatientHAMD17)
     # 插入数据库
     scales_dao.add_hamd_database(rPatientHAMD17)
     patient_id = request.GET.get('patient_id')
@@ -435,14 +437,10 @@ def add_information_study(request):
     patient_session_id = request.GET.get('patient_session_id')
     scale_id = tools_config.information_study
     doctor_id = request.session.get('doctor_id')
-    # 创建一个对象情况
-    rPatientBasicInformationStudy = scales_models.RPatientBasicInformationStudy(patient_session_id=patient_session_id, scale_id=scale_id, doctor_id=doctor_id)
-    # 通过field的方式进行数据的传递，注意，需要保证form表单中各项的名称与数据库中字段名称是名称相同
-    fields_data = scales_models.RPatientBasicInformationStudy._meta.fields
-    data_dict = rPatientBasicInformationStudy.__dict__
-    for ele in fields_data:
-        data_dict[ele.name] = request.POST.get(ele.name)
-
+    rPatientBasicInformationStudy = scales_dao.get_patient_base_info_study_byPatientDetailId(patient_session_id)
+    if rPatientBasicInformationStudy is None:
+        rPatientBasicInformationStudy = scales_models.RPatientBasicInformationStudy(patient_session_id=patient_session_id, scale_id=scale_id, doctor_id=doctor_id)
+    rPatientBasicInformationStudy = set_attr_by_post(request,rPatientBasicInformationStudy)
     scales_dao.add_information_study_database(rPatientBasicInformationStudy)
     patient_id = request.GET.get('patient_id')
     redirect_url = get_redirect_url(patient_session_id,patient_id,tools_config.general_info_next_url,tools_config.general_info_type)
@@ -453,14 +451,10 @@ def add_chinesehandle(request):
     patient_session_id = request.GET.get('patient_session_id')
     scale_id = tools_config.chi
     doctor_id = request.session.get('doctor_id')
-    rPatientChineseHandy = scales_models.RPatientChineseHandy(patient_session_id=patient_session_id, scale_id=scale_id, doctor_id=doctor_id)
-    # 通过field的方式进行数据的传递，注意，需要保证form表单中各项的名称与数据库中字段名称是名称相同
-    fields_data = scales_models.RPatientChineseHandy._meta.fields
-    data_dict = rPatientChineseHandy.__dict__
-    result = 1
-    for ele in fields_data:
-        data_dict[ele.name] = request.POST.get(ele.name)
-
+    rPatientChineseHandy = scales_dao.get_handy_byPatientDetailId(patient_session_id)
+    if rPatientChineseHandy is None:
+        rPatientChineseHandy = scales_models.RPatientChineseHandy(patient_session_id=patient_session_id, scale_id=scale_id, doctor_id=doctor_id)
+    rPatientChineseHandy = set_attr_by_post(request,rPatientChineseHandy)
     scales_dao.add_chinesehandle_database(rPatientChineseHandy)
     patient_id = request.GET.get('patient_id')
     redirect_url = get_redirect_url(patient_session_id,patient_id,tools_config.general_info_next_url,tools_config.general_info_type)
@@ -472,17 +466,11 @@ def add_manicsymptom(request):
     patient_session_id = request.GET.get('patient_session_id')
     scale_id = tools_config.hcl_33
     doctor_id = request.session.get('doctor_id')
-    # 创建一个对象
-    rPatientManicsymptom = scales_models.RPatientManicsymptom(patient_session_id=patient_session_id, scale_id=scale_id,
+    rPatientManicsymptom = scales_dao.get_patient_manicSymptom_byPatientDetailId(patient_session_id)
+    if rPatientManicsymptom is None:
+        rPatientManicsymptom = scales_models.RPatientManicsymptom(patient_session_id=patient_session_id, scale_id=scale_id,
                                                 doctor_id=doctor_id)
-    # 通过field的方式进行数据的传递，注意，需要保证form表单中各项的名称与数据库中字段名称是名称相同
-    fields_data = scales_models.RPatientManicsymptom._meta.fields
-    data_dict = rPatientManicsymptom.__dict__
-    for ele in fields_data:
-        data_dict[ele.name] = request.POST.get(ele.name)
-
-    if rPatientManicsymptom.question8 == '':
-        rPatientManicsymptom.question8 = None
+    rPatientManicsymptom = set_attr_by_post(request,rPatientManicsymptom)
     scales_dao.add_manicsymptom_database(rPatientManicsymptom)
     patient_id = request.GET.get('patient_id')
     redirect_url = get_redirect_url(patient_session_id,patient_id,tools_config.self_test_next_type_url,tools_config.self_test_type)
@@ -493,13 +481,11 @@ def add_happiness(request):
     patient_session_id = request.GET.get('patient_session_id')
     scale_id = tools_config.shaps
     doctor_id = request.session.get('doctor_id')
-    rPatienthappiness = scales_models.RPatientHappiness(patient_session_id=patient_session_id, scale_id=scale_id,
+    rPatienthappiness = scales_dao.get_patient_happiness_byPatientDetailId(patient_session_id)
+    if rPatienthappiness is None:
+        rPatienthappiness = scales_models.RPatientHappiness(patient_session_id=patient_session_id, scale_id=scale_id,
                                           doctor_id=doctor_id)
-    # 通过field的方式进行数据的传递，注意，需要保证form表单中各项的名称与数据库中字段名称是名称相同
-    fields_data = scales_models.RPatientHappiness._meta.fields
-    data_dict = rPatienthappiness.__dict__
-    for ele in fields_data:
-        data_dict[ele.name] = request.POST.get(ele.name)
+    rPatienthappiness = set_attr_by_post(request,rPatienthappiness)
     scales_dao.add_happiness_database(rPatienthappiness)
     patient_id = request.GET.get('patient_id')
     redirect_url = get_redirect_url(patient_session_id,patient_id,tools_config.self_test_next_type_url,tools_config.self_test_type)
@@ -513,14 +499,11 @@ def add_cognitive_emotion(request):
     patient_session_id = request.GET.get('patient_session_id')
     scale_id = tools_config.cerq_c
     doctor_id = request.session.get('doctor_id')
-    rPatientCognitiveEmotion = scales_models.RPatientCognitiveEmotion(patient_session_id=patient_session_id, scale_id=scale_id,
+    rPatientCognitiveEmotion = scales_dao.get_patient_cognitive_byPatientDetailId(patient_session_id)
+    if rPatientCognitiveEmotion is None:
+        rPatientCognitiveEmotion = scales_models.RPatientCognitiveEmotion(patient_session_id=patient_session_id, scale_id=scale_id,
                                                         doctor_id=doctor_id)
-    data = request.__dict__
-    fields_data_ = scales_models.RPatientCognitiveEmotion._meta.fields
-    data_dict = rPatientCognitiveEmotion.__dict__
-    for ele in fields_data_:
-        data_dict[ele.name] = request.POST.get(ele.name)
-
+    rPatientCognitiveEmotion = set_attr_by_post(request,rPatientCognitiveEmotion)
     scales_dao.add_cognitive_emotion_database(rPatientCognitiveEmotion)
     patient_id = request.GET.get('patient_id')
     redirect_url = get_redirect_url(patient_session_id,patient_id,tools_config.self_test_next_type_url,tools_config.self_test_type)
@@ -532,14 +515,10 @@ def add_pleasure(request):
     patient_session_id = request.GET.get('patient_session_id')
     scale_id = tools_config.teps
     doctor_id = request.session.get('doctor_id')
-
-    rPatientPleasure = scales_models.RPatientPleasure(patient_session_id=patient_session_id, scale_id=scale_id, doctor_id=doctor_id)
-    data = request.__dict__
-    fields_data_ = scales_models.RPatientPleasure._meta.fields
-    data_dict = rPatientPleasure.__dict__
-    for ele in fields_data_:
-        data_dict[ele.name] = request.POST.get(ele.name)
-
+    rPatientPleasure = scales_dao.get_patient_pleasure_byPatientDetailId(patient_session_id)
+    if rPatientPleasure is None:
+        rPatientPleasure = scales_models.RPatientPleasure(patient_session_id=patient_session_id, scale_id=scale_id, doctor_id=doctor_id)
+    rPatientPleasure = set_attr_by_post(request,rPatientPleasure)
     scales_dao.add_pleasure_database(rPatientPleasure)
     patient_id = request.GET.get('patient_id')
     redirect_url = get_redirect_url(patient_session_id,patient_id,tools_config.self_test_next_type_url,tools_config.self_test_type)
@@ -550,13 +529,10 @@ def add_bprs(request):
     patient_session_id = request.GET.get('patient_session_id')
     scale_id = tools_config.bprs
     doctor_id = request.session.get('doctor_id')
-    total_scores = 1
-    rPatientbprs = scales_models.RPatientBprs(patient_session_id=patient_session_id, scale_id=scale_id, doctor_id=doctor_id)
-    data = request.__dict__
-    fields_data_ = scales_models.RPatientBprs._meta.fields
-    data_dict = rPatientbprs.__dict__
-    for ele in fields_data_:
-        data_dict[ele.name] = request.POST.get(ele.name)
+    rPatientbprs = scales_dao.get_patient_BPRS_byPatientDetailId(patient_session_id)
+    if rPatientbprs is None:
+        rPatientbprs = scales_models.RPatientBprs(patient_session_id=patient_session_id, scale_id=scale_id, doctor_id=doctor_id)
+    rPatientbprs = set_attr_by_post(request,rPatientbprs)
     scales_dao.add_bprs_database(rPatientbprs)
     patient_id = request.GET.get('patient_id')
     redirect_url = get_redirect_url(patient_session_id,patient_id,tools_config.other_test_next_type_url,tools_config.other_test_type)
@@ -567,13 +543,10 @@ def add_rbans(request):
     patient_session_id = request.GET.get('patient_session_id')
     scale_id = tools_config.rbans
     doctor_id = request.session.get('doctor_id')
-    total_scores = 1
-    rPatientrbans = scales_models.RPatientRbans(patient_session_id=patient_session_id, scale_id=scale_id, doctor_id=doctor_id)
-    data = request.__dict__
-    fields_data_ = scales_models.RPatientRbans._meta.fields
-    data_dict = rPatientrbans.__dict__
-    for ele in fields_data_:
-        data_dict[ele.name] = request.POST.get(ele.name)
+    rPatientrbans = scales_dao.get_patient_rbans_byPatientDetailId(patient_session_id)
+    if rPatientrbans is None:
+        rPatientrbans = scales_models.RPatientRbans(patient_session_id=patient_session_id, scale_id=scale_id, doctor_id=doctor_id)
+    rPatientrbans = set_attr_by_post(request,rPatientrbans)
     scales_dao.add_rbans_database(rPatientrbans)
     patient_id = request.GET.get('patient_id')
     redirect_url = get_redirect_url(patient_session_id,patient_id,tools_config.cognition_next_type_url,tools_config.cognition_type)
@@ -584,14 +557,11 @@ def add_patient_basic_information_health(request):
     patient_session_id = request.GET.get('patient_session_id')
     scale_id = tools_config.information_health
     doctor_id = request.session.get('doctor_id')
-    total_scores = 1
-    rPatientBasicInformationHealth = scales_models.RPatientBasicInformationHealth(patient_session_id=patient_session_id,
+    rPatientBasicInformationHealth = scales_dao.get_patient_base_info_health_byPatientDetailId(patient_session_id)
+    if rPatientBasicInformationHealth is None :
+        rPatientBasicInformationHealth = scales_models.RPatientBasicInformationHealth(patient_session_id=patient_session_id,
                                                                     scale_id=scale_id, doctor_id=doctor_id)
-    data = request.__dict__
-    fields_data_ = scales_models.RPatientBasicInformationHealth._meta.fields
-    data_dict = rPatientBasicInformationHealth.__dict__
-    for ele in fields_data_:
-        data_dict[ele.name] = request.POST.get(ele.name)
+    rPatientBasicInformationHealth = set_attr_by_post(request,rPatientBasicInformationHealth)
     scales_dao.add_patient_basic_information_health_database(rPatientBasicInformationHealth)
     patient_id = request.GET.get('patient_id')
     redirect_url = get_redirect_url(patient_session_id,patient_id,tools_config.general_info_next_url,tools_config.general_info_type)
@@ -607,12 +577,10 @@ def add_abuse(request):
     patient_session_id = request.GET.get('patient_session_id')
     scale_id = tools_config.information_abuse
     doctor_id = request.session.get('doctor_id')
-    rPatientBasicInformationAbuse = scales_models.RPatientBasicInformationAbuse(patient_session_id=patient_session_id, scale_id=scale_id, doctor_id=doctor_id)
-    data = request.__dict__
-    fields_data_= scales_models.RPatientBasicInformationAbuse._meta.fields
-    data_dict = rPatientBasicInformationAbuse.__dict__
-    for ele in fields_data_:
-        data_dict[ele.name]=request.POST.get(ele.name)
+    rPatientBasicInformationAbuse = scales_dao.get_patient_base_info_abuse_byPatientDetailId(patient_session_id)
+    if rPatientBasicInformationAbuse is None:
+        rPatientBasicInformationAbuse = scales_models.RPatientBasicInformationAbuse(patient_session_id=patient_session_id, scale_id=scale_id, doctor_id=doctor_id)
+    rPatientBasicInformationAbuse = set_attr_by_post(request,rPatientBasicInformationAbuse)
     scales_dao.add_abuse_database(rPatientBasicInformationAbuse)
     patient_id = request.GET.get('patient_id')
     redirect_url = get_redirect_url(patient_session_id,patient_id,tools_config.general_info_next_url,tools_config.general_info_type)
@@ -623,12 +591,10 @@ def add_hama(request):
     patient_session_id = request.GET.get('patient_session_id')
     scale_id = tools_config.hama
     doctor_id = request.session.get('doctor_id')
-    rPatientHama = scales_models.RPatientHama(patient_session_id=patient_session_id, scale_id=scale_id, doctor_id=doctor_id)
-    data = request.__dict__
-    fields_data_= scales_models.RPatientHama._meta.fields
-    data_dict=rPatientHama.__dict__
-    for ele in fields_data_:
-        data_dict[ele.name]=request.POST.get(ele.name)
+    rPatientHama = scales_dao.get_patient_HAMA_byPatientDetailId(patient_session_id)
+    if rPatientHama is None:
+        rPatientHama = scales_models.RPatientHama(patient_session_id=patient_session_id, scale_id=scale_id, doctor_id=doctor_id)
+    rPatientHama = set_attr_by_post(request,rPatientHama)
 
     scales_dao.add_hama_database(rPatientHama)
     patient_id = request.GET.get('patient_id')
@@ -641,12 +607,10 @@ def add_growth(request):
     patient_session_id = request.GET.get('patient_session_id')
     scale_id = tools_config.ctq_sf
     doctor_id = request.session.get('doctor_id')
-    rPatientGrowth = scales_models.RPatientGrowth(patient_session_id=patient_session_id, scale_id=scale_id, doctor_id=doctor_id)
-    data = request.__dict__
-    fields_data_= scales_models.RPatientGrowth._meta.fields
-    data_dict=rPatientGrowth.__dict__
-    for ele in fields_data_:
-        data_dict[ele.name]=request.POST.get(ele.name)
+    rPatientGrowth = scales_dao.get_patient_growth_byPatientDetailId(patient_session_id)
+    if rPatientGrowth is None:
+        rPatientGrowth = scales_models.RPatientGrowth(patient_session_id=patient_session_id, scale_id=scale_id, doctor_id=doctor_id)
+    rPatientGrowth = set_attr_by_post(request,rPatientGrowth)
     scales_dao.add_growth_database(rPatientGrowth)
     patient_id = request.GET.get('patient_id')
     redirect_url = get_redirect_url(patient_session_id,patient_id,tools_config.self_test_next_type_url,tools_config.self_test_type)
@@ -657,12 +621,10 @@ def add_adolescent_events(request):
     patient_session_id = request.GET.get('patient_session_id')
     scale_id = tools_config.aslec
     doctor_id = request.session.get('doctor_id')
-    rPatientAdolescentEvents = scales_models.RPatientAdolescentEvents(patient_session_id=patient_session_id, scale_id=scale_id, doctor_id=doctor_id)
-    data = request.__dict__
-    fields_data_= scales_models.RPatientAdolescentEvents._meta.fields
-    data_dict=rPatientAdolescentEvents.__dict__
-    for ele in fields_data_:
-        data_dict[ele.name]=request.POST.get(ele.name)
+    rPatientAdolescentEvents =  scales_dao.get_patient_adolescent_byPatientDetailId(patient_session_id)
+    if rPatientAdolescentEvents is None:
+        rPatientAdolescentEvents = scales_models.RPatientAdolescentEvents(patient_session_id=patient_session_id, scale_id=scale_id, doctor_id=doctor_id)
+    rPatientAdolescentEvents = set_attr_by_post(request,rPatientAdolescentEvents)
     scales_dao.add_adolescent_events_database(rPatientAdolescentEvents)
     patient_id = request.GET.get('patient_id')
     redirect_url = get_redirect_url(patient_session_id,patient_id,tools_config.self_test_next_type_url,tools_config.self_test_type)
@@ -673,13 +635,10 @@ def add_fept(request):
     patient_session_id = request.GET.get('patient_session_id')
     scale_id = tools_config.fept
     doctor_id = request.session.get('doctor_id')
-    # 创建一个对象
-    rPatientFept = scales_models.RPatientFept(patient_session_id=patient_session_id, scale_id=scale_id, doctor_id=doctor_id)
-    # 通过field的方式进行数据的传递，注意，需要保证form表单中各项的名称与数据库中字段名称是名称相同
-    fields_data = scales_models.RPatientFept._meta.fields
-    data_dict = rPatientFept.__dict__
-    for ele in fields_data:
-        data_dict[ele.name] = request.POST.get(ele.name)
+    rPatientFept = scales_dao.get_patient_fept_byPatientDetailId(patient_session_id)
+    if rPatientFept is None:
+        rPatientFept = scales_models.RPatientFept(patient_session_id=patient_session_id, scale_id=scale_id, doctor_id=doctor_id)
+    rPatientFept = set_attr_by_post(request,rPatientFept)
     scales_dao.add_fept_database(rPatientFept)
     patient_id = request.GET.get('patient_id')
     redirect_url = get_redirect_url(patient_session_id,patient_id,tools_config.cognition_next_type_url,tools_config.cognition_type)
@@ -692,13 +651,10 @@ def add_vept(request):
     patient_session_id = request.GET.get('patient_session_id')
     scale_id = tools_config.vept
     doctor_id = request.session.get('doctor_id')
-    # 创建一个对象
-    rPatientVept = scales_models.RPatientVept(patient_session_id=patient_session_id, scale_id=scale_id, doctor_id=doctor_id)
-    # 通过field的方式进行数据的传递，注意，需要保证form表单中各项的名称与数据库中字段名称是名称相同
-    fields_data = scales_models.RPatientVept._meta.fields
-    data_dict = rPatientVept.__dict__
-    for ele in fields_data:
-        data_dict[ele.name] = request.POST.get(ele.name)
+    rPatientVept = scales_dao.get_patient_vept_byPatientDetailId(patient_session_id)
+    if rPatientVept is None:
+        rPatientVept = scales_models.RPatientVept(patient_session_id=patient_session_id, scale_id=scale_id, doctor_id=doctor_id)
+    rPatientVept = set_attr_by_post(request,rPatientVept)
     scales_dao.add_vept_database(rPatientVept)
     patient_id = request.GET.get('patient_id')
     redirect_url = get_redirect_url(patient_session_id,patient_id,tools_config.cognition_next_type_url,tools_config.cognition_type)
@@ -711,12 +667,10 @@ def add_ymrs(request):
     patient_session_id = request.GET.get('patient_session_id')
     scale_id = tools_config.ymrs
     doctor_id = request.session.get('doctor_id')
-    rPatientYmrs = scales_models.RPatientYmrs(patient_session_id=patient_session_id, scale_id=scale_id, doctor_id=doctor_id)
-    data = request.__dict__
-    fields_data_ = scales_models.RPatientYmrs._meta.fields
-    data_dict = rPatientYmrs.__dict__
-    for ele in fields_data_:
-        data_dict[ele.name] = request.POST.get(ele.name)
+    rPatientYmrs = scales_dao.get_patient_YMRS_byPatientDetailId(patient_session_id)
+    if rPatientYmrs is None:
+        rPatientYmrs = scales_models.RPatientYmrs(patient_session_id=patient_session_id, scale_id=scale_id, doctor_id=doctor_id)
+    rPatientYmrs = set_attr_by_post(request,rPatientYmrs)
     scales_dao.add_ymrs_database(rPatientYmrs)
     patient_id = request.GET.get('patient_id')
     redirect_url = get_redirect_url(patient_session_id,patient_id,tools_config.other_test_next_type_url,tools_config.other_test_type)
@@ -728,13 +682,10 @@ def add_sembu(request):
     patient_session_id = request.GET.get('patient_session_id')
     scale_id = tools_config.s_embu
     doctor_id = request.session.get('doctor_id')
-    rPatientSembu = scales_models.RPatientSembu(patient_session_id=patient_session_id, scale_id=scale_id, doctor_id=doctor_id)
-    data = request.__dict__
-    fields_data_ = scales_models.RPatientSembu._meta.fields
-    data_dict = rPatientSembu.__dict__
-    for ele in fields_data_:
-        data_dict[ele.name] = request.POST.get(ele.name)
-
+    rPatientSembu = scales_dao.get_patient_SEmbu_byPatientDetailId(patient_session_id)
+    if rPatientSembu is None:
+        rPatientSembu = scales_models.RPatientSembu(patient_session_id=patient_session_id, scale_id=scale_id, doctor_id=doctor_id)
+    rPatientSembu = set_attr_by_post(request,rPatientSembu)
     scales_dao.add_sembu_database(rPatientSembu)
     patient_id = request.GET.get('patient_id')
     redirect_url = get_redirect_url(patient_session_id,patient_id,tools_config.self_test_next_type_url,tools_config.self_test_type)
@@ -746,12 +697,10 @@ def add_atq(request):
     patient_session_id = request.GET.get('patient_session_id')
     scale_id = tools_config.atq
     doctor_id = request.session.get('doctor_id')
-    rPatientAtq = scales_models.RPatientAtq(patient_session_id=patient_session_id, scale_id=scale_id, doctor_id=doctor_id)
-    data = request.__dict__
-    fields_data_ = scales_models.RPatientAtq._meta.fields
-    data_dict = rPatientAtq.__dict__
-    for ele in fields_data_:
-        data_dict[ele.name] = request.POST.get(ele.name)
+    rPatientAtq = scales_dao.get_patient_ATQ_byPatientDetailId(patient_session_id)
+    if rPatientAtq is None:
+        rPatientAtq = scales_models.RPatientAtq(patient_session_id=patient_session_id, scale_id=scale_id, doctor_id=doctor_id)
+    rPatientAtq = set_attr_by_post(request,rPatientAtq)
     scales_dao.add_atq_database(rPatientAtq)
     patient_id = request.GET.get('patient_id')
     redirect_url = get_redirect_url(patient_session_id,patient_id,tools_config.self_test_next_type_url,tools_config.self_test_type)
@@ -763,12 +712,10 @@ def add_wcst(request):
     patient_session_id = request.GET.get('patient_session_id')
     scale_id = tools_config.wcst
     doctor_id = request.session.get('doctor_id')
-    rPatientWcst = scales_models.RPatientWcst(patient_session_id=patient_session_id, scale_id=scale_id, doctor_id=doctor_id)
-    data = request.__dict__
-    fields_data_ = scales_models.RPatientWcst._meta.fields
-    data_dict = rPatientWcst.__dict__
-    for ele in fields_data_:
-        data_dict[ele.name] = request.POST.get(ele.name)
+    rPatientWcst = scales_dao.get_patient_wcst_byPatientDetailId(patient_session_id)
+    if rPatientWcst is None:
+        rPatientWcst = scales_models.RPatientWcst(patient_session_id=patient_session_id, scale_id=scale_id, doctor_id=doctor_id)
+    rPatientWcst = set_attr_by_post(request,rPatientWcst)
     scales_dao.add_wcst_database(rPatientWcst)
     patient_id = request.GET.get('patient_id')
     redirect_url = get_redirect_url(patient_session_id,patient_id,tools_config.cognition_next_type_url,tools_config.cognition_type)
@@ -779,12 +726,10 @@ def add_other(request):
     patient_session_id = request.GET.get('patient_session_id')
     scale_id = tools_config.information_other
     doctor_id = request.session.get('doctor_id')
-    rPatientBasicInformationOther = scales_models.RPatientBasicInformationOther(patient_session_id=patient_session_id, scale_id=scale_id, doctor_id=doctor_id)
-    data = request.__dict__
-    fields_data_ = scales_models.RPatientBasicInformationOther._meta.fields
-    data_dict = rPatientBasicInformationOther.__dict__
-    for ele in fields_data_:
-        data_dict[ele.name] = request.POST.get(ele.name)
+    rPatientBasicInformationOther = scales_dao.get_patient_base_info_other_byPatientDetailId(patient_session_id)
+    if rPatientBasicInformationOther is None:
+        rPatientBasicInformationOther = scales_models.RPatientBasicInformationOther(patient_session_id=patient_session_id, scale_id=scale_id, doctor_id=doctor_id)
+    rPatientBasicInformationOther = set_attr_by_post(request,rPatientBasicInformationOther)
     scales_dao.add_other_database(rPatientBasicInformationOther)
     patient_id = request.GET.get('patient_id')
     redirect_url = get_redirect_url(patient_session_id,patient_id,tools_config.general_info_next_url,tools_config.general_info_type)
@@ -804,3 +749,10 @@ def get_redirect_url(patient_session_id,patient_id,next_type,do_scale_type):
     next_page_url = tools_config.scales_html_dict[min_unfinished_scale]
     redirect_url = '{}?patient_session_id={}&patient_id={}'.format(next_page_url, str(patient_session_id), str(patient_id))
     return redirect_url
+
+# 根据request post信息设置models的值
+def set_attr_by_post(request, scale_object):
+    for key in request.POST.keys():
+        if hasattr(scale_object, key) and request.POST.get(key)!='':
+            setattr(scale_object, key, request.POST.get(key))
+    return scale_object

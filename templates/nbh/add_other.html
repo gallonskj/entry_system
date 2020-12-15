@@ -1,5 +1,6 @@
 {% extends 'templates/index.html'%}
 {% load static %}
+{% load SelfDefinedFilter %}
 {% block title %}其他资料{% endblock %}
 {% block css %}
 <link href="{% static '/css/scales_style.css' %}" rel="stylesheet" >
@@ -29,6 +30,10 @@
                    <li ><a href="#">量表录入</a></li>
                    <li><a href="#" >个人详细信息录入</a></li>
                    <li class="active"><a href="#" >其他资料</a></li>
+                   <div style="float: right;margin-bottom: 0px;">
+                    <a href="#" class="btn btn-warning btn-sm"><i class="fa fa-arrow-left"><strong></i>&nbsp;返&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回</strong></a>
+                    <a href="#" class="btn btn-warning btn-sm"><i class="fa fa-arrow-right"><strong></i>&nbsp;跳过该量表</strong></a>	
+                   </div>
               </ul>
           </div>
         </div>
@@ -37,27 +42,24 @@
           <div id="wrapper">
             <div id = "left-side" style="height: 100%;" class="col-md-2">
               <ul class="scales_progress">
-                <li class="step1 done">
-                  <p>家庭信息</p>
-                </li>
-                <li class="step2 done ">
-                  <p>学习情况</p>
-                </li>
-                <li class="step3 done">
-                  <p>家庭及疾病史</p>
-                </li>
-                <li class="step4 done ">
-                  <p>物质依赖</p>
-                </li>
-                <li class="step5 doing ">
-                  <p>其他资料</p>
-                </li>
-                <li class="step6 nodone ">
-                  <p>利手信息</p>
-                </li>
-                <li class="finish nodone ">
-                  <p>完成</p>
-                </li>
+                {% for scale_name in scale_name_list %}
+                        {% if scale_name|get_item:'scale__scale_name' == '一般资料－其他资料' %}
+                            <li class="step doing  ">
+                                <p>{{ scale_name|get_item:'scale__scale_name' }}</p>
+                            </li>
+                        {% elif scale_name|get_item:'state' == 0 %}
+                            <li class="step nodone notclick">
+                                <p>{{ scale_name|get_item:'scale__scale_name' }}</p>
+                            </li>
+                        {% else %}
+                            <li class="step done notclick">
+                                <p>{{ scale_name|get_item:'scale__scale_name' }}</p>
+                            </li>
+                        {% endif %}
+                        {% endfor %}
+                        <li class="finish nodone notclick">
+                          <p>完成</p>
+                        </li>
               </ul>
             </div>  
              
@@ -100,9 +102,9 @@
                     <div class="form-group row">
                       <label class="control-label col-md-12 col-sm-12">最近三个月内是否发生过对您有重大影响的生活事件？（如失恋、家庭变故、欠债、投资失败、辍学、人际关系紧张等）<span class="required">*:</span></label>
                     </div>
-                    <div class="row">
-                      <div class="col-md-5 col-sm-5 " id="patient_big_event_1">
-                        <input type="radio"  name="patient_big_event" value=1 data-labelauty="是"/>
+                    <div class="row" >
+                      <div class="col-md-5 col-sm-5 " id="patient_big_event_1" >
+                       <center> <input type="radio"  name="patient_big_event"   value=1 data-labelauty="是"/></center>
                       </div>
                       <div class="col-md-5 col-sm-5 " id="patient_big_event_2">
                         <input type="radio"  name="patient_big_event" value=0 data-labelauty="否"/>
