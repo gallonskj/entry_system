@@ -400,31 +400,42 @@ $("#sub").click(function(){
 
 	ra = $('#ra').val();
 	ra1 = (parseInt(ra) == parseFloat(ra));
+
 	cc= $('#cc').val();
 	cc1 = (parseInt(cc) == parseFloat(cc));
+
 	rc = $('#rc').val();
 	rc1 = (parseInt(rc) == parseFloat(rc));
+
 	rcp = $('#rcp').val();
 
 	re = $('#re').val();
 	re1 = (parseInt(re) == parseFloat(re));
+
 	rf = $('#rf').val();
 	rf1 = (parseInt(rf) == parseFloat(rf));
+
 	rfp = $('#rfp').val();
 
 	rp = $('#rp').val();
 	rp1 = (parseInt(rp) == parseFloat(rp));
+
 	rpe = $('#rpe').val();
 	rpe1 = (parseInt(rpe) == parseFloat(rpe));
+
 	rpep = $('#rpep').val();
 
 	nrpe = $('#nrpe').val();
 	nrpe1 = (parseInt(nrpe) == parseFloat(nrpe));
+
 	fm = $('#fm').val();
 	fm1 = (parseInt(fm) == parseFloat(fm));
-	if (ra>0 && ra1 && cc>0 && cc1 && rc>0 && rc1 && rcp>0 && rcp<100 && re>0 && re1 && rf>0 && rf1 && rfp>0 && rfp<100 && rp>0 && rp1 && rpe>0 && rpe1 && rpep>0 && rpep<100 && nrpe>0 && nrpe1 && fm>0 && fm1){
+
+	if (ra>=0 && ra1 && cc>=0 && cc1 && rc>=0 && rc1 && rcp>=0 && rcp<=100 && re>=0 && re1 && rf>=0 && rf1 && rfp>=0
+        && rfp<=100 && rp>=0 && rp1 && rpe>=0 && rpe1 && rpep>=0 && rpep<=100 && nrpe>=0 && nrpe1 && fm>=0 && fm1){
 		$('#sub_wcst').submit();
-	}else if(ra=='' || cc=='' || rc=='' || rcp=='' || re=='' || rf=='' || rfp=='' || rp=='' || rpe=='' || rpep=='' || nrpe=='' || fm==''){
+	}
+	else if(ra=='' || cc=='' || rc=='' || rcp=='' || re=='' || rf=='' || rfp=='' || rp=='' || rpe=='' || rpep=='' || nrpe=='' || fm==''){
 		alert("请填写完毕后提交！");
 		return false;
 	}else{
