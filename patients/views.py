@@ -109,7 +109,6 @@ def get_selected_scales_with_lastsession(request):
     # 获取这一次复扫信息
     patient_baseinfo = patients_dao.get_base_info_byPK(patient_id)
     patient_detail = patients_dao.get_patient_detail_last_byPatientId(patient_id)
-    scales_list = patients_dao.judgment_scales(patient_detail.id)
     generalinfo_scale_list, other_test_scale_list, self_test_scale_list, cognition_scale_list = scales_dao.get_uodo_scales(patient_detail.id)
     return render(request, 'select_scales.html', {
                                                   'patient_id': patient_baseinfo.id,
