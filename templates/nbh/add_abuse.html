@@ -34,6 +34,7 @@
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <ul class="breadcrumb" style="background-color: white;font-weight:bold">
 
+
                     <li><a href="#">量表录入</a></li>
                     <li><a href="#">个人详细信息录入</a></li>
                     <li class="active"><a href="#">物质依赖</a></li>
@@ -41,6 +42,7 @@
                         <a href="/scales/select_scales?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}"
                            class="btn btn-warning btn-sm"><i class="fa fa-arrow-left"></i><strong>&nbsp;返&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回</strong></a>
                     </div>
+
                 </ul>
             </div>
         </div>
@@ -122,6 +124,7 @@
                             </div>
 
 
+
                             <br>
                             <div class="form-group row">
                                 <label class="control-label col-md-2 col-sm-2 col-md-offset-1 ">是否饮酒<span
@@ -198,22 +201,6 @@
 <script>
 $(document).ready(function(){
     $("input[type='radio']").labelauty();
-  {% comment %}  $('.smoke_detail').hide();
-    $("#patient_smoke_1").on('click', function(event){
-        $('.smoke_detail').show();
-        $("input[name='patient_smoke_age']").removeAttr("required");
-        $("input[name='patient_smoke_age']").val("");
-        $("input[name='patient_daily_smoke_num']").removeAttr("required");
-        $("input[name='patient_daily_smoke_num']").val("");
-        $("input[name='patient_stop_smoke_age']").removeAttr("required");
-        $("input[name='patient_stop_smoke_age']").val("");
-    });
-    $("#patient_smoke_2").on('click', function(event){
-        $('.smoke_detail').hide();
-        $("input[name='patient_smoke_age']").attr('required','required');
-        $("input[name='patient_daily_smoke_num']").attr('required','required');
-        $("input[name='patient_stop_smoke_age']").attr('required','required');
-    });{% endcomment %}
 
 
         $('.smoke_detail').hide();

@@ -145,7 +145,8 @@ def get_family_form(request):
     nation_list = patients_dao.get_DEthnicity_all()
     patient_session_id = request.GET.get('patient_session_id')
     patient_detail = patients_dao.get_patient_detail_byPK(patient_session_id)
-
+    if patient_detail.handy is None:
+        patient_detail.handy = 0
     scale_name_list = scales_dao.get_scalename_bytype(tools_config.general_info_type, patient_session_id)
     return render(request, 'nbh/add_family.html', {'patient_session_id': request.GET.get('patient_session_id'),
                                                    'patient_id': request.GET.get('patient_id'),
@@ -156,8 +157,8 @@ def get_family_form(request):
                                                    'scale_name_list': scale_name_list,
                                                    'patient_detail': patient_detail,
                                                    'scale_id': tools_config.information_family,
+                                                   'handy': patient_detail.handy,
                                                    })
-
 
 # 获取学习情况表单
 def get_study_form(request):
@@ -521,6 +522,7 @@ def add_suicide(request):
 def add_family_info(request):
     if request.POST:
         doctor_id = request.session.get('doctor_id')
+        patient_id = request.GET.get('patient_id')
         patient_session_id = request.GET.get('patient_session_id')
         patient_id = request.GET.get('patient_id')
         scales_id = tools_config.information_family
@@ -532,6 +534,7 @@ def add_family_info(request):
             patient_basic_info_family = scales_models.RPatientBasicInformationFamily(patient_session=dpatientdetail,
                                                                                      doctor_id=doctor_id,
                                                                                      scale_id=scales_id)
+
         form_list = [dpatientdetail, patient_basic_info_family, patient_base_info]
         # 有些字段传回来的是‘’，不能自动转换成int或者Null
         for key in request.POST.keys():
@@ -541,6 +544,7 @@ def add_family_info(request):
                         setattr(form, key, None)
                     else:
                         setattr(form, key, request.POST.get(key))
+
 
         patients_dao.add_patient_detail(dpatientdetail)
         patients_dao.add_base_info(patient_base_info)
@@ -599,6 +603,11 @@ def add_chinesehandle(request):
                                                                   scale_id=scale_id, doctor_id=doctor_id)
     rPatientChineseHandy = set_attr_by_post(request, rPatientChineseHandy)
     scales_dao.add_chinesehandle_database(rPatientChineseHandy)
+    #这里还要更新d_patient_detail表中的利手关系
+    patient_detail = patients_dao.get_patient_detail_byPK(patient_session_id)
+    patient_detail.handy = rPatientChineseHandy.result
+    patients_dao.add_patient_detail(patient_detail)
+
     patient_id = request.GET.get('patient_id')
     redirect_url = get_redirect_url(patient_session_id, patient_id, tools_config.general_info_next_url,
                                     tools_config.general_info_type, tools_config.chi)

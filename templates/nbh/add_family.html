@@ -22,8 +22,10 @@
     </style>
 {% endblock %}
 {% block content %}
+
  <div class="right_col" role="main">
         <div class="container">
+
         <div class="row show-grid">
           <div class="col-md-12 col-sm-12 col-xs-12">
               <ul class="breadcrumb" style="background-color: white;font-weight:bold">
@@ -57,8 +59,9 @@
                         {% endif %}
                         {% endfor %}
                         <li class="finish nodone notclick">
-                          <p>完成</p>
+                            <p>完成</p>
                         </li>
+
               </ul>
             </div>
 
@@ -111,6 +114,7 @@
                                         <div class="col-md-4 col-sm-3 form-group has-feedback row">
                                             <input type="radio" name="sex" value=0 data-labelauty="男" checked disabled/>
                                         </div>
+
                                         <div class="col-md-4 col-sm-3 form-group has-feedback row">
                                             <input type="radio" name="sex" value=1 data-labelauty="女" disabled/>
                                         </div>
@@ -128,7 +132,7 @@
                                     <label class="control-label col-md-3 col-sm-2 " for="marital_status">婚姻状况<span
                                             class="required">*</span></label>
                                     <div class="col-md-1 col-sm-2">
-                                        <select class="form-control" name="marital_status" id="marital_status"
+                                        <select class="form-control" name="emotional_state" id="marital_status"
                                                 style="width:175px" >
                                             <option value="1">单身=1</option>
                                             <option value="2">未婚=2</option>
@@ -210,14 +214,29 @@
                                             class="required">*</span>
                                     </label>
                                     <div class="col-md-2 col-sm-3  form-group has-feedback">
-                                        <input type="text" id="hip" name="height" class="form-control"
+                                        <input type="text" id="hip" name="hip" class="form-control"
                                                style="width: 160px" PLACEHOLDER="CM" value="{{ patient_detail.hip }}">
                                     </div>
 
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <div class="col-md-4 col-sm-4"></div>
+                                <div class="col-md-4 col-sm-4">
+                                    <label class="control-label col-md-3 col-sm-2" for="handy">利手情况<span
+                                            class="required">*</span></label>
+                                    <div class="col-md-2 col-sm-1 form-group ">
+                                        {% if handy == 1 %}
+                                            右利手
+                                        {% elif handy == 2  %}
+                                            左利手
+                                        {% elif handy == 0 %}
+                                            暂未填写
+                                        {% else %}
+                                            混合利手
+                                        {% endif %}
+                                    </div>
+
+                                </div>
                                 <div class="col-md-4 col-sm-4">
 
                                     <label class="control-label col-md-3 col-sm-2" for="education">受教育程度<span
@@ -521,6 +540,7 @@
                                    style="float: right"><u>跳过该量表</u></a>
                             </div>
                         </div>
+
                     </div>
 
                 </div>
@@ -536,6 +556,8 @@
 {% endblock %}
 
 {% block js %}
+
+
     <script type="text/javascript" src="{% static '/js/jquery-radio-beauty.js' %}"></script>
 
     <script>
