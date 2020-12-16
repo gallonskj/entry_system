@@ -81,7 +81,7 @@ def get_family_form(request):
                                                  'nation_list': nation_list,
                                                  'scale_name_list': scale_name_list,
                                                  'patient_detail': patient_detail,
-                                                 'scale_id':
+                                                 'scale_id':tools_config.information_family,
                                                  })
 
 # 获取学习情况表单
@@ -92,6 +92,7 @@ def get_study_form(request):
                                                 'patient_id':request.GET.get('patient_id'),
                                                 'username':request.session.get('username'),
                                                 'scale_name_list':scale_name_list,
+                                                'scale_id': tools_config.information_study,
                                                 })
 
 # 获取健康情况表单
@@ -102,7 +103,8 @@ def get_health_form(request):
                                                 'patient_id':request.GET.get('patient_id'),
                                                 'username':request.session.get('username'),
                                                 'scale_name_list':scale_name_list,
-                                                })
+                                                 'scale_id': tools_config.information_health,
+                                                 })
 # 获取物质依赖表单
 def get_abuse_form(request):
     patient_session_id = request.GET.get('patient_session_id')
@@ -111,6 +113,7 @@ def get_abuse_form(request):
                                                 'patient_id':request.GET.get('patient_id'),
                                                 'username':request.session.get('username'),
                                                 'scale_name_list':scale_name_list,
+                                                'scale_id': tools_config.information_abuse,
                                                 })
 
 # 获取其他资料表单
@@ -121,6 +124,7 @@ def get_other_form(request):
                                                 'patient_id':request.GET.get('patient_id'),
                                                 'username':request.session.get('username'),
                                                 'scale_name_list':scale_name_list,
+                                                'scale_id': tools_config.information_other,
                                                 })
 
 # 获取利手量表表单
@@ -131,7 +135,8 @@ def get_chi_form(request):
                                                 'patient_id':request.GET.get('patient_id'),
                                                 'username':request.session.get('username'),
                                                 'scale_name_list':scale_name_list,
-                                                })
+                                                'scale_id': tools_config.chi,
+                                              })
 #获取病人病史表单
 def get_patient_medical_history_form(request):
     # 获取需要做的量表列表
@@ -141,7 +146,7 @@ def get_patient_medical_history_form(request):
                                                 'patient_id':request.GET.get('patient_id'),
                                                 'username':request.session.get('username'),
                                                 'scale_name_list':scale_name_list,
-                                                })
+                                                'scale_id': tools_config.mediacal_history,})
 
 # 获取汉密尔顿抑郁表单
 def get_hamd_17_form(request):
@@ -151,7 +156,7 @@ def get_hamd_17_form(request):
                                                  'patient_id':request.GET.get('patient_id'),
                                                  'username':request.session.get('username'),
                                                  'scale_name_list': scale_name_list,
-                                                  })
+                                                  'scale_id': tools_config.hamd_17, })
 # 获取汉密尔顿焦虑
 def get_hama_form(request):
     patient_session_id = request.GET.get('patient_session_id')
@@ -160,7 +165,7 @@ def get_hama_form(request):
                                                     'patient_id': request.GET.get('patient_id'),
                                                     'username': request.session.get('username'),
                                                     'scale_name_list': scale_name_list,
-                                                    })
+                                                    'scale_id': tools_config.hama, })
 # 获取杨氏躁狂
 def get_ymrs_form(request):
     patient_session_id = request.GET.get('patient_session_id')
@@ -169,8 +174,7 @@ def get_ymrs_form(request):
                                                     'patient_id': request.GET.get('patient_id'),
                                                     'username': request.session.get('username'),
                                                     'scale_name_list': scale_name_list,
-                                                    })
-# 获取简明精神病表单
+                                                    'scale_id': tools_config.ymrs, })
 def get_bprs_form(request):
     patient_session_id = request.GET.get('patient_session_id')
     scale_name_list = scales_dao.get_scalename_bytype(tools_config.other_test_type, patient_session_id)
@@ -178,6 +182,7 @@ def get_bprs_form(request):
                                                     'patient_id': request.GET.get('patient_id'),
                                                     'username': request.session.get('username'),
                                                     'scale_name_list': scale_name_list,
+                                                    'scale_id': tools_config.bprs,
                                                     })
 # 获取耶鲁布朗表单
 def get_ybocs_form(request):
@@ -188,7 +193,8 @@ def get_ybocs_form(request):
                                                 'patient_id':request.GET.get('patient_id'),
                                                 'username':request.session.get('username'),
                                                 'scale_name_list':scale_name_list,
-                                                })
+                                                'scale_id': tools_config.ybocs, })
+
 # 获取自杀量表表单
 def get_bss_form(request):
     patient_session_id = request.GET.get('patient_session_id')
@@ -197,7 +203,7 @@ def get_bss_form(request):
                                                 'patient_id':request.GET.get('patient_id'),
                                                 'username':request.session.get('username'),
                                                 'scale_name_list':scale_name_list,
-                                                })
+                                                'scale_id': tools_config.bss, })
 # 获取33项轻躁狂表单
 def get_hcl_33_form(request):
     patient_session_id = request.GET.get('patient_session_id')
@@ -206,7 +212,8 @@ def get_hcl_33_form(request):
                                                 'patient_id':request.GET.get('patient_id'),
                                                 'username':request.session.get('username'),
                                                 'scale_name_list':scale_name_list,
-                                                })
+                                                 'scale_id': tools_config.hcl_33, })
+
 # 获取斯奈斯快乐量表
 def get_shaps_form(request):
     patient_session_id = request.GET.get('patient_session_id')
@@ -215,7 +222,9 @@ def get_shaps_form(request):
                                                 'patient_id':request.GET.get('patient_id'),
                                                 'username':request.session.get('username'),
                                                 'scale_name_list':scale_name_list,
-                                                })
+                                                'scale_id': tools_config.shaps, })
+
+
 # 获取快感体验能力表单
 def get_teps_form(request):
     patient_session_id = request.GET.get('patient_session_id')
@@ -224,7 +233,9 @@ def get_teps_form(request):
                                                 'patient_id':request.GET.get('patient_id'),
                                                 'username':request.session.get('username'),
                                                 'scale_name_list':scale_name_list,
-                                                })
+                                               'scale_id': tools_config.teps, })
+
+
 # 获取儿童期成长经历表单
 def get_ctq_sf_form(request):
     patient_session_id = request.GET.get('patient_session_id')
@@ -233,7 +244,9 @@ def get_ctq_sf_form(request):
                                                 'patient_id':request.GET.get('patient_id'),
                                                 'username':request.session.get('username'),
                                                 'scale_name_list':scale_name_list,
-                                                })
+                                                 'scale_id': tools_config.ctq_sf, })
+
+
 # 获取认知情绪调节表单
 def get_cerq_c_form(request):
     patient_session_id = request.GET.get('patient_session_id')
@@ -242,7 +255,9 @@ def get_cerq_c_form(request):
                                                 'patient_id':request.GET.get('patient_id'),
                                                 'username':request.session.get('username'),
                                                 'scale_name_list':scale_name_list,
-                                                })
+                                                 'scale_id': tools_config.cerq_c, })
+
+
 # 获取青少年生活事件表单
 def get_aslec_form(request):
     patient_session_id = request.GET.get('patient_session_id')
@@ -251,7 +266,9 @@ def get_aslec_form(request):
                                                 'patient_id':request.GET.get('patient_id'),
                                                 'username':request.session.get('username'),
                                                 'scale_name_list':scale_name_list,
-                                                })
+                                                'scale_id': tools_config.aslec, })
+
+
 # 获取简氏父母教育表单
 def get_s_embu_form(request):
     patient_session_id = request.GET.get('patient_session_id')
@@ -260,7 +277,9 @@ def get_s_embu_form(request):
                                                 'patient_id':request.GET.get('patient_id'),
                                                 'username':request.session.get('username'),
                                                 'scale_name_list':scale_name_list,
-                                                })
+                                                'scale_id': tools_config.s_embu, })
+
+
 # 获取自动思维问卷表单
 def get_atq_form(request):
     patient_session_id = request.GET.get('patient_session_id')
@@ -269,7 +288,8 @@ def get_atq_form(request):
                                                 'patient_id':request.GET.get('patient_id'),
                                                 'username':request.session.get('username'),
                                                 'scale_name_list':scale_name_list,
-                                                })
+                                                'scale_id': tools_config.atq, })
+
 # 获取威斯康辛表单
 def get_wcst_form(request):
     patient_session_id = request.GET.get('patient_session_id')
@@ -278,7 +298,9 @@ def get_wcst_form(request):
                                                 'patient_id':request.GET.get('patient_id'),
                                                 'username':request.session.get('username'),
                                                 'scale_name_list':scale_name_list,
-                                                })
+                                               'scale_id': tools_config.wcst, })
+
+
 # 获取重复成套性测试表单
 def get_rbans_form(request):
     patient_session_id = request.GET.get('patient_session_id')
@@ -287,7 +309,9 @@ def get_rbans_form(request):
                                                 'patient_id':request.GET.get('patient_id'),
                                                 'username':request.session.get('username'),
                                                 'scale_name_list':scale_name_list,
-                                                })
+                                                'scale_id': tools_config.rbans, })
+
+
 # 获取面孔认知表单
 def get_fept_form(request):
     patient_session_id = request.GET.get('patient_session_id')
@@ -296,7 +320,9 @@ def get_fept_form(request):
                                                 'patient_id':request.GET.get('patient_id'),
                                                 'username':request.session.get('username'),
                                                 'scale_name_list':scale_name_list,
-                                                })
+                                               'scale_id': tools_config.fept, })
+
+
 # 获取语音认知表单
 def get_vept_form(request):
     patient_session_id = request.GET.get('patient_session_id')
@@ -305,7 +331,9 @@ def get_vept_form(request):
                                                 'patient_id':request.GET.get('patient_id'),
                                                 'username':request.session.get('username'),
                                                 'scale_name_list':scale_name_list,
-                                                })
+                                                'scale_id': tools_config.vept, })
+
+
 '''
 量表具体操作
 '''
@@ -742,11 +770,12 @@ def add_other(request):
 def skip_scale(request):
     patient_session_id = request.GET.get('patient_session_id')
     scale_id = request.GET.get('scale_id')
+    scale = scales_dao.get_scale_by_id(scale_id)
     patient_id = request.GET.get('patient_id')
     state = 2
-    scales_dao.update_rscales_state(patient_session_id,scale_id,state)
+    scales_dao.update_rscales_skip(patient_session_id,scale_id,state)
     redirect_url = get_redirect_url(patient_session_id, patient_id, tools_config.general_info_next_url,
-                                    tools_config.general_info_type)
+                                    scale.do_scale_type)
     return redirect(redirect_url)
 
 '''

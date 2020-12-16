@@ -18,7 +18,7 @@ def update_rscales_state(patient_session_id,scale_id):
     rPatientScales = scales_models.RPatientScales.objects.filter(patient_session_id = patient_session_id, scale_id=scale_id)[0]
     rPatientScales.state = 1
     rPatientScales.save()
-def update_rscales_state(patient_session_id,scale_id,state):
+def update_rscales_skip(patient_session_id,scale_id,state):
     rPatientScales = scales_models.RPatientScales.objects.filter(patient_session_id = patient_session_id, scale_id=scale_id)[0]
     rPatientScales.state = state
     rPatientScales.save()
@@ -601,3 +601,11 @@ def get_uodo_scales(patient_session_id):
         else:
             no_type_list.append(scale)
     return information_list, other_test_list, self_test_list, cognition_list
+
+# 根据获取量表
+def get_scale_by_id(scale_id):
+    scale = scales_models.DScales.objects.filter(pk = scale_id)
+    if scale.exists():
+        return scale[0]
+    else:
+        return None
