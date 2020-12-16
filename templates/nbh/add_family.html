@@ -31,13 +31,13 @@
                    <li><a href="#" >个人详细信息录入</a></li>
                    <li class="active"><a href="#" >家庭信息</a></li>
                    <div style="float: right;margin-bottom: 0px;">
-                    <a href="#" class="btn btn-warning btn-sm"><i class="fa fa-arrow-left"><strong></i>&nbsp;返&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回</strong></a>
-                    <a href="#" class="btn btn-warning btn-sm"><i class="fa fa-arrow-right"><strong></i>&nbsp;跳过该量表</strong></a>
+                    <a href="/scales/select_scales?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}" class="btn btn-warning btn-sm"><i class="fa fa-arrow-left"><strong></i>&nbsp;返&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回</strong></a>
+                    <a href="#" class="btn btn-warning btn-sm"><i class="fa fa-arrow-right"><strong></i>&nbsp;跳过该量表</strong></a>	
                    </div>
               </ul>
           </div>
         </div>
-        </div>
+        </div> 
         <div class="dashboard_graph x_panel" style="height: 80%;overflow-x: hidden;">
           <div id="wrapper">
             <div id = "left-side" style="height: 100%;" class="col-md-2">
@@ -61,8 +61,8 @@
                           <p>完成</p>
                         </li>
               </ul>
-            </div>
-
+            </div>  
+             
             <div id="right-side" class="col-md-10">
               <div id="first" class="active">
                   <form action="/scales/add_family_info?patient_id={{ patient_id }}&patient_session_id={{ patient_session_id }}&questionnaire_type={{ questionnaire_type|add:1 }}" method="POST">
@@ -73,7 +73,7 @@
                     <h2>一般资料 <small>General information</small></h2>
                     <div class="clearfix"></div>
                   </div>
-                            <div class="x_content">
+                            <div class="x_content" width="80">
 
                               <div class="form-group row">
                                   <div class="col-md-4 col-sm-4">
@@ -85,7 +85,7 @@
                                   <div class="col-md-4 col-sm-4">
                                       <label class="control-label col-md-3 col-sm-2" for="tele">联系方式<span class="required">*</span></label>
                                     <div class="col-md-1 col-sm-3 form-group has-feedback">
-                                        <input type="text" id="tele" name="tele" class="form-control has-feedback-left"  style="width:160px">
+                                        <input type="text" id="tele" name="tele" class="form-control has-feedback-left"  style="width:175px">
                                         <span class="fa fa-mobile form-control-feedback left" aria-hidden="true"></span>
                                     </div>
                                   </div>
@@ -93,7 +93,7 @@
                                      <label class="control-label col-md-2 col-sm-2 " for="height">身高<span class="required">*</span>
                                     </label>
                                     <div class="col-md-2 col-sm-2 form-group has-feedback">
-                                      <input type="text" id="height" name="height" class="form-control" style="width: 160px" PLACEHOLDER="CM" value="{{patient_detail.height}}">
+                                      <input type="text" id="height" name="height" class="form-control" style="width: 160px" PLACEHOLDER="CM">
                                     </div>
 
                                   </div>
@@ -120,7 +120,7 @@
                                   <div class="col-md-4 col-sm-4">
                                         <label class="control-label col-md-3 col-sm-2 " for="marital_status">婚姻状况<span class="required">*</span></label>
                             <div class="col-md-1 col-sm-2">
-                              <select class="form-control" name="marital_status" id="marital_status" style="width:160px"  value="">
+                              <select class="form-control" name="marital_status" id="marital_status" style="width:175px">
                                 <option value="1">单身=1</option>
                                 <option value="2">未婚=2</option>
                                 <option value="3">已婚=3</option>
@@ -135,7 +135,7 @@
                                      <label class="control-label col-md-2 col-sm-2" for="weight">体重<span class="required">*</span>
                                     </label>
                                     <div class="col-md-2 col-sm-3 form-group has-feedback">
-                                      <input type="text" id="weight" name="height" class="form-control" style="width: 160px" PLACEHOLDER="KG" value="{{patient_detail.weight}}">
+                                      <input type="text" id="weight" name="height" class="form-control" style="width: 160px" PLACEHOLDER="KG">
                                     </div>
 
                                   </div>
@@ -150,14 +150,14 @@
                                   <div class="col-md-4 col-sm-4">
                                  <label class="control-label col-md-3 col-sm-2" for="occupation">职业<span class="required">*</span></label>
                             <div class="col-md-2 col-sm-2 form-group ">
-                                <input type="text" id="occupation" name="occupation" class="form-control"  style="width:160px" value="{{patient_detail.occupation}}">
+                                <input type="text" id="occupation" name="occupation" class="form-control"  style="width:175px">
                             </div>
                                   </div>
                                   <div class="col-md-4 col-sm-4">
                                      <label class="control-label col-md-2 col-sm-2 " for="waist">腰围<span class="required">*</span>
                                     </label>
                                     <div class="col-md-2 col-sm-3 form-group has-feedback">
-                                      <input type="text" id="waist" name="height" class="form-control" style="width: 160px" PLACEHOLDER="CM" value="{{patient_detail.waist}}">
+                                      <input type="text" id="waist" name="height" class="form-control" style="width: 160px" PLACEHOLDER="CM">
                                     </div>
                                   </div>
                               </div>
@@ -172,7 +172,7 @@
                                   <div class="col-md-4 col-sm-4">
                                     <label class="control-label col-md-3 col-sm-2 " for="nation">民族<span class="required">*</span></label>
                                         <div class="col-md-2 col-sm-2">
-                                            <select class="form-control" name="nation" id="nation" style="width: 160px">
+                                            <select class="form-control" name="nation" id="nation" style="width: 175px">
                                               {% for items in nation_list %}
                                                 {% if items.id == base_info.nation %}
                                                 <option value="{{items.id}}"  selected="true">{{items.ethnicity_name}}={{items.id}}</option>
@@ -184,35 +184,44 @@
                                             </select>
                                         </div>
                                   </div>
+
                                   <div class="col-md-4 col-sm-4">
                                      <label class="control-label col-md-2 col-sm-2 " for="hip">臀围<span class="required">*</span>
                                     </label>
                                     <div class="col-md-2 col-sm-3  form-group has-feedback">
-                                      <input type="text" id="hip" name="height" class="form-control" style="width: 160px" PLACEHOLDER="CM" value="{{patient_detail.hip}}">
+                                      <input type="text" id="hip" name="height" class="form-control" style="width: 160px"PLACEHOLDER="CM">
                                     </div>
 
                                   </div>
                               </div>
+                             <div class="form-group row" >
 
-                             <div class="row" >
+
+                                 <div class="col-md-4 col-sm-4"></div>
+
                                   <div class="col-md-4 col-sm-4">
 
-                                  </div>
-                                  <div class="col-md-4 col-sm-4">
-                                         <label class="control-label col-md-3 col-sm-2" for="education">受教育程度<span class="required">*</span></label>
+                                      <label class="control-label col-md-3 col-sm-2" for="education">受教育程度<span class="required">*</span></label>
                                          <div class="col-md-1 col-sm-2">
-                                            <input type="text" id="education" name="education" class="form-control" style="width:160px" value="{{patient_detail.education}}">
+                                            <input type="text" id="education" name="education" class="form-control" style="width:175px">
                                          </div>
                                   </div>
-                                  <div class="col-md-4 col-sm-4">
-                                       <label class="control-label  col-md-2 col-sm-2 " for="education">共<span class="required">*</span></label>
-                                        <div class="col-md-2 col-sm-3 ">
-                                            <input type="text" id="education_years" name="education_years" class="form-control" style="width:160px" PLACEHOLDER="年" value="{{patient_detail.years}}">
-                                        </div>
-                                  </div>
 
-                                    </div>
-                            </br>
+                             </div>
+
+                             <div class="form-group row" >
+                                  <div class="col-md-4 col-sm-4">
+
+                                  </div>
+                                 <div class="col-md-4 col-sm-4">
+                                       <label class="control-label  col-md-3 col-sm-2 " for="education">共<span class="required">*</span></label>
+                                        <div class="col-md-1 col-sm-2 ">
+                                            <input type="text" id="education_years" name="education_years" class="form-control" style="width:175px" PLACEHOLDER="年">
+                                        </div>
+                                 </div>
+
+                             </div>
+
                             </div>
 
 
@@ -254,8 +263,8 @@
                                         <option value="6">其他=6</option>
                                       </select>
                               </div>
-
-
+							  
+							  
 							  <div class="other_living_type">
                                  <label class="control-label col-md-1 col-sm-3 " id="patient_live_text" name="patient_live_text" for="patient_live_type_other">其他居住 方式<span class="required">*</span></label>
                                  <div class="col-md-2 col-sm-3 form-group has-feedback ">
@@ -273,7 +282,7 @@
                               <div class="col-md-1 col-sm-1">
                                 <input type="radio" class="only_child_2" name="patient_only_child" value=0 data-labelauty="否"/>
                               </div>
-                              <div  id="preference_div" style="display: none">
+                                <div  id="preference_div" style="display: none">
                               <label class="control-label col-md-1 col-sm-4" for="parents_favour">父母偏爱<span class="required">*</span></label>
                               <div class="col-md-2 col-sm-3">
                                       <select class="form-control" name="parents_favour" id="parents_favour">
@@ -282,8 +291,8 @@
                                         <option value="3">偏爱自己=3</option>
                                       </select>
                               </div>
+                                </div>
                             </div>
-                          </div>
         <!--                    兄弟姐妹-->
 
         <!--                    兄弟姐妹数量-->
@@ -449,7 +458,7 @@
           </div>
         </div>
       </div>
-
+        
 
 
 {% endblock %}
@@ -460,7 +469,6 @@
 <script>
 $(document).ready(function(){
 	$("input[type='radio']").labelauty();
-  document.getElementById("marital_status").value={{patient_detail.emotional_state}};
 });
 
 <!--居住方式-->

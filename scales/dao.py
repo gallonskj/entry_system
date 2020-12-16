@@ -18,7 +18,10 @@ def update_rscales_state(patient_session_id,scale_id):
     rPatientScales = scales_models.RPatientScales.objects.filter(patient_session_id = patient_session_id, scale_id=scale_id)[0]
     rPatientScales.state = 1
     rPatientScales.save()
-
+def update_rscales_state(patient_session_id,scale_id,state):
+    rPatientScales = scales_models.RPatientScales.objects.filter(patient_session_id = patient_session_id, scale_id=scale_id)[0]
+    rPatientScales.state = state
+    rPatientScales.save()
 
 
 ################### insert方法部分 #####################

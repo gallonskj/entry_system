@@ -81,6 +81,7 @@ def get_family_form(request):
                                                  'nation_list': nation_list,
                                                  'scale_name_list': scale_name_list,
                                                  'patient_detail': patient_detail,
+                                                 'scale_id':
                                                  })
 
 # 获取学习情况表单
@@ -738,6 +739,15 @@ def add_other(request):
     redirect_url = get_redirect_url(patient_session_id,patient_id,tools_config.general_info_next_url,tools_config.general_info_type)
     return redirect(redirect_url)
 
+def skip_scale(request):
+    patient_session_id = request.GET.get('patient_session_id')
+    scale_id = request.GET.get('scale_id')
+    patient_id = request.GET.get('patient_id')
+    state = 2
+    scales_dao.update_rscales_state(patient_session_id,scale_id,state)
+    redirect_url = get_redirect_url(patient_session_id, patient_id, tools_config.general_info_next_url,
+                                    tools_config.general_info_type)
+    return redirect(redirect_url)
 
 '''
 封装的函数
@@ -746,7 +756,7 @@ def add_other(request):
 def get_redirect_url(patient_session_id,patient_id,next_type,do_scale_type):
     min_unfinished_scale = scales_dao.get_min_unfinished_scale(do_scale_type, patient_session_id)
     if min_unfinished_scale is None:
-        redirect_url = '{}?patient_session_id={}&patient_id={}'.format(next_type,str(patient_session_id),str(patient_id))
+        redirect_url = '{}?patient_session_id={}&patient_id={}'.format(tools_config.select_scales_url,str(patient_session_id),str(patient_id))
         return redirect_url
     # /scales/get_XXX_form
     next_page_url = tools_config.scales_html_dict[min_unfinished_scale]

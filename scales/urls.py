@@ -71,5 +71,6 @@ urlpatterns = [
     url(r'^add_other', views.add_other),
     url(r'^add_study', views.add_information_study),
     url(r'^add_health', views.add_patient_basic_information_health),
+    url(r'^skip_scale', views.skip_scale),
 
 ]

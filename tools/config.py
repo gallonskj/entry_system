@@ -65,6 +65,7 @@ general_info_next_url = '/scales/get_other_test_forms'
 other_test_next_type_url = '/scales/get_self_test_forms'
 self_test_next_type_url = '/scales/get_cognition_forms'
 cognition_next_type_url = '/scales/select_scales'
+select_scales_url = '/scales/select_scales'
 
 '''###################  disease_type_dict  ###################'''
 disease_type_dict = {0: '未诊断', 1: '健康者', 2: '重性抑郁障碍', 3: '焦虑障碍', 4: '双相障碍', 5: '精神分裂症', 6: '强迫症', 7: '高危遗传', 8: '临床高危',
