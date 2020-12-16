@@ -73,6 +73,7 @@ class DPatientDetail(models.Model):
     create_time = models.DateTimeField(auto_now_add=True)
     update_time = models.DateTimeField(auto_now=True)
     disease_state =  models.CharField(max_length=30, blank=True, null=True)
+    first = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False

@@ -196,6 +196,21 @@ def del_followup(request):
             patient_detail.first().delete()
     return redirect('/patients/get_patient_detail?patient_id=' + patient_id)
 
+
+#更新base_info
+def update_base_info(request):
+    patient_id = request.GET.get("patient_id")
+    print("#################" + str(request.POST.get('nation')))
+    patient_base_info = patients_dao.get_base_info_byPK(patient_id)
+    print("################"+ str(patient_base_info.nation))
+    patient_base_info = set_attr_by_post(request, patient_base_info)
+    print("################"+ str(patient_base_info.nation))
+    patients_dao.add_base_info(patient_base_info)
+    return redirect('/patients/get_patient_detail?patient_id=' + patient_id)
+
+
+
+
 # 更新patient_detail以及patient_base_info
 def update_patient_detail(request):
     patient_session_id = request.GET.get('patient_session_id')
@@ -205,7 +220,9 @@ def update_patient_detail(request):
     fields_data = DPatientDetail._meta.fields
     data_dict = patient_detail.__dict__
     for ele in fields_data:
-        if request.POST.get(ele.name) is not None and request.POST.get(ele.name) != '':
+
+        if request.POST.get(ele.name) is not None and request.POST.get(ele.name) is not '':
+
             data_dict[ele.name] = request.POST.get(ele.name)
     patients_dao.add_patient_detail(patient_detail)
     patient_base_info = patients_dao.get_base_info_byPK(patient_id)
@@ -426,3 +443,11 @@ def patient_statistics(request):
 def test_view(request):
     dic = request.session.get('history')
     return HttpResponse(str(dic))
+
+
+# 根据request post信息设置models的值
+def set_attr_by_post(request, object):
+    for key in request.POST.keys():
+        if hasattr(object, key) and request.POST.get(key)!='':
+            setattr(object, key, request.POST.get(key))
+    return object

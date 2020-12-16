@@ -562,12 +562,14 @@ def get_patient_vept_byPatientDetailId(patient_detail_id):
     else:
         return patient_vept[0]
 
+
 def get_handy_byPatientDetailId(patient_detail_id):
     patient_handy = scales_models.RPatientChineseHandy.objects.filter(patient_session_id=patient_detail_id)
     if patient_handy.count()==0:
         return None
     else:
         return patient_handy[0]
+
 
 # 获取某个类别的量表未完成的最小值,都已经完成了，那么返回None
 def get_min_unfinished_scale(do_scale_type,patient_session_id,cur_scale_id):
