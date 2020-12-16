@@ -36,6 +36,16 @@
                         </h5>
                     </div>
                     <div class="modal-body">
+
+                    <div class="row" style="margin-bottom: 10px;">
+
+                                <label class="col-sm-2 control-label" for="name" style="text-align: right">编号：</label>
+                                <div class="col-sm-4">
+                                    <input type="text" class=" sel_beauty form-control input-sm " name="patient_id" required="required"/>
+                                </div>
+
+                        </div>
+
                         <div class="row" style="margin-bottom: 10px;">
 
                                 <label class="col-sm-2 control-label" for="name" style="text-align: right">姓名：</label>
@@ -206,18 +216,16 @@
                                 <td>
                                 {{ patient|get_diagnosis_by_object }}
                                 </td>
-                            <td>
-                                <button class="btn btn-success btn-xs" style="margin:0px;color:white">
-                                    <a href="/patients/get_patient_detail?patient_id={{ patient.id }}"
-                                       style="color:white">信息查询</a>
-                                </button>
-                                <button class="btn btn-info btn-xs" style="margin:0px;color:white">
-                                    <a href="/patients/add_patient_followup?patient_id={{ patient.id }}"
-                                       style="color:white">添加复扫</a>
-                                </button>
-                                <a href="#delete_patient_{{ forloop.counter }}" data-toggle="modal" style="color:white">
-                                            <button class="btn btn-warning btn-xs" style="margin:0px;color:white">删除</button>
-                                        </a>
+                          <td>
+                              <a href="/patients/get_patient_detail?patient_id={{ patient.id }}" style="color:white">
+                                  <button class="btn btn-success btn-xs" style="margin:0px;color:white">信息查询</button>
+                              </a>
+                              <a href="/patients/add_patient_followup?patient_id={{ patient.id }}" style="color:white">
+                                  <button class="btn btn-info btn-xs" style="margin:0px;color:white">添加复扫</button>
+                              </a>
+                              <a href="#delete_patient_{{ forloop.counter }}" data-toggle="modal" style="color:white">
+                                  <button class="btn btn-warning btn-xs" style="margin:0px;color:white">删除</button>
+                              </a>
                             </td>
                             </tr>
                             {% endfor %}

@@ -15,9 +15,9 @@
                          <li><a href="#" >自评量表</a></li>
 						 <li class="active"><a href="#" >耶鲁布朗强迫症严重程度标准量表（ybocs）</a></li>
 						 <div style="float: right;margin-bottom: 0px;">
-							<a href="#" class="btn btn-warning btn-sm"><i class="fa fa-arrow-left"><strong></i>&nbsp;返&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回</strong></a>
-							<a href="#" class="btn btn-warning btn-sm"><i class="fa fa-arrow-right"><strong></i>&nbsp;跳过该量表</strong></a>	
-						 </div>
+                           <a href="/scales/select_scales?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}" class="btn btn-warning btn-sm">
+                               <i class="fa fa-arrow-left"></i><strong>&nbsp;返&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回</strong></a>
+                       </div>
                     </ul>
                 </div>
             </div>
@@ -250,13 +250,25 @@
 							<input type="radio"  name="control_ability2" value=4 data-labelauty="4=完全无法控制。连耽搁一下的能力都没有"/>
 						</div>
 					</div>
-					<div class="row" style="margin-top:30px">
-						<div class="text-center">
-							{% csrf_token %}
-							<!-- {{ form }} -->
-							<input  type="submit" class="btn btn-success" value="保存并提交量表，继续下一个量表" id="yelubulang_bt"/>
-						</div>
-					</div>
+
+
+
+                        <div class="row">
+                            <div  class="col-md-4 col-sm-6 text-center" style="text-align: center">
+                                <a  href="#"><button type="button" class="btn btn-warning" id="bt_return">返回上一量表</button></a>
+                            </div>
+                            <div  class="col-md-4 col-sm-6">
+                                {% csrf_token %}
+                                <input  type="submit" class="btn btn-success text-center"  value="保存提交量表" id="yelubulang_bt" > </input>
+                            </div>
+                            <div class="col-md-4 col-sm-6">
+                                <a href="/scales/skip_scale?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{scale_id}}"  style="float: right"><u>跳过该量表</u></a>
+                            </div>
+                        </div>
+
+
+
+
 				</form>
                   </div>
 			    </div>

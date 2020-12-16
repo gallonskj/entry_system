@@ -25,6 +25,8 @@
             -webkit-border-radius: 2px;
             border-radius: 2px;
             width: 160px;
+            color: #2C4257;
+            font-size: 7px
         }
     </style>
 {% endblock %}
@@ -331,7 +333,6 @@
                                                                    checked="checked"/>已完成
                                                         {% endif %}
                                                     </td>
-
                                                 </tr>
                                                 <tr>
                                                     <td class="tab1">粪便是否检测</td>
@@ -518,6 +519,7 @@
         </div>
         <div class="row x_panel">
             <div class="col-md-12 col-xs-12">
+
             <form action="/patients/update_base_info?patient_id={{ patient_id }}" method="post">
             {% csrf_token %}
                 <div class="x_panel">
@@ -532,22 +534,55 @@
                             <div class="col-md-1"></div>
                             <div class="col-md-5">
                                 <div class="form-group">
-                                    <label class="control-label col-md-2 col-sm-2 col-xs-12" for="patient_id"> 受试编号
-                                        <span class="required">*:</span></label>
-                                    <div id="patient_id" class="col-md-2 col-sm-2 col-xs-12"
-                                         style="padding-top: 7px;margin-bottom: 0;text-align: left"></div>
+                                    <label class="control-label col-md-2 col-sm-2 col-xs-12" for="patient_id">受试编号<span class="required">*:</span></label>
+                                    <div id="patient_id" class="col-md-2 col-sm-2 col-xs-12" style="padding-top: 7px;margin-bottom: 0;text-align: left"></div>
                                 </div>
-                                <div class="form-group">
+
+
+                            <div class="form-group">
                                     <label for="birth_date" class="control-label col-md-2 col-sm-2 col-xs-12">出生日期 <span class="required">*:</span></label>
-                                    <div id="birth_date" class="col-md-2 col-sm-2 col-xs-12">
-                                        <input id="birth_date_input" type="date" class="sel_beauty form-control input-sm" name="birth_date" required="required" value="{{ birth_date }}"/>
+                                    <div id="birth_date" class="col-md-2 col-sm-2 col-xs-12" style="padding-top: 7px;margin-bottom: 0;text-align: left">
+                                        {{ birth_date }}
                                     </div>
                                 </div>
+
+
+
                                 <div class="form-group">
+                                    <label class="control-label col-md-2 col-sm-2 col-xs-12" for="subject_number">诊断情况<span class="required">*:</span></label>
+                                    <div class="col-md-2 col-sm-2 col-xs-12" style="padding-top: 7px;margin-bottom: 0;text-align: left">
+                                    <select name="diagnosis" id="diagnosis" class="sel_beauty"  onchange="judge_diagnosis(this)">
+                                        <option value=0>&nbsp;&nbsp;&nbsp;未诊断</option>
+                                        <option value=1>&nbsp;&nbsp;&nbsp;健康者</option>
+                                        <option value=2>&nbsp;&nbsp;&nbsp;重性抑郁障碍</option>
+                                        <option value=3>&nbsp;&nbsp;&nbsp;焦虑障碍</option>
+                                        <option value=4>&nbsp;&nbsp;&nbsp;双相障碍</option>
+                                        <option value=5>&nbsp;&nbsp;&nbsp;精神分裂症</option>
+                                        <option value=6>&nbsp;&nbsp;&nbsp;强迫症</option>
+                                        <option value=7>&nbsp;&nbsp;&nbsp;高危遗传</option>
+                                        <option value=8>&nbsp;&nbsp;&nbsp;临床高危</option>
+                                        <option value=9>&nbsp;&nbsp;&nbsp;抑郁症状</option>
+                                        <option value=99>&nbsp;&nbsp;&nbsp;其他诊断</option>
+                                    </select>
+                                    </div>
+                                </div>
+                                <div class="form-group" id="other_diagnosis_div" style="display: none">
+                                    <label class="control-label col-md-2 col-sm-2 col-xs-6" for="subject_number">其他诊断<span class="required">*:</span></label>
+                                    <div class="col-md-2 col-sm-3 form-group has-feedback row" style="width: 15%;margin-top: 7px;">
+                                        <input id="other_diagnosis" name="other_diagnosis" class="sel_beauty" value="{{ other_diagnosis|processNone }}">
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-md-5">
+
+
+                                 <div class="form-group">
                                     <label class="control-label col-md-2 col-sm-2 col-xs-12">民族 <span class="required">*:</span></label>
                                     <div class="col-md-2 col-sm-2 col-xs-12" style="padding-top: 7px;margin-bottom: 0;text-align: left">
                                         <select class="sel_beauty form-control" name="nation" id="nation" style="font-size: 7px">
                                             {% for items in nation_list %}
+
                                                 {% if items.ethnicity_name == nation %}
                                                     <option value="{{ items.ethnicity_name }}"
                                                             selected="true">{{ items.ethnicity_name }}={{ items.id }}</option>
@@ -559,27 +594,11 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <label class="control-label col-md-2 col-sm-2 col-xs-12" for="subject_number">诊断情况<span class="required">:</span></label>
-                                    <div class="col-md-2 col-sm-2 col-xs-12" style="padding-top: 7px;margin-bottom: 0;text-align: left">
-                                    <select name="diagnosis" id="diagnosis" class="sel_beauty" onchange="judge_diagnosis(this)">
-                                        <option value=0>未诊断</option>
-                                        <option value=1>健康者</option>
-                                        <option value=2>重性抑郁障碍</option>
-                                        <option value=3>焦虑障碍</option>
-                                        <option value=4>双相障碍</option>
-                                        <option value=5>精神分裂症</option>
-                                        <option value=6>强迫症</option>
-                                        <option value=7>高危遗传</option>
-                                        <option value=8>临床高危</option>
-                                        <option value=9>抑郁症状</option>
-                                        <option value=99>其他诊断</option>
-                                    </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-5">
-                                <br><br>
+
+
+
+
+
                                 <div class="form-group">
                                     <label class="control-label col-md-2 col-sm-2 col-xs-12" for="name">姓名 <span class="required">*:</span></label>
                                     <div id="name" class="col-md-4 col-sm-4 col-xs-12" style="padding-top: 7px;margin-bottom: 0;text-align: left">
@@ -605,12 +624,6 @@
                                             <input type="radio" class="flat" name="sex" value=1 checked/>女
                                         </div>
                                     {% endif %}
-                                </div>
-                                <div class="form-group" id="other_diagnosis_div" style="display: none">
-                                    <label class="control-label col-md-2 col-sm-2 col-xs-6" for="subject_number">其他诊断<span class="required">:</span></label>
-                                    <div class="col-md-2 col-sm-3 form-group has-feedback row" style="width: 15%;margin-top: 7px;">
-                                        <input id="other_diagnosis" name="other_diagnosis" class="sel_beauty" value="{{ other_diagnosis|processNone }}">
-                                    </div>
                                 </div>
                             </div>
                             <div class="col-md-1"></div>

@@ -31,8 +31,8 @@
                    <li><a href="#" >个人详细信息录入</a></li>
                    <li class="active"><a href="#" >家庭信息</a></li>
                    <div style="float: right;margin-bottom: 0px;">
-                    <a href="#" class="btn btn-warning btn-sm"><i class="fa fa-arrow-left"><strong></i>&nbsp;返&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回</strong></a>
-                    <a href="#" class="btn btn-warning btn-sm"><i class="fa fa-arrow-right"><strong></i>&nbsp;跳过该量表</strong></a>	
+                    <a href="/scales/select_scales?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}" class="btn btn-warning btn-sm"><strong><i class="fa fa-arrow-left"></i>&nbsp;返&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回</strong></a>
+                    <a href="#" class="btn btn-warning btn-sm"><strong><i class="fa fa-arrow-right"></i>&nbsp;跳过该量表</strong></a>
                    </div>
               </ul>
           </div>
@@ -40,7 +40,7 @@
         </div> 
         <div class="dashboard_graph x_panel" style="height: 80%;overflow-x: hidden;">
           <div id="wrapper">
-            <div id = "left-side" style="height: 100%;" class="col-md-2">
+            <div id = "left-side" style="height: 100%;margin-left: 10px;" class="col-md-2">
               <ul class="scales_progress">
                   {% for scale_name in scale_name_list %}
                         {% if scale_name|get_item:'scale__scale_name' == '一般资料－个人及家庭信息' %}
@@ -69,58 +69,59 @@
                        <div class="container">
                              <div class="x_content">
                                      <div class="x_title">
-                    <div class="clearfix"></div>
-                    <h2>一般资料 <small>General information</small></h2>
-                    <div class="clearfix"></div>
-                  </div>
-                            <div class="x_content">
+                                        <div class="clearfix"></div>
+                                          <h2>一般资料 <small>General information</small></h2>
+                                          <div class="clearfix"></div>
+                                        </div>
+                                     <div class="x_content" width="80">
 
-                              <div class="form-group row">
-                                  <div class="col-md-4 col-sm-4">
-                                      <label class="control-label col-md-2 col-sm-2" for="name">姓名<span class="required">*</span></label>
-                                    <div class="col-md-2 col-sm-2 form-group has-feedback">
-                                      {{base_info.name}}
-                                    </div>
-                                  </div>
-                                  <div class="col-md-4 col-sm-4">
-                                      <label class="control-label col-md-3 col-sm-2" for="tele">联系方式<span class="required">*</span></label>
-                                    <div class="col-md-1 col-sm-3 form-group has-feedback">
-                                        <input type="text" id="tele" name="tele" class="form-control has-feedback-left"  style="width:160px">
-                                        <span class="fa fa-mobile form-control-feedback left" aria-hidden="true"></span>
-                                    </div>
-                                  </div>
-                                  <div class="col-md-4 col-sm-4">
-                                     <label class="control-label col-md-2 col-sm-2 " for="height">身高<span class="required">*</span>
-                                    </label>
-                                    <div class="col-md-2 col-sm-2 form-group has-feedback">
-                                      <input type="text" id="height" name="height" class="form-control" style="width: 160px" PLACEHOLDER="CM" value="{{patient_detail.height}}">
-                                    </div>
+                                        <div class="form-group row">
+                                            <div class="col-md-4 col-sm-4">
+                                                <label class="control-label col-md-2 col-sm-2" >姓名<span class="required">*</span></label>
+                                                <div class="col-md-2 col-sm-2 form-group has-feedback">
+                                                {{base_info.name}}
+                                                 </div>
+                                            </div>
+                                            <div class="col-md-4 col-sm-4">
+                                                <label class="control-label col-md-3 col-sm-2" for="tele">联系方式<span class="required">*</span></label>
+                                                <div class="col-md-1 col-sm-3 form-group has-feedback">
+                                                    <input type="text" id="tele" name="tele" class="form-control has-feedback-left"  style="width:175px">
+                                                    <span class="fa fa-mobile form-control-feedback left" aria-hidden="true"></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-sm-4">
+                                                <label class="control-label col-md-2 col-sm-2 " for="height">身高<span class="required">*</span>
+                                                </label>
+                                                <div class="col-md-2 col-sm-2 form-group has-feedback">
+                                                  <input type="text" id="height" name="height" class="form-control" style="width: 160px" PLACEHOLDER="CM">
+                                                </div>
 
-                                  </div>
-                              </div>
-                             <div class="form-group row">
-                                  <div class="col-md-4 col-sm-4">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-md-4 col-sm-4">
                                  <label class="control-label col-md-2 col-sm-2" >性别<span class="required">*</span></label>
                                       {% if base_info.sex == 0 %}
                                       <div class="col-md-4 col-sm-3 form-group has-feedback row" >
-                                          <input type="radio" name="gender" value=0 data-labelauty="男" checked disabled/>
+                                          <input type="radio" name="sex" value=0 data-labelauty="男" checked disabled/>
                                       </div>
                                       <div class="col-md-4 col-sm-3 form-group has-feedback row" >
-                                          <input type="radio" name="gender" value=1 data-labelauty="女" disabled />
+                                          <input type="radio" name="sex" value=1 data-labelauty="女" disabled />
                                       </div>
                                       {% else %}
                                       <div class="col-md-4 col-sm-3 form-group has-feedback row">
-                                          <input type="radio" name="gender" value=0 data-labelauty="男" disabled />
+                                          <input type="radio" name="sex" value=0 data-labelauty="男" disabled />
                                       </div>
                                       <div class="col-md-4 col-sm-3 form-group has-feedback row" >
-                                          <input type="radio" name="gender" value=1 data-labelauty="女" checked disabled />
+                                          <input type="radio" name="sex" value=1 data-labelauty="女" checked disabled />
                                       </div>
                                       {% endif %}
                                   </div>
-                                  <div class="col-md-4 col-sm-4">
+                                            <div class="col-md-4 col-sm-4">
                                         <label class="control-label col-md-3 col-sm-2 " for="marital_status">婚姻状况<span class="required">*</span></label>
-                            <div class="col-md-1 col-sm-2">
-                              <select class="form-control" name="marital_status" id="marital_status" style="width:160px"  value="">
+                                        <div class="col-md-1 col-sm-2">
+                              <select class="form-control" name="marital_status" id="marital_status" style="width:175px">
+
                                 <option value="1">单身=1</option>
                                 <option value="2">未婚=2</option>
                                 <option value="3">已婚=3</option>
@@ -131,16 +132,17 @@
                               </select>
                             </div>
                                   </div>
-                                  <div class="col-md-4 col-sm-4">
-                                     <label class="control-label col-md-2 col-sm-2" for="weight">体重<span class="required">*</span>
-                                    </label>
-                                    <div class="col-md-2 col-sm-3 form-group has-feedback">
-                                      <input type="text" id="weight" name="height" class="form-control" style="width: 160px" PLACEHOLDER="KG" value="{{patient_detail.weight}}">
-                                    </div>
+                        <div class="col-md-4 col-sm-4">
+                                                <label class="control-label col-md-2 col-sm-2" for="weight">体重<span class="required">*</span>
+                                                </label>
+                                                <div class="col-md-2 col-sm-3 form-group has-feedback">
+                                                    <input type="text" id="weight" name="height" class="form-control" style="width: 160px" PLACEHOLDER="KG">
+                                                </div>
 
-                                  </div>
-                              </div>
-                             <div class="form-group row">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+
                                   <div class="col-md-4 col-sm-4">
                                      <label class="control-label col-md-2 col-sm-1" for="age">年龄<span class="required">*</span></label>
                             <div class="col-md-2 col-sm-1 form-group ">
@@ -150,7 +152,9 @@
                                   <div class="col-md-4 col-sm-4">
                                  <label class="control-label col-md-3 col-sm-2" for="occupation">职业<span class="required">*</span></label>
                             <div class="col-md-2 col-sm-2 form-group ">
-                                <input type="text" id="occupation" name="occupation" class="form-control"  style="width:160px" value="{{patient_detail.occupation}}">
+
+                                <input type="text" id="occupation" name="occupation" class="form-control"  style="width:175px">
+
                             </div>
                                   </div>
                                   <div class="col-md-4 col-sm-4">
@@ -161,59 +165,63 @@
                                     </div>
                                   </div>
                               </div>
-                            <div class="form-group row">
-                                  <div class="col-md-4 col-sm-4">
-                                   <label class="control-label col-md-3 col-sm-2" for="birthday">出生日期<span class="required">*</span></label>
-                                    <div class="col-md-4 col-sm-3  form-group" >
+                                        <div class="form-group row">
+                                            <div class="col-md-4 col-sm-4">
+                                                <label class="control-label col-md-3 col-sm-2" for="birthday">出生日期<span class="required">*</span></label>
+                                                <div class="col-md-4 col-sm-3  form-group" >
+                                                    {{ base_info.birth_date }}
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-sm-4">
+                                                <label class="control-label col-md-3 col-sm-2 " for="nation">民族<span class="required">*</span></label>
+                                                <div class="col-md-2 col-sm-2">
+                                                    <select class="form-control" name="nation" id="nation" style="width: 175px">
+                                                    {% for items in nation_list %}
+                                                        {% if items.id == base_info.nation %}
+                                                            <option value="{{items.id}}"  selected="true">{{items.ethnicity_name}}={{items.id}}</option>
+                                                        {% else %}
+                                                            <option value="{{items.id}}">{{items.ethnicity_name}}={{items.id}}</option>
+                                                         {% endif %} 
+                                                    {% endfor %}
+                                                    </select>
+                                                </div>
+                                             </div>
 
-                                        {{ base_info.birth_date }}
-                                    </div>
-                                  </div>
-                                  <div class="col-md-4 col-sm-4">
-                                    <label class="control-label col-md-3 col-sm-2 " for="nation">民族<span class="required">*</span></label>
-                                        <div class="col-md-2 col-sm-2">
-                                            <select class="form-control" name="nation" id="nation" style="width: 160px">
-                                              {% for items in nation_list %}
-                                                {% if items.id == base_info.nation %}
-                                                <option value="{{items.id}}"  selected="true">{{items.ethnicity_name}}={{items.id}}</option>
-                                                {% else %}
-                                                <option value="{{items.id}}">{{items.ethnicity_name}}={{items.id}}</option>
-                                                {% endif %}
-                                              }
-                                              {% endfor %}
-                                            </select>
+                                             <div class="col-md-4 col-sm-4">
+                                                <label class="control-label col-md-2 col-sm-2 " for="hip">臀围<span class="required">*</span>
+                                                </label>
+                                                <div class="col-md-2 col-sm-3  form-group has-feedback">
+                                                    <input type="text" id="hip" name="height" class="form-control" style="width: 160px"PLACEHOLDER="CM">
+                                                </div>
+
+                                             </div>
                                         </div>
-                                  </div>
-                                  <div class="col-md-4 col-sm-4">
-                                     <label class="control-label col-md-2 col-sm-2 " for="hip">臀围<span class="required">*</span>
-                                    </label>
-                                    <div class="col-md-2 col-sm-3  form-group has-feedback">
-                                      <input type="text" id="hip" name="height" class="form-control" style="width: 160px" PLACEHOLDER="CM" value="{{patient_detail.hip}}">
-                                    </div>
 
-                                  </div>
-                              </div>
+                                        <div class="form-group row" >
+                                            <div class="col-md-4 col-sm-4"></div>
+                                            <div class="col-md-4 col-sm-4">
 
-                             <div class="row" >
-                                  <div class="col-md-4 col-sm-4">
 
-                                  </div>
-                                  <div class="col-md-4 col-sm-4">
-                                         <label class="control-label col-md-3 col-sm-2" for="education">受教育程度<span class="required">*</span></label>
+                                      <label class="control-label col-md-3 col-sm-2" for="education">受教育程度<span class="required">*</span></label>
                                          <div class="col-md-1 col-sm-2">
-                                            <input type="text" id="education" name="education" class="form-control" style="width:160px" value="{{patient_detail.education}}">
+
+                                            <input type="text" id="education" name="education" class="form-control" style="width:175px">
                                          </div>
                                   </div>
-                                  <div class="col-md-4 col-sm-4">
-                                       <label class="control-label  col-md-2 col-sm-2 " for="education">共<span class="required">*</span></label>
-                                        <div class="col-md-2 col-sm-3 ">
-                                            <input type="text" id="education_years" name="education_years" class="form-control" style="width:160px" PLACEHOLDER="年" value="{{patient_detail.years}}">
                                         </div>
-                                  </div>
 
-                                    </div>
-                            </br>
-                            </div>
+                                        <div class="form-group row" >
+                                            <div class="col-md-4 col-sm-4">
+                                            </div>
+                                            <div class="col-md-4 col-sm-4">
+                                                <label class="control-label  col-md-3 col-sm-2 " for="education">共<span class="required">*</span></label>
+                                                <div class="col-md-1 col-sm-2 ">
+                                                    <input type="text" id="education_years" name="education_years" class="form-control" style="width:175px" PLACEHOLDER="年">
+                                                </div>
+                                             </div>
+                                        </div>
+
+                                       </div>
 
 
                           <div class="x_title">
@@ -273,7 +281,9 @@
                               <div class="col-md-1 col-sm-1">
                                 <input type="radio" class="only_child_2" name="patient_only_child" value=0 data-labelauty="否"/>
                               </div>
-                              <div  id="preference_div" style="display: none">
+
+                                <div  id="preference_div" style="display: none">
+
                               <label class="control-label col-md-1 col-sm-4" for="parents_favour">父母偏爱<span class="required">*</span></label>
                               <div class="col-md-2 col-sm-3">
                                       <select class="form-control" name="parents_favour" id="parents_favour">
@@ -282,6 +292,7 @@
                                         <option value="3">偏爱自己=3</option>
                                       </select>
                               </div>
+                                </div>
                             </div>
                           </div>
         <!--                    兄弟姐妹-->
@@ -379,7 +390,7 @@
                               <label class="control-label col-md-2 col-sm-3  parent_pass_away_age" style="display: none;">父/母过世时自己的年龄</label>
         <!--                      hidden-->
                               <div class="col-md-1 col-sm-1 form-group  parent_pass_away_age" style="display: none;">
-                                  <input type="text" id="patient_parent_death_age" name="patient_parent_death_age" class="form-control">
+                                  <input type="text" id="parent_parent_death_age" name="parent_parent_death_age" class="form-control">
                               </div>
 
                               <label class="control-label col-md-1 col-sm-2">父母争吵 频率<span class="required">*</span></label>
@@ -463,7 +474,7 @@ $(document).ready(function(){
   document.getElementById("marital_status").value={{patient_detail.emotional_state}};
 });
 
-<!--居住方式-->
+/*--居住方式--*/
 $('.other_living_type').hide();
     $('#patient_live_type').change(function(){
        if ($('#patient_live_type option:selected').val() == 6){
@@ -476,7 +487,7 @@ $('.other_living_type').hide();
     });
 
 
-<!--独生子女-->
+/*--独生子女--*/
 $(".only_child_1").on('click', function(event){
 
       $("#brother_num_2").hide();
@@ -488,7 +499,7 @@ $(".only_child_2").on('click', function(event){
       $("#brother_num_2").show();
       $("#preference_div").show();
 });
-<!--收养-->
+/*--收养--*/
 $("#patient_adopt_2").on('click', function(event){
       $("#adopt_age_1").hide();
       $("#adopt_age_2").hide();
@@ -498,7 +509,7 @@ $("#patient_adopt_1").on('click', function(event){
       $("#adopt_age_1").show();
       $("#adopt_age_2").show();
 });
-<!--学生干部-->
+/*--学生干部--*/
 $("#patient_leader_2").on('click', function(event){
       $("#patient_leader_occupation").attr("disabled", true);
       $("#patient_leader_occupation").val("");
@@ -506,7 +517,7 @@ $("#patient_leader_2").on('click', function(event){
 $("#patient_leader_1").on('click', function(event){
       $("#patient_leader_occupation").removeAttr("disabled");
 });
-<!--住校-->
+/*--住校*/
 $("#patient_live_school_2").on('click', function(event){
       $("#patient_home_frequency").attr("disabled", true);
       $("#patient_home_frequency").val("");
@@ -514,7 +525,7 @@ $("#patient_live_school_2").on('click', function(event){
 $("#patient_live_school_1").on('click', function(event){
       $("#patient_home_frequency").removeAttr("disabled");
 });
-<!--躯体疾病-->
+/*--躯体疾病*/
 $("#patient_somatic_diseases_1").on('click', function(event){
       $("#patient_somatic_diseases_name").removeAttr("disabled");
       $("#patient_somatic_diseases_year").removeAttr("disabled");
@@ -525,7 +536,7 @@ $("#patient_somatic_diseases_2").on('click', function(event){
       $("#patient_somatic_diseases_name").val("");
       $("#patient_somatic_diseases_year").val("");
 });
-<!--精神疾病-->
+/*--精神疾病*/
 $("#patient_mental_diseases_1").on('click', function(event){
       $("#patient_mental_diseases_name").removeAttr("disabled");
       $("#patient_mental_diseases_year").removeAttr("disabled");
@@ -536,7 +547,7 @@ $("#patient_mental_diseases_2").on('click', function(event){
       $("#patient_mental_diseases_name").val("");
       $("#patient_mental_diseases_year").val("");
 });
-<!--家族史-->
+/*---家族史*/
 $("#patient_family_diseases_history_1").on('click', function(event){
       $("#patient_family_diseases_name").removeAttr("disabled");
 });
@@ -544,7 +555,7 @@ $("#patient_family_diseases_history_2").on('click', function(event){
       $("#patient_family_diseases_name").attr("disabled", true);
       $("#patient_family_diseases_name").val("");
 });
-<!--吸烟-->
+/*--吸烟*/
 $("#patient_smoke_1").on('click', function(event){
       $("#patient_smoke_age").removeAttr("disabled");
       $("#patient_daily_smoke_num").removeAttr("disabled");
@@ -555,7 +566,7 @@ $("#patient_smoke_2").on('click', function(event){
       $("#patient_smoke_age").val("");
       $("#patient_daily_smoke_num").val("");
 });
-<!--其他物质-->
+/*--其他物质*/
 $("#patient_other_abuse_2").on('click', function(event){
       $("#patient_other_abuse_age").attr("disabled", true);
       $("#patient_other_abuse_age").val("");
@@ -563,7 +574,7 @@ $("#patient_other_abuse_2").on('click', function(event){
 $("#patient_other_abuse_1").on('click', function(event){
       $("#patient_other_abuse_age").removeAttr("disabled");
 });
-<!--重大生活事件-->
+/*---重大生活事件*/
 $("#patient_big_event_2").on('click', function(event){
       $("#patient_big_event_describtion").attr("disabled", true);
       $("#patient_big_event_describtion").val("");
@@ -571,28 +582,28 @@ $("#patient_big_event_2").on('click', function(event){
 $("#patient_big_event_1").on('click', function(event){
       $("#patient_big_event_describtion").removeAttr("disabled");
 });
-<!--父母婚姻状态-->
+/*--父母婚姻状态*/
 $("#parent_marry").change(function(){
        var val = $("#parent_marry").val();
 <!--       离异-->
        if (val == "2"){
               $(".StepParents").show();
-              $(".patient_parent_death_age").hide();
-              $(".patient_parent_death").hide();
-              $(".patient_parent_death_age").val("");
-<!--有一方过世-->
+              $(".parent_parent_death_age").hide();
+              $(".parent_parent_death").hide();
+              $(".parent_parent_death_age").val("");
+/*--有一方过世*/
        }else if(val == "4"){
-              $(".patient_parent_death_age").show();
-              $(".patient_parent_death").show();
+              $(".parent_parent_death_age").show();
+              $(".parent_parent_death").show();
               $(".StepParents").hide();
        }else{
-              $(".patient_parent_death_age").hide();
+              $(".parent_parent_death_age").hide();
               $(".StepParents").hide();
-              $(".patient_parent_death").hide();
-              $(".patient_parent_death_age").val("");
+              $(".parent_parent_death").hide();
+              $(".parent_parent_death_age").val("");
        }
 });
-<!--饮酒-->
+/*--饮酒*/
 $("#patient_alcohol").change(function(){
        var val = $("#patient_alcohol").val();
        if (val == "1"){
@@ -601,7 +612,7 @@ $("#patient_alcohol").change(function(){
              $("#patient_alcohol_age").removeAttr("disabled");
        }
 });
-<!--少数民族-->
+/*--少数民族*/
 $("#nation").change(function(){
        var val = $("#nation").val();
        if (val == "0"){
@@ -611,7 +622,7 @@ $("#nation").change(function(){
            $(".minority").show();
        }
 });
-<!--居住方式 其他居住方式-->
+/*--居住方式 其他居住方式*/
 $("#patient_live_type").change(function(){
        var val = $("#patient_live_type").val();
        if (val == "6"){

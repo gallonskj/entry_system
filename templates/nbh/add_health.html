@@ -3,7 +3,7 @@
 {% load SelfDefinedFilter %}
 {% block title %}家族及疾病史{% endblock %}
 {% block css %}
-<link href="{% static '/css/scales_style.css' %}" rel="stylesheet" >
+<link href="{% static '/css/scales_style.css' %}" rel="stylesheet">
 <style>
   .row input.labelauty + label{
     margin-bottom:0px;
@@ -19,158 +19,195 @@
 	  -moz-border-radius: 3px 3px 3px 3px;
 	  -webkit-border-radius: 3px 3px 3px 3px;
   }
+
+
+
+
 </style>
 {% endblock %}
 {% block content %}
-    <div class="right_col" role="main">
-        <div class="container">
-           <div class="row show-grid">
+<div class="right_col" role="main">
+    <div class="container">
+        <div class="row show-grid">
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <ul class="breadcrumb" style="background-color: white;font-weight:bold">
-                   <li ><a href="#">量表录入</a></li>
-                   <li><a href="#" >个人详细信息录入</a></li>
-                   <li class="active"><a href="#" >家族及疾病史</a></li>
-                   <div style="float: right;margin-bottom: 0px;">
-                    <a href="#" class="btn btn-warning btn-sm"><i class="fa fa-arrow-left"><strong></i>&nbsp;返&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回</strong></a>
-                    <a href="#" class="btn btn-warning btn-sm"><i class="fa fa-arrow-right"><strong></i>&nbsp;跳过该量表</strong></a>	
-                   </div>
+                    <li><a href="#">量表录入</a></li>
+                    <li><a href="#">个人详细信息录入</a></li>
+                    <li class="active"><a href="#">家族及疾病史</a></li>
+                    <div style="float: right;margin-bottom: 0px;">
+                        <a href="/scales/select_scales?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}"
+                           class="btn btn-warning btn-sm"><i class="fa fa-arrow-left"></i><strong>&nbsp;返&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回</strong></a>
+                    </div>
                 </ul>
             </div>
-          </div>
-        </div> 
-        <div class="dashboard_graph x_panel" style="height:80%">
-          <div id="wrapper">
-            <div id = "left-side" style="height: 100%;" class="col-md-2">
-              <ul class="scales_progress">
-                {% for scale_name in scale_name_list %}
-                        {% if scale_name|get_item:'scale__scale_name' == '一般资料－家族及疾病史' %}
-                            <li class="step doing  ">
-                                <p>{{ scale_name|get_item:'scale__scale_name' }}</p>
-                            </li>
-                        {% elif scale_name|get_item:'state' == 0 %}
-                            <li class="step nodone notclick">
-                                <p>{{ scale_name|get_item:'scale__scale_name' }}</p>
-                            </li>
-                        {% else %}
-                            <li class="step done notclick">
-                                <p>{{ scale_name|get_item:'scale__scale_name' }}</p>
-                            </li>
-                        {% endif %}
-                        {% endfor %}
-                        <li class="finish nodone notclick">
-                          <p>完成</p>
-                        </li>
-              </ul>
-            </div>  
-             
-            <div id="right-side" class="col-md-10">
-              <div id="first" class="active">
-                  <form name="healthform" action="/scales/add_health?patient_id={{ patient_id }}&patient_session_id={{ patient_session_id }}&questionnaire_type={{ questionnaire_type|add:1 }}" method="post" onSubmit="return myCheck(this)">
-                          <div class="x_title">
-                    <div class="clearfix"></div>
-                    <h2>健康情况及家族史 <small>Health and family history</small></h2>
-                    <div class="clearfix"></div>
-                  </div>
-                  <br>
-                  <div class="x_content">
-                    <br>
-                    <div class="form-group row">
-                      <label class="control-label col-md-2 col-sm-3 col-md-offset-1">既往是否有躯体疾病<span class="required">*:</span></label>
-                      <div class="col-md-1 col-sm-1 " id="patient_somatic_diseases_1">
-                        <input type="radio"  name="patient_somatic_diseases" value=1 data-labelauty="是"/>
-                      </div>
-                      <div class="col-md-1 col-sm-1 " id="patient_somatic_diseases_2">
-                        <input type="radio"  name="patient_somatic_diseases" value=0 data-labelauty="否"/>
-                      </div>
-                        <div  class="suicides_next_question" id = "suicides_next_question001">
-                      <label class="control-label col-md-1 col-sm-2 ">所患疾病<span class="required">:</span></label>
-                      <div class="col-md-2 col-sm-2 form-group  ">
-                        <input type="text" id="patient_somatic_diseases_name" name="patient_somatic_diseases_name" class="form-control" required>
-                      </div>
-                      <label class="control-label col-md-1 col-sm-2 ">患病时长<span class="required">:</span></label>
-                      <div class="col-md-2 col-sm-1 form-group  ">
-                        <input type="text" id="patient_somatic_diseases_year" name="patient_somatic_diseases_year" class="form-control" required>
-                      </div>
-                        </div>
-                    </div>
-                    <br>
-
-                    <div class="form-group row">
-                      <label class="control-label col-md-2 col-sm-3 col-md-offset-1 ">既往是否有精神疾病<span class="required">*:</span></label>
-                      <div class="col-md-1 col-sm-1 " id="patient_mental_diseases_1">
-                        <input type="radio"  name="patient_mental_diseases" value=0 data-labelauty="是"/>
-                      </div>
-                      <div class="col-md-1 col-sm-1 " id="patient_mental_diseases_2">
-                        <input type="radio"  name="patient_mental_diseases" value=1 data-labelauty="否"/>
-                      </div>
-                        <div  class="suicides_question" id = "suicides_next_question001">
-                      <label class="control-label col-md-1 col-sm-2 ">所患疾病<span class="required">:</span></label>
-                      <div class="col-md-2 col-sm-2 form-group  ">
-                        <input type="text" id="patient_mental_diseases_name" name="patient_mental_diseases_name" class="form-control" required>
-                      </div>
-                      <label class="control-label col-md-1 col-sm-2 ">患病时长<span class="required">:</span></label>
-                      <div class="col-md-2 col-sm-1 form-group ">
-                        <input type="text" id="patient_mental_diseases_year" name="patient_mental_diseases_year" class="form-control" required>
-                      </div>
-                        </div>
-                    </div>
-                    <br>
-
-                    <div class="form-group row">
-                      <label class="control-label col-md-1 col-sm-2 col-md-offset-2 col-sm-offset-1">家族史<span class="required">*:</span></label>
-                      <div class="col-md-1 col-sm-1 " id="patient_family_diseases_history_1">
-                        <input type="radio"  name="patient_family_diseases_history" value=1 data-labelauty="是"/>
-                      </div>
-                      <div class="col-md-1 col-sm-1 " id="patient_family_diseases_history_2">
-                        <input type="radio"  name="patient_family_diseases_history" value=0 data-labelauty="否"/>
-                      </div>
-                        <div  class="suicides_question_n" id = "suicides_next_question001">
-                      <label class="control-label col-md-1 col-sm-2 ">疾病名<span class="required">:</span></label>
-                      <div class="col-md-2 col-sm-3 form-group has-feedback ">
-                        <input type="text" id="patient_family_diseases_name" name="patient_family_diseases_name" class="form-control" required>
-                      </div>
-                        </div>
-                    </div>
-                    <br>
-
-                    <div class="form-group row">
-                      <label class="control-label col-md-3 col-sm-6 col-md-offset-3">用药情况（药物名称、剂量、用药周期）<span class="required">:</span></label>
-                      <div class="col-md-4 col-sm-4 form-group ">
-                        <input type="text" id="patient_medicine_information" name="patient_medicine_information" class="form-control ">
-                      </div>
-                    </div>
-                    <br>
-
-                    <div class="form-group row">
-                      <label class="control-label col-md-4 col-sm-6 col-md-offset-2">治疗情况（治疗种类、治疗方案、治疗时长）<span class="required">:</span></label>
-                      <div class="col-md-4 col-sm-4 form-group ">
-                        <input type="text" id="patient_treatment_information" name="patient_treatment_information" class="form-control ">
-                      </div>
-                    </div>
-                    <br>
-
-                  </div>
-
-                </br>
-                  <div class="row">
-                        {% csrf_token %}
-                        <div class="text-center">
-                            <input  type="submit" class="btn btn-success" value="保存并提交量表，继续下一个量表"/>
-                        </div>
-                  </div>
-                  </form>
-              </div>
-            </div>
-          </div>
-       </div>
+        </div>
     </div>
+    <div class="dashboard_graph x_panel" style="height:80%">
+        <div id="wrapper">
+            <div id="left-side" style="height: 100%;" class="col-md-2">
+                <ul class="scales_progress">
+                    {% for scale_name in scale_name_list %}
+                    {% if scale_name|get_item:'scale__scale_name' == '一般资料－家族及疾病史' %}
+                    <li class="step doing  ">
+                        <p>{{ scale_name|get_item:'scale__scale_name' }}</p>
 
+                        {% elif scale_name|get_item:'state' == 0 %}
+                    <li class="step nodone notclick">
+                        <p>{{ scale_name|get_item:'scale__scale_name' }}</p>
+                    </li>
+                    {% else %}
+                    <li class="step done notclick">
+                        <p>{{ scale_name|get_item:'scale__scale_name' }}</p>
+                    </li>
+                    {% endif %}
+                    {% endfor %}
+                    <li class="finish nodone notclick">
+                        <p>完成</p>
+                    </li>
+                </ul>
+            </div>
+
+            <div id="right-side" class="col-md-10">
+                <div id="first" class="active">
+                    <form name="healthform"
+                          action="/scales/add_health?patient_id={{ patient_id }}&patient_session_id={{ patient_session_id }}&questionnaire_type={{ questionnaire_type|add:1 }}"
+                          method="post" onSubmit="return myCheck(this)">
+                        <div class="x_title">
+                            <div class="clearfix"></div>
+                            <h2>健康情况及家族史 <small>Health and family history</small></h2>
+                            <div class="clearfix"></div>
+                        </div>
+                        <br>
+                        <div class="x_content">
+                            <br>
+                            <div class="form-group row">
+                                <label class="control-label col-md-2 col-sm-3 col-md-offset-1">既往是否有躯体疾病<span
+                                        class="required">*:</span></label>
+                                <div class="col-md-1 col-sm-1 " id="patient_somatic_diseases_1">
+                                    <input type="radio" name="patient_somatic_diseases" class="somatic_diseases_1"
+                                           value=1 data-labelauty="是"/>
+                                </div>
+                                <div class="col-md-1 col-sm-1 " id="patient_somatic_diseases_2">
+                                    <input type="radio" name="patient_somatic_diseases" class="somatic_diseases_1"
+                                           value=0 data-labelauty="否"/>
+                                </div>
+                                <div class="patient_somatic_diseases_name_year" style="display: none;">
+                                    <label class="control-label col-md-1 col-sm-2 ">所患疾病<span class="required">:</span></label>
+                                    <div class="col-md-2 col-sm-2 form-group  ">
+                                        <input type="text" id="patient_somatic_diseases_name"
+                                               name="patient_somatic_diseases_name"
+                                               class="form-control patient_somatic_diseases_name">
+                                    </div>
+                                    <label class="control-label col-md-1 col-sm-2 ">患病时长<span class="required">:</span></label>
+                                    <div class="col-md-2 col-sm-1 form-group  ">
+                                        <input type="text" id="patient_somatic_diseases_year" placeholder="年"
+                                               name="patient_somatic_diseases_year"
+                                               class="form-control patient_somatic_diseases_year">
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="form-group row">
+                                <label class="control-label col-md-2 col-sm-3 col-md-offset-1 ">既往是否有精神疾病<span
+                                        class="required">*:</span></label>
+                                <div class="col-md-1 col-sm-1 " id="patient_mental_diseases_1">
+                                    <input type="radio" name="patient_mental_diseases" value=0 data-labelauty="是"
+                                           class="patient_mental_diseases_1"/>
+                                </div>
+                                <div class="col-md-1 col-sm-1 " id="patient_mental_diseases_2">
+                                    <input type="radio" name="patient_mental_diseases" value=1 data-labelauty="否"
+                                           class="patient_mental_diseases_2"/>
+                                </div>
+                                <div class="patient_mental_diseases_name_year" style="display: none;">
+                                    <label class="control-label col-md-1 col-sm-2 ">所患疾病<span class="required">:</span></label>
+                                    <div class="col-md-2 col-sm-2 form-group  ">
+                                        <input type="text" id="patient_mental_diseases_name"
+                                               name="patient_mental_diseases_name" class="form-control">
+                                    </div>
+                                    <label class="control-label col-md-1 col-sm-2 ">患病时长<span class="required">:</span></label>
+                                    <div class="col-md-2 col-sm-1 form-group ">
+                                        <input type="text" id="patient_mental_diseases_year" placeholder="年"
+                                               name="patient_mental_diseases_year" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="form-group row">
+                                <label class="control-label col-md-1 col-sm-2 col-md-offset-2 col-sm-offset-1">家族史<span
+                                        class="required">*:</span></label>
+                                <div class="col-md-1 col-sm-1 " id="patient_family_diseases_history_1">
+                                    <input type="radio" name="patient_family_diseases_history"
+                                           class="patient_family_diseases_history_1" value=1 data-labelauty="是"/>
+                                </div>
+                                <div class="col-md-1 col-sm-1 " id="patient_family_diseases_history_2">
+                                    <input type="radio" name="patient_family_diseases_history"
+                                           class="patient_family_diseases_history_2" value=0 data-labelauty="否"/>
+                                </div>
+                                <div class="patient_family_diseases_name">
+                                    <label class="control-label col-md-1 col-sm-2 ">疾病名<span
+                                            class="required">:</span></label>
+                                    <div class="col-md-2 col-sm-3 form-group has-feedback ">
+                                        <input type="text" id="patient_family_diseases_name"
+                                               name="patient_family_diseases_name" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="form-group row">
+                                <label class="control-label col-md-3 col-sm-6 col-md-offset-1 ">用药情况（药物名称、剂量、用药周期）<span
+                                        class="required">:</span></label>
+                                <div class="col-md-4 col-sm-4 form-group ">
+                                    <textarea id="patient_medicine_information" name="patient_medicine_information"
+                                              class="form-control " rows="3" style="resize: none"
+                                              required="required"></textarea>
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="form-group row">
+                                <label class="control-label col-md-3 col-sm-6 col-md-offset-1 ">治疗情况（治疗种类、治疗方案、治疗时长）<span
+                                        class="required">:</span></label>
+                                <div class="col-md-4 col-sm-4 form-group ">
+                                    <textarea id="patient_treatment_information" name="patient_treatment_information"
+                                              class="form-control " rows="3" style="resize: none"
+                                              required="required"></textarea>
+                                </div>
+                            </div>
+
+                            <br>
+
+                        </div>
+
+                        <div class=" row">
+                            <div class="col-md-4 col-sm-6 text-center" style="text-align: center">
+                                <a href="#">
+                                    <button type="button" class="btn btn-warning" id="bt_return">返回上一量表</button>
+                                </a>
+                            </div>
+                            <div class="col-md-4 col-sm-6">
+                                {% csrf_token %}
+                                <input type="submit" class="btn btn-success text-center" value="保存提交量表">
+                            </div>
+                            <div class="col-md-4 col-sm-6">
+                                <a href="/scales/skip_scale?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{scale_id}}"
+                                   style="float: right"><u>跳过该量表</u></a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 {% endblock %}
 
 {% block js %}
-        <script>
+<script>
 $(document).ready(function(){
     $(".suicides_next_question").hide();
     $(".suicides_question").hide();
@@ -218,6 +255,47 @@ $(document).ready(function(){
         }
     });
 });
+
+$(".somatic_diseases_1").on('click', function(event){
+      $(".patient_somatic_diseases_name_year").show();
+      $("#patient_somatic_diseases_name").attr('required','required');
+      $("#patient_somatic_diseases_year").attr('required','required');
+
+});
+$(".somatic_diseases_2").on('click', function(event){
+      $(".patient_somatic_diseases_name_year").hide();
+      $("#patient_somatic_diseases_name").removeAttr("required");
+      $("#patient_somatic_diseases_name").val("");
+      $("#patient_somatic_diseases_year").removeAttr("required");
+      $("#patient_somatic_diseases_year").val("");
+});
+$(".patient_mental_diseases_1").on('click', function(event){
+      $(".patient_mental_diseases_name_year").show();
+      $("#patient_mental_diseases_name").attr('required','required');
+      $("#patient_mental_diseases_year").attr('required','required');
+
+});
+$(".patient_mental_diseases_2").on('click', function(event){
+      $(".patient_mental_diseases_name_year").hide();
+      $("#patient_mental_diseases_name").removeAttr("required");
+      $("#patient_mental_diseases_name").val("");
+      $("#patient_mental_diseases_year").removeAttr("required");
+      $("#patient_mental_diseases_year").val("");
+});
+$(".patient_family_diseases_history_1").on('click', function(event){
+      $(".patient_family_diseases_name").show();
+      $("#patient_family_diseases_name").attr('required','required');
+
+});
+$(".patient_family_diseases_history_2").on('click', function(event){
+      $(".patient_family_diseases_name").hide();
+      $("#patient_family_diseases_name").removeAttr("required");
+      $("#patient_family_diseases_name").val("");
+});
+
+
+
+
 </script>
 <script type="text/javascript" src="{% static '/js/jquery-radio-beauty.js'%}"></script>
 
@@ -225,8 +303,12 @@ $(document).ready(function(){
 $(document).ready(function(){
 	$("input[type='radio']").labelauty();
 });
+
+
+
+
 </script>
-    <script type="text/javascript">
+<script type="text/javascript">
       function myCheck(healthform)
       {
           if (document.healthform.patient_somatic_diseases.value=="") {
@@ -262,16 +344,20 @@ $(document).ready(function(){
               alert("问题三不能为空！");
               return false;
           }*/
-          if (document.healthform.patient_medicine_information.value=="") {
+          {% comment %}if (document.healthform.patient_medicine_information.value=="") {
               alert("问题四不能为空！");
               return false;
           }
           if (document.healthform.patient_treatment_information.value=="") {
               alert("问题五不能为空！");
               return false;
-          }
+          }{% endcomment %}
           alert("提交成功！");
           return true;
       }
-    </script>
+
+
+
+
+</script>
 {% endblock %}

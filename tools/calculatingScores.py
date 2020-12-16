@@ -29,7 +29,8 @@ def Handy_total_score(rPatientChineseHandy_object):
             total_score = 1
         elif six_item == 0:
             total_score = 2
-
+        else:
+            total_score = 3
         object_flag = False
 
     return total_score,object_flag

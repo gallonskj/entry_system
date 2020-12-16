@@ -28,9 +28,9 @@
                          <li><a href="#" >认知分数录入</a></li>
 						 <li class="active"><a href="#" >威斯康星卡片分类测验（wcst）</a></li>
                          <div style="float: right;margin-bottom: 0px;">
-							<a href="#" class="btn btn-warning btn-sm"><i class="fa fa-arrow-left"><strong></i>&nbsp;返&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回</strong></a>
-							<a href="#" class="btn btn-warning btn-sm"><i class="fa fa-arrow-right"><strong></i>&nbsp;跳过该量表</strong></a>	
-						</div>
+                            <a href="/scales/select_scales?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}" class="btn btn-warning btn-sm">
+                                <i class="fa fa-arrow-left"></i><strong>&nbsp;返&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回</strong></a>
+                        </div>
                     </ul>
 				</div>
             </div>
@@ -232,16 +232,29 @@
                                         </tbody>
                                     </table>
 								</div>
-
-
                             </div>
-						<div class="row">
-									<div class="text-center">
-<!--                                    <input type="submit" class="btn btn-success" value="提交"/>-->
-										<br>
-										<button class=" btn btn-success" id="sub" type="button">保存并提交量表，继续下一个量表</button>
+
+<br><br>
+						        <div class="row">
+									<div class="col-md-2">
+
+
+
 									</div>
+									<div  class="col-md-4 col-sm-6 text-center" style="text-align: center">
+                                        <a  href="#"><button type="button" class="btn btn-warning" id="bt_return">返回上一量表</button></a>
+                                    </div>
+                                    <div  class="col-md-4 col-sm-6">
+                                     {% csrf_token %}
+
+										<input class="btn btn-success text-center" id="sub" type="button" value="保存提交量表"></input>
+
+									</div>
+                                    <div class="col-md-2 col-sm-6">
+                                       <a href="/scales/skip_scale?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{scale_id}}"  style="float: right"><u>跳过该量表</u></a>
+                                    </div>
 								</div>
+
                     </form>
 				</div>
 			</div>
@@ -400,31 +413,42 @@ $("#sub").click(function(){
 
 	ra = $('#ra').val();
 	ra1 = (parseInt(ra) == parseFloat(ra));
+
 	cc= $('#cc').val();
 	cc1 = (parseInt(cc) == parseFloat(cc));
+
 	rc = $('#rc').val();
 	rc1 = (parseInt(rc) == parseFloat(rc));
+
 	rcp = $('#rcp').val();
 
 	re = $('#re').val();
 	re1 = (parseInt(re) == parseFloat(re));
+
 	rf = $('#rf').val();
 	rf1 = (parseInt(rf) == parseFloat(rf));
+
 	rfp = $('#rfp').val();
 
 	rp = $('#rp').val();
 	rp1 = (parseInt(rp) == parseFloat(rp));
+
 	rpe = $('#rpe').val();
 	rpe1 = (parseInt(rpe) == parseFloat(rpe));
+
 	rpep = $('#rpep').val();
 
 	nrpe = $('#nrpe').val();
 	nrpe1 = (parseInt(nrpe) == parseFloat(nrpe));
+
 	fm = $('#fm').val();
 	fm1 = (parseInt(fm) == parseFloat(fm));
-	if (ra>0 && ra1 && cc>0 && cc1 && rc>0 && rc1 && rcp>0 && rcp<100 && re>0 && re1 && rf>0 && rf1 && rfp>0 && rfp<100 && rp>0 && rp1 && rpe>0 && rpe1 && rpep>0 && rpep<100 && nrpe>0 && nrpe1 && fm>0 && fm1){
+
+	if (ra>=0 && ra1 && cc>=0 && cc1 && rc>=0 && rc1 && rcp>=0 && rcp<=100 && re>=0 && re1 && rf>=0 && rf1 && rfp>=0
+        && rfp<=100 && rp>=0 && rp1 && rpe>=0 && rpe1 && rpep>=0 && rpep<=100 && nrpe>=0 && nrpe1 && fm>=0 && fm1){
 		$('#sub_wcst').submit();
-	}else if(ra=='' || cc=='' || rc=='' || rcp=='' || re=='' || rf=='' || rfp=='' || rp=='' || rpe=='' || rpep=='' || nrpe=='' || fm==''){
+	}
+	else if(ra=='' || cc=='' || rc=='' || rcp=='' || re=='' || rf=='' || rfp=='' || rp=='' || rpe=='' || rpep=='' || nrpe=='' || fm==''){
 		alert("请填写完毕后提交！");
 		return false;
 	}else{

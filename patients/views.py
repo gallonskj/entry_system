@@ -40,9 +40,13 @@ def add_patient_baseinfo(request):
     doctor_id = request.session.get('doctor_id')
     diagnosis = request.POST.get("diagnosis")
     other_diagnosis = request.POST.get("other_diagnosis")
+    ########################
+    # 手动输入id
+    patient_id = request.POST.get('patient_id')
+    ########################
 
     # 自动分配id
-    patient_id = tools_idAssignments.patient_Id_assignment()
+    # patient_id = tools_idAssignments.patient_Id_assignment()
     patient_id, session_id, standard_id = tools_idAssignments.patient_session_id_assignment(patient_id)
 
     # 基本信息创建
@@ -109,8 +113,6 @@ def get_selected_scales_with_lastsession(request):
     # 获取这一次复扫信息
     patient_baseinfo = patients_dao.get_base_info_byPK(patient_id)
     patient_detail = patients_dao.get_patient_detail_last_byPatientId(patient_id)
-    scales_list = patients_dao.judgment_scales(patient_detail.id)
-    patients_dao.add_rscales(scales_list, patient_detail.id)
     generalinfo_scale_list, other_test_scale_list, self_test_scale_list, cognition_scale_list = scales_dao.get_uodo_scales(patient_detail.id)
     return render(request, 'select_scales.html', {
                                                   'patient_id': patient_baseinfo.id,
