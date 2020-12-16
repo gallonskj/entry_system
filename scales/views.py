@@ -522,15 +522,17 @@ def add_family_info(request):
     if request.POST:
         doctor_id = request.session.get('doctor_id')
         patient_session_id = request.GET.get('patient_session_id')
+        patient_id = request.GET.get('patient_id')
         scales_id = tools_config.information_family
         dpatientdetail = scales_models.DPatientDetail.objects.filter(pk=patient_session_id).first()
         patient_basic_info_family = scales_dao.get_patient_base_info_family_byPatientDetailId(patient_session_id)
+        patient_base_info = patients_dao.get_base_info_byPK(patient_id)
+
         if patient_basic_info_family is None:
             patient_basic_info_family = scales_models.RPatientBasicInformationFamily(patient_session=dpatientdetail,
                                                                                      doctor_id=doctor_id,
                                                                                      scale_id=scales_id)
-
-        form_list = [dpatientdetail, patient_basic_info_family]
+        form_list = [dpatientdetail, patient_basic_info_family, patient_base_info]
         # 有些字段传回来的是‘’，不能自动转换成int或者Null
         for key in request.POST.keys():
             for form in form_list:
@@ -541,9 +543,9 @@ def add_family_info(request):
                         setattr(form, key, request.POST.get(key))
 
         patients_dao.add_patient_detail(dpatientdetail)
+        patients_dao.add_base_info(patient_base_info)
 
     scales_dao.dao_add_family_info(patient_basic_info_family)
-    patient_id = request.GET.get('patient_id')
     redirect_url = get_redirect_url(patient_session_id, patient_id, tools_config.general_info_next_url,
                                     tools_config.general_info_type, tools_config.information_family)
     return redirect(redirect_url)

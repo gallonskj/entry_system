@@ -194,10 +194,10 @@
                                         <select class="form-control" name="nation" id="nation" style="width: 175px">
                                             {% for items in nation_list %}
                                                 {% if items.ethnicity_name == base_info.nation %}
-                                                    <option value="{{ items.id }}"
+                                                    <option value="{{ items.ethnicity_name }}"
                                                             selected="true">{{ items.ethnicity_name }}={{ items.id }}</option>
                                                 {% else %}
-                                                    <option value="{{ items.id }}">{{ items.ethnicity_name }}={{ items.id }}</option>
+                                                    <option value="{{ items.ethnicity_name}}">{{ items.ethnicity_name }}={{ items.id }}</option>
                                                 {% endif %}
                                             {% endfor %}
                                         </select>
