@@ -40,9 +40,13 @@ def add_patient_baseinfo(request):
     doctor_id = request.session.get('doctor_id')
     diagnosis = request.POST.get("diagnosis")
     other_diagnosis = request.POST.get("other_diagnosis")
+    ########################
+    # 手动输入id
+    patient_id = request.POST.get('patient_id')
+    ########################
 
     # 自动分配id
-    patient_id = tools_idAssignments.patient_Id_assignment()
+    # patient_id = tools_idAssignments.patient_Id_assignment()
     patient_id, session_id, standard_id = tools_idAssignments.patient_session_id_assignment(patient_id)
 
     # 基本信息创建
