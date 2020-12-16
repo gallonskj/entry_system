@@ -31,8 +31,8 @@
                      <li><a href="#" >个人详细信息录入</a></li>
                      <li class="active"><a href="#" >物质依赖</a></li>
                      <div style="float: right;margin-bottom: 0px;">
-                      <a href="/scales/select_scales?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}" class="btn btn-warning btn-sm"><i class="fa fa-arrow-left"></i><strong>&nbsp;返&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回</strong></a>
-							<a href="/scales/skip_scale?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{scale_id}}" class="btn btn-warning btn-sm"><i class="fa fa-arrow-right"><strong></i>&nbsp;跳过该量表</strong></a>
+                         <a href="/scales/select_scales?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}" class="btn btn-warning btn-sm"><i class="fa fa-arrow-left"></i><strong>&nbsp;返&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回</strong></a>
+                         <a href="/scales/skip_scale?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{scale_id}}" class="btn btn-warning btn-sm"><i class="fa fa-arrow-right"></i><strong>&nbsp;跳过该量表</strong></a>
                      </div>
                 </ul>
             </div>
@@ -77,7 +77,7 @@
 <!--                    js 选择是偏移1 默认偏移4 -->
                       <br>
                       <div class="form-group row ">
-                      <label class="control-label col-md-2 col-sm-2 col-md-offset-1 ">&nbsp;是否吸烟<span class="required">:</span></label>
+                      <label class="control-label col-md-2 col-sm-2 col-md-offset-1 ">&nbsp;是否吸烟<span class="   ">:</span></label>
 
                      <div class="col-md-2 col-sm-3">
                         <select class="form-control" name="patient_smoke" id="patient_smoke_1" style="width: 150px;">
@@ -91,15 +91,15 @@
                     </div>
                       <br>
                       <div class="form-group row smoke_detail" >
-                          <label class="control-label col-md-2 col-sm-2 col-md-offset-1  ">起始吸烟年龄<span class="required">:</span></label>
+                          <label class="control-label col-md-2 col-sm-2 col-md-offset-1  ">起始吸烟年龄<span class="   ">:</span></label>
                           <div class="col-md-2 col-sm-2 form-group has-feedback ">
                               <input type="text" id="patient_smoke_age" name="patient_smoke_age" class="form-control" style="width: 150px;">
                           </div>
-                           <label class="control-label col-md-2 col-sm-2  ">每日吸烟支数<span class="required">:</span></label>
+                           <label class="control-label col-md-2 col-sm-2  ">每日吸烟支数<span class="   ">:</span></label>
                           <div class="col-md-2 col-sm-2 form-group has-feedback ">
                               <input type="text" id="patient_daily_smoke_num" name="patient_daily_smoke_num" class="form-control" style="width: 150px;" >
                           </div>
-                          <label class="control-label col-md-1 col-sm-1 ">戒烟年龄<span class="required">:</span></label>
+                          <label class="control-label col-md-1 col-sm-1 ">戒烟年龄<span class="   ">:</span></label>
                           <div class="col-md-2 col-sm-2 form-group has-feedback ">
                               <input type="text" id="patient_stop_smoke_age" name="patient_stop_smoke_age" class="form-control" style="width: 150px;">
                           </div>
@@ -108,7 +108,7 @@
 
                       <br>
                      <div class="form-group row">
-                      <label class="control-label col-md-2 col-sm-2 col-md-offset-1 ">是否饮酒<span class="required">*:</span></label>
+                      <label class="control-label col-md-2 col-sm-2 col-md-offset-1 ">是否饮酒<span class="   ">*:</span></label>
                       <div class="col-md-2 col-sm-3">
                         <select class="form-control" name="patient_alcohol" id="alcoholSelect" style="width: 150px;">
                           <option value="1">从不饮酒=1</option>
@@ -118,7 +118,7 @@
                         </select>
                       </div>
                       <div class="alcohol_detail">
-                        <label class="control-label col-md-2 col-sm-2 col-md-offset-1 ">起始饮酒的年龄<span class="required">:</span></label>
+                        <label class="control-label col-md-2 col-sm-2 col-md-offset-1 ">起始饮酒的年龄<span class="   ">:</span></label>
                         <div class="col-md-1 col-sm-3 form-group has-feedback alcohol_age">
                           <input type="text" id="patient_alcohol_age" name="patient_alcohol_age" class="form-control">
                         </div>
@@ -128,7 +128,7 @@
                       <br>
 
                     <div class="form-group row" >
-                      <label class="control-label col-md-4 col-sm-2 col-md-offset-1">是否存在其他物质（非烟和酒）滥用<span class="required">*:</span></label>
+                      <label class="control-label col-md-4 col-sm-2 col-md-offset-1">是否存在其他物质（非烟和酒）滥用<span class="   ">*:</span></label>
                       <div class="col-md-1 col-sm-1 " id="patient_other_abuse_1">
                         <input type="radio" name="patient_other_abuse" class="other_abuse_yes" value=1 data-labelauty="是"/>
                       </div>
@@ -136,7 +136,7 @@
                         <input type="radio" name="patient_other_abuse" class="other_abuse_no" value=0 data-labelauty="否"/>
                       </div>
                       <div class="other_abuse_detail">
-                        <label class="control-label col-md-2 col-sm-2 col-md-offset-1 " style="align-content: center">起始年龄<span class="required">:</span></label>
+                        <label class="control-label col-md-2 col-sm-2 col-md-offset-1 " style="align-content: center">起始年龄<span class="   ">:</span></label>
                         <div class="col-md-1 col-sm-1 form-group has-feedback ">
                            <input type="text" id="patient_other_abuse_age" name="patient_other_abuse_age" style="width: 200px;align-content: center"  class="form-control" >
                         </div>
@@ -168,20 +168,6 @@
 <script>
 $(document).ready(function(){
     $("input[type='radio']").labelauty();
-  {% comment %}  $('.smoke_detail').hide();
-    $("#patient_smoke_1").on('click', function(event){
-        $('.smoke_detail').show();
-        $("input[name='patient_smoke_age']").removeAttr("disabled");
-        $("input[name='patient_daily_smoke_num']").removeAttr("disabled");
-        $("input[name='patient_stop_smoke_age']").removeAttr("disabled");
-    });
-    $("#patient_smoke_2").on('click', function(event){
-        $('.smoke_detail').hide();
-        $("input[name='patient_smoke_age']").attr('disabled','disabled');
-        $("input[name='patient_daily_smoke_num']").attr('disabled','disabled');
-        $("input[name='patient_stop_smoke_age']").attr('disabled','disabled');
-    });{% endcomment %}
-
 
         $('.smoke_detail').hide();
         $('#patient_smoke_1').change(function(){

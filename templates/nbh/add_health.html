@@ -227,7 +227,7 @@ $(document).ready(function(){
 	$("input[type='radio']").labelauty();
 });
 </script>
-    <script type="text/javascript">
+ {% comment %}   <script type="text/javascript">
       function myCheck(healthform)
       {
           if (document.healthform.patient_somatic_diseases.value=="") {
@@ -263,16 +263,16 @@ $(document).ready(function(){
               alert("问题三不能为空！");
               return false;
           }*/
-          {% comment %}if (document.healthform.patient_medicine_information.value=="") {
+          if (document.healthform.patient_medicine_information.value=="") {
               alert("问题四不能为空！");
               return false;
           }
           if (document.healthform.patient_treatment_information.value=="") {
               alert("问题五不能为空！");
               return false;
-          }{% endcomment %}
+          }
           alert("提交成功！");
           return true;
       }
-    </script>
+    </script>{% endcomment %}
 {% endblock %}

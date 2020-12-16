@@ -81,7 +81,7 @@ def get_family_form(request):
                                                  'nation_list': nation_list,
                                                  'scale_name_list': scale_name_list,
                                                  'patient_detail': patient_detail,
-                                                 'scale_id':
+
                                                  })
 
 # 获取学习情况表单
