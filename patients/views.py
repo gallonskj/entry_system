@@ -220,7 +220,9 @@ def update_patient_detail(request):
     fields_data = DPatientDetail._meta.fields
     data_dict = patient_detail.__dict__
     for ele in fields_data:
+
         if request.POST.get(ele.name) is not None and request.POST.get(ele.name) is not '':
+
             data_dict[ele.name] = request.POST.get(ele.name)
     patients_dao.add_patient_detail(patient_detail)
     patient_base_info = patients_dao.get_base_info_byPK(patient_id)
