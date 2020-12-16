@@ -3,8 +3,8 @@
 {% load SelfDefinedFilter %}
 {% block title %}其他资料{% endblock %}
 {% block css %}
-<link href="{% static '/css/scales_style.css' %}" rel="stylesheet" >
-    <style>
+<link href="{% static '/css/scales_style.css' %}" rel="stylesheet">
+<style>
   .row input.labelauty + label{
     margin-bottom:0px;
     width:150px;
@@ -19,129 +19,143 @@
 	  -moz-border-radius: 3px 3px 3px 3px;
 	  -webkit-border-radius: 3px 3px 3px 3px;
   }
+
+
 </style>
 {% endblock %}
 {% block content %}
-     <div class="right_col" role="main">
-        <div class="container">
+<div class="right_col" role="main">
+    <div class="container">
         <div class="row show-grid">
-          <div class="col-md-12 col-sm-12 col-xs-12">
-              <ul class="breadcrumb" style="background-color: white;font-weight:bold">
-                   <li ><a href="#">量表录入</a></li>
-                   <li><a href="#" >个人详细信息录入</a></li>
-                   <li class="active"><a href="#" >其他资料</a></li>
-                   <div style="float: right;margin-bottom: 0px;">
-                    <a href="/scales/select_scales?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}" class="btn btn-warning btn-sm"><i class="fa fa-arrow-left"><strong></i>&nbsp;返&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回</strong></a>
-                   </div>
-              </ul>
-          </div>
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <ul class="breadcrumb" style="background-color: white;font-weight:bold">
+                    <li><a href="#">量表录入</a></li>
+                    <li><a href="#">个人详细信息录入</a></li>
+                    <li class="active"><a href="#">其他资料</a></li>
+                    <div style="float: right;margin-bottom: 0px;">
+                        <a href="/scales/select_scales?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}"
+                           class="btn btn-warning btn-sm"><i class="fa fa-arrow-left"></i><strong>&nbsp;返&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回</strong>
+                        </a>
+                    </div>
+                </ul>
+            </div>
+
         </div>
-        </div> 
-        <div class="dashboard_graph x_panel" style="height: 80%">
-          <div id="wrapper">
-            <div id = "left-side" style="height: 100%;" class="col-md-2">
-              <ul class="scales_progress">
-                {% for scale_name in scale_name_list %}
-                        {% if scale_name|get_item:'scale__scale_name' == '一般资料－其他资料' %}
-                            <li class="step doing  ">
-                                <p>{{ scale_name|get_item:'scale__scale_name' }}</p>
-                            </li>
-                        {% elif scale_name|get_item:'state' == 0 %}
-                            <li class="step nodone notclick">
-                                <p>{{ scale_name|get_item:'scale__scale_name' }}</p>
-                            </li>
-                        {% else %}
-                            <li class="step done notclick">
-                                <p>{{ scale_name|get_item:'scale__scale_name' }}</p>
-                            </li>
-                        {% endif %}
-                        {% endfor %}
-                        <li class="finish nodone notclick">
-                          <p>完成</p>
-                        </li>
-              </ul>
-            </div>  
-             
+    </div>
+    <div class="dashboard_graph x_panel" style="height: 80%">
+        <div id="wrapper">
+            <div id="left-side" style="height: 100%;" class="col-md-2">
+                <ul class="scales_progress">
+                    {% for scale_name in scale_name_list %}
+                    {% if scale_name|get_item:'scale__scale_name' == '一般资料－其他资料' %}
+                    <li class="step doing  ">
+                        <p>{{ scale_name|get_item:'scale__scale_name' }}</p>
+                    </li>
+                    {% elif scale_name|get_item:'state' == 0 %}
+                    <li class="step nodone notclick">
+                        <p>{{ scale_name|get_item:'scale__scale_name' }}</p>
+                    </li>
+                    {% else %}
+                    <li class="step done notclick">
+                        <p>{{ scale_name|get_item:'scale__scale_name' }}</p>
+                    </li>
+                    {% endif %}
+                    {% endfor %}
+                    <li class="finish nodone notclick">
+                        <p>完成</p>
+                    </li>
+                </ul>
+            </div>
+
             <div id="right-side" class="col-md-10">
-              <div id="first" class="active">
-                  <form name="otherform" action="/scales/add_other?patient_id={{ patient_id }}&patient_session_id={{ patient_session_id }}&questionnaire_type={{ questionnaire_type|add:1 }}" method="post" onSubmit="return myCheck(this)">
+                <div id="first" class="active">
+                    <form name="otherform"
+                          action="/scales/add_other?patient_id={{ patient_id }}&patient_session_id={{ patient_session_id }}&questionnaire_type={{ questionnaire_type|add:1 }}"
+                          method="post" onSubmit="return myCheck(this)">
 
-                  <div class="x_title">
-                    <div class="clearfix"></div>
-                    <h2>社会支持 <small>Social support</small></h2>
-                    <div class="clearfix"></div>
-                  </div>
-                  <br>
-                  <div class="x_content">
-                    <div class="form-group row">
-                      <label class="control-label col-md-2" for="patient_friend_num">您有几个亲密的朋友<span class="required">*</span></label>
-                      <div class="col-md-2 col-sm-2">
-                          <input type="radio"  name="patient_friend_num" value=1 data-labelauty="0个"/>
-                      </div>
-                      <div class="col-md-2 col-sm-2">
-                          <input type="radio"  name="patient_friend_num" value=2 data-labelauty="1个"/>
-                      </div>
-                      <div class="col-md-2 col-sm-2">
-                          <input type="radio"  name="patient_friend_num" value=3 data-labelauty="2个"/>
-                      </div>
-                      <div class="col-md-2 col-sm-2">
-                          <input type="radio"  name="patient_friend_num" value=4 data-labelauty="3个及以上"/>
-                      </div>
-                    </div>
-                    <br>
-                  </div>
+                        <div class="x_title">
+                            <div class="clearfix"></div>
+                            <h2>社会支持 <small>Social support</small></h2>
+                            <div class="clearfix"></div>
+                        </div>
+                        <br>
+                        <div class="x_content">
+                            <div class="form-group row">
+                                <label class="control-label col-md-2">您有几个亲密的朋友<span
+                                        class="required">*</span></label>
+                                <div class="col-md-2 col-sm-2">
+                                    <input type="radio" name="patient_friend_num" value=1 data-labelauty="0个"/>
+                                </div>
+                                <div class="col-md-2 col-sm-2">
+                                    <input type="radio" name="patient_friend_num" value=2 data-labelauty="1个"/>
+                                </div>
+                                <div class="col-md-2 col-sm-2">
+                                    <input type="radio" name="patient_friend_num" value=3 data-labelauty="2个"/>
+                                </div>
+                                <div class="col-md-2 col-sm-2">
+                                    <input type="radio" name="patient_friend_num" value=4 data-labelauty="3个及以上"/>
+                                </div>
+                            </div>
+                            <br>
+                        </div>
 
-                  <div class="x_title">
-                    <div class="clearfix"></div>
-                    <h2>重大生活事件 <small>Huge life events</small></h2>
-                    <div class="clearfix"></div>
-                  </div>
-                  <br>
-                  <div class="x_content">
-                    <div class="form-group row">
-                      <label class="control-label col-md-12 col-sm-12">最近三个月内是否发生过对您有重大影响的生活事件？（如失恋、家庭变故、欠债、投资失败、辍学、人际关系紧张等）<span class="required">*:</span></label>
-                    </div>
-                    <div class="row" >
-                      <div class="col-md-5 col-sm-5 " id="patient_big_event_1" >
-                       <center> <input type="radio"  name="patient_big_event"   value=1 data-labelauty="是"/></center>
-                      </div>
-                      <div class="col-md-5 col-sm-5 " id="patient_big_event_2">
-                        <input type="radio"  name="patient_big_event" value=0 data-labelauty="否"/>
-                      </div>
-                    </div>
-                    <br>
+                        <div class="x_title">
+                            <div class="clearfix"></div>
+                            <h2>重大生活事件 <small>Huge life events</small></h2>
+                            <div class="clearfix"></div>
+                        </div>
+                        <br>
+                        <div class="x_content">
+                            <div class="form-group row">
+                                <label class="control-label col-md-12 col-sm-12">最近三个月内是否发生过对您有重大影响的生活事件？（如失恋、家庭变故、欠债、投资失败、辍学、人际关系紧张等）<span
+                                        class="required">*:</span></label>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-5 col-sm-5 " id="patient_big_event_1">
+                                    <center><input type="radio" name="patient_big_event" value=1 data-labelauty="是"/>
+                                    </center>
+                                </div>
+                                <div class="col-md-5 col-sm-5 " id="patient_big_event_2">
+                                    <input type="radio" name="patient_big_event" value=0 data-labelauty="否"/>
+                                </div>
+                            </div>
+                            <br>
 
-                    <div class="form-group row other_description">
-                      <label class="control-label col-md-1 col-sm-1">描述<span class="required">:</span></label>
-                      <div class="col-md-11 col-sm-11 form-group  ">
-                        <textarea rows="3" cols="20" id="patient_big_event_describtion" name="patient_big_event_describtion"  class="form-control " required>
+                            <div class="form-group row other_description">
+                                <label class="control-label col-md-1 col-sm-1">描述<span class="required">:</span></label>
+                                <div class="col-md-11 col-sm-11 form-group  ">
+                        <textarea rows="3" cols="20" id="patient_big_event_describtion"
+                                  name="patient_big_event_describtion" class="form-control">
                         </textarea>
-                      </div>
-                    </div>
-
-                    <br>
-                  </div>
-                      <div class=" row">
-                                <div  class="col-md-4 col-sm-6 text-center" style="text-align: center">
-                                   <a  href="#"><button type="button" class="btn btn-warning" id="bt_return">返回上一量表</button></a>
                                 </div>
-                                <div  class="col-md-4 col-sm-6">
-                                     {% csrf_token %}
-                                    <input  type="submit" class="btn btn-success text-center"  value="保存提交量表" >
-                                </div>
-                                 <div class="col-md-4 col-sm-6">
-                                     <a href="/scales/skip_scale?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{scale_id}}"  style="float: right"><u>跳过该量表</u></a>
-                                 </div>
                             </div>
 
+                            <br>
+                        </div>
+                        <div class=" row">
+                            <div class="col-md-4 col-sm-6 text-center" style="text-align: center">
+                                <a href="#">
+                                    <button type="button" class="btn btn-warning" id="bt_return">返回上一量表</button>
+                                </a>
+                            </div>
+                            <div class="col-md-4 col-sm-6">
+                                {% csrf_token %}
+                                <input type="submit" class="btn btn-success text-center" value="保存提交量表">
+                            </div>
+                            <div class="col-md-4 col-sm-6">
+                                <a href="/scales/skip_scale?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{scale_id}}"
+                                   style="float: right"><u>跳过该量表</u></a>
+                            </div>
+                        </div>
 
-                  </form>
-              </div>
+
+                    </form>
+                </div>
+
             </div>
-          </div>
         </div>
-      </div>
-        
+    </div>
+</div>
 
 
 {% endblock %}
@@ -153,6 +167,8 @@
 $(document).ready(function(){
 	$("input[type='radio']").labelauty();
 });
+
+
 </script>
 <script type="text/javascript">
 $(document).ready(function() {
@@ -161,10 +177,11 @@ $(document).ready(function() {
         patient_somatic_diseases = $(this).val();
         if (Number(patient_somatic_diseases == 0)) {
             $(".other_description").hide();
-            $("input[name='patient_big_event_describtion']").attr('disabled', 'disabled');
+            $("#patient_big_event_describtion").removeAttr("required");
+            $("#patient_big_event_describtion").val("");
         }
         if (Number(patient_somatic_diseases == 1)) {
-            $("input[name='patient_big_event_describtion']").removeAttr("disabled");
+            $("#patient_big_event_describtion").attr('required', 'required');
             $(".other_description").show();
         }
     });
@@ -178,5 +195,7 @@ $(document).ready(function() {
           alert("提交成功！");
           return true;
       }
-    </script>
+
+
+</script>
 {% endblock %}
