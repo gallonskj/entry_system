@@ -323,8 +323,8 @@ def add_patient_medical_history(request):
         for key in request.POST.keys():
             if hasattr(rPatientMedicalHistory, key):
                 val = request.POST.get(key)
-                if val is None:
-                    val = ''
+                if val == '':
+                    val = None
                 setattr(rPatientMedicalHistory, key, val)
             else:
                 pos = key.rfind('_')
@@ -332,8 +332,8 @@ def add_patient_medical_history(request):
                 st2 = key[pos + 1]
                 if hasattr(rPatientDrugsInformation, st):
                     val = request.POST.get(key)
-                    if val is None:
-                        val = ''
+                    if val == '':
+                        val = None
                     setattr(rPatientDrugsInformation, st, val)
                     if st == 'note':
                         scales_dao.add_drugs_information(rPatientDrugsInformation)

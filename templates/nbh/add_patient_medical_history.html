@@ -96,7 +96,7 @@
                                         </div>
                                         <div class="row" style="margin: 10px">
                                             <label class="control-label col-md-3 "><span>6.本次发作日期</span></label>
-                                            <input type="date" name="current_episode_date"  class="current_episode_date" style="width:200px"/>
+                                            <input type="date" name="current_episode_date" id="current_episode_date" onclick="maxtime3()" class="current_episode_date" style="width:200px"/>
 
                                         </div>
                                         <div class="row" style="margin: 10px">
@@ -299,7 +299,7 @@ function getNowFormatDate() {
     var currentdate = getNowFormatDate();
    var starttime=document.getElementById('first_time_begin').value;
     $("#first_time_end").attr("min",starttime);
-     $("#first_time_end").attr("min",currentdate);
+     $("#first_time_end").attr("max",currentdate);
   }
   function maxtime(){
         var currentdate = getNowFormatDate();
@@ -310,7 +310,13 @@ function getNowFormatDate() {
   function maxtime2(){
         var currentdate = getNowFormatDate();
 
-    $("#first_time_bedin").attr("max",currentdate);
+    $("#first_time_begin").attr("max",currentdate);
+
+  }
+    function maxtime3(){
+        var currentdate = getNowFormatDate();
+
+    $("#current_episode_date").attr("max",currentdate);
 
   }
 
