@@ -77,10 +77,18 @@ def add_patient_followup(request):
     patient_id, session_id, standard_id = tools_idAssignments.patient_session_id_assignment(patient_baseinfo.id)
     patient_detail_last = patients_dao.get_patient_detail_last_byPatientId(patient_id)
 
-    patient_detail = patients_models.DPatientDetail(patient_id=patient_id, session_id=session_id,
-                                                    standard_id=standard_id,
-                                                    age=tools_utils.calculate_age(str(patient_baseinfo.birth_date)),
-                                                    doctor_id=doctor_id)
+    # 插入前的准备工作，这里需要预先进行处理，将上次的值赋进去
+    patient_detail = patient_detail_last
+    patient_detail.id = None
+    patient_detail.patient_id = patient_id
+    patient_detail.session_id = session_id
+    patient_detail.standard_id = standard_id
+    patient_detail.age = tools_utils.calculate_age(str(patient_baseinfo.birth_date))
+    patient_detail.doctor_id = doctor_id
+    # patient_detail = patients_models.DPatientDetail(patient_id=patient_id, session_id=session_id,
+    #                                                 standard_id=standard_id,
+    #                                                 age=tools_utils.calculate_age(str(patient_baseinfo.birth_date)),
+    #                                                 doctor_id=doctor_id)
 
     patients_dao.add_patient_detail(patient_detail)
     # 获取创建的复扫信息自增id

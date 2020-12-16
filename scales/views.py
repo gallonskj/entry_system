@@ -44,6 +44,7 @@ def get_select_scales(request):
     patient_session_id = request.GET.get('patient_session_id')
     patient_id = request.GET.get('patient_id')
     patient = patients_dao.get_base_info_byPK(patient_id)
+    patient.birth_date = patient.birth_date.strftime('%Y-%m-%d')
     patient_detail = patients_dao.get_patient_detail_last_byPatientId(patient_id)
     # 获取各个scaleType的list信息
     scales_list = patients_dao.judgment_scales(patient_session_id)
@@ -66,17 +67,21 @@ def get_family_form(request):
     # 由于要传入生日信息，因此这里需要获取一些下一页面所需要的值
     patient_id = request.GET.get('patient_id')
     base_info = patients_dao.get_base_info_byPK(patient_id)
+    base_info.birth_date = base_info.birth_date.strftime('%Y-%m-%d')
     age = tools_utils.calculate_age(str(base_info.birth_date))
     nation_list = patients_dao.get_DEthnicity_all()
     patient_session_id = request.GET.get('patient_session_id')
+    patient_detail = patients_dao.get_patient_detail_byPK(patient_session_id)
     scale_name_list = scales_dao.get_scalename_bytype(tools_config.general_info_type,patient_session_id)
-    return render(request,'nbh/add_family.html',{'patient_session_id':request.GET.get('patient_session_id'),
-                                                 'patient_id':request.GET.get('patient_id'),
-                                                 'username':request.session.get('username'),
-                                                 'base_info':base_info,
-                                                 'age':age,
-                                                 'nation_list':nation_list,
-                                                 'scale_name_list':scale_name_list,})
+    return render(request,'nbh/add_family.html',{'patient_session_id': request.GET.get('patient_session_id'),
+                                                 'patient_id': request.GET.get('patient_id'),
+                                                 'username': request.session.get('username'),
+                                                 'base_info': base_info,
+                                                 'age': age,
+                                                 'nation_list': nation_list,
+                                                 'scale_name_list': scale_name_list,
+                                                 'patient_detail': patient_detail,
+                                                 })
 
 # 获取学习情况表单
 def get_study_form(request):
