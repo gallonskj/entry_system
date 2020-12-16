@@ -90,6 +90,7 @@ DATABASES = {
         'USER': 'root',         # 数据库用户名
         'PASSWORD': '12345678',     # 密码
 
+
         'HOST': 'localhost',    # 主机
         'PORT': '3306',         # 数据库使用的端口
     }
