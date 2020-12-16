@@ -77,19 +77,19 @@
                     <div class="form-group row">
                       <label class="control-label col-md-2 col-sm-3 col-md-offset-1">既往是否有躯体疾病<span class="required">*:</span></label>
                       <div class="col-md-1 col-sm-1 " id="patient_somatic_diseases_1">
-                        <input type="radio"  name="patient_somatic_diseases" value=1 data-labelauty="是"/>
+                        <input type="radio"  name="patient_somatic_diseases" class="somatic_diseases_1" value=1 data-labelauty="是"/>
                       </div>
                       <div class="col-md-1 col-sm-1 " id="patient_somatic_diseases_2">
-                        <input type="radio"  name="patient_somatic_diseases" value=0 data-labelauty="否"/>
+                        <input type="radio"  name="patient_somatic_diseases" class="somatic_diseases_1" value=0 data-labelauty="否"/>
                       </div>
-                        <div  class="suicides_next_question" id = "suicides_next_question001">
+                        <div  class="patient_somatic_diseases_name_year" style="display: none;" >
                       <label class="control-label col-md-1 col-sm-2 ">所患疾病<span class="required">:</span></label>
                       <div class="col-md-2 col-sm-2 form-group  ">
-                        <input type="text" id="patient_somatic_diseases_name" name="patient_somatic_diseases_name" class="form-control" required>
+                        <input type="text" id="patient_somatic_diseases_name" name="patient_somatic_diseases_name" class="form-control patient_somatic_diseases_name">
                       </div>
                       <label class="control-label col-md-1 col-sm-2 ">患病时长<span class="required">:</span></label>
                       <div class="col-md-2 col-sm-1 form-group  ">
-                        <input type="text" id="patient_somatic_diseases_year" placeholder="年" name="patient_somatic_diseases_year" class="form-control" required>
+                        <input type="text" id="patient_somatic_diseases_year" placeholder="年" name="patient_somatic_diseases_year" class="form-control patient_somatic_diseases_year">
                       </div>
                         </div>
                     </div>
@@ -98,19 +98,19 @@
                     <div class="form-group row">
                       <label class="control-label col-md-2 col-sm-3 col-md-offset-1 ">既往是否有精神疾病<span class="required">*:</span></label>
                       <div class="col-md-1 col-sm-1 " id="patient_mental_diseases_1">
-                        <input type="radio"  name="patient_mental_diseases" value=0 data-labelauty="是"/>
+                        <input type="radio"  name="patient_mental_diseases" value=0 data-labelauty="是" class="patient_mental_diseases_1"/>
                       </div>
                       <div class="col-md-1 col-sm-1 " id="patient_mental_diseases_2">
-                        <input type="radio"  name="patient_mental_diseases" value=1 data-labelauty="否"/>
+                        <input type="radio"  name="patient_mental_diseases" value=1 data-labelauty="否" class="patient_mental_diseases_2"/>
                       </div>
-                        <div  class="suicides_question" id = "suicides_next_question001">
+                        <div  class="patient_mental_diseases_name_year" style="display: none;">
                       <label class="control-label col-md-1 col-sm-2 ">所患疾病<span class="required">:</span></label>
                       <div class="col-md-2 col-sm-2 form-group  ">
-                        <input type="text" id="patient_mental_diseases_name" name="patient_mental_diseases_name" class="form-control" required>
+                        <input type="text" id="patient_mental_diseases_name" name="patient_mental_diseases_name" class="form-control">
                       </div>
                       <label class="control-label col-md-1 col-sm-2 ">患病时长<span class="required">:</span></label>
                       <div class="col-md-2 col-sm-1 form-group ">
-                        <input type="text" id="patient_mental_diseases_year" placeholder="年" name="patient_mental_diseases_year" class="form-control" required>
+                        <input type="text" id="patient_mental_diseases_year" placeholder="年" name="patient_mental_diseases_year" class="form-control">
                       </div>
                         </div>
                     </div>
@@ -119,15 +119,15 @@
                     <div class="form-group row">
                       <label class="control-label col-md-1 col-sm-2 col-md-offset-2 col-sm-offset-1">家族史<span class="required">*:</span></label>
                       <div class="col-md-1 col-sm-1 " id="patient_family_diseases_history_1">
-                        <input type="radio"  name="patient_family_diseases_history" value=1 data-labelauty="是"/>
+                        <input type="radio"  name="patient_family_diseases_history" class="patient_family_diseases_history_1" value=1 data-labelauty="是"/>
                       </div>
                       <div class="col-md-1 col-sm-1 " id="patient_family_diseases_history_2">
-                        <input type="radio"  name="patient_family_diseases_history" value=0 data-labelauty="否"/>
+                        <input type="radio"  name="patient_family_diseases_history" class="patient_family_diseases_history_2" value=0 data-labelauty="否"/>
                       </div>
-                        <div  class="suicides_question_n" id = "suicides_next_question001">
+                        <div  class="patient_family_diseases_name">
                       <label class="control-label col-md-1 col-sm-2 ">疾病名<span class="required">:</span></label>
                       <div class="col-md-2 col-sm-3 form-group has-feedback ">
-                        <input type="text" id="patient_family_diseases_name" name="patient_family_diseases_name" class="form-control" required>
+                        <input type="text" id="patient_family_diseases_name" name="patient_family_diseases_name" class="form-control">
                       </div>
                         </div>
                     </div>
@@ -136,7 +136,7 @@
                     <div class="form-group row">
                       <label class="control-label col-md-3 col-sm-6 col-md-offset-1 ">用药情况（药物名称、剂量、用药周期）<span class="required">:</span></label>
                       <div class="col-md-4 col-sm-4 form-group ">
-                          <textarea id="patient_medicine_information" name="patient_medicine_information" class="form-control " rows="3" style="resize: none"></textarea>
+                          <textarea id="patient_medicine_information" name="patient_medicine_information" class="form-control " rows="3" style="resize: none" required="required"></textarea>
                       </div>
                     </div>
                     <br>
@@ -144,7 +144,7 @@
                       <div class="form-group row">
                       <label class="control-label col-md-3 col-sm-6 col-md-offset-1 ">治疗情况（治疗种类、治疗方案、治疗时长）<span class="required">:</span></label>
                       <div class="col-md-4 col-sm-4 form-group ">
-                          <textarea id="patient_treatment_information" name="patient_treatment_information" class="form-control " rows="3" style="resize: none"></textarea>
+                          <textarea id="patient_treatment_information" name="patient_treatment_information" class="form-control " rows="3" style="resize: none" required="required"></textarea>
                       </div>
                     </div>
 
@@ -218,6 +218,43 @@ $(document).ready(function(){
             $(".suicides_question_n").show();
         }
     });
+});
+
+$(".somatic_diseases_1").on('click', function(event){
+      $(".patient_somatic_diseases_name_year").show();
+      $("#patient_somatic_diseases_name").attr('required','required');
+      $("#patient_somatic_diseases_year").attr('required','required');
+
+});
+$(".somatic_diseases_2").on('click', function(event){
+      $(".patient_somatic_diseases_name_year").hide();
+      $("#patient_somatic_diseases_name").removeAttr("required");
+      $("#patient_somatic_diseases_name").val("");
+      $("#patient_somatic_diseases_year").removeAttr("required");
+      $("#patient_somatic_diseases_year").val("");
+});
+$(".patient_mental_diseases_1").on('click', function(event){
+      $(".patient_mental_diseases_name_year").show();
+      $("#patient_mental_diseases_name").attr('required','required');
+      $("#patient_mental_diseases_year").attr('required','required');
+
+});
+$(".patient_mental_diseases_2").on('click', function(event){
+      $(".patient_mental_diseases_name_year").hide();
+      $("#patient_mental_diseases_name").removeAttr("required");
+      $("#patient_mental_diseases_name").val("");
+      $("#patient_mental_diseases_year").removeAttr("required");
+      $("#patient_mental_diseases_year").val("");
+});
+$(".patient_family_diseases_history_1").on('click', function(event){
+      $(".patient_family_diseases_name").show();
+      $("#patient_family_diseases_name").attr('required','required');
+
+});
+$(".patient_family_diseases_history_2").on('click', function(event){
+      $(".patient_family_diseases_name").hide();
+      $("#patient_family_diseases_name").removeAttr("required");
+      $("#patient_family_diseases_name").val("");
 });
 </script>
 <script type="text/javascript" src="{% static '/js/jquery-radio-beauty.js'%}"></script>

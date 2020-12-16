@@ -114,7 +114,7 @@
                     <div class="form-group row">
                       <label class="control-label col-md-3 col-sm-4 col-md-offset-2">是否担任过班级或学校的学生干部:<span class="required"></span></label>
                       <div class="col-md-1 col-sm-1 " id="patient_leader_1">
-                        <input type="radio" name="patient_leader" value=1 data-labelauty="是"/>
+                        <input type="radio" required="required" name="patient_leader" value=1 data-labelauty="是"/>
                       </div>
                       <div class="col-md-1 col-sm-1 " id="patient_leader_2">
                         <input type="radio" name="patient_leader" value=0 data-labelauty="否"/>
@@ -130,7 +130,7 @@
                     <div class="form-group row">
                         <label class="control-label  col-md-2 col-sm-3 col-md-offset-3 col-sm-offset-1">是否在学校寄宿:<span class="required"></span></label>
                       <div class="col-md-1 col-sm-1 " id="patient_live_school_1">
-                        <input type="radio"  name="patient_live_school" value=1 data-labelauty="是"/>
+                        <input type="radio" required="required" name="patient_live_school" value=1 data-labelauty="是"/>
                       </div>
                       <div class="col-md-1 col-sm-1 " id="patient_live_school_2">
                         <input type="radio" name="patient_live_school" value=0 data-labelauty="否" />
@@ -171,10 +171,12 @@ $(document).ready(function(){
         if (Number(patient_leader == 0)) {
             $(".suicides_next_question").hide();
             $("input[name='patient_leader_occupation']").attr('disabled','disabled');
+            $(".suicides_next_question").removeAttr("required");
         }
         if (Number(patient_leader == 1)) {
             $("input[name='patient_leader_occupation']").removeAttr("disabled");
             $(".suicides_next_question").show();
+            $(".suicides_next_question").attr('required','required');
         }
     });
     $("input:radio[name='patient_live_school']").click(function() {
@@ -182,10 +184,12 @@ $(document).ready(function(){
         if (Number(patient_live_school == 0)) {
             $(".suicides_question").hide();
             $("input[name='patient_home_frequency']").attr('disabled','disabled');
+            $(".suicides_question").removeAttr("required");
         }
         if (Number(patient_live_school == 1)) {
             $("input[name='patient_home_frequency']").removeAttr("disabled");
             $(".suicides_question").show();
+            $(".suicides_question").attr('required','required');
         }
     });
 });

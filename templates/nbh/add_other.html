@@ -115,7 +115,7 @@
                     <div class="form-group row other_description">
                       <label class="control-label col-md-1 col-sm-1">描述<span class="required">:</span></label>
                       <div class="col-md-11 col-sm-11 form-group  ">
-                        <textarea rows="3" cols="20" id="patient_big_event_describtion" name="patient_big_event_describtion"  class="form-control " required>
+                        <textarea rows="3" cols="20" id="patient_big_event_describtion" name="patient_big_event_describtion"  class="form-control">
                         </textarea>
                       </div>
                     </div>
@@ -154,10 +154,11 @@ $(document).ready(function() {
         patient_somatic_diseases = $(this).val();
         if (Number(patient_somatic_diseases == 0)) {
             $(".other_description").hide();
-            $("input[name='patient_big_event_describtion']").attr('disabled', 'disabled');
+            $("#patient_big_event_describtion").removeAttr("required");
+            $("#patient_big_event_describtion").val("");
         }
         if (Number(patient_somatic_diseases == 1)) {
-            $("input[name='patient_big_event_describtion']").removeAttr("disabled");
+            $("#patient_big_event_describtion").attr('required', 'required');
             $(".other_description").show();
         }
     });

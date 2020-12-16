@@ -85,7 +85,7 @@
                                   <div class="col-md-4 col-sm-4">
                                       <label class="control-label col-md-3 col-sm-2" for="tele">联系方式<span class="required">*</span></label>
                                     <div class="col-md-1 col-sm-3 form-group has-feedback">
-                                        <input type="text" id="tele" name="tele" class="form-control has-feedback-left"  style="width:160px">
+                                        <input type="text" id="tele" name="tele" required="required" class="form-control has-feedback-left"  style="width:160px">
                                         <span class="fa fa-mobile form-control-feedback left" aria-hidden="true"></span>
                                     </div>
                                   </div>
@@ -93,7 +93,7 @@
                                      <label class="control-label col-md-2 col-sm-2 " for="height">身高<span class="required">*</span>
                                     </label>
                                     <div class="col-md-2 col-sm-2 form-group has-feedback">
-                                      <input type="text" id="height" name="height" class="form-control" style="width: 160px" PLACEHOLDER="CM" value="{{patient_detail.height}}">
+                                      <input type="text" id="height" name="height" class="form-control" required="required" style="width: 160px" PLACEHOLDER="CM" value="{{patient_detail.height}}">
                                     </div>
 
                                   </div>
@@ -135,7 +135,7 @@
                                      <label class="control-label col-md-2 col-sm-2" for="weight">体重<span class="required">*</span>
                                     </label>
                                     <div class="col-md-2 col-sm-3 form-group has-feedback">
-                                      <input type="text" id="weight" name="height" class="form-control" style="width: 160px" PLACEHOLDER="KG" value="{{patient_detail.weight}}">
+                                      <input type="text" id="weight" name="height" class="form-control" required="required" style="width: 160px" PLACEHOLDER="KG" value="{{patient_detail.weight}}">
                                     </div>
 
                                   </div>
@@ -150,14 +150,14 @@
                                   <div class="col-md-4 col-sm-4">
                                  <label class="control-label col-md-3 col-sm-2" for="occupation">职业<span class="required">*</span></label>
                             <div class="col-md-2 col-sm-2 form-group ">
-                                <input type="text" id="occupation" name="occupation" class="form-control"  style="width:160px" value="{{patient_detail.occupation}}">
+                                <input type="text" id="occupation" name="occupation" class="form-control" required="required" style="width:160px" value="{{patient_detail.occupation}}">
                             </div>
                                   </div>
                                   <div class="col-md-4 col-sm-4">
                                      <label class="control-label col-md-2 col-sm-2 " for="waist">腰围<span class="required">*</span>
                                     </label>
                                     <div class="col-md-2 col-sm-3 form-group has-feedback">
-                                      <input type="text" id="waist" name="height" class="form-control" style="width: 160px" PLACEHOLDER="CM" value="{{patient_detail.waist}}">
+                                      <input type="text" id="waist" name="height" class="form-control" required="required" style="width: 160px" PLACEHOLDER="CM" value="{{patient_detail.waist}}">
                                     </div>
                                   </div>
                               </div>
@@ -188,7 +188,7 @@
                                      <label class="control-label col-md-2 col-sm-2 " for="hip">臀围<span class="required">*</span>
                                     </label>
                                     <div class="col-md-2 col-sm-3  form-group has-feedback">
-                                      <input type="text" id="hip" name="height" class="form-control" style="width: 160px" PLACEHOLDER="CM" value="{{patient_detail.hip}}">
+                                      <input type="text" id="hip" name="height" class="form-control" required="required" style="width: 160px" PLACEHOLDER="CM" value="{{patient_detail.hip}}">
                                     </div>
 
                                   </div>
@@ -201,13 +201,13 @@
                                   <div class="col-md-4 col-sm-4">
                                          <label class="control-label col-md-3 col-sm-2" for="education">受教育程度<span class="required">*</span></label>
                                          <div class="col-md-1 col-sm-2">
-                                            <input type="text" id="education" name="education" class="form-control" style="width:160px" value="{{patient_detail.education}}">
+                                            <input type="text" id="education" name="education" required="required" class="form-control" style="width:160px" value="{{patient_detail.education}}">
                                          </div>
                                   </div>
                                   <div class="col-md-4 col-sm-4">
                                        <label class="control-label  col-md-2 col-sm-2 " for="education">共<span class="required">*</span></label>
                                         <div class="col-md-2 col-sm-3 ">
-                                            <input type="text" id="education_years" name="education_years" class="form-control" style="width:160px" PLACEHOLDER="年" value="{{patient_detail.years}}">
+                                            <input type="text" id="education_years" name="education_years" required="required" class="form-control" style="width:160px" PLACEHOLDER="年" value="{{patient_detail.years}}">
                                         </div>
                                   </div>
 
@@ -228,14 +228,14 @@
                             <div class="form-group row">
                               <label class="control-label col-md-1 col-sm-2" >居住地<span class="required">*</span></label>
                               <div class="col-md-1 col-sm-2" id="patient_urban_rural_1">
-                                <input type="radio"  name="patient_urban_rural" value=0 data-labelauty="城市"/>
+                                <input type="radio" required="required"  name="patient_urban_rural" value=0 data-labelauty="城市"/>
                               </div>
                               <div class="col-md-1 col-sm-2" id="patient_urban_rural_2">
                                 <input type="radio"  name="patient_urban_rural" value=1 data-labelauty="农村"/>
                               </div>
                               <label class="control-label col-md-1 col-sm-2" for="patient_address">家庭住址<span class="required">*</span></label>
                               <div class="col-md-5 col-sm-3 form-group has-feedback">
-                                    <input type="text" id="patient_address" name="patient_address" class="form-control has-feedback-left">
+                                    <input type="text" required="required" id="patient_address" name="patient_address" class="form-control has-feedback-left">
                                     <span class="fa fa-home form-control-feedback left" aria-hidden="true"></span>
                               </div>
                             </div>
@@ -268,7 +268,7 @@
 
                               <label class="control-label col-md-1 col-sm-2" >独生子女<span class="required">*</span></label>
                               <div class="col-md-1 col-sm-1 ">
-                                <input type="radio" class="only_child_1" name="patient_only_child" value=1 data-labelauty="是"/>
+                                <input type="radio" required="required" class="only_child_1" name="patient_only_child" value=1 data-labelauty="是"/>
                               </div>
                               <div class="col-md-1 col-sm-1">
                                 <input type="radio" class="only_child_2" name="patient_only_child" value=0 data-labelauty="否"/>
@@ -364,24 +364,6 @@
                                     <option value="4">有一方过世=4</option>
                                   </select>
                               </div>
-        <!--                      -->
-        <!--                      这里要写一个JS 根据父母婚姻状态 展示后面的问题-->
-        <!--                      hidden-->
-                              <label class="control-label col-md-1 col-sm-2 StepParents" style="display: none;">继父/继母</label>
-        <!--                      hidden-->
-                              <div class="col-md-2 col-sm-2 StepParents" style="display: none;">
-                                  <select class="form-control" name="StepParents">
-                                    <option value="1">继父=1</option>
-                                    <option value="2">继母=2</option>
-                                  </select>
-                              </div>
-        <!--                      hidden-->
-                              <label class="control-label col-md-2 col-sm-3  parent_pass_away_age" style="display: none;">父/母过世时自己的年龄</label>
-        <!--                      hidden-->
-                              <div class="col-md-1 col-sm-1 form-group  parent_pass_away_age" style="display: none;">
-                                  <input type="text" id="parent_parent_death_age" name="parent_parent_death_age" class="form-control">
-                              </div>
-
                               <label class="control-label col-md-1 col-sm-2">父母争吵 频率<span class="required">*</span></label>
                               <div class="col-md-2 col-sm-2">
                                   <select class="form-control" name="parent_argument" id="parent_argument">
@@ -394,12 +376,23 @@
                                   </select>
                               </div>
                             </div>
-
-        <!--                    领养 与父母的关系-->
+                            <div class="form-group row parent_pass_away StepParents" style="display: none;">
+                                <label class="control-label col-md-1 col-sm-2 StepParents">继父/继母</label>
+                                <div class="col-md-2 col-sm-2 StepParents">
+                                    <select class="form-control" name="StepParents">
+                                        <option value="1">继父=1</option>
+                                        <option value="2">继母=2</option>
+                                    </select>
+                                </div>
+                                <label class="control-label col-md-2 col-sm-2 parent_pass_away">父/母过世时自己的年龄</label>
+                                <div class="col-md-1 col-sm-1 parent_pass_away">
+                                    <input type="text" id="parent_parent_death_age" name="parent_parent_death_age" class="form-control parent_pass_away_age">
+                                </div>
+                            </div>
                             <div class="form-group row">
                               <label class="control-label col-md-1 col-sm-2">是否领养<span class="required">*</span></label>
                               <div class="col-md-1 col-sm-1 " id="patient_adopt_1">
-                                <input type="radio" name="patient_adopt" value=1 data-labelauty="是" />
+                                <input type="radio" required="required" name="patient_adopt" value=1 data-labelauty="是" />
                               </div>
                               <div class="col-md-1 col-sm-1 " id="patient_adopt_2">
                                 <input type="radio" name="patient_adopt" value=0 data-labelauty="否"/>
@@ -468,147 +461,61 @@ $('.other_living_type').hide();
     $('#patient_live_type').change(function(){
        if ($('#patient_live_type option:selected').val() == 6){
            $('.other_living_type').show();
-
+           $(".other_living_type").attr('required','required');
        }
        else{
            $('.other_living_type').hide();
+           $(".other_living_type").removeAttr("required");
        }
     });
-
-
 <!--独生子女-->
 $(".only_child_1").on('click', function(event){
 
       $("#brother_num_2").hide();
       $("#preference_div").hide();
       $(".brother_num_2_val").val("");
+      $("#patient_older_brother_num").removeAttr("required");
+      $("#patient_youger_brother_num").removeAttr("required");
+      $("#patient_older_sister_num").removeAttr("required");
+      $("#patient_youger_sister_num").removeAttr("required");
 });
 $(".only_child_2").on('click', function(event){
 
       $("#brother_num_2").show();
       $("#preference_div").show();
+      $("#patient_older_brother_num").attr('required','required');
+      $("#patient_youger_brother_num").attr('required','required');
+      $("#patient_older_sister_num").attr('required','required');
+      $("#patient_youger_sister_num").attr('required','required');
 });
 <!--收养-->
 $("#patient_adopt_2").on('click', function(event){
       $("#adopt_age_1").hide();
       $("#adopt_age_2").hide();
       $("#adopt_age_2").val("");
+      $(".patient_adopt_age").removeAttr("required");
 });
 $("#patient_adopt_1").on('click', function(event){
       $("#adopt_age_1").show();
       $("#adopt_age_2").show();
-});
-<!--学生干部-->
-$("#patient_leader_2").on('click', function(event){
-      $("#patient_leader_occupation").attr("disabled", true);
-      $("#patient_leader_occupation").val("");
-});
-$("#patient_leader_1").on('click', function(event){
-      $("#patient_leader_occupation").removeAttr("disabled");
-});
-<!--住校-->
-$("#patient_live_school_2").on('click', function(event){
-      $("#patient_home_frequency").attr("disabled", true);
-      $("#patient_home_frequency").val("");
-});
-$("#patient_live_school_1").on('click', function(event){
-      $("#patient_home_frequency").removeAttr("disabled");
-});
-<!--躯体疾病-->
-$("#patient_somatic_diseases_1").on('click', function(event){
-      $("#patient_somatic_diseases_name").removeAttr("disabled");
-      $("#patient_somatic_diseases_year").removeAttr("disabled");
-});
-$("#patient_somatic_diseases_2").on('click', function(event){
-      $("#patient_somatic_diseases_name").attr("disabled", true);
-      $("#patient_somatic_diseases_year").attr("disabled", true);
-      $("#patient_somatic_diseases_name").val("");
-      $("#patient_somatic_diseases_year").val("");
-});
-<!--精神疾病-->
-$("#patient_mental_diseases_1").on('click', function(event){
-      $("#patient_mental_diseases_name").removeAttr("disabled");
-      $("#patient_mental_diseases_year").removeAttr("disabled");
-});
-$("#patient_mental_diseases_2").on('click', function(event){
-      $("#patient_mental_diseases_name").attr("disabled", true);
-      $("#patient_mental_diseases_year").attr("disabled", true);
-      $("#patient_mental_diseases_name").val("");
-      $("#patient_mental_diseases_year").val("");
-});
-<!--家族史-->
-$("#patient_family_diseases_history_1").on('click', function(event){
-      $("#patient_family_diseases_name").removeAttr("disabled");
-});
-$("#patient_family_diseases_history_2").on('click', function(event){
-      $("#patient_family_diseases_name").attr("disabled", true);
-      $("#patient_family_diseases_name").val("");
-});
-<!--吸烟-->
-$("#patient_smoke_1").on('click', function(event){
-      $("#patient_smoke_age").removeAttr("disabled");
-      $("#patient_daily_smoke_num").removeAttr("disabled");
-});
-$("#patient_smoke_2").on('click', function(event){
-      $("#patient_smoke_age").attr("disabled", true);
-      $("#patient_daily_smoke_num").attr("disabled", true);
-      $("#patient_smoke_age").val("");
-      $("#patient_daily_smoke_num").val("");
-});
-<!--其他物质-->
-$("#patient_other_abuse_2").on('click', function(event){
-      $("#patient_other_abuse_age").attr("disabled", true);
-      $("#patient_other_abuse_age").val("");
-});
-$("#patient_other_abuse_1").on('click', function(event){
-      $("#patient_other_abuse_age").removeAttr("disabled");
-});
-<!--重大生活事件-->
-$("#patient_big_event_2").on('click', function(event){
-      $("#patient_big_event_describtion").attr("disabled", true);
-      $("#patient_big_event_describtion").val("");
-});
-$("#patient_big_event_1").on('click', function(event){
-      $("#patient_big_event_describtion").removeAttr("disabled");
+      $("#patient_adopt_age").attr('required','required');
 });
 <!--父母婚姻状态-->
 $("#parent_marry").change(function(){
        var val = $("#parent_marry").val();
 <!--       离异-->
        if (val == "2"){
+              $(".parent_pass_away").hide();
               $(".StepParents").show();
-              $(".parent_parent_death_age").hide();
-              $(".parent_parent_death").hide();
-              $(".parent_parent_death_age").val("");
+              $(".parent_pass_away_age").val("");
 <!--有一方过世-->
        }else if(val == "4"){
-              $(".parent_parent_death_age").show();
-              $(".parent_parent_death").show();
               $(".StepParents").hide();
+              $(".parent_pass_away").show();
        }else{
-              $(".parent_parent_death_age").hide();
+              $(".parent_pass_away").hide();
               $(".StepParents").hide();
-              $(".parent_parent_death").hide();
-              $(".parent_parent_death_age").val("");
-       }
-});
-<!--饮酒-->
-$("#patient_alcohol").change(function(){
-       var val = $("#patient_alcohol").val();
-       if (val == "1"){
-             $("#patient_alcohol_age").attr("disabled", true);
-       }else{
-             $("#patient_alcohol_age").removeAttr("disabled");
-       }
-});
-<!--少数民族-->
-$("#nation").change(function(){
-       var val = $("#nation").val();
-       if (val == "0"){
-           $(".minority").hide();
-           $(".minority").val("");
-       }else if(val == "1"){
-           $(".minority").show();
+              $(".parent_pass_away_age").val("");
        }
 });
 <!--居住方式 其他居住方式-->
@@ -616,10 +523,11 @@ $("#patient_live_type").change(function(){
        var val = $("#patient_live_type").val();
        if (val == "6"){
            $(".patient_live_type_other").show();
-
+           $(".patient_live_type_other").attr('required','required');
        }else{
            $(".patient_live_type_other").hide();
            $(".patient_live_type_other").val("");
+           $(".patient_live_type_other").removeAttr("required");
        }
 });
 </script>

@@ -81,10 +81,10 @@
 
                      <div class="col-md-2 col-sm-3">
                         <select class="form-control" name="patient_smoke" id="patient_smoke_1" style="width: 150px;">
-                          <option value="1">从不吸烟=1</option>
-                          <option value="2">偶尔吸（累计吸烟<10包）=2</option>
-                          <option value="3">以前吸，近1年不吸=3</option>
-                          <option value="4">现在吸（累计吸烟>10包）=4</option>
+                          <option value="1">从不吸烟</option>
+                          <option value="2">偶尔吸（累计吸烟<10包）</option>
+                          <option value="3">以前吸，近1年不吸</option>
+                          <option value="4">现在吸（累计吸烟>10包）</option>
                         </select>
                       </div>
 
@@ -111,16 +111,16 @@
                       <label class="control-label col-md-2 col-sm-2 col-md-offset-1 ">是否饮酒<span class="required">*:</span></label>
                       <div class="col-md-2 col-sm-3">
                         <select class="form-control" name="patient_alcohol" id="alcoholSelect" style="width: 150px;">
-                          <option value="1">从不饮酒=1</option>
-                          <option value="2">偶尔饮酒（每周<1次）=2</option>
-                          <option value="3">以前饮酒，近1年不饮=3</option>
-                          <option value="4">现在习惯饮酒=4</option>
+                          <option value="1">从不饮酒</option>
+                          <option value="2">偶尔饮酒（每周<1次）</option>
+                          <option value="3">以前饮酒，近1年不饮</option>
+                          <option value="4">现在习惯饮酒</option>
                         </select>
                       </div>
                       <div class="alcohol_detail">
-                        <label class="control-label col-md-2 col-sm-2 col-md-offset-1 ">起始饮酒的年龄<span class="required">:</span></label>
-                        <div class="col-md-1 col-sm-3 form-group has-feedback alcohol_age">
-                          <input type="text" id="patient_alcohol_age" name="patient_alcohol_age" class="form-control">
+                        <label class="control-label col-md-2 col-sm-2 ">起始饮酒的年龄<span class="required">:</span></label>
+                        <div class="col-md-2 col-sm-2 form-group has-feedback alcohol_age">
+                          <input type="text" id="patient_alcohol_age" name="patient_alcohol_age" class="form-control" style="width: 150px;">
                         </div>
                       </div>
                      </div>
@@ -171,15 +171,18 @@ $(document).ready(function(){
   {% comment %}  $('.smoke_detail').hide();
     $("#patient_smoke_1").on('click', function(event){
         $('.smoke_detail').show();
-        $("input[name='patient_smoke_age']").removeAttr("disabled");
-        $("input[name='patient_daily_smoke_num']").removeAttr("disabled");
-        $("input[name='patient_stop_smoke_age']").removeAttr("disabled");
+        $("input[name='patient_smoke_age']").removeAttr("required");
+        $("input[name='patient_smoke_age']").val("");
+        $("input[name='patient_daily_smoke_num']").removeAttr("required");
+        $("input[name='patient_daily_smoke_num']").val("");
+        $("input[name='patient_stop_smoke_age']").removeAttr("required");
+        $("input[name='patient_stop_smoke_age']").val("");
     });
     $("#patient_smoke_2").on('click', function(event){
         $('.smoke_detail').hide();
-        $("input[name='patient_smoke_age']").attr('disabled','disabled');
-        $("input[name='patient_daily_smoke_num']").attr('disabled','disabled');
-        $("input[name='patient_stop_smoke_age']").attr('disabled','disabled');
+        $("input[name='patient_smoke_age']").attr('required','required');
+        $("input[name='patient_daily_smoke_num']").attr('required','required');
+        $("input[name='patient_stop_smoke_age']").attr('required','required');
     });{% endcomment %}
 
 
@@ -187,15 +190,18 @@ $(document).ready(function(){
         $('#patient_smoke_1').change(function(){
        if ($('#patient_smoke_1 option:selected').val()>2){
            $('.smoke_detail').show();
-        $("input[name='patient_smoke_age']").removeAttr("disabled");
-        $("input[name='patient_daily_smoke_num']").removeAttr("disabled");
-        $("input[name='patient_stop_smoke_age']").removeAttr("disabled");
+           $("input[name='patient_smoke_age']").attr('required','required');
+           $("input[name='patient_daily_smoke_num']").attr('required','required');
+           $("input[name='patient_stop_smoke_age']").attr('required','required');
        }
        else{
            $('.smoke_detail').hide();
-        $("input[name='patient_smoke_age']").attr('disabled','disabled');
-        $("input[name='patient_daily_smoke_num']").attr('disabled','disabled');
-        $("input[name='patient_stop_smoke_age']").attr('disabled','disabled');
+           $("input[name='patient_smoke_age']").removeAttr("required");
+           $("input[name='patient_smoke_age']").val("");
+           $("input[name='patient_daily_smoke_num']").removeAttr("required");
+           $("input[name='patient_daily_smoke_num']").val("");
+           $("input[name='patient_stop_smoke_age']").removeAttr("required");
+           $("input[name='patient_stop_smoke_age']").val("");
        }
     });
 
@@ -206,11 +212,12 @@ $(document).ready(function(){
     $('#alcoholSelect').change(function(){
        if ($('#alcoholSelect option:selected').val()>2){
            $('.alcohol_detail').show();
-           $("input[name='patient_alcohol_age']").removeAttr("disabled");
+           $("input[name='patient_alcohol_age']").attr('required','required');
        }
        else{
            $('.alcohol_detail').hide();
-           $("input[name='patient_alcohol_age']").attr('disabled','disabled');
+           $("input[name='patient_alcohol_age']").removeAttr("required");
+           $("input[name='patient_alcohol_age']").val("");
        }
     });
 
@@ -218,14 +225,14 @@ $(document).ready(function(){
     $('.other_abuse_detail').hide();
     $(".other_abuse_yes").on('click', function(event){
         $('.other_abuse_detail').show();
-        $("input[name='patient_other_abuse_age']").removeAttr("disabled");
+        $("input[name='patient_other_abuse_age']").attr('required','required');
+
     });
     $(".other_abuse_no").on('click', function(event){
         $('.other_abuse_detail').hide();
-        $("input[name='patient_other_abuse_age']").attr('disabled','disabled');
+        $("input[name='patient_other_abuse_age']").removeAttr("required");
+        $("input[name='patient_other_abuse_age']").val("");
     });
 });
-
-
 </script>
 {% endblock %}
