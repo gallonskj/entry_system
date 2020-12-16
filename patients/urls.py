@@ -29,7 +29,7 @@ urlpatterns = [
     url(r'^update_base_info',views.update_base_info),
 
     url(r'^update_patient_detail', views.update_patient_detail),
-    url(r'^get_selected_scales_with_lastsession', views.get_selected_scales_with_lastsession),
+    # url(r'^get_selected_scales_with_lastsession', views.get_selected_scales_with_lastsession),
 # 修改病人基本信息
     url(r'^update_base_info',views.update_base_info),
     # 貌似未使用
