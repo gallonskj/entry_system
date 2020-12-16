@@ -32,7 +32,6 @@
                      <li class="active"><a href="#" >物质依赖</a></li>
                      <div style="float: right;margin-bottom: 0px;">
                       <a href="/scales/select_scales?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}" class="btn btn-warning btn-sm"><i class="fa fa-arrow-left"></i><strong>&nbsp;返&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回</strong></a>
-							<a href="/scales/skip_scale?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{scale_id}}" class="btn btn-warning btn-sm"><i class="fa fa-arrow-right"><strong></i>&nbsp;跳过该量表</strong></a>
                      </div>
                 </ul>
             </div>
@@ -145,13 +144,18 @@
                     <br>
 
                   </div>
-                  <div class="row">
-                        {% csrf_token %}
-                        <div class="text-center">
-                            <input  type="submit" class="btn btn-success" value="保存并提交量表，继续下一个量表"/>
-                        </div>
-                  </div>
-
+                  <div class=" row">
+                                <div  class="col-md-4 col-sm-6 text-center" style="text-align: center">
+                                   <a  href="#"><button type="button" class="btn btn-warning" id="bt_return">返回上一量表</button></a>
+                                </div>
+                                <div  class="col-md-4 col-sm-6">
+                                     {% csrf_token %}
+                                    <input  type="submit" class="btn btn-success text-center"  value="保存提交量表" >
+                                </div>
+                                 <div class="col-md-4 col-sm-6">
+                                     <a href="/scales/skip_scale?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{scale_id}}"  style="float: right"><u>跳过该量表</u></a>
+                                 </div>
+                            </div>
                   </form>
               </div>
             </div>

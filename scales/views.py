@@ -5,7 +5,56 @@ import scales.models as scales_models
 import tools.config as tools_config
 import patients.dao as patients_dao
 import tools.Utils as tools_utils
-# Create your views here.
+'''
+页面跳转逻辑实现
+页面跳转逻辑功能主要包括提交量表跳转到下一个，跳过该量表不做，返回四个选择项页面，返回上一个量表
+各个配置项位于tools.config下
+--提交量表跳转到下一个页面：
+    需要注意的是，我们的量表只可能往后跳，不可以向前跳，往前跳需要依赖于返回上一个量表；量表跳转只存在于同一个种类（个人，他评，自评，认知）的量表下，该种类全部完成，返回四个选择页面
+    提交量表完成之后，该量表rpatientscales关系表state==1;
+    寻找第一个大于他的，与他同一类别的未完成的scale进行跳转;
+    未找到，跳转到选择界面
+-- 跳过该量表不做
+    寻找第一个大于他的未完成的scale进行跳转;
+    
+-- 进入四个选择页面
+    需要传递每一个量表类别还有几个量表未完成，假如没有未完成，那么不可点击
+'''
+
+'''
+封装的函数
+'''
+# 获取页面跳转的url
+def get_redirect_url(patient_session_id,patient_id,next_type,do_scale_type,cur_scale_id):
+    '''
+    Args:
+        patient_session_id:复扫id
+        patient_id:病人id
+        next_type:下一个跳转的量表类型，暂时废弃
+        do_scale_type:量表类型，个人资料，他评，自评，认知
+        cur_scale_id:当前的量表id
+    Returns:跳转页面的url
+    -------------
+    1.获取到第一个大于当前量表id的未完成的量表id，且该id与当前量表同类别
+    2.假如没有，表明这个种类的量表已经完成（跳过量表除外），跳转到四个选择页面
+    3.找到该id，跳转到该量表所在的form页面
+    '''
+    min_unfinished_scale = scales_dao.get_min_unfinished_scale(do_scale_type, patient_session_id,cur_scale_id)
+    if min_unfinished_scale is None:
+        redirect_url = '{}?patient_session_id={}&patient_id={}'.format(tools_config.select_scales_url,str(patient_session_id),str(patient_id))
+        return redirect_url
+    # /scales/get_XXX_form
+    next_page_url = tools_config.scales_html_dict[min_unfinished_scale]
+    redirect_url = '{}?patient_session_id={}&patient_id={}'.format(next_page_url, str(patient_session_id), str(patient_id))
+    return redirect_url
+
+# 根据request post信息设置models的值
+def set_attr_by_post(request, scale_object):
+    for key in request.POST.keys():
+        if hasattr(scale_object, key) and request.POST.get(key)!='':
+            setattr(scale_object, key, request.POST.get(key))
+    return scale_object
+
 
 '''
 获取表单
@@ -15,28 +64,28 @@ import tools.Utils as tools_utils
 def get_general_info_forms(request):
     patient_session_id = request.GET.get('patient_session_id')
     patient_id = request.GET.get('patient_id')
-    redirect_url = get_redirect_url(patient_session_id,patient_id,tools_config.general_info_next_url,tools_config.general_info_type)
+    redirect_url = get_redirect_url(patient_session_id,patient_id,tools_config.general_info_next_url,tools_config.general_info_type,0)
     return redirect(redirect_url)
 
 # 他测总量表
 def get_other_test_forms(request):
     patient_session_id = request.GET.get('patient_session_id')
     patient_id = request.GET.get('patient_id')
-    redirect_url = get_redirect_url(patient_session_id,patient_id,tools_config.other_test_next_type_url,tools_config.other_test_type)
+    redirect_url = get_redirect_url(patient_session_id,patient_id,tools_config.other_test_next_type_url,tools_config.other_test_type,0)
     return redirect(redirect_url)
 
 # 自测总量表
 def get_self_test_forms(request):
     patient_session_id = request.GET.get('patient_session_id')
     patient_id = request.GET.get('patient_id')
-    redirect_url = get_redirect_url(patient_session_id,patient_id,tools_config.self_test_next_type_url,tools_config.self_test_type)
+    redirect_url = get_redirect_url(patient_session_id,patient_id,tools_config.self_test_next_type_url,tools_config.self_test_type,0)
     return redirect(redirect_url)
 
 # 认知测试总量表
 def get_cognition_forms(request):
     patient_session_id = request.GET.get('patient_session_id')
     patient_id = request.GET.get('patient_id')
-    redirect_url = get_redirect_url(patient_session_id,patient_id,tools_config.cognition_next_type_url,tools_config.cognition_type)
+    redirect_url = get_redirect_url(patient_session_id,patient_id,tools_config.cognition_next_type_url,tools_config.cognition_type,0)
     return redirect(redirect_url)
 
 # 进入四个选择项的界面，需要获取到各个量表类型他的list
@@ -62,6 +111,12 @@ def get_select_scales(request):
                                                   })
 
 
+'''
+get_XXX_form:获取表单信息
+主要是为了解决重定向无法传递context问题
+需要传递scale_id：配置文件获取
+       scale_name_list：该页面所需要的所有量表名称
+'''
 # 获取家庭情况表单
 def get_family_form(request):
     # 由于要传入生日信息，因此这里需要获取一些下一页面所需要的值
@@ -375,7 +430,7 @@ def add_patient_medical_history(request):
     scales_dao.add_medical_history(rPatientMedicalHistory)
     # 页面跳转
     patient_id = request.GET.get('patient_id')
-    redirect_url = get_redirect_url(patient_session_id,patient_id,tools_config.general_info_next_url,tools_config.general_info_type)
+    redirect_url = get_redirect_url(patient_session_id,patient_id,tools_config.general_info_next_url,tools_config.general_info_type,tools_config.mediacal_history)
     return redirect(redirect_url)
 
 
@@ -394,7 +449,7 @@ def add_ybo(request):
     scales_dao.dao_add_ybo(rpatientybobsessiontable)
     # 页面跳转
     patient_id = request.GET.get('patient_id')
-    redirect_url = get_redirect_url(patient_session_id,patient_id,tools_config.self_test_next_type_url,tools_config.self_test_type)
+    redirect_url = get_redirect_url(patient_session_id,patient_id,tools_config.self_test_next_type_url,tools_config.self_test_type,tools_config.ybocs)
     return redirect(redirect_url)
 
 
@@ -413,7 +468,7 @@ def add_suicide(request):
     # 保存数据库
     scales_dao.dao_add_suicide(rpatientsuicidal)
     patient_id = request.GET.get('patient_id')
-    redirect_url = get_redirect_url(patient_session_id, patient_id, tools_config.self_test_next_type_url,tools_config.self_test_type)
+    redirect_url = get_redirect_url(patient_session_id, patient_id, tools_config.self_test_next_type_url,tools_config.self_test_type,tools_config.bss)
     return redirect(redirect_url)
 
 
@@ -443,7 +498,7 @@ def add_family_info(request):
 
     scales_dao.dao_add_family_info(patient_basic_info_family)
     patient_id = request.GET.get('patient_id')
-    redirect_url = get_redirect_url(patient_session_id,patient_id,tools_config.general_info_next_url,tools_config.general_info_type)
+    redirect_url = get_redirect_url(patient_session_id,patient_id,tools_config.general_info_next_url,tools_config.general_info_type,tools_config.information_family)
     return redirect(redirect_url)
 
 #########################################################
@@ -462,7 +517,7 @@ def add_hamd(request):
     # 插入数据库
     scales_dao.add_hamd_database(rPatientHAMD17)
     patient_id = request.GET.get('patient_id')
-    redirect_url = get_redirect_url(patient_session_id,patient_id,tools_config.other_test_next_type_url,tools_config.other_test_type)
+    redirect_url = get_redirect_url(patient_session_id,patient_id,tools_config.other_test_next_type_url,tools_config.other_test_type,tools_config.hamd_17)
     return redirect(redirect_url)
 
 def add_information_study(request):
@@ -475,7 +530,7 @@ def add_information_study(request):
     rPatientBasicInformationStudy = set_attr_by_post(request,rPatientBasicInformationStudy)
     scales_dao.add_information_study_database(rPatientBasicInformationStudy)
     patient_id = request.GET.get('patient_id')
-    redirect_url = get_redirect_url(patient_session_id,patient_id,tools_config.general_info_next_url,tools_config.general_info_type)
+    redirect_url = get_redirect_url(patient_session_id,patient_id,tools_config.general_info_next_url,tools_config.general_info_type,tools_config.information_study)
     return redirect(redirect_url)
 
 
@@ -489,7 +544,7 @@ def add_chinesehandle(request):
     rPatientChineseHandy = set_attr_by_post(request,rPatientChineseHandy)
     scales_dao.add_chinesehandle_database(rPatientChineseHandy)
     patient_id = request.GET.get('patient_id')
-    redirect_url = get_redirect_url(patient_session_id,patient_id,tools_config.general_info_next_url,tools_config.general_info_type)
+    redirect_url = get_redirect_url(patient_session_id,patient_id,tools_config.general_info_next_url,tools_config.general_info_type,tools_config.chi)
     return redirect(redirect_url)
 
 
@@ -505,7 +560,7 @@ def add_manicsymptom(request):
     rPatientManicsymptom = set_attr_by_post(request,rPatientManicsymptom)
     scales_dao.add_manicsymptom_database(rPatientManicsymptom)
     patient_id = request.GET.get('patient_id')
-    redirect_url = get_redirect_url(patient_session_id,patient_id,tools_config.self_test_next_type_url,tools_config.self_test_type)
+    redirect_url = get_redirect_url(patient_session_id,patient_id,tools_config.self_test_next_type_url,tools_config.self_test_type,tools_config.hcl_33)
     return redirect(redirect_url)
 
 
@@ -520,7 +575,7 @@ def add_happiness(request):
     rPatienthappiness = set_attr_by_post(request,rPatienthappiness)
     scales_dao.add_happiness_database(rPatienthappiness)
     patient_id = request.GET.get('patient_id')
-    redirect_url = get_redirect_url(patient_session_id,patient_id,tools_config.self_test_next_type_url,tools_config.self_test_type)
+    redirect_url = get_redirect_url(patient_session_id,patient_id,tools_config.self_test_next_type_url,tools_config.self_test_type,tools_config.shaps)
     return redirect(redirect_url)
 
 
@@ -538,7 +593,7 @@ def add_cognitive_emotion(request):
     rPatientCognitiveEmotion = set_attr_by_post(request,rPatientCognitiveEmotion)
     scales_dao.add_cognitive_emotion_database(rPatientCognitiveEmotion)
     patient_id = request.GET.get('patient_id')
-    redirect_url = get_redirect_url(patient_session_id,patient_id,tools_config.self_test_next_type_url,tools_config.self_test_type)
+    redirect_url = get_redirect_url(patient_session_id,patient_id,tools_config.self_test_next_type_url,tools_config.self_test_type,tools_config.cerq_c)
     return redirect(redirect_url)
 
 
@@ -553,7 +608,7 @@ def add_pleasure(request):
     rPatientPleasure = set_attr_by_post(request,rPatientPleasure)
     scales_dao.add_pleasure_database(rPatientPleasure)
     patient_id = request.GET.get('patient_id')
-    redirect_url = get_redirect_url(patient_session_id,patient_id,tools_config.self_test_next_type_url,tools_config.self_test_type)
+    redirect_url = get_redirect_url(patient_session_id,patient_id,tools_config.self_test_next_type_url,tools_config.self_test_type,tools_config.teps)
     return redirect(redirect_url)
 
 
@@ -567,7 +622,7 @@ def add_bprs(request):
     rPatientbprs = set_attr_by_post(request,rPatientbprs)
     scales_dao.add_bprs_database(rPatientbprs)
     patient_id = request.GET.get('patient_id')
-    redirect_url = get_redirect_url(patient_session_id,patient_id,tools_config.other_test_next_type_url,tools_config.other_test_type)
+    redirect_url = get_redirect_url(patient_session_id,patient_id,tools_config.other_test_next_type_url,tools_config.other_test_type,tools_config.bprs)
     return redirect(redirect_url)
 
 
@@ -581,7 +636,7 @@ def add_rbans(request):
     rPatientrbans = set_attr_by_post(request,rPatientrbans)
     scales_dao.add_rbans_database(rPatientrbans)
     patient_id = request.GET.get('patient_id')
-    redirect_url = get_redirect_url(patient_session_id,patient_id,tools_config.cognition_next_type_url,tools_config.cognition_type)
+    redirect_url = get_redirect_url(patient_session_id,patient_id,tools_config.cognition_next_type_url,tools_config.cognition_type,tools_config.rbans)
     return redirect(redirect_url)
 
 
@@ -596,7 +651,7 @@ def add_patient_basic_information_health(request):
     rPatientBasicInformationHealth = set_attr_by_post(request,rPatientBasicInformationHealth)
     scales_dao.add_patient_basic_information_health_database(rPatientBasicInformationHealth)
     patient_id = request.GET.get('patient_id')
-    redirect_url = get_redirect_url(patient_session_id,patient_id,tools_config.general_info_next_url,tools_config.general_info_type)
+    redirect_url = get_redirect_url(patient_session_id,patient_id,tools_config.general_info_next_url,tools_config.general_info_type,tools_config.information_health)
     return redirect(redirect_url)
 
 
@@ -615,7 +670,7 @@ def add_abuse(request):
     rPatientBasicInformationAbuse = set_attr_by_post(request,rPatientBasicInformationAbuse)
     scales_dao.add_abuse_database(rPatientBasicInformationAbuse)
     patient_id = request.GET.get('patient_id')
-    redirect_url = get_redirect_url(patient_session_id,patient_id,tools_config.general_info_next_url,tools_config.general_info_type)
+    redirect_url = get_redirect_url(patient_session_id,patient_id,tools_config.general_info_next_url,tools_config.general_info_type,tools_config.information_abuse)
     return redirect(redirect_url)
 
 
@@ -630,7 +685,7 @@ def add_hama(request):
 
     scales_dao.add_hama_database(rPatientHama)
     patient_id = request.GET.get('patient_id')
-    redirect_url = get_redirect_url(patient_session_id,patient_id,tools_config.other_test_next_type_url,tools_config.other_test_type)
+    redirect_url = get_redirect_url(patient_session_id,patient_id,tools_config.other_test_next_type_url,tools_config.other_test_type,tools_config.hama)
     return redirect(redirect_url)
 
 
@@ -645,7 +700,7 @@ def add_growth(request):
     rPatientGrowth = set_attr_by_post(request,rPatientGrowth)
     scales_dao.add_growth_database(rPatientGrowth)
     patient_id = request.GET.get('patient_id')
-    redirect_url = get_redirect_url(patient_session_id,patient_id,tools_config.self_test_next_type_url,tools_config.self_test_type)
+    redirect_url = get_redirect_url(patient_session_id,patient_id,tools_config.self_test_next_type_url,tools_config.self_test_type,tools_config.ctq_sf)
     return redirect(redirect_url)
 
 
@@ -659,7 +714,7 @@ def add_adolescent_events(request):
     rPatientAdolescentEvents = set_attr_by_post(request,rPatientAdolescentEvents)
     scales_dao.add_adolescent_events_database(rPatientAdolescentEvents)
     patient_id = request.GET.get('patient_id')
-    redirect_url = get_redirect_url(patient_session_id,patient_id,tools_config.self_test_next_type_url,tools_config.self_test_type)
+    redirect_url = get_redirect_url(patient_session_id,patient_id,tools_config.self_test_next_type_url,tools_config.self_test_type,tools_config.aslec)
     return redirect(redirect_url)
 
 
@@ -673,7 +728,7 @@ def add_fept(request):
     rPatientFept = set_attr_by_post(request,rPatientFept)
     scales_dao.add_fept_database(rPatientFept)
     patient_id = request.GET.get('patient_id')
-    redirect_url = get_redirect_url(patient_session_id,patient_id,tools_config.cognition_next_type_url,tools_config.cognition_type)
+    redirect_url = get_redirect_url(patient_session_id,patient_id,tools_config.cognition_next_type_url,tools_config.cognition_type,tools_config.fept)
     return redirect(redirect_url)
 
 
@@ -689,7 +744,7 @@ def add_vept(request):
     rPatientVept = set_attr_by_post(request,rPatientVept)
     scales_dao.add_vept_database(rPatientVept)
     patient_id = request.GET.get('patient_id')
-    redirect_url = get_redirect_url(patient_session_id,patient_id,tools_config.cognition_next_type_url,tools_config.cognition_type)
+    redirect_url = get_redirect_url(patient_session_id,patient_id,tools_config.cognition_next_type_url,tools_config.cognition_type,tools_config.vept)
     return redirect(redirect_url)
 
 
@@ -705,7 +760,7 @@ def add_ymrs(request):
     rPatientYmrs = set_attr_by_post(request,rPatientYmrs)
     scales_dao.add_ymrs_database(rPatientYmrs)
     patient_id = request.GET.get('patient_id')
-    redirect_url = get_redirect_url(patient_session_id,patient_id,tools_config.other_test_next_type_url,tools_config.other_test_type)
+    redirect_url = get_redirect_url(patient_session_id,patient_id,tools_config.other_test_next_type_url,tools_config.other_test_type,tools_config.ymrs)
     return redirect(redirect_url)
 
 
@@ -720,7 +775,7 @@ def add_sembu(request):
     rPatientSembu = set_attr_by_post(request,rPatientSembu)
     scales_dao.add_sembu_database(rPatientSembu)
     patient_id = request.GET.get('patient_id')
-    redirect_url = get_redirect_url(patient_session_id,patient_id,tools_config.self_test_next_type_url,tools_config.self_test_type)
+    redirect_url = get_redirect_url(patient_session_id,patient_id,tools_config.self_test_next_type_url,tools_config.self_test_type,tools_config.s_embu)
     return redirect(redirect_url)
 
 
@@ -735,7 +790,7 @@ def add_atq(request):
     rPatientAtq = set_attr_by_post(request,rPatientAtq)
     scales_dao.add_atq_database(rPatientAtq)
     patient_id = request.GET.get('patient_id')
-    redirect_url = get_redirect_url(patient_session_id,patient_id,tools_config.self_test_next_type_url,tools_config.self_test_type)
+    redirect_url = get_redirect_url(patient_session_id,patient_id,tools_config.self_test_next_type_url,tools_config.self_test_type,tools_config.atq)
     return redirect(redirect_url)
 
 
@@ -750,7 +805,7 @@ def add_wcst(request):
     rPatientWcst = set_attr_by_post(request,rPatientWcst)
     scales_dao.add_wcst_database(rPatientWcst)
     patient_id = request.GET.get('patient_id')
-    redirect_url = get_redirect_url(patient_session_id,patient_id,tools_config.cognition_next_type_url,tools_config.cognition_type)
+    redirect_url = get_redirect_url(patient_session_id,patient_id,tools_config.cognition_next_type_url,tools_config.cognition_type,tools_config.wcst)
     return redirect(redirect_url)
 
 
@@ -764,37 +819,15 @@ def add_other(request):
     rPatientBasicInformationOther = set_attr_by_post(request,rPatientBasicInformationOther)
     scales_dao.add_other_database(rPatientBasicInformationOther)
     patient_id = request.GET.get('patient_id')
-    redirect_url = get_redirect_url(patient_session_id,patient_id,tools_config.general_info_next_url,tools_config.general_info_type)
+    redirect_url = get_redirect_url(patient_session_id,patient_id,tools_config.general_info_next_url,tools_config.general_info_type,tools_config.information_other)
     return redirect(redirect_url)
-
+# 跳过量表
 def skip_scale(request):
     patient_session_id = request.GET.get('patient_session_id')
     scale_id = request.GET.get('scale_id')
     scale = scales_dao.get_scale_by_id(scale_id)
     patient_id = request.GET.get('patient_id')
-    state = 2
-    scales_dao.update_rscales_skip(patient_session_id,scale_id,state)
     redirect_url = get_redirect_url(patient_session_id, patient_id, tools_config.general_info_next_url,
-                                    scale.do_scale_type)
+                                    scale.do_scale_type,scale_id)
     return redirect(redirect_url)
 
-'''
-封装的函数
-'''
-# 获取到需要跳转的url，首先获取到未完成的最小的scale_id，假如没有的话，那么就跳转到下一个类型，假如有的话，那么跳转到该种量表
-def get_redirect_url(patient_session_id,patient_id,next_type,do_scale_type):
-    min_unfinished_scale = scales_dao.get_min_unfinished_scale(do_scale_type, patient_session_id)
-    if min_unfinished_scale is None:
-        redirect_url = '{}?patient_session_id={}&patient_id={}'.format(tools_config.select_scales_url,str(patient_session_id),str(patient_id))
-        return redirect_url
-    # /scales/get_XXX_form
-    next_page_url = tools_config.scales_html_dict[min_unfinished_scale]
-    redirect_url = '{}?patient_session_id={}&patient_id={}'.format(next_page_url, str(patient_session_id), str(patient_id))
-    return redirect_url
-
-# 根据request post信息设置models的值
-def set_attr_by_post(request, scale_object):
-    for key in request.POST.keys():
-        if hasattr(scale_object, key) and request.POST.get(key)!='':
-            setattr(scale_object, key, request.POST.get(key))
-    return scale_object

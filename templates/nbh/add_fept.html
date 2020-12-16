@@ -32,9 +32,9 @@
                          <li><a href="#" >认知分数录入</a></li>
 						 <li class="active"><a href="#" >面孔情绪感知能力测试（fept）</a></li>
 						 <div style="float: right;margin-bottom: 0px;">
-							<a href="/scales/select_scales?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}" class="btn btn-warning btn-sm"><i class="fa fa-arrow-left"><strong></i>&nbsp;返&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回</strong></a>
-							<a href="#" class="btn btn-warning btn-sm"><i class="fa fa-arrow-right"><strong></i>&nbsp;跳过该量表</strong></a>	
-						</div>
+                            <a href="/scales/select_scales?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}" class="btn btn-warning btn-sm">
+                                <i class="fa fa-arrow-left"></i><strong>&nbsp;返&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回</strong></a>
+                        </div>
                     </ul>
                 </div>
             </div>
@@ -237,11 +237,33 @@
                                 </div>
                             </div>
 
-                            <div class="row">
-                                		<div class="text-center">
-											<button class="btn btn-success" id="sub" type="button">保存并提交量表，继续下一个量表</button>
-                                		</div>
-							</div>
+
+
+
+								<br><br>
+						        <div class="row">
+									<div class="col-md-2">
+
+
+
+									</div>
+									<div  class="col-md-4 col-sm-6 text-center" style="text-align: center">
+                                        <a  href="#"><button type="button" class="btn btn-warning" id="bt_return">返回上一量表</button></a>
+                                    </div>
+                                    <div  class="col-md-4 col-sm-6">
+                                     {% csrf_token %}
+
+										<input class="btn btn-success text-center" id="sub1" type="button" value="保存提交量表"></input>
+
+									</div>
+                                    <div class="col-md-2 col-sm-6">
+                                       <a href="/scales/skip_scale?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{scale_id}}"  style="float: right"><u>跳过该量表</u></a>
+                                    </div>
+								</div>
+
+
+
+
                         </div>
                         </form>
 					</div>

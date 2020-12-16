@@ -570,8 +570,8 @@ def get_handy_byPatientDetailId(patient_detail_id):
         return patient_handy[0]
 
 # 获取某个类别的量表未完成的最小值,都已经完成了，那么返回None
-def get_min_unfinished_scale(do_scale_type,patient_session_id):
-    res = scales_models.RPatientScales.objects.filter(scale__do_scale_type = do_scale_type,patient_session_id = patient_session_id, state = 0).order_by('scale_id')
+def get_min_unfinished_scale(do_scale_type,patient_session_id,cur_scale_id):
+    res = scales_models.RPatientScales.objects.filter(scale__do_scale_type = do_scale_type,patient_session_id = patient_session_id, state = 0,scale_id__gt = cur_scale_id ).order_by('scale_id')
     if res.count() == 0:
         return None
     return res[0].scale_id
@@ -583,7 +583,7 @@ def get_scalename_bytype(do_scale_type,patient_session_id):
 # 获取未完成的scale量表
 def get_uodo_scales(patient_session_id):
     scales_list = scales_models.RPatientScales.objects.all().select_related('scale').\
-        filter(patient_session_id = patient_session_id,state__in =  [0,2]).values('scale__do_scale_type','scale__scale_name')
+        filter(patient_session_id = patient_session_id,state = 0).values('scale__do_scale_type','scale__scale_name')
     information_list = []
     other_test_list = []
     self_test_list = []
