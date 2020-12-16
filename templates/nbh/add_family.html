@@ -24,20 +24,21 @@
 {% block content %}
     <div class="right_col" role="main">
         <div class="container">
-            <div class="row show-grid">
-                <div class="col-md-12 col-sm-12 col-xs-12">
-                    <ul class="breadcrumb" style="background-color: white;font-weight:bold">
-                        <li><a href="#">量表录入</a></li>
-                        <li><a href="#">个人详细信息录入</a></li>
-                        <li class="active"><a href="#">家庭信息</a></li>
-                        <div style="float: right;margin-bottom: 0px;">
-                            <a href="/scales/select_scales?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}"
-                               class="btn btn-warning btn-sm"><i class="fa fa-arrow-left"></i><strong>&nbsp;返&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回</strong></a>
-                        </div>
-                    </ul>
-                </div>
-            </div>
+
+        <div class="row show-grid">
+          <div class="col-md-12 col-sm-12 col-xs-12">
+              <ul class="breadcrumb" style="background-color: white;font-weight:bold">
+                   <li ><a href="#">量表录入</a></li>
+                   <li><a href="#" >个人详细信息录入</a></li>
+                   <li class="active"><a href="#" >家庭信息</a></li>
+                   <div style="float: right;margin-bottom: 0px;">
+                    <a href="/scales/select_scales?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}" class="btn btn-warning btn-sm"><i class="fa fa-arrow-left"></i><strong>&nbsp;返&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回</strong></a>
+                   </div>
+              </ul>
+          </div>
         </div>
+        </div>
+
         <div class="dashboard_graph x_panel" style="height: 80%;overflow-x: hidden;">
             <div id="wrapper">
                 <div id="left-side" style="height: 100%;" class="col-md-2">
@@ -110,6 +111,7 @@
                                                         <input type="radio" name="sex" value=1 data-labelauty="女"
                                                                disabled/>
                                                     </div>
+
                                                 {% else %}
                                                     <div class="col-md-4 col-sm-3 form-group has-feedback row">
                                                         <input type="radio" name="sex" value=0 data-labelauty="男"
@@ -542,183 +544,187 @@
 
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
 
 
 
+
 {% endblock %}
 
 {% block js %}
-    <script type="text/javascript" src="{% static '/js/jquery-radio-beauty.js' %}"></script>
 
-    <script>
-        $(document).ready(function () {
-            $("input[type='radio']").labelauty();
-            document.getElementById("marital_status").value ={{patient_detail.emotional_state}};
+<script type="text/javascript" src="{% static '/js/jquery-radio-beauty.js'%}"></script>
 
-        });
+<script>
+$(document).ready(function(){
+	$("input[type='radio']").labelauty();
+  document.getElementById("marital_status").value={{patient_detail.emotional_state}};
 
-        <!--居住方式-->
-        $('.other_living_type').hide();
-        $('#patient_live_type').change(function () {
-            if ($('#patient_live_type option:selected').val() == 6) {
-                $('.other_living_type').show();
+});
 
-            } else {
-                $('.other_living_type').hide();
-            }
-        });
+<!--居住方式-->
+$('.other_living_type').hide();
+    $('#patient_live_type').change(function(){
+       if ($('#patient_live_type option:selected').val() == 6){
+           $('.other_living_type').show();
+
+       }
+       else{
+           $('.other_living_type').hide();
+       }
+    });
 
 
-        <!--独生子女-->
-        $(".only_child_1").on('click', function (event) {
+<!--独生子女-->
+$(".only_child_1").on('click', function(event){
 
-            $("#brother_num_2").hide();
-            $("#preference_div").hide();
-            $(".brother_num_2_val").val("");
-        });
-        $(".only_child_2").on('click', function (event) {
+      $("#brother_num_2").hide();
+      $("#preference_div").hide();
+      $(".brother_num_2_val").val("");
+});
+$(".only_child_2").on('click', function(event){
 
-            $("#brother_num_2").show();
-            $("#preference_div").show();
-        });
-        <!--收养-->
-        $("#patient_adopt_2").on('click', function (event) {
-            $("#adopt_age_1").hide();
-            $("#adopt_age_2").hide();
-            $("#adopt_age_2").val("");
-        });
-        $("#patient_adopt_1").on('click', function (event) {
-            $("#adopt_age_1").show();
-            $("#adopt_age_2").show();
-        });
-        <!--学生干部-->
-        $("#patient_leader_2").on('click', function (event) {
-            $("#patient_leader_occupation").attr("disabled", true);
-            $("#patient_leader_occupation").val("");
-        });
-        $("#patient_leader_1").on('click', function (event) {
-            $("#patient_leader_occupation").removeAttr("disabled");
-        });
-        <!--住校-->
-        $("#patient_live_school_2").on('click', function (event) {
-            $("#patient_home_frequency").attr("disabled", true);
-            $("#patient_home_frequency").val("");
-        });
-        $("#patient_live_school_1").on('click', function (event) {
-            $("#patient_home_frequency").removeAttr("disabled");
-        });
-        <!--躯体疾病-->
-        $("#patient_somatic_diseases_1").on('click', function (event) {
-            $("#patient_somatic_diseases_name").removeAttr("disabled");
-            $("#patient_somatic_diseases_year").removeAttr("disabled");
-        });
-        $("#patient_somatic_diseases_2").on('click', function (event) {
-            $("#patient_somatic_diseases_name").attr("disabled", true);
-            $("#patient_somatic_diseases_year").attr("disabled", true);
-            $("#patient_somatic_diseases_name").val("");
-            $("#patient_somatic_diseases_year").val("");
-        });
-        <!--精神疾病-->
-        $("#patient_mental_diseases_1").on('click', function (event) {
-            $("#patient_mental_diseases_name").removeAttr("disabled");
-            $("#patient_mental_diseases_year").removeAttr("disabled");
-        });
-        $("#patient_mental_diseases_2").on('click', function (event) {
-            $("#patient_mental_diseases_name").attr("disabled", true);
-            $("#patient_mental_diseases_year").attr("disabled", true);
-            $("#patient_mental_diseases_name").val("");
-            $("#patient_mental_diseases_year").val("");
-        });
-        <!--家族史-->
-        $("#patient_family_diseases_history_1").on('click', function (event) {
-            $("#patient_family_diseases_name").removeAttr("disabled");
-        });
-        $("#patient_family_diseases_history_2").on('click', function (event) {
-            $("#patient_family_diseases_name").attr("disabled", true);
-            $("#patient_family_diseases_name").val("");
-        });
-        <!--吸烟-->
-        $("#patient_smoke_1").on('click', function (event) {
-            $("#patient_smoke_age").removeAttr("disabled");
-            $("#patient_daily_smoke_num").removeAttr("disabled");
-        });
-        $("#patient_smoke_2").on('click', function (event) {
-            $("#patient_smoke_age").attr("disabled", true);
-            $("#patient_daily_smoke_num").attr("disabled", true);
-            $("#patient_smoke_age").val("");
-            $("#patient_daily_smoke_num").val("");
-        });
-        <!--其他物质-->
-        $("#patient_other_abuse_2").on('click', function (event) {
-            $("#patient_other_abuse_age").attr("disabled", true);
-            $("#patient_other_abuse_age").val("");
-        });
-        $("#patient_other_abuse_1").on('click', function (event) {
-            $("#patient_other_abuse_age").removeAttr("disabled");
-        });
-        <!--重大生活事件-->
-        $("#patient_big_event_2").on('click', function (event) {
-            $("#patient_big_event_describtion").attr("disabled", true);
-            $("#patient_big_event_describtion").val("");
-        });
-        $("#patient_big_event_1").on('click', function (event) {
-            $("#patient_big_event_describtion").removeAttr("disabled");
-        });
-        <!--父母婚姻状态-->
-        $("#parent_marry").change(function () {
-            var val = $("#parent_marry").val();
-            <!--       离异-->
-            if (val == "2") {
-                $(".StepParents").show();
-                $(".parent_parent_death_age").hide();
-                $(".parent_parent_death").hide();
-                $(".parent_parent_death_age").val("");
-                <!--有一方过世-->
-            } else if (val == "4") {
-                $(".parent_parent_death_age").show();
-                $(".parent_parent_death").show();
-                $(".StepParents").hide();
-            } else {
-                $(".parent_parent_death_age").hide();
-                $(".StepParents").hide();
-                $(".parent_parent_death").hide();
-                $(".parent_parent_death_age").val("");
-            }
-        });
-        <!--饮酒-->
-        $("#patient_alcohol").change(function () {
-            var val = $("#patient_alcohol").val();
-            if (val == "1") {
-                $("#patient_alcohol_age").attr("disabled", true);
-            } else {
-                $("#patient_alcohol_age").removeAttr("disabled");
-            }
-        });
-        <!--少数民族-->
-        $("#nation").change(function () {
-            var val = $("#nation").val();
-            if (val == "0") {
-                $(".minority").hide();
-                $(".minority").val("");
-            } else if (val == "1") {
-                $(".minority").show();
-            }
-        });
-        <!--居住方式 其他居住方式-->
-        $("#patient_live_type").change(function () {
-            var val = $("#patient_live_type").val();
-            if (val == "6") {
-                $(".patient_live_type_other").show();
+      $("#brother_num_2").show();
+      $("#preference_div").show();
+});
+<!--收养-->
+$("#patient_adopt_2").on('click', function(event){
+      $("#adopt_age_1").hide();
+      $("#adopt_age_2").hide();
+      $("#adopt_age_2").val("");
+});
+$("#patient_adopt_1").on('click', function(event){
+      $("#adopt_age_1").show();
+      $("#adopt_age_2").show();
+});
+<!--学生干部-->
+$("#patient_leader_2").on('click', function(event){
+      $("#patient_leader_occupation").attr("disabled", true);
+      $("#patient_leader_occupation").val("");
+});
+$("#patient_leader_1").on('click', function(event){
+      $("#patient_leader_occupation").removeAttr("disabled");
+});
+<!--住校-->
+$("#patient_live_school_2").on('click', function(event){
+      $("#patient_home_frequency").attr("disabled", true);
+      $("#patient_home_frequency").val("");
+});
+$("#patient_live_school_1").on('click', function(event){
+      $("#patient_home_frequency").removeAttr("disabled");
+});
+<!--躯体疾病-->
+$("#patient_somatic_diseases_1").on('click', function(event){
+      $("#patient_somatic_diseases_name").removeAttr("disabled");
+      $("#patient_somatic_diseases_year").removeAttr("disabled");
+});
+$("#patient_somatic_diseases_2").on('click', function(event){
+      $("#patient_somatic_diseases_name").attr("disabled", true);
+      $("#patient_somatic_diseases_year").attr("disabled", true);
+      $("#patient_somatic_diseases_name").val("");
+      $("#patient_somatic_diseases_year").val("");
+});
+<!--精神疾病-->
+$("#patient_mental_diseases_1").on('click', function(event){
+      $("#patient_mental_diseases_name").removeAttr("disabled");
+      $("#patient_mental_diseases_year").removeAttr("disabled");
+});
+$("#patient_mental_diseases_2").on('click', function(event){
+      $("#patient_mental_diseases_name").attr("disabled", true);
+      $("#patient_mental_diseases_year").attr("disabled", true);
+      $("#patient_mental_diseases_name").val("");
+      $("#patient_mental_diseases_year").val("");
+});
+<!--家族史-->
+$("#patient_family_diseases_history_1").on('click', function(event){
+      $("#patient_family_diseases_name").removeAttr("disabled");
+});
+$("#patient_family_diseases_history_2").on('click', function(event){
+      $("#patient_family_diseases_name").attr("disabled", true);
+      $("#patient_family_diseases_name").val("");
+});
+<!--吸烟-->
+$("#patient_smoke_1").on('click', function(event){
+      $("#patient_smoke_age").removeAttr("disabled");
+      $("#patient_daily_smoke_num").removeAttr("disabled");
+});
+$("#patient_smoke_2").on('click', function(event){
+      $("#patient_smoke_age").attr("disabled", true);
+      $("#patient_daily_smoke_num").attr("disabled", true);
+      $("#patient_smoke_age").val("");
+      $("#patient_daily_smoke_num").val("");
+});
+<!--其他物质-->
+$("#patient_other_abuse_2").on('click', function(event){
+      $("#patient_other_abuse_age").attr("disabled", true);
+      $("#patient_other_abuse_age").val("");
+});
+$("#patient_other_abuse_1").on('click', function(event){
+      $("#patient_other_abuse_age").removeAttr("disabled");
+});
+<!--重大生活事件-->
+$("#patient_big_event_2").on('click', function(event){
+      $("#patient_big_event_describtion").attr("disabled", true);
+      $("#patient_big_event_describtion").val("");
+});
+$("#patient_big_event_1").on('click', function(event){
+      $("#patient_big_event_describtion").removeAttr("disabled");
+});
+<!--父母婚姻状态-->
+$("#parent_marry").change(function(){
+       var val = $("#parent_marry").val();
+<!--       离异-->
+       if (val == "2"){
+              $(".StepParents").show();
+              $(".parent_parent_death_age").hide();
+              $(".parent_parent_death").hide();
+              $(".parent_parent_death_age").val("");
+<!--有一方过世-->
+       }else if(val == "4"){
+              $(".parent_parent_death_age").show();
+              $(".parent_parent_death").show();
+              $(".StepParents").hide();
+       }else{
+              $(".parent_parent_death_age").hide();
+              $(".StepParents").hide();
+              $(".parent_parent_death").hide();
+              $(".parent_parent_death_age").val("");
+       }
+});
+<!--饮酒-->
+$("#patient_alcohol").change(function(){
+       var val = $("#patient_alcohol").val();
+       if (val == "1"){
+             $("#patient_alcohol_age").attr("disabled", true);
+       }else{
+             $("#patient_alcohol_age").removeAttr("disabled");
+       }
+});
+<!--少数民族-->
+$("#nation").change(function(){
+       var val = $("#nation").val();
+       if (val == "0"){
+           $(".minority").hide();
+           $(".minority").val("");
+       }else if(val == "1"){
+           $(".minority").show();
+       }
+});
+<!--居住方式 其他居住方式-->
+$("#patient_live_type").change(function(){
+       var val = $("#patient_live_type").val();
+       if (val == "6"){
+           $(".patient_live_type_other").show();
 
-            } else {
-                $(".patient_live_type_other").hide();
-                $(".patient_live_type_other").val("");
-            }
-        });
-    </script>
+       }else{
+           $(".patient_live_type_other").hide();
+           $(".patient_live_type_other").val("");
+       }
+});
+</script>
 
 
 {% endblock %}
