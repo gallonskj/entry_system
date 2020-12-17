@@ -82,7 +82,7 @@
                                 <div class="col-md-4 col-sm-4">
                                     <label class="control-label col-md-2 col-sm-2">姓名<span
                                             class="required">*</span></label>
-                                    <div class="col-md-2 col-sm-2 form-group has-feedback">
+                                    <div class="col-md-3 col-sm-2 form-group has-feedback">
                                         {{ base_info.name }}
                                     </div>
                                 </div>
@@ -91,7 +91,7 @@
                                             class="required">*</span></label>
                                     <div class="col-md-1 col-sm-3 form-group has-feedback">
                                         <input type="text" id="tele" name="phone" class="form-control has-feedback-left"
-                                               style="width:175px" value="{{ patient_detail.phone }}">
+                                               style="width:175px" value="{{ patient_detail.phone|processNone }}">
                                         <span class="fa fa-mobile form-control-feedback left" aria-hidden="true"></span>
                                     </div>
                                 </div>
@@ -101,7 +101,7 @@
                                     </label>
                                     <div class="col-md-2 col-sm-2 form-group has-feedback">
                                         <input type="text" id="height" name="height" class="form-control"
-                                               style="width: 160px" PLACEHOLDER="CM" value="{{ patient_detail.height }}">
+                                               style="width: 160px" PLACEHOLDER="CM" value="{{ patient_detail.height|processNone }}">
                                     </div>
 
                                 </div>
@@ -129,11 +129,9 @@
                                     {% endif %}
                                 </div>
                                 <div class="col-md-4 col-sm-4">
-                                    <label class="control-label col-md-3 col-sm-2 " for="marital_status">婚姻状况<span
-                                            class="required">*</span></label>
+                                    <label class="control-label col-md-3 col-sm-2 " for="marital_status">婚姻状况<span class="required">*</span></label>
                                     <div class="col-md-1 col-sm-2">
-                                        <select class="form-control" name="emotional_state" id="marital_status"
-                                                style="width:175px" >
+                                        <select class="form-control" name="emotional_state" id="marital_status" style="width:175px" >
                                             <option value="1">单身=1</option>
                                             <option value="2">未婚=2</option>
                                             <option value="3">已婚=3</option>
@@ -150,7 +148,7 @@
                                     </label>
                                     <div class="col-md-2 col-sm-3 form-group has-feedback">
                                         <input type="text" id="weight" name="height" class="form-control"
-                                               style="width: 160px" PLACEHOLDER="KG" value="{{ patient_detail.weight }}">
+                                               style="width: 160px" PLACEHOLDER="KG" value="{{ patient_detail.weight|processNone }}">
                                     </div>
 
                                 </div>
@@ -161,7 +159,7 @@
                                     <label class="control-label col-md-2 col-sm-1" for="age">年龄<span
                                             class="required">*</span></label>
                                     <div class="col-md-2 col-sm-1 form-group ">
-                                        {{ age }}
+                                        {{ age|processNone }}
                                     </div>
                                 </div>
                                 <div class="col-md-4 col-sm-4">
@@ -169,7 +167,7 @@
                                             class="required">*</span></label>
                                     <div class="col-md-2 col-sm-2 form-group ">
                                         <input type="text" id="occupation" name="occupation" class="form-control"
-                                               style="width:175px" value="{{ patient_detail.occupation }}">
+                                               style="width:175px" value="{{ patient_detail.occupation|processNone }}">
                                     </div>
                                 </div>
                                 <div class="col-md-4 col-sm-4">
@@ -179,7 +177,7 @@
                                     <div class="col-md-2 col-sm-3 form-group has-feedback">
 
                                         <input type="text" id="waist" name="height" class="form-control"
-                                               style="width: 160px" PLACEHOLDER="CM" value="{{ patient_detail.waist }}">
+                                               style="width: 160px" PLACEHOLDER="CM" value="{{ patient_detail.waist|processNone }}">
                                     </div>
                                 </div>
                             </div>
@@ -188,7 +186,7 @@
                                     <label class="control-label col-md-3 col-sm-2" for="birthday">出生日期<span
                                             class="required">*</span></label>
                                     <div class="col-md-4 col-sm-3  form-group">
-                                        {{ base_info.birth_date }}
+                                        {{ base_info.birth_date|processNone }}
                                     </div>
                                 </div>
                                 <div class="col-md-4 col-sm-4">
@@ -215,7 +213,7 @@
                                     </label>
                                     <div class="col-md-2 col-sm-3  form-group has-feedback">
                                         <input type="text" id="hip" name="hip" class="form-control"
-                                               style="width: 160px" PLACEHOLDER="CM" value="{{ patient_detail.hip }}">
+                                               style="width: 160px" PLACEHOLDER="CM" value="{{ patient_detail.hip|processNone }}">
                                     </div>
 
                                 </div>
@@ -224,7 +222,7 @@
                                 <div class="col-md-4 col-sm-4">
                                     <label class="control-label col-md-3 col-sm-2" for="handy">利手情况<span
                                             class="required">*</span></label>
-                                    <div class="col-md-4 col-sm-3 form-group ">
+                                    <div class="col-md-3 col-sm-2 form-group ">
                                         {% if handy == 1 %}
                                             右利手
                                         {% elif handy == 2  %}
@@ -243,9 +241,25 @@
                                             class="required">*</span></label>
                                     <div class="col-md-1 col-sm-2">
                                         <input type="text" id="education" name="education" class="form-control"
-                                               style="width:175px" value="{{ patient_detail.education }}">
+                                               style="width:175px" value="{{ patient_detail.education|processNone }}">
                                     </div>
                                 </div>
+
+
+                            <div class="col-md-4 col-sm-4">
+                                  <div class=" col-md-3 col-sm-2">
+                                        <select class="form-control" name="contact_way" id="contact_way" style="width:85px;" >
+                                            <option value="1">QQ</option>
+                                            <option value="2">微信</option>
+                                            <option value="3">邮箱</option>
+                                        </select>
+                                  </div>
+                                <div class="col-md-1 col-sm-2">
+                                    <input type="text" id="contact_info" name="contact_info" class="form-control" style="width:175px" value="{{ patient_detail.contact_info|processNone }}">
+                                </div>
+                            </div>
+
+
                             </div>
 
                             <div class="form-group row">
@@ -296,17 +310,7 @@
                             <div class="form-group row">
                                 <label class="control-label col-md-1 col-sm-2" for="patient_live_type">居住方式<span
                                         class="required">*</span></label>
-                                <div class="col-md-2 col-sm-3">
-                                    <select class="form-control" name="patient_live_type" id="patient_live_type">
-                                        <option value="1">独自居住=1</option>
-                                        <option value="2">与父母同住=2</option>
-                                        <option value="3">与祖父母同住=3</option>
-                                        <option value="4">与丈夫/妻子同住=4</option>
-                                        <option value="5">集体宿舍/合租=5</option>
-                                        <option value="6">其他=6</option>
 
-                                    </select>
-                                </div>
 
 
                                 <div class="other_living_type">
@@ -564,7 +568,11 @@
         $(document).ready(function () {
             $("input[type='radio']").labelauty();
             document.getElementById("marital_status").value={{ patient_detail.emotional_state }};
+            document.getElementById("contact_way").value={{ patient_detail.contact_way }};
+
         });
+
+
 
         /*--居住方式--*/
         $('.other_living_type').hide();
