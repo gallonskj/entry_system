@@ -4,6 +4,7 @@ import patients.models as patients_models
 import scales.models as scales_models
 import tools.Utils as tools_utils
 import tools.insertCascadeCheck as tools_insertCascadeCheck
+import tools.config as tools_config
 
 # 将要做的scales分成个人信息，自评，他评等四类
 def judgment_do_scales(scales_list):
@@ -30,7 +31,7 @@ def judgment_scales(patient_detail_id):
     if patient_detail.session_id == 1:
         # 初扫
         # 判断患者年龄
-        if tools_utils.calculate_age(str(get_base_info_byPK(patient_detail.patient_id).birth_date))> 16:
+        if tools_utils.calculate_age(str(get_base_info_byPK(patient_detail.patient_id).birth_date))> tools_config.adult_age:
             # 成人
             scales_list = scales_models.DScales.objects.filter(scale_type__in=[0,2])
         else:
