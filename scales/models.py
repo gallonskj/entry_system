@@ -819,8 +819,8 @@ class RPatientScales(models.Model):
 class RPatientSembu(models.Model):
     patient_session = models.ForeignKey(DPatientDetail, models.DO_NOTHING)
     scale = models.ForeignKey(DScales, models.DO_NOTHING)
-    year_of_school = models.DateField(blank=True, null=True)
-    grade = models.IntegerField(blank=True, null=True)
+    year_of_school = models.CharField(max_length=20, blank=True, null=True)
+    grade = models.CharField(max_length=20, blank=True, null=True)
     region = models.IntegerField(blank=True, null=True)
     mark_level = models.IntegerField(blank=True, null=True)
     parents_status = models.IntegerField(blank=True, null=True)
@@ -929,6 +929,7 @@ class RPatientSuicidal(models.Model):
     doctor = models.ForeignKey('users.Suser', models.DO_NOTHING)
     create_time = models.DateTimeField(auto_now_add=True)
     update_time = models.DateTimeField(auto_now=True)
+    self_mutilation_remark = models.CharField(max_length=50, blank=True, null=True)
 
     class Meta:
         managed = False

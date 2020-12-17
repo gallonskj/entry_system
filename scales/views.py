@@ -139,9 +139,11 @@ get_XXX_form:获取表单信息
 def get_family_form(request):
     # 由于要传入生日信息，因此这里需要获取一些下一页面所需要的值
     patient_id = request.GET.get('patient_id')
+    patient_session_id = request.GET.get('patient_session_id')
     base_info = patients_dao.get_base_info_byPK(patient_id)
+    patient_detail = patients_dao.get_patient_detail_byPK(patient_session_id)
     base_info.birth_date = base_info.birth_date.strftime('%Y-%m-%d')
-    age = tools_utils.calculate_age(str(base_info.birth_date))
+    age = patient_detail.age
     nation_list = patients_dao.get_DEthnicity_all()
     patient_session_id = request.GET.get('patient_session_id')
     patient_detail = patients_dao.get_patient_detail_byPK(patient_session_id)

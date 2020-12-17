@@ -112,7 +112,7 @@
 						                        </td>
 						                        <td>
 
-													<input type="number" placeholder="请输入大于0的整数" style="border-radius:5px;" id="calm" name="calm" class="form-control"
+													<input type="number" placeholder="请输入大于等于0的整数" style="border-radius:5px;" id="calm" name="calm" class="form-control"
 														   oninput="{notice1(1)}" required />
 													<p  style="display:inline-block; font-size:x-small; color:#8B0000" id="notice1"></p>
 						                        </td>
@@ -126,7 +126,7 @@
 						                        </td>
 						                        <td>
 
-													<input type="number" placeholder="请输入大于0的整数" style="border-radius:5px;" id="angry" name="angry" class="form-control"
+													<input type="number" placeholder="请输入大于等于0的整数" style="border-radius:5px;" id="angry" name="angry" class="form-control"
 														   oninput="{notice1(2)}" required />
 													<p  style="display:inline-block; font-size:x-small; color:#8B0000" id="notice2"></p>
 						                        </td>
@@ -139,7 +139,7 @@
 							                        厌恶
 						                        </td>
 						                        <td>
-													<input type="number" placeholder="请输入大于0的整数" style="border-radius:5px;" id="disgusting" name="disgusting" class="form-control"
+													<input type="number" placeholder="请输入大于等于0的整数" style="border-radius:5px;" id="disgusting" name="disgusting" class="form-control"
 														   oninput="{notice1(3)}" required />
 													<p  style="display:inline-block; font-size:x-small; color:#8B0000" id="notice3"></p>
 
@@ -155,7 +155,7 @@
 						                        </td>
 						                        <td>
 
-													<input type="number" placeholder="请输入大于0的整数" style="border-radius:5px;" id="fear" name="fear" class="form-control"
+													<input type="number" placeholder="请输入大于等于0的整数" style="border-radius:5px;" id="fear" name="fear" class="form-control"
 														   oninput="{notice1(4)}" required />
 													<p  style="display:inline-block; font-size:x-small; color:#8B0000" id="notice4"></p>
 						                        </td>
@@ -168,7 +168,7 @@
 							                        高兴
 						                        </td>
 						                        <td>
-													<input type="number" placeholder="请输入大于0的整数" style="border-radius:5px;" id="happy" name="happy" class="form-control"
+													<input type="number" placeholder="请输入大于等于0的整数" style="border-radius:5px;" id="happy" name="happy" class="form-control"
 														   oninput="{notice1(5)}" required />
 													<p  style="display:inline-block; font-size:x-small; color:#8B0000" id="notice5"></p>
 
@@ -183,7 +183,7 @@
 						                        </td>
 						                        <td>
 
-													<input type="number" placeholder="请输入大于0的整数" style="border-radius:5px;" id="sad" name="sad" class="form-control"
+													<input type="number" placeholder="请输入大于等于0的整数" style="border-radius:5px;" id="sad" name="sad" class="form-control"
 														   oninput="{notice1(6)}" required />
 													<p  style="display:inline-block; font-size:x-small; color:#8B0000" id="notice6"></p>
 						                        </td>
@@ -197,7 +197,7 @@
 						                        </td>
 						                        <td>
 
-													<input type="number" placeholder="请输入大于0的整数" style="border-radius:5px;" id="wonder" name="wonder" class="form-control"
+													<input type="number" placeholder="请输入大于等于0的整数" style="border-radius:5px;" id="wonder" name="wonder" class="form-control"
 														   oninput="{notice1(7)}" required />
 													<p  style="display:inline-block; font-size:x-small; color:#8B0000" id="notice7"></p>
 						                        </td>
@@ -211,7 +211,7 @@
 						                        </td>
 						                        <td class='bid-floor-col'>
 													<div class='gridContainer'>
-														<input type="number" placeholder="请输入大于0的整数" style="border-radius:5px;" id="quality_control" name="quality_control" min="0.0" step="0.1" class="form-control" oninput="{notice1(8)}" required /> %
+														<input type="number" placeholder="请输入大于等于0的整数" style="border-radius:5px;" id="quality_control" name="quality_control" min="0.0" step="0.1" class="form-control" oninput="{notice1(8)}" required /> %
 														<p class="error" style="display:inline-block; font-size:x-small; color:#8B0000" id="notice8"></p>
 
 													</div>
@@ -223,7 +223,7 @@
 													 总分：
 												 </td>
 												 <td>
-													 <input type="number" placeholder="请输入大于0的整数" style="border-radius:5px;" id="total_score" name="total_score" class="form-control"
+													 <input type="number" placeholder="请输入大于等于0的整数" style="border-radius:5px;" id="total_score" name="total_score" class="form-control"
 														   oninput="{notice1(9)}" required />
 													<p  style="display:inline-block; font-size:x-small; color:#8B0000" id="notice9"></p>
 
@@ -283,7 +283,7 @@ function notice1(num){
 	if(num==1){
 		a0=document.getElementsByName('calm')[0].value;
 		if(a0<0){
-			document.getElementById('notice1').innerHTML="&nbsp;&nbsp;&nbsp;请输入大于0的整数";
+			document.getElementById('notice1').innerHTML="&nbsp;&nbsp;&nbsp;请输入大于等于0的整数";
 		}else{
 			if(parseInt(a0) != parseFloat(a0)){
 				document.getElementById('notice1').innerHTML="&nbsp;&nbsp;&nbsp;请输入整数";
@@ -295,7 +295,7 @@ function notice1(num){
 	else if(num==2){
 		a1=document.getElementsByName('angry')[0].value;
 		if(a1<0){
-			document.getElementById('notice2').innerHTML="&nbsp;&nbsp;&nbsp;请输入大于0的整数";
+			document.getElementById('notice2').innerHTML="&nbsp;&nbsp;&nbsp;请输入大于等于0的整数";
 		}else{
 			if(parseInt(a1) != parseFloat(a1)){
 				document.getElementById('notice2').innerHTML="&nbsp;&nbsp;&nbsp;请输入整数";
@@ -307,7 +307,7 @@ function notice1(num){
 	else if(num==3){
 		a2=document.getElementsByName('disgusting')[0].value;
 		if(a2<0){
-			document.getElementById('notice3').innerHTML="&nbsp;&nbsp;&nbsp;请输入大于0的整数";
+			document.getElementById('notice3').innerHTML="&nbsp;&nbsp;&nbsp;请输入大于等于0的整数";
 		}else{
 			if(parseInt(a2) != parseFloat(a2)){
 				document.getElementById('notice3').innerHTML="&nbsp;&nbsp;&nbsp;请输入整数";
@@ -319,7 +319,7 @@ function notice1(num){
 	else if(num==4){
 		a3=document.getElementsByName('fear')[0].value;
 		if(a3<0){
-			document.getElementById('notice4').innerHTML="&nbsp;&nbsp;&nbsp;请输入大于0的整数";
+			document.getElementById('notice4').innerHTML="&nbsp;&nbsp;&nbsp;请输入大于等于0的整数";
 		}else{
 			if(parseInt(a3) != parseFloat(a3)){
 				document.getElementById('notice4').innerHTML="&nbsp;&nbsp;&nbsp;请输入整数";
@@ -331,7 +331,7 @@ function notice1(num){
 	else if(num==5){
 		a4=document.getElementsByName('happy')[0].value;
 		if(a4<0){
-			document.getElementById('notice5').innerHTML="&nbsp;&nbsp;&nbsp;请输入大于0的整数";
+			document.getElementById('notice5').innerHTML="&nbsp;&nbsp;&nbsp;请输入大于等于0的整数";
 		}else{
 			if(parseInt(a4) != parseFloat(a4)){
 				document.getElementById('notice5').innerHTML="&nbsp;&nbsp;&nbsp;请输入整数";
@@ -343,7 +343,7 @@ function notice1(num){
 	else if(num==6){
 		a5=document.getElementsByName('sad')[0].value;
 		if(a5<0){
-			document.getElementById('notice6').innerHTML="&nbsp;&nbsp;&nbsp;请输入大于0的整数";
+			document.getElementById('notice6').innerHTML="&nbsp;&nbsp;&nbsp;请输入大于等于0的整数";
 		}else{
 			if(parseInt(a5) != parseFloat(a5)){
 				document.getElementById('notice6').innerHTML="&nbsp;&nbsp;&nbsp;请输入整数";
@@ -355,7 +355,7 @@ function notice1(num){
 	else if(num==7){
 		a6=document.getElementsByName('wonder')[0].value;
 		if(a6<0){
-			document.getElementById('notice7').innerHTML="&nbsp;&nbsp;&nbsp;请输入大于0的整数";
+			document.getElementById('notice7').innerHTML="&nbsp;&nbsp;&nbsp;请输入大于等于0的整数";
 		}else{
 			if(parseInt(a6) != parseFloat(a6)){
 				document.getElementById('notice7').innerHTML="&nbsp;&nbsp;&nbsp;请输入整数";
@@ -375,7 +375,7 @@ function notice1(num){
 	else if(num==9){
 		a8=document.getElementsByName('total_score')[0].value;
 		if(a8<0){
-			document.getElementById('notice9').innerHTML="&nbsp;&nbsp;&nbsp;请输入大于0的整数";
+			document.getElementById('notice9').innerHTML="&nbsp;&nbsp;&nbsp;请输入大于等于0的整数";
 		}else{
 			if(parseInt(a8) != parseFloat(a8)){
 				document.getElementById('notice9').innerHTML="&nbsp;&nbsp;&nbsp;请输入整数";

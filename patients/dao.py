@@ -31,7 +31,7 @@ def judgment_scales(patient_detail_id):
     if patient_detail.session_id == 1:
         # 初扫
         # 判断患者年龄
-        if tools_utils.calculate_age(str(get_base_info_byPK(patient_detail.patient_id).birth_date))> tools_config.adult_age:
+        if patient_detail.age> tools_config.adult_age:
             # 成人
             scales_list = scales_models.DScales.objects.filter(scale_type__in=[0,2])
         else:

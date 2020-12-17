@@ -40,6 +40,8 @@ def add_patient_baseinfo(request):
     doctor_id = request.session.get('doctor_id')
     diagnosis = request.POST.get("diagnosis")
     other_diagnosis = request.POST.get("other_diagnosis")
+    scan_date = request.POST.get('scan_date')
+    age = tools_utils.calculate_age_by_scandate(str(birth_date),str(scan_date))
     ########################
     # 手动输入id
     patient_id = request.POST.get('patient_id')
@@ -58,9 +60,11 @@ def add_patient_baseinfo(request):
     patients_dao.add_base_info(patient_base_info)
 
     # 创建一条复扫记录
+    # age = tools_utils.calculate_age(birth_date)
     patient_detail = patients_models.DPatientDetail(patient_id=patient_id, session_id=session_id,
                                                     standard_id=standard_id,
-                                                    age=tools_utils.calculate_age(birth_date), doctor_id=doctor_id)
+                                                    age=age, doctor_id=doctor_id,
+                                                    scan_date = scan_date)
     patients_dao.add_patient_detail(patient_detail)
     # 查询需要做的量表,并在r_patient_scales中插入需要做的量表
     scales_list = patients_dao.judgment_scales(patient_detail.id)
@@ -77,6 +81,7 @@ def add_patient_baseinfo(request):
 def add_patient_followup(request):
     patient_id = request.GET.get('patient_id')
     doctor_id = request.session.get('doctor_id')
+    scan_date = request.POST.get('scan_date')
     patient_baseinfo = patients_dao.get_base_info_byPK(patient_id)
     patient_id, session_id, standard_id = tools_idAssignments.patient_session_id_assignment(patient_baseinfo.id)
     patient_detail_last = patients_dao.get_patient_detail_last_byPatientId(patient_id)
@@ -87,12 +92,8 @@ def add_patient_followup(request):
     patient_detail.patient_id = patient_id
     patient_detail.session_id = session_id
     patient_detail.standard_id = standard_id
-    patient_detail.age = tools_utils.calculate_age(str(patient_baseinfo.birth_date))
+    patient_detail.age = tools_utils.calculate_age_by_scandate(str(patient_baseinfo.birth_date),str(scan_date))
     patient_detail.doctor_id = doctor_id
-    # patient_detail = patients_models.DPatientDetail(patient_id=patient_id, session_id=session_id,
-    #                                                 standard_id=standard_id,
-    #                                                 age=tools_utils.calculate_age(str(patient_baseinfo.birth_date)),
-    #                                                 doctor_id=doctor_id)
 
     patients_dao.add_patient_detail(patient_detail)
     # 获取创建的复扫信息自增id
@@ -216,16 +217,15 @@ def update_patient_detail(request):
     patient_session_id = request.GET.get('patient_session_id')
     patient_id = request.GET.get('patient_id')
     patient_detail = patients_dao.get_patient_detail_byPK(patient_session_id)
+    patient_base_info = patients_dao.get_base_info_byPK(patient_id)
     # 通过field的方式进行数据的传递，注意，需要保证form表单中各项的名称与数据库中字段名称是名称相同
     fields_data = DPatientDetail._meta.fields
     data_dict = patient_detail.__dict__
     for ele in fields_data:
-
         if request.POST.get(ele.name) is not None and request.POST.get(ele.name) is not '':
 
             data_dict[ele.name] = request.POST.get(ele.name)
     patients_dao.add_patient_detail(patient_detail)
-    patient_base_info = patients_dao.get_base_info_byPK(patient_id)
     patient_base_info.diagnosis = request.POST.get('diagnosis')
     patient_base_info.other_diagnosis = request.POST.get('other_diagnosis')
     patients_dao.add_base_info(patient_base_info)

@@ -37,8 +37,6 @@ class BPatientBaseInfo(models.Model):
     update_time = models.DateTimeField(auto_now=True)
     diagnosis = models.IntegerField(blank=True, null=True, choices=DIAGNOSIS_TYPE)
     other_diagnosis = models.CharField(max_length=45)
-
-
     class Meta:
         managed = False
         db_table = 'b_patient_base_info'
@@ -76,6 +74,7 @@ class DPatientDetail(models.Model):
     first = models.IntegerField(blank=True, null=True)
     contact_way = models.IntegerField(blank=True, null=True)
     contact_info = models.CharField(max_length=45, blank=True, null=True)
+    scan_date = models.DateField()
 
     class Meta:
         managed = False
