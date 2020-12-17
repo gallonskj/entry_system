@@ -253,7 +253,7 @@
                                     <div  class="col-md-4 col-sm-6">
                                      {% csrf_token %}
 
-										<input class="btn btn-success text-center" id="sub1" type="button" value="保存提交量表"></input>
+										<input class="btn btn-success text-center" id="sub" type="button" value="保存提交量表"></input>
 
 									</div>
                                     <div class="col-md-2 col-sm-6">
@@ -410,7 +410,7 @@ $("#sub").click(function(){
 	a9 = (parseInt(r9) == parseFloat(r9));
 
 
-	if (r1>=0 && a1 && r2>=0 && a2 && r3>=0 && a3 && r4>=0 && a4 && r5>=0 && a5 && r6>=0 && a6 && r7>=0 && a7 && r8>=0 && r8<100 && r9>=0 && a9){
+	if (r1>=0 && a1 && r2>=0 && a2 && r3>=0 && a3 && r4>=0 && a4 && r5>=0 && a5 && r6>=0 && a6 && r7>=0 && a7 && r8>=0 && r8<=100 && r9>=0 && a9){
 		$('#sub_fept').submit();
 	}else if(r1=='' || r2=='' || r3=='' || r4=='' || r5=='' || r6=='' || r7=='' || r8=='' || r9==''){
 		alert("请填写完毕后提交！");
