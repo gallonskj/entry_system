@@ -37,11 +37,13 @@ def update_rscales_skip(patient_session_id,scale_id,state):
 #病人病史表
 def add_medical_history(rPatientMedicalHistory):
     #插入前的级联检验
+
     #存入数据库
     rPatientMedicalHistory.save()
     update_rscales_state(rPatientMedicalHistory.patient_session_id, rPatientMedicalHistory.scale_id)
 
-
+def add_drugs_information(rPatientDrugsInformation):
+    rPatientDrugsInformation.save()
 # 汉密尔顿焦虑量表
 def add_hamd_database(rPatientHAMD17):
     # 计算量表得分
