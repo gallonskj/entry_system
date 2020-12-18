@@ -188,8 +188,7 @@ def del_patient(request):
 def del_followup(request):
     patient_id = request.GET.get("patient_id")
     patient_session_id = request.GET.get("patient_session_id")
-    patient_detail = DPatientDetail.objects.all().select_related('doctor').filter(
-        pk=patient_session_id)
+    patient_detail = DPatientDetail.objects.all().select_related('doctor').filter(pk=patient_session_id)
     if patient_detail.count() == 1:
         # 只有创建该条记录的用户才能够删除本条记录
         if patient_detail.first().doctor.username == request.session.get('username'):
