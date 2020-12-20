@@ -12,7 +12,8 @@ def calculate_age(born):
     today = date.today()
     return today.year - birth.year - ((today.month, today.day) < (birth.month, birth.day))
 
-def calculate_age_by_scandate(born,scan_date):
+
+def calculate_age_by_scandate(born, scan_date):
     born_year = int(born.split('-')[0])
     born_month = int(born.split('-')[1])
     born_day = int(born.split('-')[2])
@@ -20,6 +21,8 @@ def calculate_age_by_scandate(born,scan_date):
     scan_month = int(scan_date.split('-')[1])
     scan_day = int(scan_date.split('-')[2])
     return scan_year - born_year - ((scan_month, scan_day) < (born_month, born_day))
+
+
 # 空值判断
 def object_judgment(object_flag):
     if object_flag:

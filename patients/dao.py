@@ -1,10 +1,10 @@
-
 import users.models as users_models
 import patients.models as patients_models
 import scales.models as scales_models
 import tools.Utils as tools_utils
 import tools.insertCascadeCheck as tools_insertCascadeCheck
 import tools.config as tools_config
+
 
 # 将要做的scales分成个人信息，自评，他评等四类
 def judgment_do_scales(scales_list):
@@ -19,7 +19,7 @@ def judgment_do_scales(scales_list):
             other_test_list.append(scale)
         elif scale.do_scale_type == 2:
             self_test_list.append(scale)
-        elif scale.do_scale_type == 3 :
+        elif scale.do_scale_type == 3:
             cognition_list.append(scale)
     return information_list, other_test_list, self_test_list, cognition_list
 
@@ -31,12 +31,12 @@ def judgment_scales(patient_detail_id):
     if patient_detail.session_id == 1:
         # 初扫
         # 判断患者年龄
-        if patient_detail.age> tools_config.adult_age:
+        if patient_detail.age > tools_config.adult_age:
             # 成人
-            scales_list = scales_models.DScales.objects.filter(scale_type__in=[0,2])
+            scales_list = scales_models.DScales.objects.filter(scale_type__in=[0, 2])
         else:
             # 青少年
-            scales_list = scales_models.DScales.objects.filter(scale_type__in=[0,1,2])
+            scales_list = scales_models.DScales.objects.filter(scale_type__in=[0, 1, 2])
     else:
         # 复扫
         scales_list = scales_models.DScales.objects.filter(scale_type__in=[2])
@@ -53,14 +53,13 @@ def add_rscales(scales_list, patient_detail_id):
     scales_models.RPatientScales.objects.bulk_create(insert_list)
 
 
-
 ################ add 部分 ################
 ################ add 部分 ################
 ################ add 部分 ################
 
 # add baseinfo表
 def add_base_info(patient_base_info_objct):
-    #插入数据库前的级联检验
+    # 插入数据库前的级联检验
     tools_insertCascadeCheck.insert_patient_base_info_check(patient_base_info_objct)
     # 插入数据库
     patient_base_info_objct.save()
@@ -78,6 +77,7 @@ def add_patient_detail(patient_detail_objct):
 def add_patient_appointment(PatientAppoientment_object):
     PatientAppoientment_object.save()
 
+
 ################ del 部分 ################
 ################ del 部分 ################
 ################ del 部分 ################
@@ -86,10 +86,12 @@ def add_patient_appointment(PatientAppoientment_object):
 def del_patient_detail_byPK(patient_detail_id):
     patients_models.DPatientDetail.object.filter(id=patient_detail_id)[0].delete()
 
+
 # del patient_base_info表
 def del_patient_base_info_byPK(patient_id):
     if patients_models.BPatientBaseInfo.objects.filter(pk=patient_id).count() > 0:
         patients_models.BPatientBaseInfo.objects.filter(pk=patient_id).first().delete()
+
 
 ################ get 部分 ################
 ################ get 部分 ################
@@ -99,15 +101,17 @@ def del_patient_base_info_byPK(patient_id):
 
 def get_patient_detail_last_byPatientId(patient_id):
     patient_detail_res = patients_models.DPatientDetail.objects.filter(patient_id=patient_id)
-    if patient_detail_res.count()==0:
+    if patient_detail_res.count() == 0:
         return None
     else:
         return patient_detail_res.last()
+
 
 # get scales表
 def get_scales_all():
     scales_list = scales_models.DScales.objects.all()
     return scales_list
+
 
 # get user表
 def get_user_byPK(doctor_id):
@@ -120,10 +124,12 @@ def get_DEthnicity_all():
     dEthnicity_list = patients_models.DEthnicity.objects.all()
     return dEthnicity_list
 
+
 # get base info表
 def get_base_info_all():
     base_info_list = patients_models.BPatientBaseInfo.objects.all()
     return base_info_list
+
 
 def get_base_info_byPK(patient_id):
     patient = patients_models.BPatientBaseInfo.objects.select_related().filter(pk=patient_id)
@@ -142,7 +148,7 @@ def get_patient_detail_byPK(patient_detail_id):
         return patient_detail[0]
 
 
-def get_patient_detail_byPatientIdAndSessionId(patient_id,session_id):
+def get_patient_detail_byPatientIdAndSessionId(patient_id, session_id):
     dPatientDetail = patients_models.DPatientDetail.objects.filter(patient_id=patient_id, session_id=session_id)
     if dPatientDetail.count() == 0:
         return None
@@ -157,9 +163,11 @@ def get_patient_detail_byForeignPatientId(patient_id):
     else:
         return patient_detail_list
 
+
 def get_patient_detail_all():
     patient_detail_list = patients_models.DPatientDetail.objects.all()
     return patient_detail_list
+
 
 def get_patient_detail_lastsession(patient_id):
     patient_detail_list = patients_models.DPatientDetail.objects.filter(patient__id=patient_id).order_by('-session_id')
@@ -171,18 +179,22 @@ def get_patient_detail_lastsession(patient_id):
 # r_patient_scales表相关：
 # get r patient_detail 的自评量表状态
 def get_patient_scales_byPatientDetailId_self(patient_detail_id):
-    patient_scales_list = scales_models.RPatientScales.objects.filter(patient_session=patient_detail_id, scale__patient_or_doctor_type = 0)
+    patient_scales_list = scales_models.RPatientScales.objects.filter(patient_session=patient_detail_id,
+                                                                      scale__patient_or_doctor_type=0)
     return patient_scales_list
+
 
 # get r patient_detail 的他评量表状态
 def get_patient_scales_byPatientDetailId_other(patient_detail_id):
-    patient_scales_list = scales_models.RPatientScales.objects.filter(patient_session=patient_detail_id, scale__patient_or_doctor_type = 1)
+    patient_scales_list = scales_models.RPatientScales.objects.filter(patient_session=patient_detail_id,
+                                                                      scale__patient_or_doctor_type=1)
     return patient_scales_list
 
 
 # get r patient_detail 的认知表状态
 def get_patient_scales_byPatientDetailId_cognition(patient_detail_id):
-    patient_scales_list = scales_models.RPatientScales.objects.filter(patient_session=patient_detail_id, cale__patient_or_doctor_type = 2)
+    patient_scales_list = scales_models.RPatientScales.objects.filter(patient_session=patient_detail_id,
+                                                                      cale__patient_or_doctor_type=2)
     return patient_scales_list
 
 
@@ -198,6 +210,5 @@ def get_patient_scales_byPatientDetailId(patient_detail_id):
 # d_patient_appointment表
 def get_patient_appointment_all():
     patients_models.DPatientAppointment.objects.all()
-
 
 # get patient_basic_info_XXX 系列表，以及r_patient_量表系列的接口在scale_dao中
