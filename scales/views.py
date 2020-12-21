@@ -162,6 +162,7 @@ def get_family_form(request):
                                                    'handy': patient_detail.handy,
                                                    })
 
+
 # 获取学习情况表单
 def get_study_form(request):
     patient_session_id = request.GET.get('patient_session_id')
@@ -443,19 +444,30 @@ def add_patient_medical_history(request):
         patient_session_id = request.GET.get('patient_session_id')
         scale_id = tools_config.mediacal_history
         doctor_id = request.session.get('doctor_id')
-        rPatientMedicalHistory = scales_dao.get_patient_medical_history_byPatientId(patient_session_id)
-        if rPatientMedicalHistory is None:
-            rPatientMedicalHistory = scales_models.RPatientMedicalHistory(patient_session_id=patient_session_id,
-                                                                          scale_id=scale_id,
-                                                                          doctor_id=doctor_id)
+        rPatientMedicalHistory = scales_models.RPatientMedicalHistory(patient_session_id=patient_session_id,
+                                                                      scale_id=scale_id,
+                                                                      doctor_id=doctor_id)
         rPatientDrugsInformation = scales_models.RPatientDrugsInformation(patient_session_id=patient_session_id,
                                                                           scale_id=scale_id,
                                                                           doctor_id=doctor_id)
+        seperator = '-'
+        datestr = '01'
         for key in request.POST.keys():
             if hasattr(rPatientMedicalHistory, key):
                 val = request.POST.get(key)
                 if val == '':
                     val = None
+                else:
+                    if key == 'prophase_begin':
+                        val = val + seperator + datestr
+                    if key == 'prophase_end':
+                        val = val + seperator + datestr
+                    if key == 'first_time_begin':
+                        val = val + seperator + datestr
+                    if key == 'first_time_end':
+                        val = val + seperator + datestr
+                    if key == 'current_episode_date':
+                        val = val + seperator + datestr
                 setattr(rPatientMedicalHistory, key, val)
             else:
                 pos = key.rfind('_')
@@ -465,6 +477,11 @@ def add_patient_medical_history(request):
                     val = request.POST.get(key)
                     if val == '':
                         val = None
+                    else:
+                        if st == 'begin_time':
+                            val = val + seperator + datestr
+                        if st == 'end_time':
+                            val = val + seperator + datestr
                     setattr(rPatientDrugsInformation, st, val)
                     if st == 'note':
                         scales_dao.add_drugs_information(rPatientDrugsInformation)
@@ -477,7 +494,7 @@ def add_patient_medical_history(request):
     # 页面跳转
     patient_id = request.GET.get('patient_id')
     redirect_url = get_redirect_url(patient_session_id, patient_id, tools_config.general_info_next_url,
-                                    tools_config.general_info_type, tools_config.mediacal_history)
+                                    tools_config.general_info_type)
     return redirect(redirect_url)
 
 
@@ -547,7 +564,6 @@ def add_family_info(request):
                     else:
                         setattr(form, key, request.POST.get(key))
 
-
         patients_dao.add_patient_detail(dpatientdetail)
         patients_dao.add_base_info(patient_base_info)
 
@@ -605,7 +621,7 @@ def add_chinesehandle(request):
                                                                   scale_id=scale_id, doctor_id=doctor_id)
     rPatientChineseHandy = set_attr_by_post(request, rPatientChineseHandy)
     scales_dao.add_chinesehandle_database(rPatientChineseHandy)
-    #这里还要更新d_patient_detail表中的利手关系
+    # 这里还要更新d_patient_detail表中的利手关系
     patient_detail = patients_dao.get_patient_detail_byPK(patient_session_id)
     patient_detail.handy = rPatientChineseHandy.result
     patients_dao.add_patient_detail(patient_detail)
