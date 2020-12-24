@@ -414,7 +414,7 @@
                                 </div>
                             </div>
 
-                            <!--                    文化程度 婚姻状态-->
+                                <!--                    文化程度 婚姻状态-->
 
                             <div class="form-group row">
                                 <label class="control-label col-md-1 col-sm-2">父亲文化 程度<span
@@ -461,30 +461,47 @@
                                         <option value="4">有一方过世=4</option>
                                     </select>
                                 </div>
-                                <!--                      -->
 
+                            </div>
 
-                                <!--                      这里要写一个JS 根据父母婚姻状态 展示后面的问题-->
-                                <!--                      hidden-->
+                            <div class="form-group row">
+
                                 <label class="control-label col-md-1 col-sm-2 StepParents"
                                        style="display: none;">继父/继母</label>
-                                <!--                      hidden-->
+
                                 <div class="col-md-2 col-sm-2 StepParents" style="display: none;">
                                     <select class="form-control" name="StepParents">
                                         <option value="1">继父=1</option>
                                         <option value="2">继母=2</option>
                                     </select>
                                 </div>
-                                <!--                      hidden-->
-                                <label class="control-label col-md-2 col-sm-3  parent_pass_away_age"
+
+                                <label class="control-label col-md-1 col-sm-2 patient_parent_death"
+                                       style="display: none;">父亲/母亲</label>
+
+                                <div class="col-md-2 col-sm-2 patient_parent_death" style="display: none;">
+                                    <select class="form-control" name="patient_parent_death">
+                                        <option value="1">父亲=1</option>
+                                        <option value="2">母亲=0</option>
+                                    </select>
+                                </div>
+
+
+                                <label class="control-label col-md-2 col-sm-3  patient_parent_death_age"
                                        style="display: none;">父/母过世时自己的年龄</label>
-                                <!--                      hidden-->
-                                <div class="col-md-1 col-sm-1 form-group  parent_pass_away_age" style="display: none;">
-                                    <input type="text" id="parent_parent_death_age" name="parent_parent_death_age"
+
+                                <div class="col-md-1 col-sm-1 form-group  patient_parent_death_age" style="display: none;">
+                                    <input type="text" id="parent_parent_death_age" name="patient_parent_death_age"
                                            class="form-control">
                                 </div>
 
-                                <label class="control-label col-md-1 col-sm-2">父母争吵 频率<span
+                            </div>
+
+
+                            <!--                    领养 与父母的关系-->
+
+                            <div class="form-group row">
+                                  <label class="control-label col-md-1 col-sm-2">父母争吵 频率<span
                                         class="required">*</span></label>
                                 <div class="col-md-2 col-sm-2">
                                     <select class="form-control" name="parent_argument" id="parent_argument">
@@ -497,10 +514,7 @@
                                         <option value="6">不吵架=6</option>
                                     </select>
                                 </div>
-                            </div>
 
-                            <!--                    领养 与父母的关系-->
-                            <div class="form-group row">
                                 <label class="control-label col-md-1 col-sm-2">是否领养<span
                                         class="required">*</span></label>
                                 <div class="col-md-1 col-sm-1 " id="patient_adopt_1">
@@ -704,19 +718,18 @@
             <!--       离异-->
             if (val == "2") {
                 $(".StepParents").show();
-                $(".parent_parent_death_age").hide();
-                $(".parent_parent_death").hide();
-                $(".parent_parent_death_age").val("");
+                $(".patient_parent_death").hide();
+                $(".patient_parent_death_age").val("");
                 /*--有一方过世*/
             } else if (val == "4") {
-                $(".parent_parent_death_age").show();
-                $(".parent_parent_death").show();
                 $(".StepParents").hide();
+                $(".patient_parent_death").show();
+                $(".patient_parent_death_age").show();
             } else {
-                $(".parent_parent_death_age").hide();
+                $(".patient_parent_death_age").hide();
                 $(".StepParents").hide();
-                $(".parent_parent_death").hide();
-                $(".parent_parent_death_age").val("");
+                $(".patient_parent_death").hide();
+                $(".patient_parent_death_age").val("");
             }
         });
         /*--饮酒*/
