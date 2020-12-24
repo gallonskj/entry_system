@@ -210,5 +210,3 @@ def get_patient_scales_byPatientDetailId(patient_detail_id):
 # d_patient_appointment表
 def get_patient_appointment_all():
     patients_models.DPatientAppointment.objects.all()
-
-# get patient_basic_info_XXX 系列表，以及r_patient_量表系列的接口在scale_dao中

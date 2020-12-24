@@ -403,7 +403,7 @@ def patient_statistics(request):
         patient.scale_id_list = scale_id_list
         patient.scale_score_list = scale_score_list
 
-    scales = patients_dao.get_scales_all()
+    scales = scales_dao.get_scale_by_doscaletype(tools_config.other_test_type)
     all_scale_id_list = []
     all_scale_name_list = []
     all_scale_value_range_list = []

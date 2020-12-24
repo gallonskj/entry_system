@@ -650,3 +650,9 @@ def get_scale_by_id(scale_id):
         return scale[0]
     else:
         return None
+
+def get_scale_by_doscaletype(type):
+    res = scales_models.DScales.objects.filter(do_scale_type=type)
+    if res.exists():
+        return res
+    return None

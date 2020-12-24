@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect,HttpResponse
 import json
 import scales.dao as scales_dao
 import scales.models as scales_models
@@ -494,7 +494,7 @@ def add_patient_medical_history(request):
     # 页面跳转
     patient_id = request.GET.get('patient_id')
     redirect_url = get_redirect_url(patient_session_id, patient_id, tools_config.general_info_next_url,
-                                    tools_config.general_info_type)
+                                    tools_config.general_info_type,tools_config.mediacal_history)
     return redirect(redirect_url)
 
 
@@ -944,3 +944,4 @@ def skip_scale(request):
     redirect_url = get_redirect_url(patient_session_id, patient_id, tools_config.general_info_next_url,
                                     scale.do_scale_type, scale_id)
     return redirect(redirect_url)
+
