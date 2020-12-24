@@ -494,7 +494,7 @@ def add_patient_medical_history(request):
     # 页面跳转
     patient_id = request.GET.get('patient_id')
     redirect_url = get_redirect_url(patient_session_id, patient_id, tools_config.general_info_next_url,
-                                    tools_config.general_info_type,tools_config.mediacal_history)
+                                    tools_config.general_info_type, tools_config.mediacal_history)
     return redirect(redirect_url)
 
 
