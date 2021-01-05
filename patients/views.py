@@ -14,10 +14,10 @@ import json
 import scales.dao as scales_dao
 import time
 
-scale_class_dict = {1: [scales_models.RPatientHamd17, [8, 21, 35], ['正常', '可能有抑郁症', '可能是轻或中度抑郁', '可能为严重抑郁']], \
-                    2: [scales_models.RPatientHama, [7, 14, 21, 29], ['没有焦虑', '可能有焦虑', '肯定有焦虑', '肯定有明显焦虑', '可能为严重焦虑']], \
-                    3: [scales_models.RPatientYmrs, [5, 13, 20, 30], ['正常', '轻度', '中度', '重度', '极重度']], \
-                    4: [scales_models.RPatientBprs, [36], ['正常', '偏高']]}
+scale_class_dict = {7: [scales_models.RPatientHamd17, [8, 21, 35], ['正常', '可能有抑郁症', '可能是轻或中度抑郁', '可能为严重抑郁']], \
+                    8: [scales_models.RPatientHama, [7, 14, 21, 29], ['没有焦虑', '可能有焦虑', '肯定有焦虑', '肯定有明显焦虑', '可能为严重焦虑']], \
+                    9: [scales_models.RPatientYmrs, [5, 13, 20, 30], ['正常', '轻度', '中度', '重度', '极重度']], \
+                    10: [scales_models.RPatientBprs, [36], ['正常', '偏高']]}
 
 
 # 获取所有被试基础信息,以及民族字典表信息（创建被试时会使用到）
@@ -368,7 +368,7 @@ def patient_statistics(request):
     patients = patients_dao.get_patient_detail_all()
     for patient in patients:
         doctor = patients_dao.get_user_byPK(patient.doctor_id)
-        search_scales = patients_dao.get_patient_scales_byPatientDetailId(patient.id)
+        search_scales = scales_dao.get_scales_by_patientAndtype(patient.id,tools_config.other_test_type)
         base_info = patients_dao.get_base_info_byPK(patient.patient_id)
 
         # patient.name = base_info['name']

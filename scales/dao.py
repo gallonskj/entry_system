@@ -656,3 +656,8 @@ def get_scale_by_doscaletype(type):
     if res.exists():
         return res
     return None
+
+def get_scales_by_patientAndtype(patient_session_id,scale_type):
+    res = scales_models.RPatientScales.objects.all().select_related('scale').\
+        filter(patient_session_id = patient_session_id,scale__do_scale_type=scale_type)
+    return res
