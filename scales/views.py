@@ -945,3 +945,14 @@ def skip_scale(request):
                                     scale.do_scale_type, scale_id)
     return redirect(redirect_url)
 
+# 获取汉密尔顿焦虑
+def get_check_hama_form(request):
+    patient_session_id = request.GET.get('patient_session_id')
+    scale_name_list = scales_dao.get_scalename_bytype(tools_config.other_test_type, patient_session_id)
+    hama_answer_list = scales_dao.get_hama_answer('patient_session_id')
+    return render(request, 'nbh/edit_hama.html', {'patient_session_id': patient_session_id,
+                                                 'patient_id': request.GET.get('patient_id'),
+                                                 'username': request.session.get('username'),
+                                                 'scale_name_list': scale_name_list,
+                                                 'scale_id': tools_config.hama,
+                                                 'hama_answer':hama_answer_list})

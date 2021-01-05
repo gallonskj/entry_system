@@ -3,6 +3,7 @@
 {% block title %}新建被试{% endblock %}
 {% block css %}
     <link href="{% static '/vendors/iCheck/skins/flat/green.css' %}" rel="stylesheet">
+    <link href="{% static '/css/scales_style.css' %}" rel="stylesheet">
     <style>
         .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
             padding: 4px;
@@ -12,9 +13,10 @@
         }
 
         .tab1 {
-        {#background-color: #E8E8E8;#} font-weight: bold;
+        {#background-color: #E8E8E8;#}
+            font-weight: bold;
             font-size: larger;
-        }
+      }
         .sel_beauty {
             background: #fafdfe;
             height: 28px;
@@ -28,6 +30,30 @@
             color: #2C4257;
             font-size: 7px
         }
+
+
+.table input.labelauty + label {
+    margin-bottom: 0px;
+    width: 100%;
+    display: table;
+    font-size: 13px;
+    padding: 20px;
+    text-align: center;
+    background-color: #efefef;
+    color: #b3b3b3;
+    cursor: pointer;
+    border-radius: 3px 3px 3px 3px;
+    -moz-border-radius: 3px 3px 3px 3px;
+    -webkit-border-radius: 3px 3px 3px 3px;
+    transition: background-color 0.25s;
+    -moz-transition: background-color 0.25s;
+    -webkit-transition: background-color 0.25s;
+    -o-transition: background-color 0.25s;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -o-user-select: none;
+}
     </style>
 {% endblock %}
 {% block content %}
@@ -164,7 +190,7 @@
                                             <th>测查时间</th>
                                             <th>状态</th>
                                             <th>重做</th>
-                                            <th>操作</th>
+                                            <th>查看</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -176,12 +202,12 @@
                                                         <td>{{ scale_detail|get_item:'end_time' }}</td>
                                                         <td>已完成</td>
                                                         <td><a href={{ scale_detail|get_scale_url }}>重做</a></td>
-                                                        <td>-</td>
+                                                        <td><a href={{ scale_detail|check_scale }}>查看</a></td>
                                                     {% else %}
                                                         <td>-</td>
                                                         <td>未完成</td>
                                                         <td><a href={{ scale_detail|get_scale_url }}>续做</a></td>
-                                                        <td>-</td>
+                                                        <td><a href={{ scale_detail|check_scale }}>查看</a></td>
                                                     {% endif %}
                                                 </tr>
                                             {% endif %}
@@ -267,55 +293,70 @@
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-md-12">
-                                <form action="#" method="post">
+                                <form action="/patients/update_patient_detail?patient_session_id={{ patient_detail.id }}&patient_id={{ patient_detail.patient_id }}&page=2" method="post">
 
                                     <div style="text-align: center">
                                         <div>
-                                            <table class="table table-hover table-bordered" align="center"
-                                                   valign="center" style="font-size: 10px;">
-
+                                            <table class="table table-hover table-bordered" align="center" valign="center" style="font-size: 10px;">
                                                 <tbody>
                                                 <tr>
                                                     <td class="tab1">认知是否完成</td>
                                                     <td>
-                                                        {% if  patient_detail.cognitive  == 0 or None %}
-                                                            <input type="radio" class="flat" name="cognitive" value=0
-                                                                   checked="checked"/>未完成
-                                                            <input type="radio" class="flat" name="cognitive" value=1/>
-                                                            已完成
-                                                        {% elif patient_detail.cognitive == 1 %}
-                                                            <input type="radio" class="flat" name="cognitive" value=0/>
-                                                            未完成
-                                                            <input type="radio" class="flat" name="cognitive" value=1
-                                                                   checked="checked"/>已完成
+                                                        {% if patient_detail.cognitive == 0 or patient_detail.cognitive is null %}
+                                                            <div class="col-md-6">
+                                                                <input type="radio" name="cognitive" value=0 data-labelauty="否" checked/>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <input type="radio" name="cognitive" value=1 data-labelauty="是" />
+                                                            </div>
+                                                        {% else%}
+                                                            <div class="col-md-6">
+                                                                <input type="radio" name="cognitive" value=0 data-labelauty="否" />
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                               <input type="radio" name="cognitive" value=1 data-labelauty="是" checked/>
+                                                            </div>
+
                                                         {% endif %}
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td class="tab1">录音是否完成</td>
                                                     <td>
-                                                        {% if  patient_detail.sound  == 0 or None %}
-                                                            <input type="radio" class="flat" name="sound" value=0
-                                                                   checked="checked"/>未完成
-                                                            <input type="radio" class="flat" name="sound" value=1/>已完成
-                                                        {% elif patient_detail.sound == 1 %}
-                                                            <input type="radio" class="flat" name="sound" value=0/>未完成
-                                                            <input type="radio" class="flat" name="sound" value=1
-                                                                   checked="checked"/>已完成
+                                                        {% if  patient_detail.sound  == 0 or patient_detail.sound is null %}
+                                                            <div class="col-md-6">
+                                                            <input type="radio" name="sound" value=0 data-labelauty="否" checked/>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                            <input type="radio" name="sound" value=1 data-labelauty="是"/>
+                                                            </div>
+                                                        {% else %}
+                                                            <div class="col-md-6">
+                                                            <input type="radio" name="sound" value=0 data-labelauty="否" />
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                            <input type="radio" name="sound" value=1 data-labelauty="是" checked/>
+                                                            </div>
                                                         {% endif %}
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td class="tab1">血液是否采集</td>
                                                     <td>
-                                                        {% if  patient_detail.blood  == 0 or None %}
-                                                            <input type="radio" class="flat" name="blood" value=0
-                                                                   checked="checked"/>未完成
-                                                            <input type="radio" class="flat" name="blood" value=1/>已完成
-                                                        {% elif patient_detail.blood == 1 %}
-                                                            <input type="radio" class="flat" name="blood" value=0/>未完成
-                                                            <input type="radio" class="flat" name="blood" value=1
-                                                                   checked="checked"/>已完成
+                                                        {% if  patient_detail.blood  == 0 or patient_detail.blood is null%}
+                                                             <div class="col-md-6">
+                                                            <input type="radio" name="blood" value=0 data-labelauty="否" checked/>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                            <input type="radio" name="blood" value=1 data-labelauty="是"/>
+                                                            </div>
+                                                        {% else %}
+                                                             <div class="col-md-6">
+                                                            <input type="radio" name="blood" value=0 data-labelauty="否" />
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                            <input type="radio" name="blood" value=1 data-labelauty="是" checked/>
+                                                            </div>
                                                         {% endif %}
                                                     </td>
 
@@ -323,75 +364,105 @@
                                                 <tr>
                                                     <td class="tab1">毛发是否收集</td>
                                                     <td>
-                                                        {% if  patient_detail.hairs  == 0 or None %}
-                                                            <input type="radio" class="flat" name="hairs" value=0
-                                                                   checked="checked"/>未完成
-                                                            <input type="radio" class="flat" name="hairs" value=1/>已完成
-                                                        {% elif patient_detail.hairs == 1 %}
-                                                            <input type="radio" class="flat" name="hairs" value=0/>未完成
-                                                            <input type="radio" class="flat" name="hairs" value=1
-                                                                   checked="checked"/>已完成
+                                                        {% if  patient_detail.hairs  == 0 or patient_detail.hairs is null%}
+                                                             <div class="col-md-6">
+                                                            <input type="radio" name="hairs" value=0 data-labelauty="否" checked/>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                            <input type="radio" name="hairs" value=1 data-labelauty="是"/>
+                                                            </div>
+                                                        {% else %}
+                                                             <div class="col-md-6">
+                                                            <input type="radio" name="hairs" value=0 data-labelauty="否" />
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                            <input type="radio" name="hairs" value=1 data-labelauty="是" checked/>
+                                                            </div>
                                                         {% endif %}
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td class="tab1">粪便是否检测</td>
                                                     <td>
-                                                        {% if  patient_detail.manure  == 0 or None %}
-                                                            <input type="radio" class="flat" name="manure" value=0
-                                                                   checked="checked"/>未完成
-                                                            <input type="radio" class="flat" name="manure" value=1/>已完成
-                                                        {% elif patient_detail.manure == 1 %}
-                                                            <input type="radio" class="flat" name="manure" value=0/>未完成
-                                                            <input type="radio" class="flat" name="manure" value=1
-                                                                   checked="checked"/>已完成
+
+                                                        {% if  patient_detail.manure  == 0 or patient_detail.manure is null%}
+                                                             <div class="col-md-6">
+                                                            <input type="radio" name="manure" value=0 data-labelauty="否" checked/>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                            <input type="radio" name="manure" value=1 data-labelauty="是"/>
+                                                            </div>
+                                                        {% else %}
+                                                             <div class="col-md-6">
+                                                            <input type="radio" name="manure" value=0 data-labelauty="否" />
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                            <input type="radio" name="manure" value=1 data-labelauty="是" checked/>
+                                                            </div>
                                                         {% endif %}
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td class="tab1">是否用药</td>
                                                     <td>
-                                                        {% if  patient_detail.drugs_information  == 0 or None %}
-                                                            <input type="radio" class="flat" name="drugs_information"
-                                                                   value=0 checked="checked"/>未完成
-                                                            <input type="radio" class="flat" name="drugs_information"
-                                                                   value=1/>已完成
-                                                        {% elif patient_detail.drugs_information == 1 %}
-                                                            <input type="radio" class="flat" name="drugs_information"
-                                                                   value=0/>未完成
-                                                            <input type="radio" class="flat" name="drugs_information"
-                                                                   value=1 checked="checked"/>已完成
+                                                        {% if  patient_detail.drugs_information  == 0 or patient_detail.drugs_information is null %}
+                                                             <div class="col-md-6">
+                                                                 <input type="radio" name="drugs_information" value=0 data-labelauty="否" checked/>
+                                                             </div>
+
+                                                            <div class="col-md-6">
+                                                                <input type="radio" name="drugs_information" value=1 data-labelauty="是"/>
+                                                            </div>
+                                                        {% else%}
+                                                             <div class="col-md-6">
+                                                            <input type="radio" name="drugs_information" value=0 data-labelauty="否" />
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                            <input type="radio" name="drugs_information" value=1 data-labelauty="是" checked/>
+                                                            </div>
                                                         {% endif %}
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td class="tab1">磁共振检查是否完成</td>
                                                     <td>
-                                                        {% if  patient_detail.mri_examination  == 0 or None %}
-                                                            <input type="radio" class="flat" name="mri_examination"
-                                                                   value=0 checked="checked"/>未完成
-                                                            <input type="radio" class="flat" name="mri_examination"
-                                                                   value=1/>已完成
-                                                        {% elif patient_detail.mri_examination == 1 %}
-                                                            <input type="radio" class="flat" name="mri_examination"
-                                                                   value=0/>未完成
-                                                            <input type="radio" class="flat" name="mri_examination"
-                                                                   value=1 checked="checked"/>已完成
+                                                        {% if  patient_detail.mri_examination  == 0 or patient_detail.mri_examination is null %}
+                                                             <div class="col-md-6">
+                                                            <input type="radio" name="mri_examination" value=0 data-labelauty="否" checked/>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                            <input type="radio" name="mri_examination" value=1 data-labelauty="是"/>
+                                                            </div>
+                                                        {% else %}
+                                                             <div class="col-md-6">
+                                                            <input type="radio" name="mri_examination" value=0 data-labelauty="否" />
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                            <input type="radio" name="mri_examination" value=1 data-labelauty="是" checked/>
+                                                            </div>
                                                         {% endif %}
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td class="tab1">tms治疗情况</td>
                                                     <td>
-                                                        {% if  patient_detail.tms  == 0 or None %}
-                                                            <input type="radio" class="flat" name="tms" value=0
-                                                                   checked="checked"/>未完成
-                                                            <input type="radio" class="flat" name="tms" value=1/>已完成
-                                                        {% elif patient_detail.tms == 1 %}
-                                                            <input type="radio" class="flat" name="tms" value=0/>未完成
-                                                            <input type="radio" class="flat" name="tms" value=1
-                                                                   checked="checked"/>已完成
+
+                                                        {% if  patient_detail.tms  == 0 or patient_detail.tms is null %}
+                                                             <div class="col-md-6">
+                                                            <input type="radio" name="tms" value=0 data-labelauty="否" checked/>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                            <input type="radio" name="tms" value=1 data-labelauty="是"/>
+                                                            </div>
+                                                        {% else %}
+                                                             <div class="col-md-6">
+                                                            <input type="radio" name="tms" value=0 data-labelauty="否" />
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                            <input type="radio" name="tms" value=1 data-labelauty="是" checked/>
+                                                            </div>
                                                         {% endif %}
+
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -403,66 +474,73 @@
                                                 <tr>
                                                     <td class="tab1">职业</td>
                                                     <td>
-                                                        {{ patient_detail.occupation|processNone }}
+                                                        <input type="text" name="occupation" style="border: none;text-align: center" value="{{ patient_detail.occupation|processNone }}"/>
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td class="tab1">教育背景</td>
                                                     <td>
-                                                        {{ patient_detail.education|processNone }}
+                                                        <input type="text" name="education"  style="border: none;text-align: center" value="{{ patient_detail.education|processNone }}"/>
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td class="tab1">受教育年限</td>
                                                     <td>
-
-                                                        {{ patient_detail.years|processNone }}</td>
+                                                        <input type="text" name="years"  style="border: none;text-align: center" value="{{ patient_detail.years|processNone }}"/>
+                                                    </td>
                                                 </tr>
                                                 <tr>
                                                     <td class="tab1">情感状态</td>
                                                     <td>
-
-                                                        {{ patient_detail.emotional_state|processNone }}</td>
+                                                    <select name="emotional_state" id="emotional_state"  style="border: none">
+                                                        <option value=0>未填</option>
+                                                        <option value=1>单身</option>
+                                                        <option value=2>未婚</option>
+                                                        <option value=3>已婚</option>
+                                                        <option value=4>离婚</option>
+                                                        <option value=5>再婚</option>
+                                                        <option value=6>分居</option>
+                                                        <option value=7>丧偶</option>
+                                                    </select>
+                                                    </td>
                                                 </tr>
                                                 <tr>
                                                     <td class="tab1">电话</td>
-                                                    <td>{{ patient_detail.phone|processNone }}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="tab1">诊断</td>
                                                     <td>
-
-                                                        {% if  patient_detail.diagnosis  == '0' or 'NULL' %}
-                                                            <input type="radio" class="flat" name="diagnosis" value=0
-                                                                   checked="checked"/>未完成
-                                                            <input type="radio" class="flat" name="diagnosis" value=1/>
-                                                            已完成
-                                                        {% elif patient_detail.diagnosis == '1' %}
-                                                            <input type="radio" class="flat" name="diagnosis" value=0/>
-                                                            未完成
-                                                            <input type="radio" class="flat" name="diagnosis" value=1
-                                                                   checked="checked"/>已完成
-                                                        {% endif %}
+                                                        <input type="text" name="phone"  style="border: none;text-align: center" value="{{ patient_detail.phone|processNone }}"/>
+                                                    </td>
                                                 </tr>
+
                                                 <tr>
                                                     <td class="tab1">被试来源</td>
-                                                    <td>{{ patient_detail.source|processNone }}</td>
+                                                    <td>
+                                                    <select name="source" id="source" style="border: none">
+                                                        <option value=0>未填</option>
+                                                        <option value=1>门诊</option>
+                                                        <option value=2>病区</option>
+                                                        <option value=3>非医院</option>
+                                                    </select>
+                                                    </td>
                                                 </tr>
                                                 <tr>
                                                     <td class="tab1">身高</td>
-                                                    <td>{{ patient_detail.height|processNone }}</td>
+                                                    <td>
+                                                        <input type="text" name="height" style="border: none;text-align: center" placeholder="CM" value="{{ patient_detail.height|processNone }}"/>
+                                                    </td>
                                                 </tr>
                                                 <tr>
                                                     <td class="tab1">体重</td>
-                                                    <td>{{ patient_detail.weight|processNone }}</td>
+                                                    <td>
+                                                        <input type="text" name="weight" style="border: none;text-align: center" placeholder="KG" value="{{ patient_detail.weight|processNone }}"/>
+                                                    </td>
                                                 </tr>
                                                 <tr>
                                                     <td class="tab1">腰围</td>
-                                                    <td>{{ patient_detail.waist|processNone }}</td>
+                                                    <td> <input type="text" name="waist" style="border: none;text-align: center" value="{{ patient_detail.waist|processNone }}"/></td>
                                                 </tr>
                                                 <tr>
                                                     <td class="tab1">臀围</td>
-                                                    <td>{{ patient_detail.hip|processNone }}</td>
+                                                    <td><input type="text" name="hip" style="border: none;text-align: center" value="{{ patient_detail.hip|processNone }}"/></td>
                                                 </tr>
                                                 <tr>
                                                     <td class="tab1">利手</td>
@@ -470,15 +548,13 @@
                                                 </tr>
                                                 <tr>
                                                     <td class="tab1">备注</td>
-                                                    <td>{{ patient_detail.note|processNone }}</td>
+                                                    <td>
+                                                        <input type="text" name="note" style="border: none;text-align: center" value="{{ patient_detail.note|processNone }}"/>
+                                                    </td>
                                                 </tr>
                                                 <tr>
-                                                    <td class="tab1">医生</td>
-                                                    <td>{{ patient_detail.doctor.name|processNone }}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="tab1">创建时间</td>
-                                                    <td>{{ patient_detail.create_time|processNone }}</td>
+                                                    <td class="tab1">扫描时间</td>
+                                                    <td>{{ patient_detail.scan_date|processNone }}</td>
                                                 </tr>
                                                 <tr>
                                                     <td class="tab1">更新时间</td>
@@ -492,7 +568,9 @@
                                         <div class="text-center">
                                             {% csrf_token %}
                                             <input type="submit" class="btn btn-success" value="完成"/>
-                                            <button class="btn btn-danger">取消</button>
+                                            <a href="/patients/get_patient_detail?patient_id={{ patient_detail.patient_id }}" >
+                                                <button type="button" class="btn btn-danger">取消</button>
+                                            </a>
                                         </div>
                                     </div>
 
@@ -505,6 +583,27 @@
                 </div>
             </div>
         </div>
+
+         <script>
+       function getData(){
+        var patient_detail_emotional_state = "{{ patient_detail.emotional_state  }}";
+        var emotional_state = Number(patient_detail_emotional_state);
+        $("#emotional_state option[value="+emotional_state+"]").prop("selected",true);
+
+        var patient_detail_source = "{{ patient_detail.source  }}";
+        var source = Number(patient_detail_source);
+        $("#source option[value="+source+"]").prop("selected",true);
+
+      {% comment %}  var patient_detail_diagnosis = "{{ patient_baseinfo.diagnosis }}";
+        var diagnosis = Number(patient_detail_diagnosis);
+        $("#diagnosis option[value="+diagnosis+"]").prop("selected",true);
+
+        if(diagnosis == 99) {
+                document.getElementById("other_diagnosis_div").style.display = "";
+                document.getElementById("other_diagnosis").value="{{ patient_baseinfo.other_diagnosis }}";
+            }{% endcomment %}
+       }
+    </script>
     {% endfor %}
     <!-- 详细信息模态框模态框 结束-->
 
@@ -610,18 +709,18 @@
                                 <div class="form-group">
                                     <label class="control-label col-md-2 col-sm-2 col-xs-6" for="sex">性别 <span class="required">*:</span></label>
                                     {% if sex == 0 %}
-                                        <div class="col-md-2 col-sm-3 form-group has-feedback row" style="width: 15%;margin-top: 7px;margin-left: 15px;">
-                                            <input type="radio" class="flat" name="sex" value=0 checked/>男
+                                        <div class="col-md-2 col-sm-3 form-group has-feedback row" style="width: 15%;margin-top: 7px;">
+                                            <input type="radio"  name="sex" value=0 data-labelauty="男" checked/>
                                         </div>
                                         <div class="col-md-2 col-sm-3 form-group has-feedback row" style="width: 15%;margin-top: 7px;">
-                                            <input type="radio" class="flat" name="sex" value=1 />女
+                                            <input type="radio"  name="sex" value=1 data-labelauty="女"/>
                                         </div>
                                     {% else %}
-                                        <div class="col-md-2 col-sm-3 form-group has-feedback row" style="width: 15%;margin-top: 7px;margin-left: 15px;">
-                                            <input type="radio" class="flat" name="sex" value=0 />男
+                                        <div class="col-md-2 col-sm-3 form-group has-feedback row" style="width: 15%;margin-top: 7px;">
+                                            <input type="radio"  name="sex" value=0 data-labelauty="男"/>
                                         </div>
                                         <div class="col-md-2 col-sm-3 form-group has-feedback row" style="width: 15%;margin-top: 7px;">
-                                            <input type="radio" class="flat" name="sex" value=1 checked/>女
+                                            <input type="radio"  name="sex" value=1 data-labelauty="女" checked/>
                                         </div>
                                     {% endif %}
                                 </div>
@@ -719,10 +818,19 @@
             </div>
         </div>
     </div>
-{% endblock %}
 
+
+{% endblock %}
 {% block js %}
     <script type="text/javascript" src="{% static '/js/jquery-radio-beauty.js' %}"></script>
+     <script>
+        $(document).ready(function () {
+            $("input[type='radio']").labelauty();
+        });
+    </script>
+
+
+
     <script type="text/javascript" language="JavaScript">
 
         $(document).ready(function () {

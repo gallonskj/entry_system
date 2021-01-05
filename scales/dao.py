@@ -656,3 +656,8 @@ def get_scale_by_doscaletype(type):
     if res.exists():
         return res
     return None
+
+#获取hama填写结果
+def get_hama_answer(patient_id):
+    hama_list = scales_models.RPatientHama.objects.filter(id=patient_id)
+    return hama_list

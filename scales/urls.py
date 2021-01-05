@@ -73,4 +73,6 @@ urlpatterns = [
     url(r'^add_health', views.add_patient_basic_information_health),
     url(r'^skip_scale', views.skip_scale),
 
+    url(r'^get_check_hama_form', views.get_check_hama_form),
+
 ]
