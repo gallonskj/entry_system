@@ -71,7 +71,7 @@
                 </div>
                 <div id="right-side" class="col-md-10">
                     <div id="first" class="active">
-                      <form action="/scales/add_bprs?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}" method="post" name="bprs_form" onSubmit="return myCheck(this)" >
+                      <form action="/scales/add_bprs?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}" method="post" name="bprs_form" onSubmit="return myCheck(this)" >
                           {%  csrf_token %}
                         <div class="container">
                             <div class="col-md-12 text-center">
@@ -94,205 +94,206 @@
                             <tbody>
                               <tr>
                                   <td style="width: 15%;">1.关心身体健康
-                                  <input type="radio" name="health_care" value = 0 data-labelauty="0"/>
-                                  <input type="radio" name="health_care" value = 1 data-labelauty="1"/>
-                                  <input type="radio" name="health_care" value = 2 data-labelauty="2"/>
-                                  <input type="radio" name="health_care" value = 3 data-labelauty="3"/>
-                                  <input type="radio" name="health_care" value = 4 data-labelauty="4"/>
-                                  <input type="radio" name="health_care" value = 5 data-labelauty="5"/>
-                                  <input type="radio" name="health_care" value = 6 data-labelauty="6"/>
-                                  <input type="radio" name="health_care" value = 7 data-labelauty="7"/>
+                                  <input type="radio" name="health_care" value = 0 data-labelauty="0"   />
+                                  <input type="radio" name="health_care" value = 1 data-labelauty="1"  />
+                                  <input type="radio" name="health_care" value = 2 data-labelauty="2"  />
+                                  <input type="radio" name="health_care" value = 3 data-labelauty="3"  />
+                                  <input type="radio" name="health_care" value = 4 data-labelauty="4"  />
+                                  <input type="radio" name="health_care" value = 5 data-labelauty="5"  />
+                                  <input type="radio" name="health_care" value = 6 data-labelauty="6"  />
+                                  <input type="radio" name="health_care" value = 7 data-labelauty="7"  />
                                 </td>
                                   <td width="2%"></td>
                                   <td style="width: 15%;">2.焦虑
-                                  <input type="radio" name="anxious" value = 0 data-labelauty="0"/>
-                                  <input type="radio" name="anxious" value = 1 data-labelauty="1"/>
-                                  <input type="radio" name="anxious" value = 2 data-labelauty="2"/>
-                                  <input type="radio" name="anxious" value = 3 data-labelauty="3"/>
-                                  <input type="radio" name="anxious" value = 4 data-labelauty="4"/>
-                                  <input type="radio" name="anxious" value = 5 data-labelauty="5"/>
-                                  <input type="radio" name="anxious" value = 6 data-labelauty="6"/>
-                                  <input type="radio" name="anxious" value = 7 data-labelauty="7"/>
+                                  <input type="radio" name="anxious" value = 0 data-labelauty="0"  />
+                                  <input type="radio" name="anxious" value = 1 data-labelauty="1"  />
+                                  <input type="radio" name="anxious" value = 2 data-labelauty="2"  />
+                                  <input type="radio" name="anxious" value = 3 data-labelauty="3"  />
+                                  <input type="radio" name="anxious" value = 4 data-labelauty="4"  />
+                                  <input type="radio" name="anxious" value = 5 data-labelauty="5"  />
+                                  <input type="radio" name="anxious" value = 6 data-labelauty="6"  />
+                                  <input type="radio" name="anxious" value = 7 data-labelauty="7"  />
                                 </td>
                                   <td width="2%"></td>
                                   <td style="width: 15%;">3.感情交流障碍
-                                  <input type="radio" name="emocommunicat_barrier" value= 0 data-labelauty="0"/>
-                                  <input type="radio" name="emocommunicat_barrier" value= 1 data-labelauty="1"/>
-                                  <input type="radio" name="emocommunicat_barrier" value= 2 data-labelauty="2"/>
-                                  <input type="radio" name="emocommunicat_barrier" value= 3 data-labelauty="3"/>
-                                  <input type="radio" name="emocommunicat_barrier" value= 4 data-labelauty="4"/>
-                                  <input type="radio" name="emocommunicat_barrier" value= 5 data-labelauty="5"/>
-                                  <input type="radio" name="emocommunicat_barrier" value= 6 data-labelauty="6"/>
-                                  <input type="radio" name="emocommunicat_barrier" value= 7 data-labelauty="7"/>
+                                  <input type="radio" name="emocommunicat_barrier" value= 0 data-labelauty="0"  />
+                                  <input type="radio" name="emocommunicat_barrier" value= 1 data-labelauty="1"  />
+                                  <input type="radio" name="emocommunicat_barrier" value= 2 data-labelauty="2"  />
+                                  <input type="radio" name="emocommunicat_barrier" value= 3 data-labelauty="3"  />
+                                  <input type="radio" name="emocommunicat_barrier" value= 4 data-labelauty="4"  />
+                                  <input type="radio" name="emocommunicat_barrier" value= 5 data-labelauty="5"  />
+                                  <input type="radio" name="emocommunicat_barrier" value= 6 data-labelauty="6"  />
+                                  <input type="radio" name="emocommunicat_barrier" value= 7 data-labelauty="7"  />
                                 </td>
                                   <td width="2%"></td>
                                   <td style="width: 15%;">4.概念紊乱
-                                  <input type="radio" name="conceptual_disorder" value = 0 data-labelauty="0"/>
-                                  <input type="radio" name="conceptual_disorder" value = 1 data-labelauty="1"/>
-                                  <input type="radio" name="conceptual_disorder" value = 2 data-labelauty="2"/>
-                                  <input type="radio" name="conceptual_disorder" value = 3 data-labelauty="3"/>
-                                  <input type="radio" name="conceptual_disorder" value = 4 data-labelauty="4"/>
-                                  <input type="radio" name="conceptual_disorder" value = 5 data-labelauty="5"/>
-                                  <input type="radio" name="conceptual_disorder" value = 6 data-labelauty="6"/>
-                                  <input type="radio" name="conceptual_disorder" value = 7 data-labelauty="7"/>
+                                  <input type="radio" name="conceptual_disorder" value = 0 data-labelauty="0"  />
+                                  <input type="radio" name="conceptual_disorder" value = 1 data-labelauty="1"  />
+                                  <input type="radio" name="conceptual_disorder" value = 2 data-labelauty="2"  />
+                                  <input type="radio" name="conceptual_disorder" value = 3 data-labelauty="3"  />
+                                  <input type="radio" name="conceptual_disorder" value = 4 data-labelauty="4"  />
+                                  <input type="radio" name="conceptual_disorder" value = 5 data-labelauty="5"  />
+                                  <input type="radio" name="conceptual_disorder" value = 6 data-labelauty="6"  />
+                                  <input type="radio" name="conceptual_disorder" value = 7 data-labelauty="7"  />
                                 </td>
                                   <td width="2%"></td>
                                   <td style="width: 15%;">5.罪恶观念
-                                  <input type="radio"  name="guilt_concept" value= 0 data-labelauty="0"/>
-                                  <input type="radio" name="guilt_concept" value = 1 data-labelauty="1"/>
-                                  <input type="radio" name="guilt_concept" value = 2 data-labelauty="2"/>
-                                  <input type="radio" name="guilt_concept" value = 3 data-labelauty="3"/>
-                                  <input type="radio" name="guilt_concept" value = 4 data-labelauty="4"/>
-                                  <input type="radio" name="guilt_concept" value = 5 data-labelauty="5"/>
-                                  <input type="radio" name="guilt_concept" value = 6 data-labelauty="6"/>
-                                  <input type="radio" name="guilt_concept" value = 7 data-labelauty="7"/>
+                                  <input type="radio"  name="guilt_concept" value= 0 data-labelauty="0"  />
+                                  <input type="radio" name="guilt_concept" value = 1 data-labelauty="1"  />
+                                  <input type="radio" name="guilt_concept" value = 2 data-labelauty="2"  />
+                                  <input type="radio" name="guilt_concept" value = 3 data-labelauty="3"  />
+                                  <input type="radio" name="guilt_concept" value = 4 data-labelauty="4"  />
+                                  <input type="radio" name="guilt_concept" value = 5 data-labelauty="5"  />
+                                  <input type="radio" name="guilt_concept" value = 6 data-labelauty="6"  />
+                                  <input type="radio" name="guilt_concept" value = 7 data-labelauty="7"  />
                                 </td>
                                   <td width="2%"></td>
                                   <td style="width: 15%;">6.紧张
-                                  <input type="radio" name="nervous" value= 0  data-labelauty="0"/>
-                                  <input type="radio" name="nervous" value = 1 data-labelauty="1"/>
-                                  <input type="radio" name="nervous" value = 2 data-labelauty="2"/>
-                                  <input type="radio" name="nervous" value = 3 data-labelauty="3"/>
-                                  <input type="radio" name="nervous" value = 4 data-labelauty="4"/>
-                                  <input type="radio" name="nervous" value = 5 data-labelauty="5"/>
-                                  <input type="radio" name="nervous" value = 6 data-labelauty="6"/>
-                                  <input type="radio" name="nervous" value = 7 data-labelauty="7"/>
+                                  <input type="radio" name="nervous" value= 0  data-labelauty="0"  />
+                                  <input type="radio" name="nervous" value = 1 data-labelauty="1"  />
+                                  <input type="radio" name="nervous" value = 2 data-labelauty="2"  />
+                                  <input type="radio" name="nervous" value = 3 data-labelauty="3"  />
+                                  <input type="radio" name="nervous" value = 4 data-labelauty="4"  />
+                                  <input type="radio" name="nervous" value = 5 data-labelauty="5"  />
+                                  <input type="radio" name="nervous" value = 6 data-labelauty="6"  />
+                                  <input type="radio" name="nervous" value = 7 data-labelauty="7"  />
                                 </td>
                               </tr>
                               <tr>
                                 <td >7.装相和作态
-                                  <input type="radio" name="look_act" value=0 data-labelauty="0"/>
-                                  <input type="radio" name="look_act" value = 1 data-labelauty="1"/>
-                                  <input type="radio" name="look_act" value = 2 data-labelauty="2"/>
-                                  <input type="radio" name="look_act" value = 3 data-labelauty="3"/>
-                                  <input type="radio" name="look_act" value = 4 data-labelauty="4"/>
-                                  <input type="radio" name="look_act" value = 5 data-labelauty="5"/>
-                                  <input type="radio" name="look_act" value = 6 data-labelauty="6"/>
-                                  <input type="radio" name="look_act" value = 7 data-labelauty="7"/>
+                                  <input type="radio" name="look_act" value=0 data-labelauty="0"  />
+                                  <input type="radio" name="look_act" value = 1 data-labelauty="1"  />
+                                  <input type="radio" name="look_act" value = 2 data-labelauty="2"  />
+                                  <input type="radio" name="look_act" value = 3 data-labelauty="3"  />
+                                  <input type="radio" name="look_act" value = 4 data-labelauty="4"  />
+                                  <input type="radio" name="look_act" value = 5 data-labelauty="5"  />
+                                  <input type="radio" name="look_act" value = 6 data-labelauty="6"  />
+                                  <input type="radio" name="look_act" value = 7 data-labelauty="7"  />
                                 </td>
                                   <td></td>
                                 <td>8.夸大
-                                  <input type="radio" name="exaggerate" value= 0  data-labelauty="0"/>
-                                  <input type="radio" name="exaggerate" value = 1 data-labelauty="1"/>
-                                  <input type="radio" name="exaggerate" value = 2 data-labelauty="2"/>
-                                  <input type="radio" name="exaggerate" value = 3 data-labelauty="3"/>
-                                  <input type="radio" name="exaggerate" value = 4 data-labelauty="4"/>
-                                  <input type="radio" name="exaggerate" value = 5 data-labelauty="5"/>
-                                  <input type="radio" name="exaggerate" value = 6 data-labelauty="6"/>
-                                  <input type="radio" name="exaggerate" value = 7 data-labelauty="7"/>
+                                  <input type="radio" name="exaggerate" value= 0  data-labelauty="0"  />
+                                  <input type="radio" name="exaggerate" value = 1 data-labelauty="1"  />
+                                  <input type="radio" name="exaggerate" value = 2 data-labelauty="2"  />
+                                  <input type="radio" name="exaggerate" value = 3 data-labelauty="3"  />
+                                  <input type="radio" name="exaggerate" value = 4 data-labelauty="4"  />
+                                  <input type="radio" name="exaggerate" value = 5 data-labelauty="5"  />
+                                  <input type="radio" name="exaggerate" value = 6 data-labelauty="6"  />
+                                  <input type="radio" name="exaggerate" value = 7 data-labelauty="7"  />
                                 </td><td></td>
                                 <td>9.心境抑郁
-                                  <input type="radio" name="mood_depression" value=0  data-labelauty="0"/>
-                                  <input type="radio" name="mood_depression" value = 1 data-labelauty="1"/>
-                                  <input type="radio" name="mood_depression" value = 2 data-labelauty="2"/>
-                                  <input type="radio" name="mood_depression" value = 3 data-labelauty="3"/>
-                                  <input type="radio" name="mood_depression" value = 4 data-labelauty="4"/>
-                                  <input type="radio" name="mood_depression" value = 5 data-labelauty="5"/>
-                                  <input type="radio" name="mood_depression" value = 6 data-labelauty="6"/>
-                                  <input type="radio" name="mood_depression" value = 7 data-labelauty="7"/>
+                                  <input type="radio" name="mood_depression" value=0  data-labelauty="0"  />
+                                  <input type="radio" name="mood_depression" value = 1 data-labelauty="1"  />
+                                  <input type="radio" name="mood_depression" value = 2 data-labelauty="2"  />
+                                  <input type="radio" name="mood_depression" value = 3 data-labelauty="3"  />
+                                  <input type="radio" name="mood_depression" value = 4 data-labelauty="4"  />
+                                  <input type="radio" name="mood_depression" value = 5 data-labelauty="5"  />
+                                  <input type="radio" name="mood_depression" value = 6 data-labelauty="6"  />
+                                  <input type="radio" name="mood_depression" value = 7 data-labelauty="7"  />
                                 </td><td></td>
                                 <td>10.敌对性
-                                  <input type="radio" name="hostility" value = 0 data-labelauty="0"/>
-                                  <input type="radio" name="hostility" value = 1 data-labelauty="1"/>
-                                  <input type="radio" name="hostility" value = 2 data-labelauty="2"/>
-                                  <input type="radio" name="hostility" value = 3 data-labelauty="3"/>
-                                  <input type="radio" name="hostility" value = 4 data-labelauty="4"/>
-                                  <input type="radio" name="hostility" value = 5 data-labelauty="5"/>
-                                  <input type="radio" name="hostility" value = 6 data-labelauty="6"/>
-                                  <input type="radio" name="hostility" value = 7 data-labelauty="7"/>
+                                  <input type="radio" name="hostility" value = 0 data-labelauty="0"  />
+                                  <input type="radio" name="hostility" value = 1 data-labelauty="1"  />
+                                  <input type="radio" name="hostility" value = 2 data-labelauty="2"  />
+                                  <input type="radio" name="hostility" value = 3 data-labelauty="3"  />
+                                  <input type="radio" name="hostility" value = 4 data-labelauty="4"  />
+                                  <input type="radio" name="hostility" value = 5 data-labelauty="5"  />
+                                  <input type="radio" name="hostility" value = 6 data-labelauty="6"  />
+                                  <input type="radio" name="hostility" value = 7 data-labelauty="7"  />
                                 </td><td></td>
                                 <td>11.猜疑
-                                  <input type="radio"  name="suspicion" value=0 data-labelauty="0"/>
-                                  <input type="radio" name="suspicion" value = 1 data-labelauty="1"/>
-                                  <input type="radio" name="suspicion" value = 2 data-labelauty="2"/>
-                                  <input type="radio" name="suspicion" value = 3 data-labelauty="3"/>
-                                  <input type="radio" name="suspicion" value = 4 data-labelauty="4"/>
-                                  <input type="radio" name="suspicion" value = 5 data-labelauty="5"/>
-                                  <input type="radio" name="suspicion" value = 6 data-labelauty="6"/>
-                                  <input type="radio" name="suspicion" value = 7 data-labelauty="7"/>
+                                  <input type="radio"  name="suspicion" value=0 data-labelauty="0"  />
+                                  <input type="radio" name="suspicion" value = 1 data-labelauty="1"  />
+                                  <input type="radio" name="suspicion" value = 2 data-labelauty="2"  />
+                                  <input type="radio" name="suspicion" value = 3 data-labelauty="3"  />
+                                  <input type="radio" name="suspicion" value = 4 data-labelauty="4"  />
+                                  <input type="radio" name="suspicion" value = 5 data-labelauty="5"  />
+                                  <input type="radio" name="suspicion" value = 6 data-labelauty="6"  />
+                                  <input type="radio" name="suspicion" value = 7 data-labelauty="7"  />
                                 </td><td></td>
                                 <td>12.幻觉
-                                  <input type="radio"  name="hallucination" value=0 data-labelauty="0"/>
-                                  <input type="radio" name="hallucination" value = 1 data-labelauty="1"/>
-                                  <input type="radio" name="hallucination" value = 2 data-labelauty="2"/>
-                                  <input type="radio" name="hallucination" value = 3 data-labelauty="3"/>
-                                  <input type="radio" name="hallucination" value = 4 data-labelauty="4"/>
-                                  <input type="radio" name="hallucination" value = 5 data-labelauty="5"/>
-                                  <input type="radio" name="hallucination" value = 6 data-labelauty="6"/>
-                                  <input type="radio" name="hallucination" value = 7 data-labelauty="7"/>
+                                  <input type="radio"  name="hallucination" value=0 data-labelauty="0"  />
+                                  <input type="radio" name="hallucination" value = 1 data-labelauty="1"  />
+                                  <input type="radio" name="hallucination" value = 2 data-labelauty="2"  />
+                                  <input type="radio" name="hallucination" value = 3 data-labelauty="3"  />
+                                  <input type="radio" name="hallucination" value = 4 data-labelauty="4"  />
+                                  <input type="radio" name="hallucination" value = 5 data-labelauty="5"  />
+                                  <input type="radio" name="hallucination" value = 6 data-labelauty="6"  />
+                                  <input type="radio" name="hallucination" value = 7 data-labelauty="7"  />
                                 </td>
                               </tr>
                               <tr>
                                 <td>13.动作迟缓
-                                  <input type="radio"  name="slow_movement" value=0 data-labelauty="0"/>
-                                  <input type="radio" name="slow_movement" value = 1 data-labelauty="1"/>
-                                  <input type="radio" name="slow_movement" value = 2 data-labelauty="2"/>
-                                  <input type="radio" name="slow_movement" value = 3 data-labelauty="3"/>
-                                  <input type="radio" name="slow_movement" value = 4 data-labelauty="4"/>
-                                  <input type="radio" name="slow_movement" value = 5 data-labelauty="5"/>
-                                  <input type="radio" name="slow_movement" value = 6 data-labelauty="6"/>
-                                  <input type="radio" name="slow_movement" value = 7 data-labelauty="7"/>
+                                  <input type="radio"  name="slow_movement" value=0 data-labelauty="0"  />
+                                  <input type="radio" name="slow_movement" value = 1 data-labelauty="1"  />
+                                  <input type="radio" name="slow_movement" value = 2 data-labelauty="2"  />
+                                  <input type="radio" name="slow_movement" value = 3 data-labelauty="3"  />
+                                  <input type="radio" name="slow_movement" value = 4 data-labelauty="4"  />
+                                  <input type="radio" name="slow_movement" value = 5 data-labelauty="5"  />
+                                  <input type="radio" name="slow_movement" value = 6 data-labelauty="6"  />
+                                  <input type="radio" name="slow_movement" value = 7 data-labelauty="7"  />
                                 </td><td></td>
                                 <td>14.不合作
-                                  <input type="radio"  name="no_cooperation" value=0 data-labelauty="0"/>
-                                  <input type="radio" name="no_cooperation" value = 1 data-labelauty="1"/>
-                                  <input type="radio" name="no_cooperation" value = 2 data-labelauty="2"/>
-                                  <input type="radio" name="no_cooperation" value = 3 data-labelauty="3"/>
-                                  <input type="radio" name="no_cooperation" value = 4 data-labelauty="4"/>
-                                  <input type="radio" name="no_cooperation" value = 5 data-labelauty="5"/>
-                                  <input type="radio" name="no_cooperation" value = 6 data-labelauty="6"/>
-                                  <input type="radio" name="no_cooperation" value = 7 data-labelauty="7"/>
+                                  <input type="radio"  name="no_cooperation" value=0 data-labelauty="0"  />
+                                  <input type="radio" name="no_cooperation" value = 1 data-labelauty="1"  />
+                                  <input type="radio" name="no_cooperation" value = 2 data-labelauty="2"  />
+                                  <input type="radio" name="no_cooperation" value = 3 data-labelauty="3"  />
+                                  <input type="radio" name="no_cooperation" value = 4 data-labelauty="4"  />
+                                  <input type="radio" name="no_cooperation" value = 5 data-labelauty="5"  />
+                                  <input type="radio" name="no_cooperation" value = 6 data-labelauty="6"  />
+                                  <input type="radio" name="no_cooperation" value = 7 data-labelauty="7"  />
                                 </td><td></td>
                                 <td>15.不寻常思维内容
-                                  <input type="radio" name="unusual_thinking" value=0 data-labelauty="0" />
-                                  <input type="radio" name="unusual_thinking" value = 1 data-labelauty="1"/>
-                                  <input type="radio" name="unusual_thinking" value = 2 data-labelauty="2"/>
-                                  <input type="radio" name="unusual_thinking" value = 3 data-labelauty="3"/>
-                                  <input type="radio" name="unusual_thinking" value = 4 data-labelauty="4"/>
-                                  <input type="radio" name="unusual_thinking" value = 5 data-labelauty="5"/>
-                                  <input type="radio" name="unusual_thinking" value = 6 data-labelauty="6"/>
-                                  <input type="radio" name="unusual_thinking" value = 7 data-labelauty="7"/>
+                                  <input type="radio" name="unusual_thinking" value=0 data-labelauty="0"   />
+                                  <input type="radio" name="unusual_thinking" value = 1 data-labelauty="1"  />
+                                  <input type="radio" name="unusual_thinking" value = 2 data-labelauty="2"  />
+                                  <input type="radio" name="unusual_thinking" value = 3 data-labelauty="3"  />
+                                  <input type="radio" name="unusual_thinking" value = 4 data-labelauty="4"  />
+                                  <input type="radio" name="unusual_thinking" value = 5 data-labelauty="5"  />
+                                  <input type="radio" name="unusual_thinking" value = 6 data-labelauty="6"  />
+                                  <input type="radio" name="unusual_thinking" value = 7 data-labelauty="7"  />
                                 </td><td></td>
                                 <td>16.情感平淡
-                                  <input type="radio" name="feeling_flat" value=0 data-labelauty="0"/>
-                                  <input type="radio" name="feeling_flat" value = 1 data-labelauty="1"/>
-                                  <input type="radio" name="feeling_flat" value = 2 data-labelauty="2"/>
-                                  <input type="radio" name="feeling_flat" value = 3 data-labelauty="3"/>
-                                  <input type="radio" name="feeling_flat" value = 4 data-labelauty="4"/>
-                                  <input type="radio" name="feeling_flat" value = 5 data-labelauty="5"/>
-                                  <input type="radio" name="feeling_flat" value = 6 data-labelauty="6"/>
-                                  <input type="radio" name="feeling_flat" value = 7 data-labelauty="7"/>
+                                  <input type="radio" name="feeling_flat" value=0 data-labelauty="0"  />
+                                  <input type="radio" name="feeling_flat" value = 1 data-labelauty="1"  />
+                                  <input type="radio" name="feeling_flat" value = 2 data-labelauty="2"  />
+                                  <input type="radio" name="feeling_flat" value = 3 data-labelauty="3"  />
+                                  <input type="radio" name="feeling_flat" value = 4 data-labelauty="4"  />
+                                  <input type="radio" name="feeling_flat" value = 5 data-labelauty="5"  />
+                                  <input type="radio" name="feeling_flat" value = 6 data-labelauty="6"  />
+                                  <input type="radio" name="feeling_flat" value = 7 data-labelauty="7"  />
                                 </td><td></td>
                                 <td>17.兴奋
-                                  <input type="radio"  name="excitement" value=0 data-labelauty="0"/>
-                                  <input type="radio" name="excitement" value = 1 data-labelauty="1"/>
-                                  <input type="radio" name="excitement" value = 2 data-labelauty="2"/>
-                                  <input type="radio" name="excitement" value = 3 data-labelauty="3"/>
-                                  <input type="radio" name="excitement" value = 4 data-labelauty="4"/>
-                                  <input type="radio" name="excitement" value = 5 data-labelauty="5"/>
-                                  <input type="radio" name="excitement" value = 6 data-labelauty="6"/>
-                                  <input type="radio" name="excitement" value = 7 data-labelauty="7"/>
+                                  <input type="radio"  name="excitement" value=0 data-labelauty="0"  />
+                                  <input type="radio" name="excitement" value = 1 data-labelauty="1"  />
+                                  <input type="radio" name="excitement" value = 2 data-labelauty="2"  />
+                                  <input type="radio" name="excitement" value = 3 data-labelauty="3"  />
+                                  <input type="radio" name="excitement" value = 4 data-labelauty="4"  />
+                                  <input type="radio" name="excitement" value = 5 data-labelauty="5"  />
+                                  <input type="radio" name="excitement" value = 6 data-labelauty="6"  />
+                                  <input type="radio" name="excitement" value = 7 data-labelauty="7"  />
                                 </td><td></td>
                                 <td>18.定向障碍
-                                  <input type="radio"  name="directional_disorder" value=0 data-labelauty="0"/>
-                                  <input type="radio" name="directional_disorder" value = 1 data-labelauty="1"/>
-                                  <input type="radio" name="directional_disorder" value = 2 data-labelauty="2"/>
-                                  <input type="radio" name="directional_disorder" value = 3 data-labelauty="3"/>
-                                  <input type="radio" name="directional_disorder" value = 4 data-labelauty="4"/>
-                                  <input type="radio" name="directional_disorder" value = 5 data-labelauty="5"/>
-                                  <input type="radio" name="directional_disorder" value = 6 data-labelauty="6"/>
-                                  <input type="radio" name="directional_disorder" value = 7 data-labelauty="7"/>
+                                  <input type="radio"  name="directional_disorder" value=0 data-labelauty="0"  />
+                                  <input type="radio" name="directional_disorder" value = 1 data-labelauty="1"  />
+                                  <input type="radio" name="directional_disorder" value = 2 data-labelauty="2"  />
+                                  <input type="radio" name="directional_disorder" value = 3 data-labelauty="3"  />
+                                  <input type="radio" name="directional_disorder" value = 4 data-labelauty="4"  />
+                                  <input type="radio" name="directional_disorder" value = 5 data-labelauty="5"  />
+                                  <input type="radio" name="directional_disorder" value = 6 data-labelauty="6"  />
+                                  <input type="radio" name="directional_disorder" value = 7 data-labelauty="7"  />
                                 </td>
                               </tr>
                               </tbody>
                              </table>
                              </div>
                             </div>
-
-
                             <div class="row">
                                 <div  class="col-md-4 col-sm-6 text-center" style="text-align: center">
-                                   <a  href="#"><button type="button" class="btn btn-warning" id="bt_return">返回上一量表</button></a>
+                                    <a  href="/scales/get_last_url?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}"
+                                            id="last_scale">
+                                        <button type="button" class="btn btn-warning" id="bt_return">返回上一量表</button>
+                                    </a>
                                 </div>
                                 <div  class="col-md-4 col-sm-6">
                                      {% csrf_token %}
@@ -310,6 +311,14 @@
 	          </div>
         </div>
 	</div>
+     <script>
+       function getData(){
+        var order = "{{ order }}";
+        if(order==0) {
+            $("#last_scale").attr("style", "display:none;");
+        }
+       }
+    </script>
 {% endblock %}
 
 {% block js %}

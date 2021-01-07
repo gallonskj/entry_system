@@ -207,18 +207,18 @@ $(document).ready(function(){
         $('#patient_smoke_1').change(function(){
        if ($('#patient_smoke_1 option:selected').val()>2){
            $('.smoke_detail').show();
-           $("input[name='patient_smoke_age']").attr('required','required');
-           $("input[name='patient_daily_smoke_num']").attr('required','required');
-           $("input[name='patient_stop_smoke_age']").attr('required','required');
+           {#$("input[name='patient_smoke_age']").attr('required','required');#}
+           {#$("input[name='patient_daily_smoke_num']").attr('required','required');#}
+           {#$("input[name='patient_stop_smoke_age']").attr('required','required');#}
        }
        else{
            $('.smoke_detail').hide();
-           $("input[name='patient_smoke_age']").removeAttr("required");
-           $("input[name='patient_smoke_age']").val("");
-           $("input[name='patient_daily_smoke_num']").removeAttr("required");
-           $("input[name='patient_daily_smoke_num']").val("");
-           $("input[name='patient_stop_smoke_age']").removeAttr("required");
-           $("input[name='patient_stop_smoke_age']").val("");
+           {#$("input[name='patient_smoke_age']").removeAttr("required");#}
+           {#$("input[name='patient_smoke_age']").val("");#}
+           {#$("input[name='patient_daily_smoke_num']").removeAttr("required");#}
+           {#$("input[name='patient_daily_smoke_num']").val("");#}
+           {#$("input[name='patient_stop_smoke_age']").removeAttr("required");#}
+           {#$("input[name='patient_stop_smoke_age']").val("");#}
        }
     });
 

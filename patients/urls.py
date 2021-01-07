@@ -6,7 +6,7 @@ import scales.views as scales_views
 
 urlpatterns = [
     # 返回测试
-    url(r'^test', views.test_view),
+    # url(r'^test', views.test_view),
     # 创建基本信息
     url(r'^add_patient_baseinfo', views.add_patient_baseinfo),
     # 创建复扫基本信息
@@ -26,16 +26,14 @@ urlpatterns = [
     # 删除复扫记录
     url(r'^del_followup', views.del_followup),
     # 修改病人基本信息
-    url(r'^update_base_info',views.update_base_info),
-
+    url(r'^update_base_info', views.update_base_info),
+    # 更新patient_detail以及patient_base_info
     url(r'^update_patient_detail', views.update_patient_detail),
-    # url(r'^get_selected_scales_with_lastsession', views.get_selected_scales_with_lastsession),
-# 修改病人基本信息
-    url(r'^update_base_info',views.update_base_info),
+    # 修改病人基本信息
+    url(r'^update_base_info', views.update_base_info),
     # 貌似未使用
     url(r'^subjectDetailInfo', views.subjectDetailInfo),
     # 用来捕获未匹配成功的url
     url(r'', views.get_all_patients_baseinfo),
-
 
 ]

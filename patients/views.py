@@ -40,6 +40,8 @@ def add_patient_baseinfo(request):
     doctor_id = request.session.get('doctor_id')
     diagnosis = request.POST.get("diagnosis")
     other_diagnosis = request.POST.get("other_diagnosis")
+    scan_date = request.POST.get('scan_date')
+    age = tools_utils.calculate_age_by_scandate(str(birth_date), str(scan_date))
     ########################
     # 手动输入id
     patient_id = request.POST.get('patient_id')
@@ -58,9 +60,11 @@ def add_patient_baseinfo(request):
     patients_dao.add_base_info(patient_base_info)
 
     # 创建一条复扫记录
+    # age = tools_utils.calculate_age(birth_date)
     patient_detail = patients_models.DPatientDetail(patient_id=patient_id, session_id=session_id,
                                                     standard_id=standard_id,
-                                                    age=tools_utils.calculate_age(birth_date), doctor_id=doctor_id)
+                                                    age=age, doctor_id=doctor_id,
+                                                    scan_date=scan_date)
     patients_dao.add_patient_detail(patient_detail)
     # 查询需要做的量表,并在r_patient_scales中插入需要做的量表
     scales_list = patients_dao.judgment_scales(patient_detail.id)
@@ -77,6 +81,7 @@ def add_patient_baseinfo(request):
 def add_patient_followup(request):
     patient_id = request.GET.get('patient_id')
     doctor_id = request.session.get('doctor_id')
+    scan_date = request.POST.get('scan_date')
     patient_baseinfo = patients_dao.get_base_info_byPK(patient_id)
     patient_id, session_id, standard_id = tools_idAssignments.patient_session_id_assignment(patient_baseinfo.id)
     patient_detail_last = patients_dao.get_patient_detail_last_byPatientId(patient_id)
@@ -87,12 +92,8 @@ def add_patient_followup(request):
     patient_detail.patient_id = patient_id
     patient_detail.session_id = session_id
     patient_detail.standard_id = standard_id
-    patient_detail.age = tools_utils.calculate_age(str(patient_baseinfo.birth_date))
+    patient_detail.age = tools_utils.calculate_age_by_scandate(str(patient_baseinfo.birth_date), str(scan_date))
     patient_detail.doctor_id = doctor_id
-    # patient_detail = patients_models.DPatientDetail(patient_id=patient_id, session_id=session_id,
-    #                                                 standard_id=standard_id,
-    #                                                 age=tools_utils.calculate_age(str(patient_baseinfo.birth_date)),
-    #                                                 doctor_id=doctor_id)
 
     patients_dao.add_patient_detail(patient_detail)
     # 获取创建的复扫信息自增id
@@ -104,6 +105,7 @@ def add_patient_followup(request):
     redirect_url = '/scales/select_scales?patient_session_id={}&patient_id={}'.format(str(patient_detail_id),
                                                                                       str(patient_id))
     return redirect(redirect_url)
+
 
 # def get_selected_scales_with_lastsession(request):
 #     patient_id = request.GET.get('patient_id')
@@ -130,23 +132,18 @@ def add_patient_followup(request):
 # 获取病人详细信息
 def get_patient_detail(request):
     if request.GET:
-
         patient_id = request.GET.get("patient_id")
         patient_baseinfo = patients_dao.get_base_info_byPK(patient_id)
         patient_detail_list = DPatientDetail.objects.all().select_related('patient__doctor').filter(
-            patient_id=patient_id).values('id','patient_id','session_id', 'standard_id', 'create_time', 'patient_id__diagnosis',
-                                          'patient_id__other_diagnosis', 'doctor__name')
-        # print(patient_detail_list)
+            patient_id=patient_id).values('id', 'patient_id', 'session_id', 'standard_id', 'create_time','update_time',
+                                          'cognitive','sound','blood','hairs','manure','drugs_information',
+                                          'mri_examination','first','tms','age','occupation','education','years',
+                                          'emotional_state','phone','source','height','weight','waist','hip','handy','note','scan_date',
+                                          'patient_id__diagnosis','patient_id__other_diagnosis', 'doctor__name')
         test_states = scales_models.RPatientScales.objects.all().select_related('patient_session_id__scale'). \
             filter(patient_session_id__patient=patient_baseinfo).values(
-            'patient_session_id',
-            'patient_session_id__session_id',
-            'patient_session_id__patient_id',
-            'scale_id',
-            'scale__scale_name',
-            'scale__do_scale_type',
-            'state',
-            'end_time'
+            'patient_session_id','patient_session_id__session_id','patient_session_id__patient_id',
+            'scale_id','scale__scale_name', 'scale__do_scale_type','state','end_time'
         )
         ordered_dic = {}
         for test_state in test_states:
@@ -157,7 +154,7 @@ def get_patient_detail(request):
         nation_list = patients_dao.get_DEthnicity_all()
         return render(request, 'patient_detail.html',
                       {
-                          'patient_id':patient_id,
+                           'patient_id': patient_id,
                           'name': patient_baseinfo.name,
                           'birth_date': patient_baseinfo.birth_date.strftime('%Y-%m-%d'),
                           'sex': patient_baseinfo.sex,
@@ -172,6 +169,7 @@ def get_patient_detail(request):
                       })
     else:
         return render(request, 'patient_detail.html', {"username": request.session.get("username")})
+
 
 # 删除病人信息
 def del_patient(request):
@@ -196,52 +194,54 @@ def del_followup(request):
     return redirect('/patients/get_patient_detail?patient_id=' + patient_id)
 
 
-#更新base_info
+# 更新base_info
 def update_base_info(request):
     patient_id = request.GET.get("patient_id")
     print("#################" + str(request.POST.get('nation')))
     patient_base_info = patients_dao.get_base_info_byPK(patient_id)
-    print("################"+ str(patient_base_info.nation))
+    print("################" + str(patient_base_info.nation))
     patient_base_info = set_attr_by_post(request, patient_base_info)
-    print("################"+ str(patient_base_info.nation))
+    print("################" + str(patient_base_info.nation))
     patients_dao.add_base_info(patient_base_info)
     return redirect('/patients/get_patient_detail?patient_id=' + patient_id)
-
-
 
 
 # 更新patient_detail以及patient_base_info
 def update_patient_detail(request):
     patient_session_id = request.GET.get('patient_session_id')
     patient_id = request.GET.get('patient_id')
+    page=request.GET.get('page')
     patient_detail = patients_dao.get_patient_detail_byPK(patient_session_id)
+    patient_base_info = patients_dao.get_base_info_byPK(patient_id)
     # 通过field的方式进行数据的传递，注意，需要保证form表单中各项的名称与数据库中字段名称是名称相同
     fields_data = DPatientDetail._meta.fields
     data_dict = patient_detail.__dict__
     for ele in fields_data:
-
         if request.POST.get(ele.name) is not None and request.POST.get(ele.name) is not '':
-
             data_dict[ele.name] = request.POST.get(ele.name)
     patients_dao.add_patient_detail(patient_detail)
-    patient_base_info = patients_dao.get_base_info_byPK(patient_id)
     patient_base_info.diagnosis = request.POST.get('diagnosis')
     patient_base_info.other_diagnosis = request.POST.get('other_diagnosis')
     patients_dao.add_base_info(patient_base_info)
-    redirect_url = '/scales/select_scales?patient_session_id={}&patient_id={}'.format(str(patient_session_id),
-                                                                                      str(patient_id))
+    if page == 1:
+         redirect_url = '/scales/select_scales?patient_session_id={}&patient_id={}'.format(str(patient_session_id),
+                                                                         str(patient_id))
+    else :
+        redirect_url='/patients/get_patient_detail?patient_id={}'.format(patient_id)
     return redirect(redirect_url)
 
-#更新base_info
+
+# 更新base_info
 def update_base_info(request):
     patient_id = request.GET.get("patient_id")
     print("#################" + str(request.POST.get('nation')))
     patient_base_info = patients_dao.get_base_info_byPK(patient_id)
-    print("################"+ str(patient_base_info.nation))
+    print("################" + str(patient_base_info.nation))
     patient_base_info = scale_views.set_attr_by_post(request, patient_base_info)
-    print("################"+ str(patient_base_info.nation))
+    print("################" + str(patient_base_info.nation))
     patients_dao.add_base_info(patient_base_info)
     return redirect('/patients/get_patient_detail?patient_id=' + patient_id)
+
 
 # 新建被试获取自动生成的id
 @csrf_exempt
@@ -400,7 +400,7 @@ def patient_statistics(request):
         patient.scale_id_list = scale_id_list
         patient.scale_score_list = scale_score_list
 
-    scales = patients_dao.get_scales_all()
+    scales = scales_dao.get_scale_by_doscaletype(tools_config.other_test_type)
     all_scale_id_list = []
     all_scale_name_list = []
     all_scale_value_range_list = []
@@ -441,12 +441,12 @@ def patient_statistics(request):
 
 def test_view(request):
     dic = request.session.get('history')
-    return HttpResponse(str(dic))
+    return render(request, 'warning.html')
 
 
 # 根据request post信息设置models的值
-def set_attr_by_post(request, object):
+def set_attr_by_post(request, _object):
     for key in request.POST.keys():
-        if hasattr(object, key) and request.POST.get(key)!='':
-            setattr(object, key, request.POST.get(key))
-    return object
+        if hasattr(_object, key) and request.POST.get(key) != '':
+            setattr(_object, key, request.POST.get(key))
+    return _object

@@ -132,6 +132,7 @@
                                     <label class="control-label col-md-3 col-sm-2 " for="marital_status">婚姻状况<span class="required">*</span></label>
                                     <div class="col-md-1 col-sm-2">
                                         <select class="form-control" name="emotional_state" id="marital_status" style="width:175px" >
+                                            <option value="0">未填=0</option>
                                             <option value="1">单身=1</option>
                                             <option value="2">未婚=2</option>
                                             <option value="3">已婚=3</option>
@@ -147,10 +148,9 @@
                                             class="required">*</span>
                                     </label>
                                     <div class="col-md-2 col-sm-3 form-group has-feedback">
-                                        <input type="text" id="weight" name="height" class="form-control"
+                                        <input type="text" id="weight" name="weight" class="form-control"
                                                style="width: 160px" PLACEHOLDER="KG" value="{{ patient_detail.weight|processNone }}">
                                     </div>
-
                                 </div>
 
                             </div>
@@ -176,7 +176,7 @@
                                     </label>
                                     <div class="col-md-2 col-sm-3 form-group has-feedback">
 
-                                        <input type="text" id="waist" name="height" class="form-control"
+                                        <input type="text" id="waist" name="waist" class="form-control"
                                                style="width: 160px" PLACEHOLDER="CM" value="{{ patient_detail.waist|processNone }}">
                                     </div>
                                 </div>
@@ -310,7 +310,17 @@
                             <div class="form-group row">
                                 <label class="control-label col-md-1 col-sm-2" for="patient_live_type">居住方式<span
                                         class="required">*</span></label>
-
+                                <div class="col-md-2 col-sm-3">
+                                      <select class="form-control" name="patient_live_type" id="patient_live_type">
+                                        <option value="0">未填</option>
+                                        <option value="1">独自居住=1</option>
+                                        <option value="2">与父母同住=2</option>
+                                        <option value="3">与祖父母同住=3</option>
+                                        <option value="4">与丈夫/妻子同住=4</option>
+                                        <option value="5">集体宿舍/合租=5</option>
+                                        <option value="6">其他=6</option>
+                                      </select>
+                                </div>
 
 
 
@@ -341,6 +351,7 @@
                                             class="required">*</span></label>
                                     <div class="col-md-2 col-sm-3">
                                         <select class="form-control" name="parents_favour" id="parents_favour">
+                                            <option value="0">未填=0</option>
                                             <option value="1">偏爱兄弟姐妹=1</option>
                                             <option value="2">无偏爱=2</option>
                                             <option value="3">偏爱自己=3</option>
@@ -404,13 +415,14 @@
                                 </div>
                             </div>
 
-                            <!--                    文化程度 婚姻状态-->
+                                <!--                    文化程度 婚姻状态-->
 
                             <div class="form-group row">
                                 <label class="control-label col-md-1 col-sm-2">父亲文化 程度<span
                                         class="required">*</span></label>
                                 <div class="col-md-2 col-sm-2">
                                     <select class="form-control" name="father_education" id="father_education">
+                                        <option value="0">未填=0</option>
                                         <option value="1">小学=1</option>
                                         <option value="2">初中=2</option>
                                         <option value="3">高中/中专/技校/职高=3</option>
@@ -425,6 +437,7 @@
                                         class="required">*</span></label>
                                 <div class="col-md-2 col-sm-2">
                                     <select class="form-control" name="mother_education" id="mother_education">
+                                        <option value="0">未填=0</option>
                                         <option value="1">小学=1</option>
                                         <option value="2">初中=2</option>
                                         <option value="3">高中/中专/技校/职高=3</option>
@@ -442,39 +455,58 @@
                                         class="required">*</span></label>
                                 <div class="col-md-2 col-sm-2">
                                     <select class="form-control parent_marry" name="parent_marry" id="parent_marry">
+                                        <option value="0">未填=0</option>
                                         <option value="1">正常=1</option>
                                         <option value="2">离异=2</option>
                                         <option value="3">分居=3</option>
                                         <option value="4">有一方过世=4</option>
                                     </select>
                                 </div>
-                                <!--                      -->
 
+                            </div>
 
-                                <!--                      这里要写一个JS 根据父母婚姻状态 展示后面的问题-->
-                                <!--                      hidden-->
+                            <div class="form-group row">
+
                                 <label class="control-label col-md-1 col-sm-2 StepParents"
                                        style="display: none;">继父/继母</label>
-                                <!--                      hidden-->
+
                                 <div class="col-md-2 col-sm-2 StepParents" style="display: none;">
                                     <select class="form-control" name="StepParents">
                                         <option value="1">继父=1</option>
                                         <option value="2">继母=2</option>
                                     </select>
                                 </div>
-                                <!--                      hidden-->
-                                <label class="control-label col-md-2 col-sm-3  parent_pass_away_age"
+
+                                <label class="control-label col-md-1 col-sm-2 patient_parent_death"
+                                       style="display: none;">父亲/母亲</label>
+
+                                <div class="col-md-2 col-sm-2 patient_parent_death" style="display: none;">
+                                    <select class="form-control" name="patient_parent_death">
+                                        <option value="1">父亲=1</option>
+                                        <option value="2">母亲=0</option>
+                                    </select>
+                                </div>
+
+
+                                <label class="control-label col-md-2 col-sm-3  patient_parent_death_age"
                                        style="display: none;">父/母过世时自己的年龄</label>
-                                <!--                      hidden-->
-                                <div class="col-md-1 col-sm-1 form-group  parent_pass_away_age" style="display: none;">
-                                    <input type="text" id="parent_parent_death_age" name="parent_parent_death_age"
+
+                                <div class="col-md-1 col-sm-1 form-group  patient_parent_death_age" style="display: none;">
+                                    <input type="text" id="parent_parent_death_age" name="patient_parent_death_age"
                                            class="form-control">
                                 </div>
 
-                                <label class="control-label col-md-1 col-sm-2">父母争吵 频率<span
+                            </div>
+
+
+                            <!--                    领养 与父母的关系-->
+
+                            <div class="form-group row">
+                                  <label class="control-label col-md-1 col-sm-2">父母争吵 频率<span
                                         class="required">*</span></label>
                                 <div class="col-md-2 col-sm-2">
                                     <select class="form-control" name="parent_argument" id="parent_argument">
+                                        <option value="0">未填=0</option>
                                         <option value="1">几乎每天=1</option>
                                         <option value="2">一周数次=2</option>
                                         <option value="3">一月两三次=3</option>
@@ -483,10 +515,7 @@
                                         <option value="6">不吵架=6</option>
                                     </select>
                                 </div>
-                            </div>
 
-                            <!--                    领养 与父母的关系-->
-                            <div class="form-group row">
                                 <label class="control-label col-md-1 col-sm-2">是否领养<span
                                         class="required">*</span></label>
                                 <div class="col-md-1 col-sm-1 " id="patient_adopt_1">
@@ -507,6 +536,7 @@
                                         class="required">*</span></label>
                                 <div class="col-md-2 col-sm-2">
                                     <select class="form-control" name="father_relationship" id="father_relationship">
+                                        <option value="0">未填=0</option>
                                         <option value="1">非常好=1</option>
                                         <option value="2">较好=2</option>
                                         <option value="3">一般=3</option>
@@ -518,6 +548,7 @@
                                         class="required">*</span></label>
                                 <div class="col-md-2 col-sm-2">
                                     <select class="form-control" name="mother_relationship" id="mother_relationship">
+                                        <option value="0">未填=0</option>
                                         <option value="1">非常好=1</option>
                                         <option value="2">较好=2</option>
                                         <option value="3">一般=3</option>
@@ -688,19 +719,18 @@
             <!--       离异-->
             if (val == "2") {
                 $(".StepParents").show();
-                $(".parent_parent_death_age").hide();
-                $(".parent_parent_death").hide();
-                $(".parent_parent_death_age").val("");
+                $(".patient_parent_death").hide();
+                $(".patient_parent_death_age").val("");
                 /*--有一方过世*/
             } else if (val == "4") {
-                $(".parent_parent_death_age").show();
-                $(".parent_parent_death").show();
                 $(".StepParents").hide();
+                $(".patient_parent_death").show();
+                $(".patient_parent_death_age").show();
             } else {
-                $(".parent_parent_death_age").hide();
+                $(".patient_parent_death_age").hide();
                 $(".StepParents").hide();
-                $(".parent_parent_death").hide();
-                $(".parent_parent_death_age").val("");
+                $(".patient_parent_death").hide();
+                $(".patient_parent_death_age").val("");
             }
         });
         /*--饮酒*/

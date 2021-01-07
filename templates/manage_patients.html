@@ -44,6 +44,12 @@
                                     <input type="text" class=" sel_beauty form-control input-sm " name="patient_id" required="required"/>
                                 </div>
 
+
+                         <label class="col-sm-2 control-label" style="text-align: right" for="sex"> 扫描日期：</label>
+                                <div class="col-sm-4">
+                                    <input type="date" class=" sel_beauty form-control input-sm" name="scan_date" required="required"/>
+                                </div>
+
                         </div>
 
                         <div class="row" style="margin-bottom: 10px;">
@@ -54,7 +60,7 @@
                                 </div>
                                 <label class="col-sm-2 control-label" style="text-align: right" for="sex">性别：</label>
                                 <div class="col-sm-4">
-                                    <input type="radio" class=" flat" name="sex" value=0 checked="" required/>
+                                    <input type="radio" class=" flat" name="sex" value=0  required/>
                                     <span style="margin-right: 10px;"></span>男
                                     <span style="margin-right: 20px;"></span>
                                     <input type="radio" class="flat" name="sex" value=1><span style="margin-right: 10px;"></span>女
@@ -156,6 +162,7 @@
     <!-- 删除确认结束 -->
 
     <!-- 添加复扫模态框 开始 -->
+
 {% for patient in patients %}
     <div class="modal fade" id="add_followup_{{ forloop.counter }}" role="dialog" aria-labelledby="myModalLabel" >
             <div class="modal-dialog">
@@ -196,9 +203,10 @@
                             <label class="col-sm-2 control-label" for="birth_date" style="text-align: right">出生日期：</label>
                             <p class="col-sm-4"> {{ patient.birth_date }}</p>
 
-                            <label class="col-sm-2 control-label" for="birth_date" style="text-align: right">扫描时间：</label>
+
+                            <label class="col-sm-2 control-label" for="birth_date" style="text-align: right">扫描日期：</label>
                             <div class="col-sm-4">
-                                <input type="date" class=" sel_beauty form-control input-sm " name="" required="required"/>
+                                <input type="date" class=" sel_beauty form-control input-sm " name="scan_date" required="required"/>
                             </div>
                         </div>
                         <div class="row" style="margin-bottom: 10px;">
@@ -225,9 +233,6 @@
         </div>
     {% endfor %}
     <!-- 添加复扫模态框模态框 结束-->
-
-
-
     <script src="{% static '/js/layerJquery.js' %}"></script>
     <script src="{% static '/js/layer.js' %}"></script>
     <div class="right_col" role="main">
@@ -294,7 +299,7 @@
                                   <button class="btn btn-success btn-xs" style="margin:0px;color:white">信息查询</button>
                               </a>
 
-                              <a href="#add_followup_{{ forloop.counter }}" data-toggle="modal" style="color:white">
+                             <a href="#add_followup_{{ forloop.counter }}" data-toggle="modal" style="color:white">
                                   <button class="btn btn-info btn-xs" style="margin:0px;color:white">添加复扫</button>
                               </a>
 

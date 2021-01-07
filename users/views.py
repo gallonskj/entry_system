@@ -18,6 +18,7 @@ def user_login(request):
             return render(request, 'login.html', context={'login_flag': True})
         else:
             print('登录成功！')
+            # print(res[0]['name'])
             # 保存登录session
             login_confirm(request, res[0]['id'], username)
             return redirect('/patients/get_all_patients_baseinfo')

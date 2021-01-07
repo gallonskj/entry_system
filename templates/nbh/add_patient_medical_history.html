@@ -74,12 +74,12 @@
 
                                         <div class="row " style="margin: 10px">
                                             <label class="control-label col-md-3" >2.前驱期：</label>
-                                            <input type="date" name="prophase_begin" id="prophase_begin" onclick="maxtime()" />至 <input type="date" name="prophase_end" id="prophase_end" onclick="mintime()" />
+                                            <input type="month" name="prophase_begin" id="prophase_begin" onclick="maxtime()" />至 <input type="month" name="prophase_end" id="prophase_end" onclick="mintime()" />
                                         </div>
 
                                         <div class=" " style="margin: 10px">
                                             <label class="control-label col-md-3">3.首次发病时间（不包括前驱期）：</label>
-                                            <input type="date" name="first_time_begin" id="first_time_begin" onclick="maxtime2()" />至 <input type="date" name="first_time_end" id="first_time_end" onclick="mintime2()" />
+                                            <input type="month" name="first_time_begin" id="first_time_begin" onclick="maxtime2()" />至 <input type="month" name="first_time_end" id="first_time_end" onclick="mintime2()" />
                                         </div>
 
                                         <div class="row" style="margin: 10px">
@@ -90,12 +90,12 @@
 
                                         <div class="row" style="margin: 10px">
                                             <label class="control-label col-md-3"><span>5.发作次数：（首发患者无需填）</span></label>
-                                            <input type="number" name="number_of_episode" min="0"/>
+                                            <input type="number" name="number_of_episode" min="0" />
 
                                         </div>
                                         <div class="row" style="margin: 10px">
                                             <label class="control-label col-md-3 "><span>6.本次发作日期</span></label>
-                                            <input type="date" name="current_episode_date" id="current_episode_date" onclick="maxtime3()" class="current_episode_date" style="width:200px"/>
+                                            <input type="month" name="current_episode_date" id="current_episode_date" onclick="maxtime3()" class="current_episode_date" style="width:200px"/>
 
                                         </div>
                                         <div class="row" style="margin: 10px">
@@ -377,7 +377,7 @@ function getNowFormatDate() {
 
             var col = row.insertCell(0);
 
-            col.innerHTML = "<input type=number min=0  max=1 value=0   name=type_0" + newLine + ">";
+            col.innerHTML = "<input type=number readonly min=0  max=1 value=0   name=type_0" + newLine + ">";
             col = row.insertCell(1);
 
             col.innerHTML = "<input type=text size=7 name=drug_name_0" + newLine + ">";
@@ -392,10 +392,10 @@ function getNowFormatDate() {
             col.innerHTML = "<input type=text  name=dosage_0" + newLine + ">";
             col = row.insertCell(5);
 
-            col.innerHTML = "<input  type=date size=7 name=begin_time_0" + newLine + ">";
+            col.innerHTML = "<input  type=month size=7 name=begin_time_0" + newLine + ">";
             col = row.insertCell(6);
 
-            col.innerHTML = "<input  type=date  size=7 name=end_time_0" + newLine + ">";
+            col.innerHTML = "<input  type=month  size=7 name=end_time_0" + newLine + ">";
             col = row.insertCell(7);
 
             col.innerHTML = "<input type=text size=7 name=note_0" + newLine + ">";
@@ -434,7 +434,7 @@ function getNowFormatDate() {
             var newLine = planTable2.rows.length;
             var row = planTable2.insertRow(newLine);
             var col = row.insertCell(0);
-            col.innerHTML = "<input type=number min=0  max=1  value=1  name=type_1" + newLine + ">";
+            col.innerHTML = "<input type=number readonly min=0  max=1  value=1  name=type_1" + newLine + ">";
 
             col = row.insertCell(1);
             col.innerHTML = "<input type=text size=7 name=drug_name_1" + newLine + ">";
@@ -445,9 +445,9 @@ function getNowFormatDate() {
             col = row.insertCell(4);
             col.innerHTML = "<input type=text  name=dosage_1" + newLine + ">";
             col = row.insertCell(5);
-            col.innerHTML = "<input type=date size=7 name=begin_time_1" + newLine + ">";
+            col.innerHTML = "<input type=month size=7 name=begin_time_1" + newLine + ">";
             col = row.insertCell(6);
-            col.innerHTML = "<input type=date size=7 name=end_time_1" + newLine + ">";
+            col.innerHTML = "<input type=month size=7 name=end_time_1" + newLine + ">";
             col = row.insertCell(7);
             col.innerHTML = "<input type=text size=7 name=note_1" + newLine + ">";
 

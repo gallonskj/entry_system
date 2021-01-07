@@ -76,7 +76,8 @@
                       <label class="control-label col-md-4 col-sm-6 col-md-offset-3">最近一次大考(期中或期末)中，您在班级的排名大约为:<span class="  "></span></label>
                       <div class="col-md-2 col-sm-3">
                           <select class="form-control" name="patient_current_achievement" id="patient_current_achievement" style="width:200px">
-                            <option value="1">前10%=1</option>
+                              <option value="0">未填=0</option>
+                              <option value="1">前10%=1</option>
                             <option value="2">11-25%=2</option>
                             <option value="3">26-50%=3</option>
                             <option value="4">51-75%=4</option>
@@ -91,7 +92,8 @@
                       <label class="control-label col-md-3 col-sm-5 col-md-offset-4">本学期相比于上个学期，学习成绩变动情况:<span class="  "></span></label>
                       <div class="col-md-1 col-sm-3">
                           <select class="form-control" name="patient_last_semester_achievement_difference" id="patient_last_semester_achievement_difference" style="width:200px">
-                            <option value="1">进步=1</option>
+                              <option value="0">未填=0</option>
+                              <option value="1">进步=1</option>
                             <option value="2">退步=2</option>
                             <option value="3">稳定=3</option>
                           </select>
@@ -103,7 +105,8 @@
                       <label class="control-label col-md-3 col-sm-5 col-md-offset-4">有情绪方面的症状前后，学习成绩变动情况:<span class="  "></span></label>
                       <div class="col-md-1 col-sm-3">
                           <select class="form-control" name="patient_mood_symptom_achievement_difference" id="patient_mood_symptom_achievement_difference" style="width:200px">
-                            <option value="1">进步=1</option>
+                              <option value="0">未填=0</option>
+                              <option value="1">进步=1</option>
                             <option value="2">退步=2</option>
                             <option value="3">稳定=3</option>
                           </select>
@@ -113,7 +116,7 @@
                     <div class="form-group row">
                       <label class="control-label col-md-3 col-sm-4 col-md-offset-2">是否担任过班级或学校的学生干部:<span class="  "></span></label>
                       <div class="col-md-1 col-sm-1 " id="patient_leader_1">
-                        <input type="radio" required="required" name="patient_leader" value=1 data-labelauty="是"/>
+                        <input type="radio" name="patient_leader" value=1 data-labelauty="是"/>
                       </div>
                       <div class="col-md-1 col-sm-1 " id="patient_leader_2">
                         <input type="radio" name="patient_leader" value=0 data-labelauty="否"/>
@@ -129,7 +132,7 @@
                     <div class="form-group row">
                         <label class="control-label  col-md-2 col-sm-3 col-md-offset-3 col-sm-offset-1">是否在学校寄宿:<span class="  "></span></label>
                       <div class="col-md-1 col-sm-1 " id="patient_live_school_1">
-                        <input type="radio" required="required" name="patient_live_school" value=1 data-labelauty="是"/>
+                        <input type="radio" name="patient_live_school" value=1 data-labelauty="是"/>
                       </div>
                       <div class="col-md-1 col-sm-1 " id="patient_live_school_2">
                         <input type="radio" name="patient_live_school" value=0 data-labelauty="否" />

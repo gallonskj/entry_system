@@ -47,15 +47,11 @@ urlpatterns = [
     url(r'^add_suicide', views.add_suicide),
     url(r'^add_family_info', views.add_family_info),
     url(r'^add_patient_medical_history',views.add_patient_medical_history),
-    #####################################################
-
     url(r'^add_bprs', views.add_bprs),
     url(r'^add_rbans', views.add_rbans),
     url(r'^add_cognitive_emotion', views.add_cognitive_emotion),
     url(r'^add_pleasure', views.add_pleasure),
     url(r'^add_patient_basic_information_health', views.add_patient_basic_information_health),
-    ######################################################
-    # zrq
     url(r'^add_abuse', views.add_abuse),
     url(r'^add_hama', views.add_hama),
     url(r'^add_growth', views.add_growth),
@@ -72,5 +68,12 @@ urlpatterns = [
     url(r'^add_study', views.add_information_study),
     url(r'^add_health', views.add_patient_basic_information_health),
     url(r'^skip_scale', views.skip_scale),
+#-----------------------------------------------------------------#
+    url(r'^get_check_hama_form', views.get_check_hama_form),
+    url(r'^get_check_hamd_17_form', views.get_check_hamd_17_form),
+    url(r'^get_check_ymrs_form', views.get_check_ymrs_form),
+    url(r'^get_check_bprs_form', views.get_check_bprs_form),
+    url(r'^get_last_url', views.get_last_url),
+    url(r'^get_next_url', views.get_next_url),
 
 ]
