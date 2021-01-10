@@ -3,8 +3,8 @@
 {% load SelfDefinedFilter %}
 {% block title %}汉密尔顿焦虑量表（HAMA）{% endblock %}
 {% block css %}
-    <link href="{% static '/css/scales_style.css' %}" rel="stylesheet">
-    <style>
+        <link href="{% static '/css/scales_style.css' %}" rel="stylesheet">
+     <style>
     .hama_table input.labelauty + label {
     margin-bottom: 2px;
     width: 100%;
@@ -71,7 +71,7 @@
                 </div>
                 <div id="right-side" class="col-md-10">
                     <div id="first" class="active">
-                        <form action="/scales/add_hama?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}"
+                        <form action="/scales/add_hama?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}"
                               name="hama_form" onSubmit="return myCheck(this)" method="post">
                             {% csrf_token %}
                             <div class="container">
@@ -218,21 +218,21 @@
                             </table>
                                     </div>
                                 </div>
-
-
-                             <div class="row">
+                                <div class="row">
                                 <div  class="col-md-4 col-sm-6 text-center" style="text-align: center">
-                                   <a  href="#"><button type="button" class="btn btn-warning" id="bt_return">返回上一量表</button></a>
+                                    <a  href="/scales/get_last_url?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}"
+                                            id="last_scale">
+                                        <button type="button" class="btn btn-warning" id="bt_return">返回上一量表</button>
+                                    </a>
                                 </div>
                                 <div  class="col-md-4 col-sm-6">
                                      {% csrf_token %}
-                                    <input  type="submit" class="btn btn-success text-center"  value="保存提交量表" id="hama_bt" > </input>
+                                        <input  type="submit" class="btn btn-success text-center"  value="保存提交量表" id="hama_bt" >
                                 </div>
                                  <div class="col-md-4 col-sm-6">
                                      <a href="/scales/skip_scale?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{scale_id}}"  style="float: right"><u>跳过该量表</u></a>
                                  </div>
                             </div>
-
                             </div>
                         </form>
                     </div>
@@ -240,6 +240,14 @@
             </div>
         </div>
     </div>
+     <script>
+       function getData(){
+        var order = "{{ order }}";
+        if(order==0) {
+            $("#last_scale").attr("style", "display:none;");
+        }
+       }
+    </script>
 {% endblock %}
 
 {% block js %}

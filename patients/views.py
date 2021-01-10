@@ -132,24 +132,18 @@ def add_patient_followup(request):
 # 获取病人详细信息
 def get_patient_detail(request):
     if request.GET:
-
         patient_id = request.GET.get("patient_id")
         patient_baseinfo = patients_dao.get_base_info_byPK(patient_id)
         patient_detail_list = DPatientDetail.objects.all().select_related('patient__doctor').filter(
-            patient_id=patient_id).values('id', 'patient_id', 'session_id', 'standard_id', 'create_time',
-                                          'patient_id__diagnosis',
-                                          'patient_id__other_diagnosis', 'doctor__name')
-        # print(patient_detail_list)
+            patient_id=patient_id).values('id', 'patient_id', 'session_id', 'standard_id', 'create_time','update_time',
+                                          'cognitive','sound','blood','hairs','manure','drugs_information',
+                                          'mri_examination','first','tms','age','occupation','education','years',
+                                          'emotional_state','phone','source','height','weight','waist','hip','handy','note','scan_date',
+                                          'patient_id__diagnosis','patient_id__other_diagnosis', 'doctor__name')
         test_states = scales_models.RPatientScales.objects.all().select_related('patient_session_id__scale'). \
             filter(patient_session_id__patient=patient_baseinfo).values(
-            'patient_session_id',
-            'patient_session_id__session_id',
-            'patient_session_id__patient_id',
-            'scale_id',
-            'scale__scale_name',
-            'scale__do_scale_type',
-            'state',
-            'end_time'
+            'patient_session_id','patient_session_id__session_id','patient_session_id__patient_id',
+            'scale_id','scale__scale_name', 'scale__do_scale_type','state','end_time'
         )
         ordered_dic = {}
         for test_state in test_states:
@@ -160,7 +154,7 @@ def get_patient_detail(request):
         nation_list = patients_dao.get_DEthnicity_all()
         return render(request, 'patient_detail.html',
                       {
-                          'patient_id': patient_id,
+                           'patient_id': patient_id,
                           'name': patient_baseinfo.name,
                           'birth_date': patient_baseinfo.birth_date.strftime('%Y-%m-%d'),
                           'sex': patient_baseinfo.sex,
@@ -192,8 +186,7 @@ def del_patient(request):
 def del_followup(request):
     patient_id = request.GET.get("patient_id")
     patient_session_id = request.GET.get("patient_session_id")
-    patient_detail = DPatientDetail.objects.all().select_related('doctor').filter(
-        pk=patient_session_id)
+    patient_detail = DPatientDetail.objects.all().select_related('doctor').filter(pk=patient_session_id)
     if patient_detail.count() == 1:
         # 只有创建该条记录的用户才能够删除本条记录
         if patient_detail.first().doctor.username == request.session.get('username'):
@@ -217,6 +210,7 @@ def update_base_info(request):
 def update_patient_detail(request):
     patient_session_id = request.GET.get('patient_session_id')
     patient_id = request.GET.get('patient_id')
+    page=request.GET.get('page')
     patient_detail = patients_dao.get_patient_detail_byPK(patient_session_id)
     patient_base_info = patients_dao.get_base_info_byPK(patient_id)
     # 通过field的方式进行数据的传递，注意，需要保证form表单中各项的名称与数据库中字段名称是名称相同
@@ -229,8 +223,11 @@ def update_patient_detail(request):
     patient_base_info.diagnosis = request.POST.get('diagnosis')
     patient_base_info.other_diagnosis = request.POST.get('other_diagnosis')
     patients_dao.add_base_info(patient_base_info)
-    redirect_url = '/scales/select_scales?patient_session_id={}&patient_id={}'.format(str(patient_session_id),
-                                                                                      str(patient_id))
+    if page == 1:
+         redirect_url = '/scales/select_scales?patient_session_id={}&patient_id={}'.format(str(patient_session_id),
+                                                                         str(patient_id))
+    else :
+        redirect_url='/patients/get_patient_detail?patient_id={}'.format(patient_id)
     return redirect(redirect_url)
 
 

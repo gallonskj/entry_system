@@ -54,6 +54,33 @@ scales_html_dict = {1: '/scales/get_family_form',
                     25: '/scales/get_patient_medical_history_form'
                     }
 
+check_scales_html_dict = {1: '/scales/get_check_family_form',
+                          2: '/scales/get_check_study_form',
+                          3: '/scales/get_check_health_form',
+                          4: '/scales/get_check_abuse_form',
+                          5: '/scales/get_check_other_form',
+                          6: '/scales/get_check_chi_form',
+                          7: '/scales/get_check_hamd_17_form',
+                          8: '/scales/get_check_hama_form',
+                          9: '/scales/get_check_ymrs_form',
+                          10: '/scales/get_check_bprs_form',
+                          11: '/scales/get_check_ybocs_form',
+                          12: '/scales/get_check_bss_form',
+                          13: '/scales/get_check_hcl_33_form',
+                          14: '/scales/get_check_shaps_form',
+                          15: '/scales/get_check_teps_form',
+                          16: '/scales/get_check_ctq_sf_form',
+                          17: '/scales/get_check_cerq_c_form',
+                          18: '/scales/get_check_aslec_form',
+                          19: '/scales/get_check_s_embu_form',
+                          20: '/scales/get_check_atq_form',
+                          21: '/scales/get_check_wcst_form',
+                          22: '/scales/get_check_rbans_form',
+                          23: '/scales/get_check_fept_form',
+                          24: '/scales/get_check_vept_form',
+                          25: '/scales/get_check_patient_medical_history_form'
+                    }
+
 general_info_type = 0
 other_test_type = 1
 self_test_type = 2

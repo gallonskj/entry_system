@@ -38,8 +38,7 @@
                         <li><a href="#">他评量表</a></li>
                         <li class="active"><a href="#">汉密尔顿抑郁量表（HAMD-17）</a></li>
                         <div style="float: right;margin-bottom: 0px;">
-
-                            <a href="/scales/select_scales?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}" class="btn btn-warning btn-sm"><i class="fa fa-arrow-left"></i><strong>&nbsp;返&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回</strong></a>
+                            <a href="/scales/select_scales?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&page=1" class="btn btn-warning btn-sm"><i class="fa fa-arrow-left"></i><strong>&nbsp;返&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回</strong></a>
                         </div>
                     </ul>
                 </div>
@@ -71,7 +70,7 @@
                 </div>
                 <div id="right-side" class="col-md-10">
                     <div id="first" class="active">
-                        <form action="/scales/add_hamd?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}"
+                        <form action="/scales/add_hamd?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}"
                               name="hamd_form" method="post" onSubmit="return myCheck(this)">
                             {% csrf_token %}
                             <div class="container">
@@ -89,7 +88,6 @@
                                     <strong>无症状=0 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 轻微=1 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;中等=2 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 较重=3 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;严重=4<br/></strong>
                                     <div class="ln_solid"></div>
                                 </div>
-
                                 <div class="row">
                                     <div class="col-md-12">
                                         <table class="table hamd_17_table" frame="void" style="font-weight:bold;">
@@ -257,21 +255,21 @@
                                         </table>
                                     </div>
                                 </div>
-
                                 <div class="row">
-                                <div  class="col-md-4 col-sm-6 text-center" style="text-align: center">
-                                   <a  href="#"><button type="button" class="btn btn-warning" id="bt_return">返回上一量表</button></a>
-                                </div>
-                                <div  class="col-md-4 col-sm-6">
-                                     {% csrf_token %}
-                                    <input  type="submit" class="btn btn-success text-center"  value="保存提交量表" id="hamd_bt" > </input>
-                                </div>
-                                 <div class="col-md-4 col-sm-6">
-                                     <a href="/scales/skip_scale?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{scale_id}}"  style="float: right"><u>跳过该量表</u></a>
-                                 </div>
-                            </div>
-
-
+                                        <div  class="col-md-4 col-sm-6 text-center" style="text-align: center">
+                                            <a  href="/scales/get_last_url?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}"
+                                            id="last_scale">
+                                                 <button type="button" class="btn btn-warning" id="bt_return">返回上一量表</button>
+                                            </a>
+                                        </div>
+                                        <div  class="col-md-4 col-sm-6">
+                                             {% csrf_token %}
+                                            <input  type="submit" class="btn btn-success text-center"  value="保存提交量表" id="hamd_bt" >
+                                        </div>
+                                         <div class="col-md-4 col-sm-6">
+                                             <a href="/scales/skip_scale?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{scale_id}}"  style="float: right"><u>跳过该量表</u></a>
+                                         </div>
+                               </div>
                             </div>
                         </form>
                     </div>
@@ -279,6 +277,14 @@
             </div>
         </div>
     </div>
+    <script>
+       function getData(){
+        var order = "{{ order }}";
+        if(order==0) {
+            $("#last_scale").attr("style", "display:none;");
+        }
+       }
+    </script>
 {% endblock %}
 
 {% block js %}

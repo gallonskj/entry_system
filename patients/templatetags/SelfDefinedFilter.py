@@ -51,3 +51,13 @@ def get_scale_url(scale_detail):
     next_page_url = config.scales_html_dict[int(scale_id)]
     redirect_url = '{}?patient_session_id={}&patient_id={}'.format(next_page_url, str(patient_session_id), str(patient_id))
     return redirect_url
+
+
+@register.filter(name='check_scale')
+def check_scale(scale_detail):
+    scale_id = scale_detail['scale_id']
+    patient_session_id = scale_detail['patient_session_id']
+    patient_id = scale_detail['patient_session_id__patient_id']
+    next_page_url = config.check_scales_html_dict[int(scale_id)]
+    redirect_url = '{}?patient_session_id={}&patient_id={}'.format(next_page_url, str(patient_session_id), str(patient_id))
+    return redirect_url
