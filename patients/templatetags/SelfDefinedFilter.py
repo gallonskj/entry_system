@@ -62,6 +62,7 @@ def check_scale(scale_detail):
     redirect_url = '{}?patient_session_id={}&patient_id={}'.format(next_page_url, str(patient_session_id), str(patient_id))
     return redirect_url
 
+#进入个人一般信息重做页面
 @register.filter(name='get_baseinfo_redo_scale_url')
 def get_baseinfo_redo_scale_url(scale_detail):
     scale_id = scale_detail['scale_id']

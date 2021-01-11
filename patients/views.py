@@ -210,7 +210,6 @@ def update_base_info(request):
 def update_patient_detail(request):
     patient_session_id = request.GET.get('patient_session_id')
     patient_id = request.GET.get('patient_id')
-    page=request.GET.get('page')
     patient_detail = patients_dao.get_patient_detail_byPK(patient_session_id)
     patient_base_info = patients_dao.get_base_info_byPK(patient_id)
     # 通过field的方式进行数据的传递，注意，需要保证form表单中各项的名称与数据库中字段名称是名称相同
@@ -223,11 +222,8 @@ def update_patient_detail(request):
     patient_base_info.diagnosis = request.POST.get('diagnosis')
     patient_base_info.other_diagnosis = request.POST.get('other_diagnosis')
     patients_dao.add_base_info(patient_base_info)
-    if page == 1:
-         redirect_url = '/scales/select_scales?patient_session_id={}&patient_id={}'.format(str(patient_session_id),
+    redirect_url = '/scales/select_scales?patient_session_id={}&patient_id={}'.format(str(patient_session_id),
                                                                          str(patient_id))
-    else :
-        redirect_url='/patients/get_patient_detail?patient_id={}'.format(patient_id)
     return redirect(redirect_url)
 
 

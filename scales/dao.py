@@ -649,25 +649,21 @@ def get_scale_state(patient_session_id, scale_id):
         return None
     return res[0].state
 
-def del_pleasure_scale(patient_session_id,scale_id):
-    res = scales_models.RPatientPleasure.objects.filter(patient_session_id=patient_session_id,scale_id=scale_id)
+def del_hamd(patient_session_id,scale_id):
+    res = scales_models.RPatientHamd17.objects.filter(patient_session_id=patient_session_id,scale_id=scale_id)
     if res.exists():
         res[0].delete()
 
-def del_pleasure_scale(patient_session_id,scale_id):
-    res = scales_models.RPatientPleasure.objects.filter(patient_session_id=patient_session_id,scale_id=scale_id)
+def del_hama(patient_session_id,scale_id):
+    res = scales_models.RPatientHama.objects.filter(patient_session_id=patient_session_id,scale_id=scale_id)
     if res.exists():
         res[0].delete()
-def del_pleasure_scale(patient_session_id,scale_id):
-    res = scales_models.RPatientPleasure.objects.filter(patient_session_id=patient_session_id,scale_id=scale_id)
+def del_bprs(patient_session_id,scale_id):
+    res = scales_models.RPatientBprs.objects.filter(patient_session_id=patient_session_id,scale_id=scale_id)
     if res.exists():
         res[0].delete()
 
-def del_pleasure_scale(patient_session_id,scale_id):
-    res = scales_models.RPatientPleasure.objects.filter(patient_session_id=patient_session_id,scale_id=scale_id)
-    if res.exists():
-        res[0].delete()
-def del_pleasure_scale(patient_session_id,scale_id):
-    res = scales_models.RPatientPleasure.objects.filter(patient_session_id=patient_session_id,scale_id=scale_id)
+def del_ymrs(patient_session_id,scale_id):
+    res = scales_models.RPatientYmrs.objects.filter(patient_session_id=patient_session_id,scale_id=scale_id)
     if res.exists():
         res[0].delete()

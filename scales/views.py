@@ -91,8 +91,9 @@ def judge_other_scale_state(request):
 def get_general_info_forms(request):
     patient_session_id = request.GET.get('patient_session_id')
     patient_id = request.GET.get('patient_id')
-    redirect_url = get_redirect_url(patient_session_id, patient_id, tools_config.general_info_next_url,
-                                    tools_config.general_info_type, 0)
+    do_type=request.GET.get('do_type')
+    redirect_url = get_baseinfo_redirect_url(patient_session_id, patient_id, tools_config.general_info_next_url,
+                                    tools_config.general_info_type, 0,do_type)
     return redirect(redirect_url)
 
 # 他测总量表
@@ -144,19 +145,6 @@ def get_select_scales(request):
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 '''
 get_XXX_form:获取表单信息
 主要是为了解决重定向无法传递context问题
@@ -166,104 +154,6 @@ get_XXX_form:获取表单信息
 
 
 
-
-
-
-
-
-
-# 获取家庭情况表单
-def get_family_form(request):
-    # 由于要传入生日信息，因此这里需要获取一些下一页面所需要的值
-    patient_id = request.GET.get('patient_id')
-    patient_session_id = request.GET.get('patient_session_id')
-    base_info = patients_dao.get_base_info_byPK(patient_id)
-    patient_detail = patients_dao.get_patient_detail_byPK(patient_session_id)
-    base_info.birth_date = base_info.birth_date.strftime('%Y-%m-%d')
-    age = patient_detail.age
-    nation_list = patients_dao.get_DEthnicity_all()
-    patient_session_id = request.GET.get('patient_session_id')
-    patient_detail = patients_dao.get_patient_detail_byPK(patient_session_id)
-    if patient_detail.handy is None:
-        patient_detail.handy = 0
-    scale_name_list = scales_dao.get_scalename_bytype(tools_config.general_info_type, patient_session_id)
-    return render(request, 'nbh/add_family.html', {'patient_session_id': request.GET.get('patient_session_id'),
-                                                   'patient_id': request.GET.get('patient_id'),
-                                                   'username': request.session.get('username'),
-                                                   'base_info': base_info,
-                                                   'age': age,
-                                                   'nation_list': nation_list,
-                                                   'scale_name_list': scale_name_list,
-                                                   'patient_detail': patient_detail,
-                                                   'scale_id': tools_config.information_family,
-                                                   'handy': patient_detail.handy,
-                                                   })
-
-# 获取学习情况表单
-def get_study_form(request):
-    patient_session_id = request.GET.get('patient_session_id')
-    scale_name_list = scales_dao.get_scalename_bytype(tools_config.general_info_type, patient_session_id)
-    return render(request, 'nbh/add_study.html', {'patient_session_id': patient_session_id,
-                                                  'patient_id': request.GET.get('patient_id'),
-                                                  'username': request.session.get('username'),
-                                                  'scale_name_list': scale_name_list,
-                                                  'scale_id': tools_config.information_study,
-                                                  })
-
-# 获取健康情况表单
-def get_health_form(request):
-    patient_session_id = request.GET.get('patient_session_id')
-    scale_name_list = scales_dao.get_scalename_bytype(tools_config.general_info_type, patient_session_id)
-    return render(request, 'nbh/add_health.html', {'patient_session_id': patient_session_id,
-                                                   'patient_id': request.GET.get('patient_id'),
-                                                   'username': request.session.get('username'),
-                                                   'scale_name_list': scale_name_list,
-                                                   'scale_id': tools_config.information_health,
-                                                   })
-
-# 获取物质依赖表单
-def get_abuse_form(request):
-    patient_session_id = request.GET.get('patient_session_id')
-    scale_name_list = scales_dao.get_scalename_bytype(tools_config.general_info_type, patient_session_id)
-    return render(request, 'nbh/add_abuse.html', {'patient_session_id': patient_session_id,
-                                                  'patient_id': request.GET.get('patient_id'),
-                                                  'username': request.session.get('username'),
-                                                  'scale_name_list': scale_name_list,
-                                                  'scale_id': tools_config.information_abuse,
-                                                  })
-
-# 获取其他资料表单
-def get_other_form(request):
-    patient_session_id = request.GET.get('patient_session_id')
-    scale_name_list = scales_dao.get_scalename_bytype(tools_config.general_info_type, patient_session_id)
-    return render(request, 'nbh/add_other.html', {'patient_session_id': patient_session_id,
-                                                  'patient_id': request.GET.get('patient_id'),
-                                                  'username': request.session.get('username'),
-                                                  'scale_name_list': scale_name_list,
-                                                  'scale_id': tools_config.information_other,
-                                                  })
-
-# 获取利手量表表单
-def get_chi_form(request):
-    patient_session_id = request.GET.get('patient_session_id')
-    scale_name_list = scales_dao.get_scalename_bytype(tools_config.general_info_type, patient_session_id)
-    return render(request, 'nbh/add_chi.html', {'patient_session_id': patient_session_id,
-                                                'patient_id': request.GET.get('patient_id'),
-                                                'username': request.session.get('username'),
-                                                'scale_name_list': scale_name_list,
-                                                'scale_id': tools_config.chi,
-                                                })
-
-# 获取病人病史表单
-def get_patient_medical_history_form(request):
-    # 获取需要做的量表列表
-    patient_session_id = request.GET.get('patient_session_id')
-    scale_name_list = scales_dao.get_scalename_bytype(tools_config.general_info_type, patient_session_id)
-    return render(request, 'nbh/add_patient_medical_history.html', {'patient_session_id': patient_session_id,
-                                                                    'patient_id': request.GET.get('patient_id'),
-                                                                    'username': request.session.get('username'),
-                                                                    'scale_name_list': scale_name_list,
-                                                                    'scale_id': tools_config.mediacal_history, })
 
 
 # 获取耶鲁布朗表单
@@ -409,126 +299,6 @@ def get_vept_form(request):
 '''
 量表具体操作
 '''
-#一般资料
-def add_family_info(request):
-    if request.POST:
-        doctor_id = request.session.get('doctor_id')
-        patient_id = request.GET.get('patient_id')
-        patient_session_id = request.GET.get('patient_session_id')
-        patient_id = request.GET.get('patient_id')
-        scales_id = tools_config.information_family
-        dpatientdetail = scales_models.DPatientDetail.objects.filter(pk=patient_session_id).first()
-        patient_basic_info_family = scales_dao.get_patient_base_info_family_byPatientDetailId(patient_session_id)
-        patient_base_info = patients_dao.get_base_info_byPK(patient_id)
-
-        if patient_basic_info_family is None:
-            patient_basic_info_family = scales_models.RPatientBasicInformationFamily(patient_session=dpatientdetail,
-                                                                                     doctor_id=doctor_id,
-                                                                                     scale_id=scales_id)
-
-        form_list = [dpatientdetail, patient_basic_info_family, patient_base_info]
-        # 有些字段传回来的是‘’，不能自动转换成int或者Null
-        for key in request.POST.keys():
-            for form in form_list:
-                if hasattr(form, key):
-                    if request.POST.get(key) == '':
-                        setattr(form, key, None)
-                    else:
-                        setattr(form, key, request.POST.get(key))
-
-        patients_dao.add_patient_detail(dpatientdetail)
-        patients_dao.add_base_info(patient_base_info)
-
-    scales_dao.dao_add_family_info(patient_basic_info_family)
-    redirect_url = get_redirect_url(patient_session_id, patient_id, tools_config.general_info_next_url,
-                                    tools_config.general_info_type, tools_config.information_family)
-    return redirect(redirect_url)
-
-def add_information_study(request):
-    patient_session_id = request.GET.get('patient_session_id')
-    scale_id = tools_config.information_study
-    doctor_id = request.session.get('doctor_id')
-    rPatientBasicInformationStudy = scales_dao.get_patient_base_info_study_byPatientDetailId(patient_session_id)
-    if rPatientBasicpost_keysInformationStudy is None:
-        rPatientBasicInformationStudy = scales_models.RPatientBasicInformationStudy(
-            patient_session_id=patient_session_id, scale_id=scale_id, doctor_id=doctor_id)
-    rPatientBasicInformationStudy = set_attr_by_post(request, rPatientBasicInformationStudy)
-
-    scales_dao.add_information_study_database(rPatientBasicInformationStudy)
-    patient_id = request.GET.get('patient_id')
-    redirect_url = get_redirect_url(patient_session_id, patient_id, tools_config.general_info_next_url,
-                                    tools_config.general_info_type, tools_config.information_study)
-    return redirect(redirect_url)
-
-def add_patient_basic_information_health(request):
-    patient_session_id = request.GET.get('patient_session_id')
-    scale_id = tools_config.information_health
-    doctor_id = request.session.get('doctor_id')
-    rPatientBasicInformationHealth = scales_dao.get_patient_base_info_health_byPatientDetailId(patient_session_id)
-    if rPatientBasicInformationHealth is None:
-        rPatientBasicInformationHealth = scales_models.RPatientBasicInformationHealth(
-            patient_session_id=patient_session_id,
-            scale_id=scale_id, doctor_id=doctor_id)
-    rPatientBasicInformationHealth = set_attr_by_post(request, rPatientBasicInformationHealth)
-    scales_dao.add_patient_basic_information_health_database(rPatientBasicInformationHealth)
-    patient_id = request.GET.get('patient_id')
-    redirect_url = get_redirect_url(patient_session_id, patient_id, tools_config.general_info_next_url,
-                                    tools_config.general_info_type, tools_config.information_health)
-    return redirect(redirect_url)
-
-def add_abuse(request):
-    patient_session_id = request.GET.get('patient_session_id')
-    scale_id = tools_config.information_abuse
-    doctor_id = request.session.get('doctor_id')
-    rPatientBasicInformationAbuse = scales_dao.get_patient_base_info_abuse_byPatientDetailId(patient_session_id)
-    if rPatientBasicInformationAbuse is None:
-        rPatientBasicInformationAbuse = scales_models.RPatientBasicInformationAbuse(
-            patient_session_id=patient_session_id, scale_id=scale_id, doctor_id=doctor_id)
-    rPatientBasicInformationAbuse = set_attr_by_post(request, rPatientBasicInformationAbuse)
-    scales_dao.add_apost_keysbuse_database(rPatientBasicInformationAbuse)
-    patient_id = request.GET.get('patient_id')
-    redirect_url = get_redirect_url(patient_session_id, patient_id, tools_config.general_info_next_url,
-                                    tools_config.general_info_type, tools_config.information_abuse)
-    return redirect(redirect_url)
-
-def add_other(request):
-    patient_session_id = request.GET.get('patient_session_id')
-    scale_id = tools_config.information_other
-    doctor_id = request.session.get('doctor_id')
-    rPatientBasicInformationOther = scales_dao.get_patient_base_info_other_byPatientDetailId(patient_session_id)
-    if rPatientBasicInformationOther is None:
-        rPatientBasicInformationOther = scales_models.RPatientBasicInformationOther(
-            patient_session_id=patient_session_id, scale_id=scale_id, doctor_id=doctor_id)
-    rPatientBasicInformationOther = set_attr_by_post(request, rPatientBasicInformationOther)
-    scales_dao.add_other_database(rPatientBasicInformationOther)
-    patient_id = request.GET.get('patient_id')
-    redirect_url = get_redirect_url(patient_session_id, patient_id, tools_config.general_info_next_url,
-                                    tools_config.general_info_type, tools_config.information_other)
-    return redirect(redirect_url)
-
-def add_chinesehandle(request):
-    patient_session_id = request.GET.get('patient_session_id')
-    scale_id = tools_config.chi
-    doctor_id = request.session.get('doctor_id')
-    rPatientChineseHandy = scales_dao.get_handy_byPatientDetailId(patient_session_id)
-    if rPatientChineseHandy is None:
-        rPatientChineseHandy = scales_models.RPatientChineseHandy(patient_session_id=patient_session_id,
-                                                                  scale_id=scale_id, doctor_id=doctor_id)
-    rPatientChineseHandy = set_attr_by_post(request, rPatientChineseHandy)
-    scales_dao.add_chinesehandle_database(rPatientChineseHandy)
-    # 这里还要更新d_patient_detail表中的利手关系
-    patient_detail = patients_dao.get_patient_detail_byPK(patient_session_id)
-    patient_detail.handy = rPatientChineseHandy.result
-    patients_dao.add_patient_detail(patient_detail)
-
-    patient_id = request.GET.get('patient_id')
-    redirect_url = get_redirect_url(patient_session_id, patient_id, tools_config.general_info_next_url,
-                                    tools_config.general_info_type, tools_config.chi)
-    return redirect(redirect_url)
-
-def patient_basic_information(request):
-    return render(request, 'patient_basic_information.html')
-
 #他评
 def add_hamd(request):
     patient_session_id = request.GET.get('patient_session_id')
@@ -969,6 +739,10 @@ def get_hamd_17_form(request):
     patient_session_id = request.GET.get('patient_session_id')
     scale_id = tools_config.hamd_17
     state = scales_dao.get_scale_state(patient_session_id=patient_session_id,scale_id=scale_id)
+    # state==1,表明是重做逻辑,需要删除旧的记录,更新state状态
+    if state == 1:
+        scales_dao.del_hamd(patient_session_id=patient_session_id,scale_id=scale_id)
+        scales_dao.update_rscales_state(patient_session_id,scale_id,0)
     scale_name_list,order=get_scale_order(patient_session_id,scale_id,tools_config.other_test_type)
     hamd_answer = scales_dao.get_patient_HAMD17_byPatientDetailId(patient_session_id)
     return render(request, 'nbh/add_hamd_17.html', {'patient_session_id': patient_session_id,
@@ -1019,6 +793,9 @@ def get_hama_form(request):
     patient_session_id = request.GET.get('patient_session_id')
     scale_id = tools_config.hama
     state = scales_dao.get_scale_state(patient_session_id=patient_session_id,scale_id=scale_id)
+    if state == 1:
+        scales_dao.del_hama(patient_session_id=patient_session_id,scale_id=scale_id)
+        scales_dao.update_rscales_state(patient_session_id,scale_id,0)
     scale_name_list,order=get_scale_order(patient_session_id,scale_id,tools_config.other_test_type)
     hama_answer = scales_dao.get_patient_HAMA_byPatientDetailId(patient_session_id)
     return render(request, 'nbh/add_hama.html', {'patient_session_id': patient_session_id,
@@ -1068,6 +845,9 @@ def get_ymrs_form(request):
     patient_session_id = request.GET.get('patient_session_id')
     scale_id = tools_config.ymrs
     state = scales_dao.get_scale_state(patient_session_id=patient_session_id, scale_id=scale_id)
+    if state == 1:
+        scales_dao.del_ymrs(patient_session_id=patient_session_id,scale_id=scale_id)
+        scales_dao.update_rscales_state(patient_session_id,scale_id,0)
     scale_name_list, order = get_scale_order(patient_session_id, scale_id, tools_config.other_test_type)
     ymrs_answer = scales_dao.get_patient_YMRS_byPatientDetailId(patient_session_id)
     return render(request, 'nbh/add_ymrs.html', {'patient_session_id': patient_session_id,
@@ -1116,6 +896,9 @@ def get_bprs_form(request):
     patient_session_id = request.GET.get('patient_session_id')
     scale_id = tools_config.bprs
     state = scales_dao.get_scale_state(patient_session_id=patient_session_id, scale_id=scale_id)
+    if state == 1:
+        scales_dao.del_bprs(patient_session_id=patient_session_id,scale_id=scale_id)
+        scales_dao.update_rscales_state(patient_session_id,scale_id,0)
     scale_name_list, order = get_scale_order(patient_session_id, scale_id, tools_config.other_test_type)
     bprs_answer = scales_dao.get_patient_BPRS_byPatientDetailId(patient_session_id)
     return render(request, 'nbh/add_bprs.html', {'patient_session_id': patient_session_id,
@@ -1162,3 +945,239 @@ def next_url(request):
     pass
     # state==1，check_form；state==0，form 填充
 '''
+
+'''
+个人一般信息
+'''
+def get_baseinfo_redirect_url(patient_session_id, patient_id, next_type, do_scale_type, cur_scale_id,do_type):
+
+    min_unfinished_scale = scales_dao.get_min_unfinished_scale(do_scale_type, patient_session_id, cur_scale_id)
+    if min_unfinished_scale is None:
+        redirect_url = '{}?patient_session_id={}&patient_id={}'.format(tools_config.select_scales_url,
+                                                                       str(patient_session_id), str(patient_id))
+        return redirect_url
+    next_page_url = tools_config.scales_html_dict[min_unfinished_scale]
+    redirect_url = '{}?patient_session_id={}&patient_id={}&do_type={}'.format(next_page_url, str(patient_session_id),
+                                                                   str(patient_id),do_type)
+    return redirect_url
+# 获取家庭情况表单
+def get_family_form(request):
+    # 由于要传入生日信息，因此这里需要获取一些下一页面所需要的值
+    patient_id = request.GET.get('patient_id')
+    patient_session_id = request.GET.get('patient_session_id')
+    base_info = patients_dao.get_base_info_byPK(patient_id)
+    do_type=request.GET.get('do_type')
+    patient_detail = patients_dao.get_patient_detail_byPK(patient_session_id)
+    base_info.birth_date = base_info.birth_date.strftime('%Y-%m-%d')
+    age = patient_detail.age
+    patient_baseinfo_family=scales_dao.get_patient_base_info_family_byPatientDetailId(patient_session_id)
+    nation_list = patients_dao.get_DEthnicity_all()
+    if patient_detail.handy is None:
+        patient_detail.handy = 0
+    scale_name_list = scales_dao.get_scalename_bytype(tools_config.general_info_type, patient_session_id)
+    return render(request, 'nbh/add_family.html', {'patient_session_id': request.GET.get('patient_session_id'),
+                                                   'patient_id': request.GET.get('patient_id'),
+                                                   'username': request.session.get('username'),
+                                                   'base_info': base_info,
+                                                   'age': age,
+                                                   'nation_list': nation_list,
+                                                   'scale_name_list': scale_name_list,
+                                                   'patient_detail': patient_detail,
+                                                   'scale_id': tools_config.information_family,
+                                                   'handy': patient_detail.handy,
+                                                   'do_type':do_type,
+                                                   'patient_baseinfo_family':patient_baseinfo_family
+                                                   })
+
+def add_family_info(request):
+    if request.POST:
+        doctor_id = request.session.get('doctor_id')
+        patient_id = request.GET.get('patient_id')
+        patient_session_id = request.GET.get('patient_session_id')
+        patient_id = request.GET.get('patient_id')
+        scales_id = tools_config.information_family
+        dpatientdetail = scales_models.DPatientDetail.objects.filter(pk=patient_session_id).first()
+        patient_basic_info_family = scales_dao.get_patient_base_info_family_byPatientDetailId(patient_session_id)
+        patient_base_info = patients_dao.get_base_info_byPK(patient_id)
+
+        if patient_basic_info_family is None:
+            patient_basic_info_family = scales_models.RPatientBasicInformationFamily(patient_session=dpatientdetail,
+                                                                                     doctor_id=doctor_id,
+                                                                                     scale_id=scales_id)
+
+        form_list = [dpatientdetail, patient_basic_info_family, patient_base_info]
+        # 有些字段传回来的是‘’，不能自动转换成int或者Null
+        for key in request.POST.keys():
+            for form in form_list:
+                if hasattr(form, key):
+                    if request.POST.get(key) == '':
+                        setattr(form, key, None)
+                    else:
+                        setattr(form, key, request.POST.get(key))
+
+        patients_dao.add_patient_detail(dpatientdetail)
+        patients_dao.add_base_info(patient_base_info)
+
+    scales_dao.dao_add_family_info(patient_basic_info_family)
+
+    redirect_url = 'get_family_form?patient_session_id={}&patient_id={}&do_type={}'.format( str(patient_session_id),
+                                                                            str(patient_id), 1)
+    return redirect(redirect_url)
+
+# 获取学习情况表单
+def get_study_form(request):
+    patient_session_id = request.GET.get('patient_session_id')
+    scale_name_list = scales_dao.get_scalename_bytype(tools_config.general_info_type, patient_session_id)
+    return render(request, 'nbh/add_study.html', {'patient_session_id': patient_session_id,
+                                                  'patient_id': request.GET.get('patient_id'),
+                                                  'username': request.session.get('username'),
+                                                  'scale_name_list': scale_name_list,
+                                                  'scale_id': tools_config.information_study,
+                                                  })
+
+def add_information_study(request):
+    patient_session_id = request.GET.get('patient_session_id')
+    scale_id = tools_config.information_study
+    doctor_id = request.session.get('doctor_id')
+    rPatientBasicInformationStudy = scales_dao.get_patient_base_info_study_byPatientDetailId(patient_session_id)
+    if rPatientBasicInformationStudy is None:
+        rPatientBasicInformationStudy = scales_models.RPatientBasicInformationStudy(
+            patient_session_id=patient_session_id, scale_id=scale_id, doctor_id=doctor_id)
+    rPatientBasicInformationStudy = set_attr_by_post(request, rPatientBasicInformationStudy)
+
+    scales_dao.add_information_study_database(rPatientBasicInformationStudy)
+    patient_id = request.GET.get('patient_id')
+    redirect_url = get_redirect_url(patient_session_id, patient_id, tools_config.general_info_next_url,
+                                    tools_config.general_info_type, tools_config.information_study)
+    return redirect(redirect_url)
+
+# 获取健康情况表单
+def get_health_form(request):
+    patient_session_id = request.GET.get('patient_session_id')
+    scale_name_list = scales_dao.get_scalename_bytype(tools_config.general_info_type, patient_session_id)
+    return render(request, 'nbh/add_health.html', {'patient_session_id': patient_session_id,
+                                                   'patient_id': request.GET.get('patient_id'),
+                                                   'username': request.session.get('username'),
+                                                   'scale_name_list': scale_name_list,
+                                                   'scale_id': tools_config.information_health,
+                                                   })
+
+def add_patient_basic_information_health(request):
+    patient_session_id = request.GET.get('patient_session_id')
+    scale_id = tools_config.information_health
+    doctor_id = request.session.get('doctor_id')
+    rPatientBasicInformationHealth = scales_dao.get_patient_base_info_health_byPatientDetailId(patient_session_id)
+    if rPatientBasicInformationHealth is None:
+        rPatientBasicInformationHealth = scales_models.RPatientBasicInformationHealth(
+            patient_session_id=patient_session_id,
+            scale_id=scale_id, doctor_id=doctor_id)
+    rPatientBasicInformationHealth = set_attr_by_post(request, rPatientBasicInformationHealth)
+    scales_dao.add_patient_basic_information_health_database(rPatientBasicInformationHealth)
+    patient_id = request.GET.get('patient_id')
+    redirect_url = get_redirect_url(patient_session_id, patient_id, tools_config.general_info_next_url,
+                                    tools_config.general_info_type, tools_config.information_health)
+    return redirect(redirect_url)
+
+# 获取物质依赖表单
+def get_abuse_form(request):
+    patient_session_id = request.GET.get('patient_session_id')
+    scale_name_list = scales_dao.get_scalename_bytype(tools_config.general_info_type, patient_session_id)
+    return render(request, 'nbh/add_abuse.html', {'patient_session_id': patient_session_id,
+                                                  'patient_id': request.GET.get('patient_id'),
+                                                  'username': request.session.get('username'),
+                                                  'scale_name_list': scale_name_list,
+                                                  'scale_id': tools_config.information_abuse,
+                                                  })
+
+def add_abuse(request):
+    patient_session_id = request.GET.get('patient_session_id')
+    scale_id = tools_config.information_abuse
+    doctor_id = request.session.get('doctor_id')
+    rPatientBasicInformationAbuse = scales_dao.get_patient_base_info_abuse_byPatientDetailId(patient_session_id)
+    if rPatientBasicInformationAbuse is None:
+        rPatientBasicInformationAbuse = scales_models.RPatientBasicInformationAbuse(
+            patient_session_id=patient_session_id, scale_id=scale_id, doctor_id=doctor_id)
+    rPatientBasicInformationAbuse = set_attr_by_post(request, rPatientBasicInformationAbuse)
+    scales_dao.add_abuse_database(rPatientBasicInformationAbuse)
+    patient_id = request.GET.get('patient_id')
+    redirect_url = get_redirect_url(patient_session_id, patient_id, tools_config.general_info_next_url,
+                                    tools_config.general_info_type, tools_config.information_abuse)
+    return redirect(redirect_url)
+
+# 获取其他资料表单
+def get_other_form(request):
+    patient_session_id = request.GET.get('patient_session_id')
+    scale_name_list = scales_dao.get_scalename_bytype(tools_config.general_info_type, patient_session_id)
+    return render(request, 'nbh/add_other.html', {'patient_session_id': patient_session_id,
+                                                  'patient_id': request.GET.get('patient_id'),
+                                                  'username': request.session.get('username'),
+                                                  'scale_name_list': scale_name_list,
+                                                  'scale_id': tools_config.information_other,
+                                                  })
+
+def add_other(request):
+    patient_session_id = request.GET.get('patient_session_id')
+    scale_id = tools_config.information_other
+    doctor_id = request.session.get('doctor_id')
+    rPatientBasicInformationOther = scales_dao.get_patient_base_info_other_byPatientDetailId(patient_session_id)
+    if rPatientBasicInformationOther is None:
+        rPatientBasicInformationOther = scales_models.RPatientBasicInformationOther(
+            patient_session_id=patient_session_id, scale_id=scale_id, doctor_id=doctor_id)
+    rPatientBasicInformationOther = set_attr_by_post(request, rPatientBasicInformationOther)
+    scales_dao.add_other_database(rPatientBasicInformationOther)
+    patient_id = request.GET.get('patient_id')
+    redirect_url = get_redirect_url(patient_session_id, patient_id, tools_config.general_info_next_url,
+                                    tools_config.general_info_type, tools_config.information_other)
+    return redirect(redirect_url)
+
+# 获取利手量表表单
+def get_chi_form(request):
+    patient_session_id = request.GET.get('patient_session_id')
+    scale_name_list = scales_dao.get_scalename_bytype(tools_config.general_info_type, patient_session_id)
+    return render(request, 'nbh/add_chi.html', {'patient_session_id': patient_session_id,
+                                                'patient_id': request.GET.get('patient_id'),
+                                                'username': request.session.get('username'),
+                                                'scale_name_list': scale_name_list,
+                                                'scale_id': tools_config.chi,
+                                                })
+
+def add_chinesehandle(request):
+    patient_session_id = request.GET.get('patient_session_id')
+    scale_id = tools_config.chi
+    doctor_id = request.session.get('doctor_id')
+    rPatientChineseHandy = scales_dao.get_handy_byPatientDetailId(patient_session_id)
+    if rPatientChineseHandy is None:
+        rPatientChineseHandy = scales_models.RPatientChineseHandy(patient_session_id=patient_session_id,
+                                                                  scale_id=scale_id, doctor_id=doctor_id)
+    rPatientChineseHandy = set_attr_by_post(request, rPatientChineseHandy)
+    scales_dao.add_chinesehandle_database(rPatientChineseHandy)
+    # 这里还要更新d_patient_detail表中的利手关系
+    patient_detail = patients_dao.get_patient_detail_byPK(patient_session_id)
+    patient_detail.handy = rPatientChineseHandy.result
+    patients_dao.add_patient_detail(patient_detail)
+
+    patient_id = request.GET.get('patient_id')
+    redirect_url = get_redirect_url(patient_session_id, patient_id, tools_config.general_info_next_url,
+                                    tools_config.general_info_type, tools_config.chi)
+    return redirect(redirect_url)
+
+# 获取病人病史表单
+def get_patient_medical_history_form(request):
+    # 获取需要做的量表列表
+    patient_session_id = request.GET.get('patient_session_id')
+    scale_name_list = scales_dao.get_scalename_bytype(tools_config.general_info_type, patient_session_id)
+    return render(request, 'nbh/add_patient_medical_history.html', {'patient_session_id': patient_session_id,
+                                                                    'patient_id': request.GET.get('patient_id'),
+                                                                    'username': request.session.get('username'),
+                                                                    'scale_name_list': scale_name_list,
+                                                                    'scale_id': tools_config.mediacal_history, })
+
+def patient_basic_information(request):
+    return render(request, 'patient_basic_information.html')
+#一般资料
+
+
+
+
+
+

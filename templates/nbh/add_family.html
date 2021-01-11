@@ -270,8 +270,8 @@
                                             class="required">*</span></label>
                                     <div class="col-md-1 col-sm-2 ">
                                         <input type="text" id="education_years" name="education_years"
-                                               class="form-control" style="width:175px" PLACEHOLDER="年"value="{{ patient_detail.years|processNone }}>
-                                    </div>
+                                               class="form-control" style="width:175px" PLACEHOLDER="年" value="{{ patient_detail.years|processNone }}"
+                                  </div>
                                 </div>
                             </div>
 
@@ -321,8 +321,6 @@
                                         <option value="6">其他=6</option>
                                       </select>
                                 </div>
-
-
 
                                 <div class="other_living_type">
                                     <label class="control-label col-md-1 col-sm-3 " id="patient_live_text"
@@ -586,7 +584,61 @@
     </div>
     </div>
     </div>
+  <script>
+       function getData(){
+         var do_type="{{ do_type }}"
+           if(do_type==1){
+               $("input[name='patient_urban_rural']").eq({{ patient_baseinfo_family.patient_urban_rural }}).attr("checked","checked");
+               $("input[name='patient_address']").val({{ patient_baseinfo_family.patient_address|processNone }})
 
+               var family_patient_live_type = "{{ patient_baseinfo_family.patient_live_type }}";
+               var patient_live_type = Number(family_patient_live_type);
+               $("#patient_live_type option[value="+patient_live_type+"]").prop("selected",true);
+
+
+               if ($('#patient_live_type option:selected').val() == 6) {
+                $('.other_living_type').show();
+
+            } else {
+                $('.other_living_type').hide();
+            }
+
+
+               if(patient_live_type == 6) {
+                   document.getElementById("other_diagnosis_div").style.display = "";
+                   $('.other_living_type').show();
+                   $("input[name='patient_live_type_other']").val({{ patient_baseinfo_family.patient_live_type_other|processNone }})
+
+               }
+
+               $("input[name='patient_live_type']").
+               $("input[name='patient_only_child']").
+               $("input[name='patient_older_brother_num']").val({{ patient_baseinfo_family.irritability|processNone }})
+               $("input[name='patient_youger_brother_num']").val({{ patient_baseinfo_family.speech|processNone }})
+               $("input[name='patient_older_sister_num']").val({{ patient_baseinfo_family.language|processNone }})
+               $("input[name='patient_youger_sister_num']").val({{ patient_baseinfo_family.thinking_content|processNone }})
+               $("input[name='parents_favour']").
+                   father_occupation
+                    mother_occupation
+                    father_tele
+                    mother_tele
+                    patient_email_qq_wechat
+                    father_education
+                    mother_education
+                    parent_marry
+               patient_parent_death
+
+               $("input[name='patient_parent_death_age']").val({{ patient_baseinfo_family.appearance|processNone }})
+               parent_argument
+               $("input[name='patient_adopt']").eq({{ patient_baseinfo_family.patient_adopt }}).attr("checked","checked");
+                    father_relationship
+                    mother_relationship
+
+
+               $("input[name='self_awareness']").val({{ patient_baseinfo_family.self_awareness|processNone }})
+           }
+       }
+    </script>
 
 
 {% endblock %}
