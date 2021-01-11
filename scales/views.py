@@ -886,24 +886,21 @@ def skip_scale(request):
                                     scale.do_scale_type, scale_id)
     return redirect(redirect_url)
 ##########--------------------------------------#########################
-# 获取汉密尔顿抑郁
+#进入上一量表
 def get_last_url(request):
     patient_session_id = request.GET.get('patient_session_id')
     patient_id = request.GET.get('patient_id')
     scale_id = int(request.GET.get('scale_id'))
     rPatientScales=scales_dao.get_last_scales_detail(patient_session_id,scale_id)
-   #如果上一条未答
     if int(rPatientScales.state) == 0  :
-        #未填写的
         last_page_url = tools_config.scales_html_dict[rPatientScales.scale_id]
         redirect_url = '{}?patient_session_id={}&patient_id={}'.format(last_page_url, str(patient_session_id), str(patient_id))
     else:
         last_page_url = tools_config.check_scales_html_dict[rPatientScales.scale_id]
         redirect_url = '{}?patient_session_id={}&patient_id={}'.format(last_page_url, str(patient_session_id),
                                                                        str(patient_id))
-
     return redirect(redirect_url)
-
+#进入下一量表
 def get_next_url(request):
     patient_session_id = request.GET.get('patient_session_id')
     patient_id = request.GET.get('patient_id')
@@ -955,13 +952,15 @@ def add_hamd2(request):
     doctor_id = request.session.get('doctor_id')
     patient_id = request.GET.get('patient_id')
     rPatientHAMD17 = scales_dao.get_patient_HAMD17_byPatientDetailId(patient_session_id)
-    if rPatientHAMD17 is None:
-        rPatientHAMD17 = scales_models.RPatientHamd17(patient_session_id=patient_session_id, scale_id=scale_id,
+    rPatientHAMD17_new = scales_models.RPatientHamd17(patient_session_id=patient_session_id, scale_id=scale_id,
                                                       doctor_id=doctor_id)
-    rPatientHAMD17 = set_attr_by_post(request, rPatientHAMD17)
+    if rPatientHAMD17 is not None:
+        rPatientHAMD17_new.create_time = rPatientHAMD17.create_time
+        rPatientHAMD17_new.id = rPatientHAMD17.id
+    rPatientHAMD17_new = set_attr_by_post(request, rPatientHAMD17_new)
     state=judge_other_scale_state(request)
     # 插入数据库
-    scales_dao.add_hamd_database(rPatientHAMD17,state)
+    scales_dao.add_hamd_database(rPatientHAMD17_new,state)
     redirect_url = '/scales/get_check_hamd_17_form?patient_session_id={}&patient_id={}'.format(patient_session_id,
                                                                                                 patient_id)
     return redirect(redirect_url)
@@ -996,7 +995,6 @@ def get_check_hamd_17_form(request):
                                                       'order':order,
                                                     })
 
-
 # 获取汉密尔顿焦虑
 def add_hama(request):
     patient_session_id = request.GET.get('patient_session_id')
@@ -1004,12 +1002,14 @@ def add_hama(request):
     doctor_id = request.session.get('doctor_id')
     patient_id = request.GET.get('patient_id')
     rPatientHama = scales_dao.get_patient_HAMA_byPatientDetailId(patient_session_id)
+    rPatientHAMA_new = scales_models.RPatientHama(patient_session_id=patient_session_id, scale_id=scale_id,
+                                                      doctor_id=doctor_id)
+    if rPatientHama is not None:
+        rPatientHAMA_new.create_time = rPatientHama.create_time
+        rPatientHAMA_new.id = rPatientHama.id
+    rPatientHAMA_new = set_attr_by_post(request, rPatientHAMA_new)
     state=judge_other_scale_state(request)
-    if rPatientHama is None:
-        rPatientHama = scales_models.RPatientHama(patient_session_id=patient_session_id, scale_id=scale_id,
-                                                  doctor_id=doctor_id)
-    rPatientHama = set_attr_by_post(request, rPatientHama)
-    scales_dao.add_hama_database(rPatientHama,state)
+    scales_dao.add_hama_database(rPatientHAMA_new,state)
     redirect_url = '/scales/get_check_hama_form?patient_session_id={}&patient_id={}'.format(patient_session_id,
                                                                                                patient_id)
     #redirect_url = return_next(request)
@@ -1044,7 +1044,6 @@ def get_check_hama_form(request):
                                                  'order': order,
                                                  })
 
-
 # 获取杨氏躁狂
 def add_ymrs(request):
     patient_session_id = request.GET.get('patient_session_id')
@@ -1052,12 +1051,15 @@ def add_ymrs(request):
     doctor_id = request.session.get('doctor_id')
     patient_id = request.GET.get('patient_id')
     rPatientYmrs = scales_dao.get_patient_YMRS_byPatientDetailId(patient_session_id)
-    state=judge_other_scale_state(request)
-    if rPatientYmrs is None:
-        rPatientYmrs = scales_models.RPatientYmrs(patient_session_id=patient_session_id, scale_id=scale_id,
+    rPatientYmrs_new = scales_models.RPatientYmrs(patient_session_id=patient_session_id, scale_id=scale_id,
                                                   doctor_id=doctor_id)
-    rPatientYmrs = set_attr_by_post(request, rPatientYmrs)
-    scales_dao.add_ymrs_database(rPatientYmrs,state)
+    state=judge_other_scale_state(request)
+    if rPatientYmrs is not None:
+        rPatientYmrs_new.create_time = rPatientYmrs.create_time
+        rPatientYmrs_new.id = rPatientYmrs.id
+
+    rPatientYmrs_new = set_attr_by_post(request, rPatientYmrs_new)
+    scales_dao.add_ymrs_database(rPatientYmrs_new,state)
     redirect_url = '/scales/get_check_ymrs_form?patient_session_id={}&patient_id={}'.format(patient_session_id,
                                                                                             patient_id)
     return redirect(redirect_url)
@@ -1091,7 +1093,6 @@ def get_check_ymrs_form(request):
                                                  'order': order,
                                                  })
 
-
 #获取bprs
 def add_bprs(request):
     patient_session_id = request.GET.get('patient_session_id')
@@ -1099,12 +1100,14 @@ def add_bprs(request):
     doctor_id = request.session.get('doctor_id')
     patient_id = request.GET.get('patient_id')
     rPatientbprs = scales_dao.get_patient_BPRS_byPatientDetailId(patient_session_id)
-    state=judge_other_scale_state(request)
-    if rPatientbprs is None:
-        rPatientbprs = scales_models.RPatientBprs(patient_session_id=patient_session_id, scale_id=scale_id,
+    rPatientbprs_new = scales_models.RPatientBprs(patient_session_id=patient_session_id, scale_id=scale_id,
                                                   doctor_id=doctor_id)
-    rPatientbprs = set_attr_by_post(request, rPatientbprs)
-    scales_dao.add_bprs_database(rPatientbprs,state)
+    state = judge_other_scale_state(request)
+    if rPatientbprs is not None:
+        rPatientbprs_new.create_time = rPatientbprs.create_time
+        rPatientbprs_new.id = rPatientbprs.id
+    rPatientbprs_new = set_attr_by_post(request, rPatientbprs_new)
+    scales_dao.add_bprs_database(rPatientbprs_new, state)
     redirect_url = '/scales/get_check_bprs_form?patient_session_id={}&patient_id={}'.format(patient_session_id,
                                                                                             patient_id)
     return redirect(redirect_url)

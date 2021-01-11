@@ -654,7 +654,20 @@ def del_pleasure_scale(patient_session_id,scale_id):
     if res.exists():
         res[0].delete()
 
-def del_r_patient_scale(patient_session_id,scale_id):
-    res = scales_models.RPatientScales.objects.filter(patient_session_id=patient_session_id,scale_id=scale_id)
+def del_pleasure_scale(patient_session_id,scale_id):
+    res = scales_models.RPatientPleasure.objects.filter(patient_session_id=patient_session_id,scale_id=scale_id)
+    if res.exists():
+        res[0].delete()
+def del_pleasure_scale(patient_session_id,scale_id):
+    res = scales_models.RPatientPleasure.objects.filter(patient_session_id=patient_session_id,scale_id=scale_id)
+    if res.exists():
+        res[0].delete()
+
+def del_pleasure_scale(patient_session_id,scale_id):
+    res = scales_models.RPatientPleasure.objects.filter(patient_session_id=patient_session_id,scale_id=scale_id)
+    if res.exists():
+        res[0].delete()
+def del_pleasure_scale(patient_session_id,scale_id):
+    res = scales_models.RPatientPleasure.objects.filter(patient_session_id=patient_session_id,scale_id=scale_id)
     if res.exists():
         res[0].delete()

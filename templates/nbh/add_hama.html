@@ -303,20 +303,48 @@
         }
          var state="{{ state }}"
            if(state==0){
-                $("input[name='anxiety']").eq({{ hama_answer.anxiety }}).attr("checked","checked");
-                $("input[name='nervous']").eq({{ hama_answer.nervous }}).attr("checked","checked");
-                $("input[name='fear']").eq({{ hama_answer.fear }}).attr("checked","checked");
-                $("input[name='insomnia']").eq({{ hama_answer.insomnia }}).attr("checked","checked");
-                $("input[name='cognitive_function']").eq({{ hama_answer.cognitive_function }}).attr("checked","checked");
-                $("input[name='depression']").eq({{ hama_answer.depression }}).attr("checked","checked");
-                $("input[name='somaticanxiety_muscle']").eq({{ hama_answer.somaticanxiety_muscle }}).attr("checked","checked");
-                $("input[name='somaticanxiety_sensory']").eq({{ hama_answer.somaticanxiety_sensory }}).attr("checked","checked");
-                $("input[name='cardiovascular_symptoms']").eq({{ hama_answer.cardiovascular_symptoms }}).attr("checked","checked");
-                $("input[name='respiratory_symptoms']").eq({{ hama_answer.respiratory_symptoms }}).attr("checked","checked");
-                $("input[name='gastrointestinal_symptoms']").eq({{ hama_answer.gastrointestinal_symptoms }}).attr("checked","checked");
-                $("input[name='genitourinary_symptoms']").eq({{ hama_answer.genitourinary_symptoms }}).attr("checked","checked");
-                $("input[name='plantnervous_symptoms']").eq({{ hama_answer.plantnervous_symptoms }}).attr("checked","checked");
-                $("input[name='interview_behavior']").eq({{ hama_answer.interview_behavior }}).attr("checked","checked");
+               if('{{ hama_answer.anxiety }}'!='None'){
+                   $("input[name='anxiety']").eq({{ hama_answer.anxiety }}).attr("checked","checked");
+               }
+               if('{{ hama_answer.nervous }}'!='None'){
+                   $("input[name='nervous']").eq({{ hama_answer.nervous }}).attr("checked","checked");
+               }
+               if('{{ hama_answer.fear }}'!='None'){
+                   $("input[name='fear']").eq({{ hama_answer.fear }}).attr("checked","checked");
+               }
+               if('{{ hama_answer.insomnia }}'!='None'){
+                   $("input[name='insomnia']").eq({{ hama_answer.insomnia }}).attr("checked","checked");
+               }
+               if('{{ hama_answer.cognitive_function }}'!='None'){
+                   $("input[name='cognitive_function']").eq({{ hama_answer.cognitive_function }}).attr("checked","checked");
+               }
+               if('{{ hama_answer.depression }}'!='None'){
+                   $("input[name='depression']").eq({{ hama_answer.depression }}).attr("checked","checked");
+               }
+               if('{{ hama_answer.somaticanxiety_muscle }}'!='None'){
+                   $("input[name='somaticanxiety_muscle']").eq({{ hama_answer.somaticanxiety_muscle }}).attr("checked","checked");
+               }
+               if('{{ hama_answer.somaticanxiety_sensory }}'!='None'){
+                   $("input[name='somaticanxiety_sensory']").eq({{ hama_answer.somaticanxiety_sensory }}).attr("checked","checked");
+               }
+               if('{{ hama_answer.cardiovascular_symptoms }}'!='None'){
+                   $("input[name='cardiovascular_symptoms']").eq({{ hama_answer.cardiovascular_symptoms }}).attr("checked","checked");
+               }
+               if('{{ hama_answer.respiratory_symptoms }}'!='None'){
+                   $("input[name='respiratory_symptoms']").eq({{ hama_answer.respiratory_symptoms }}).attr("checked","checked");
+               }
+               if('{{ hama_answer.gastrointestinal_symptoms }}'!='None'){
+                   $("input[name='gastrointestinal_symptoms']").eq({{ hama_answer.gastrointestinal_symptoms }}).attr("checked","checked");
+               }
+               if('{{ hama_answer.genitourinary_symptoms }}'!='None'){
+                   $("input[name='genitourinary_symptoms']").eq({{ hama_answer.genitourinary_symptoms }}).attr("checked","checked");
+               }
+               if('{{ hama_answer.plantnervous_symptoms }}'!='None'){
+                   $("input[name='plantnervous_symptoms']").eq({{ hama_answer.plantnervous_symptoms }}).attr("checked","checked");
+               }
+               if('{{ hama_answer.interview_behavior }}'!='None'){
+                   $("input[name='interview_behavior']").eq({{ hama_answer.interview_behavior }}).attr("checked","checked");
+               }
            }
        }
     </script>

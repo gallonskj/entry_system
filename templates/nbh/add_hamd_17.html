@@ -5,27 +5,28 @@
 {% block css %}
     <link href="{% static '/css/scales_style.css' %}" rel="stylesheet">
     <style>
-    .hamd_17_table input.labelauty + label {
-    margin-bottom: 2px;
-    width: 100%;
-    display: table;
-    font-size: 13px;
-    padding: 20px;
-    text-align: center;
-    background-color: #efefef;
-    color: #b3b3b3;
-    cursor: pointer;
-    border-radius: 3px 3px 3px 3px;
-    -moz-border-radius: 3px 3px 3px 3px;
-    -webkit-border-radius: 3px 3px 3px 3px;
-    transition: background-color 0.25s;
-    -moz-transition: background-color 0.25s;
-    -webkit-transition: background-color 0.25s;
-    -o-transition: background-color 0.25s;
-    -moz-user-select: none;
-    -khtml-user-select: none;
-    -webkit-user-select: none;
-    -o-user-select: none;}
+        .hamd_17_table input.labelauty + label {
+            margin-bottom: 2px;
+            width: 100%;
+            display: table;
+            font-size: 13px;
+            padding: 20px;
+            text-align: center;
+            background-color: #efefef;
+            color: #b3b3b3;
+            cursor: pointer;
+            border-radius: 3px 3px 3px 3px;
+            -moz-border-radius: 3px 3px 3px 3px;
+            -webkit-border-radius: 3px 3px 3px 3px;
+            transition: background-color 0.25s;
+            -moz-transition: background-color 0.25s;
+            -webkit-transition: background-color 0.25s;
+            -o-transition: background-color 0.25s;
+            -moz-user-select: none;
+            -khtml-user-select: none;
+            -webkit-user-select: none;
+            -o-user-select: none;
+        }
     </style>
 {% endblock %}
 {% block content %}
@@ -38,7 +39,8 @@
                         <li><a href="#">他评量表</a></li>
                         <li class="active"><a href="#">汉密尔顿抑郁量表（HAMD-17）</a></li>
                         <div style="float: right;margin-bottom: 0px;">
-                            <a href="/scales/select_scales?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&page=1" class="btn btn-warning btn-sm"><i class="fa fa-arrow-left"></i><strong>&nbsp;返&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回</strong></a>
+                            <a href="/scales/select_scales?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&page=1"
+                               class="btn btn-warning btn-sm"><i class="fa fa-arrow-left"></i><strong>&nbsp;返&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回</strong></a>
                         </div>
                     </ul>
                 </div>
@@ -49,22 +51,22 @@
                 <div id="left-side" style="height: 100%;" class="col-md-2">
                     <ul class="scales_progress">
                         {% for scale_name in scale_name_list %}
-                        {% if scale_name|get_item:'scale__scale_name' == '汉密尔顿抑郁量表（HAMD-17）' %}
-                            <li class="step doing  ">
-                                <p>{{ scale_name|get_item:'scale__scale_name' }}</p>
-                            </li>
-                        {% elif scale_name|get_item:'state' == 0 %}
-                            <li class="step nodone notclick">
-                                <p>{{ scale_name|get_item:'scale__scale_name' }}</p>
-                            </li>
-                        {% else %}
-                            <li class="step done notclick">
-                                <p>{{ scale_name|get_item:'scale__scale_name' }}</p>
-                            </li>
-                        {% endif %}
+                            {% if scale_name|get_item:'scale__scale_name' == '汉密尔顿抑郁量表（HAMD-17）' %}
+                                <li class="step doing  ">
+                                    <p>{{ scale_name|get_item:'scale__scale_name' }}</p>
+                                </li>
+                            {% elif scale_name|get_item:'state' == 0 %}
+                                <li class="step nodone notclick">
+                                    <p>{{ scale_name|get_item:'scale__scale_name' }}</p>
+                                </li>
+                            {% else %}
+                                <li class="step done notclick">
+                                    <p>{{ scale_name|get_item:'scale__scale_name' }}</p>
+                                </li>
+                            {% endif %}
                         {% endfor %}
                         <li class="finish nodone notclick">
-                          <p>完成</p>
+                            <p>完成</p>
                         </li>
                     </ul>
                 </div>
@@ -85,21 +87,23 @@
                                         请参考评分指导，根据您过去1周的表现，在合适的分数上打勾：
                                         <br/>
                                     </strong>
-                                    <strong>无症状=0 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 轻微=1 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;中等=2 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 较重=3 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;严重=4<br/></strong>
+                                    <strong>无症状=0 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 轻微=1 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;中等=2
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 较重=3
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;严重=4<br/></strong>
                                     <div class="ln_solid"></div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12">
                                         <table class="table hamd_17_table" frame="void" style="font-weight:bold;">
                                             <tbody>
-                                            <tr >
-                                                <td width="20%"  >
+                                            <tr>
+                                                <td width="20%">
                                                     1.抑郁情绪
-                                                        <input type="radio" name="depression" value=0 data-labelauty="0"/>
-                                                        <input type="radio" name="depression" value=1 data-labelauty="1"/>
-                                                        <input type="radio" name="depression" value=2 data-labelauty="2"/>
-                                                        <input type="radio" name="depression" value=3 data-labelauty="3"/>
-                                                        <input type="radio" name="depression" value=4 data-labelauty="4"/>
+                                                    <input type="radio" name="depression" value=0 data-labelauty="0"/>
+                                                    <input type="radio" name="depression" value=1 data-labelauty="1"/>
+                                                    <input type="radio" name="depression" value=2 data-labelauty="2"/>
+                                                    <input type="radio" name="depression" value=3 data-labelauty="3"/>
+                                                    <input type="radio" name="depression" value=4 data-labelauty="4"/>
                                                 </td>
                                                 <td width="5%"></td>
                                                 <td width="20%">
@@ -122,13 +126,16 @@
                                                 <td width="5%"></td>
                                                 <td width="20%" style="vertical-align:top;">
                                                     4.入睡困难
-                                                    <input type="radio" name="difficulty_sleeping" value=0 data-labelauty="0"/>
-                                                    <input type="radio" name="difficulty_sleeping" value=1 data-labelauty="1"/>
-                                                    <input type="radio" name="difficulty_sleeping" value=2 data-labelauty="2"/>
+                                                    <input type="radio" name="difficulty_sleeping" value=0
+                                                           data-labelauty="0"/>
+                                                    <input type="radio" name="difficulty_sleeping" value=1
+                                                           data-labelauty="1"/>
+                                                    <input type="radio" name="difficulty_sleeping" value=2
+                                                           data-labelauty="2"/>
                                                     {% comment %}<input type="radio" name="difficulty_sleeping" value = 3 data-labelauty="3"/>
                                                     <input type="radio" name="difficulty_sleeping" value = 4 data-labelauty="4"/>{% endcomment %}
                                                 </td>
-                                            </tr >
+                                            </tr>
 
                                             <tr>
                                                 <td width="20%" style="vertical-align:top;">
@@ -151,11 +158,16 @@
                                                 <td width="5%"></td>
                                                 <td width="20%">
                                                     7.工作和兴趣
-                                                    <input type="radio" name="work_interest" value=0 data-labelauty="0"/>
-                                                    <input type="radio" name="work_interest" value=1 data-labelauty="1"/>
-                                                    <input type="radio" name="work_interest" value=2 data-labelauty="2"/>
-                                                    <input type="radio" name="work_interest" value=3 data-labelauty="3"/>
-                                                    <input type="radio" name="work_interest" value=4 data-labelauty="4"/>
+                                                    <input type="radio" name="work_interest" value=0
+                                                           data-labelauty="0"/>
+                                                    <input type="radio" name="work_interest" value=1
+                                                           data-labelauty="1"/>
+                                                    <input type="radio" name="work_interest" value=2
+                                                           data-labelauty="2"/>
+                                                    <input type="radio" name="work_interest" value=3
+                                                           data-labelauty="3"/>
+                                                    <input type="radio" name="work_interest" value=4
+                                                           data-labelauty="4"/>
                                                 </td>
                                                 <td width="5%"></td>
                                                 <td width="20%">
@@ -179,27 +191,40 @@
                                                 <td width="5%"></td>
                                                 <td width="20%">
                                                     10.精神性焦虑
-                                                    <input type="radio" name="psycho_anxiety" value=0 data-labelauty="0"/>
-                                                    <input type="radio" name="psycho_anxiety" value=1 data-labelauty="1"/>
-                                                    <input type="radio" name="psycho_anxiety" value=2 data-labelauty="2"/>
-                                                    <input type="radio" name="psycho_anxiety" value=3 data-labelauty="3"/>
-                                                    <input type="radio" name="psycho_anxiety" value=4 data-labelauty="4"/>
+                                                    <input type="radio" name="psycho_anxiety" value=0
+                                                           data-labelauty="0"/>
+                                                    <input type="radio" name="psycho_anxiety" value=1
+                                                           data-labelauty="1"/>
+                                                    <input type="radio" name="psycho_anxiety" value=2
+                                                           data-labelauty="2"/>
+                                                    <input type="radio" name="psycho_anxiety" value=3
+                                                           data-labelauty="3"/>
+                                                    <input type="radio" name="psycho_anxiety" value=4
+                                                           data-labelauty="4"/>
                                                 </td>
                                                 <td width="5%"></td>
                                                 <td width="20%">
                                                     11.躯体性焦虑
-                                                    <input type="radio" name="somatic_anxiety" value=0 data-labelauty="0"/>
-                                                    <input type="radio" name="somatic_anxiety" value=1 data-labelauty="1"/>
-                                                    <input type="radio" name="somatic_anxiety" value=2 data-labelauty="2"/>
-                                                    <input type="radio" name="somatic_anxiety" value=3 data-labelauty="3"/>
-                                                    <input type="radio" name="somatic_anxiety" value=4 data-labelauty="4"/>
+                                                    <input type="radio" name="somatic_anxiety" value=0
+                                                           data-labelauty="0"/>
+                                                    <input type="radio" name="somatic_anxiety" value=1
+                                                           data-labelauty="1"/>
+                                                    <input type="radio" name="somatic_anxiety" value=2
+                                                           data-labelauty="2"/>
+                                                    <input type="radio" name="somatic_anxiety" value=3
+                                                           data-labelauty="3"/>
+                                                    <input type="radio" name="somatic_anxiety" value=4
+                                                           data-labelauty="4"/>
                                                 </td>
                                                 <td width="5%"></td>
                                                 <td width="20%" style="vertical-align:top;">
                                                     12.胃肠道症状
-                                                    <input type="radio" name="gastrointestinal_symptoms" value=0 data-labelauty="0"/>
-                                                    <input type="radio" name="gastrointestinal_symptoms" value=1 data-labelauty="1"/>
-                                                    <input type="radio" name="gastrointestinal_symptoms" value=2 data-labelauty="2"/>
+                                                    <input type="radio" name="gastrointestinal_symptoms" value=0
+                                                           data-labelauty="0"/>
+                                                    <input type="radio" name="gastrointestinal_symptoms" value=1
+                                                           data-labelauty="1"/>
+                                                    <input type="radio" name="gastrointestinal_symptoms" value=2
+                                                           data-labelauty="2"/>
                                                     {% comment %}<input type="radio" name="gastrointestinal_symptoms" value=3 data-labelauty="3"/>
                                                     <input type="radio" name="gastrointestinal_symptoms" value=4 data-labelauty="4"/>{% endcomment %}
                                                 </td>
@@ -207,18 +232,24 @@
                                             <tr>
                                                 <td width="20%" style="vertical-align:top;">
                                                     13.全身症状
-                                                    <input type="radio" name="systemic_symptoms" value=0 data-labelauty="0"/>
-                                                    <input type="radio" name="systemic_symptoms" value=1 data-labelauty="1"/>
-                                                    <input type="radio" name="systemic_symptoms" value=2 data-labelauty="2"/>
+                                                    <input type="radio" name="systemic_symptoms" value=0
+                                                           data-labelauty="0"/>
+                                                    <input type="radio" name="systemic_symptoms" value=1
+                                                           data-labelauty="1"/>
+                                                    <input type="radio" name="systemic_symptoms" value=2
+                                                           data-labelauty="2"/>
                                                     {% comment %}<input type="radio" name="systemic_symptoms" value = 3 data-labelauty="3"/>
                                                     <input type="radio" name="systemic_symptoms" value = 4 data-labelauty="4"/>{% endcomment %}
                                                 </td>
                                                 <td width="5%"></td>
                                                 <td width="20%" style="vertical-align:top;">
                                                     14.性症状
-                                                    <input type="radio" name="sexual_symptoms" value=0 data-labelauty="0"/>
-                                                    <input type="radio" name="sexual_symptoms" value=1 data-labelauty="1"/>
-                                                    <input type="radio" name="sexual_symptoms" value=2 data-labelauty="2"/>
+                                                    <input type="radio" name="sexual_symptoms" value=0
+                                                           data-labelauty="0"/>
+                                                    <input type="radio" name="sexual_symptoms" value=1
+                                                           data-labelauty="1"/>
+                                                    <input type="radio" name="sexual_symptoms" value=2
+                                                           data-labelauty="2"/>
                                                     {% comment %}<input type="radio" name="sexual_symptoms" value=3 data-labelauty="3"/>
                                                     <input type="radio" name="sexual_symptoms" value=4 data-labelauty="4"/>{% endcomment %}
                                                 </td>
@@ -244,9 +275,12 @@
                                             <tr>
                                                 <td style="vertical-align:top;">
                                                     17.自知力
-                                                    <input type="radio" name="self_awareness" value=0 data-labelauty="0"/>
-                                                    <input type="radio" name="self_awareness" value=1 data-labelauty="1"/>
-                                                    <input type="radio" name="self_awareness" value=2 data-labelauty="2"/>
+                                                    <input type="radio" name="self_awareness" value=0
+                                                           data-labelauty="0"/>
+                                                    <input type="radio" name="self_awareness" value=1
+                                                           data-labelauty="1"/>
+                                                    <input type="radio" name="self_awareness" value=2
+                                                           data-labelauty="2"/>
                                                     {% comment %}<input type="radio" name="self_awareness" value=3 data-labelauty="3"/>
                                                     <input type="radio" name="self_awareness" value=4 data-labelauty="4"/>{% endcomment %}
                                                 </td>
@@ -256,20 +290,22 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                        <div  class="col-md-4 col-sm-6 text-center" style="text-align: center">
-                                            <a  href="/scales/get_last_url?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}"
-                                            id="last_scale">
-                                                 <button type="button" class="btn btn-warning" id="bt_return">返回上一量表</button>
-                                            </a>
-                                        </div>
-                                        <div  class="col-md-4 col-sm-6">
-                                             {% csrf_token %}
-                                            <input  type="submit" class="btn btn-success text-center"  value="保存提交量表" id="hamd_bt" >
-                                        </div>
-                                         <div class="col-md-4 col-sm-6">
-                                             <a href="/scales/skip_scale?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{scale_id}}"  style="float: right"><u>跳过该量表</u></a>
-                                         </div>
-                               </div>
+                                    <div class="col-md-4 col-sm-6 text-center" style="text-align: center">
+                                        <a href="/scales/get_last_url?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}"
+                                           id="last_scale">
+                                            <button type="button" class="btn btn-warning" id="bt_return">返回上一量表</button>
+                                        </a>
+                                    </div>
+                                    <div class="col-md-4 col-sm-6">
+                                        {% csrf_token %}
+                                        <input type="submit" class="btn btn-success text-center" value="保存提交量表"
+                                               id="hamd_bt">
+                                    </div>
+                                    <div class="col-md-4 col-sm-6">
+                                        <a href="/scales/skip_scale?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}"
+                                           style="float: right"><u>跳过该量表</u></a>
+                                    </div>
+                                </div>
                             </div>
                         </form>
                     </div>
@@ -278,123 +314,167 @@
         </div>
     </div>
     <script>
-       function getData(){
-        var order = "{{ order }}";
-        if(order==0) {
-            $("#last_scale").attr("style", "display:none;");
+        function getData() {
+            var order = "{{ order }}";
+            if (order == 0) {
+                $("#last_scale").attr("style", "display:none;");
+            }
+            {% comment %}
+            如果进入续作续作将数据填充进去
+            for表单中所有name -》i
+                if i=="null"
+                    continue
+                else
+                    checked
+            {% endcomment %}
+            var state = "{{ state }}"
+            if (state == 0) {
+                if ('{{ hamd_answer.depression }}' != 'None') {
+                    $("input[name='depression']").eq({{ hamd_answer.depression }}).attr("checked", "checked");
+                }
+                if ('{{ hamd_answer.guilt }}' != 'None') {
+                    $("input[name='guilt']").eq({{ hamd_answer.guilt }}).attr("checked", "checked");
+                }
+
+                if ('{{ hamd_answer.suicide }}'!='None')
+                {
+                    $("input[name='suicide']").eq({{ hamd_answer.suicide }}).attr("checked", "checked");
+                }
+                if ('{{ hamd_answer.difficulty_sleeping }}' != 'None') {
+                    $("input[name='difficulty_sleeping']").eq({{ hamd_answer.difficulty_sleeping }}).attr("checked", "checked");
+                }
+
+                if ('{{ hamd_answer.sleep_deep }}' != 'None') {
+                    $("input[name='sleep_deep']").eq({{ hamd_answer.sleep_deep }}).attr("checked", "checked");
+                }
+                if ('{{ hamd_answer.wake_early }}' != 'None') {
+                    $("input[name='wake_early']").eq({{ hamd_answer.wake_early }}).attr("checked", "checked");
+                }
+                if ('{{ hamd_answer.work_interest }}' != 'None') {
+                    $("input[name='work_interest']").eq({{ hamd_answer.work_interest }}).attr("checked", "checked");
+                }
+                if ('{{ hamd_answer.slow }}' != 'None') {
+                    $("input[name='slow']").eq({{ hamd_answer.slow }}).attr("checked", "checked");
+                }
+                if ('{{ hamd_answer.intense }}' != 'None') {
+                    $("input[name='intense']").eq({{ hamd_answer.intense }}).attr("checked", "checked");
+                }
+                if ('{{ hamd_answer.psycho_anxiety }}' != 'None') {
+                    $("input[name='psycho_anxiety']").eq({{ hamd_answer.psycho_anxiety }}).attr("checked", "checked");
+                }
+                if ('{{ hamd_answer.somatic_anxiety }}' != 'None') {
+                    $("input[name='somatic_anxiety']").eq({{ hamd_answer.somatic_anxiety }}).attr("checked", "checked");
+                }
+                if ('{{ hamd_answer.gastrointestinal_symptoms }}' != 'None') {
+                    $("input[name='gastrointestinal_symptoms']").eq({{ hamd_answer.gastrointestinal_symptoms }}).attr("checked", "checked");
+                }
+                if ('{{ hamd_answer.systemic_symptoms }}' != 'None') {
+                    $("input[name='systemic_symptoms']").eq({{ hamd_answer.systemic_symptoms }}).attr("checked", "checked");
+                }
+                if ('{{ hamd_answer.sexual_symptoms }}' != 'None') {
+                    $("input[name='sexual_symptoms']").eq({{ hamd_answer.sexual_symptoms }}).attr("checked", "checked");
+                }
+                if ('{{ hamd_answer.hypochondria }}' != 'None') {
+                    $("input[name='hypochondria']").eq({{ hamd_answer.hypochondria }}).attr("checked", "checked");
+                }
+                if ('{{ hamd_answer.lose_weight }}' != 'None') {
+                    $("input[name='lose_weight']").eq({{ hamd_answer.lose_weight }}).attr("checked", "checked");
+                }
+                if ('{{ hamd_answer.self_awareness }}' != 'None') {
+                    $("input[name='self_awareness']").eq({{ hamd_answer.self_awareness }}).attr("checked", "checked");
+                }
+
+            }
         }
-        {% comment %}
-        如果进入续作续作将数据填充进去
-        {% endcomment %}
-           var state="{{ state }}"
-           if(state==0){
-                $("input[name='depression']").eq({{ hamd_answer.depression }}).attr("checked","checked");
-                $("input[name='guilt']").eq({{ hamd_answer.guilt }}).attr("checked","checked");
-                $("input[name='suicide']").eq({{ hamd_answer.suicide }}).attr("checked","checked");
-                $("input[name='difficulty_sleeping']").eq({{ hamd_answer.difficulty_sleeping }}).attr("checked","checked");
-                $("input[name='sleep_deep']").eq({{ hamd_answer.sleep_deep }}).attr("checked","checked");
-                $("input[name='wake_early']").eq({{ hamd_answer.wake_early }}).attr("checked","checked");
-                $("input[name='work_interest']").eq({{ hamd_answer.work_interest }}).attr("checked","checked");
-                $("input[name='slow']").eq({{ hamd_answer.slow }}).attr("checked","checked");
-                $("input[name='intense']").eq({{ hamd_answer.intense }}).attr("checked","checked");
-                $("input[name='psycho_anxiety']").eq({{ hamd_answer.psycho_anxiety }}).attr("checked","checked");
-                $("input[name='somatic_anxiety']").eq({{ hamd_answer.somatic_anxiety }}).attr("checked","checked");
-                $("input[name='gastrointestinal_symptoms']").eq({{ hamd_answer.gastrointestinal_symptoms }}).attr("checked","checked");
-                $("input[name='systemic_symptoms']").eq({{ hamd_answer.systemic_symptoms }}).attr("checked","checked");
-                $("input[name='sexual_symptoms']").eq({{ hamd_answer.sexual_symptoms }}).attr("checked","checked");
-                $("input[name='hypochondria']").eq({{ hamd_answer.hypochondria }}).attr("checked","checked");
-                $("input[name='lose_weight']").eq({{ hamd_answer.lose_weight }}).attr("checked","checked");
-                $("input[name='self_awareness']").eq({{ hamd_answer.self_awareness }}).attr("checked","checked");
-           }
-       }
     </script>
 {% endblock %}
 
 {% block js %}
 
+    <script type="text/javascript" src="/mystatic/js/layer.js%20"></script>
     <script type="text/javascript" language="JavaScript">
         $(document).ready(function () {
             $("input[type='radio']").labelauty();
         });
     </script>
     <script type="text/javascript" src="{% static '/js/jquery-radio-beauty.js' %}"></script>
-
+ {% comment %}
     <script type="text/javascript">
-      {% comment %}function myCheck(hamd_form)
-      {
-          if (document.hamd_form.depression.value=="") {
-              alert("问题一不能为空！");
-              return false;
-          }
-          if (document.hamd_form.guilt.value=="") {
-              alert("问题二不能为空！");
-              return false;
-          }
-          if (document.hamd_form.suicide.value=="") {
-              alert("问题三不能为空！");
-              return false;
-          }
-          if (document.hamd_form.difficulty_sleeping.value=="") {
-              alert("问题四不能为空！");
-              return false;
-          }
-          if (document.hamd_form.sleep_deep.value=="") {
-              alert("问题五不能为空！");
-              return false;
-          }if (document.hamd_form.wake_early.value=="") {
-              alert("问题六不能为空！");
-              return false;
-          }
-          if (document.hamd_form.work_interest.value=="") {
-              alert("问题七不能为空！");
-              return false;
-          }
-          if (document.hamd_form.slow.value=="") {
-              alert("问题八不能为空！");
-              return false;
-          }
-          if (document.hamd_form.intense.value=="") {
-              alert("问题九不能为空！");
-              return false;
-          }
-          if (document.hamd_form.psycho_anxiety.value=="") {
-              alert("问题十不能为空！");
-              return false;
-          }
-          if (document.hamd_form.somatic_anxiety.value=="") {
-              alert("问题十一不能为空！");
-              return false;
-          }
-          if (document.hamd_form.gastrointestinal_symptoms.value=="") {
-              alert("问题十二不能为空！");
-              return false;
-          }
-          if (document.hamd_form.systemic_symptoms.value=="") {
-              alert("问题十三不能为空！");
-              return false;
-          }
-          if (document.hamd_form.sexual_symptoms.value=="") {
-              alert("问题十四不能为空！");
-              return false;
-          }
-          if (document.hamd_form.hypochondria.value=="") {
-              alert("问题十五不能为空！");
-              return false;
-          }
-          if (document.hamd_form.lose_weight.value=="") {
-              alert("问题十六不能为空！");
-              return false;
-          }
-          if (document.hamd_form.self_awareness.value=="") {
-              alert("问题十七不能为空！");
-              return false;
-          }
+       function myCheck(hamd_form)
+        {
+            if (document.hamd_form.depression.value=="") {
+                alert("问题一不能为空！");
+                return false;
+            }
+            if (document.hamd_form.guilt.value=="") {
+                alert("问题二不能为空！");
+                return false;
+            }
+            if (document.hamd_form.suicide.value=="") {
+                alert("问题三不能为空！");
+                return false;
+            }
+            if (document.hamd_form.difficulty_sleeping.value=="") {
+                alert("问题四不能为空！");
+                return false;
+            }
+            if (document.hamd_form.sleep_deep.value=="") {
+                alert("问题五不能为空！");
+                return false;
+            }if (document.hamd_form.wake_early.value=="") {
+                alert("问题六不能为空！");
+                return false;
+            }
+            if (document.hamd_form.work_interest.value=="") {
+                alert("问题七不能为空！");
+                return false;
+            }
+            if (document.hamd_form.slow.value=="") {
+                alert("问题八不能为空！");
+                return false;
+            }
+            if (document.hamd_form.intense.value=="") {
+                alert("问题九不能为空！");
+                return false;
+            }
+            if (document.hamd_form.psycho_anxiety.value=="") {
+                alert("问题十不能为空！");
+                return false;
+            }
+            if (document.hamd_form.somatic_anxiety.value=="") {
+                alert("问题十一不能为空！");
+                return false;
+            }
+            if (document.hamd_form.gastrointestinal_symptoms.value=="") {
+                alert("问题十二不能为空！");
+                return false;
+            }
+            if (document.hamd_form.systemic_symptoms.value=="") {
+                alert("问题十三不能为空！");
+                return false;
+            }
+            if (document.hamd_form.sexual_symptoms.value=="") {
+                alert("问题十四不能为空！");
+                return false;
+            }
+            if (document.hamd_form.hypochondria.value=="") {
+                alert("问题十五不能为空！");
+                return false;
+            }
+            if (document.hamd_form.lose_weight.value=="") {
+                alert("问题十六不能为空！");
+                return false;
+            }
+            if (document.hamd_form.self_awareness.value=="") {
+                alert("问题十七不能为空！");
+                return false;
+            }
 
-          alert("提交成功！");
-          return true;
-      }{% endcomment %}
+            alert("提交成功！");
+            return true;
+        }
     </script>
-
+{% endcomment %}
 
 
 {% endblock %}
