@@ -470,6 +470,7 @@ class RPatientHama(models.Model):
 
 
 class RPatientHamd17(models.Model):
+    id = models.IntegerField(primary_key=True)
     patient_session = models.ForeignKey(DPatientDetail, models.DO_NOTHING)
     scale = models.ForeignKey(DScales, models.DO_NOTHING)
     depression = models.IntegerField(blank=True, null=True)

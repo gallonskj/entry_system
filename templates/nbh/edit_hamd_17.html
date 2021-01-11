@@ -70,7 +70,8 @@
                 </div>
                 <div id="right-side" class="col-md-10">
                     <div id="first" class="active">
-                        <form action="/scales/add_hamd?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}" method="post" >
+                        <form action="/scales/add_hamd?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}"
+                              name="hamd_form" method="post" >
                             {% csrf_token %}
                             <div class="container">
                                 <div class="col-md-12 text-center">
@@ -255,7 +256,11 @@
                                     </div>
                                 </div>
 
-
+                                <div class="row">
+                                    <div class="col-md-12 col-sm-12">
+                                            <a  style="float: left;font-weight: bold">总分：{{ hamd_answer.total_score }}</a>
+                                        </div>
+                                </div>
 
                                  <div class="row">
                                     <div  class="col-md-4 col-md-offset-4 col-sm-6" style="display: none" id="hamd_bt">
@@ -266,12 +271,15 @@
                                 </div>
 
                                 <div class="row" id="bt_group">
-                                        <div  class="col-md-4 col-sm-6 text-center"  >
-                                           <a  href="/scales/get_last_url?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}"
-                                           id="last_scale">
+                                        <div  class="col-md-4 col-sm-6 text-center"  id="last_scale">
+                                           <a  href="/scales/get_last_url?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}">
                                                <button type="button" class="btn btn-warning" id="bt_return">返回上一量表</button>
                                            </a>
                                         </div>
+                                        <div  class="col-md-4 col-sm-6 text-center"  >
+                                               <button type="button" class="btn btn-warning" id="bt_return" onclick="return myCheck(this)">提交</button>
+                                        </div>
+
                                         <div  class="col-md-4 col-sm-6" id="next_scale" >
                                              {% csrf_token %}
                                             <a href="/scales/get_next_url?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}">
@@ -373,7 +381,81 @@
     </script>
     <script type="text/javascript" src="{% static '/js/jquery-radio-beauty.js' %}"></script>
 
+ <script type="text/javascript">
+      function myCheck(hamd_form)
+      {
+          if (document.hamd_form.depression.value=="") {
+              alert("问题一不能为空！");
+              return false;
+          }
+          if (document.hamd_form.guilt.value=="") {
+              alert("问题二不能为空！");
+              return false;
+          }
+          if (document.hamd_form.suicide.value=="") {
+              alert("问题三不能为空！");
+              return false;
+          }
+          if (document.hamd_form.difficulty_sleeping.value=="") {
+              alert("问题四不能为空！");
+              return false;
+          }
+          if (document.hamd_form.sleep_deep.value=="") {
+              alert("问题五不能为空！");
+              return false;
+          }if (document.hamd_form.wake_early.value=="") {
+              alert("问题六不能为空！");
+              return false;
+          }
+          if (document.hamd_form.work_interest.value=="") {
+              alert("问题七不能为空！");
+              return false;
+          }
+          if (document.hamd_form.slow.value=="") {
+              alert("问题八不能为空！");
+              return false;
+          }
+          if (document.hamd_form.intense.value=="") {
+              alert("问题九不能为空！");
+              return false;
+          }
+          if (document.hamd_form.psycho_anxiety.value=="") {
+              alert("问题十不能为空！");
+              return false;
+          }
+          if (document.hamd_form.somatic_anxiety.value=="") {
+              alert("问题十一不能为空！");
+              return false;
+          }
+          if (document.hamd_form.gastrointestinal_symptoms.value=="") {
+              alert("问题十二不能为空！");
+              return false;
+          }
+          if (document.hamd_form.systemic_symptoms.value=="") {
+              alert("问题十三不能为空！");
+              return false;
+          }
+          if (document.hamd_form.sexual_symptoms.value=="") {
+              alert("问题十四不能为空！");
+              return false;
+          }
+          if (document.hamd_form.hypochondria.value=="") {
+              alert("问题十五不能为空！");
+              return false;
+          }
+          if (document.hamd_form.lose_weight.value=="") {
+              alert("问题十六不能为空！");
+              return false;
+          }
+          if (document.hamd_form.self_awareness.value=="") {
+              alert("问题十七不能为空！");
+              return false;
+          }
 
+          alert("提交成功！");
+          return true;
+      }
+    </script>
 
 
 {% endblock %}

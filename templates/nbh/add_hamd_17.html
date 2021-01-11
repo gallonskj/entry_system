@@ -283,6 +283,29 @@
         if(order==0) {
             $("#last_scale").attr("style", "display:none;");
         }
+        {% comment %}
+        如果进入续作续作将数据填充进去
+        {% endcomment %}
+           var state="{{ state }}"
+           if(state==0){
+                $("input[name='depression']").eq({{ hamd_answer.depression }}).attr("checked","checked");
+                $("input[name='guilt']").eq({{ hamd_answer.guilt }}).attr("checked","checked");
+                $("input[name='suicide']").eq({{ hamd_answer.suicide }}).attr("checked","checked");
+                $("input[name='difficulty_sleeping']").eq({{ hamd_answer.difficulty_sleeping }}).attr("checked","checked");
+                $("input[name='sleep_deep']").eq({{ hamd_answer.sleep_deep }}).attr("checked","checked");
+                $("input[name='wake_early']").eq({{ hamd_answer.wake_early }}).attr("checked","checked");
+                $("input[name='work_interest']").eq({{ hamd_answer.work_interest }}).attr("checked","checked");
+                $("input[name='slow']").eq({{ hamd_answer.slow }}).attr("checked","checked");
+                $("input[name='intense']").eq({{ hamd_answer.intense }}).attr("checked","checked");
+                $("input[name='psycho_anxiety']").eq({{ hamd_answer.psycho_anxiety }}).attr("checked","checked");
+                $("input[name='somatic_anxiety']").eq({{ hamd_answer.somatic_anxiety }}).attr("checked","checked");
+                $("input[name='gastrointestinal_symptoms']").eq({{ hamd_answer.gastrointestinal_symptoms }}).attr("checked","checked");
+                $("input[name='systemic_symptoms']").eq({{ hamd_answer.systemic_symptoms }}).attr("checked","checked");
+                $("input[name='sexual_symptoms']").eq({{ hamd_answer.sexual_symptoms }}).attr("checked","checked");
+                $("input[name='hypochondria']").eq({{ hamd_answer.hypochondria }}).attr("checked","checked");
+                $("input[name='lose_weight']").eq({{ hamd_answer.lose_weight }}).attr("checked","checked");
+                $("input[name='self_awareness']").eq({{ hamd_answer.self_awareness }}).attr("checked","checked");
+           }
        }
     </script>
 {% endblock %}
@@ -297,7 +320,7 @@
     <script type="text/javascript" src="{% static '/js/jquery-radio-beauty.js' %}"></script>
 
     <script type="text/javascript">
-      function myCheck(hamd_form)
+      {% comment %}function myCheck(hamd_form)
       {
           if (document.hamd_form.depression.value=="") {
               alert("问题一不能为空！");
@@ -369,7 +392,7 @@
 
           alert("提交成功！");
           return true;
-      }
+      }{% endcomment %}
     </script>
 
 

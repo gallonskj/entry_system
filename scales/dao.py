@@ -15,10 +15,10 @@ import patients.dao as patients_dao
 
 # 这里不能使用update方法，django中使用自带update方法无法更新带有auto_now的时间字段
 # 更新r_patient_scales中的state状态
-def update_rscales_state(patient_session_id, scale_id):
+def update_rscales_state(patient_session_id, scale_id, state):
     rPatientScales = \
         scales_models.RPatientScales.objects.filter(patient_session_id=patient_session_id, scale_id=scale_id)[0]
-    rPatientScales.state = 1
+    rPatientScales.state = state
     rPatientScales.save()
 
 def update_rscales_skip(patient_session_id, scale_id, state):
@@ -56,8 +56,9 @@ def add_hamd_database(rPatientHAMD17):
     tools_insertCascadeCheck.insert_hama_check(rPatientHAMD17)
     # 插入数据库
     rPatientHAMD17.save()
+    state = 1
     # 修改r_patient_scales表中state状态
-    update_rscales_state(rPatientHAMD17.patient_session_id, rPatientHAMD17.scale_id)
+    update_rscales_state(rPatientHAMD17.patient_session_id, rPatientHAMD17.scale_id,state)
 
 # 33 项轻躁狂症状清单
 def add_manicsymptom_database(rPatientManicsymptom):
@@ -153,7 +154,7 @@ def add_pleasure_database(rPatientPleasure):
     # 修改r_patient_scales表中state状态
     update_rscales_state(rPatientPleasure.patient_session_id, rPatientPleasure.scale_id)
 
-def add_bprs_database(rPatientbprs):
+def add_bprs_database(rPatientbprs,state):
     rPatientbprs.total_score, object_flag = tools_calculatingScores.Bprs_total_score(rPatientbprs)
     tools_utils.object_judgment(object_flag)
     # 插入前的级联检验
@@ -161,7 +162,7 @@ def add_bprs_database(rPatientbprs):
     # 插入数据库
     rPatientbprs.save()
     # 修改r_patient_scales表中state状态
-    update_rscales_state(rPatientbprs.patient_session_id, rPatientbprs.scale_id)
+    update_rscales_state(rPatientbprs.patient_session_id, rPatientbprs.scale_id,state)
 
 def add_rbans_database(rPatientrbans):
     # 插入前的级联检验
@@ -183,7 +184,7 @@ def add_patient_basic_information_health_database(rPatientBasicInformationHealth
 ############################################################
 # zrq------------------------------------
 
-def add_hama_database(rPatientHama):
+def add_hama_database(rPatientHama,state):
     rPatientHama.total_score, object_flag = tools_calculatingScores.HAMA_total_score(rPatientHama)
     tools_utils.object_judgment(object_flag)
     # 插入前的级联检验
@@ -191,7 +192,7 @@ def add_hama_database(rPatientHama):
     # 插入数据库
     rPatientHama.save()
     # 修改r_patient_scales表中state状态
-    update_rscales_state(rPatientHama.patient_session_id, rPatientHama.scale_id)
+    update_rscales_state(rPatientHama.patient_session_id, rPatientHama.scale_id,state)
 
 def add_abuse_database(rPatientBasicInformationAbuse):
     # 插入前的级联检验
@@ -245,7 +246,7 @@ def add_vept_database(rPatientVept):
 
 ###################################
 
-def add_ymrs_database(rPatientYmrs):
+def add_ymrs_database(rPatientYmrs,state):
     rPatientYmrs.total_score, object_flag = tools_calculatingScores.YMRS_total_score(rPatientYmrs)
     tools_utils.object_judgment(object_flag)
     # 插入前的级联检验
@@ -253,7 +254,7 @@ def add_ymrs_database(rPatientYmrs):
     # 插入数据库
     rPatientYmrs.save()
     # 修改r_patient_scales表中state状态
-    update_rscales_state(rPatientYmrs.patient_session_id, rPatientYmrs.scale_id)
+    update_rscales_state(rPatientYmrs.patient_session_id, rPatientYmrs.scale_id,state)
 
 def add_sembu_database(rPatientSembu):
     rPatientSembu.refusal_mother, rPatientSembu.refusal_father, rPatientSembu.emotional_warmth_mother, \
@@ -641,3 +642,19 @@ def get_order(patient_session_id,scale_id):
     first=scales_order[0].scale_id
     last=invert_scales_order[0].scale_id
     return first,last
+
+def get_scale_state(patient_session_id, scale_id):
+    res = scales_models.RPatientScales.objects.filter(patient_session_id=patient_session_id,scale_id=scale_id)
+    if not res.exists():
+        return None
+    return res[0].state
+
+def del_pleasure_scale(patient_session_id,scale_id):
+    res = scales_models.RPatientPleasure.objects.filter(patient_session_id=patient_session_id,scale_id=scale_id)
+    if res.exists():
+        res[0].delete()
+
+def del_r_patient_scale(patient_session_id,scale_id):
+    res = scales_models.RPatientScales.objects.filter(patient_session_id=patient_session_id,scale_id=scale_id)
+    if res.exists():
+        res[0].delete()

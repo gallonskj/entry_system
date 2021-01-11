@@ -29,6 +29,41 @@
     </style>
 {% endblock %}
 {% block content %}
+
+      <div class="modal fade" id="submit_warn" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <h5 class="modal-title" id="myModalLabel">
+                            新建被试：添加基本信息
+                        </h5>
+                    </div>
+                    <div class="modal-body">
+
+
+
+
+                    </div>
+                    <div class="modal-footer">
+                        <div class="row">
+                            <div class="text-center">
+                                <a href="">
+                                    <button class="btn btn-danger" type="button" >继续作答</button>
+                                </a>
+                                <a href="">
+                                    <button class="btn btn-danger" type="button" >进入下一量表</button>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+
+
+
     <div class="right_col" role="main">
         <div class="container">
             <div class="row show-grid">
@@ -218,21 +253,41 @@
                             </table>
                                     </div>
                                 </div>
+                         {% comment %}       <div class="row">
+                                    <div  class="col-md-4 col-sm-6 text-center" style="text-align: center">
+                                        <a  href="/scales/get_last_url?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}"
+                                                id="last_scale">
+                                            <button type="button" class="btn btn-warning" id="bt_return">返回上一量表</button>
+                                        </a>
+                                    </div>
+                                    <div  class="col-md-4 col-sm-6">
+                                         {% csrf_token %}
+                                        <a href="#" data-toggle="modal">
+                                            <input  type="submit" class="btn btn-success text-center"  value="保存提交量表" id="hama_bt" >
+                                        </a>
+                                    </div>
+                                     <div class="col-md-4 col-sm-6">
+                                         <a href="/scales/skip_scale?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{scale_id}}"  style="float: right"><u>跳过该量表</u></a>
+                                     </div>
+                            </div>{% endcomment %}
+
                                 <div class="row">
-                                <div  class="col-md-4 col-sm-6 text-center" style="text-align: center">
-                                    <a  href="/scales/get_last_url?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}"
+                                        <div  class="col-md-4 col-sm-6 text-center" style="text-align: center">
+                                            <a  href="/scales/get_last_url?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}"
                                             id="last_scale">
-                                        <button type="button" class="btn btn-warning" id="bt_return">返回上一量表</button>
-                                    </a>
-                                </div>
-                                <div  class="col-md-4 col-sm-6">
-                                     {% csrf_token %}
-                                        <input  type="submit" class="btn btn-success text-center"  value="保存提交量表" id="hama_bt" >
-                                </div>
-                                 <div class="col-md-4 col-sm-6">
-                                     <a href="/scales/skip_scale?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{scale_id}}"  style="float: right"><u>跳过该量表</u></a>
-                                 </div>
-                            </div>
+                                                 <button type="button" class="btn btn-warning" id="bt_return">返回上一量表</button>
+                                            </a>
+                                        </div>
+                                        <div  class="col-md-4 col-sm-6">
+                                             {% csrf_token %}
+                                            <input  type="submit" class="btn btn-success text-center"  value="保存提交量表" id="hama_bt" >
+                                        </div>
+                                         <div class="col-md-4 col-sm-6">
+                                             <a href="/scales/skip_scale?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{scale_id}}"  style="float: right"><u>跳过该量表</u></a>
+                                         </div>
+                               </div>
+
+
                             </div>
                         </form>
                     </div>
@@ -246,6 +301,23 @@
         if(order==0) {
             $("#last_scale").attr("style", "display:none;");
         }
+         var state="{{ state }}"
+           if(state==0){
+                $("input[name='anxiety']").eq({{ hama_answer.anxiety }}).attr("checked","checked");
+                $("input[name='nervous']").eq({{ hama_answer.nervous }}).attr("checked","checked");
+                $("input[name='fear']").eq({{ hama_answer.fear }}).attr("checked","checked");
+                $("input[name='insomnia']").eq({{ hama_answer.insomnia }}).attr("checked","checked");
+                $("input[name='cognitive_function']").eq({{ hama_answer.cognitive_function }}).attr("checked","checked");
+                $("input[name='depression']").eq({{ hama_answer.depression }}).attr("checked","checked");
+                $("input[name='somaticanxiety_muscle']").eq({{ hama_answer.somaticanxiety_muscle }}).attr("checked","checked");
+                $("input[name='somaticanxiety_sensory']").eq({{ hama_answer.somaticanxiety_sensory }}).attr("checked","checked");
+                $("input[name='cardiovascular_symptoms']").eq({{ hama_answer.cardiovascular_symptoms }}).attr("checked","checked");
+                $("input[name='respiratory_symptoms']").eq({{ hama_answer.respiratory_symptoms }}).attr("checked","checked");
+                $("input[name='gastrointestinal_symptoms']").eq({{ hama_answer.gastrointestinal_symptoms }}).attr("checked","checked");
+                $("input[name='genitourinary_symptoms']").eq({{ hama_answer.genitourinary_symptoms }}).attr("checked","checked");
+                $("input[name='plantnervous_symptoms']").eq({{ hama_answer.plantnervous_symptoms }}).attr("checked","checked");
+                $("input[name='interview_behavior']").eq({{ hama_answer.interview_behavior }}).attr("checked","checked");
+           }
        }
     </script>
 {% endblock %}
@@ -259,7 +331,7 @@
     </script>
     <script type="text/javascript" src="{% static '/js/jquery-radio-beauty.js' %}"></script>
     <script type="text/javascript">
-      function myCheck(hama_form)
+      {% comment %}function myCheck(hama_form)
       {
           if (document.hama_form.anxiety.value=="") {
               alert("问题一不能为空！");
@@ -318,7 +390,7 @@
           }
           alert("提交成功！");
           return true;
-      }
+      }{% endcomment %}
     </script>
 
 {% endblock %}
