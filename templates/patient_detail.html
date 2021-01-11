@@ -90,17 +90,16 @@
                                             {% if scale_detail|get_item:'scale__do_scale_type' == 0 %}
                                                 <tr>
                                                     <td>{{ scale_detail|get_item:'scale__scale_name' }}</td>
-                                                    {% if scale_detail|get_item:'state' == 1 %}
-                                                        <td>{{ scale_detail|get_item:'end_time' }}</td>
-                                                        <td>已完成</td>
-                                                        <td><a href={{ scale_detail|get_scale_url }}>重做</a></td>
-                                                        <td><a href={{ scale_detail|check_scale }}>查看</a></td>
-                                                    {% else %}
-                                                        <td>-</td>
-                                                        <td>未完成</td>
-                                                        <td><a href={{ scale_detail|get_scale_url }}>续做</a></td>
-                                                        <td><a href={{ scale_detail|check_scale }}>查看</a></td>
-                                                    {% endif %}
+                                                    <td>{{ scale_detail|get_item:'end_time' }}</td>
+                                                    <td>
+                                                        {% if scale_detail|get_item:'state' == 1 %}
+                                                            已完成
+                                                        {% else %}
+                                                            未完成
+                                                        {% endif %}
+                                                    </td>
+                                                    <td><a href={{ scale_detail|get_baseinfo_redo_scale_url }}>重做</a></td>
+                                                    <td><a href={{ scale_detail|get_baseinfo_check_scale_url }}>查看</a></td>
                                                 </tr>
                                             {% endif %}
                                         {% endfor %}

@@ -271,14 +271,15 @@
                                 </div>
 
                                 <div class="row" id="bt_group">
-                                        <div  class="col-md-4 col-sm-6 text-center"  id="last_scale">
-                                           <a  href="/scales/get_last_url?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}">
+                                        <div  class="col-md-4 col-sm-6 text-center"  >
+                                           <a  href="/scales/get_last_url?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}"
+                                           id="last_scale">
                                                <button type="button" class="btn btn-warning" id="bt_return">返回上一量表</button>
                                            </a>
                                         </div>
-                                        <div  class="col-md-4 col-sm-6 text-center"  >
+                                        {% comment %}<div  class="col-md-4 col-sm-6 text-center"  >
                                                <button type="button" class="btn btn-warning" id="bt_return" onclick="return myCheck(this)">提交</button>
-                                        </div>
+                                        </div>{% endcomment %}
 
                                         <div  class="col-md-4 col-sm-6" id="next_scale" >
                                              {% csrf_token %}
@@ -295,11 +296,7 @@
                                         <div class="col-md-4 col-sm-6">
                                             <a onclick="remove_disabled()"  style="float: right"><u>修改</u></a>
                                         </div>
-
                                 </div>
-
-
-
                             </div>
                         </form>
                     </div>
@@ -330,23 +327,61 @@
 {% block js %}
 
     <script>
-        $("input[name='depression']").eq({{ hamd_answer.depression }}).attr("checked","checked");
-        $("input[name='guilt']").eq({{ hamd_answer.guilt }}).attr("checked","checked");
-        $("input[name='suicide']").eq({{ hamd_answer.suicide }}).attr("checked","checked");
-        $("input[name='difficulty_sleeping']").eq({{ hamd_answer.difficulty_sleeping }}).attr("checked","checked");
-        $("input[name='sleep_deep']").eq({{ hamd_answer.sleep_deep }}).attr("checked","checked");
-        $("input[name='wake_early']").eq({{ hamd_answer.wake_early }}).attr("checked","checked");
-        $("input[name='work_interest']").eq({{ hamd_answer.work_interest }}).attr("checked","checked");
-        $("input[name='slow']").eq({{ hamd_answer.slow }}).attr("checked","checked");
-        $("input[name='intense']").eq({{ hamd_answer.intense }}).attr("checked","checked");
-        $("input[name='psycho_anxiety']").eq({{ hamd_answer.psycho_anxiety }}).attr("checked","checked");
-        $("input[name='somatic_anxiety']").eq({{ hamd_answer.somatic_anxiety }}).attr("checked","checked");
-        $("input[name='gastrointestinal_symptoms']").eq({{ hamd_answer.gastrointestinal_symptoms }}).attr("checked","checked");
-        $("input[name='systemic_symptoms']").eq({{ hamd_answer.systemic_symptoms }}).attr("checked","checked");
-        $("input[name='sexual_symptoms']").eq({{ hamd_answer.sexual_symptoms }}).attr("checked","checked");
-        $("input[name='hypochondria']").eq({{ hamd_answer.hypochondria }}).attr("checked","checked");
-        $("input[name='lose_weight']").eq({{ hamd_answer.lose_weight }}).attr("checked","checked");
-        $("input[name='self_awareness']").eq({{ hamd_answer.self_awareness }}).attr("checked","checked");
+
+        if ('{{ hamd_answer.depression }}' != 'None') {
+            $("input[name='depression']").eq({{ hamd_answer.depression }}).attr("checked", "checked");
+        }
+        if ('{{ hamd_answer.guilt }}' != 'None') {
+            $("input[name='guilt']").eq({{ hamd_answer.guilt }}).attr("checked", "checked");
+        }
+
+        if ('{{ hamd_answer.suicide }}'!='None')
+        {
+            $("input[name='suicide']").eq({{ hamd_answer.suicide }}).attr("checked", "checked");
+        }
+        if ('{{ hamd_answer.difficulty_sleeping }}' != 'None') {
+            $("input[name='difficulty_sleeping']").eq({{ hamd_answer.difficulty_sleeping }}).attr("checked", "checked");
+        }
+
+        if ('{{ hamd_answer.sleep_deep }}' != 'None') {
+            $("input[name='sleep_deep']").eq({{ hamd_answer.sleep_deep }}).attr("checked", "checked");
+        }
+        if ('{{ hamd_answer.wake_early }}' != 'None') {
+            $("input[name='wake_early']").eq({{ hamd_answer.wake_early }}).attr("checked", "checked");
+        }
+        if ('{{ hamd_answer.work_interest }}' != 'None') {
+            $("input[name='work_interest']").eq({{ hamd_answer.work_interest }}).attr("checked", "checked");
+        }
+        if ('{{ hamd_answer.slow }}' != 'None') {
+            $("input[name='slow']").eq({{ hamd_answer.slow }}).attr("checked", "checked");
+        }
+        if ('{{ hamd_answer.intense }}' != 'None') {
+            $("input[name='intense']").eq({{ hamd_answer.intense }}).attr("checked", "checked");
+        }
+        if ('{{ hamd_answer.psycho_anxiety }}' != 'None') {
+            $("input[name='psycho_anxiety']").eq({{ hamd_answer.psycho_anxiety }}).attr("checked", "checked");
+        }
+        if ('{{ hamd_answer.somatic_anxiety }}' != 'None') {
+            $("input[name='somatic_anxiety']").eq({{ hamd_answer.somatic_anxiety }}).attr("checked", "checked");
+        }
+        if ('{{ hamd_answer.gastrointestinal_symptoms }}' != 'None') {
+            $("input[name='gastrointestinal_symptoms']").eq({{ hamd_answer.gastrointestinal_symptoms }}).attr("checked", "checked");
+        }
+        if ('{{ hamd_answer.systemic_symptoms }}' != 'None') {
+            $("input[name='systemic_symptoms']").eq({{ hamd_answer.systemic_symptoms }}).attr("checked", "checked");
+        }
+        if ('{{ hamd_answer.sexual_symptoms }}' != 'None') {
+            $("input[name='sexual_symptoms']").eq({{ hamd_answer.sexual_symptoms }}).attr("checked", "checked");
+        }
+        if ('{{ hamd_answer.hypochondria }}' != 'None') {
+            $("input[name='hypochondria']").eq({{ hamd_answer.hypochondria }}).attr("checked", "checked");
+        }
+        if ('{{ hamd_answer.lose_weight }}' != 'None') {
+            $("input[name='lose_weight']").eq({{ hamd_answer.lose_weight }}).attr("checked", "checked");
+        }
+        if ('{{ hamd_answer.self_awareness }}' != 'None') {
+            $("input[name='self_awareness']").eq({{ hamd_answer.self_awareness }}).attr("checked", "checked");
+        }
 
         function remove_disabled(){
             $("input[name='depression']").removeAttr("disabled","disabled");
@@ -381,7 +416,7 @@
     </script>
     <script type="text/javascript" src="{% static '/js/jquery-radio-beauty.js' %}"></script>
 
- <script type="text/javascript">
+ {% comment %}<script type="text/javascript">
       function myCheck(hamd_form)
       {
           if (document.hamd_form.depression.value=="") {
@@ -456,6 +491,6 @@
           return true;
       }
     </script>
-
+{% endcomment %}
 
 {% endblock %}
