@@ -47,7 +47,7 @@ def add_medical_history(rPatientMedicalHistory):
 def add_drugs_information(rPatientDrugsInformation):
     rPatientDrugsInformation.save()
 # 汉密尔顿焦虑量表
-def add_hamd_database(rPatientHAMD17,state):
+def add_hamd_database(rPatientHAMD17):
     # 计算量表得分
     rPatientHAMD17.total_score, object_flag = tools_calculatingScores.HAMD17_total_score(rPatientHAMD17)
     # 量表得分检验
@@ -56,6 +56,7 @@ def add_hamd_database(rPatientHAMD17,state):
     tools_insertCascadeCheck.insert_hama_check(rPatientHAMD17)
     # 插入数据库
     rPatientHAMD17.save()
+    state = 1
     # 修改r_patient_scales表中state状态
     update_rscales_state(rPatientHAMD17.patient_session_id, rPatientHAMD17.scale_id,state)
 
@@ -597,6 +598,7 @@ def get_scale_by_doscaletype(type):
     if res.exists():
         return res
     return None
+
 ################__________________###################3
 #获取hama填写结果
 def get_hama_answer(patient_id):
@@ -647,16 +649,6 @@ def get_scale_state(patient_session_id, scale_id):
         return None
     return res[0].state
 
-def del_pleasure_scale(patient_session_id,scale_id):
-    res = scales_models.RPatientPleasure.objects.filter(patient_session_id=patient_session_id,scale_id=scale_id)
-    if res.exists():
-        res[0].delete()
-
-def del_r_patient_scale(patient_session_id,scale_id):
-    res = scales_models.RPatientScales.objects.filter(patient_session_id=patient_session_id,scale_id=scale_id)
-    if res.exists():
-        res[0].delete()
-
 def del_hamd(patient_session_id,scale_id):
     res = scales_models.RPatientHamd17.objects.filter(patient_session_id=patient_session_id,scale_id=scale_id)
     if res.exists():
@@ -675,7 +667,6 @@ def del_ymrs(patient_session_id,scale_id):
     res = scales_models.RPatientYmrs.objects.filter(patient_session_id=patient_session_id,scale_id=scale_id)
     if res.exists():
         res[0].delete()
-
 
 #=================================================认知==============================
 

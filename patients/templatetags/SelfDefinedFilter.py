@@ -71,6 +71,7 @@ def get_baseinfo_redo_scale_url(scale_detail):
     next_page_url = config.scales_html_dict[int(scale_id)]
     redirect_url = '{}?patient_session_id={}&patient_id={}&do_type=0'.format(next_page_url, str(patient_session_id), str(patient_id))
     return redirect_url
+
 #进入个人一般信息查看页面
 @register.filter(name='get_baseinfo_check_scale_url')
 def get_baseinfo_check_scale_url(scale_detail):

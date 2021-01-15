@@ -46,6 +46,7 @@ def HAMD17_total_score(rPatientHamd17_object):
             or rPatientHamd17_object.suicide is None \
             or rPatientHamd17_object.difficulty_sleeping is None \
             or rPatientHamd17_object.sleep_deep is None \
+            or rPatientHamd17_object.sleep_deep is None \
             or rPatientHamd17_object.wake_early is None \
             or rPatientHamd17_object.work_interest is None \
             or rPatientHamd17_object.slow is None \
