@@ -313,67 +313,65 @@
 	</div>
      <script>
        function getData(){
-        var order = "{{ order }}";
-        if(order==0) {
-            $("#last_scale").attr("style", "display:none;");
-        }
-         var state="{{ state }}"
-           if(state==0){
-               if('{{ bprs_answer.health_care }}'!='None'){
-                   $("input[name='health_care']").eq({{ bprs_answer.health_care }}).attr("checked","checked");
-               }
-               if('{{ bprs_answer.anxious }}'!='None'){
-                   $("input[name='anxious']").eq({{ bprs_answer.anxious }}).attr("checked","checked");
-               }
-               if('{{ bprs_answer.emocommunicat_barrier }}'!='None'){
-                   $("input[name='emocommunicat_barrier']").eq({{ bprs_answer.emocommunicat_barrier }}).attr("checked","checked");
-               }
-               if('{{ bprs_answer.conceptual_disorder }}'!='None'){
-                   $("input[name='conceptual_disorder']").eq({{ bprs_answer.conceptual_disorder }}).attr("checked","checked");
-               }
-               if('{{ bprs_answer.guilt_concept }}'!='None'){
-                   $("input[name='guilt_concept']").eq({{ bprs_answer.guilt_concept }}).attr("checked","checked");
-               }
-               if('{{ bprs_answer.nervous }}'!='None'){
-                   $("input[name='nervous']").eq({{ bprs_answer.nervous }}).attr("checked","checked");
-               }
-               if('{{ bprs_answer.look_act }}'!='None'){
-                   $("input[name='look_act']").eq({{ bprs_answer.look_act }}).attr("checked","checked");
-               }
-               if('{{ bprs_answer.exaggerate }}'!='None'){
-                   $("input[name='exaggerate']").eq({{ bprs_answer.exaggerate }}).attr("checked","checked");
-               }
-               if('{{ bprs_answer.mood_depression }}'!='None'){
-                   $("input[name='mood_depression']").eq({{ bprs_answer.mood_depression }}).attr("checked","checked");
-               }
-               if('{{ bprs_answer.hostility }}'!='None'){
-                   $("input[name='hostility']").eq({{ bprs_answer.hostility }}).attr("checked","checked");
-               }
-               if('{{ bprs_answer.suspicion }}'!='None'){
-                   $("input[name='suspicion']").eq({{ bprs_answer.suspicion }}).attr("checked","checked");
-               }
-               if('{{ bprs_answer.hallucination }}'!='None'){
-                   $("input[name='hallucination']").eq({{ bprs_answer.hallucination }}).attr("checked","checked");
-               }
-               if('{{ bprs_answer.slow_movement }}'!='None'){
-                   $("input[name='slow_movement']").eq({{ bprs_answer.slow_movement }}).attr("checked","checked");
-               }
-               if('{{ bprs_answer.no_cooperation }}'!='None'){
-                   $("input[name='no_cooperation']").eq({{ bprs_answer.no_cooperation }}).attr("checked","checked");
-               }
-               if('{{ bprs_answer.unusual_thinking }}'!='None'){
-                   $("input[name='unusual_thinking']").eq({{ bprs_answer.unusual_thinking }}).attr("checked","checked");
-               }
-               if('{{ bprs_answer.feeling_flat }}'!='None'){
-                   $("input[name='feeling_flat']").eq({{ bprs_answer.feeling_flat }}).attr("checked","checked");
-               }
-               if('{{ bprs_answer.excitement }}'!='None'){
-                   $("input[name='excitement']").eq({{ bprs_answer.excitement }}).attr("checked","checked");
-               }
-               if('{{ bprs_answer.directional_disorder }}'!='None'){
-                   $("input[name='directional_disorder']").eq({{ bprs_answer.directional_disorder }}).attr("checked","checked");
-               }
+           var order = "{{ order }}";
+           if(order==0) {
+               $("#last_scale").attr("style", "display:none;");
            }
+           if('{{ bprs_answer.health_care }}'!='None'){
+               $("input[name='health_care']").eq({{ bprs_answer.health_care }}).attr("checked","checked");
+           }
+           if('{{ bprs_answer.anxious }}'!='None'){
+               $("input[name='anxious']").eq({{ bprs_answer.anxious }}).attr("checked","checked");
+           }
+           if('{{ bprs_answer.emocommunicat_barrier }}'!='None'){
+               $("input[name='emocommunicat_barrier']").eq({{ bprs_answer.emocommunicat_barrier }}).attr("checked","checked");
+           }
+           if('{{ bprs_answer.conceptual_disorder }}'!='None'){
+               $("input[name='conceptual_disorder']").eq({{ bprs_answer.conceptual_disorder }}).attr("checked","checked");
+           }
+           if('{{ bprs_answer.guilt_concept }}'!='None'){
+               $("input[name='guilt_concept']").eq({{ bprs_answer.guilt_concept }}).attr("checked","checked");
+           }
+           if('{{ bprs_answer.nervous }}'!='None'){
+               $("input[name='nervous']").eq({{ bprs_answer.nervous }}).attr("checked","checked");
+           }
+           if('{{ bprs_answer.look_act }}'!='None'){
+               $("input[name='look_act']").eq({{ bprs_answer.look_act }}).attr("checked","checked");
+           }
+           if('{{ bprs_answer.exaggerate }}'!='None'){
+               $("input[name='exaggerate']").eq({{ bprs_answer.exaggerate }}).attr("checked","checked");
+           }
+           if('{{ bprs_answer.mood_depression }}'!='None'){
+               $("input[name='mood_depression']").eq({{ bprs_answer.mood_depression }}).attr("checked","checked");
+           }
+           if('{{ bprs_answer.hostility }}'!='None'){
+               $("input[name='hostility']").eq({{ bprs_answer.hostility }}).attr("checked","checked");
+           }
+           if('{{ bprs_answer.suspicion }}'!='None'){
+               $("input[name='suspicion']").eq({{ bprs_answer.suspicion }}).attr("checked","checked");
+           }
+           if('{{ bprs_answer.hallucination }}'!='None'){
+               $("input[name='hallucination']").eq({{ bprs_answer.hallucination }}).attr("checked","checked");
+           }
+           if('{{ bprs_answer.slow_movement }}'!='None'){
+               $("input[name='slow_movement']").eq({{ bprs_answer.slow_movement }}).attr("checked","checked");
+           }
+           if('{{ bprs_answer.no_cooperation }}'!='None'){
+               $("input[name='no_cooperation']").eq({{ bprs_answer.no_cooperation }}).attr("checked","checked");
+           }
+           if('{{ bprs_answer.unusual_thinking }}'!='None'){
+               $("input[name='unusual_thinking']").eq({{ bprs_answer.unusual_thinking }}).attr("checked","checked");
+           }
+           if('{{ bprs_answer.feeling_flat }}'!='None'){
+               $("input[name='feeling_flat']").eq({{ bprs_answer.feeling_flat }}).attr("checked","checked");
+           }
+           if('{{ bprs_answer.excitement }}'!='None'){
+               $("input[name='excitement']").eq({{ bprs_answer.excitement }}).attr("checked","checked");
+           }
+           if('{{ bprs_answer.directional_disorder }}'!='None'){
+               $("input[name='directional_disorder']").eq({{ bprs_answer.directional_disorder }}).attr("checked","checked");
+           }
+
        }
     </script>
 {% endblock %}

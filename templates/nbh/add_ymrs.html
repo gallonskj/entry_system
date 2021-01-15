@@ -188,24 +188,22 @@
     </div>
      <script>
        function getData(){
-        var order = "{{ order }}";
-        if(order==0) {
-            $("#last_scale").attr("style", "display:none;");
-        }
-         var state="{{ state }}"
-           if(state==0){
-               $("input[name='emotional_upsurge']").val({{ ymrs_answer.emotional_upsurge|processNone }})
-               $("input[name='vigorous_energy']").val({{ ymrs_answer.vigorous_energy|processNone }})
-               $("input[name='sexual_desire']").val({{ ymrs_answer.sexual_desire|processNone }})
-               $("input[name='sleep']").val({{ ymrs_answer.sleep|processNone }})
-               $("input[name='irritability']").val({{ ymrs_answer.irritability|processNone }})
-               $("input[name='speech']").val({{ ymrs_answer.speech|processNone }})
-               $("input[name='language']").val({{ ymrs_answer.language|processNone }})
-               $("input[name='thinking_content']").val({{ ymrs_answer.thinking_content|processNone }})
-               $("input[name='aggressive_behavior']").val({{ ymrs_answer.aggressive_behavior|processNone }})
-               $("input[name='appearance']").val({{ ymrs_answer.appearance|processNone }})
-               $("input[name='self_awareness']").val({{ ymrs_answer.self_awareness|processNone }})
+           var order = "{{ order }}";
+           if(order==0) {
+               $("#last_scale").attr("style", "display:none;");
            }
+           $("input[name='emotional_upsurge']").val({{ ymrs_answer.emotional_upsurge|processNone }})
+           $("input[name='vigorous_energy']").val({{ ymrs_answer.vigorous_energy|processNone }})
+           $("input[name='sexual_desire']").val({{ ymrs_answer.sexual_desire|processNone }})
+           $("input[name='sleep']").val({{ ymrs_answer.sleep|processNone }})
+           $("input[name='irritability']").val({{ ymrs_answer.irritability|processNone }})
+           $("input[name='speech']").val({{ ymrs_answer.speech|processNone }})
+           $("input[name='language']").val({{ ymrs_answer.language|processNone }})
+           $("input[name='thinking_content']").val({{ ymrs_answer.thinking_content|processNone }})
+           $("input[name='aggressive_behavior']").val({{ ymrs_answer.aggressive_behavior|processNone }})
+           $("input[name='appearance']").val({{ ymrs_answer.appearance|processNone }})
+           $("input[name='self_awareness']").val({{ ymrs_answer.self_awareness|processNone }})
+
        }
     </script>
 {% endblock %}

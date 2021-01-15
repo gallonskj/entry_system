@@ -306,16 +306,16 @@
     </div>
     <script>
        function getData(){
-        var order = "{{ order  }}";
-        if(order==0){
+        var order = "{{ order }}";
+        if(order==0){{% comment %}第一个{% endcomment %}
             $("#last_scale").attr("style","display:none;");
             $("#next_scale_final").attr("style","display:none;");
             $("#next_scale").attr("style","display:block;");
-        }else if(order==1){
+        }else if(order==1){{% comment %}最后一个{% endcomment %}
             $("#last_scale").attr("style","display:block;");
             $("#next_scale_final").attr("style","display:block;");
             $("#next_scale").attr("style","display:none;");
-        }else{
+        }else{{# 啥也不是 #}
             $("#last_scale").attr("style","display:block;");
             $("#next_scale_final").attr("style","display:none;");
             $("#next_scale").attr("style","display:block;");

@@ -84,7 +84,7 @@ def add_happiness_database(rPatienthappiness):
     # 修改r_patient_scales表中state状态
     update_rscales_state(rPatienthappiness.patient_session_id, rPatienthappiness.scale_id)
 
-def add_chinesehandle_database(rPatientChineseHandy):
+def add_chinesehandle_database(rPatientChineseHandy,state):
     rPatientChineseHandy.result, object_flag = tools_calculatingScores.Handy_total_score(rPatientChineseHandy)
     tools_utils.object_judgment(object_flag)
     # 插入前的级联检验
@@ -92,19 +92,19 @@ def add_chinesehandle_database(rPatientChineseHandy):
     # 插入数据库
     rPatientChineseHandy.save()
     # 修改r_patient_scales表中state状态
-    update_rscales_state(rPatientChineseHandy.patient_session_id, rPatientChineseHandy.scale_id)
+    update_rscales_state(rPatientChineseHandy.patient_session_id, rPatientChineseHandy.scale_id,state)
     # 做完利手量表后，也需要修改patient_detail表中的利手状态
     patient_detail = patients_dao.get_patient_detail_byPK(rPatientChineseHandy.patient_session_id)
     patient_detail.handy = rPatientChineseHandy.result
     patients_dao.add_patient_detail(patient_detail)
 
-def add_information_study_database(rPatientBasicInformationStudy):
+def add_information_study_database(rPatientBasicInformationStudy,state):
     # 插入前的级联检验
     tools_insertCascadeCheck.insert_information_study_check(rPatientBasicInformationStudy)
     # 插入数据库
     rPatientBasicInformationStudy.save()
     # 修改r_patient_scales表中state状态
-    update_rscales_state(rPatientBasicInformationStudy.patient_session_id, rPatientBasicInformationStudy.scale_id)
+    update_rscales_state(rPatientBasicInformationStudy.patient_session_id, rPatientBasicInformationStudy.scale_id,state)
 
 
 #############################################################################################
@@ -163,21 +163,21 @@ def add_bprs_database(rPatientbprs,state):
     # 修改r_patient_scales表中state状态
     update_rscales_state(rPatientbprs.patient_session_id, rPatientbprs.scale_id,state)
 
-def add_rbans_database(rPatientrbans):
+def add_rbans_database(rPatientrbans,state):
     # 插入前的级联检验
     tools_insertCascadeCheck.insert_rbans_check(rPatientrbans)
     # 插入数据库
     rPatientrbans.save()
     # 修改r_patient_scales表中state状态
-    update_rscales_state(rPatientrbans.patient_session_id, rPatientrbans.scale_id)
+    update_rscales_state(rPatientrbans.patient_session_id, rPatientrbans.scale_id,state)
 
-def add_patient_basic_information_health_database(rPatientBasicInformationHealth):
+def add_patient_basic_information_health_database(rPatientBasicInformationHealth,state):
     # 插入前的级联检验
     tools_insertCascadeCheck.insert_information_health_check(rPatientBasicInformationHealth)
     # 插入数据库
     rPatientBasicInformationHealth.save()
     # 修改r_patient_scales表中state状态
-    update_rscales_state(rPatientBasicInformationHealth.patient_session_id, rPatientBasicInformationHealth.scale_id)
+    update_rscales_state(rPatientBasicInformationHealth.patient_session_id, rPatientBasicInformationHealth.scale_id,state)
 
 #############################################################################################syh
 ############################################################
@@ -193,13 +193,13 @@ def add_hama_database(rPatientHama,state):
     # 修改r_patient_scales表中state状态
     update_rscales_state(rPatientHama.patient_session_id, rPatientHama.scale_id,state)
 
-def add_abuse_database(rPatientBasicInformationAbuse):
+def add_abuse_database(rPatientBasicInformationAbuse,state):
     # 插入前的级联检验
     tools_insertCascadeCheck.insert_information_abuse_check(rPatientBasicInformationAbuse)
     # 插入数据库
     rPatientBasicInformationAbuse.save()
     # 修改r_patient_scales表中state状态
-    update_rscales_state(rPatientBasicInformationAbuse.patient_session_id, rPatientBasicInformationAbuse.scale_id)
+    update_rscales_state(rPatientBasicInformationAbuse.patient_session_id, rPatientBasicInformationAbuse.scale_id,state)
 
 def add_growth_database(rPatientGrowth):
     rPatientGrowth.emotion_abuse_score, rPatientGrowth.body_abuse_score, rPatientGrowth.sex_abuse_score, rPatientGrowth.emotion_ignore_score, \
@@ -224,24 +224,24 @@ def add_adolescent_events_database(rPatientAdolescentEvents):
     update_rscales_state(rPatientAdolescentEvents.patient_session_id, rPatientAdolescentEvents.scale_id)
 
 # 这里的total_score需要从前台获取，认知的所有表都需要手动填总分 面孔情绪感知
-def add_fept_database(rPatientFept):
+def add_fept_database(rPatientFept,state):
     # 存进数据库
     # 插入前的级联检验
     tools_insertCascadeCheck.insert_fept_check(rPatientFept)
     # 插入数据库
     rPatientFept.save()
     # 修改r_patient_scales表中state状态
-    update_rscales_state(rPatientFept.patient_session_id, rPatientFept.scale_id)
+    update_rscales_state(rPatientFept.patient_session_id, rPatientFept.scale_id,state)
 
 # 这里的total_score需要从前台或许，认知的所有表都需要手动填总分 语音情绪感知
-def add_vept_database(rPatientVept):
+def add_vept_database(rPatientVept,state):
     # 存进数据库
     # 插入前的级联检验
     tools_insertCascadeCheck.insert_vept_check(rPatientVept)
     # 插入数据库
     rPatientVept.save()
     # 修改r_patient_scales表中state状态
-    update_rscales_state(rPatientVept.patient_session_id, rPatientVept.scale_id)
+    update_rscales_state(rPatientVept.patient_session_id, rPatientVept.scale_id,state)
 
 ###################################
 
@@ -268,13 +268,13 @@ def add_sembu_database(rPatientSembu):
     # 修改r_patient_scales表中state状态
     update_rscales_state(rPatientSembu.patient_session_id, rPatientSembu.scale_id)
 
-def dao_add_family_info(patient_basic_info_family):
+def dao_add_family_info(patient_basic_info_family,state):
     # 插入前的级联检验
     tools_insertCascadeCheck.insert_information_family_check(patient_basic_info_family)
     # 插入数据库
     patient_basic_info_family.save()
     # 修改r_patient_scales表中state状态
-    update_rscales_state(patient_basic_info_family.patient_session_id, patient_basic_info_family.scale_id)
+    update_rscales_state(patient_basic_info_family.patient_session_id, patient_basic_info_family.scale_id,state)
 
 def dao_add_suicide(rpatientsuicidal):
     # 计算总分
@@ -310,21 +310,21 @@ def add_atq_database(rPatientAtq):
     # 修改r_patient_scales表中state状态
     update_rscales_state(rPatientAtq.patient_session_id, rPatientAtq.scale_id)
 
-def add_wcst_database(rPatientWcst):
+def add_wcst_database(rPatientWcst,state):
     # 插入前的级联检验
     tools_insertCascadeCheck.insert_wcst_check(rPatientWcst)
     # 插入数据库
     rPatientWcst.save()
     # 修改r_patient_scales表中state状态
-    update_rscales_state(rPatientWcst.patient_session_id, rPatientWcst.scale_id)
+    update_rscales_state(rPatientWcst.patient_session_id, rPatientWcst.scale_id,state)
 
-def add_other_database(rPatientBasicInformationOther):
+def add_other_database(rPatientBasicInformationOther,state):
     # 插入前的级联检验
     tools_insertCascadeCheck.insert_information_other_check(rPatientBasicInformationOther)
     # 插入数据库
     rPatientBasicInformationOther.save()
     # 修改r_patient_scales表中state状态
-    update_rscales_state(rPatientBasicInformationOther.patient_session_id, rPatientBasicInformationOther.scale_id)
+    update_rscales_state(rPatientBasicInformationOther.patient_session_id, rPatientBasicInformationOther.scale_id,state)
 
 
 ################### get方法部分 #####################
@@ -654,5 +654,48 @@ def del_pleasure_scale(patient_session_id,scale_id):
 
 def del_r_patient_scale(patient_session_id,scale_id):
     res = scales_models.RPatientScales.objects.filter(patient_session_id=patient_session_id,scale_id=scale_id)
+    if res.exists():
+        res[0].delete()
+
+def del_hamd(patient_session_id,scale_id):
+    res = scales_models.RPatientHamd17.objects.filter(patient_session_id=patient_session_id,scale_id=scale_id)
+    if res.exists():
+        res[0].delete()
+
+def del_hama(patient_session_id,scale_id):
+    res = scales_models.RPatientHama.objects.filter(patient_session_id=patient_session_id,scale_id=scale_id)
+    if res.exists():
+        res[0].delete()
+def del_bprs(patient_session_id,scale_id):
+    res = scales_models.RPatientBprs.objects.filter(patient_session_id=patient_session_id,scale_id=scale_id)
+    if res.exists():
+        res[0].delete()
+
+def del_ymrs(patient_session_id,scale_id):
+    res = scales_models.RPatientYmrs.objects.filter(patient_session_id=patient_session_id,scale_id=scale_id)
+    if res.exists():
+        res[0].delete()
+
+
+#=================================================认知==============================
+
+
+def del_wcst(patient_session_id, scale_id):
+    res = scales_models.RPatientWcst.objects.filter(patient_session_id=patient_session_id, scale_id=scale_id)
+    if res.exists():
+        res[0].delete()
+
+def del_rbans(patient_session_id, scale_id):
+    res = scales_models.RPatientRbans.objects.filter(patient_session_id=patient_session_id, scale_id=scale_id)
+    if res.exists():
+        res[0].delete()
+
+def del_fept(patient_session_id, scale_id):
+    res = scales_models.RPatientFept.objects.filter(patient_session_id=patient_session_id, scale_id=scale_id)
+    if res.exists():
+        res[0].delete()
+
+def del_vept(patient_session_id, scale_id):
+    res = scales_models.RPatientVept.objects.filter(patient_session_id=patient_session_id, scale_id=scale_id)
     if res.exists():
         res[0].delete()

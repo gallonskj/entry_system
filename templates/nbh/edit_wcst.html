@@ -38,7 +38,7 @@
         <div class="dashboard_graph x_panel" style="margin-top:0px;height:80%;">
         	<div id="wrapper">
                 <div id = "left-side" style="height: 100%;margin-left: 10px;" class="col-md-2">
-                  <ul class="scales_progress">
+                 <ul class="scales_progress">
                     {% for scale_name in scale_name_list %}
                         {% if scale_name|get_item:'scale__scale_name' == '威斯康星卡片分类测验（WCST）' %}
                             <li class="step doing  ">
@@ -105,7 +105,7 @@
 						                        <td>
 
                                                     <input type="number" placeholder="请输入大于等于0的整数" style="border-radius:5px;" id="ra" name="ra" class="form-control"
-														   oninput="{notice1(1)}"  required />
+														   oninput="{notice1(1)}" value="{{ wcst_answer.ra }}" disabled required />
 													<p  style="display:inline-block; font-size:x-small; color:#8B0000" id="notice1"></p>
 
 						                        </td>
@@ -116,7 +116,7 @@
 						                        </td>
 						                        <td>
 							                        <input type="number" placeholder="请输入大于等于0的整数" style="border-radius:5px;" id="cc" name="cc" class="form-control"
-														   oninput="{notice1(2)}" required />
+														   oninput="{notice1(2)}" value="{{ wcst_answer.cc }}" disabled required />
 													<p  style="display:inline-block; font-size:x-small; color:#8B0000" id="notice2"></p>
 						                        </td>
 					                        </tr>
@@ -126,7 +126,7 @@
 						                        </td>
 						                        <td>
 							                        <input type="number" placeholder="请输入大于等于0的整数" style="border-radius:5px;" id="rc" name="rc" class="form-control"
-														   oninput="{notice1(3)}" required />
+														   oninput="{notice1(3)}" value="{{ wcst_answer.rc }}" disabled required />
 													<p  style="display:inline-block; font-size:x-small; color:#8B0000" id="notice3"></p>
 						                        </td>
 					                        </tr>
@@ -137,7 +137,7 @@
 						                        <td>
 
 													<input type="number" placeholder="请输入大于等于0的百分数" style="border-radius:5px;" class="form-control" id="rcp" name="rcp" min="0.0" step="0.1"
-														   oninput="{notice1(4)}" required />
+														   oninput="{notice1(4)}" value="{{ wcst_answer.rcp }}" disabled required />
 													<p  style="display:inline-block; font-size:x-small; color:#8B0000" id="notice4"></p>
 						                        </td>
 											</tr>
@@ -147,7 +147,7 @@
 						                        </td>
 						                        <td>
 							                        <input type="number" placeholder="请输入大于等于0的整数" style="border-radius:5px;" id="re" name="re" class="form-control"
-														   oninput="{notice1(5)}" required />
+														   oninput="{notice1(5)}" value="{{ wcst_answer.re }}" disabled required />
 													<p  style="display:inline-block; font-size:x-small; color:#8B0000" id="notice5"></p>
 						                        </td>
 					                        </tr>
@@ -157,7 +157,7 @@
 						                        </td>
 						                        <td>
 							                        <input type="number" placeholder="请输入大于等于0的整数" style="border-radius:5px;" id="rf" name="rf" class="form-control"
-														   oninput="{notice1(6)}" required />
+														   oninput="{notice1(6)}" value="{{ wcst_answer.rf }}" disabled required />
 													<p  style="display:inline-block; font-size:x-small; color:#8B0000" id="notice6"></p>
 						                        </td>
 					                        </tr>
@@ -167,7 +167,7 @@
 						                        </td>
 						                        <td>
 							                        <input type="number" placeholder="请输入大于等于0的百分数" style="border-radius:5px;" class="form-control" id="rfp" name="rfp" min="0.0" step="0.1"
-														   oninput="{notice1(7)}" required />
+														   oninput="{notice1(7)}" value="{{ wcst_answer.rfp }}" disabled required />
 													<p  style="display:inline-block; font-size:x-small; color:#8B0000" id="notice7"></p>
 						                        </td>
 					                        </tr>
@@ -177,7 +177,7 @@
 						                        </td>
 						                        <td>
 							                        <input type="number" placeholder="请输入大于等于0的整数" style="border-radius:5px;" id="rp" name="rp" class="form-control"
-														   oninput="{notice1(8)}" required />
+														   oninput="{notice1(8)}" value="{{ wcst_answer.rp }}" disabled required />
 													<p  style="display:inline-block; font-size:x-small; color:#8B0000" id="notice8"></p>
 						                        </td>
 					                        </tr>
@@ -187,7 +187,7 @@
 						                        </td>
 						                        <td>
 							                        <input type="number" placeholder="请输入大于等于0的整数" style="border-radius:5px;" id="rpe" name="rpe" class="form-control"
-														   oninput="{notice1(9)}"  required />
+														   oninput="{notice1(9)}" value="{{ wcst_answer.rpe }}" disabled required />
 													<p  style="display:inline-block; font-size:x-small; color:#8B0000" id="notice9"></p>
 						                        </td>
 					                        </tr>
@@ -197,7 +197,7 @@
 						                        </td>
 						                        <td>
 							                        <input type="number" placeholder="请输入大于等于0的百分数" style="border-radius:5px;" class="form-control" id="rpep" name="rpep" min="0.0" step="0.1"
-														   oninput="{notice1(10)}" required />
+														   oninput="{notice1(10)}" value="{{ wcst_answer.rpep }}" disabled required />
 													<p  style="display:inline-block; font-size:x-small; color:#8B0000" id="notice10"></p>
 						                        </td>
 					                        </tr>
@@ -207,7 +207,7 @@
 						                        </td>
 						                        <td>
 							                        <input type="number" placeholder="请输入大于等于0的整数" style="border-radius:5px;" class="form-control" id="nrpe" name="nrpe"
-														   oninput="{notice1(11)}" required />
+														   oninput="{notice1(11)}" value="{{ wcst_answer.nrpe }}" disabled required />
 													<p  style="display:inline-block; font-size:x-small; color:#8B0000" id="notice11"></p>
 						                        </td>
 					                        </tr>
@@ -217,7 +217,7 @@
 						                        </td>
 						                        <td>
 							                        <input type="number" placeholder="请输入大于等于0的整数" style="border-radius:5px;" class="form-control" id="fm" name="fm"
-														   oninput="{notice1(12)}"  required />
+														   oninput="{notice1(12)}" value="{{ wcst_answer.fm }}" disabled required />
 													<p  style="display:inline-block; font-size:x-small; color:#8B0000" id="notice12"></p>
 						                        </td>
 					                        </tr>
@@ -226,7 +226,7 @@
 							                       学习到学会（L-L)
 						                        </td>
 						                        <td>
-							                        <input type="number" placeholder="请输入" style="border-radius:5px;" class="form-control" name="l_l" min="0.0" step="0.1"  required />
+							                        <input type="number" placeholder="请输入" style="border-radius:5px;" class="form-control" name="l_l" min="0.0" step="0.1" value="{{ wcst_answer.l_l }}" disabled required />
 						                        </td>
 					                        </tr>
                                         </tbody>
@@ -237,28 +237,39 @@
 <br><br>
 
 
+
 						        <div class="row">
-									<div class="col-md-2">
-
-									</div>
-									<div  class="col-md-4 col-sm-6 text-center" style="text-align: center">
-                                        <a  href="/scales/get_last_url?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}"
-                                            id="last_scale">
-											<button type="button" class="btn btn-warning" id="bt_return">返回上一量表</button></a>
+                                    <div  class="col-md-4 col-md-offset-4 col-sm-6" style="display: none" id="wcst_bt">
+                                             {% csrf_token %}
+                                        <input  type="submit" class="btn btn-success text-center"  value="保存提交修改" >
                                     </div>
-                                    <div  class="col-md-4 col-sm-6">
-                                     {% csrf_token %}
 
-										<input class="btn btn-success text-center" id="sub" type="button" value="保存提交量表"></input>
+                                </div>
 
-									</div>
-                                    <div class="col-md-2 col-sm-6">
-                                       <a href="/scales/skip_scale?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{scale_id}}"  style="float: right"><u>跳过该量表</u></a>
-                                    </div>
-								</div>
+                                <div class="row" id="bt_group">
+                                        <div  class="col-md-4 col-sm-6 text-center"  >
+                                           <a  href="/scales/get_last_url?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}"
+                                           id="last_scale">
+                                               <button type="button" class="btn btn-warning" id="bt_return">返回上一量表</button>
+                                           </a>
+                                        </div>
+                                        <div  class="col-md-4 col-sm-6" id="next_scale" >
+                                             {% csrf_token %}
+                                            <a href="/scales/get_next_url?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}">
+                                                <input  type="button" class="btn btn-success text-center"  value="进入下一量表"  >
+                                            </a>
+                                        </div>
+                                        <div  class="col-md-4 col-sm-6" id="next_scale_final" >
+                                                 {% csrf_token %}
+                                                <a href="/scales/select_scales?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}">
+                                                    <input  type="button" class="btn btn-success text-center"  value="进入下一量表"  >
+                                                </a>
+                                        </div>
+                                        <div class="col-md-4 col-sm-6">
+                                            <a onclick="remove_disabled()"  style="float: right"><u>修改</u></a>
+                                        </div>
 
-
-
+                                </div>
                     </form>
 				</div>
 			</div>
@@ -266,210 +277,68 @@
 	</div>
 </div>
 <script>
-	function getData(){
-		var order = "{{ order }}"
-		if(order==0){
-			$("#last_scale").attr("style", "display:none;");
-		}
-
-	}
+       function getData(){
+        var order = "{{ order  }}";
+        if(order==0){
+            $("#last_scale").attr("style","display:none;");
+            $("#next_scale_final").attr("style","display:none;");
+            $("#next_scale").attr("style","display:block;");
+        }else if(order==1){
+            $("#last_scale").attr("style","display:block;");
+            $("#next_scale_final").attr("style","display:block;");
+            $("#next_scale").attr("style","display:none;");
+        }else{
+            $("#last_scale").attr("style","display:block;");
+            $("#next_scale_final").attr("style","display:none;");
+            $("#next_scale").attr("style","display:block;");
+        }
+       }
 </script>
-
 
 {% endblock %}
 
 {% block js %}
-<script type="text/javascript" src="{% static '/js/jquery-radio-beauty.js'%}"></script>
+<script>
+	$("input[name='ra']").eq({{ wcst_answer.ra }}).attr("checked","checked");
+    $("input[name='cc']").eq({{ wcst_answer.cc }}).attr("checked","checked");
+    $("input[name='rc']").eq({{ wcst_answer.rc }}).attr("checked","checked");
+    $("input[name='rcp']").eq({{ wcst_answer.rcp }}).attr("checked","checked");
+    $("input[name='re']").eq({{ wcst_answer.re }}).attr("checked","checked");
+    $("input[name='rf']").eq({{ wcst_answer.rf }}).attr("checked","checked");
+    $("input[name='rfp']").eq({{ wcst_answer.rfp }}).attr("checked","checked");
+    $("input[name='rp']").eq({{ wcst_answer.rp }}).attr("checked","checked");
+    $("input[name='rpe']").eq({{ wcst_answer.rpe }}).attr("checked","checked");
+    $("input[name='rpep']").eq({{ wcst_answer.rpep }}).attr("checked","checked");
+    $("input[name='nrpe']").eq({{ wcst_answer.nrpe }}).attr("checked","checked");
+    $("input[name='fm']").eq({{ wcst_answer.fm }}).attr("checked","checked");
+    $("input[name='l_l']").eq({{ wcst_answer.l_l }}).attr("checked","checked");
 
+     function remove_disabled(){
+		$("input[name='ra']").removeAttr("disabled","disabled");
+        $("input[name='cc']").removeAttr("disabled","disabled");
+        $("input[name='rc']").removeAttr("disabled","disabled");
+        $("input[name='rcp']").removeAttr("disabled","disabled");
+        $("input[name='re']").removeAttr("disabled","disabled");
+        $("input[name='rf']").removeAttr("disabled","disabled");
+        $("input[name='rfp']").removeAttr("disabled","disabled");
+        $("input[name='rp']").removeAttr("disabled","disabled");
+        $("input[name='rpe']").removeAttr("disabled","disabled");
+        $("input[name='rpep']").removeAttr("disabled","disabled");
+        $("input[name='nrpe']").removeAttr("disabled","disabled");
+        $("input[name='fm']").removeAttr("disabled","disabled");
+        $("input[name='l_l']").removeAttr("disabled","disabled");
+        $("#wcst_bt").attr("style", "display:block;");
+        $("#bt_group").attr("style", "display:none;");
+
+     }
+
+</script>
 <script>
 $(document).ready(function(){
 	$("input[type='radio']").labelauty();
 });
-
-function notice1(num){
-	if(num==1){
-		a0=document.getElementsByName('ra')[0].value;
-		if(a0<0){
-			document.getElementById('notice1').innerHTML="&nbsp;&nbsp;&nbsp;请输入大于等于0的整数";
-		}else{
-			if(parseInt(a0) != parseFloat(a0)){
-				document.getElementById('notice1').innerHTML="&nbsp;&nbsp;&nbsp;请输入整数";
-			}else{
-				document.getElementById('notice1').innerHTML="";
-			}
-		}
-	}
-	else if(num==2){
-		a1=document.getElementsByName('cc')[0].value;
-		if(a1<0){
-			document.getElementById('notice2').innerHTML="&nbsp;&nbsp;&nbsp;请输入大于等于0的整数";
-		}else{
-			if(parseInt(a1) != parseFloat(a1)){
-				document.getElementById('notice2').innerHTML="&nbsp;&nbsp;&nbsp;请输入整数";
-			}else{
-				document.getElementById('notice2').innerHTML="";
-			}
-		}
-	}
-	else if(num==3){
-		a2=document.getElementsByName('rc')[0].value;
-		if(a2<0){
-			document.getElementById('notice3').innerHTML="&nbsp;&nbsp;&nbsp;请输入大于等于0的整数";
-		}else{
-			if(parseInt(a2) != parseFloat(a2)){
-				document.getElementById('notice3').innerHTML="&nbsp;&nbsp;&nbsp;请输入整数";
-			}else{
-				document.getElementById('notice3').innerHTML="";
-			}
-		}
-	}
-	else if(num==4){
-		a3=document.getElementsByName('rcp')[0].value;
-		if(a3<0 || a3>100){
-			document.getElementById('notice4').innerHTML="&nbsp;&nbsp;&nbsp;请输入0-100的百分数";
-		}else{
-			document.getElementById('notice4').innerHTML="";
-		}
-	}
-	else if(num==5){
-		a4=document.getElementsByName('re')[0].value;
-		if(a4<0){
-			document.getElementById('notice5').innerHTML="&nbsp;&nbsp;&nbsp;请输入大于等于0的整数";
-		}else{
-			if(parseInt(a4) != parseFloat(a4)){
-				document.getElementById('notice5').innerHTML="&nbsp;&nbsp;&nbsp;请输入整数";
-			}else{
-				document.getElementById('notice5').innerHTML="";
-			}
-		}
-	}
-	else if(num==6){
-		a5=document.getElementsByName('rf')[0].value;
-		if(a5<0){
-			document.getElementById('notice6').innerHTML="&nbsp;&nbsp;&nbsp;请输入大于等于0的整数";
-		}else{
-			if(parseInt(a5) != parseFloat(a5)){
-				document.getElementById('notice6').innerHTML="&nbsp;&nbsp;&nbsp;请输入整数";
-			}else{
-				document.getElementById('notice6').innerHTML="";
-			}
-		}
-	}
-	else if(num==7){
-		a6=document.getElementsByName('rfp')[0].value;
-		if(a6<0 || a6>100){
-			document.getElementById('notice7').innerHTML="&nbsp;&nbsp;&nbsp;请输入0-100的百分数";
-		}else{
-			document.getElementById('notice7').innerHTML="";
-		}
-	}
-	else if(num==8){
-		a7=document.getElementsByName('rp')[0].value;
-		if(a7<0){
-			document.getElementById('notice8').innerHTML="&nbsp;&nbsp;&nbsp;请输入大于等于0的整数";
-		}else{
-			if(parseInt(a7) != parseFloat(a7)){
-				document.getElementById('notice8').innerHTML="&nbsp;&nbsp;&nbsp;请输入整数";
-			}else{
-				document.getElementById('notice8').innerHTML="";
-			}
-		}
-	}
-	else if(num==9){
-		a8=document.getElementsByName('rpe')[0].value;
-		if(a8<0){
-			document.getElementById('notice9').innerHTML="&nbsp;&nbsp;&nbsp;请输入大于等于0的整数";
-		}else{
-			if(parseInt(a8) != parseFloat(a8)){
-				document.getElementById('notice9').innerHTML="&nbsp;&nbsp;&nbsp;请输入整数";
-			}else{
-				document.getElementById('notice9').innerHTML="";
-			}
-		}
-	}
-	else if(num==10){
-		a9=document.getElementsByName('rpep')[0].value;
-		if(a9<0 || a9>100){
-			document.getElementById('notice10').innerHTML="&nbsp;&nbsp;&nbsp;请输入0-100的百分数";
-		}else{
-			document.getElementById('notice10').innerHTML="";
-		}
-	}
-	else if(num==11){
-		a10=document.getElementsByName('nrpe')[0].value;
-		if(a10<0){
-			document.getElementById('notice11').innerHTML="&nbsp;&nbsp;&nbsp;请输入大于等于0的整数";
-		}else{
-			if(parseInt(a10) != parseFloat(a10)){
-				document.getElementById('notice11').innerHTML="&nbsp;&nbsp;&nbsp;请输入整数";
-			}else{
-				document.getElementById('notice11').innerHTML="";
-			}
-		}
-	}
-	else if(num==12){
-		a11=document.getElementsByName('fm')[0].value;
-		if(a11<0){
-			document.getElementById('notice12').innerHTML="&nbsp;&nbsp;&nbsp;请输入大于等于0的整数";
-		}else{
-			if(parseInt(a11) != parseFloat(a11)){
-				document.getElementById('notice12').innerHTML="&nbsp;&nbsp;&nbsp;请输入整数";
-			}else{
-				document.getElementById('notice12').innerHTML="";
-			}
-		}
-	}
-}
-
-$("#sub").click(function(){
-
-
-	ra = $('#ra').val();
-	ra1 = (parseInt(ra) == parseFloat(ra));
-
-	cc= $('#cc').val();
-	cc1 = (parseInt(cc) == parseFloat(cc));
-
-	rc = $('#rc').val();
-	rc1 = (parseInt(rc) == parseFloat(rc));
-
-	rcp = $('#rcp').val();
-
-	re = $('#re').val();
-	re1 = (parseInt(re) == parseFloat(re));
-
-	rf = $('#rf').val();
-	rf1 = (parseInt(rf) == parseFloat(rf));
-
-	rfp = $('#rfp').val();
-
-	rp = $('#rp').val();
-	rp1 = (parseInt(rp) == parseFloat(rp));
-
-	rpe = $('#rpe').val();
-	rpe1 = (parseInt(rpe) == parseFloat(rpe));
-
-	rpep = $('#rpep').val();
-
-	nrpe = $('#nrpe').val();
-	nrpe1 = (parseInt(nrpe) == parseFloat(nrpe));
-
-	fm = $('#fm').val();
-	fm1 = (parseInt(fm) == parseFloat(fm));
-
-	if (ra>=0 && ra1 && cc>=0 && cc1 && rc>=0 && rc1 && rcp>=0 && rcp<=100 && re>=0 && re1 && rf>=0 && rf1 && rfp>=0
-        && rfp<=100 && rp>=0 && rp1 && rpe>=0 && rpe1 && rpep>=0 && rpep<=100 && nrpe>=0 && nrpe1 && fm>=0 && fm1){
-		$('#sub_wcst').submit();
-	}
-	else if(ra=='' || cc=='' || rc=='' || rcp=='' || re=='' || rf=='' || rfp=='' || rp=='' || rpe=='' || rpep=='' || nrpe=='' || fm==''){
-		alert("请填写完毕后提交！");
-		return false;
-	}else{
-		alert("请输入正确数字后提交！");
-		return false;
-	}
-});
 </script>
+<script type="text/javascript" src="{% static '/js/jquery-radio-beauty.js'%}"></script>
 {% endblock %}
 
 
