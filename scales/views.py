@@ -1105,7 +1105,7 @@ def get_next_url(request):
 
 
 def test(request):
-    return render(request, 'nbh/ajax_s_embu.html')
+    return render(request, 'nbh/ajax_hcl_33.html')
 
 
 def test_submit(request):
