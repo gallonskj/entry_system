@@ -38,7 +38,7 @@
                 <form id="question_form_1" name="question_form_1" action="#">
 					{% csrf_token %}
                     <h3><div name="question_text_1" id="question_text_1" class="row">1. 首先，和平常的状态比起来，您今天感觉怎么样？</div></h3>
-                    <div id="options_1" class="options" style=" text-align: left;padding-left: 47.5%">
+                    <div id="options_1" class="options" style=" text-align: left;padding-left: 45%">
                         <div class="row show-grid" style="margin:10px">
 							<label>
                                 <input type="radio" name="answer" value=0 data-labelauty="比平常差多了"/>
@@ -71,7 +71,7 @@
 						</div>
                         <div class="row show-grid" style="margin:10px">
 							<label>
-                                <input type="radio" name="answer" value=5 data-labelauty="比平常好很多"/>
+                                <input type="radio" name="answer" value=6 data-labelauty="比平常好很多"/>
 							</label>
 						</div>
                     </div>
@@ -87,27 +87,12 @@
                     <div id="options_2" class="options_2" style=" text-align: left;padding-left: 47.5%">
                         <div class="row show-grid" style="margin:10px">
                             <label>
-                                <input type="radio" name="answer" value=1 data-labelauty="从来没有这种现象" />
+                                <input type="radio" name="answer" value=1 data-labelauty="是" />
                             </label>
                         </div>
 						<div class="row show-grid" style="margin:10px">
 							<label>
-                                <input type="radio" name="answer" value=2 data-labelauty="偶尔"/>
-							</label>
-						</div>
-                        <div class="row show-grid" style="margin:10px">
-							<label>
-                                <input type="radio" name="answer" value=3 data-labelauty="有时" />
-							</label>
-						</div>
-						<div class="row show-grid" style="margin:10px">
-							<label>
-                                <input type="radio" name="answer" value=4 data-labelauty="经常"/>
-							</label>
-						</div>
-                        <div class="row show-grid" style="margin:10px">
-							<label>
-                                <input type="radio" name="answer" value=5 data-labelauty="总是"/>
+                                <input type="radio" name="answer" value=0 data-labelauty="否"/>
 							</label>
 						</div>
                     </div>
@@ -144,7 +129,20 @@
                 $('#question_form_1').hide();
                 $('#question_form_2').show();
                 question_index_1++;
-            } else {
+            } else if(question_index_1 === 9 ){
+                if(document.question_form_1.answer.value === 0){
+                    ajax_post($('#question_form_1'), question_index_1);
+                    update_question_1(question_index_1);
+                    // question_index_1 ++;
+                    question_index_1++;
+                }else{
+                    ajax_post($('#question_form_1'), question_index_1);
+                    update_question_1(question_index_1);
+                    // question_index_1 ++;
+                    question_index_1++;
+                    question_index_1++;
+                }
+            }else {
                 ajax_post($('#question_form_1'), question_index_1);
                 update_question_1(question_index_1);
                 // question_index_1 ++;
@@ -167,30 +165,31 @@
                 question_index_2 ++;
 			    }
 			});
-
-
-            // if(question_index === 28) {
-            //     document.getElementById('question_test').innerHTML="在您的一生中，第一次性行为时您多大年龄？（如从来没有，填“88”）";
-            //     const options = document.getElementById('options');
-            //     for(let i = 0 ; i < 10 ; i ++){
-            //         options.removeChild(options.childNodes[0]);
-            //     }
-            //     const div = document.createElement("div");
-            //     div.className='row show-grid';
-            //     div.style.margin='10px';
-            //     const input = document.createElement("input");
-            //     input.setAttribute("type","text");
-            //     input.setAttribute("name","answer");
-            //     input.style.width="100";
-            //     const text = document.createTextNode('岁');
-            //     div.appendChild(input);
-            //     div.appendChild(text);
-            //     options.appendChild(div);
-            //     options.style.paddingLeft='46%';
-            // update_question(question_index);
-            // question_index ++;
-			// }
 	});
+
+	function alter_value(parent_id, option_num, value) {
+        const options = document.getElementById(parent_id);
+        // 改变选项value
+        options.childNodes[option_num * 2 + 1].childNodes[1].childNodes[1].value = value;
+    }
+
+    function hidden_nodes(parent_id, option_num) {
+	    const options = document.getElementById(parent_id);
+        options.childNodes[option_num * 2 + 1].style.display = "none";
+    }
+
+    function show_nodes(parent_id, option_num) {
+	    const options = document.getElementById(parent_id);
+        options.childNodes[option_num * 2 + 1].style.display = "block";
+    }
+
+    function alter_option_text(parent_id, option_num, option_text) {
+	    const options = document.getElementById(parent_id);
+        //checked
+        options.childNodes[option_num * 2 + 1].childNodes[1].childNodes[2].childNodes[3].innerHTML = option_text;
+        //uncheck
+        options.childNodes[option_num * 2 + 1].childNodes[1].childNodes[2].childNodes[1].innerHTML = option_text;
+    }
 
 	function get_duration(){
 		const current_time = new Date();
@@ -203,9 +202,22 @@
         switch (index) {
             case 1:
                 document.getElementById('question_text_1').innerHTML="2. 与其他人相比，您觉得自己怎么样？<br/><br>" +
-                    "不管您今天感觉怎么样，请告诉我们通常情况下您和其他人相比的情况，请在下面选出最合适您的描述.<br/><br>";break;
+                    "不管您今天感觉怎么样，请告诉我们通常情况下您和其他人相比的情况，请在下面选出最合适您的描述.<br/><br>";
+                alter_option_text("options_1", 0, "总是相当稳定");
+                alter_option_text("options_1", 1, "通常比较高涨一些");
+                alter_option_text("options_1", 2, "通常比较低落一些");
+                alter_option_text("options_1", 3, "反复的出现高涨与低落");
+                hidden_nodes("options_1", 4);
+                hidden_nodes("options_1", 5);
+                hidden_nodes("options_1", 6);
+                break;
             case 2:
-                document.getElementById('question_text_1').innerHTML="4.您的“高涨”状态对您家庭生活的影响：<br/><br>";break;
+                document.getElementById('question_text_1').innerHTML="4.您的“高涨”状态对您家庭生活的影响：<br/><br>";
+                alter_option_text("options_1", 0, "正面与负面都有");
+                alter_option_text("options_1", 1, "正面影响");
+                alter_option_text("options_1", 2, "负面影响");
+                alter_option_text("options_1", 3, "没有影响");
+                break;
             case 3:
                 document.getElementById('question_text_1').innerHTML="4.您的“高涨”状态对您社会生活的影响：<br/><br>";break;
             case 4:
@@ -213,16 +225,49 @@
             case 5:
                 document.getElementById('question_text_1').innerHTML="4.您的“高涨”状态对您休闲的影响：<br/><br>";break;
             case 6:
-                document.getElementById('question_text_1').innerHTML="5. 与您亲近的人对您“高涨”状态有什么反应或意见？<br/><br>";break;
+                document.getElementById('question_text_1').innerHTML="5. 与您亲近的人对您“高涨”状态有什么反应或意见？<br/><br>";
+                alter_option_text("options_1", 0, "正面的（鼓励和支持）");
+                alter_option_text("options_1", 1, "中性的");
+                alter_option_text("options_1", 2, "负面的（关注、恼火、生气、批评）");
+                alter_option_text("options_1", 3, "正面和负面都有");
+                alter_option_text("options_1", 4, "没有反应");
+                show_nodes("options_1", 4);
+                break;
             case 7:
-                document.getElementById('question_text_1').innerHTML="6 a). 您过去的“高涨”状态最长一次持续了多久？ （请在下列选项中选出一项）<br/><br>";break;
+                document.getElementById('question_text_1').innerHTML="6 a). 您过去的“高涨”状态最长一次持续了多久？ （请在下列选项中选出一项）<br/><br>";
+                alter_option_text("options_1", 0, "1天");
+                alter_option_text("options_1", 1, "2-3天");
+                alter_option_text("options_1", 2, "4-6天");
+                alter_option_text("options_1", 3, "1-3周");
+                alter_option_text("options_1", 4, "1个月以上");
+                alter_option_text("options_1", 5, "我不能判断或不知道");
+                show_nodes("options_1", 5);
+                break;
             case 8:
-                document.getElementById('question_text_1').innerHTML="6 b). “高涨”状态通常的持续时间 (平均)：<br/><br>";break;
+                document.getElementById('question_text_1').innerHTML="6 b). “高涨”状态通常的持续时间 (平均)：";
+                break;
             case 9:
-                document.getElementById('question_text_1').innerHTML="7. 在过去的 12 个月中，您经历过这种“高涨”的状态吗？<br/><br>";break;
+                document.getElementById('question_text_1').innerHTML="7. 在过去的 12 个月中，您经历过这种“高涨”的状态吗？<br/><br>";
+                alter_option_text("options_1", 0, "是");
+                alter_option_text("options_1", 1, "否");
+                alter_value("options_1", 0, 1);
+                alter_value("options_1", 1, 0);
+                hidden_nodes("options_1", 2);
+                hidden_nodes("options_1", 3);
+                hidden_nodes("options_1", 4);
+                hidden_nodes("options_1", 5);
+                break;
             case 10:
-                document.getElementById('question_text_1').innerHTML="8. 若是，请估计在过去 12 个月中您在这种“高涨”状态中度过多少天。总计大约多少天?<br/><br>";break;
+                hidden_nodes("options_1", 0);
+                hidden_nodes("options_1", 1);
+                document.getElementById('question_text_1').innerHTML=
+                    "8. 若是，请估计在过去 12 个月中您在这种“高涨”状态中度过多少天。总计大约多少天:" +
+                    "<input type='text' name='answer_text' width='20px'><br/><br>";
+                break;
+            //
             case 11:
+                show_nodes("options_1", 0);
+                show_nodes("options_1", 1);
                 document.getElementById('question_text_1').innerHTML="您可以把自己描述为一个上下起伏的人吗：<br>" +
                     "一段时间极度兴奋，另一段时间则愁眉苦脸？<br/><br>";break;
             case 12:
@@ -297,14 +342,16 @@
             case 31:
                 document.getElementById('sub_question_text_2').innerHTML="32) 我参加更多的游戏或赌博活动";break;
             case 32:
-                document.getElementById('sub_question_text_2').innerHTML="33) 我吃得更多或参加更多的狂欢";break;
+                document.getElementById('sub_question_text_2').innerHTML="33) 我吃得更多或参加更多的狂欢";
+
+                break;
         }
     }
 
 	function ajax_post(form, index){
 		const csrf = $('input[name="csrfmiddlewaretoken"]').val();
 		$.ajax({
-		url: 'http://127.0.0.1:8000/scales/test_submit',
+		url: 'http://127.0.0.1:8008/scales/test_submit',
 		type: 'POST',
 		dataType: 'JSON',
 		async:true,
