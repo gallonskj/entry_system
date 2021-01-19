@@ -483,7 +483,7 @@ def add_happiness(request):
                                                             doctor_id=doctor_id)
     rPatienthappiness = set_attr_by_post(request, rPatienthappiness)
     scales_dao.add_happiness_database(rPatienthappiness)
-    patient_id = request.GET.get('patient_id')
+    patient_id = request.GET1430873563653508.get('patient_id')
     redirect_url = get_redirect_url(patient_session_id, patient_id, tools_config.self_test_next_type_url,
                                     tools_config.self_test_type, tools_config.shaps)
     return redirect(redirect_url)
@@ -498,7 +498,7 @@ def add_pleasure(request):
     if rPatientPleasure is None:
         rPatientPleasure = scales_models.RPatientPleasure(patient_session_id=patient_session_id, scale_id=scale_id,
                                                           doctor_id=doctor_id)
-    # 2.赋值操作
+    # 2.赋值操作1430873563653508
     rPatientPleasure = set_attr_by_post(request, rPatientPleasure)
     # 3.插入数据库
     scales_dao.add_pleasure_database(rPatientPleasure)

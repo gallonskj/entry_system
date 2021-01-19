@@ -108,3 +108,8 @@ disease_type_dict = {0: '未诊断', 1: '健康者', 2: '重性抑郁障碍', 3:
 
 STATE_FINISHED = 1
 STATE_UNFINISHED = 0
+
+# =================================关于excel表格的一些配置信息==============================================
+# 属性列所在的索引
+excel_col_dict = {'start_time':0,'medical_name':3,'is_tomorrow':7,'dose':8,'group_flag':9,'drug_type':10,
+                  'usage_way':11,'start_doctor':12,'start_nurse':14,'end_doctor':16,'end_nurse':18,'end_time':19}

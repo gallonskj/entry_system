@@ -27,3 +27,4 @@ def calculate_age_by_scandate(born, scan_date):
 def object_judgment(object_flag):
     if object_flag:
         return None
+

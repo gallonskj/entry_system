@@ -24,6 +24,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('patients/', include('patients.urls')),
     path('scales/', include('scales.urls')),
+    path('inpatients/', include('inpatients.urls')),
+
 ]
 # 在原有的urlpatterns下面添加以下代码
 from django.conf import settings
