@@ -79,7 +79,7 @@
             <form id="question_form" name="question_form" action="#" style="display: none">
                 {% csrf_token %}
                 <h3>
-                    <div name="question_test" id="question_test" class="row">1.父\母亲常常在我不知道原因的情况下对我大发脾气</div>
+                    <div name="question_text" id="question_text" class="row">1.父\母亲常常在我不知道原因的情况下对我大发脾气</div>
                 </h3>
                 <div style=" text-align: left;padding-left: 45%">
                     <label>
@@ -89,22 +89,22 @@
                 <div id="option_1" class="options" style=" text-align: left;padding-left: 47.5%">
                     <div class="row show-grid" style="margin:10px">
                         <label>
-                            <input type="radio" name="answer_1" value=1 data-labelauty="从不"/>
+                            <input type="radio" class="answer_1" name="question1_father" value=1 data-labelauty="从不"/>
                         </label>
                     </div>
                     <div class="row show-grid" style="margin:10px">
                         <label>
-                            <input type="radio" name="answer_1" value=2 data-labelauty="偶尔"/>
+                            <input type="radio" class="answer_1" name="question1_father" value=2 data-labelauty="偶尔"/>
                         </label>
                     </div>
                     <div class="row show-grid" style="margin:10px">
                         <label>
-                            <input type="radio" name="answer_1" value=3 data-labelauty="经常"/>
+                            <input type="radio" class="answer_1" name="question1_father" value=3 data-labelauty="经常"/>
                         </label>
                     </div>
                     <div class="row show-grid" style="margin:10px">
                         <label>
-                            <input type="radio" name="answer_1" value=4 data-labelauty="总是"/>
+                            <input type="radio" class="answer_1" name="question1_father" value=4 data-labelauty="总是"/>
                         </label>
                     </div>
                 </div>
@@ -116,22 +116,22 @@
                 <div id="options_2" class="options" style=" text-align: left;padding-left: 47.5%">
                     <div class="row show-grid" style="margin:10px">
                         <label>
-                            <input type="radio" name="answer_2" value=1 data-labelauty="从不"/>
+                            <input type="radio" class="answer_2" name="question1_mother" value=1 data-labelauty="从不"/>
                         </label>
                     </div>
                     <div class="row show-grid" style="margin:10px">
                         <label>
-                            <input type="radio" name="answer_2" value=2 data-labelauty="偶尔"/>
+                            <input type="radio" class="answer_2" name="question1_mother" value=2 data-labelauty="偶尔"/>
                         </label>
                     </div>
                     <div class="row show-grid" style="margin:10px">
                         <label>
-                            <input type="radio" name="answer_2" value=3 data-labelauty="经常"/>
+                            <input type="radio" class="answer_2" name="question1_mother" value=3 data-labelauty="经常"/>
                         </label>
                     </div>
                     <div class="row show-grid" style="margin:10px">
                         <label>
-                            <input type="radio" name="answer_2" value=4 data-labelauty="总是"/>
+                            <input type="radio" class="answer_2" name="question1_mother" value=4 data-labelauty="总是"/>
                         </label>
                     </div>
                 </div>
@@ -167,18 +167,47 @@
                     ajax_post($('#pre_questions'));
                     $('#pre_questions').hide();
                     $('#question_form').show();
+                    question_index ++;
                 }
             });
+
             $("#question_submit").on('click', function () {
-                if (document.question_form.answer_1.value === "" || document.question_form.answer_2.value === "") {
-                    alert("问题不能为空！");
+                if (question_index > 21) {
+                    alert("请不要重复提交！");
                 } else {
-                    ajax_post($('#question_form'));
-                    update_question(question_index);
-                    question_index++;
+                    const answers_1 = document.getElementsByClassName("answer_1");
+                    const answers_2 = document.getElementsByClassName("answer_2");
+                    let flag_1 = 0;
+                    let flag_2 = 0;
+                    for (let i = 0; i < answers_2.length; i++) {
+                        if (answers_2[i].checked) {
+                            flag_2 = 1;
+                            break;
+                        }
+                    }
+                    for (let i = 0; i < answers_1.length; i++) {
+                        if (answers_1[i].checked) {
+                            flag_1 = 1;
+                            break;
+                        }
+                    }
+                    if (flag_1 && flag_2) {
+                        ajax_post($('#question_form'));
+                        update_question(question_index - 1);
+                        question_index++;
+                    } else {
+                        alert("问题不能为空！");
+                    }
                 }
             });
         });
+
+        function alter_option_names(option_class_name, name) {
+            const nodes = document.getElementsByClassName(option_class_name);
+            for (let i = 0; i < nodes.length; i++) {
+                nodes[i].setAttribute("name", name);
+            }
+        }
 
         function get_duration() {
             const current_time = new Date();
@@ -190,64 +219,104 @@
         function update_question(index) {
             switch (index) {
                 case 1:
-                    document.getElementById('question_test').innerHTML = "2.父\\母亲赞美我";
+                    document.getElementById('question_text').innerHTML = "2.父\\母亲赞美我";
+                    alter_option_names("answer_1", "question2_father");
+                    alter_option_names("answer_2", "question2_mother");
                     break;
                 case 2:
-                    document.getElementById('question_test').innerHTML = "3.我希望父\\母亲对我正在做的事不要过分担心";
+                    document.getElementById('question_text').innerHTML = "3.我希望父\\母亲对我正在做的事不要过分担心";
+                    alter_option_names("answer_1", "question3_father");
+                    alter_option_names("answer_2", "question3_mother");
                     break;
                 case 3:
-                    document.getElementById('question_test').innerHTML = "4.父\\母亲对我的惩罚往往超过我应受的程度";
+                    document.getElementById('question_text').innerHTML = "4.父\\母亲对我的惩罚往往超过我应受的程度";
+                    alter_option_names("answer_1", "question4_father");
+                    alter_option_names("answer_2", "question4_mother");
                     break;
                 case 4:
-                    document.getElementById('question_test').innerHTML = "5.父\\母亲要求我回到家里必须得向她说明我在外面做了什么事";
+                    document.getElementById('question_text').innerHTML = "5.父\\母亲要求我回到家里必须得向她说明我在外面做了什么事";
+                    alter_option_names("answer_1", "question5_father");
+                    alter_option_names("answer_2", "question5_mother");
                     break;
                 case 5:
-                    document.getElementById('question_test').innerHTML = "6.我觉得父\\母亲尽量使我的青少年时期的生活更有意义和丰富多彩";
+                    document.getElementById('question_text').innerHTML = "6.我觉得父\\母亲尽量使我的青少年时期的生活更有意义和丰富多彩";
+                    alter_option_names("answer_1", "question6_father");
+                    alter_option_names("answer_2", "question6_mother");
                     break;
                 case 6:
-                    document.getElementById('question_test').innerHTML = "7.父\\母亲经常当着别人的面批评我既懒惰又无用";
+                    document.getElementById('question_text').innerHTML = "7.父\\母亲经常当着别人的面批评我既懒惰又无用";
+                    alter_option_names("answer_1", "question7_father");
+                    alter_option_names("answer_2", "question7_mother");
                     break;
                 case 7:
-                    document.getElementById('question_test').innerHTML = "8.父\\母亲不允许我做一些其他孩子可以做的事情，因为他（她）害怕我会出事";
+                    document.getElementById('question_text').innerHTML = "8.父\\母亲不允许我做一些其他孩子可以做的事情，因为他（她）害怕我会出事";
+                    alter_option_names("answer_1", "question8_father");
+                    alter_option_names("answer_2", "question8_mother");
                     break;
                 case 8:
-                    document.getElementById('question_test').innerHTML = "9.父\\母亲总试图鼓励我，使我成为佼佼者";
+                    document.getElementById('question_text').innerHTML = "9.父\\母亲总试图鼓励我，使我成为佼佼者";
+                    alter_option_names("answer_1", "question9_father");
+                    alter_option_names("answer_2", "question9_mother");
                     break;
                 case 9:
-                    document.getElementById('question_test').innerHTML = "10.我觉得父\\母亲对我可能出事的担心是夸大的、过分的";
+                    document.getElementById('question_text').innerHTML = "10.我觉得父\\母亲对我可能出事的担心是夸大的、过分的";
+                    alter_option_names("answer_1", "question10_father");
+                    alter_option_names("answer_2", "question10_mother");
                     break;
                 case 10:
-                    document.getElementById('question_test').innerHTML = "11.当遇到不顺心的事时，我能感到父\\母亲在尽量鼓励我，使我得到安慰";
+                    document.getElementById('question_text').innerHTML = "11.当遇到不顺心的事时，我能感到父\\母亲在尽量鼓励我，使我得到安慰";
+                    alter_option_names("answer_1", "question11_father");
+                    alter_option_names("answer_2", "question11_mother");
                     break;
                 case 11:
-                    document.getElementById('question_test').innerHTML = "12.我在家里往往被当作“替罪羊”或“害群之马”";
+                    document.getElementById('question_text').innerHTML = "12.我在家里往往被当作“替罪羊”或“害群之马”";
+                    alter_option_names("answer_1", "question12_father");
+                    alter_option_names("answer_2", "question12_mother");
                     break;
                 case 12:
-                    document.getElementById('question_test').innerHTML = "13.我能通过父\\母亲的言谈、表情感受到他（她）很喜欢我";
+                    document.getElementById('question_text').innerHTML = "13.我能通过父\\母亲的言谈、表情感受到他（她）很喜欢我";
+                    alter_option_names("answer_1", "question13_father");
+                    alter_option_names("answer_2", "question13_mother");
                     break;
                 case 13:
-                    document.getElementById('question_test').innerHTML = "14.父\\母亲常以一种使我很难堪的方式对待我";
+                    document.getElementById('question_text').innerHTML = "14.父\\母亲常以一种使我很难堪的方式对待我";
+                    alter_option_names("answer_1", "question14_father");
+                    alter_option_names("answer_2", "question14_mother");
                     break;
                 case 14:
-                    document.getElementById('question_test').innerHTML = "15.父\\母亲常常允许我到我喜欢去的地方，而他（她）又不会过分担心";
+                    document.getElementById('question_text').innerHTML = "15.父\\母亲常常允许我到我喜欢去的地方，而他（她）又不会过分担心";
+                    alter_option_names("answer_1", "question15_father");
+                    alter_option_names("answer_2", "question15_mother");
                     break;
                 case 15:
-                    document.getElementById('question_test').innerHTML = "16.我觉得父\\母亲干涉我做的任何一件事";
+                    document.getElementById('question_text').innerHTML = "16.我觉得父\\母亲干涉我做的任何一件事";
+                    alter_option_names("answer_1", "question16_father");
+                    alter_option_names("answer_2", "question16_mother");
                     break;
                 case 16:
-                    document.getElementById('question_test').innerHTML = "17.我觉得与父\\母亲之间存在一种温暖、体贴和亲热的感觉";
+                    document.getElementById('question_text').innerHTML = "17.我觉得与父\\母亲之间存在一种温暖、体贴和亲热的感觉";
+                    alter_option_names("answer_1", "question17_father");
+                    alter_option_names("answer_2", "question17_mother");
                     break;
                 case 17:
-                    document.getElementById('question_test').innerHTML = "18.父\\母亲对我该做什么、不该做什么都有严格的限制而且决不让步";
+                    document.getElementById('question_text').innerHTML = "18.父\\母亲对我该做什么、不该做什么都有严格的限制而且决不让步";
+                    alter_option_names("answer_1", "question18_father");
+                    alter_option_names("answer_2", "question18_mother");
                     break;
                 case 18:
-                    document.getElementById('question_test').innerHTML = "19.即使是很小的过错，父\\母亲也惩罚我";
+                    document.getElementById('question_text').innerHTML = "19.即使是很小的过错，父\\母亲也惩罚我";
+                    alter_option_names("answer_1", "question19_father");
+                    alter_option_names("answer_2", "question19_mother");
                     break;
                 case 19:
-                    document.getElementById('question_test').innerHTML = "20.父\\母亲总是左右我该穿什么衣服或该打扮成什么样子";
+                    document.getElementById('question_text').innerHTML = "20.父\\母亲总是左右我该穿什么衣服或该打扮成什么样子";
+                    alter_option_names("answer_1", "question20_father");
+                    alter_option_names("answer_2", "question20_mother");
                     break;
                 case 20:
-                    document.getElementById('question_test').innerHTML = "21.当我做的事情取得成功时，我觉得父\\母亲很为我自豪";
+                    document.getElementById('question_text').innerHTML = "21.当我做的事情取得成功时，我觉得父\\母亲很为我自豪";
+                    alter_option_names("answer_1", "question21_father");
+                    alter_option_names("answer_2", "question21_mother");
                     break;
             }
         }
@@ -263,6 +332,7 @@
                     'data': form.serialize(),
                     'question_index': question_index,
                     'duration': get_duration(),
+                    'test_name':'s_embu',
                     'csrfmiddlewaretoken': csrf
                 }
             })

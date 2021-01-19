@@ -35,31 +35,31 @@
             <div class="question_area" name="question_area" style="text-align: center">
                 <form id="question_form" name="question_form" action="#">
 					{% csrf_token %}
-                    <h3><div name="question_test" id="question_test" class="row">1.当时家里没人关心我的饥饱。</div></h3>
+                    <h3><div name="question_text" id="question_text" class="row">1.当时家里没人关心我的饥饱。</div></h3>
                     <div id="options" class="options" style=" text-align: left;padding-left: 47.5%">
                         <div class="row show-grid" style="margin:10px">
                             <label>
-                                <input type="radio" name="answer" value=1 data-labelauty="从来没有这种现象" />
+                                <input type="radio" name="question1_answer" class="answer" value=1 data-labelauty="从来没有这种现象" />
                             </label>
                         </div>
 						<div class="row show-grid" style="margin:10px">
 							<label>
-                                <input type="radio" name="answer" value=2 data-labelauty="偶尔"/>
+                                <input type="radio" name="question1_answer" class="answer" value=2 data-labelauty="偶尔"/>
 							</label>
 						</div>
                         <div class="row show-grid" style="margin:10px">
 							<label>
-                                <input type="radio" name="answer" value=3 data-labelauty="有时" />
+                                <input type="radio" name="question1_answer" class="answer" value=3 data-labelauty="有时" />
 							</label>
 						</div>
 						<div class="row show-grid" style="margin:10px">
 							<label>
-                                <input type="radio" name="answer" value=4 data-labelauty="经常"/>
+                                <input type="radio" name="question1_answer" class="answer" value=4 data-labelauty="经常"/>
 							</label>
 						</div>
                         <div class="row show-grid" style="margin:10px">
 							<label>
-                                <input type="radio" name="answer" value=5 data-labelauty="总是"/>
+                                <input type="radio" name="question1_answer" class="answer" value=5 data-labelauty="总是"/>
 							</label>
 						</div>
                     </div>
@@ -79,40 +79,59 @@
 	let suicide = false;
     let question_index = 1;
 	$(document).ready(function(){
-		$("input[type='radio']").labelauty();
-
+	    $("input[type='radio']").labelauty();
 		$("#question_submit").on('click', function(){
-			if (document.question_form.answer.value==="") {
-                alert("问题不能为空！");
-			}else if(question_index == 29){
+			if (question_index > 29){
+                alert("请不要重复提交！");
+            }
+			if(question_index == 29){
 			    ajax_post($('#question_form'));
-
-            }else{
-                ajax_post($('#question_form'));
-                if(question_index === 28) {
-                    document.getElementById('question_test').innerHTML="在您的一生中，第一次性行为时您多大年龄？（如从来没有，填“88”）";
-                    const options = document.getElementById('options');
-                    for(let i = 0 ; i < 10 ; i ++){
-                        options.removeChild(options.childNodes[0]);
-                    }
-                    const div = document.createElement("div");
-                    div.className='row show-grid';
-                    div.style.margin='10px';
-                    const input = document.createElement("input");
-                    input.setAttribute("type","text");
-                    input.setAttribute("name","answer");
-                    input.style.width="100";
-                    const text = document.createTextNode('岁');
-                    div.appendChild(input);
-                    div.appendChild(text);
-                    options.appendChild(div);
-                    options.style.paddingLeft='46%';
+			    question_index ++;
+            }else if(question_index == 28){
+			    ajax_post($('#question_form'));
+			    document.getElementById('question_text').innerHTML="在您的一生中，第一次性行为时您多大年龄？（如从来没有，填“88”）";
+                const options = document.getElementById('options');
+                for(let i = 0 ; i < 10 ; i ++){
+                    options.removeChild(options.childNodes[0]);
                 }
-                update_question(question_index);
+                const div = document.createElement("div");
+                div.className='row show-grid';
+                div.style.margin='10px';
+                const input = document.createElement("input");
+                input.setAttribute("type","text");
+                input.setAttribute("name","first_sex_age");
+                input.style.width="100";
+                const text = document.createTextNode('岁');
+                div.appendChild(input);
+                div.appendChild(text);
+                options.appendChild(div);
+                options.style.paddingLeft='46%';
                 question_index ++;
-			}
+            }else{
+                const answers = document.getElementsByClassName("answer");
+                let flag = 0;
+                for(let i = 0 ; i < answers.length ; i++){
+                    if(answers[i].checked && question_index <= 28){
+                        ajax_post($('#question_form'));
+                        update_question(question_index);
+                        question_index ++;
+                        flag = 1;
+                        break;
+                    }
+                }
+                if(flag == 0){
+                    alert("问题不能为空！");
+                }
+            }
 		});
 	});
+
+	function alter_option_names(option_class_name, name) {
+        const nodes = document.getElementsByClassName(option_class_name);
+        for(let i = 0 ; i < nodes.length ; i++){
+            nodes[i].setAttribute("name", name);
+        }
+    }
 
 	function get_duration(){
 		const current_time = new Date();
@@ -124,59 +143,113 @@
 	function update_question(index){
 	    switch (index) {
             case 1:
-                document.getElementById('question_test').innerHTML="2.当时有人照顾我、保护我。";break;
+                document.getElementById('question_text').innerHTML="2.当时有人照顾我、保护我。";
+                alter_option_names("answer", "question2_answer");
+                break;
             case 2:
-                document.getElementById('question_test').innerHTML="3.当时家里有人喊我“笨蛋”、“懒虫”或“丑八怪”等。";break;
+                document.getElementById('question_text').innerHTML="3.当时家里有人喊我“笨蛋”、“懒虫”或“丑八怪”等。";
+                alter_option_names("answer", "question3_answer");
+                break;
             case 3:
-                document.getElementById('question_test').innerHTML="4.当时我的父母因为酗酒、吸毒或赌博而不能照顾家庭。";break;
+                document.getElementById('question_text').innerHTML="4.当时我的父母因为酗酒、吸毒或赌博而不能照顾家庭。";
+                alter_option_names("answer", "question4_answer");
+                break;
             case 4:
-                document.getElementById('question_test').innerHTML="5.当时家里有人重视我。";break;
+                document.getElementById('question_text').innerHTML="5.当时家里有人重视我。";
+                alter_option_names("answer", "question5_answer");
+                break;
             case 5:
-                document.getElementById('question_test').innerHTML="6.当时家里没人管我衣着冷暖。";break;
+                document.getElementById('question_text').innerHTML="6.当时家里没人管我衣着冷暖。";
+                alter_option_names("answer", "question6_answer");
+                break;
             case 6:
-                document.getElementById('question_test').innerHTML="7.当时我感到家里人爱我。";break;
+                document.getElementById('question_text').innerHTML="7.当时我感到家里人爱我。";
+                alter_option_names("answer", "question7_answer");
+                break;
             case 7:
-                document.getElementById('question_test').innerHTML="8.当时我觉得父母希望从来没有生过我。";break;
+                document.getElementById('question_text').innerHTML="8.当时我觉得父母希望从来没有生过我。";
+                alter_option_names("answer", "question8_answer");
+                break;
             case 8:
-                document.getElementById('question_test').innerHTML="9.当时家里有人把我打伤的很重，不得不去医院。";break;
+                document.getElementById('question_text').innerHTML="9.当时家里有人把我打伤的很重，不得不去医院。";
+                alter_option_names("answer", "question9_answer");
+                break;
             case 9:
-                document.getElementById('question_test').innerHTML="10.当时我家的状况需要改善。";break;
+                document.getElementById('question_text').innerHTML="10.当时我家的状况需要改善。";
+                alter_option_names("answer", "question10_answer");
+                break;
             case 10:
-                document.getElementById('question_test').innerHTML="11.当时家里有人打得我皮肤青紫或留下伤痕。";break;
+                document.getElementById('question_text').innerHTML="11.当时家里有人打得我皮肤青紫或留下伤痕。";
+                alter_option_names("answer", "question11_answer");
+                break;
             case 11:
-                document.getElementById('question_test').innerHTML="12.当时家里有人用皮带、绳子、木板或其它硬东西惩罚我。";break;
+                document.getElementById('question_text').innerHTML="12.当时家里有人用皮带、绳子、木板或其它硬东西惩罚我。";
+                alter_option_names("answer", "question12_answer");
+                break;
             case 12:
-                document.getElementById('question_test').innerHTML="13.当时家里人彼此互相关心。";break;
+                document.getElementById('question_text').innerHTML="13.当时家里人彼此互相关心。";
+                alter_option_names("answer", "question13_answer");
+                break;
             case 13:
-                document.getElementById('question_test').innerHTML="14.当时家里有人向我说过侮辱性或让我伤心的话。";break;
+                document.getElementById('question_text').innerHTML="14.当时家里有人向我说过侮辱性或让我伤心的话。";
+                alter_option_names("answer", "question14_answer");
+                break;
             case 14:
-                document.getElementById('question_test').innerHTML="15.我当时受到了躯体虐待。";break;
+                document.getElementById('question_text').innerHTML="15.我当时受到了躯体虐待。";
+                alter_option_names("answer", "question15_answer");
+                break;
             case 15:
-                document.getElementById('question_test').innerHTML="16.我觉得我的童年比任何人的都完美。";break;
+                document.getElementById('question_text').innerHTML="16.我觉得我的童年比任何人的都完美。";
+                alter_option_names("answer", "question16_answer");
+                break;
             case 16:
-                document.getElementById('question_test').innerHTML="17.当时我被打得很重，引起了老师、邻居或医生等人的注意。";break;
+                document.getElementById('question_text').innerHTML="17.当时我被打得很重，引起了老师、邻居或医生等人的注意。";
+                alter_option_names("answer", "question17_answer");
+                break;
             case 17:
-                document.getElementById('question_test').innerHTML="18.当时我觉得家里有人恨我。";break;
+                document.getElementById('question_text').innerHTML="18.当时我觉得家里有人恨我。";
+                alter_option_names("answer", "question18_answer");
+                break;
             case 18:
-                document.getElementById('question_test').innerHTML="19.当时家里人关系很亲密。";break;
+                document.getElementById('question_text').innerHTML="19.当时家里人关系很亲密。";
+                alter_option_names("answer", "question19_answer");
+                break;
             case 19:
-                document.getElementById('question_test').innerHTML="20.当时有人以带有性色彩的方式触摸我或让我触摸他/她。";break;
+                document.getElementById('question_text').innerHTML="20.当时有人以带有性色彩的方式触摸我或让我触摸他/她。";
+                alter_option_names("answer", "question20_answer");
+                break;
             case 20:
-                document.getElementById('question_test').innerHTML="21.当时有人威胁让我同他/她做性方面";break;
+                document.getElementById('question_text').innerHTML="21.当时有人威胁让我同他/她做性方面";
+                alter_option_names("answer", "question21_answer");
+                break;
             case 21:
-                document.getElementById('question_test').innerHTML="22.我觉得当时我的家好得不能再好了。";break;
+                document.getElementById('question_text').innerHTML="22.我觉得当时我的家好得不能再好了。";
+                alter_option_names("answer", "question22_answer");
+                break;
             case 22:
-                document.getElementById('question_test').innerHTML="23.当时有人试图让我做或看性方面的事。";break;
+                document.getElementById('question_text').innerHTML="23.当时有人试图让我做或看性方面的事。";
+                alter_option_names("answer", "question23_answer");
+                break;
             case 23:
-                document.getElementById('question_test').innerHTML="24.当时有人猥亵我，如耍流氓、动手动脚等。";break;
+                document.getElementById('question_text').innerHTML="24.当时有人猥亵我，如耍流氓、动手动脚等。";
+                alter_option_names("answer", "question24_answer");
+                break;
             case 24:
-                document.getElementById('question_test').innerHTML="25.当时我的心灵受到了折磨或虐待。";break;
+                document.getElementById('question_text').innerHTML="25.当时我的心灵受到了折磨或虐待。";
+                alter_option_names("answer", "question25_answer");
+                break;
             case 25:
-                document.getElementById('question_test').innerHTML="26.当时有人关心我的身体健康。";break;
+                document.getElementById('question_text').innerHTML="26.当时有人关心我的身体健康。";
+                alter_option_names("answer", "question26_answer");
+                break;
             case 26:
-                document.getElementById('question_test').innerHTML="27.我当时受到了性虐待。";break;
+                document.getElementById('question_text').innerHTML="27.我当时受到了性虐待。";
+                alter_option_names("answer", "question27_answer");
+                break;
             case 27:
-                document.getElementById('question_test').innerHTML="28.当时家是我获得力量和支持的源泉。";break;
+                document.getElementById('question_text').innerHTML="28.当时家是我获得力量和支持的源泉。";
+                alter_option_names("answer", "question28_answer");
+                break;
         }
     }
 
@@ -190,6 +263,7 @@
 		data: {'data':form.serialize(),
             'question_index': question_index,
 			'duration':get_duration(),
+            'test_name':'ctq_sf',
 			'csrfmiddlewaretoken': csrf
 			}
 		})

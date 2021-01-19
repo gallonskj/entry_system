@@ -3,192 +3,286 @@
 {% load SelfDefinedFilter%}
 {% block title %}认知情绪调节问卷{% endblock %}
 {% block css %}
-    <link href="{% static '/css/scales_style.css' %}" rel="stylesheet" >
+<link href="{% static '/css/scales_style.css' %}" rel="stylesheet">
 {% endblock %}
 {% block content %}
-    <div class="right_col" role="main" >
-        <div class="container">
-            <div class="row show-grid">
-                <div class="col-md-12 col-sm-12 col-xs-12">
-                    <ul class="breadcrumb" style="background-color: white;font-weight:bold">
-                         <li >量表录入</li>
-                         <li>自评量表</li>
-						 <li class="active">认知情绪调节问卷</li>
-						 <div style="float: right;margin-bottom: 0;"></div>
-                    </ul>
-                </div>
+<div class="right_col" role="main">
+    <div class="container">
+        <div class="row show-grid">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <ul class="breadcrumb" style="background-color: white;font-weight:bold">
+                    <li>量表录入</li>
+                    <li>自评量表</li>
+                    <li class="active">认知情绪调节问卷</li>
+                    <div style="float: right;margin-bottom: 0;"></div>
+                </ul>
             </div>
         </div>
-        <div class="dashboard_graph x_panel" style="margin-top: 0;height:80%;">
-			<div class="row"  style="margin-left:5px;margin-top: 5px;padding-bottom: 5px;">
-				<div align="center" style="padding-left: 22.5%; padding-right: 22.5%">
-					<h5>
-						<strong>
-							<i class="fa fa-hand-o-down"></i>&nbsp;
-							<i class="fa fa-hand-o-down"></i>&nbsp;
-							<i class="fa fa-hand-o-down"></i>&nbsp;
-							指导语：请仔细阅读每个项目并考虑哪个情况与自己最符合。在遇到自己没有经历过的项目时，请先考虑和自己经历过的与其最相似的情境并作出选择。不必考虑你所选择的答案的一致性。
-						</strong>
-					</h5>
-				</div>
-			</div>
-            <div class="question_area" name="question_area" style="text-align: center">
-                <form id="question_form" name="question_form" action="#">
-					{% csrf_token %}
-                    <h3><div name="question_test" id="question_test" class="row">1.当时家里没人关心我的饥饱。</div></h3>
-                    <div id="options" class="options" style=" text-align: left;padding-left: 47.5%">
-                        <div class="row show-grid" style="margin:10px">
-                            <label>
-                                <input type="radio" name="answer" value=1 data-labelauty="从不" />
-                            </label>
-                        </div>
-						<div class="row show-grid" style="margin:10px">
-							<label>
-                                <input type="radio" name="answer" value=2 data-labelauty="几乎不"/>
-							</label>
-						</div>
-                        <div class="row show-grid" style="margin:10px">
-							<label>
-                                <input type="radio" name="answer" value=3 data-labelauty="有时" />
-							</label>
-						</div>
-						<div class="row show-grid" style="margin:10px">
-							<label>
-                                <input type="radio" name="answer" value=4 data-labelauty="几乎总是"/>
-							</label>
-						</div>
-                        <div class="row show-grid" style="margin:10px">
-							<label>
-                                <input type="radio" name="answer" value=5 data-labelauty="总是"/>
-							</label>
-						</div>
-                    </div>
-                    <div>
-                        <input id="question_submit" type="button" class="btn btn-success text-center" style="width:68px;height:34px" value="下一题">
-                        <input type="button" class="btn btn-warning text-center" style="width:68px;height:34px" value="退&nbsp;&nbsp;出">
-                    </div>
-                </form>
-            </div>
     </div>
-{% endblock %}
+    <div class="dashboard_graph x_panel" style="margin-top: 0;height:80%;">
+        <div class="row" style="margin-left:5px;margin-top: 5px;padding-bottom: 5px;">
+            <div align="center" style="padding-left: 22.5%; padding-right: 22.5%">
+                <h5>
+                    <strong>
+                        <i class="fa fa-hand-o-down"></i>&nbsp;
+                        <i class="fa fa-hand-o-down"></i>&nbsp;
+                        <i class="fa fa-hand-o-down"></i>&nbsp;
+                        指导语：请仔细阅读每个项目并考虑哪个情况与自己最符合。在遇到自己没有经历过的项目时，请先考虑和自己经历过的与其最相似的情境并作出选择。不必考虑你所选择的答案的一致性。
+                    </strong>
+                </h5>
+            </div>
+        </div>
+        <div class="question_area" name="question_area" style="text-align: center">
+            <form id="question_form" name="question_form" action="#">
+                {% csrf_token %}
+                <h3>
+                    <div name="question_test" id="question_test" class="row">1.当时家里没人关心我的饥饱。</div>
+                </h3>
+                <div id="options" class="options" style=" text-align: left;padding-left: 47.5%">
+                    <div class="row show-grid" style="margin:10px">
+                        <label>
+                            <input type="radio" class="answer" name="question1_answer" value=1 data-labelauty="从不"/>
+                        </label>
+                    </div>
+                    <div class="row show-grid" style="margin:10px">
+                        <label>
+                            <input type="radio" class="answer" name="question1_answer" value=2 data-labelauty="几乎不"/>
+                        </label>
+                    </div>
+                    <div class="row show-grid" style="margin:10px">
+                        <label>
+                            <input type="radio" class="answer" name="question1_answer" value=3 data-labelauty="有时"/>
+                        </label>
+                    </div>
+                    <div class="row show-grid" style="margin:10px">
+                        <label>
+                            <input type="radio" class="answer" name="question1_answer" value=4 data-labelauty="几乎总是"/>
+                        </label>
+                    </div>
+                    <div class="row show-grid" style="margin:10px">
+                        <label>
+                            <input type="radio" class="answer" name="question1_answer" value=5 data-labelauty="总是"/>
+                        </label>
+                    </div>
+                </div>
+                <div>
+                    <input id="question_submit" type="button" class="btn btn-success text-center"
+                           style="width:68px;height:34px" value="下一题">
+                    <input type="button" class="btn btn-warning text-center" style="width:68px;height:34px"
+                           value="退&nbsp;&nbsp;出">
+                </div>
+            </form>
+        </div>
+    </div>
+    {% endblock %}
 
-{% block js %}
-<script type="text/javascript" src="{% static '/js/jquery-radio-beauty.js'%}"></script>
-<script>
-	let time = new Date();
-	let suicide = false;
-    let question_index = 1;
-	$(document).ready(function(){
-		$("input[type='radio']").labelauty();
+    {% block js %}
+    <script type="text/javascript" src="{% static '/js/jquery-radio-beauty.js'%}"></script>
+    <script>
+        let time = new Date();
+        let suicide = false;
+        let question_index = 1;
+        $(document).ready(function () {
+            $("input[type='radio']").labelauty();
+            $("#question_submit").on('click', function () {
+                if (question_index > 36) {
+                    alert("请不要重复提交！");
+                } else {
+                    const answers = document.getElementsByClassName("answer");
+                    let flag = 0;
+                    for (let i = 0; i < answers.length; i++) {
+                        if (answers[i].checked && question_index <= 36) {
+                            ajax_post($('#question_form'));
+                            update_question(question_index);
+                            question_index++;
+                            flag = 1;
+                            break;
+                        }
+                    }
+                    if (flag == 0) {
+                        alert("问题不能为空！");
+                    }
+                }
 
-		$("#question_submit").on('click', function(){
-			if (document.question_form.answer.value==="") {
-                alert("问题不能为空！");
-            }else{
-                ajax_post($('#question_form'));
-                update_question(question_index);
-                question_index ++;
-			}
-		});
-	});
+            });
+        });
 
-	function get_duration(){
-		const current_time = new Date();
-		const duration = time - current_time;
-		time = current_time;
-		return -duration;
-	}
-
-	function update_question(index){
-	    switch (index) {
-            case 1:
-                document.getElementById('question_test').innerHTML="2.我感到我是一个对发生过的事负责任的人";break;
-            case 2:
-                document.getElementById('question_test').innerHTML="3.我想我在这种情况下的错误是我造成";break;
-            case 3:
-                document.getElementById('question_test').innerHTML="4.我想事情的基本原因在我自己";break;
-            case 4:
-                document.getElementById('question_test').innerHTML="5.我想我必须接受已经发生的事";break;
-            case 5:
-                document.getElementById('question_test').innerHTML="6.我想我必须接受这种状况";break;
-            case 6:
-                document.getElementById('question_test').innerHTML="7.我想我不能为此改变任何事";break;
-            case 7:
-                document.getElementById('question_test').innerHTML="8.我想我必须学会去接受它";break;
-            case 8:
-                document.getElementById('question_test').innerHTML="9.我常常回想对我已经经历的事是怎样的感觉";break;
-            case 9:
-                document.getElementById('question_test').innerHTML="10.我沉迷于在对我已经经历的事的感觉和想法";break;
-            case 10:
-                document.getElementById('question_test').innerHTML="11.我想去明白为什么会对我经历的事有这样的感觉";break;
-            case 11:
-                document.getElementById('question_test').innerHTML="12.我细想由于这种形势唤起的感觉";break;
-            case 12:
-                document.getElementById('question_test').innerHTML="13.我去想比我经历过的更好的事";break;
-            case 13:
-                document.getElementById('question_test').innerHTML="14.我去想那些与现在事情无关的愉快的事";break;
-            case 14:
-                document.getElementById('question_test').innerHTML="15.我去想某些好事而不是所发生的事";break;
-            case 15:
-                document.getElementById('question_test').innerHTML="16.我去想愉快的经历";break;
-            case 16:
-                document.getElementById('question_test').innerHTML="17.我想我怎样才能做到最好";break;
-            case 17:
-                document.getElementById('question_test').innerHTML="18.我在想我能怎样最好地应对这些情况";break;
-            case 18:
-                document.getElementById('question_test').innerHTML="19.我在想怎样去改变这种情况";break;
-            case 19:
-                document.getElementById('question_test').innerHTML="20.我在想一个我怎样能做得最好的计划";break;
-            case 20:
-                document.getElementById('question_test').innerHTML="21.我想我能从这些情形中学到一些东西";break;
-            case 21:
-                document.getElementById('question_test').innerHTML="22.我想所发生的事情能让我成为更强的人";break;
-            case 22:
-                document.getElementById('question_test').innerHTML="23.我想这种情况也有积极的一面";break;
-            case 23:
-                document.getElementById('question_test').innerHTML="24.我寻找事情中的积极方面";break;
-            case 24:
-                document.getElementById('question_test').innerHTML="25.我想所有的事情会变得更坏";break;
-            case 25:
-                document.getElementById('question_test').innerHTML="26.我想别人有更坏的经历";break;
-            case 26:
-                document.getElementById('question_test').innerHTML="27.我想和其他事情相比，这还不是太坏";break;
-            case 27:
-                document.getElementById('question_test').innerHTML="28.我告诉自己生命中有更坏的事情";break;
-            case 28:
-                document.getElementById('question_test').innerHTML="29.我常常想我经历的事情比别人经历的更糟糕";break;
-            case 29:
-                document.getElementById('question_test').innerHTML="30.我不断地想我经历的事情是多么的可怕";break;
-            case 30:
-                document.getElementById('question_test').innerHTML="31.我常想我所经历的是可以发生在一个人身上最坏的事";break;
-            case 31:
-                document.getElementById('question_test').innerHTML="32.我不断的想这个事情是多么的可怕啊";break;
-            case 32:
-                document.getElementById('question_test').innerHTML="33.我感到别人应该为此被责备";break;
-            case 33:
-                document.getElementById('question_test').innerHTML="34.我感到别人应对发生的事情负责任";break;
-            case 34:
-                document.getElementById('question_test').innerHTML="35.我想这些错误是别人造成的";break;
-            case 35:
-                document.getElementById('question_test').innerHTML="36.我感到事情发生的根本原因在别人身上";break;
+        function get_duration() {
+            const current_time = new Date();
+            const duration = time - current_time;
+            time = current_time;
+            return -duration;
         }
-    }
 
-	function ajax_post(form){
-		const csrf = $('input[name="csrfmiddlewaretoken"]').val();
-		$.ajax({
-		url: 'http://127.0.0.1:8000/scales/test_submit',
-		type: 'POST',
-		dataType: 'JSON',
-		async:true,
-		data: {'data':form.serialize(),
-            'question_index': question_index,
-			'duration':get_duration(),
-			'csrfmiddlewaretoken': csrf
-			}
-		})
-	}
+        function alter_option_names(option_class_name, name) {
+            const nodes = document.getElementsByClassName(option_class_name);
+            for (let i = 0; i < nodes.length; i++) {
+                nodes[i].setAttribute("name", name);
+            }
+        }
 
-</script>
+        function update_question(index) {
+            switch (index) {
+                case 1:
+                    document.getElementById('question_test').innerHTML = "2.我感到我是一个对发生过的事负责任的人";
+                    alter_option_names("answer", "question2_answer");
+                    break;
+                case 2:
+                    document.getElementById('question_test').innerHTML = "3.我想我在这种情况下的错误是我造成";
+                    alter_option_names("answer", "question3_answer");
+                    break;
+                case 3:
+                    document.getElementById('question_test').innerHTML = "4.我想事情的基本原因在我自己";
+                    alter_option_names("answer", "question4_answer");
+                    break;
+                case 4:
+                    document.getElementById('question_test').innerHTML = "5.我想我必须接受已经发生的事";
+                    alter_option_names("answer", "question5_answer");
+                    break;
+                case 5:
+                    document.getElementById('question_test').innerHTML = "6.我想我必须接受这种状况";
+                    alter_option_names("answer", "question6_answer");
+                    break;
+                case 6:
+                    document.getElementById('question_test').innerHTML = "7.我想我不能为此改变任何事";
+                    alter_option_names("answer", "question7_answer");
+                    break;
+                case 7:
+                    document.getElementById('question_test').innerHTML = "8.我想我必须学会去接受它";
+                    alter_option_names("answer", "question8_answer");
+                    break;
+                case 8:
+                    document.getElementById('question_test').innerHTML = "9.我常常回想对我已经经历的事是怎样的感觉";
+                    alter_option_names("answer", "question9_answer");
+                    break;
+                case 9:
+                    document.getElementById('question_test').innerHTML = "10.我沉迷于在对我已经经历的事的感觉和想法";
+                    alter_option_names("answer", "question10_answer");
+                    break;
+                case 10:
+                    document.getElementById('question_test').innerHTML = "11.我想去明白为什么会对我经历的事有这样的感觉";
+                    alter_option_names("answer", "question11_answer");
+                    break;
+                case 11:
+                    document.getElementById('question_test').innerHTML = "12.我细想由于这种形势唤起的感觉";
+                    alter_option_names("answer", "question12_answer");
+                    break;
+                case 12:
+                    document.getElementById('question_test').innerHTML = "13.我去想比我经历过的更好的事";
+                    alter_option_names("answer", "question13_answer");
+                    break;
+                case 13:
+                    document.getElementById('question_test').innerHTML = "14.我去想那些与现在事情无关的愉快的事";
+                    alter_option_names("answer", "question14_answer");
+                    break;
+                case 14:
+                    document.getElementById('question_test').innerHTML = "15.我去想某些好事而不是所发生的事";
+                    alter_option_names("answer", "question15_answer");
+                    break;
+                case 15:
+                    document.getElementById('question_test').innerHTML = "16.我去想愉快的经历";
+                    alter_option_names("answer", "question16_answer");
+                    break;
+                case 16:
+                    document.getElementById('question_test').innerHTML = "17.我想我怎样才能做到最好";
+                    alter_option_names("answer", "question17_answer");
+                    break;
+                case 17:
+                    document.getElementById('question_test').innerHTML = "18.我在想我能怎样最好地应对这些情况";
+                    alter_option_names("answer", "question18_answer");
+                    break;
+                case 18:
+                    document.getElementById('question_test').innerHTML = "19.我在想怎样去改变这种情况";
+                    alter_option_names("answer", "question19_answer");
+                    break;
+                case 19:
+                    document.getElementById('question_test').innerHTML = "20.我在想一个我怎样能做得最好的计划";
+                    alter_option_names("answer", "question20_answer");
+                    break;
+                case 20:
+                    document.getElementById('question_test').innerHTML = "21.我想我能从这些情形中学到一些东西";
+                    alter_option_names("answer", "question21_answer");
+                    break;
+                case 21:
+                    document.getElementById('question_test').innerHTML = "22.我想所发生的事情能让我成为更强的人";
+                    alter_option_names("answer", "question22_answer");
+                    break;
+                case 22:
+                    document.getElementById('question_test').innerHTML = "23.我想这种情况也有积极的一面";
+                    alter_option_names("answer", "question23_answer");
+                    break;
+                case 23:
+                    document.getElementById('question_test').innerHTML = "24.我寻找事情中的积极方面";
+                    alter_option_names("answer", "question24_answer");
+                    break;
+                case 24:
+                    document.getElementById('question_test').innerHTML = "25.我想所有的事情会变得更坏";
+                    alter_option_names("answer", "question25_answer");
+                    break;
+                case 25:
+                    document.getElementById('question_test').innerHTML = "26.我想别人有更坏的经历";
+                    alter_option_names("answer", "question26_answer");
+                    break;
+                case 26:
+                    document.getElementById('question_test').innerHTML = "27.我想和其他事情相比，这还不是太坏";
+                    alter_option_names("answer", "question27_answer");
+                    break;
+                case 27:
+                    document.getElementById('question_test').innerHTML = "28.我告诉自己生命中有更坏的事情";
+                    alter_option_names("answer", "question28_answer");
+                    break;
+                case 28:
+                    document.getElementById('question_test').innerHTML = "29.我常常想我经历的事情比别人经历的更糟糕";
+                    alter_option_names("answer", "question29_answer");
+                    break;
+                case 29:
+                    document.getElementById('question_test').innerHTML = "30.我不断地想我经历的事情是多么的可怕";
+                    alter_option_names("answer", "question30_answer");
+                    break;
+                case 30:
+                    document.getElementById('question_test').innerHTML = "31.我常想我所经历的是可以发生在一个人身上最坏的事";
+                    alter_option_names("answer", "question31_answer");
+                    break;
+                case 31:
+                    document.getElementById('question_test').innerHTML = "32.我不断的想这个事情是多么的可怕啊";
+                    alter_option_names("answer", "question32_answer");
+                    break;
+                case 32:
+                    document.getElementById('question_test').innerHTML = "33.我感到别人应该为此被责备";
+                    alter_option_names("answer", "question33_answer");
+                    break;
+                case 33:
+                    document.getElementById('question_test').innerHTML = "34.我感到别人应对发生的事情负责任";
+                    alter_option_names("answer", "question34_answer");
+                    break;
+                case 34:
+                    document.getElementById('question_test').innerHTML = "35.我想这些错误是别人造成的";
+                    alter_option_names("answer", "question35_answer");
+                    break;
+                case 35:
+                    document.getElementById('question_test').innerHTML = "36.我感到事情发生的根本原因在别人身上";
+                    alter_option_names("answer", "question36_answer");
+                    break;
+            }
+        }
 
-{% endblock %}
+        function ajax_post(form) {
+            const csrf = $('input[name="csrfmiddlewaretoken"]').val();
+            $.ajax({
+                url: 'http://127.0.0.1:8000/scales/test_submit',
+                type: 'POST',
+                dataType: 'JSON',
+                async: true,
+                data: {
+                    'data': form.serialize(),
+                    'question_index': question_index,
+                    'duration': get_duration(),
+                    'test_name': "cerq_c",
+                    'csrfmiddlewaretoken': csrf
+                }
+            })
+        }
+
+    </script>
+
+    {% endblock %}

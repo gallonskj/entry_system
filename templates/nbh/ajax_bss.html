@@ -65,8 +65,8 @@
                         <h3>自杀/自伤：</h3>
                         <div class="row show-grid" align="center" style="margin:10px">
                             <select class="form-control" name="self_mutilation_remark" id="self_mutilation_remark" style="width: 175px">
-                                <option value="自杀">自杀</option>
-                                <option value="自伤">自伤</option>
+                                <option value="1">自杀</option>
+                                <option value="0">自伤</option>
                             </select>
                         </div>
                     </div>
@@ -1156,6 +1156,7 @@
 <script>
 	let time = new Date();
 	let suicide = false;
+	let last = 0;
 
 	$(document).ready(function(){
 		$("input[type='radio']").labelauty();
@@ -1163,7 +1164,7 @@
 
 		$("#bss_0_1_submit").on('click', function(){
 			if (document.bss_0_1.suicide_history.value==="") {
-                alert("问题一不能为空！");
+                alert("问题不能为空！");
           	}else if(document.bss_0_1.suicide_history.value==="0"){
 				ajax_post($('#bss_0_1'))
 				$("div[class='bss_0_1']").hide();
@@ -1177,7 +1178,7 @@
 
 		$("#bss_0_2_submit").on('click', function(){
 			if (document.bss_0_2.suicide_times.value==="") {
-                alert("问题二不能为空！");
+                alert("问题不能为空！");
           	}else {
 				ajax_post($('#bss_0_2'))
 				$("div[class='bss_0_2']").hide();
@@ -1187,7 +1188,7 @@
 
 		$("#bss_1_1_submit").on('click', function(){
 			if (document.bss_1_1.question1_lastweek.value==="") {
-                alert("问题三不能为空！");
+                alert("问题不能为空！");
           	}else {
 				ajax_post($('#bss_1_1'))
 				$("div[class='bss_1_1']").hide();
@@ -1197,7 +1198,7 @@
 
 		$("#bss_1_2_submit").on('click', function(){
 			if (document.bss_1_2.question1_mostdepressed.value==="") {
-                alert("问题四不能为空！");
+                alert("问题不能为空！");
           	}else {
 				ajax_post($('#bss_1_2'))
 				$("div[class='bss_1_2']").hide();
@@ -1207,7 +1208,7 @@
 
 		$("#bss_2_1_submit").on('click', function(){
 			if (document.bss_2_1.question2_lastweek.value==="") {
-                alert("问题五不能为空！");
+                alert("问题不能为空！");
           	}else {
 				ajax_post($('#bss_2_1'))
 				$("div[class='bss_2_1']").hide();
@@ -1217,7 +1218,7 @@
 
 		$("#bss_2_2_submit").on('click', function(){
 			if (document.bss_2_2.question2_mostdepressed.value==="") {
-                alert("问题流不能为空！");
+                alert("问题不能为空！");
 			}else {
 				ajax_post($('#bss_2_2'))
 				$("div[class='bss_2_2']").hide();
@@ -1227,7 +1228,7 @@
 
 		$("#bss_3_1_submit").on('click', function(){
 			if (document.bss_3_1.question3_lastweek.value==="") {
-                alert("问题七不能为空！");
+                alert("问题不能为空！");
           	}else {
 				ajax_post($('#bss_3_1'))
 				$("div[class='bss_3_1']").hide();
@@ -1237,7 +1238,7 @@
 
 		$("#bss_3_2_submit").on('click', function(){
 			if (document.bss_3_2.question3_mostdepressed.value==="") {
-                alert("问题八不能为空！");
+                alert("问题不能为空！");
           	}else {
 				ajax_post($('#bss_3_2'))
 				$("div[class='bss_3_2']").hide();
@@ -1247,7 +1248,7 @@
 
 		$("#bss_4_1_submit").on('click', function(){
 			if (document.bss_4_1.question4_lastweek.value==="") {
-                alert("问题九不能为空！");
+                alert("问题不能为空！");
           	}else {
 				ajax_post($('#bss_4_1'))
 				$("div[class='bss_4_1']").hide();
@@ -1257,7 +1258,7 @@
 
 		$("#bss_4_2_submit").on('click', function(){
 			if (document.bss_4_2.question4_mostdepressed.value==="") {
-                alert("问题十不能为空！");
+                alert("问题不能为空！");
           	}else {
 				ajax_post($('#bss_4_2'))
 				$("div[class='bss_4_2']").hide();
@@ -1267,7 +1268,7 @@
 
 		$("#bss_5_1_submit").on('click', function(){
 			if (document.bss_5_1.question5_lastweek.value==="") {
-                alert("问题一不能为空！");
+                alert("问题不能为空！");
 			}else if(document.bss_5_1.question5_lastweek.value==="1"){
 				ajax_post($('#bss_5_1'))
 			}else{
@@ -1280,7 +1281,7 @@
 
 		$("#bss_5_2_submit").on('click', function(){
 			if (document.bss_5_2.question5_mostdepressed.value==="") {
-                alert("问题二不能为空！");
+                alert("问题不能为空！");
 			}else if(document.bss_5_2.question5_mostdepressed.value==="1"){
 				ajax_post($('#bss_5_2'))
           	}else {
@@ -1295,7 +1296,7 @@
 
 		$("#bss_6_1_submit").on('click', function(){
 			if (document.bss_6_1.question6_lastweek.value==="") {
-                alert("问题三不能为空！");
+                alert("问题不能为空！");
           	}else {
 				ajax_post($('#bss_6_1'))
 				$("div[class='bss_6_1']").hide();
@@ -1305,7 +1306,7 @@
 
 		$("#bss_6_2_submit").on('click', function(){
 			if (document.bss_6_2.question6_mostdepressed.value==="") {
-                alert("问题四不能为空！");
+                alert("问题不能为空！");
           	}else {
 				ajax_post($('#bss_6_2'))
 				$("div[class='bss_6_2']").hide();
@@ -1315,7 +1316,7 @@
 
 		$("#bss_7_1_submit").on('click', function(){
 			if (document.bss_7_1.question7_lastweek.value==="") {
-                alert("问题五不能为空！");
+                alert("问题不能为空！");
           	}else {
 				ajax_post($('#bss_7_1'))
 				$("div[class='bss_7_1']").hide();
@@ -1325,7 +1326,7 @@
 
 		$("#bss_7_2_submit").on('click', function(){
 			if (document.bss_7_2.question7_mostdepressed.value==="") {
-                alert("问题流不能为空！");
+                alert("问题不能为空！");
 			}else {
 				ajax_post($('#bss_7_2'))
 				$("div[class='bss_7_2']").hide();
@@ -1335,7 +1336,7 @@
 
 		$("#bss_8_1_submit").on('click', function(){
 			if (document.bss_8_1.question8_lastweek.value==="") {
-                alert("问题七不能为空！");
+                alert("问题不能为空！");
           	}else {
 				ajax_post($('#bss_8_1'))
 				$("div[class='bss_8_1']").hide();
@@ -1345,7 +1346,7 @@
 
 		$("#bss_8_2_submit").on('click', function(){
 			if (document.bss_8_2.question8_mostdepressed.value==="") {
-                alert("问题八不能为空！");
+                alert("问题不能为空！");
           	}else {
 				ajax_post($('#bss_8_2'))
 				$("div[class='bss_8_2']").hide();
@@ -1355,7 +1356,7 @@
 
 		$("#bss_9_1_submit").on('click', function(){
 			if (document.bss_9_1.question9_lastweek.value==="") {
-                alert("问题九不能为空！");
+                alert("问题不能为空！");
           	}else {
 				ajax_post($('#bss_9_1'))
 				$("div[class='bss_9_1']").hide();
@@ -1365,7 +1366,7 @@
 
 		$("#bss_9_2_submit").on('click', function(){
 			if (document.bss_9_2.question9_mostdepressed.value==="") {
-                alert("问题十不能为空！");
+                alert("问题不能为空！");
           	}else {
 				ajax_post($('#bss_9_2'))
 				$("div[class='bss_9_2']").hide();
@@ -1375,7 +1376,7 @@
 
 		$("#bss_10_1_submit").on('click', function(){
 			if (document.bss_10_1.question10_lastweek.value==="") {
-                alert("问题一不能为空！");
+                alert("问题不能为空！");
           	}else {
 				ajax_post($('#bss_10_1'))
 				$("div[class='bss_10_1']").hide();
@@ -1385,7 +1386,7 @@
 
 		$("#bss_10_2_submit").on('click', function(){
 			if (document.bss_10_2.question10_mostdepressed.value==="") {
-                alert("问题二不能为空！");
+                alert("问题不能为空！");
           	}else {
 				ajax_post($('#bss_10_2'))
 				$("div[class='bss_10_2']").hide();
@@ -1395,7 +1396,7 @@
 
 		$("#bss_11_1_submit").on('click', function(){
 			if (document.bss_11_1.question11_lastweek.value==="") {
-                alert("问题三不能为空！");
+                alert("问题不能为空！");
           	}else {
 				ajax_post($('#bss_11_1'))
 				$("div[class='bss_11_1']").hide();
@@ -1405,7 +1406,7 @@
 
 		$("#bss_11_2_submit").on('click', function(){
 			if (document.bss_11_2.question11_mostdepressed.value==="") {
-                alert("问题四不能为空！");
+                alert("问题不能为空！");
           	}else {
 				ajax_post($('#ybo_4'))
 				$("div[class='bss_11_2']").hide();
@@ -1415,7 +1416,7 @@
 
 		$("#bss_12_1_submit").on('click', function(){
 			if (document.bss_12_1.question12_lastweek.value==="") {
-                alert("问题五不能为空！");
+                alert("问题不能为空！");
           	}else {
 				ajax_post($('#bss_12_1'))
 				$("div[class='bss_12_1']").hide();
@@ -1425,7 +1426,7 @@
 
 		$("#bss_12_2_submit").on('click', function(){
 			if (document.bss_12_2.question12_mostdepressed.value==="") {
-                alert("问题流不能为空！");
+                alert("问题不能为空！");
 			}else {
 				ajax_post($('#bss_12_2'))
 				$("div[class='bss_12_2']").hide();
@@ -1435,7 +1436,7 @@
 
 		$("#bss_13_1_submit").on('click', function(){
 			if (document.bss_13_1.question13_lastweek.value==="") {
-                alert("问题七不能为空！");
+                alert("问题不能为空！");
           	}else {
 				ajax_post($('#bss_13_1'))
 				$("div[class='bss_13_1']").hide();
@@ -1445,7 +1446,7 @@
 
 		$("#bss_13_2_submit").on('click', function(){
 			if (document.bss_13_2.question13_mostdepressed.value==="") {
-                alert("问题八不能为空！");
+                alert("问题不能为空！");
           	}else {
 				ajax_post($('#bss_13_2'))
 				$("div[class='bss_13_2']").hide();
@@ -1455,7 +1456,7 @@
 
 		$("#bss_14_1_submit").on('click', function(){
 			if (document.bss_14_1.question14_lastweek.value==="") {
-                alert("问题九不能为空！");
+                alert("问题不能为空！");
           	}else {
 				ajax_post($('#bss_14_1'))
 				$("div[class='bss_14_1']").hide();
@@ -1465,7 +1466,7 @@
 
 		$("#bss_14_2_submit").on('click', function(){
 			if (document.bss_14_2.question14_mostdepressed.value==="") {
-                alert("问题十不能为空！");
+                alert("问题不能为空！");
           	}else {
 				ajax_post($('#bss_14_2'))
 				$("div[class='bss_14_2']").hide();
@@ -1475,7 +1476,7 @@
 
 		$("#bss_15_1_submit").on('click', function(){
 			if (document.bss_15_1.question15_lastweek.value==="") {
-                alert("问题一不能为空！");
+                alert("问题不能为空！");
 			}else{
 				ajax_post($('#bss_15_1'))
 				$("div[class='bss_15_1']").hide();
@@ -1485,7 +1486,7 @@
 
 		$("#bss_15_2_submit").on('click', function(){
 			if (document.bss_15_2.question15_mostdepressed.value==="") {
-                alert("问题二不能为空！");
+                alert("问题不能为空！");
           	}else {
 				ajax_post($('#bss_15_2'))
 				$("div[class='bss_15_2']").hide();
@@ -1495,7 +1496,7 @@
 
 		$("#bss_16_1_submit").on('click', function(){
 			if (document.bss_16_1.question16_lastweek.value==="") {
-                alert("问题三不能为空！");
+                alert("问题不能为空！");
           	}else {
 				ajax_post($('#bss_16_1'))
 				$("div[class='bss_16_1']").hide();
@@ -1505,7 +1506,7 @@
 
 		$("#bss_16_2_submit").on('click', function(){
 			if (document.bss_16_2.question16_mostdepressed.value==="") {
-                alert("问题四不能为空！");
+                alert("问题不能为空！");
           	}else {
 				ajax_post($('#bss_16_2'))
 				$("div[class='bss_16_2']").hide();
@@ -1515,7 +1516,7 @@
 
 		$("#bss_17_1_submit").on('click', function(){
 			if (document.bss_17_1.question17_lastweek.value==="") {
-                alert("问题五不能为空！");
+                alert("问题不能为空！");
           	}else {
 				ajax_post($('#bss_17_1'))
 				$("div[class='bss_17_1']").hide();
@@ -1525,7 +1526,7 @@
 
 		$("#bss_17_2_submit").on('click', function(){
 			if (document.bss_17_2.question17_mostdepressed.value==="") {
-                alert("问题流不能为空！");
+                alert("问题不能为空！");
 			}else {
 				ajax_post($('#bss_17_2'))
 				$("div[class='bss_17_2']").hide();
@@ -1535,7 +1536,7 @@
 
 		$("#bss_18_1_submit").on('click', function(){
 			if (document.bss_18_1.question18_lastweek.value==="") {
-                alert("问题七不能为空！");
+                alert("问题不能为空！");
           	}else {
 				ajax_post($('#bss_18_1'))
 				$("div[class='bss_18_1']").hide();
@@ -1545,7 +1546,7 @@
 
 		$("#bss_18_2_submit").on('click', function(){
 			if (document.bss_18_2.question18_mostdepressed.value==="") {
-                alert("问题八不能为空！");
+                alert("问题不能为空！");
           	}else {
 				ajax_post($('#bss_18_2'))
 				$("div[class='bss_18_2']").hide();
@@ -1555,7 +1556,7 @@
 
 		$("#bss_19_1_submit").on('click', function(){
 			if (document.bss_19_1.question19_lastweek.value==="") {
-                alert("问题九不能为空！");
+                alert("问题不能为空！");
           	}else {
 				ajax_post($('#bss_19_1'))
 				$("div[class='bss_19_1']").hide();
@@ -1565,10 +1566,13 @@
 
 		$("#bss_19_2_submit").on('click', function(){
 			if (document.bss_19_2.question17_lastweek.value==="") {
-                alert("问题十不能为空！");
-          	}else {
+                alert("问题不能为空！");
+          	}else if(last == 1){
+				alert("请不要重复提交！");
+			}else {
 				ajax_post($('#bss_19_2'))
 				$("div[class='bss_19_2']").hide();
+				last = 1;
 			}
 		});
 	});
@@ -1589,6 +1593,7 @@
 		async:true,
 		data: {'data':form.serialize(),
 			'duration':get_duration(),
+			'test_name':"bss",
 			'csrfmiddlewaretoken': csrf
 			}
 		})
