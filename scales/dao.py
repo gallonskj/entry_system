@@ -152,10 +152,10 @@ def add_cognitive_emotion_database(rPatientCognitiveEmotion):
 
 
 def add_pleasure_database(rPatientPleasure):
-    rPatientPleasure.exception_score, rPatientPleasure.consume_score, object_flag = tools_calculatingScores.pleasure_total_score(
+    rPatientPleasure.expectation_score, rPatientPleasure.consume_score, object_flag = tools_calculatingScores.pleasure_total_score(
         rPatientPleasure)
-    if rPatientPleasure.exception_score is not None and rPatientPleasure.consume_score is not None:
-        rPatientPleasure.total_score = rPatientPleasure.exception_score + rPatientPleasure.consume_score
+    if rPatientPleasure.expectation_score is not None and rPatientPleasure.consume_score is not None:
+        rPatientPleasure.total_score = rPatientPleasure.expectation_score + rPatientPleasure.consume_score
         tools_utils.object_judgment(object_flag)
     else:
         tools_utils.object_judgment(True)
