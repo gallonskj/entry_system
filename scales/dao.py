@@ -140,10 +140,10 @@ def add_cognitive_emotion_database(rPatientCognitiveEmotion):
     update_rscales_state(rPatientCognitiveEmotion.patient_session_id, rPatientCognitiveEmotion.scale_id)
 
 def add_pleasure_database(rPatientPleasure):
-    rPatientPleasure.exception_score, rPatientPleasure.consume_score, object_flag = tools_calculatingScores.pleasure_total_score(
+    rPatientPleasure.expectation_score, rPatientPleasure.consume_score, object_flag = tools_calculatingScores.pleasure_total_score(
         rPatientPleasure)
-    if rPatientPleasure.exception_score is not None and rPatientPleasure.consume_score is not None:
-        rPatientPleasure.total_score = rPatientPleasure.exception_score + rPatientPleasure.consume_score
+    if rPatientPleasure.expectation_score is not None and rPatientPleasure.consume_score is not None:
+        rPatientPleasure.total_score = rPatientPleasure.expectation_score + rPatientPleasure.consume_score
         tools_utils.object_judgment(object_flag)
     else:
         tools_utils.object_judgment(True)
@@ -279,7 +279,7 @@ def dao_add_family_info(patient_basic_info_family,state):
 
 def dao_add_suicide(rpatientsuicidal):
     # 计算总分
-    rpatientsuicidal.total_score_lastweek, rpatientsuicidal.total_score_mostdpressed, object_flag = tools_calculatingScores.Suicidal_total_score(
+    rpatientsuicidal.total_score_lastweek, rpatientsuicidal.total_score_mostdepressed, object_flag = tools_calculatingScores.Suicidal_total_score(
         rpatientsuicidal)
     tools_utils.object_judgment(object_flag)
     # 插入前的级联检验
