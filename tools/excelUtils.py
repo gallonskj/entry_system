@@ -20,6 +20,7 @@ class ExcelObject():
         self.end_time = end_time
 
 def read_excel(file_contents):
+    excel_object_list = []
     sheet = xlrd.open_workbook(file_contents=file_contents).sheet_by_index(0)
     for row in sheet.get_rows():
         if is_date(row[excel_col_dict['start_time']].value.strip()):
@@ -44,7 +45,8 @@ def read_excel(file_contents):
                                       usage_way=usage_way, start_doctor=row[excel_col_dict['start_doctor']].value.strip(),
                                       start_nurse=row[excel_col_dict['start_nurse']].value.strip(), end_doctor=row[excel_col_dict['end_doctor']].value.strip(),
                                       end_nurse=row[excel_col_dict['end_nurse']].value.strip(), end_time=row[excel_col_dict['end_time']].value.strip())
-            print(row)
+            excel_object_list.append(excelObject)
+        return excel_object_list
 # 正则表达式匹配,是否是日期类型
 def is_date(s):
     pattern = re.compile('\d{4}[-/]\d{2}[-/]\d{2}')

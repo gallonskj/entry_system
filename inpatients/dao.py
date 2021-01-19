@@ -1,0 +1,1 @@
+def get_medical_advice(inpatient_id):
