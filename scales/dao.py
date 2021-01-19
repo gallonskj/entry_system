@@ -304,7 +304,7 @@ def dao_add_family_info(patient_basic_info_family):
 
 def dao_add_suicide(rpatientsuicidal):
     # 计算总分
-    rpatientsuicidal.total_score_lastweek, rpatientsuicidal.total_score_mostdpressed, object_flag = tools_calculatingScores.Suicidal_total_score(
+    rpatientsuicidal.total_score_lastweek, rpatientsuicidal.total_score_mostdepressed, object_flag = tools_calculatingScores.Suicidal_total_score(
         rpatientsuicidal)
     tools_utils.object_judgment(object_flag)
     # 插入前的级联检验

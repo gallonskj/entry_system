@@ -66,6 +66,7 @@ class RPatientAdolescentEvents(models.Model):
 
 class RPatientAtq(models.Model):
     patient_session = models.ForeignKey(DPatientDetail, models.DO_NOTHING)
+    scale = models.ForeignKey(DScales, models.DO_NOTHING)
     question1_answer = models.IntegerField(blank=True, null=True)
     question2_answer = models.IntegerField(blank=True, null=True)
     question3_answer = models.IntegerField(blank=True, null=True)
