@@ -33,8 +33,8 @@
             </div>
         </div>
         <div class="question_area" name="question_area" style="text-align: center">
+            {% csrf_token %}
             <form id="question_form" name="question_form" action="#">
-                {% csrf_token %}
                 <h3>
                     <div name="question_test" id="question_test" class="row">1.当时家里没人关心我的饥饱。</div>
                 </h3>
@@ -82,6 +82,7 @@
         let time = new Date();
         let suicide = false;
         let question_index = 1;
+        let end_flag = 0;
         $(document).ready(function () {
             $("input[type='radio']").labelauty();
             $("#question_submit").on('click', function () {
@@ -262,6 +263,8 @@
                 case 35:
                     document.getElementById('question_test').innerHTML = "36.我感到事情发生的根本原因在别人身上";
                     alter_option_names("answer", "question36_answer");
+                    end_flag = 1;
+                    document.getElementById('question_submit').setAttribute('onclick',"location='https://www.baidu.com'");
                     break;
             }
         }
@@ -269,13 +272,15 @@
         function ajax_post(form) {
             const csrf = $('input[name="csrfmiddlewaretoken"]').val();
             $.ajax({
-                url: 'http://127.0.0.1:8000/scales/test_submit',
+                url: 'http://' + location.host +
+                    '/scales/test_submit?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}',
                 type: 'POST',
                 dataType: 'JSON',
                 async: true,
                 data: {
                     'data': form.serialize(),
                     'question_index': question_index,
+                    'flag':end_flag,
                     'duration': get_duration(),
                     'test_name': "cerq_c",
                     'csrfmiddlewaretoken': csrf

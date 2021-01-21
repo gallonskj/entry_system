@@ -33,8 +33,8 @@
             </div>
         </div>
         <div class="question_area" name="question_area" style="text-align: center">
+           {% csrf_token %}
             <form id="question_form" name="question_form" action="#">
-                {% csrf_token %}
                 <h3>
                     <div name="question_test" id="question_test" class="row">1.被人误会或错怪</div>
                 </h3>
@@ -82,6 +82,7 @@
         let time = new Date();
         let suicide = false;
         let question_index = 1;
+        let end_flag = 0;
         $(document).ready(function () {
             $("input[type='radio']").labelauty();
             $("#question_submit").on('click', function () {
@@ -237,6 +238,8 @@
                 case 29:
                     document.getElementById('question_test').innerHTML = "30.我干什么事都有头无尾。";
                     alter_option_names("answer", "question30_answer");
+                    end_flag = 1;
+                    document.getElementById('question_submit').setAttribute('onclick',"location='https://www.baidu.com'");
                     break;
             }
         }
@@ -244,7 +247,8 @@
         function ajax_post(form) {
             const csrf = $('input[name="csrfmiddlewaretoken"]').val();
             $.ajax({
-                url: 'http://127.0.0.1:8000/scales/test_submit',
+                url: 'http://' + location.host +
+                    '/scales/test_submit?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}',
                 type: 'POST',
                 dataType: 'JSON',
                 async: true,
@@ -252,6 +256,7 @@
                     'data': form.serialize(),
                     'question_index': question_index,
                     'duration': get_duration(),
+                    'flag': end_flag,
                     'test_name': "atq",
                     'csrfmiddlewaretoken': csrf
                 }

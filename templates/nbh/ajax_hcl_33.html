@@ -34,9 +34,9 @@
                 </h5>
             </div>
         </div>
+        {% csrf_token %}
         <div class="question_area" name="question_area" style="text-align: center">
             <form id="question_form_1" name="question_form_1" action="#">
-                {% csrf_token %}
                 <h3>
                     <div name="question_text_1" id="question_text_1" class="row">1. 首先，和平常的状态比起来，您今天感觉怎么样？</div>
                 </h3>
@@ -85,7 +85,6 @@
                 </div>
             </form>
             <form id="question_form_2" name="question_form_2" action="#" style="display: none">
-                {% csrf_token %}
                 <h3>
                     <div name="question_text_2" id="question_text_2" class="row">3.
                         请尽力回忆当您处于“高涨”状态时，您那个时候的感觉怎么样？请您对下列所有的描述进行回答,不管您现在的状态如何。
@@ -124,16 +123,16 @@
         let question_index_1 = 1;
         let question_index_2 = 1;
         let question_index = 1;
+        let end_flag = 0;
 
         $(document).ready(function () {
             $("input[type='radio']").labelauty();
-
             $("#question_submit_1").on('click', function () {
                 if (question_index > 46) {
                     alert("请不要重复提交！");
                 } else if (question_index_1 == 2) {
                     if (document.getElementsByName('question2').value === "") {
-                        alert("here！");
+                        alert("问题不能为空！");
                     }
                     ajax_post($('#question_form_1'));
                     update_question_1(question_index_1);
@@ -144,6 +143,7 @@
                 } else if (question_index_1 === 10) {
                     if (document.question_form_1.question7.value === "0") {
                         ajax_post($('#question_form_1'));
+
                         update_question_1(question_index_1 + 1);
                         question_index++;
                         question_index++;
@@ -177,7 +177,6 @@
             });
 
             $("#question_submit_2").on('click', function () {
-
                 if (question_index_2 == 33) {
                     ajax_post($('#question_form_2'));
                     update_question_2(question_index_2);
@@ -325,16 +324,17 @@
                 case 11:
                     show_nodes("options_1", 0);
                     show_nodes("options_1", 1);
-                    document.getElementById('question_text_1').innerHTML = "您可以把自己描述为一个上下起伏的人吗：<br>" +
+                    document.getElementById('question_text_1').innerHTML = "9.您可以把自己描述为一个上下起伏的人吗：<br>" +
                         "一段时间极度兴奋，另一段时间则愁眉苦脸？<br/><br>";
                     alter_option_names("answer_1", "question9");
                     break;
                 case 12:
                     document.getElementById('question_text_1').innerHTML = "10. 您的情绪有时会突然转变吗？<br/><br>";
                     alter_option_names("answer_1", "question10");
+                    //跳转
+                    document.getElementById('question_submit_1').setAttribute('onclick',"location='https://www.baidu.com'");
+                    end_flag = 1;
                     break;
-
-
             }
         }
 
@@ -474,7 +474,8 @@
         function ajax_post(form) {
             const csrf = $('input[name="csrfmiddlewaretoken"]').val();
             $.ajax({
-                url: 'http://127.0.0.1:8000/scales/test_submit',
+                url: 'http://' + location.host +
+                    '/scales/test_submit?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}',
                 type: 'POST',
                 dataType: 'JSON',
                 async: true,
@@ -483,6 +484,7 @@
                     'question_index': question_index,
                     'duration': get_duration(),
                     'test_name': 'hcl_33',
+                    'flag': end_flag,
                     'csrfmiddlewaretoken': csrf
                 }
             })

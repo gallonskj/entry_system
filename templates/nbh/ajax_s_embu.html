@@ -32,9 +32,9 @@
                 </h5>
             </div>
         </div>
+        {% csrf_token %}
         <div class="question_area" name="question_area" style="text-align: center">
             <form id="pre_questions" name="pre_questions" action="#">
-                {% csrf_token %}
                 <div class="" style="margin: 5px;">
                     <div>
                         <label>入学年份:</label><input type="text" name="enrollmentyear"/>
@@ -76,8 +76,8 @@
                            value="退&nbsp;&nbsp;出">
                 </div>
             </form>
+
             <form id="question_form" name="question_form" action="#" style="display: none">
-                {% csrf_token %}
                 <h3>
                     <div name="question_text" id="question_text" class="row">1.父\母亲常常在我不知道原因的情况下对我大发脾气</div>
                 </h3>
@@ -152,6 +152,7 @@
         let time = new Date();
         let suicide = false;
         let question_index = 1;
+        let end_flag = 0;
         $(document).ready(function () {
             $("input[type='radio']").labelauty();
 
@@ -172,7 +173,7 @@
             });
 
             $("#question_submit").on('click', function () {
-                if (question_index > 21) {
+                if (question_index > 22) {
                     alert("请不要重复提交！");
                 } else {
                     const answers_1 = document.getElementsByClassName("answer_1");
@@ -317,6 +318,9 @@
                     document.getElementById('question_text').innerHTML = "21.当我做的事情取得成功时，我觉得父\\母亲很为我自豪";
                     alter_option_names("answer_1", "question21_father");
                     alter_option_names("answer_2", "question21_mother");
+                    //跳转
+                    document.getElementById('question_submit').setAttribute('onclick',"location='https://www.baidu.com'");
+                    end_flag = 1;
                     break;
             }
         }
@@ -324,7 +328,8 @@
         function ajax_post(form) {
             const csrf = $('input[name="csrfmiddlewaretoken"]').val();
             $.ajax({
-                url: 'http://127.0.0.1:8000/scales/test_submit',
+                url: 'http://' + location.host +
+                    '/scales/test_submit?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}',
                 type: 'POST',
                 dataType: 'JSON',
                 async: true,
@@ -333,6 +338,7 @@
                     'question_index': question_index,
                     'duration': get_duration(),
                     'test_name':'s_embu',
+                    'flag': end_flag,
                     'csrfmiddlewaretoken': csrf
                 }
             })

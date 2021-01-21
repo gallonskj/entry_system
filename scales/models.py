@@ -6,11 +6,14 @@
 #   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
 # Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
-from patients.models import DPatientDetail,BPatientBaseInfo
+from patients.models import DPatientDetail, BPatientBaseInfo
+
+
 class DScales(models.Model):
     scale_name = models.CharField(max_length=40)
     scale_type = models.IntegerField()
     do_scale_type = models.IntegerField()
+
     class Meta:
         managed = False
         db_table = 'd_scales'
@@ -207,10 +210,10 @@ class RPatientBasicInformationHealth(models.Model):
     scale = models.ForeignKey(DScales, models.DO_NOTHING)
     patient_somatic_diseases = models.IntegerField(blank=True, null=True)
     patient_somatic_diseases_name = models.CharField(max_length=100, blank=True, null=True)
-    patient_somatic_diseases_year = models.CharField(max_length=20,blank=True, null=True)
+    patient_somatic_diseases_year = models.CharField(max_length=20, blank=True, null=True)
     patient_mental_diseases = models.IntegerField(blank=True, null=True)
     patient_mental_diseases_name = models.CharField(max_length=100, blank=True, null=True)
-    patient_mental_diseases_year = models.CharField(max_length=20,blank=True, null=True)
+    patient_mental_diseases_year = models.CharField(max_length=20, blank=True, null=True)
     patient_family_diseases_history = models.IntegerField(blank=True, null=True)
     patient_family_diseases_name = models.CharField(max_length=100, blank=True, null=True)
     patient_medicine_information = models.TextField()
@@ -218,11 +221,10 @@ class RPatientBasicInformationHealth(models.Model):
     doctor = models.ForeignKey('users.Suser', models.DO_NOTHING)
     create_time = models.DateTimeField(auto_now_add=True)
     update_time = models.DateTimeField(auto_now=True)
+
     class Meta:
-            managed = False
-            db_table = 'r_patient_basic_information_health'
-
-
+        managed = False
+        db_table = 'r_patient_basic_information_health'
 
 
 class RPatientBprs(models.Model):
@@ -462,8 +464,6 @@ class RPatientHama(models.Model):
     create_time = models.DateTimeField(auto_now_add=True)
     update_time = models.DateTimeField(auto_now=True)
 
-
-
     class Meta:
         managed = False
         db_table = 'r_patient_hama'
@@ -628,9 +628,9 @@ class RPatientManicsymptom(models.Model):
     question6_1 = models.IntegerField(blank=True, null=True)
     question6_2 = models.IntegerField(blank=True, null=True)
     question7 = models.IntegerField(blank=True, null=True)
-    question8 = models.CharField(max_length=20,blank=True, null=True)
+    question8 = models.CharField(max_length=20, blank=True, null=True)
     question9 = models.IntegerField(blank=True, null=True)
-    question10 = models.IntegerField(blank=True, null= True)
+    question10 = models.IntegerField(blank=True, null=True)
     total_score = models.IntegerField(blank=True, null=True)
     doctor = models.ForeignKey('users.Suser', models.DO_NOTHING)
     create_time = models.DateTimeField(auto_now_add=True)
@@ -672,11 +672,13 @@ class RPatientMriExamination(models.Model):
     scale = models.ForeignKey(DScales, models.DO_NOTHING)
     finishing_3d = models.IntegerField(db_column='finishing_3D', blank=True, null=True)  # Field name made lowercase.
     finishing_dti = models.IntegerField(db_column='finishing_DTI', blank=True, null=True)  # Field name made lowercase.
-    finishing_fmri = models.IntegerField(db_column='finishing_fMRI', blank=True, null=True)  # Field name made lowercase.
+    finishing_fmri = models.IntegerField(db_column='finishing_fMRI', blank=True,
+                                         null=True)  # Field name made lowercase.
     finishing_time = models.DateField(blank=True, null=True)
     having_special_events = models.IntegerField(blank=True, null=True)
     special_enents_note = models.TextField(blank=True, null=True)
-    having_abnormal_region_field = models.IntegerField(db_column='having_abnormal_region_', blank=True, null=True)  # Field renamed because it ended with '_'.
+    having_abnormal_region_field = models.IntegerField(db_column='having_abnormal_region_', blank=True,
+                                                       null=True)  # Field renamed because it ended with '_'.
     abnormal_region_note = models.TextField(blank=True, null=True)
     researcher_sign = models.TextField(blank=True, null=True)
     sign_date = models.DateField(blank=True, null=True)
@@ -777,6 +779,7 @@ class RPatientPleasure(models.Model):
         managed = False
         db_table = 'r_patient_pleasure'
 
+
 class RPatientRbans(models.Model):
     patient_session = models.ForeignKey(DPatientDetail, models.DO_NOTHING)
     scale = models.ForeignKey(DScales, models.DO_NOTHING)
@@ -812,9 +815,11 @@ class RPatientScales(models.Model):
     scale = models.ForeignKey(DScales, models.DO_NOTHING)
     state = models.IntegerField(blank=True, null=True)
     end_time = models.DateTimeField(auto_now=True)
+
     class Meta:
         managed = False
         db_table = 'r_patient_scales'
+
 
 class RPatientSembu(models.Model):
     patient_session = models.ForeignKey(DPatientDetail, models.DO_NOTHING)
@@ -1059,5 +1064,13 @@ class RPatientYmrs(models.Model):
         db_table = 'r_patient_ymrs'
 
 
+class RSelfTestDuration(models.Model):
+    id = models.IntegerField(primary_key=True, auto_created=True)
+    patient_session = models.ForeignKey(DPatientDetail, models.DO_NOTHING)
+    scale = models.ForeignKey(DScales, models.DO_NOTHING)
+    question_index = models.IntegerField(blank=True, null=True)
+    duration = models.IntegerField(blank=True, null=True)
 
-
+    class Meta:
+        managed = False
+        db_table = 'r_self_test_duration'

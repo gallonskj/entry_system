@@ -19,10 +19,10 @@
                 </div>
             </div>
         </div>
+		{% csrf_token %}
         <div class="dashboard_graph x_panel" style="margin-top: 0;height:80%;">
             <div class="ybo_1" style="text-align: center;display: none">
                 <form id="ybo_1" name="ybo_1" action="#">
-					{% csrf_token %}
                     <div class="row"><h3>1. 您每天花多少时间在强迫思维上？每天强迫思维出现的频率有多高？</h3> </div>
                     <div class="options" style=" text-align: left;padding-left: 25%">
                         <div class="row show-grid" style="margin:10px">
@@ -58,7 +58,7 @@
                 </form>
             </div>
 			<div class="ybo_2" style="text-align: center;display: none">
-                <form name="ybo_2" action="#">
+                <form id="ybo_2" name="ybo_2" action="#">
                     <div class="row"><h3>2. 您的强迫思维对社交、学业成就或工作能力有多大妨碍？</h3> </div>
 					<div class="row"><h4>（假如目前没有工作，则强迫思维对每天日常活动的妨碍有多大？回答此题时，请想是否有任何事情因为强迫思维而不去做或较少做）</h4> </div>
                     <div class="options" style=" text-align: left;padding-left: 25%">
@@ -95,7 +95,7 @@
                 </form>
             </div>
 			<div class="ybo_3" style="text-align: center;display: none">
-                <form name="ybo_3" action="#">
+                <form id="ybo_3" name="ybo_3" action="#">
                     <div class="row"><h3>3. 您的强迫思维给您带来多大的苦恼或困扰？</h3> </div>
                     <div class="options" style=" text-align: left;padding-left: 30%">
                         <div class="row show-grid" style="margin:10px 0 10px 10px">
@@ -131,7 +131,7 @@
                 </form>
             </div>
 			<div class="ybo_4" style="text-align: center;display: none">
-                <form name="ybo_4" action="#">
+                <form id="ybo_4" name="ybo_4" action="#">
                     <div class="row"><h3>4. 您有多少努力对抗强迫思维？你是否尝试转移注意力或不去想它呢？（重点不在于是否成功转移，而在于你有多努力对抗或尝试频率有多高）</h3> </div>
                     <div class="options" style=" text-align: left;padding-left: 25%">
                         <div class="row show-grid" style="margin:10px 0 10px 10px">
@@ -167,7 +167,7 @@
                 </form>
             </div>
 			<div class="ybo_5" style="text-align: center;display: none">
-                <form name="ybo_5" action="#">
+                <form id="ybo_5" name="ybo_5" action="#">
                     <div class="row"><h3>5. 您控制强迫思维的能力有多少？您停止或转移强迫思维的效果如何？</h3> </div>
 					<div class="row"><h4>（不包括通过强迫行为来停止强迫思维）</h4></div>
                     <div class="options" style=" text-align: left;padding-left: 25%">
@@ -204,7 +204,7 @@
                 </form>
             </div>
 			<div class="ybo_6" style="text-align: center;display: none">
-                <form name="ybo_6" action="#">
+                <form id="ybo_6" name="ybo_6" action="#">
                     <div class="row"><h3>6. 您每天花多少时间在强迫行为上？每天做出强迫行为的频率有多高？</h3> </div>
                     <div class="options" style=" text-align: left;padding-left: 25%">
                         <div class="row show-grid" style="margin:10px 0 10px 10px">
@@ -240,7 +240,7 @@
                 </form>
             </div>
 			<div class="ybo_7" style="text-align: center;display: none">
-                <form name="ybo_7" action="#">
+                <form id="ybo_7" name="ybo_7" action="#">
                     <div class="row"><h3>7. 您的强迫行为对社交、学业成就或工作能力有多大妨碍？</h3> </div>
 					<div class="row"><h4>（假如目前没有工作，则强迫行为对每天日常活动的妨碍有多大？）</h4></div>
                     <div class="options" style=" text-align: left;padding-left: 25%">
@@ -277,7 +277,7 @@
                 </form>
             </div>
 			<div class="ybo_8" style="text-align: center;display: none">
-                <form name="ybo_8" action="#">
+                <form id="ybo_8" name="ybo_8" action="#">
                     <div class="row"><h3>8. 假如被制止从事强迫行为时，您有什么感觉？您会多焦虑？</h3> </div>
                     <div class="options" style=" text-align: left;padding-left: 25%">
                         <div class="row show-grid" style="margin:10px 0 10px 10px">
@@ -313,7 +313,7 @@
                 </form>
             </div>
 			<div class="ybo_9" style="text-align: center;display: none">
-                <form name="ybo_9" action="#">
+                <form  id="ybo_9" name="ybo_9" action="#">
                     <div class="row"><h3>9. 您有多努力去对抗强迫行为？或尝试停止强迫行为的频率？</h3> </div>
 					<div class="row"><h4>（仅评估你有多努力对抗强迫行为或尝试频率有多高，而不在于评估您停止强迫行为的效果有多好）</h4></div>
                     <div class="options" style=" text-align: left;padding-left: 25%">
@@ -350,7 +350,7 @@
                 </form>
             </div>
 			<div class="ybo_10" style="text-align: center;display: none">
-                <form name="ybo_10" action="#">
+                <form id="ybo_10" name="ybo_10" action="#">
                     <div class="row"><h3>10. 您控制强迫行为的能力如何？您停止强迫（仪式）行为的效果如何？</h3> </div>
 					<div class="row"><h4>（假如你很少去对抗，那就回想那些少数对抗的情境，以便回答此题。）</h4></div>
                     <div class="options" style=" text-align: left;padding-left: 25%">
@@ -381,7 +381,8 @@
 						</div>
                     </div>
                     <div>
-                        <input id="ybo_10_submit" type="button" class="btn btn-success text-center" style="width:68px;height:34px" value="下一题">
+<!--						跳转-->
+                        <input id="ybo_10_submit" onclick="location='https://www.baidu.com'" type="button" class="btn btn-success text-center" style="width:68px;height:34px" value="下一题">
                         <input type="button" class="btn btn-warning text-center" style="width:68px;height:34px" value="退&nbsp;&nbsp;出">
                     </div>
                 </form>
@@ -394,17 +395,20 @@
 <script type="text/javascript" src="{% static '/js/jquery-radio-beauty.js'%}"></script>
 <script>
 	let time = new Date();
+	let end_flag = 0;
+	let question_index = 1;
 	$(document).ready(function(){
 		$("input[type='radio']").labelauty();
 		$("div[class='ybo_1']").show();
 
 		$("#ybo_1_submit").on('click', function(){
 			if (document.ybo_1.forced_frequency.value==="") {
-                alert("问题一不能为空！");
+                alert("问题不能为空！");
           	}else if(document.ybo_1.forced_frequency.value==="0"){
-				ajax_post($('#ybo_1'))
+				ajax_post($('#ybo_1'));
 				$("div[class='ybo_1']").hide();
 				$("div[class='ybo_6']").show();
+				question_index += 4;
 			}else{
 				ajax_post($('#ybo_1'))
 				$("div[class='ybo_1']").hide();
@@ -414,9 +418,9 @@
 
 		$("#ybo_2_submit").on('click', function(){
 			if (document.ybo_2.impediment_degree1.value==="") {
-                alert("问题二不能为空！");
+                alert("问题不能为空！");
           	}else {
-				ajax_post($('#ybo_2'))
+				ajax_post($('#ybo_2'));
 				$("div[class='ybo_2']").hide();
 				$("div[class='ybo_3']").show();
 			}
@@ -424,9 +428,9 @@
 
 		$("#ybo_3_submit").on('click', function(){
 			if (document.ybo_3.distress.value==="") {
-                alert("问题三不能为空！");
+                alert("问题不能为空！");
           	}else {
-				ajax_post($('#ybo_3'))
+				ajax_post($('#ybo_3'));
 				$("div[class='ybo_3']").hide();
 				$("div[class='ybo_4']").show();
 			}
@@ -434,9 +438,9 @@
 
 		$("#ybo_4_submit").on('click', function(){
 			if (document.ybo_4.fightforced_degree.value==="") {
-                alert("问题四不能为空！");
+                alert("问题不能为空！");
           	}else {
-				ajax_post($('#ybo_4'))
+				ajax_post($('#ybo_4'));
 				$("div[class='ybo_4']").hide();
 				$("div[class='ybo_5']").show();
 			}
@@ -444,9 +448,9 @@
 
 		$("#ybo_5_submit").on('click', function(){
 			if (document.ybo_5.control_ability1.value==="") {
-                alert("问题五不能为空！");
+                alert("问题不能为空！");
           	}else {
-				ajax_post($('#ybo_5'))
+				ajax_post($('#ybo_5'));
 				$("div[class='ybo_5']").hide();
 				$("div[class='ybo_6']").show();
 			}
@@ -454,11 +458,13 @@
 
 		$("#ybo_6_submit").on('click', function(){
 			if (document.ybo_6.compulsion_frequency.value==="") {
-                alert("问题流不能为空！");
+                alert("问题不能为空！");
           	}else if(document.ybo_6.compulsion_frequency.value==="0"){
-				ajax_post($('#ybo_6'))
+				ajax_post($('#ybo_6'));
+				// 跳转
+				location='https://www.baidu.com';
 			}else {
-				ajax_post($('#ybo_6'))
+				ajax_post($('#ybo_6'));
 				$("div[class='ybo_6']").hide();
 				$("div[class='ybo_7']").show();
 			}
@@ -466,9 +472,9 @@
 
 		$("#ybo_7_submit").on('click', function(){
 			if (document.ybo_7.impediment_degree2.value==="") {
-                alert("问题七不能为空！");
+                alert("问题不能为空！");
           	}else {
-				ajax_post($('#ybo_7'))
+				ajax_post($('#ybo_7'));
 				$("div[class='ybo_7']").hide();
 				$("div[class='ybo_8']").show();
 			}
@@ -476,9 +482,9 @@
 
 		$("#ybo_8_submit").on('click', function(){
 			if (document.ybo_8.stopcompulsion_anxiety.value==="") {
-                alert("问题八不能为空！");
+                alert("问题不能为空！");
           	}else {
-				ajax_post($('#ybo_8'))
+				ajax_post($('#ybo_8'));
 				$("div[class='ybo_8']").hide();
 				$("div[class='ybo_9']").show();
 			}
@@ -486,21 +492,25 @@
 
 		$("#ybo_9_submit").on('click', function(){
 			if (document.ybo_9.stopforced_frequency.value==="") {
-                alert("问题九不能为空！");
+                alert("问题不能为空！");
           	}else {
-				ajax_post($('#ybo_9'))
+				ajax_post($('#ybo_9'));
 				$("div[class='ybo_9']").hide();
 				$("div[class='ybo_10']").show();
 			}
 		});
 
 		$("#ybo_10_submit").on('click', function(){
+			if(question_index > 10){
+				alert("请不要重复提交");
+			}
 			if (document.ybo_10.control_ability2.value==="") {
-                alert("问题十不能为空！");
+                alert("问题不能为空！");
           	}else {
-				ajax_post($('#ybo_10'))
-				$("div[class='ybo_1']").hide();
-				$("div[class='ybo_2']").show();
+				end_flag = 1;
+				ajax_post($('#ybo_10'));
+				// 跳转
+				location = 'https://www.baidu.com';
 			}
 		});
 	});
@@ -515,15 +525,20 @@
 	function ajax_post(form){
 		const csrf = $('input[name="csrfmiddlewaretoken"]').val();
 		$.ajax({
-		url: 'http://127.0.0.1:8000/scales/test_submit',
+		url: 'http://' + location.host +
+                    '/scales/test_submit?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}',
 		type: 'POST',
 		dataType: 'JSON',
 		async:true,
 		data: {'data':form.serialize(),
 			'duration':get_duration(),
+			'question_index':question_index,
+			'test_name':'ybo',
+			'flag': end_flag,
 			'csrfmiddlewaretoken': csrf
 			}
-		})
+		});
+		question_index ++;
 	}
 
 </script>

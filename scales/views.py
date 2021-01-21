@@ -1105,9 +1105,109 @@ def get_next_url(request):
 
 
 def test(request):
-    return render(request, 'nbh/ajax_hcl_33.html')
+    patient_session_id = request.GET.get('patient_session_id')
+    patient_id = request.GET.get('patient_id')
+    scale_id = int(request.GET.get('scale_id'))
+    if scale_id == 11:
+        return render(request, 'nbh/ajax_ybo.html', {"patient_session_id": patient_session_id,
+                                                     "patient_id": patient_id,
+                                                     'scale_id': scale_id})
+    elif scale_id == 12:
+        return render(request, 'nbh/ajax_bss.html', {"patient_session_id": patient_session_id,
+                                                     "patient_id": patient_id,
+                                                     'scale_id': scale_id})
+    elif scale_id == 13:
+        return render(request, 'nbh/ajax_hcl_33.html', {"patient_session_id": patient_session_id,
+                                                        "patient_id": patient_id,
+                                                        'scale_id': scale_id})
+    elif scale_id == 14:
+        return render(request, 'nbh/ajax_shaps.html', {"patient_session_id": patient_session_id,
+                                                       "patient_id": patient_id,
+                                                       'scale_id': scale_id})
+    elif scale_id == 15:
+        return render(request, 'nbh/ajax_teps.html', {"patient_session_id": patient_session_id,
+                                                      "patient_id": patient_id,
+                                                      'scale_id': scale_id})
+    elif scale_id == 16:
+        return render(request, 'nbh/ajax_ctq_sf.html', {"patient_session_id": patient_session_id,
+                                                        "patient_id": patient_id,
+                                                        'scale_id': scale_id})
+    elif scale_id == 17:
+        return render(request, 'nbh/ajax_cerq_c.html', {"patient_session_id": patient_session_id,
+                                                        "patient_id": patient_id,
+                                                        'scale_id': scale_id})
+    elif scale_id == 18:
+        return render(request, 'nbh/ajax_aslec.html', {"patient_session_id": patient_session_id,
+                                                       "patient_id": patient_id,
+                                                       'scale_id': scale_id})
+    elif scale_id == 19:
+        return render(request, 'nbh/ajax_s_embu.html', {"patient_session_id": patient_session_id,
+                                                        "patient_id": patient_id,
+                                                        'scale_id': scale_id})
+    elif scale_id == 20:
+        return render(request, 'nbh/ajax_atq.html', {"patient_session_id": patient_session_id,
+                                                     "patient_id": patient_id,
+                                                     'scale_id': scale_id})
+
+
+ajax_buffer = {}
+duration_buffer = []
 
 
 def test_submit(request):
-    print(request.POST)
+    from models import RSelfTestDuration
+    """取patient——session_id"""
+    patient_session_id = request.GET.get('patient_session_id')
+    # patient_id = request.GET.get('patient_id')
+    scale_id = request.GET.get('scale_id')
+    '''取POST中的表单信息'''
+    form_data = request.POST.get('data')
+    question_index = request.POST.get('question_index')
+    flag = request.POST.get('flag')
+    test_name = request.POST.get('test_name')
+    duration = request.POST.get('duration')
+
+    '''缓存不存在当前复诊记录就创建，把所有量表对象查出来'''
+    if patient_session_id not in ajax_buffer.keys():
+        print('buffer in')
+        ajax_buffer[patient_session_id] = {
+            'ybo': scales_dao.get_patient_YBO_byPatientDetailId(patient_session_id),
+            'bss': scales_dao.get_patient_suicidal_byPatientDetailId(patient_session_id),
+            'hcl_33': scales_dao.get_patient_manicSymptom_byPatientDetailId(patient_session_id),
+            'shaps': scales_dao.get_patient_happiness_byPatientDetailId(patient_session_id),
+            'teps': scales_dao.get_patient_pleasure_byPatientDetailId(patient_session_id),
+            'ctq_sf': scales_dao.get_patient_growth_byPatientDetailId(patient_session_id),
+            'cerq_c': scales_dao.get_patient_adolescent_byPatientDetailId(patient_session_id),
+            'aslec': scales_dao.get_patient_cognitive_byPatientDetailId(patient_session_id),
+            's_embu': scales_dao.get_patient_SEmbu_byPatientDetailId(patient_session_id),
+            'atq': scales_dao.get_patient_ATQ_byPatientDetailId(patient_session_id),
+        }
+    '''获取序列化的form_data中的表单信息'''
+    attribute_name = []
+    attribute_value = []
+    for element in form_data.split('&'):
+        attribute_name.append(element.split('=')[0])
+        attribute_value.append(element.split('=')[1])
+    '''遍历form_data,填充对应的属性值'''
+    for attribute in attribute_name:
+        if hasattr(ajax_buffer[patient_session_id][test_name], attribute):
+            setattr(ajax_buffer[patient_session_id][test_name], attribute)
+            print('attribute successs')
+    duration_buffer.append(RSelfTestDuration(patient_session_id, scale_id, question_index, duration))
+    '''填充完毕之后判断flag, 提交相应量表对象, flush duration_buffer'''
+    if flag == 1:
+        # 保存
+        ajax_buffer[patient_session_id][test_name].save()
+        RSelfTestDuration.objects.bulk_create(duration_buffer)
+        # 清空缓存
+        ajax_buffer[patient_session_id][test_name] = None
+        duration_buffer.clear()
+        # 清空病人
+        clean_patient_session_flag = True
+        for key in ajax_buffer[patient_session_id].keys():
+            if ajax_buffer[patient_session_id][key] is not None:
+                clean_patient_session_flag = False
+                break
+        if clean_patient_session_flag:
+            ajax_buffer.pop(patient_session_id)
     return HttpResponse(request.POST)
