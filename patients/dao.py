@@ -93,6 +93,10 @@ def del_patient_base_info_byPK(patient_id):
         patients_models.BPatientBaseInfo.objects.filter(pk=patient_id).first().delete()
 
 
+#高危信息表
+def add_patient_ghr(rPatientGhr):
+    rPatientGhr.save()
+
 ################ get 部分 ################
 ################ get 部分 ################
 ################ get 部分 ################

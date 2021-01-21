@@ -288,6 +288,11 @@
                              </table>
                              </div>
                             </div>
+                            <div class="row">
+                                    <div class="col-md-12 col-sm-12">
+                                            <a  style="float: left;font-weight: bold">总分：{{ bprs_answer.total_score }}</a>
+                                        </div>
+                                </div>
                              <div class="row">
                                     <div  class="col-md-4 col-md-offset-4 col-sm-6" style="display: none" id="bprs_bt">
                                              {% csrf_token %}
@@ -353,24 +358,64 @@
 
 {% block js %}
     <script>
-        $("input[name='health_care']").eq({{ bprs_answer.health_care }}).attr("checked","checked");
-        $("input[name='anxious']").eq({{ bprs_answer.anxious }}).attr("checked","checked");
-        $("input[name='emocommunicat_barrier']").eq({{ bprs_answer.emocommunicat_barrier }}).attr("checked","checked");
-        $("input[name='conceptual_disorder']").eq({{ bprs_answer.conceptual_disorder }}).attr("checked","checked");
-        $("input[name='guilt_concept']").eq({{ bprs_answer.guilt_concept }}).attr("checked","checked");
-        $("input[name='nervous']").eq({{ bprs_answer.nervous }}).attr("checked","checked");
-        $("input[name='look_act']").eq({{ bprs_answer.look_act }}).attr("checked","checked");
-        $("input[name='exaggerate']").eq({{ bprs_answer.exaggerate }}).attr("checked","checked");
-        $("input[name='mood_depression']").eq({{ bprs_answer.mood_depression }}).attr("checked","checked");
-        $("input[name='hostility']").eq({{ bprs_answer.hostility }}).attr("checked","checked");
-        $("input[name='suspicion']").eq({{ bprs_answer.suspicion }}).attr("checked","checked");
-        $("input[name='hallucination']").eq({{ bprs_answer.hallucination }}).attr("checked","checked");
-        $("input[name='slow_movement']").eq({{ bprs_answer.slow_movement }}).attr("checked","checked");
-        $("input[name='no_cooperation']").eq({{ bprs_answer.no_cooperation }}).attr("checked","checked");
-        $("input[name='unusual_thinking']").eq({{ bprs_answer.unusual_thinking }}).attr("checked","checked");
-        $("input[name='feeling_flat']").eq({{ bprs_answer.feeling_flat }}).attr("checked","checked");
-        $("input[name='excitement']").eq({{ bprs_answer.excitement }}).attr("checked","checked");
-        $("input[name='directional_disorder']").eq({{ bprs_answer.directional_disorder }}).attr("checked","checked");
+        if('{{ bprs_answer }}'!='None'){
+
+           if('{{ bprs_answer.health_care }}'!='None'){
+               $("input[name='health_care'][value="+Number({{ bprs_answer.health_care }})+"]").prop("checked",true);
+           }
+           if('{{ bprs_answer.anxious }}'!='None'){
+               $("input[name='anxious'][value="+Number({{ bprs_answer.anxious }})+"]").prop("checked",true);
+           }
+           if('{{ bprs_answer.emocommunicat_barrier }}'!='None'){
+               $("input[name='emocommunicat_barrier'][value="+Number({{ bprs_answer.emocommunicat_barrier }})+"]").prop("checked",true);
+           }
+           if('{{ bprs_answer.conceptual_disorder }}'!='None'){
+               $("input[name='conceptual_disorder'][value="+Number({{ bprs_answer.conceptual_disorder }})+"]").prop("checked",true);
+           }
+           if('{{ bprs_answer.guilt_concept }}'!='None'){
+               $("input[name='guilt_concept'][value="+Number({{ bprs_answer.guilt_concept }})+"]").prop("checked",true);
+           }
+           if('{{ bprs_answer.nervous }}'!='None'){
+               $("input[name='nervous'][value="+Number({{ bprs_answer.nervous }})+"]").prop("checked",true);
+           }
+           if('{{ bprs_answer.look_act }}'!='None'){
+               $("input[name='look_act'][value="+Number({{ bprs_answer.look_act }})+"]").prop("checked",true);
+           }
+           if('{{ bprs_answer.exaggerate }}'!='None'){
+               $("input[name='exaggerate'][value="+Number({{ bprs_answer.exaggerate }})+"]").prop("checked",true);
+           }
+           if('{{ bprs_answer.mood_depression }}'!='None'){
+               $("input[name='mood_depression'][value="+Number({{ bprs_answer.mood_depression }})+"]").prop("checked",true);
+           }
+           if('{{ bprs_answer.hostility }}'!='None'){
+               $("input[name='hostility'][value="+Number({{ bprs_answer.hostility }})+"]").prop("checked",true);
+           }
+           if('{{ bprs_answer.suspicion }}'!='None'){
+               $("input[name='suspicion'][value="+Number({{ bprs_answer.suspicion }})+"]").prop("checked",true);
+           }
+           if('{{ bprs_answer.hallucination }}'!='None'){
+               $("input[name='hallucination'][value="+Number({{ bprs_answer.hallucination }})+"]").prop("checked",true);
+           }
+           if('{{ bprs_answer.slow_movement }}'!='None'){
+               $("input[name='slow_movement'][value="+Number({{ bprs_answer.slow_movement }})+"]").prop("checked",true);
+           }
+           if('{{ bprs_answer.no_cooperation }}'!='None'){
+               $("input[name='no_cooperation'][value="+Number({{ bprs_answer.no_cooperation }})+"]").prop("checked",true);
+           }
+           if('{{ bprs_answer.unusual_thinking }}'!='None'){
+               $("input[name='unusual_thinking'][value="+Number({{ bprs_answer.unusual_thinking }})+"]").prop("checked",true);
+           }
+           if('{{ bprs_answer.feeling_flat }}'!='None'){
+               $("input[name='feeling_flat'][value="+Number({{ bprs_answer.feeling_flat }})+"]").prop("checked",true);
+           }
+           if('{{ bprs_answer.excitement }}'!='None'){
+               $("input[name='excitement'][value="+Number({{ bprs_answer.excitement }})+"]").prop("checked",true);
+           }
+           if('{{ bprs_answer.directional_disorder }}'!='None'){
+               $("input[name='directional_disorder'][value="+Number({{ bprs_answer.directional_disorder }})+"]").prop("checked",true);
+           }
+        }
+
 
 
 

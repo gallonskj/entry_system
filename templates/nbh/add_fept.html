@@ -248,7 +248,9 @@
 
 									</div>
 									<div  class="col-md-4 col-sm-6 text-center" style="text-align: center">
-                                        <a  href="#"><button type="button" class="btn btn-warning" id="bt_return">返回上一量表</button></a>
+                                        <a  href="/scales/get_last_url?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}"
+                                            id="last_scale">
+										<button type="button" class="btn btn-warning" id="bt_return">返回上一量表</button></a>
                                     </div>
                                     <div  class="col-md-4 col-sm-6">
                                      {% csrf_token %}
@@ -269,7 +271,15 @@
         </div>
 	 </div>
 
+<script>
+	function getData(){
+		var order = "{{ order }}"
+		if(order==0){
+			$("#last_scale").attr("style", "display:none;");
+		}
 
+	}
+</script>
 {% endblock %}
 {% block js %}
 <script type="text/javascript" src="{% static '/js/jquery-radio-beauty.js'%}"></script>

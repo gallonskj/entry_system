@@ -227,27 +227,139 @@
                             </div>
                             <br>
 
-                           <div class=" row">
-                                <div  class="col-md-4 col-sm-6 text-center" style="text-align: center">
-                                   <a  href="#"><button type="button" class="btn btn-warning" id="bt_return">返回上一量表</button></a>
-                                </div>
-                                <div  class="col-md-4 col-sm-6">
-                                     {% csrf_token %}
-                                    <input  type="submit" class="btn btn-success text-center"  value="保存提交量表" >
-                                </div>
-                                 <div class="col-md-4 col-sm-6">
-                                     <a href="/scales/skip_scale?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{scale_id}}"  style="float: right"><u>跳过该量表</u></a>
-                                 </div>
-                            </div>
                         </div>
 
+                            <br>
+                            <div class=" result row" style="display: none">
+                                <div class="col-md-12 col-sm-12">
+                                    <a  style="float: left;font-weight: bold">总分：{{ patient_baseinfo_chi.result }}</a>
+                                </div>
+                            </div>
+
+
+
+                        {#0.重做按钮组合#}
+                    <div class="row" id="redo_bt_group">
+                        <div class="col-md-4 col-sm-6 text-center" style="text-align: center">
+                            <a href="/scales/get_last_baseinfo_url?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}"
+                               id="last_scale0">
+                                <button type="button" class="btn btn-warning" id="bt_return">返回上一量表</button>
+                            </a>
+                        </div>
+                        <div class="col-md-4 col-sm-6">
+                            {% csrf_token %}
+                            <input type="submit" class="btn btn-success text-center" value="保存提交量表" id="other_bt">
+                        </div>
+                        <div class="col-md-4 col-sm-6">
+                            <a href="/scales/skip_scale?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}"
+                               style="float: right"><u>跳过该量表</u></a>
+                        </div>
+                    </div>
+                        {#1.展示按钮组合#}
+                    <div class="row" id="bt_group" style="display: none">
+                            <div  class="col-md-4 col-sm-6 text-center"  >
+                               <a  href="/scales/get_last_baseinfo_url?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}"
+                               id="last_scale">
+                                   <button type="button" class="btn btn-warning" id="bt_return">返回上一量表</button>
+                               </a>
+                            </div>
+
+                            <div  class="col-md-4 col-sm-6" id="next_scale" >
+                                 {% csrf_token %}
+                                <a href="/scales/get_next_baseinfo_url?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}">
+                                    <input  type="button" class="btn btn-success text-center"  value="进入下一量表"  >
+                                </a>
+                            </div>
+                            <div  class="col-md-4 col-sm-6" id="next_scale_final" >
+                                     {% csrf_token %}
+                                <a href="/scales/select_scales?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}">
+                                    <input  type="button" class="btn btn-success text-center"  value="进入下一量表"  >
+                                </a>
+                            </div>
+                            <div class="col-md-4 col-sm-6">
+                                <a onclick="remove_disabled()"  style="float: right"><u>修改</u></a>
+                            </div>
+                    </div>
                         </form>
 				  </div>
 				</div>
 			</div>
 		</div>
 	</div>
-	
+  <script>
+       function getData(){
+           var order = "{{ order }}";
+            if (order == 0) {
+                $("#last_scale0").attr("style", "display:none;");
+            }
+           var do_type="{{ do_type }}";
+           if(do_type=='1')
+           {
+               if('{{ patient_baseinfo_chi }}'!='None') {
+
+                   {#数据填充 读数据#}
+                   if ('{{ patient_baseinfo_chi.hold_pen }}' != 'None') {
+                       $("input[name='hold_pen'][value=" + Number({{ patient_baseinfo_chi.hold_pen }}) + "]").prop("checked", true);
+                   }
+                   if ('{{ patient_baseinfo_chi.hold_chopsticks }}' != 'None') {
+                       $("input[name='hold_chopsticks'][value=" + Number({{ patient_baseinfo_chi.hold_chopsticks }}) + "]").prop("checked", true);
+                   }
+                   if ('{{ patient_baseinfo_chi.throw_things }}' != 'None') {
+                       $("input[name='throw_things'][value=" + Number({{ patient_baseinfo_chi.throw_things }}) + "]").prop("checked", true);
+                   }
+                   if ('{{ patient_baseinfo_chi.brush_tooth }}' != 'None') {
+                       $("input[name='brush_tooth'][value=" + Number({{ patient_baseinfo_chi.brush_tooth }}) + "]").prop("checked", true);
+                   }
+                   if ('{{ patient_baseinfo_chi.use_scissors }}' != 'None') {
+                       $("input[name='use_scissors'][value=" + Number({{ patient_baseinfo_chi.use_scissors }}) + "]").prop("checked", true);
+                   }
+                   if ('{{ patient_baseinfo_chi.use_match }}' != 'None') {
+                       $("input[name='use_match'][value=" + Number({{ patient_baseinfo_chi.use_match }}) + "]").prop("checked", true);
+                   }
+                   if ('{{ patient_baseinfo_chi.use_needle }}' != 'None') {
+                       $("input[name='use_needle'][value=" + Number({{ patient_baseinfo_chi.use_needle }}) + "]").prop("checked", true);
+                   }
+                   if ('{{ patient_baseinfo_chi.hold_hammer }}' != 'None') {
+                       $("input[name='hold_hammer'][value=" + Number({{ patient_baseinfo_chi.hold_hammer }}) + "]").prop("checked", true);
+                   }
+                   if ('{{ patient_baseinfo_chi.hold_racket }}' != 'None') {
+                       $("input[name='hold_racket'][value=" + Number({{ patient_baseinfo_chi.hold_racket }}) + "]").prop("checked", true);
+                   }
+                   if ('{{ patient_baseinfo_chi.wash_face }}' != 'None') {
+                       $("input[name='wash_face'][value=" + Number({{ patient_baseinfo_chi.wash_face }}) + "]").prop("checked", true);
+                   }
+               }
+               {#锁住#}
+               $("input[name='hold_pen']").attr("disabled","disabled")
+               $("input[name='hold_chopsticks']").attr("disabled","disabled");
+               $("input[name='throw_things']").attr("disabled","disabled");
+               $("input[name='brush_tooth']").attr("disabled","disabled");
+               $("input[name='use_scissors']").attr("disabled","disabled");
+               $("input[name='use_match']").attr("disabled","disabled");
+               $("input[name='use_needle']").attr("disabled","disabled");
+               $("input[name='hold_hammer']").attr("disabled","disabled");
+               $("input[name='hold_racket']").attr("disabled","disabled");
+               $("input[name='wash_face']").attr("disabled","disabled");
+               $("#bt_group").attr("style","display:block;");
+               $("#redo_bt_group").attr("style","display:none;");
+
+               var order = "{{ order }}";
+               if(order==0){{% comment %}第一个{% endcomment %}
+                   $("#last_scale").attr("style","display:none;");
+                   $("#next_scale_final").attr("style","display:none;");
+                   $("#next_scale").attr("style","display:block;");
+               }else if(order==1){{% comment %}最后一个{% endcomment %}
+                   $("#last_scale").attr("style","display:block;");
+                   $("#next_scale_final").attr("style","display:block;");
+                   $("#next_scale").attr("style","display:none;");
+               }else{{# 啥也不是 #}
+                   $("#last_scale").attr("style","display:block;");
+                   $("#next_scale_final").attr("style","display:none;");
+                   $("#next_scale").attr("style","display:block;");
+                }
+           }
+       }
+    </script>
 
 
 {% endblock %}
@@ -260,7 +372,7 @@ $(document).ready(function(){
 	$("input[type='radio']").labelauty();
 });
 </script>
-<script type="text/javascript">
+{% comment %}<script type="text/javascript">
       function myCheck(chiform)
       {
           if (document.chiform.hold_pen.value=="") {
@@ -307,5 +419,22 @@ $(document).ready(function(){
           alert("提交成功！");
           return true;
       }
-    </script>    
+    </script>{% endcomment %}
+<script>
+ function remove_disabled(){
+       $("input[name='hold_pen']").removeAttr("disabled","disabled");
+       $("input[name='hold_chopsticks']").removeAttr("disabled","disabled");
+       $("input[name='throw_things']").removeAttr("disabled","disabled");
+       $("input[name='brush_tooth']").removeAttr("disabled","disabled");
+       $("input[name='use_scissors']").removeAttr("disabled","disabled");
+       $("input[name='use_match']").removeAttr("disabled","disabled");
+       $("input[name='use_needle']").removeAttr("disabled","disabled");
+       $("input[name='hold_hammer']").removeAttr("disabled","disabled");
+       $("input[name='hold_racket']").removeAttr("disabled","disabled");
+       $("input[name='wash_face']").removeAttr("disabled","disabled");
+     $("#redo_bt_group").removeAttr("style","display:none;");
+     $("#other_bt").attr("style","display:block;");
+     $("#bt_group").attr("style","display:none;");
+    }
+</script>
 {% endblock %}

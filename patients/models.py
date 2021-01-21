@@ -102,3 +102,19 @@ class DPatientAppointment(models.Model):
     class Meta:
         managed = False
         db_table = 'd_patient_appointment'
+
+
+class RPatientGhr(models.Model):
+    ghr_id = models.IntegerField()
+    patient_session_id = models.IntegerField(blank=True, null=True)
+    diagnosis = models.IntegerField(blank=True, null=True)
+    kinship = models.IntegerField(blank=True, null=True)
+    doctor_id = models.IntegerField()
+    create_time = models.DateTimeField(auto_now_add=True)
+    update_time = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        managed = False
+        db_table = 'r_patient_ghr'
+
+

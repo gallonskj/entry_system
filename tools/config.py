@@ -26,6 +26,14 @@ rbans = 22  # 重复成套性神经心理状态测验系统
 fept = 23  # 面孔情绪感知能力测试
 vept = 24  # 语音情绪感知能力测试
 mediacal_history = 25
+'''#### 获取他评的题数 ####'''
+other_test_scale_num={
+    '7': 17,#hamd_17
+    '8': 14,#hama
+    '9': 11,#ymrs
+    '10': 18#bprs
+}
+
 
 scales_html_dict = {1: '/scales/get_family_form',
                     2: '/scales/get_study_form',
@@ -54,13 +62,7 @@ scales_html_dict = {1: '/scales/get_family_form',
                     25: '/scales/get_patient_medical_history_form'
                     }
 
-check_scales_html_dict = {1: '/scales/get_check_family_form',
-                          2: '/scales/get_check_study_form',
-                          3: '/scales/get_check_health_form',
-                          4: '/scales/get_check_abuse_form',
-                          5: '/scales/get_check_other_form',
-                          6: '/scales/get_check_chi_form',
-                          7: '/scales/get_check_hamd_17_form',
+check_scales_html_dict = {7: '/scales/get_check_hamd_17_form',
                           8: '/scales/get_check_hama_form',
                           9: '/scales/get_check_ymrs_form',
                           10: '/scales/get_check_bprs_form',
@@ -96,3 +98,7 @@ adult_age = 18
 '''###################  disease_type_dict  ###################'''
 disease_type_dict = {0: '未诊断', 1: '健康者', 2: '重性抑郁障碍', 3: '焦虑障碍', 4: '双相障碍', 5: '精神分裂症', 6: '强迫症',
                      7: '高危遗传', 8: '临床高危', 9: '抑郁症状', 99: '其他诊断'}
+
+
+STATE_FINISHED = 1
+STATE_UNFINISHED = 0

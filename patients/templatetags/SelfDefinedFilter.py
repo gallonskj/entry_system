@@ -8,6 +8,7 @@
 from django import template
 from tools import idAssignments
 from tools import config
+import patients.models as patients_models
 register = template.Library()
 
 
@@ -41,7 +42,21 @@ def get_diagnosis_by_object(patient):
     if patient.diagnosis == 99:
         return patient.other_diagnosis
     else:
-        return config.disease_type_dict[patient.diagnosis]
+        str=config.disease_type_dict[patient.diagnosis]
+        if str=='高危遗传':
+            s=str
+            all_list = patients_models.RPatientGhr.objects.filter(ghr_id=patient.id)
+            if all_list.count()!=0:
+                s+='('
+                for list in all_list:
+                    s+=config.disease_type_dict[list.diagnosis]
+                    s+=";"
+                s+=')'
+
+            return s
+        else:
+            return str
+
 
 @register.filter(name='get_scale_url')
 def get_scale_url(scale_detail):
@@ -60,4 +75,24 @@ def check_scale(scale_detail):
     patient_id = scale_detail['patient_session_id__patient_id']
     next_page_url = config.check_scales_html_dict[int(scale_id)]
     redirect_url = '{}?patient_session_id={}&patient_id={}'.format(next_page_url, str(patient_session_id), str(patient_id))
+    return redirect_url
+
+#进入个人一般信息重做页面
+@register.filter(name='get_baseinfo_redo_scale_url')
+def get_baseinfo_redo_scale_url(scale_detail):
+    scale_id = scale_detail['scale_id']
+    patient_session_id = scale_detail['patient_session_id']
+    patient_id = scale_detail['patient_session_id__patient_id']
+    next_page_url = config.scales_html_dict[int(scale_id)]
+    redirect_url = '{}?patient_session_id={}&patient_id={}&do_type=0'.format(next_page_url, str(patient_session_id), str(patient_id))
+    return redirect_url
+
+#进入个人一般信息查看页面
+@register.filter(name='get_baseinfo_check_scale_url')
+def get_baseinfo_check_scale_url(scale_detail):
+    scale_id = scale_detail['scale_id']
+    patient_session_id = scale_detail['patient_session_id']
+    patient_id = scale_detail['patient_session_id__patient_id']
+    next_page_url = config.scales_html_dict[int(scale_id)]
+    redirect_url = '{}?patient_session_id={}&patient_id={}&do_type=1'.format(next_page_url, str(patient_session_id), str(patient_id))
     return redirect_url

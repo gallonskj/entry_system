@@ -124,30 +124,56 @@
                             <div class="form-group row other_description">
                                 <label class="control-label col-md-1 col-sm-1">描述<span class="required">:</span></label>
                                 <div class="col-md-11 col-sm-11 form-group  ">
-                        <textarea rows="3" cols="20" id="patient_big_event_describtion"
-                                  name="patient_big_event_describtion" class="form-control">
-                        </textarea>
+                                <textarea rows="3" cols="20" id="patient_big_event_describtion"
+                                          name="patient_big_event_describtion" class="form-control">
+                                </textarea>
                                 </div>
                             </div>
 
                             <br>
                         </div>
-                        <div class=" row">
-                            <div class="col-md-4 col-sm-6 text-center" style="text-align: center">
-                                <a href="#">
-                                    <button type="button" class="btn btn-warning" id="bt_return">返回上一量表</button>
+                        {#0.重做按钮组合#}
+                    <div class="row" id="redo_bt_group">
+                        <div class="col-md-4 col-sm-6 text-center" style="text-align: center">
+                            <a href="/scales/get_last_baseinfo_url?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}"
+                               id="last_scale0">
+                                <button type="button" class="btn btn-warning" id="bt_return">返回上一量表</button>
+                            </a>
+                        </div>
+                        <div class="col-md-4 col-sm-6">
+                            {% csrf_token %}
+                            <input type="submit" class="btn btn-success text-center" value="保存提交量表" id="other_bt">
+                        </div>
+                        <div class="col-md-4 col-sm-6">
+                            <a href="/scales/skip_scale?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}"
+                               style="float: right"><u>跳过该量表</u></a>
+                        </div>
+                    </div>
+                        {#1.展示按钮组合#}
+                    <div class="row" id="bt_group" style="display: none">
+                            <div  class="col-md-4 col-sm-6 text-center"  >
+                               <a  href="/scales/get_last_baseinfo_url?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}"
+                               id="last_scale">
+                                   <button type="button" class="btn btn-warning" id="bt_return">返回上一量表</button>
+                               </a>
+                            </div>
+
+                            <div  class="col-md-4 col-sm-6" id="next_scale" >
+                                 {% csrf_token %}
+                                <a href="/scales/get_next_baseinfo_url?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}">
+                                    <input  type="button" class="btn btn-success text-center"  value="进入下一量表"  >
                                 </a>
                             </div>
-                            <div class="col-md-4 col-sm-6">
-                                {% csrf_token %}
-                                <input type="submit" class="btn btn-success text-center" value="保存提交量表">
+                            <div  class="col-md-4 col-sm-6" id="next_scale_final" >
+                                     {% csrf_token %}
+                                    <a href="/scales/select_scales?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}">
+                                        <input  type="button" class="btn btn-success text-center"  value="进入下一量表"  >
+                                    </a>
                             </div>
                             <div class="col-md-4 col-sm-6">
-                                <a href="/scales/skip_scale?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{scale_id}}"
-                                   style="float: right"><u>跳过该量表</u></a>
+                                <a onclick="remove_disabled()"  style="float: right"><u>修改</u></a>
                             </div>
-                        </div>
-
+                    </div>
 
                     </form>
                 </div>
@@ -156,7 +182,56 @@
         </div>
     </div>
 </div>
+  <script>
+       function getData(){
+           var order = "{{ order }}";
+            if (order == 0) {
+                $("#last_scale0").attr("style", "display:none;");
+            }
+           var do_type="{{ do_type }}";
+           if(do_type=='1')
+           {
+               if('{{ patient_baseinfo_other }}'!='None') {
 
+                   {#数据填充 读数据#}
+                   var patient_friend_num = Number("{{ patient_baseinfo_other.patient_friend_num }}");
+                   $("input[name='patient_friend_num'][value=" + patient_friend_num + "]").prop("checked", true);
+
+                   var patient_big_event = Number("{{ patient_baseinfo_other.patient_big_event }}");
+                   $("input[name='patient_big_event'][value=" + patient_big_event + "]").prop("checked", true);
+                   if (patient_big_event == 0) {
+                       $(".other_description").attr("style", "display:none;");
+                       document.getElementById("patient_big_event_describtion").value = ""
+                   } else if (patient_big_event == 1) {
+                       $(".other_description").removeAttr("style", "display:none;");
+                       document.getElementById("patient_big_event_describtion").value = "{{ patient_baseinfo_other.patient_big_event_describtion|processNone }}"
+                   }
+
+               }
+               {#锁住#}
+               $("input[name='patient_friend_num']").attr("disabled","disabled");
+               $("input[name='patient_big_event']").attr("disabled","disabled");
+               $("textarea[name='patient_big_event_describtion']").attr("disabled","disabled");
+               $("#bt_group").attr("style","display:block;");
+               $("#redo_bt_group").attr("style","display:none;");
+
+               var order = "{{ order }}";
+               if(order==0){{% comment %}第一个{% endcomment %}
+                   $("#last_scale").attr("style","display:none;");
+                   $("#next_scale_final").attr("style","display:none;");
+                   $("#next_scale").attr("style","display:block;");
+               }else if(order==1){{% comment %}最后一个{% endcomment %}
+                   $("#last_scale").attr("style","display:block;");
+                   $("#next_scale_final").attr("style","display:block;");
+                   $("#next_scale").attr("style","display:none;");
+               }else{{# 啥也不是 #}
+                   $("#last_scale").attr("style","display:block;");
+                   $("#next_scale_final").attr("style","display:none;");
+                   $("#next_scale").attr("style","display:block;");
+                }
+           }
+       }
+    </script>
 
 {% endblock %}
 
@@ -186,7 +261,7 @@ $(document).ready(function() {
         }
     });
 });
-      function myCheck(otherform)
+    {% comment %}  function myCheck(otherform)
       {
           if (document.otherform.patient_friend_num.value=="") {
               alert("问题一不能为空！");
@@ -194,8 +269,16 @@ $(document).ready(function() {
           }
           alert("提交成功！");
           return true;
-      }
-
-
+      }{% endcomment %}
+</script>
+<script>
+ function remove_disabled(){
+     $("input[name='patient_friend_num']").removeAttr("disabled","disabled");
+     $("input[name='patient_big_event']").removeAttr("disabled","disabled");
+     $("textarea[name='patient_big_event_describtion']").removeAttr("disabled","disabled");
+     $("#redo_bt_group").removeAttr("style","display:none;");
+     $("#other_bt").attr("style","display:block;");
+     $("#bt_group").attr("style","display:none;");
+    }
 </script>
 {% endblock %}

@@ -1,7 +1,6 @@
 {% extends 'templates/index.html' %}
 {% load static %}
 {% block title %}新建被试{% endblock %}
-
 {% block css %}
     <link href="{% static '/vendors/iCheck/skins/flat/green.css' %}" rel="stylesheet">
     <link href="{% static '/css/scales_style.css' %}" rel="stylesheet">
@@ -91,17 +90,21 @@
                                             {% if scale_detail|get_item:'scale__do_scale_type' == 0 %}
                                                 <tr>
                                                     <td>{{ scale_detail|get_item:'scale__scale_name' }}</td>
-                                                    {% if scale_detail|get_item:'state' == 1 %}
-                                                        <td>{{ scale_detail|get_item:'end_time' }}</td>
-                                                        <td>已完成</td>
-                                                        <td><a href={{ scale_detail|get_baseinfo_redo_scale_url  }}>重做</a></td>
-                                                        <td><a href={{ scale_detail|get_baseinfo_check_scale_url }}>查看</a></td>
-                                                    {% else %}
-                                                        <td>-</td>
-                                                        <td>未完成</td>
-                                                        <td><a href={{ scale_detail|get_scale_url }}>续做</a></td>
-                                                        <td>-</td>
-                                                    {% endif %}
+                                                    <td>{{ scale_detail|get_item:'end_time' }}</td>
+
+
+                                                        {% if scale_detail|get_item:'state' == 1 %}
+                                                            <td> 已完成</td>
+                                                            <td><a href={{ scale_detail|get_baseinfo_redo_scale_url }}>重做</a></td>
+                                                            <td><a href={{ scale_detail|get_baseinfo_check_scale_url }}>查看</a></td>
+                                                        {% else %}
+                                                            <td> 未完成</td>
+                                                            <td><a href={{ scale_detail|get_baseinfo_redo_scale_url }}>续做</a></td>
+                                                            <td><a >-</a></td>
+                                                        {% endif %}
+
+
+
                                                 </tr>
                                             {% endif %}
                                         {% endfor %}
@@ -190,8 +193,8 @@
                                             <th>测查种类</th>
                                             <th>测查时间</th>
                                             <th>状态</th>
-                                            <th>重做</th>
                                             <th>操作</th>
+                                            <th>查看</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -244,8 +247,8 @@
                                             <th>测查种类</th>
                                             <th>测查时间</th>
                                             <th>状态</th>
+                                            <th>续做</th>
                                             <th>操作</th>
-                                            <th>查看</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -253,16 +256,15 @@
                                             {% if scale_detail|get_item:'scale__do_scale_type' == 3 %}
                                                 <tr>
                                                     <td>{{ scale_detail|get_item:'scale__scale_name' }}</td>
-
                                                     {% if scale_detail|get_item:'state' == 1 %}
                                                         <td>{{ scale_detail|get_item:'end_time' }}</td>
                                                         <td>已完成</td>
                                                         <td><a href={{ scale_detail|get_scale_url }}>重做</a></td>
-                                                        <td><a href={{ scale_detail|check_scale }}>查看</a></td>
+                                                        <td>-</td>
                                                     {% else %}
                                                         <td>-</td>
                                                         <td>未完成</td>
-                                                        <td><a href={{ scale_detail|get_scale_url }} >续做</a></td>
+                                                        <td><a href={{ scale_detail|get_scale_url }}>续做</a></td>
                                                         <td>-</td>
                                                     {% endif %}
                                                 </tr>
@@ -280,9 +282,6 @@
         <!-- 认知表量表详细模态框 结束-->
     {% endfor %}
 
-
-
-    <!-- 详细信息模态框 开始 -->
     <!-- 详细信息模态框 开始 -->
     {% for patient_detail in patient_detail_res %}
         <div class="modal fade" id="modal_detail_{{ forloop.counter }}" role="dialog" aria-labelledby="myModalLabel"
@@ -611,7 +610,6 @@
     </script>
     {% endfor %}
     <!-- 详细信息模态框模态框 结束-->
-    <!-- 详细信息模态框模态框 结束-->
 
     <div class="right_col" role="main">
         <div class="row " style="margin-left:-20px">
@@ -653,9 +651,9 @@
 
 
 
-                                <div class="form-group" >
-                                    <label class="control-label col-md-2 col-sm-2 col-xs-12" for="subject_number" >诊断情况<span class="required">*:</span></label>
-                                    <div class="  col-md-2 col-sm-2 col-xs-12" style="padding-top: 7px;margin-bottom: 0;text-align: left">
+                                <div class="form-group">
+                                    <label class="control-label col-md-2 col-sm-2 col-xs-12" for="subject_number">诊断情况<span class="required">*:</span></label>
+                                    <div class="col-md-2 col-sm-2 col-xs-12" style="padding-top: 7px;margin-bottom: 0;text-align: left">
                                     <select name="diagnosis" id="diagnosis" class="sel_beauty"  onchange="judge_diagnosis(this)">
                                         <option value=0>&nbsp;&nbsp;&nbsp;未诊断</option>
                                         <option value=1>&nbsp;&nbsp;&nbsp;健康者</option>
@@ -669,17 +667,8 @@
                                         <option value=9>&nbsp;&nbsp;&nbsp;抑郁症状</option>
                                         <option value=99>&nbsp;&nbsp;&nbsp;其他诊断</option>
                                     </select>
-
                                     </div>
-
                                 </div>
-                                <div id="ghr_label_div" class="form-group" style="display: none;">
-                                <label class="control-label col-md-2 col-sm-2 col-xs-12" for="subject_number">高危类型<span class="required">*:</span></label>
-                                     <div id="ghr_diagnosis_p"  class="form-group col-md-10 col-sm-2 col-xs-12" style="display: none; ">
-                                         <p id="ghr_diagnosis_div"> </p>
-                                </div>
-                                        </div>
-
                                 <div class="form-group" id="other_diagnosis_div" style="display: none">
                                     <label class="control-label col-md-2 col-sm-2 col-xs-6" for="subject_number">其他诊断<span class="required">*:</span></label>
                                     <div class="col-md-2 col-sm-3 form-group has-feedback row" style="width: 15%;margin-top: 7px;">
@@ -779,13 +768,12 @@
                                     </thead>
                                     <tbody>
                                     {% for patient_detail in patient_detail_res %}
-
                                         {% if patient_detail|get_item:'session_id'|divisibleby:"2" %}
                                             <tr class="success">
                                                 {% else %}
                                             <tr>
                                         {% endif %}
-                                       <td><a href="#modal_detail_{{ forloop.counter }}" data-toggle="modal" style="text-decoration: underline">{{ patient_detail.standard_id }}</a></td>
+                                    <td><a href="#modal_detail_{{ forloop.counter }}" data-toggle="modal" style="text-decoration: underline">{{ patient_detail.standard_id }}</a></td>
                                     <td>
                                         {{ patient_detail|get_item:'create_time' }}
                                     </td>
@@ -832,74 +820,25 @@
             </div>
         </div>
     </div>
+
+
 {% endblock %}
-
 {% block js %}
-
-
-     <script src="{% static '/js/layerJquery.js' %}"></script>
-    <script src="{% static '/js/layer.js' %}"></script>
     <script type="text/javascript" src="{% static '/js/jquery-radio-beauty.js' %}"></script>
      <script>
         $(document).ready(function () {
             $("input[type='radio']").labelauty();
         });
     </script>
+
+
+
     <script type="text/javascript" language="JavaScript">
 
         $(document).ready(function () {
             document.getElementById("patient_id").innerHTML = 'NN_' + formatZero({{ patient_id }}, 8)
             document.getElementById("diagnosis").value={{ diagnosis }};
             var diagnosistype ={{ diagnosis }};
-
-            if(diagnosistype==7)
-            {
-
-                  document.getElementById("ghr_label_div").style.display = "";
-                  document.getElementById("ghr_diagnosis_p").style.display = "";
-                    var j={{ num_ghr }};
-                  for(i=1;i<=j;i++ ) {
-
-                      var txt1 = document.createElement("p");
-                      var str = "";
-                      str += "<div   class=col-md-6 style=margin: 10px; >"
-                      str += "<select tabindex=-1 style=font-size: 10px ; class=sel_beauty  form-control   id=ghr_diagnosis" + i + " name=diagnosis_" + i + ">"
-                      str += "<option  value=2>" + '重性抑郁障碍';
-                      str += "<option  value=3>" + '焦虑障碍';
-                      str += "<option  value=4>" + '双相障碍';
-                      str += "<option  value=5>" + '精神分裂症';
-                      str += "<option  value=6>" + '强迫症';
-                      str += "<option  value=8>" + '临床高危';
-                      str += "<option  value=9>" + '抑郁症状';
-                      str += "<option  value=99>" + '其他诊断';
-
-                      str += "</select>";
-                      str += "</div>";
-                      txt1.innerHTML = str;
-
-                      var txt2=document.createElement("p");
-                      var str2 = "" ;
-                      str2+="<div   class=col-md-6  style=margin: 10px  >"
-                      str2+="<select tabindex=-1 style=font-size: 10px ;  disabled class=sel_beauty select2_single form-control readonly id=ghr_kinship"+i+" name=kinship_"+i+ ">"
-                      str2+="<option  value=0>"+'父亲';
-                      str2+="<option  value=1>"+'母亲';
-                      str2+="<option  value=2>"+'儿子';
-                      str2+="<option  value=3>"+'女儿';
-                      str2+="<option  value=4>"+'哥哥';
-                      str2+="<option  value=5>"+'弟弟';
-                      str2+="<option  value=6>"+'姐姐';
-                      str2+="<option  value=7>"+'妹妹';
-                      str2+="</select>";
-                      str2+="</div>";
-                      txt2.innerHTML=str2;
-
-                      $("#ghr_diagnosis_div").append(txt1,txt2);
-
-                     document.getElementById("ghr_diagnosis"+i+"").value={{ ghr_diagnosis }}[i-1];
-                      document.getElementById("ghr_kinship"+i+"").value={{ ghr_kinship }}[i-1];
-
-                  }
-            }
             if(diagnosistype == 99)
               document.getElementById("other_diagnosis_div").style.display = ""
         });
@@ -933,21 +872,8 @@
         }
 
         $("#change_detail").click(function (){
-
-            var j={{ num_ghr }};
-            for(i=1;i<=j;i++ ) {
-                $("#ghr_kinship"+i+"").removeAttr("disabled");
-                  }
-            $("#change_detail").submit();
+            $("#change_detail").submit()
         })
-
-
-
-
-
-          $('#myModal').modal('hide');
-
-
 
     </script>
 
