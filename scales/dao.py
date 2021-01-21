@@ -38,16 +38,16 @@ def update_rscales_skip(patient_session_id, scale_id, state):
 #######################################################################################
 
 # 病人病史表
-def add_medical_history(rPatientMedicalHistory):
+def add_medical_history(rPatientMedicalHistory,state):
     # 插入前的级联检验
     # 存入数据库
     rPatientMedicalHistory.save()
-    update_rscales_state(rPatientMedicalHistory.patient_session_id, rPatientMedicalHistory.scale_id)
+    update_rscales_state(rPatientMedicalHistory.patient_session_id, rPatientMedicalHistory.scale_id,state)
 
 def add_drugs_information(rPatientDrugsInformation):
     rPatientDrugsInformation.save()
 # 汉密尔顿焦虑量表
-def add_hamd_database(rPatientHAMD17):
+def add_hamd_database(rPatientHAMD17,state):
     # 计算量表得分
     rPatientHAMD17.total_score, object_flag = tools_calculatingScores.HAMD17_total_score(rPatientHAMD17)
     # 量表得分检验
@@ -341,11 +341,15 @@ def get_patient_medical_history_byPatientId(patient_detail_id):
     else:
         return patient_medical_history[0]
 
+
+
 # r_patient_drugs_information 表
 def get_patient_drugs_information_byPatientId(patient_detail_id):
-    patient_drugs_information_list = scales_models.RPatientDrugsInformation.objects.filter(
-        patient_session=patient_detail_id)
-    return patient_drugs_information_list
+    historical_drugs_information_list = scales_models.RPatientDrugsInformation.objects.all().filter(patient_session=patient_detail_id,type='0')
+    scanning_drugs_information_list = scales_models.RPatientDrugsInformation.objects.all().filter(patient_session=patient_detail_id,type='1')
+    historical_drugs_information_num = scales_models.RPatientDrugsInformation.objects.all().filter(patient_session=patient_detail_id, type='0').count()
+    scanning_drugs_information_num = scales_models.RPatientDrugsInformation.objects.all().filter(patient_session=patient_detail_id, type='1').count()
+    return historical_drugs_information_list,scanning_drugs_information_list,historical_drugs_information_num,scanning_drugs_information_num
 
 # patient base info 表
 def get_patient_base_info_family_byPatientDetailId(patient_detail_id):
@@ -622,13 +626,18 @@ def get_bprs_answer(patient_id):
 
 ##############__________________________######################
 def get_last_scales_detail(patient_session_id,scale_id):
-    scale_queryset = scales_models.RPatientScales.objects.filter(patient_session_id=patient_session_id,scale_id__lt=scale_id).order_by('-scale_id')
+    do_scale_type = scales_models.DScales.objects.filter(id=scale_id)[0].do_scale_type
+    scale_queryset = scales_models.RPatientScales.objects.filter(patient_session_id=patient_session_id,scale_id__lt=scale_id).select_related('scale').\
+        filter(scale__do_scale_type=do_scale_type).order_by('-scale_id')
     if not scale_queryset.exists():
         return None
     return scale_queryset[0]
 
 def get_next_scales_detail(patient_session_id,scale_id):
-    scale_queryset = scales_models.RPatientScales.objects.filter(patient_session_id=patient_session_id,scale_id__gt=scale_id).order_by('scale_id')
+    #按顺序查找patient_session_id=patient_session_id，大于scale_id
+    do_scale_type = scales_models.DScales.objects.filter(id=scale_id)[0].do_scale_type
+    scale_queryset = scales_models.RPatientScales.objects.filter(patient_session_id=patient_session_id,scale_id__gt=scale_id).select_related('scale').\
+        filter(scale__do_scale_type=do_scale_type).order_by('scale_id')
     if not scale_queryset.exists():
         return None
     return scale_queryset[0]

@@ -1,5 +1,6 @@
 import scales.models as scale_models
 from .models import DPatientDetail, DEthnicity
+
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
@@ -10,6 +11,7 @@ import scales.models as scales_models
 import scales.views as scale_views
 import patients.dao as patients_dao
 import tools.config as tools_config
+
 import json
 import scales.dao as scales_dao
 import time
@@ -32,6 +34,8 @@ def get_all_patients_baseinfo(request):
 
 # 被试基本信息录入，需要生成id的信息，需要向patient_detail进行信息插入(session==1的信息)
 # todo 在进行病人或者复扫创建的时候，需要创建ｒ_patients_scales创建量表完成信息，默认应该是未完成的，需要根据青少年这些去做
+# 被试基本信息录入，需要生成id的信息，需要向patient_detail进行信息插入(session==1的信息)
+# todo 在进行病人或者复扫创建的时候，需要创建ｒ_patients_scales创建量表完成信息，默认应该是未完成的，需要根据青少年这些去做
 def add_patient_baseinfo(request):
     name = request.POST.get("name")
     birth_date = request.POST.get("birth_date")
@@ -51,6 +55,23 @@ def add_patient_baseinfo(request):
     # patient_id = tools_idAssignments.patient_Id_assignment()
     patient_id, session_id, standard_id = tools_idAssignments.patient_session_id_assignment(patient_id)
 
+    # 插入高危信息表:需要在b_patient_base_info之前创建
+    rPatientGhr = patients_models.RPatientGhr(ghr_id=patient_id, doctor_id=doctor_id)
+    for key in request.POST.keys():
+        pos = key.rfind('_')
+        st = key[:pos]
+        print("st:   " + st)
+        if hasattr(rPatientGhr, st) and key != 'diagnosis':
+            val = request.POST.get(key)
+            if val == '':
+                val = None
+            else:
+                setattr(rPatientGhr, st, val)
+            if st == 'kinship':
+                patients_dao.add_patient_ghr(rPatientGhr)
+                rPatientGhr = patients_models.RPatientGhr(ghr_id=patient_id, doctor_id=doctor_id)
+
+
     # 基本信息创建
     patient_base_info = patients_models.BPatientBaseInfo(id=patient_id, name=name, sex=sex, birth_date=birth_date,
                                                          nation=nation,
@@ -58,6 +79,7 @@ def add_patient_baseinfo(request):
                                                          diagnosis=diagnosis,
                                                          other_diagnosis=other_diagnosis)
     patients_dao.add_base_info(patient_base_info)
+
 
     # 创建一条复扫记录
     # age = tools_utils.calculate_age(birth_date)
@@ -72,9 +94,15 @@ def add_patient_baseinfo(request):
     patients_dao.add_rscales(scales_list, patient_detail.id)
     # 页面跳转，select_scales页面
     patient_detail_id = patients_dao.get_patient_detail_byPatientIdAndSessionId(patient_id, session_id).id
+
+
+
     redirect_url = '/scales/select_scales?patient_session_id={}&patient_id={}'.format(str(patient_detail_id),
                                                                                       str(patient_id))
     return redirect(redirect_url)
+
+
+
 
 
 # 添加复扫信息,需要获取到上次扫描的病人详细信息
@@ -130,6 +158,7 @@ def add_patient_followup(request):
 #                                                   })
 
 # 获取病人详细信息
+
 def get_patient_detail(request):
     if request.GET:
         patient_id = request.GET.get("patient_id")
@@ -152,9 +181,17 @@ def get_patient_detail(request):
             else:
                 ordered_dic[test_state['patient_session_id__session_id']][test_state['scale_id']] = test_state
         nation_list = patients_dao.get_DEthnicity_all()
+        ghr_list = patients_models.RPatientGhr.objects.filter(ghr_id=patient_id)
+        ghr_diagnosis = []
+        ghr_kinship = []
+        for i in ghr_list:
+            ghr_diagnosis.append(i.diagnosis)
+            ghr_kinship.append(i.kinship)
+
+        num_ghr = ghr_list.count()
         return render(request, 'patient_detail.html',
                       {
-                           'patient_id': patient_id,
+                          'patient_id': patient_id,
                           'name': patient_baseinfo.name,
                           'birth_date': patient_baseinfo.birth_date.strftime('%Y-%m-%d'),
                           'sex': patient_baseinfo.sex,
@@ -166,10 +203,12 @@ def get_patient_detail(request):
                           'nation_list': nation_list,
                           'diagnosis': patient_baseinfo.diagnosis,
                           'other_diagnosis': patient_baseinfo.other_diagnosis,
+                          'ghr_diagnosis': ghr_diagnosis,
+                          'ghr_kinship': ghr_kinship,
+                          'num_ghr': num_ghr
                       })
     else:
         return render(request, 'patient_detail.html', {"username": request.session.get("username")})
-
 
 # 删除病人信息
 def del_patient(request):
@@ -194,22 +233,13 @@ def del_followup(request):
     return redirect('/patients/get_patient_detail?patient_id=' + patient_id)
 
 
-# 更新base_info
-def update_base_info(request):
-    patient_id = request.GET.get("patient_id")
-    print("#################" + str(request.POST.get('nation')))
-    patient_base_info = patients_dao.get_base_info_byPK(patient_id)
-    print("################" + str(patient_base_info.nation))
-    patient_base_info = set_attr_by_post(request, patient_base_info)
-    print("################" + str(patient_base_info.nation))
-    patients_dao.add_base_info(patient_base_info)
-    return redirect('/patients/get_patient_detail?patient_id=' + patient_id)
 
 
 # 更新patient_detail以及patient_base_info
 def update_patient_detail(request):
     patient_session_id = request.GET.get('patient_session_id')
     patient_id = request.GET.get('patient_id')
+    page=request.GET.get('page')
     patient_detail = patients_dao.get_patient_detail_byPK(patient_session_id)
     patient_base_info = patients_dao.get_base_info_byPK(patient_id)
     # 通过field的方式进行数据的传递，注意，需要保证form表单中各项的名称与数据库中字段名称是名称相同
@@ -222,12 +252,15 @@ def update_patient_detail(request):
     patient_base_info.diagnosis = request.POST.get('diagnosis')
     patient_base_info.other_diagnosis = request.POST.get('other_diagnosis')
     patients_dao.add_base_info(patient_base_info)
-    redirect_url = '/scales/select_scales?patient_session_id={}&patient_id={}'.format(str(patient_session_id),
+    if page=='1':
+        redirect_url = '/scales/select_scales?patient_session_id={}&patient_id={}'.format(str(patient_session_id),
                                                                          str(patient_id))
+    elif page=='2':
+        redirect_url = '/patients/get_patient_detail?patient_id={}'.format(str(patient_id))
     return redirect(redirect_url)
 
 
-# 更新base_info
+# 更新base_info,同时更新高危
 def update_base_info(request):
     patient_id = request.GET.get("patient_id")
     print("#################" + str(request.POST.get('nation')))
@@ -236,6 +269,11 @@ def update_base_info(request):
     patient_base_info = scale_views.set_attr_by_post(request, patient_base_info)
     print("################" + str(patient_base_info.nation))
     patients_dao.add_base_info(patient_base_info)
+    #更新高危信息
+    patient_ghr = set_ghr_by_post(request, patient_id)
+
+
+
     return redirect('/patients/get_patient_detail?patient_id=' + patient_id)
 
 
@@ -446,3 +484,30 @@ def set_attr_by_post(request, _object):
         if hasattr(_object, key) and request.POST.get(key) != '':
             setattr(_object, key, request.POST.get(key))
     return _object
+
+# 根据request post信息更新高危信息
+def set_ghr_by_post(request,id):
+    rPatientGhr = patients_models.RPatientGhr()
+    ghr_kinship_list = []
+    ghr_diagnosis_list = []
+    for key in request.POST.keys():
+        pos = key.rfind('_')
+        st = key[:pos]
+        print("st:   " + st)
+        if hasattr(rPatientGhr, st) and key!='diagnosis':
+            val = request.POST.get(key)
+            if val == '':
+                val = None
+            if st == 'kinship':
+                ghr_kinship_list.append(val)
+            if st=='diagnosis':
+                ghr_diagnosis_list.append(val)
+
+    for i in range(len(ghr_diagnosis_list)):
+        diagnosis = ghr_diagnosis_list[i]
+        kinship = ghr_kinship_list[i]
+        patient_ghr=patients_models.RPatientGhr.objects.filter(ghr_id=id, kinship=kinship)[0]
+        patient_ghr.diagnosis=diagnosis
+        patients_dao.add_patient_ghr(patient_ghr)
+
+    return patient_ghr

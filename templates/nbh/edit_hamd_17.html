@@ -327,61 +327,60 @@
 {% block js %}
 
     <script>
+    if ('{{ hamd_answer }}' != 'None') {
 
         if ('{{ hamd_answer.depression }}' != 'None') {
-            $("input[name='depression']").eq({{ hamd_answer.depression }}).attr("checked", "checked");
+            $("input[name='depression'][value=" + Number({{ hamd_answer.depression }}) + "]").prop("checked", true);
         }
         if ('{{ hamd_answer.guilt }}' != 'None') {
-            $("input[name='guilt']").eq({{ hamd_answer.guilt }}).attr("checked", "checked");
+            $("input[name='guilt'][value=" + Number({{ hamd_answer.guilt }}) + "]").prop("checked", true);
         }
-
-        if ('{{ hamd_answer.suicide }}'!='None')
-        {
-            $("input[name='suicide']").eq({{ hamd_answer.suicide }}).attr("checked", "checked");
+        if ('{{ hamd_answer.suicide }}' != 'None') {
+            $("input[name='suicide'][value=" + Number({{ hamd_answer.suicide }}) + "]").prop("checked", true);
         }
         if ('{{ hamd_answer.difficulty_sleeping }}' != 'None') {
-            $("input[name='difficulty_sleeping']").eq({{ hamd_answer.difficulty_sleeping }}).attr("checked", "checked");
+            $("input[name='difficulty_sleeping'][value=" + Number({{ hamd_answer.difficulty_sleeping }}) + "]").prop("checked", true);
         }
-
         if ('{{ hamd_answer.sleep_deep }}' != 'None') {
-            $("input[name='sleep_deep']").eq({{ hamd_answer.sleep_deep }}).attr("checked", "checked");
+            $("input[name='sleep_deep'][value=" + Number({{ hamd_answer.sleep_deep }}) + "]").prop("checked", true);
         }
         if ('{{ hamd_answer.wake_early }}' != 'None') {
-            $("input[name='wake_early']").eq({{ hamd_answer.wake_early }}).attr("checked", "checked");
+            $("input[name='wake_early'][value=" + Number({{ hamd_answer.wake_early }}) + "]").prop("checked", true);
         }
         if ('{{ hamd_answer.work_interest }}' != 'None') {
-            $("input[name='work_interest']").eq({{ hamd_answer.work_interest }}).attr("checked", "checked");
+            $("input[name='work_interest'][value=" + Number({{ hamd_answer.work_interest }}) + "]").prop("checked", true);
         }
         if ('{{ hamd_answer.slow }}' != 'None') {
-            $("input[name='slow']").eq({{ hamd_answer.slow }}).attr("checked", "checked");
+            $("input[name='slow'][value=" + Number({{ hamd_answer.slow }}) + "]").prop("checked", true);
         }
         if ('{{ hamd_answer.intense }}' != 'None') {
-            $("input[name='intense']").eq({{ hamd_answer.intense }}).attr("checked", "checked");
+            $("input[name='intense'][value=" + Number({{ hamd_answer.intense }}) + "]").prop("checked", true);
         }
         if ('{{ hamd_answer.psycho_anxiety }}' != 'None') {
-            $("input[name='psycho_anxiety']").eq({{ hamd_answer.psycho_anxiety }}).attr("checked", "checked");
+            $("input[name='psycho_anxiety'][value=" + Number({{ hamd_answer.psycho_anxiety }}) + "]").prop("checked", true);
         }
         if ('{{ hamd_answer.somatic_anxiety }}' != 'None') {
-            $("input[name='somatic_anxiety']").eq({{ hamd_answer.somatic_anxiety }}).attr("checked", "checked");
+            $("input[name='somatic_anxiety'][value=" + Number({{ hamd_answer.somatic_anxiety }}) + "]").prop("checked", true);
         }
         if ('{{ hamd_answer.gastrointestinal_symptoms }}' != 'None') {
-            $("input[name='gastrointestinal_symptoms']").eq({{ hamd_answer.gastrointestinal_symptoms }}).attr("checked", "checked");
+            $("input[name='gastrointestinal_symptoms'][value=" + Number({{ hamd_answer.gastrointestinal_symptoms }}) + "]").prop("checked", true);
         }
         if ('{{ hamd_answer.systemic_symptoms }}' != 'None') {
-            $("input[name='systemic_symptoms']").eq({{ hamd_answer.systemic_symptoms }}).attr("checked", "checked");
+            $("input[name='systemic_symptoms'][value=" + Number({{ hamd_answer.systemic_symptoms }}) + "]").prop("checked", true);
         }
         if ('{{ hamd_answer.sexual_symptoms }}' != 'None') {
-            $("input[name='sexual_symptoms']").eq({{ hamd_answer.sexual_symptoms }}).attr("checked", "checked");
+            $("input[name='sexual_symptoms'][value=" + Number({{ hamd_answer.sexual_symptoms }}) + "]").prop("checked", true);
         }
         if ('{{ hamd_answer.hypochondria }}' != 'None') {
-            $("input[name='hypochondria']").eq({{ hamd_answer.hypochondria }}).attr("checked", "checked");
+            $("input[name='hypochondria'][value=" + Number({{ hamd_answer.hypochondria }}) + "]").prop("checked", true);
         }
         if ('{{ hamd_answer.lose_weight }}' != 'None') {
-            $("input[name='lose_weight']").eq({{ hamd_answer.lose_weight }}).attr("checked", "checked");
+            $("input[name='lose_weight'][value=" + Number({{ hamd_answer.lose_weight }}) + "]").prop("checked", true);
         }
         if ('{{ hamd_answer.self_awareness }}' != 'None') {
-            $("input[name='self_awareness']").eq({{ hamd_answer.self_awareness }}).attr("checked", "checked");
+            $("input[name='self_awareness'][value=" + Number({{ hamd_answer.self_awareness }}) + "]").prop("checked", true);
         }
+    }
 
         function remove_disabled(){
             $("input[name='depression']").removeAttr("disabled","disabled");

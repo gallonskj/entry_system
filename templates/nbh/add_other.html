@@ -135,7 +135,7 @@
                         {#0.重做按钮组合#}
                     <div class="row" id="redo_bt_group">
                         <div class="col-md-4 col-sm-6 text-center" style="text-align: center">
-                            <a href="/scales/get_last_url?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}"
+                            <a href="/scales/get_last_baseinfo_url?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}"
                                id="last_scale0">
                                 <button type="button" class="btn btn-warning" id="bt_return">返回上一量表</button>
                             </a>
@@ -152,7 +152,7 @@
                         {#1.展示按钮组合#}
                     <div class="row" id="bt_group" style="display: none">
                             <div  class="col-md-4 col-sm-6 text-center"  >
-                               <a  href="/scales/get_last_url?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}"
+                               <a  href="/scales/get_last_baseinfo_url?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}"
                                id="last_scale">
                                    <button type="button" class="btn btn-warning" id="bt_return">返回上一量表</button>
                                </a>
@@ -160,7 +160,7 @@
 
                             <div  class="col-md-4 col-sm-6" id="next_scale" >
                                  {% csrf_token %}
-                                <a href="/scales/get_next_url?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}">
+                                <a href="/scales/get_next_baseinfo_url?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}">
                                     <input  type="button" class="btn btn-success text-center"  value="进入下一量表"  >
                                 </a>
                             </div>
@@ -191,19 +191,22 @@
            var do_type="{{ do_type }}";
            if(do_type=='1')
            {
-               {#数据填充 读数据#}
-               var patient_friend_num = Number({{ patient_baseinfo_other.patient_friend_num }});
-               $("input[name='patient_friend_num'][value="+patient_friend_num+"]").prop("checked",true);
+               if('{{ patient_baseinfo_other }}'!='None') {
 
-               var patient_big_event = Number({{ patient_baseinfo_other.patient_big_event }});
-               $("input[name='patient_big_event'][value="+patient_big_event+"]").prop("checked",true);
+                   {#数据填充 读数据#}
+                   var patient_friend_num = Number("{{ patient_baseinfo_other.patient_friend_num }}");
+                   $("input[name='patient_friend_num'][value=" + patient_friend_num + "]").prop("checked", true);
 
-               if (patient_big_event==0 ){
-                   $(".other_description").attr("style","display:none;");
-                   document.getElementById("patient_big_event_describtion").value=""
-               }else if(patient_big_event==1){
-                   $(".other_description").removeAttr("style","display:none;");
-                   document.getElementById("patient_big_event_describtion").value="{{ patient_baseinfo_other.patient_big_event_describtion|processNone }}"
+                   var patient_big_event = Number("{{ patient_baseinfo_other.patient_big_event }}");
+                   $("input[name='patient_big_event'][value=" + patient_big_event + "]").prop("checked", true);
+                   if (patient_big_event == 0) {
+                       $(".other_description").attr("style", "display:none;");
+                       document.getElementById("patient_big_event_describtion").value = ""
+                   } else if (patient_big_event == 1) {
+                       $(".other_description").removeAttr("style", "display:none;");
+                       document.getElementById("patient_big_event_describtion").value = "{{ patient_baseinfo_other.patient_big_event_describtion|processNone }}"
+                   }
+
                }
                {#锁住#}
                $("input[name='patient_friend_num']").attr("disabled","disabled");

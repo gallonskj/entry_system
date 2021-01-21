@@ -171,7 +171,7 @@
                         {#0.重做按钮组合#}
                     <div class="row" id="redo_bt_group">
                         <div class="col-md-4 col-sm-6 text-center" style="text-align: center">
-                            <a href="/scales/get_last_url?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}"
+                            <a href="/scales/get_last_baseinfo_url?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}"
                                id="last_scale0">
                                 <button type="button" class="btn btn-warning" id="bt_return">返回上一量表</button>
                             </a>
@@ -188,7 +188,7 @@
                         {#1.展示按钮组合#}
                     <div class="row" id="bt_group" style="display: none">
                             <div  class="col-md-4 col-sm-6 text-center"  >
-                               <a  href="/scales/get_last_url?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}"
+                               <a  href="/scales/get_last_baseinfo_url?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}"
                                id="last_scale">
                                    <button type="button" class="btn btn-warning" id="bt_return">返回上一量表</button>
                                </a>
@@ -196,7 +196,7 @@
 
                             <div  class="col-md-4 col-sm-6" id="next_scale" >
                                  {% csrf_token %}
-                                <a href="/scales/get_next_url?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}">
+                                <a href="/scales/get_next_baseinfo_url?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}">
                                     <input  type="button" class="btn btn-success text-center"  value="进入下一量表"  >
                                 </a>
                             </div>
@@ -223,44 +223,53 @@
             if (order == 0) {
                 $("#last_scale0").attr("style", "display:none;");
             }
-           var do_type="{{ do_type }}";
+           var do_type='{{ do_type }}';
            if(do_type=='1')
            {
-               {#数据填充 读数据#}
-               var patient_smoke = Number({{ patient_baseinfo_abuse.patient_smoke }});
-               $("#patient_smoke_1 option[value="+patient_smoke+"]").prop("selected",true);
+               if('{{ patient_baseinfo_abuse }}'!='None')
+               {
+                   {#数据填充 读数据#}
+                   var patient_smoke = Number("{{ patient_baseinfo_abuse.patient_smoke }}");
+                   $("#patient_smoke_1 option[value="+patient_smoke+"]").prop("selected",true);
 
-               if (patient_smoke==1 || patient_smoke==2){
-                   $(".smoke_detail").attr("style","display:none;");
-                   $("input[name='patient_smoke_age']").val('');
-                   $("input[name='patient_daily_smoke_num']").val('');
-                   $("input[name='patient_stop_smoke_age']").val('');
-               }else if(patient_smoke==3|| patient_smoke==4){
-                  $(".smoke_detail").removeAttr("style","display:none;");
-                   $("input[name='patient_smoke_age']").val('{{ patient_baseinfo_abuse.patient_smoke_age|processNone }}');
-                   $("input[name='patient_daily_smoke_num']").val('{{ patient_baseinfo_abuse.patient_daily_smoke_num|processNone }}');
-                   $("input[name='patient_stop_smoke_age']").val('{{ patient_baseinfo_abuse.patient_stop_smoke_age|processNone }}');
-               }
+                   if (patient_smoke==1 || patient_smoke==2){
+                       $(".smoke_detail").attr("style","display:none;");
+                       $("input[name='patient_smoke_age']").val('');
+                       $("input[name='patient_daily_smoke_num']").val('');
+                       $("input[name='patient_stop_smoke_age']").val('');
+                   }else if(patient_smoke==3|| patient_smoke==4){
+                      $(".smoke_detail").removeAttr("style","display:none;");
+                       $("input[name='patient_smoke_age']").val('{{ patient_baseinfo_abuse.patient_smoke_age|processNone }}');
+                       $("input[name='patient_daily_smoke_num']").val('{{ patient_baseinfo_abuse.patient_daily_smoke_num|processNone }}');
+                       $("input[name='patient_stop_smoke_age']").val('{{ patient_baseinfo_abuse.patient_stop_smoke_age|processNone }}');
+                   }
 
-              var patient_alcohal = Number({{ patient_baseinfo_abuse.patient_alcohal }});
-               $("#alcoholSelect option[value="+patient_alcohal+"]").prop("selected",true);
+                   var patient_alcohal = Number("{{ patient_baseinfo_abuse.patient_alcohal }}");
+                   $("#alcoholSelect option[value="+patient_alcohal+"]").prop("selected",true);
 
-               if (patient_alcohal==1 || patient_alcohal==2){
-                   $(".alcohol_detail").attr("style","display:none;");
-                   $("input[name='patient_alcohal_age']").val('');
-               }else if(patient_alcohal==3|| patient_alcohal==4){
-                  $(".alcohol_detail").removeAttr("style","display:none;");
-                   $("input[name='patient_alcohal_age']").val('{{ patient_baseinfo_abuse.patient_alcohal_age|processNone }}');
-               }
-                var patient_other_abuse = Number({{ patient_baseinfo_abuse.patient_other_abuse }});
-               $("input[name='patient_other_abuse'][value="+patient_other_abuse+"]").prop("checked",true);
+                   if (patient_alcohal==1 || patient_alcohal==2){
+                       $(".alcohol_detail").attr("style","display:none;");
+                       $("input[name='patient_alcohal_age']").val('');
+                   }else if(patient_alcohal==3|| patient_alcohal==4){
+                      $(".alcohol_detail").removeAttr("style","display:none;");
+                       $("input[name='patient_alcohal_age']").val('{{ patient_baseinfo_abuse.patient_alcohal_age|processNone }}');
+                   }
 
-               if (patient_other_abuse==0 ){
-                   $(".other_abuse_detail").attr("style","display:none;");
-                   $("input[name='patient_other_abuse_age']").val('');
-               }else if(patient_other_abuse==1){
-                  $(".other_abuse_detail").removeAttr("style","display:none;");
-                   $("input[name='patient_other_abuse_age']").val('{{ patient_baseinfo_abuse.patient_other_abuse_age|processNone }}');
+
+
+                   var patient_other_abuse = Number("{{ patient_baseinfo_abuse.patient_other_abuse }}");
+                   $("input[name='patient_other_abuse'][value="+patient_other_abuse+"]").prop("checked",true);
+
+                   if (patient_other_abuse==0 ){
+                       $(".other_abuse_detail").attr("style","display:none;");
+                       $("input[name='patient_other_abuse_age']").val('');
+                   }else if(patient_other_abuse==1){
+                      $(".other_abuse_detail").removeAttr("style","display:none;");
+                       $("input[name='patient_other_abuse_age']").val('{{ patient_baseinfo_abuse.patient_other_abuse_age|processNone }}');
+                   }
+
+
+
                }
                {#锁住#}
                $("select[name='patient_smoke']").attr("disabled","disabled");
@@ -341,11 +350,11 @@ $(document).ready(function(){
 </script>
 <script>
  function remove_disabled(){
-     $("input[name='patient_smoke']").removeAttr("disabled","disabled");
+     $("select[name='patient_smoke']").removeAttr("disabled","disabled");
      $("input[name='patient_smoke_age']").removeAttr("disabled","disabled");
      $("input[name='patient_daily_smoke_num']").removeAttr("disabled","disabled");
      $("input[name='patient_stop_smoke_age']").removeAttr("disabled","disabled");
-     $("input[name='patient_alcohal']").removeAttr("disabled","disabled");
+     $("select[name='patient_alcohal']").removeAttr("disabled","disabled");
      $("input[name='patient_alcohal_age']").removeAttr("disabled","disabled");
      $("input[name='patient_other_abuse']").removeAttr("disabled","disabled");
      $("input[name='patient_other_abuse_age']").removeAttr("disabled","disabled");

@@ -241,7 +241,7 @@
                         {#0.重做按钮组合#}
                     <div class="row" id="redo_bt_group">
                         <div class="col-md-4 col-sm-6 text-center" style="text-align: center">
-                            <a href="/scales/get_last_url?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}"
+                            <a href="/scales/get_last_baseinfo_url?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}"
                                id="last_scale0">
                                 <button type="button" class="btn btn-warning" id="bt_return">返回上一量表</button>
                             </a>
@@ -258,7 +258,7 @@
                         {#1.展示按钮组合#}
                     <div class="row" id="bt_group" style="display: none">
                             <div  class="col-md-4 col-sm-6 text-center"  >
-                               <a  href="/scales/get_last_url?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}"
+                               <a  href="/scales/get_last_baseinfo_url?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}"
                                id="last_scale">
                                    <button type="button" class="btn btn-warning" id="bt_return">返回上一量表</button>
                                </a>
@@ -266,15 +266,15 @@
 
                             <div  class="col-md-4 col-sm-6" id="next_scale" >
                                  {% csrf_token %}
-                                <a href="/scales/get_next_url?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}">
+                                <a href="/scales/get_next_baseinfo_url?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}">
                                     <input  type="button" class="btn btn-success text-center"  value="进入下一量表"  >
                                 </a>
                             </div>
                             <div  class="col-md-4 col-sm-6" id="next_scale_final" >
                                      {% csrf_token %}
-                                    <a href="/scales/select_scales?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}">
-                                        <input  type="button" class="btn btn-success text-center"  value="进入下一量表"  >
-                                    </a>
+                                <a href="/scales/select_scales?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}">
+                                    <input  type="button" class="btn btn-success text-center"  value="进入下一量表"  >
+                                </a>
                             </div>
                             <div class="col-md-4 col-sm-6">
                                 <a onclick="remove_disabled()"  style="float: right"><u>修改</u></a>
@@ -295,41 +295,42 @@
            var do_type="{{ do_type }}";
            if(do_type=='1')
            {
-               {#数据填充 读数据#}
-               var hold_pen = Number({{ patient_baseinfo_chi.hold_pen }});
-               $("input[name='hold_pen'][value="+hold_pen+"]").prop("checked",true);
+               if('{{ patient_baseinfo_chi }}'!='None') {
 
-               var hold_chopsticks = Number({{ patient_baseinfo_chi.hold_chopsticks }});
-               $("input[name='hold_chopsticks'][value="+hold_chopsticks+"]").prop("checked",true);
-
-               var throw_things = Number({{ patient_baseinfo_chi.throw_things }});
-               $("input[name='throw_things'][value="+throw_things+"]").prop("checked",true);
-
-               var brush_tooth = Number({{ patient_baseinfo_chi.brush_tooth }});
-               $("input[name='brush_tooth'][value="+brush_tooth+"]").prop("checked",true);
-
-               var use_scissors = Number({{ patient_baseinfo_chi.use_scissors }});
-               $("input[name='use_scissors'][value="+use_scissors+"]").prop("checked",true);
-
-               var use_match = Number({{ patient_baseinfo_chi.use_match }});
-               $("input[name='use_match'][value="+use_match+"]").prop("checked",true);
-
-               var use_needle = Number({{ patient_baseinfo_chi.use_needle }});
-               $("input[name='use_needle'][value="+use_needle+"]").prop("checked",true);
-
-               var hold_hammer = Number({{ patient_baseinfo_chi.hold_hammer }});
-               $("input[name='hold_hammer'][value="+hold_hammer+"]").prop("checked",true);
-
-               var hold_racket = Number({{ patient_baseinfo_chi.hold_racket }});
-               $("input[name='hold_racket'][value="+hold_racket+"]").prop("checked",true);
-
-               var wash_face = Number({{ patient_baseinfo_chi.wash_face }});
-               $("input[name='wash_face'][value="+wash_face+"]").prop("checked",true);
-
-               var result=Number({{ patient_baseinfo_chi.result }});
-               if (result)
+                   {#数据填充 读数据#}
+                   if ('{{ patient_baseinfo_chi.hold_pen }}' != 'None') {
+                       $("input[name='hold_pen'][value=" + Number({{ patient_baseinfo_chi.hold_pen }}) + "]").prop("checked", true);
+                   }
+                   if ('{{ patient_baseinfo_chi.hold_chopsticks }}' != 'None') {
+                       $("input[name='hold_chopsticks'][value=" + Number({{ patient_baseinfo_chi.hold_chopsticks }}) + "]").prop("checked", true);
+                   }
+                   if ('{{ patient_baseinfo_chi.throw_things }}' != 'None') {
+                       $("input[name='throw_things'][value=" + Number({{ patient_baseinfo_chi.throw_things }}) + "]").prop("checked", true);
+                   }
+                   if ('{{ patient_baseinfo_chi.brush_tooth }}' != 'None') {
+                       $("input[name='brush_tooth'][value=" + Number({{ patient_baseinfo_chi.brush_tooth }}) + "]").prop("checked", true);
+                   }
+                   if ('{{ patient_baseinfo_chi.use_scissors }}' != 'None') {
+                       $("input[name='use_scissors'][value=" + Number({{ patient_baseinfo_chi.use_scissors }}) + "]").prop("checked", true);
+                   }
+                   if ('{{ patient_baseinfo_chi.use_match }}' != 'None') {
+                       $("input[name='use_match'][value=" + Number({{ patient_baseinfo_chi.use_match }}) + "]").prop("checked", true);
+                   }
+                   if ('{{ patient_baseinfo_chi.use_needle }}' != 'None') {
+                       $("input[name='use_needle'][value=" + Number({{ patient_baseinfo_chi.use_needle }}) + "]").prop("checked", true);
+                   }
+                   if ('{{ patient_baseinfo_chi.hold_hammer }}' != 'None') {
+                       $("input[name='hold_hammer'][value=" + Number({{ patient_baseinfo_chi.hold_hammer }}) + "]").prop("checked", true);
+                   }
+                   if ('{{ patient_baseinfo_chi.hold_racket }}' != 'None') {
+                       $("input[name='hold_racket'][value=" + Number({{ patient_baseinfo_chi.hold_racket }}) + "]").prop("checked", true);
+                   }
+                   if ('{{ patient_baseinfo_chi.wash_face }}' != 'None') {
+                       $("input[name='wash_face'][value=" + Number({{ patient_baseinfo_chi.wash_face }}) + "]").prop("checked", true);
+                   }
+               }
                {#锁住#}
-               $("input[name='hold_pen']").attr("disabled","disabled");
+               $("input[name='hold_pen']").attr("disabled","disabled")
                $("input[name='hold_chopsticks']").attr("disabled","disabled");
                $("input[name='throw_things']").attr("disabled","disabled");
                $("input[name='brush_tooth']").attr("disabled","disabled");

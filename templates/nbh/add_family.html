@@ -564,7 +564,7 @@
 {#0.重做按钮组合#}
                     <div class="row" id="redo_bt_group">
                         <div class="col-md-4 col-sm-6 text-center" style="text-align: center">
-                            <a href="/scales/get_last_url?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}"
+                            <a href="/scales/get_last_baseinfo_url?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}"
                                id="last_scale0">
                                 <button type="button" class="btn btn-warning" id="bt_return">返回上一量表</button>
                             </a>
@@ -582,7 +582,7 @@
 {#1.展示按钮组合#}
                     <div class="row" id="bt_group" style="display: none">
                             <div  class="col-md-4 col-sm-6 text-center"  >
-                               <a  href="/scales/get_last_url?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}"
+                               <a  href="/scales/get_last_baseinfo_url?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}"
                                id="last_scale">
                                    <button type="button" class="btn btn-warning" id="bt_return">返回上一量表</button>
                                </a>
@@ -590,7 +590,7 @@
 
                             <div  class="col-md-4 col-sm-6" id="next_scale" >
                                  {% csrf_token %}
-                                <a href="/scales/get_next_url?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}">
+                                <a href="/scales/get_next_baseinfo_url?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}">
                                     <input  type="button" class="btn btn-success text-center"  value="进入下一量表"  >
                                 </a>
                             </div>
@@ -624,144 +624,148 @@
            var do_type="{{ do_type }}";
            if(do_type=='1')
            {
-               {#数据填充 读数据#}
-               var patient_urban_rural=Number("{{ patient_baseinfo_family.patient_urban_rural }}");
-               $("input[name='patient_urban_rural'][value="+patient_urban_rural+"]").prop("checked",true);
-               $("input[name='patient_address']").val('{{ patient_baseinfo_family.patient_address|processNone }}');
-               var family_patient_live_type = "{{ patient_baseinfo_family.patient_live_type }}";
-               var patient_live_type = Number(family_patient_live_type);
-               $("#patient_live_type option[value="+patient_live_type+"]").prop("selected",true);
-               if(patient_live_type == 6) {
-                   document.getElementById("other_diagnosis_div").style.display = "";
-                   $('.other_living_type').show();
-                   $("input[name='patient_live_type_other']").val('{{ patient_baseinfo_family.patient_live_type_other|processNone }}');
-               }else {
-                $('.other_living_type').hide();
-                $("input[name='patient_live_type_other']").val('');
-               }
-               var patient_only_child=Number({{ patient_baseinfo_family.patient_only_child }});
-               $("input[name='patient_only_child'][value="+patient_only_child+"]").prop("checked",true);
-               if(patient_only_child == 1) {
-                   $("#brother_num_2").hide();
-                   $("#preference_div").hide();
-                   $(".brother_num_2_val").val("");
-                }else{
-                   $("#brother_num_2").show();
-                   $("#preference_div").show();
-                   $("input[name='patient_older_brother_num']").val('{{ patient_baseinfo_family.patient_older_brother_num|processNone }}');
-                   $("input[name='patient_youger_brother_num']").val('{{ patient_baseinfo_family.patient_youger_brother_num|processNone }}');
-                   $("input[name='patient_older_sister_num']").val('{{ patient_baseinfo_family.patient_older_sister_num|processNone }}');
-                   $("input[name='patient_youger_sister_num']").val('{{ patient_baseinfo_family.patient_youger_sister_num|processNone }}');
+               if('{{ patient_baseinfo_family }}'!='None')
+               {
+                   {#数据填充 读数据#}
+                   var patient_urban_rural=Number("{{ patient_baseinfo_family.patient_urban_rural }}");
+                   $("input[name='patient_urban_rural'][value="+patient_urban_rural+"]").prop("checked",true);
+                   $("input[name='patient_address']").val('{{ patient_baseinfo_family.patient_address|processNone }}');
+                   var family_patient_live_type = "{{ patient_baseinfo_family.patient_live_type }}";
+                   var patient_live_type = Number(family_patient_live_type);
+                   $("#patient_live_type option[value="+patient_live_type+"]").prop("selected",true);
+                   if(patient_live_type == 6) {
+                       document.getElementById("other_diagnosis_div").style.display = "";
+                       $('.other_living_type').show();
+                       $("input[name='patient_live_type_other']").val('{{ patient_baseinfo_family.patient_live_type_other|processNone }}');
+                   }else {
+                    $('.other_living_type').hide();
+                    $("input[name='patient_live_type_other']").val('');
+                   }
+                   var patient_only_child=Number("{{ patient_baseinfo_family.patient_only_child }}");
+                   $("input[name='patient_only_child'][value="+patient_only_child+"]").prop("checked",true);
+                   if(patient_only_child == 1) {
+                       $("#brother_num_2").hide();
+                       $("#preference_div").hide();
+                       $(".brother_num_2_val").val("");
+                    }else{
+                       $("#brother_num_2").show();
+                       $("#preference_div").show();
+                       $("input[name='patient_older_brother_num']").val('{{ patient_baseinfo_family.patient_older_brother_num|processNone }}');
+                       $("input[name='patient_youger_brother_num']").val('{{ patient_baseinfo_family.patient_youger_brother_num|processNone }}');
+                       $("input[name='patient_older_sister_num']").val('{{ patient_baseinfo_family.patient_older_sister_num|processNone }}');
+                       $("input[name='patient_youger_sister_num']").val('{{ patient_baseinfo_family.patient_youger_sister_num|processNone }}');
+                       var parents_favour = Number("{{ patient_baseinfo_family.parents_favour }}");
+                       $("#parents_favour option[value="+parents_favour+"]").prop("selected",true);
+                   }
+                   $("input[name='father_occupation']").val('{{ patient_baseinfo_family.father_occupation|processNone }}');
+                   $("input[name='mother_occupation']").val('{{ patient_baseinfo_family.mother_occupation|processNone }}');
+                   $("input[name='father_tele']").val('{{ patient_baseinfo_family.father_tele|processNone }}');
+                   $("input[name='mother_tele']").val('{{ patient_baseinfo_family.mother_tele|processNone }}');
                    var parents_favour = Number("{{ patient_baseinfo_family.parents_favour }}");
                    $("#parents_favour option[value="+parents_favour+"]").prop("selected",true);
+                   var father_education = Number("{{ patient_baseinfo_family.father_education }}");
+                   $("#father_education option[value="+father_education+"]").prop("selected",true);
+                   var mother_education = Number({{ patient_baseinfo_family.mother_education }});
+                   $("#mother_education option[value="+mother_education+"]").prop("selected",true);
+                   var parent_marry = Number({{ patient_baseinfo_family.parent_marry }});
+                   $("#parent_marry option[value="+parent_marry+"]").prop("selected",true);
+                   <!--       离异-->
+                    if (parent_marry == "2") {
+                        $(".StepParents").show();
+                        {#离异select#}
+                        $(".patient_parent_death").hide();
+                        $(".patient_parent_death_age").hide();
+                        $(".patient_parent_death_age").val("");
+                        /*--有一方过世*/
+                    } else if (parent_marry == "4") {
+                        $(".StepParents").hide();
+                        $(".patient_parent_death").show();
+                        $(".patient_parent_death_age").show();
+                        var family_patient_parent_death = "{{ patient_baseinfo_family.patient_parent_death }}";
+                        var patient_parent_death = Number(family_patient_parent_death);
+                        $("#patient_parent_death option[value="+patient_parent_death+"]").prop("selected",true);
+                        $("input[name='patient_parent_death_age']").val('{{ patient_baseinfo_family.patient_parent_death_age|processNone }}');
+                    } else {
+                        $(".patient_parent_death_age").hide();
+                        $(".StepParents").hide();
+                        $(".patient_parent_death").hide();
+                        $(".patient_parent_death_age").val("");
+                    }
+                   var parent_argument = Number("{{ patient_baseinfo_family.parent_argument }}");
+                   $("#parent_argument option[value="+parent_argument+"]").prop("selected",true);
+                   var patient_adopt = Number("{{ patient_baseinfo_family.patient_adopt }}");
+                   $("input[name='patient_adopt'][value="+patient_adopt+"]").prop("checked",true);
+                   var patient_adopt=Number("{{ patient_baseinfo_family.patient_adopt }}");
+                   if (patient_adopt == "0") {
+                       $("#adopt_age_1").hide();
+                       $("#adopt_age_2").hide();
+                       $("#adopt_age_2").val("");
+                   }else{
+                       $("#adopt_age_1").show();
+                       $("#adopt_age_2").show();
+                       $("input[name='patient_adopt_age']").val('{{ patient_baseinfo_family.patient_adopt_age|processNone }}');
+                   }
+                   var father_relationship = Number("{{ patient_baseinfo_family.father_relationship }}");
+                   $("#father_relationship option[value="+father_relationship+"]").prop("selected",true);
+                   var mother_relationship = Number("{{ patient_baseinfo_family.mother_relationship }}");
+                   $("#mother_relationship option[value="+mother_relationship+"]").prop("selected",true);
                }
-               $("input[name='father_occupation']").val('{{ patient_baseinfo_family.father_occupation|processNone }}');
-               $("input[name='mother_occupation']").val('{{ patient_baseinfo_family.mother_occupation|processNone }}');
-               $("input[name='father_tele']").val('{{ patient_baseinfo_family.father_tele|processNone }}');
-               $("input[name='mother_tele']").val('{{ patient_baseinfo_family.mother_tele|processNone }}');
-               var parents_favour = Number("{{ patient_baseinfo_family.parents_favour }}");
-               $("#parents_favour option[value="+parents_favour+"]").prop("selected",true);
-               var father_education = Number("{{ patient_baseinfo_family.father_education }}");
-               $("#father_education option[value="+father_education+"]").prop("selected",true);
-               var mother_education = Number({{ patient_baseinfo_family.mother_education }});
-               $("#mother_education option[value="+mother_education+"]").prop("selected",true);
-               var parent_marry = Number({{ patient_baseinfo_family.parent_marry }});
-               $("#parent_marry option[value="+parent_marry+"]").prop("selected",true);
-               <!--       离异-->
-                if (parent_marry == "2") {
-                    $(".StepParents").show();
-                    {#离异select#}
-                    $(".patient_parent_death").hide();
-                    $(".patient_parent_death_age").hide();
-                    $(".patient_parent_death_age").val("");
-                    /*--有一方过世*/
-                } else if (parent_marry == "4") {
-                    $(".StepParents").hide();
-                    $(".patient_parent_death").show();
-                    $(".patient_parent_death_age").show();
-                    var family_patient_parent_death = "{{ patient_baseinfo_family.patient_parent_death }}";
-                    var patient_parent_death = Number(family_patient_parent_death);
-                    $("#patient_parent_death option[value="+patient_parent_death+"]").prop("selected",true);
-                    $("input[name='patient_parent_death_age']").val('{{ patient_baseinfo_family.patient_parent_death_age|processNone }}');
-                } else {
-                    $(".patient_parent_death_age").hide();
-                    $(".StepParents").hide();
-                    $(".patient_parent_death").hide();
-                    $(".patient_parent_death_age").val("");
-                }
-               var parent_argument = Number("{{ patient_baseinfo_family.parent_argument }}");
-               $("#parent_argument option[value="+parent_argument+"]").prop("selected",true);
-               var patient_adopt = Number("{{ patient_baseinfo_family.patient_adopt }}");
-               $("input[name='patient_adopt'][value="+patient_adopt+"]").prop("checked",true);
-               var patient_adopt=Number("{{ patient_baseinfo_family.patient_adopt }}");
-               if (patient_adopt == "0") {
-                   $("#adopt_age_1").hide();
-                   $("#adopt_age_2").hide();
-                   $("#adopt_age_2").val("");
-               }else{
-                   $("#adopt_age_1").show();
-                   $("#adopt_age_2").show();
-                   $("input[name='patient_adopt_age']").val('{{ patient_baseinfo_family.patient_adopt_age|processNone }}');
-               }
-               var father_relationship = Number("{{ patient_baseinfo_family.father_relationship }}");
-               $("#father_relationship option[value="+father_relationship+"]").prop("selected",true);
-               var mother_relationship = Number("{{ patient_baseinfo_family.mother_relationship }}");
-               $("#mother_relationship option[value="+mother_relationship+"]").prop("selected",true);
-               {#锁住#}
-               $("input[name='phone']").attr("disabled","disabled");
-               $("select[name='emotional_state']").attr("disabled","disabled");
-               $("input[name='occupation']").attr("disabled","disabled");
-               $("select[name='nation']").attr("disabled","disabled");
-               $("input[name='education']").attr("disabled","disabled");
-               $("input[name='years']").attr("disabled","disabled");
-               $("input[name='height']").attr("disabled","disabled");
-               $("input[name='weight']").attr("disabled","disabled");
-               $("input[name='waist']").attr("disabled","disabled");
-               $("input[name='hip']").attr("disabled","disabled");
-               $("select[name='contact_way']").attr("disabled","disabled");
-               $("input[name='contact_info']").attr("disabled","disabled");
-               $("input[name='patient_urban_rural']").attr("disabled","disabled");
-               $("input[name='patient_address']").attr("disabled","disabled");
-               $("select[name='patient_live_type']").attr("disabled","disabled");
-               $("input[name='patient_live_type_other']").attr("disabled","disabled");
-               $("input[name='patient_only_child']").attr("disabled","disabled");
-               $("input[name='patient_older_brother_num']").attr("disabled","disabled");
-               $("input[name='patient_youger_brother_num']").attr("disabled","disabled");
-               $("input[name='patient_older_sister_num']").attr("disabled","disabled");
-               $("input[name='patient_youger_sister_num']").attr("disabled","disabled");
-               $("select[name='parents_favour']").attr("disabled","disabled");
-               $("input[name='father_occupation']").attr("disabled","disabled");
-               $("input[name='mother_occupation']").attr("disabled","disabled");
-               $("input[name='father_tele']").attr("disabled","disabled");
-               $("input[name='mother_tele']").attr("disabled","disabled");
-               $("select[name='father_education']").attr("disabled","disabled");
-               $("select[name='mother_education']").attr("disabled","disabled");
-               $("select[name='parent_marry']").attr("disabled","disabled");
-               {% comment %}少一个继父继母{% endcomment %}
-               $("select[name='patient_parent_death']").attr("disabled","disabled");
-               $("input[name='patient_parent_death_age']").attr("disabled","disabled");
-               $("select[name='parent_argument']").attr("disabled","disabled");
-               $("input[name='patient_adopt']").attr("disabled","disabled");
-               $("input[name='patient_adopt_age']").attr("disabled","disabled");
-               $("select[name='father_relationship']").attr("disabled","disabled");
-               $("select[name='mother_relationship']").attr("disabled","disabled");
-               $("#bt_group").attr("style","display:block;");
-               $("#redo_bt_group").attr("style","display:none;");
 
-               var order = "{{ order }}";
-               if(order==0){{% comment %}第一个{% endcomment %}
-                   $("#last_scale").attr("style","display:none;");
-                   $("#next_scale_final").attr("style","display:none;");
-                   $("#next_scale").attr("style","display:block;");
-               }else if(order==1){{% comment %}最后一个{% endcomment %}
-                   $("#last_scale").attr("style","display:block;");
-                   $("#next_scale_final").attr("style","display:block;");
-                   $("#next_scale").attr("style","display:none;");
-               }else{{# 啥也不是 #}
-                   $("#last_scale").attr("style","display:block;");
-                   $("#next_scale_final").attr("style","display:none;");
-                   $("#next_scale").attr("style","display:block;");
-                }
+                   {#锁住#}
+                   $("input[name='phone']").attr("disabled","disabled");
+                   $("select[name='emotional_state']").attr("disabled","disabled");
+                   $("input[name='occupation']").attr("disabled","disabled");
+                   $("select[name='nation']").attr("disabled","disabled");
+                   $("input[name='education']").attr("disabled","disabled");
+                   $("input[name='years']").attr("disabled","disabled");
+                   $("input[name='height']").attr("disabled","disabled");
+                   $("input[name='weight']").attr("disabled","disabled");
+                   $("input[name='waist']").attr("disabled","disabled");
+                   $("input[name='hip']").attr("disabled","disabled");
+                   $("select[name='contact_way']").attr("disabled","disabled");
+                   $("input[name='contact_info']").attr("disabled","disabled");
+                   $("input[name='patient_urban_rural']").attr("disabled","disabled");
+                   $("input[name='patient_address']").attr("disabled","disabled");
+                   $("select[name='patient_live_type']").attr("disabled","disabled");
+                   $("input[name='patient_live_type_other']").attr("disabled","disabled");
+                   $("input[name='patient_only_child']").attr("disabled","disabled");
+                   $("input[name='patient_older_brother_num']").attr("disabled","disabled");
+                   $("input[name='patient_youger_brother_num']").attr("disabled","disabled");
+                   $("input[name='patient_older_sister_num']").attr("disabled","disabled");
+                   $("input[name='patient_youger_sister_num']").attr("disabled","disabled");
+                   $("select[name='parents_favour']").attr("disabled","disabled");
+                   $("input[name='father_occupation']").attr("disabled","disabled");
+                   $("input[name='mother_occupation']").attr("disabled","disabled");
+                   $("input[name='father_tele']").attr("disabled","disabled");
+                   $("input[name='mother_tele']").attr("disabled","disabled");
+                   $("select[name='father_education']").attr("disabled","disabled");
+                   $("select[name='mother_education']").attr("disabled","disabled");
+                   $("select[name='parent_marry']").attr("disabled","disabled");
+                   {% comment %}少一个继父继母{% endcomment %}
+                   $("select[name='patient_parent_death']").attr("disabled","disabled");
+                   $("input[name='patient_parent_death_age']").attr("disabled","disabled");
+                   $("select[name='parent_argument']").attr("disabled","disabled");
+                   $("input[name='patient_adopt']").attr("disabled","disabled");
+                   $("input[name='patient_adopt_age']").attr("disabled","disabled");
+                   $("select[name='father_relationship']").attr("disabled","disabled");
+                   $("select[name='mother_relationship']").attr("disabled","disabled");
+                   $("#bt_group").attr("style","display:block;");
+                   $("#redo_bt_group").attr("style","display:none;");
+                   var order = "{{ order }}";
+                   if(order==0){{% comment %}第一个{% endcomment %}
+                       $("#last_scale").attr("style","display:none;");
+                       $("#next_scale_final").attr("style","display:none;");
+                       $("#next_scale").attr("style","display:block;");
+                   }else if(order==1){{% comment %}最后一个{% endcomment %}
+                       $("#last_scale").attr("style","display:block;");
+                       $("#next_scale_final").attr("style","display:block;");
+                       $("#next_scale").attr("style","display:none;");
+                   }else{{# 啥也不是 #}
+                       $("#last_scale").attr("style","display:block;");
+                       $("#next_scale_final").attr("style","display:none;");
+                       $("#next_scale").attr("style","display:block;");
+                    }
+
             }
        }
   </script>

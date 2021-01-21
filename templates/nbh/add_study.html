@@ -149,7 +149,7 @@
 {#0.重做按钮组合#}
                     <div class="row" id="redo_bt_group">
                         <div class="col-md-4 col-sm-6 text-center" style="text-align: center">
-                            <a href="/scales/get_last_url?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}"
+                            <a href="/scales/get_last_baseinfo_url?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}"
                                id="last_scale0">
                                 <button type="button" class="btn btn-warning" id="bt_return">返回上一量表</button>
                             </a>
@@ -166,7 +166,7 @@
 {#1.展示按钮组合#}
                     <div class="row" id="bt_group" style="display: none">
                             <div  class="col-md-4 col-sm-6 text-center"  >
-                               <a  href="/scales/get_last_url?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}"
+                               <a  href="/scales/get_last_baseinfo_url?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}"
                                id="last_scale">
                                    <button type="button" class="btn btn-warning" id="bt_return">返回上一量表</button>
                                </a>
@@ -174,7 +174,7 @@
 
                             <div  class="col-md-4 col-sm-6" id="next_scale" >
                                  {% csrf_token %}
-                                <a href="/scales/get_next_url?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}">
+                                <a href="/scales/get_next_baseinfo_url?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}">
                                     <input  type="button" class="btn btn-success text-center"  value="进入下一量表"  >
                                 </a>
                             </div>
@@ -204,32 +204,34 @@
            var do_type="{{ do_type }}";
            if(do_type=='1')
            {
-               {#数据填充 读数据#}
-               var patient_current_achievement = Number({{ patient_baseinfo_study.patient_current_achievement }});
-               $("#patient_current_achievement option[value="+patient_current_achievement+"]").prop("selected",true);
-               var patient_last_semester_achievement_difference = Number("{{ patient_baseinfo_study.patient_last_semester_achievement_difference }}");
-               $("#patient_last_semester_achievement_difference option[value="+patient_last_semester_achievement_difference+"]").prop("selected",true);
-               var patient_mood_symptom_achievement_difference = Number("{{ patient_baseinfo_study.patient_mood_symptom_achievement_difference }}");
-               $("#patient_mood_symptom_achievement_difference option[value="+patient_mood_symptom_achievement_difference+"]").prop("selected",true);
-
-               var patient_leader=Number("{{ patient_baseinfo_study.patient_leader }}");
-               $("input[name='patient_leader'][value="+patient_leader+"]").prop("checked",true);
-               if (patient_leader==0){
-                    $(".patient_class_leader_occupation").attr("style","display:none;");
-                   $("input[name='patient_leader_occupation']").val('');
-               }else if(patient_leader==1){
-                   $(".patient_class_leader_occupation").attr("style","display:block;");
-                   $("input[name='patient_leader_occupation']").val('{{ patient_baseinfo_study.patient_leader_occupation|processNone }}');
+               if('{{ patient_baseinfo_study }}'!='None')
+               {
+                   {#数据填充 读数据#}
+                   var patient_current_achievement = Number({{ patient_baseinfo_study.patient_current_achievement }});
+                   $("#patient_current_achievement option[value="+patient_current_achievement+"]").prop("selected",true);
+                   var patient_last_semester_achievement_difference = Number("{{ patient_baseinfo_study.patient_last_semester_achievement_difference }}");
+                   $("#patient_last_semester_achievement_difference option[value="+patient_last_semester_achievement_difference+"]").prop("selected",true);
+                   var patient_mood_symptom_achievement_difference = Number("{{ patient_baseinfo_study.patient_mood_symptom_achievement_difference }}");
+                   $("#patient_mood_symptom_achievement_difference option[value="+patient_mood_symptom_achievement_difference+"]").prop("selected",true);
+                   var patient_leader=Number("{{ patient_baseinfo_study.patient_leader }}");
+                   $("input[name='patient_leader'][value="+patient_leader+"]").prop("checked",true);
+                   if (patient_leader==0){
+                        $(".patient_class_leader_occupation").attr("style","display:none;");
+                       $("input[name='patient_leader_occupation']").val('');
+                   }else if(patient_leader==1){
+                       $(".patient_class_leader_occupation").attr("style","display:block;");
+                       $("input[name='patient_leader_occupation']").val('{{ patient_baseinfo_study.patient_leader_occupation|processNone }}');
+                   }
+                   var patient_live_school=Number("{{ patient_baseinfo_study.patient_live_school }}");
+                   $("input[name='patient_live_school'][value="+patient_live_school+"]").prop("checked",true);
+                    if (patient_live_school==0){
+                        $(".patient_go_home_frequency").attr("style","display:none;");
+                        $("input[name='patient_home_frequency']").val('');
+                    }else if(patient_live_school==1){
+                        $(".patient_go_home_frequency").attr("style","display:block;");
+                        $("input[name='patient_home_frequency']").val('{{ patient_baseinfo_study.patient_home_frequency|processNone }}');
+                    }
                }
-               var patient_live_school=Number("{{ patient_baseinfo_study.patient_live_school }}");
-               $("input[name='patient_live_school'][value="+patient_live_school+"]").prop("checked",true);
-                if (patient_live_school==0){
-                    $(".patient_go_home_frequency").attr("style","display:none;");
-                    $("input[name='patient_home_frequency']").val('');
-                }else if(patient_live_school==1){
-                    $(".patient_go_home_frequency").attr("style","display:block;");
-                    $("input[name='patient_home_frequency']").val('{{ patient_baseinfo_study.patient_home_frequency|processNone }}');
-                }
 
                {#锁住#}
                $("select[name='patient_current_achievement']").attr("disabled","disabled");
