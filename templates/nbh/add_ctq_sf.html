@@ -460,10 +460,9 @@ $(document).ready(function(){
           return false;
       }
       /*alert(document.ctq_sfform.first_sex_age.value);*/
-      if (document.ctq_sfform.first_sex_age.value<0 || document.ctq_sfform.first_sex_age.value>88 || document.ctq_sfform.first_sex_age.value=="") {
-          alert("请输入正确的格式！");
-          return false;
-      }
+      {#if (document.ctq_sfform.first_sex_age.value<0 || document.ctq_sfform.first_sex_age.value>88 || document.ctq_sfform.first_sex_age.value=="") {#}
+      {#    alert("请输入正确的格式！");#}
+      {#    return false;#}
 
       alert("提交成功！");
       return true;
