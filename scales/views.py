@@ -1155,11 +1155,12 @@ duration_buffer = []
 
 
 def test_submit(request):
-    from models import RSelfTestDuration
+    from .models import RSelfTestDuration
     """取patient——session_id"""
     patient_session_id = request.GET.get('patient_session_id')
     # patient_id = request.GET.get('patient_id')
     scale_id = request.GET.get('scale_id')
+    doctor_id = request.session.get('doctor_id')
     '''取POST中的表单信息'''
     form_data = request.POST.get('data')
     question_index = request.POST.get('question_index')
@@ -1167,41 +1168,55 @@ def test_submit(request):
     test_name = request.POST.get('test_name')
     duration = request.POST.get('duration')
 
+    print(patient_session_id, scale_id, form_data, question_index, flag, test_name, duration)
+
     '''缓存不存在当前复诊记录就创建，把所有量表对象查出来'''
     if patient_session_id not in ajax_buffer.keys():
         print('buffer in')
         ajax_buffer[patient_session_id] = {
-            'ybo': scales_dao.get_patient_YBO_byPatientDetailId(patient_session_id),
-            'bss': scales_dao.get_patient_suicidal_byPatientDetailId(patient_session_id),
-            'hcl_33': scales_dao.get_patient_manicSymptom_byPatientDetailId(patient_session_id),
-            'shaps': scales_dao.get_patient_happiness_byPatientDetailId(patient_session_id),
-            'teps': scales_dao.get_patient_pleasure_byPatientDetailId(patient_session_id),
-            'ctq_sf': scales_dao.get_patient_growth_byPatientDetailId(patient_session_id),
-            'cerq_c': scales_dao.get_patient_adolescent_byPatientDetailId(patient_session_id),
-            'aslec': scales_dao.get_patient_cognitive_byPatientDetailId(patient_session_id),
-            's_embu': scales_dao.get_patient_SEmbu_byPatientDetailId(patient_session_id),
-            'atq': scales_dao.get_patient_ATQ_byPatientDetailId(patient_session_id),
+            'ybo': scales_dao.get_or_default_patient_YBO_byPatientDetailId(patient_session_id, doctor_id),
+            'bss': scales_dao.get_or_default_patient_suicidal_byPatientDetailId(patient_session_id, doctor_id),
+            'hcl_33': scales_dao.get_or_default_patient_manicSymptom_byPatientDetailId(patient_session_id, doctor_id),
+            'shaps': scales_dao.get_or_default_patient_happiness_byPatientDetailId(patient_session_id, doctor_id),
+            'teps': scales_dao.get_or_default_patient_pleasure_byPatientDetailId(patient_session_id, doctor_id),
+            'ctq_sf': scales_dao.get_or_default_patient_growth_byPatientDetailId(patient_session_id, doctor_id),
+            'cerq_c': scales_dao.get_or_default_patient_adolescent_byPatientDetailId(patient_session_id, doctor_id),
+            'aslec': scales_dao.get_or_default_patient_cognitive_byPatientDetailId(patient_session_id, doctor_id),
+            's_embu': scales_dao.get_or_default_patient_SEmbu_byPatientDetailId(patient_session_id, doctor_id),
+            'atq': scales_dao.get_or_default_patient_ATQ_byPatientDetailId(patient_session_id, doctor_id),
         }
+        print(ajax_buffer[patient_session_id])
     '''获取序列化的form_data中的表单信息'''
     attribute_name = []
     attribute_value = []
     for element in form_data.split('&'):
         attribute_name.append(element.split('=')[0])
         attribute_value.append(element.split('=')[1])
+    print(attribute_name)
+    print(attribute_value)
     '''遍历form_data,填充对应的属性值'''
     for attribute in attribute_name:
         if hasattr(ajax_buffer[patient_session_id][test_name], attribute):
-            setattr(ajax_buffer[patient_session_id][test_name], attribute)
-            print('attribute successs')
-    duration_buffer.append(RSelfTestDuration(patient_session_id, scale_id, question_index, duration))
+            print('set attribute')
+            setattr(ajax_buffer[patient_session_id][test_name], attribute, attribute_value[attribute_name.index(attribute)])
+            print('set attribute successs')
+    duration_buffer.append(RSelfTestDuration(patient_session_id=patient_session_id,
+                                             scale_id=scale_id,
+                                             question_index=question_index,
+                                             duration=duration))
+    print('duration_buffer append success')
+    print(duration_buffer)
     '''填充完毕之后判断flag, 提交相应量表对象, flush duration_buffer'''
-    if flag == 1:
+    if flag == '1':
+        print('do flush')
         # 保存
         ajax_buffer[patient_session_id][test_name].save()
         RSelfTestDuration.objects.bulk_create(duration_buffer)
+        print('clean buffer')
         # 清空缓存
         ajax_buffer[patient_session_id][test_name] = None
         duration_buffer.clear()
+
         # 清空病人
         clean_patient_session_flag = True
         for key in ajax_buffer[patient_session_id].keys():
@@ -1209,5 +1224,6 @@ def test_submit(request):
                 clean_patient_session_flag = False
                 break
         if clean_patient_session_flag:
+            print('clean patient')
             ajax_buffer.pop(patient_session_id)
     return HttpResponse(request.POST)

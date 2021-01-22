@@ -318,8 +318,11 @@
                     document.getElementById('question_text').innerHTML = "21.当我做的事情取得成功时，我觉得父\\母亲很为我自豪";
                     alter_option_names("answer_1", "question21_father");
                     alter_option_names("answer_2", "question21_mother");
-                    //跳转
-                    document.getElementById('question_submit').setAttribute('onclick',"location='https://www.baidu.com'");
+                    // 跳转
+                    document.getElementById('question_submit').setAttribute('onclick',"location=\'" +
+                        location.host + "/scales/select_scales?patient_session_id={{ patient_session_id }}" +
+                        "\'"
+                    );
                     end_flag = 1;
                     break;
             }

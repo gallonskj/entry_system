@@ -107,10 +107,13 @@
                 div.appendChild(text);
                 options.appendChild(div);
                 options.style.paddingLeft='46%';
-                flag = 1;
+                end_flag = 1;
                 question_index ++;
                 //跳转
-                document.getElementById('question_submit').setAttribute('onclick',"location='https://www.baidu.com'");
+                document.getElementById('question_submit').setAttribute('onclick',"location=\'" +
+                        location.host + "/scales/select_scales?patient_session_id={{ patient_session_id }}" +
+                        "\'"
+                    );
             }else{
                 const answers = document.getElementsByClassName("answer");
                 let flag = 0;

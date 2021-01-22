@@ -460,9 +460,10 @@
 			if (document.ybo_6.compulsion_frequency.value==="") {
                 alert("问题不能为空！");
           	}else if(document.ybo_6.compulsion_frequency.value==="0"){
+				end_flag = 1;
 				ajax_post($('#ybo_6'));
 				// 跳转
-				location='https://www.baidu.com';
+				location = location.host + "/scales/select_scales?patient_session_id={{ patient_session_id }}";
 			}else {
 				ajax_post($('#ybo_6'));
 				$("div[class='ybo_6']").hide();
@@ -510,7 +511,7 @@
 				end_flag = 1;
 				ajax_post($('#ybo_10'));
 				// 跳转
-				location = 'https://www.baidu.com';
+				location = location.host + "/scales/select_scales?patient_session_id={{ patient_session_id }}";
 			}
 		});
 	});

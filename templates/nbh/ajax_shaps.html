@@ -172,8 +172,11 @@
                 case 13:
                     document.getElementById('question_text').innerHTML = "14.我会感到高兴,当我得到他人的赞美";
                     alter_option_names("answer", "question14_answer");
-                    //跳转
-                    document.getElementById('question_submit').setAttribute('onclick',"location='https://www.baidu.com'");
+                    // 跳转
+                    document.getElementById('question_submit').setAttribute('onclick',"location=\'" +
+                        location.host + "/scales/select_scales?patient_session_id={{ patient_session_id }}" +
+                        "\'"
+                    );
                     end_flag = 1;
                     break;
             }

@@ -332,7 +332,10 @@
                     document.getElementById('question_text_1').innerHTML = "10. 您的情绪有时会突然转变吗？<br/><br>";
                     alter_option_names("answer_1", "question10");
                     //跳转
-                    document.getElementById('question_submit_1').setAttribute('onclick',"location='https://www.baidu.com'");
+                    document.getElementById('question_submit_1').setAttribute('onclick',"location=\'" +
+                        location.host + "/scales/select_scales?patient_session_id={{ patient_session_id }}" +
+                        "\'"
+                    );
                     end_flag = 1;
                     break;
             }

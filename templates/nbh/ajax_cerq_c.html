@@ -264,7 +264,10 @@
                     document.getElementById('question_test').innerHTML = "36.我感到事情发生的根本原因在别人身上";
                     alter_option_names("answer", "question36_answer");
                     end_flag = 1;
-                    document.getElementById('question_submit').setAttribute('onclick',"location='https://www.baidu.com'");
+                    document.getElementById('question_submit').setAttribute('onclick',"location=\'" +
+                        location.host + "/scales/select_scales?patient_session_id={{ patient_session_id }}" +
+                        "\'"
+                    );
                     break;
             }
         }
