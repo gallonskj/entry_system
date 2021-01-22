@@ -205,7 +205,7 @@
                     document.getElementById('question_test').innerHTML = "18.当一些令人兴奋的事情即将出现在生活中时，我由衷的期待";
                     alter_option_names('answer', 'question18_answer');
                     document.getElementById('question_submit').setAttribute('onclick',"location=\'" +
-                        location.host + "/scales/select_scales?patient_session_id={{ patient_session_id }}" +
+                        location.host + "/scales/select_scales?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&session_id={{ session_id }}" +
                         "\'"
                     );
                     end_flag = 1;

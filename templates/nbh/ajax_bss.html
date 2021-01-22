@@ -1280,7 +1280,7 @@
 			}else{
 				end_flag = 1;
 				//跳转
-				location = location.host + "/scales/select_scales?patient_session_id={{ patient_session_id }}";
+				location = location.host + "/scales/select_scales?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&session_id={{ session_id }}";
 			}
 		});
 
@@ -1563,8 +1563,8 @@
 				end_flag = 1;
 				ajax_post($('#bss_19_2'))
 
-				//跳转
-				location = location.host + "/scales/select_scales?patient_session_id={{ patient_session_id }}";
+				// 跳转
+				location = location.host + "/scales/select_scales?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&session_id={{ session_id }}";
 				last = 1;
 			}
 		});

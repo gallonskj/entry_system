@@ -242,9 +242,9 @@
                     document.getElementById('question_test').innerHTML = "27.如有其他事件说明";
                     alter_option_names("answer", "question27_answer");
                     end_flag = 1;
-                    //跳转
+                    // 跳转
                     document.getElementById('question_submit').setAttribute('onclick',"location=\'" +
-                        location.host + "/scales/select_scales?patient_session_id={{ patient_session_id }}" +
+                        location.host + "/scales/select_scales?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&session_id={{ session_id }}" +
                         "\'"
                     );
                     break;
