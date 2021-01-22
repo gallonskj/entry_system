@@ -354,7 +354,7 @@ class RPatientDrugsInformation(models.Model):
     drug_name = models.CharField(max_length=40, blank=True, null=True)
     drug_general_name = models.CharField(max_length=40, blank=True, null=True)
     drug_type = models.CharField(max_length=40, blank=True, null=True)
-    dosage = models.FloatField(blank=True, null=True)
+    dosage = models.CharField(max_length=50, blank=True, null=True)
     begin_time = models.DateField(blank=True, null=True)
     end_time = models.DateField(blank=True, null=True)
     note = models.TextField(blank=True, null=True)

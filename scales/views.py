@@ -242,9 +242,12 @@ def get_cognition_forms(request):
 def get_select_scales(request):
     patient_session_id = request.GET.get('patient_session_id')
     patient_id = request.GET.get('patient_id')
+    session_id= request.GET.get('session_id')
     patient = patients_dao.get_base_info_byPK(patient_id)
     patient.birth_date = patient.birth_date.strftime('%Y-%m-%d')
-    patient_detail = patients_dao.get_patient_detail_last_byPatientId(patient_id)
+    #patient_detail = patients_dao.get_patient_detail_last_byPatientId(patient_id)
+    patient_detail = patients_dao.get_patient_detail_byPatientId(patient_id,session_id)
+    patient_detail.scan_date=patient_detail.scan_date.strftime('%Y-%m-%d')
     # 获取各个scaleType的list信息
     scales_list = patients_dao.judgment_scales(patient_session_id)
     generalinfo_scale_list, other_test_scale_list, self_test_scale_list, cognition_scale_list = scales_dao.get_uodo_scales(
