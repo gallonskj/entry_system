@@ -1100,6 +1100,11 @@ def add_chinesehandle(request):
 def add_patient_medical_history(request):
     if request.POST:
         patient_session_id = request.GET.get('patient_session_id')
+        do_type =  request.GET.get('do_type')
+        if do_type == '0':
+            all_list = scales_models.RPatientDrugsInformation.objects.filter(patient_session_id=patient_session_id)
+            for list in all_list:
+                list.delete()
         scale_id = tools_config.mediacal_history
         doctor_id = request.session.get('doctor_id')
         rPatientMedicalHistory = scales_models.RPatientMedicalHistory(patient_session_id=patient_session_id,
@@ -1113,6 +1118,8 @@ def add_patient_medical_history(request):
         del_flag = 0
         medical_list = scales_models.RPatientMedicalHistory.objects.filter(patient_session_id=patient_session_id)
         medical_list.delete()
+        flag1=0
+        flag2=0
         for key in request.POST.keys():
             if hasattr(rPatientMedicalHistory, key):
                 val = request.POST.get(key)
@@ -1129,16 +1136,10 @@ def add_patient_medical_history(request):
                         val = val + seperator + datestr
                     if key == 'current_episode_date':
                         val = val + seperator + datestr
-                if (key=='historical_drugs' and val== '0'):
-                    all_list = scales_models.RPatientDrugsInformation.objects.filter(
-                        patient_session_id=patient_session_id,type=0)
-                    for list in all_list:
-                        list.delete()
-                if (key=='scanning_using_drugs' and val == '0'):
-                    all_list = scales_models.RPatientDrugsInformation.objects.filter(
-                        patient_session_id=patient_session_id,type=1)
-                    for list in all_list:
-                        list.delete()
+                if key=='historical_drugs' and val== '0':
+                    flag1=1
+                if key=='scanning_using_drugs' and val == '0':
+                    flag2=1
                 setattr(rPatientMedicalHistory, key, val)
             else:
                 pos = key.rfind('_')
@@ -1165,7 +1166,14 @@ def add_patient_medical_history(request):
                         rPatientDrugsInformation = scales_models.RPatientDrugsInformation(
                             patient_session_id=patient_session_id, scale_id=scale_id,
                             doctor_id=doctor_id)
-
+    if flag1==1:
+        all_list = scales_models.RPatientDrugsInformation.objects.filter(patient_session_id=patient_session_id,type=0)
+        for list in all_list:
+            list.delete()
+    if flag2==1:
+        all_list = scales_models.RPatientDrugsInformation.objects.filter(patient_session_id=patient_session_id, type=1)
+        for list in all_list:
+            list.delete()
     # 添加数据库
     scales_dao.add_medical_history(rPatientMedicalHistory,1)
     # 页面跳转

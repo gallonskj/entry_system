@@ -163,7 +163,10 @@
                                                                 </tr>
 
                                                                 <tbody>
+                                                                <div id="pre_drugs_info">
+                                                                 {% if do_type == '1' %}
                                                                 {% for items in historical_drugs_information %}
+
                                                                     <tr>
                                                                         <td>
                                                                             <input type=number readonly min=0  max=1 value="{{ items.type }}" name="type_1{{ forloop.counter }}">
@@ -191,6 +194,8 @@
                                                                         </td>
                                                                     </tr>
                                                                 {% endfor %}
+                                                                {% endif %}
+                                                                </div>
                                                                 <tr>
 
                                                                 </tr>
@@ -232,7 +237,7 @@
                                                                 <th>备注</th>
                                                             </tr>
                                                             <tbody>
-
+                                                            {% if do_type == '1' %}
                                                                 {% for items in scanning_drugs_information %}
 
 
@@ -263,6 +268,7 @@
                                                                         </td>
                                                                     </tr>
                                                                 {% endfor %}
+                                                            {% endif %}
                                                                 <tr>
 
                                                                 </tr>
@@ -411,6 +417,10 @@
                     $("#next_scale_final").attr("style", "display:none;");
                     $("#next_scale").attr("style", "display:block;");
                 }
+            }
+            else
+            {  {# do_type=0 #}
+                $("#pre_drugs_info :input").attr("disabled", true);
             }
         }
 
