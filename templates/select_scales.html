@@ -37,7 +37,7 @@
 
                 <div class="col-md-12 col-xs-12">
 
-                    <div class="col-md-4 col-xs-12">
+                    <div class="col-md-4  col-xs-12">
                         <div class="x_panel" style="height: 410px">
                             <div class="x_title">
                                 <h2>个人信息<small>基本信息{{ standard_id }}</small></h2>
@@ -110,7 +110,7 @@
                         </div>
                     </div>
 
-                    <div class="col-md-4 col-xs-12">
+                   <div class="col-md-4 col-xs-12">
                         <div class="x_panel" style="height: 410px">
                             <div class="x_title">
                                 <h2>量表录入选项列表</h2>
@@ -121,9 +121,9 @@
                                 <a href="/scales/get_general_info_forms?patient_session_id={{ patient_session_id }}&patient_id={{ patient_baseinfo.id }}&do_type=0"
                                    style="color: white">
                                     {% if todo_generalinfo_scale_size == 0 %}
-                                        <button class="btn btn-success  " style="width: 70%" disabled="disabled">个人一般信息录入</button>
+                                        <button class="btn btn-success" style="width: 70%" disabled="disabled" type="button">个人一般信息录入</button>
                                     {% else %}
-                                        <button class="btn btn-success  " style="width: 70%" >
+                                        <button class="btn btn-success" style="width: 70%" type="button">
                                             个人一般信息录入({{ todo_generalinfo_scale_size }})
                                         </button>
                                     {% endif %}
@@ -132,9 +132,9 @@
                                 <a href="/scales/get_other_test_forms?patient_session_id={{ patient_session_id }}&patient_id={{ patient_baseinfo.id }}"
                                    style="color: white">
                                     {% if todo_other_test_scale_size == 0 %}
-                                        <button class="btn btn-warning " style="width: 70%" disabled="disabled">他测量表录入</button>
+                                        <button class="btn btn-warning " style="width: 70%" disabled="disabled" type="button">他测量表录入</button>
                                     {% else %}
-                                        <button class="btn btn-warning " style="width: 70%">
+                                        <button class="btn btn-warning " style="width: 70%" type="button">
                                             他测量表录入({{ todo_other_test_scale_size }})
                                         </button>
                                     {% endif %}
@@ -143,18 +143,18 @@
                                 <a href="/scales/get_self_test_forms?patient_session_id={{ patient_session_id }}&patient_id={{ patient_baseinfo.id }}"
                                    style="color: white">
                                     {% if todo_self_test_scale_size == 0 %}
-                                        <button class="btn btn-primary  " style="width: 70%" disabled="disabled">自评量表录入</button>
+                                        <button class="btn btn-primary  " style="width: 70%" disabled="disabled" type="button">自评量表录入</button>
                                     {% else %}
-                                        <button class="btn btn-primary " style="width: 70%">自评量表录入({{ todo_self_test_scale_size }})</button>
+                                        <button class="btn btn-primary " style="width: 70%" type="button">自评量表录入({{ todo_self_test_scale_size }})</button>
                                     {% endif %}
                                 </a>
                                 <br/><br/>
                                 <a href="/scales/get_cognition_forms?patient_session_id={{ patient_session_id }}&patient_id={{ patient_baseinfo.id }}"
                                    style="color: white">
                                     {% if todo_cognition_scale_size == 0 %}
-                                        <button class="btn btn-info  " style="width: 70%" disabled="disabled">认知量表录入</button>
+                                        <button class="btn btn-info  " style="width: 70%" disabled="disabled" type="button">认知量表录入</button>
                                     {% else %}
-                                        <button class="btn btn-info " style="width: 70%">认知量表录入({{ todo_cognition_scale_size }})
+                                        <button class="btn btn-info " style="width: 70%" type="button">认知量表录入({{ todo_cognition_scale_size }})
                                         </button>
                                     {% endif %}
                                 </a>
@@ -162,9 +162,9 @@
                                 <a href="/scales/get_rtms_forms?patient_session_id={{ patient_session_id }}&patient_id={{ patient_baseinfo.id }}"
                                    style="color: white">
                                     {% if tms == 1 %}
-                                        <button class="btn btn-danger  " style="width: 70%" disabled="disabled">rtms治疗信息录入</button>
+                                        <button class="btn btn-danger  " style="width: 70%" disabled="disabled" type="button">rtms治疗信息录入</button>
                                     {% else %}
-                                        <button class="btn btn-danger " style="width: 70%">rtms治疗信息录入</button>
+                                        <button class="btn btn-danger " style="width: 70%" type="button">rtms治疗信息录入</button>
 
                                     {% endif %}
                                 </a>
@@ -177,7 +177,7 @@
                     <div class="col-md-4 col-xs-12">
                         <div class="x_panel" style="height: 410px">
                             <div class="x_title">
-                                <h2>qewrwe</h2>
+                                <h2>信息采集情况</h2>
                                 <div class="clearfix"></div>
                             </div>
                             <div class="x_content">
