@@ -30,261 +30,299 @@
             </div>
         </div>
         <div class="row x_panel">
+        <br/><br/>
+            <form class="form-horizontal form-label-left"
+                  action="/patients/update_patient_detail?patient_session_id={{ patient_session_id }}&patient_id={{ patient_baseinfo.id }}&session_id={{ patient_detail.session_id }}"
+                  method="POST">
 
+                <div class="col-md-12 col-xs-12">
 
-            <div class="col-md-3 col-xs-12">
-                <div class="x_panel">
-                    <div class="x_title">
-                        <h2>量表录入选项列表</h2>
-                        <div class="clearfix"></div>
-                    </div>
-                    <div class="x_content">
-                        <a href="/scales/get_general_info_forms?patient_session_id={{ patient_session_id }}&patient_id={{ patient_baseinfo.id }}&do_type=0"
-                           style="color: white">
-                            {% if todo_generalinfo_scale_size == 0 %}
-                                <button class="btn btn-success btn-block " disabled="disabled">个人一般信息录入</button>
-                            {% else %}
-                                <button class="btn btn-success btn-block " >个人一般信息录入({{ todo_generalinfo_scale_size }})</button>
-                            {% endif %}
-                        </a>
-                        <br/>
-                        <a href="/scales/get_other_test_forms?patient_session_id={{ patient_session_id }}&patient_id={{ patient_baseinfo.id }}"
-                           style="color: white">
-                            {% if todo_other_test_scale_size == 0 %}
-                                <button class="btn btn-warning btn-block" disabled="disabled">他测量表录入</button>
-                            {% else %}
-                                <button class="btn btn-warning btn-block">他测量表录入({{ todo_other_test_scale_size }})</button>
-                            {% endif %}
-                        </a>
-                        <br/>
-                        <a href="/scales/get_self_test_forms?patient_session_id={{ patient_session_id }}&patient_id={{ patient_baseinfo.id }}"
-                           style="color: white">
-                            {% if todo_self_test_scale_size == 0 %}
-                                <button class="btn btn-primary btn-block " disabled="disabled">自评量表录入</button>
-                            {% else %}
-                                <button class="btn btn-primary btn-block">自评量表录入({{ todo_self_test_scale_size }})</button>
-                            {% endif %}
-                        </a>
-                        <br/>
-                        <a href="/scales/get_cognition_forms?patient_session_id={{ patient_session_id }}&patient_id={{ patient_baseinfo.id }}"
-                           style="color: white">
-                            {% if todo_cognition_scale_size == 0 %}
-                                <button class="btn btn-info btn-block " disabled="disabled">认知量表录入</button>
-                            {% else %}
-                                <button class="btn btn-info btn-block">认知量表录入({{ todo_cognition_scale_size }})</button>
-                            {% endif %}
-                        </a>
-                        <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-                    </div>
-                    <div class="ln_solid"></div>
-                </div>
-            </div>
-
-
-            <div class="col-md-9 col-xs-12">
-                <div class="x_panel">
-                    <div class="x_title">
-                        <h2>个人信息<small>基本信息{{ standard_id }}</small></h2>
-                        <div class="clearfix"></div>
-                    </div>
-                    <form class="form-horizontal form-label-left" action="/patients/update_patient_detail?patient_session_id={{ patient_session_id }}&patient_id={{ patient_baseinfo.id }}&page=1"  method="POST">
-                        <div class="x_content">
-                            <div>
-                                <div class="col-md-4 col-xs-12">
-
-                                    <div class="form-group">
-                                        <label class="control-label col-md-4 col-sm-4 col-xs-6" for="subject_number">受试编号<span class="required">:</span></label>
-                                        <p class="col-md-4 col-sm-4 col-xs-6" id="patient_id" style="padding-top: 7px;margin-bottom: 0;text-align: left"></p>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label class="control-label col-md-4 col-sm-4 col-xs-6" for="last-name">姓名 <span class="required">:</span></label>
-                                        <p class="col-md-4 col-sm-4 col-xs-6" style="padding-top: 7px;margin-bottom: 0;text-align: left">{{ patient_baseinfo.name }}</p>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label class="control-label col-md-4 col-sm-4 col-xs-6">性别 <span class="required">:</span></label>
-                                        <p class="col-md-4 col-sm-4 col-xs-6" style="padding-top: 7px;margin-bottom: 0;text-align: left">
-                                            {% if patient_baseinfo.sex == 0 %}
-                                                男
-                                            {% else %}
-                                                女
-                                            {% endif %}
-                                        </p>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label class="control-label col-md-4 col-sm-4 col-xs-6">民族 <span
-                                                class="required">:</span></label>
-                                        <p class="col-md-4 col-sm-4 col-xs-6"
-                                           style="padding-top: 7px;margin-bottom: 0;text-align: left">{{ patient_baseinfo.nation }}</p>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="birth_date" class="control-label col-md-4 col-sm-4 col-xs-6">出生日期<span class="required">:</span></label>
-                                        <p class="col-md-4 col-sm-4 col-xs-6" style="width: 120px; padding-top: 7px;margin-bottom: 0;text-align: left;">{{ patient_baseinfo.birth_date }}</p>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label class="control-label col-md-4 col-sm-4 col-xs-12" for="subject_number">年龄<span class="required">:</span></label>
-                                        <p class="col-md-4 col-sm-4 col-xs-12" id="patient_id" style="padding-top: 7px;margin-bottom: 0;text-align: left"> {{ patient_detail.age }}</p>
-                                    </div>
-                                     <div class="form-group">
-                                        <label class="control-label col-md-4 col-sm-4 col-xs-12" for="subject_number">头动参数<span class="required">:</span></label>
-                                        <input type="text" name="waist" class="sel_beauty" value=""/>
-                                    </div>
-                                     <div class="form-group">
-                                        <label class="control-label col-md-4 col-sm-4 col-xs-12" for="subject_number">扫描时间<span class="required">:</span></label>
-                                        <input type="date" name="scan_date" class="sel_beauty" value="{{ patient_detail.scan_date }}"/>
-                                    </div>
-
-
-
-
+                    <div class="col-md-4 col-xs-12">
+                        <div class="x_panel" style="height: 410px">
+                            <div class="x_title">
+                                <h2>个人信息<small>基本信息{{ standard_id }}</small></h2>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="x_content">
+                                <div class="form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-6"
+                                           for="subject_number">受试编号<span class="required">:</span></label>
+                                    <p class="col-md-4 col-sm-4 col-xs-6" id="patient_id"
+                                       style="padding-top: 7px;margin-bottom: 0;text-align: left"></p>
                                 </div>
-
-
-
-                                <div class="col-md-4 col-xs-12">
-                                    <div class="form-group">
-                                        <label class="control-label col-md-4 col-sm-4 col-xs-12" for="subject_number">认知是否完成<span class="required">:</span></label>
-                                        {% if patient_detail.cognitive == 0 or patient_detail.cognitive is null %}
-                                            <input type="radio" name="cognitive" value=0 data-labelauty="否" checked/>
-                                            <input type="radio" name="cognitive" value=1 data-labelauty="是"/>
-                                        {% else%}
-                                            <input type="radio" name="cognitive" value=0 data-labelauty="否" />
-                                            <input type="radio" name="cognitive" value=1 data-labelauty="是" checked/>
-                                        {% endif %}
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="control-label col-md-4 col-sm-4 col-xs-12" for="subject_number">录音是否完成<span class="required">:</span></label>
-                                        {% if  patient_detail.sound  == 0 or patient_detail.sound is null %}
-                                            <input type="radio" name="sound" value=0 data-labelauty="否" checked/>
-                                            <input type="radio" name="sound" value=1 data-labelauty="是"/>
-                                        {% else %}
-                                            <input type="radio" name="sound" value=0 data-labelauty="否" />
-                                            <input type="radio" name="sound" value=1 data-labelauty="是" checked/>
-                                        {% endif %}
-
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="control-label col-md-4 col-sm-4 col-xs-12" for="subject_number">血液是否采集<span class="required">:</span></label>
-
-                                        {% if  patient_detail.blood  == 0 or patient_detail.blood is null%}
-                                            <input type="radio" name="blood" value=0 data-labelauty="否" checked/>
-                                            <input type="radio" name="blood" value=1 data-labelauty="是"/>
-                                        {% else %}
-                                            <input type="radio" name="blood" value=0 data-labelauty="否" />
-                                            <input type="radio" name="blood" value=1 data-labelauty="是" checked/>
-                                        {% endif %}
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="control-label col-md-4 col-sm-4 col-xs-12" for="subject_number">毛发是否采集<span class="required">:</span></label>
-
-                                        {% if  patient_detail.hairs  == 0 or patient_detail.hairs is null%}
-                                            <input type="radio" name="hairs" value=0 data-labelauty="否" checked/>
-                                            <input type="radio" name="hairs" value=1 data-labelauty="是"/>
-                                        {% else %}
-                                            <input type="radio" name="hairs" value=0 data-labelauty="否" />
-                                            <input type="radio" name="hairs" value=1 data-labelauty="是" checked/>
-                                        {% endif %}
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="control-label col-md-4 col-sm-4 col-xs-12" for="subject_number">粪便是否检测<span class="required">:</span></label>
-
-                                        {% if  patient_detail.manure  == 0 or patient_detail.manure is null%}
-                                            <input type="radio" name="manure" value=0 data-labelauty="否" checked/>
-                                            <input type="radio" name="manure" value=1 data-labelauty="是"/>
-                                        {% else %}
-                                            <input type="radio" name="manure" value=0 data-labelauty="否" />
-                                            <input type="radio" name="manure" value=1 data-labelauty="是" checked/>
-                                        {% endif %}
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="control-label col-md-4 col-sm-4 col-xs-12" for="subject_number">是否用药<span class="required">:</span></label>
-
-                                        {% if  patient_detail.drugs_information  == 0 or patient_detail.drugs_information is null %}
-                                            <input type="radio" name="drugs_information" value=0 data-labelauty="否" checked/>
-                                            <input type="radio" name="drugs_information" value=1 data-labelauty="是"/>
-                                        {% else%}
-                                            <input type="radio" name="drugs_information" value=0 data-labelauty="否" />
-                                            <input type="radio" name="drugs_information" value=1 data-labelauty="是" checked/>
-                                        {% endif %}
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="control-label col-md-4 col-sm-4 col-xs-12" for="subject_number">磁共振情况<span class="required">:</span></label>
-
-                                        {% if  patient_detail.mri_examination  == 0 or patient_detail.mri_examination is null %}
-                                            <input type="radio" name="mri_examination" value=0 data-labelauty="否" checked/>
-                                            <input type="radio" name="mri_examination" value=1 data-labelauty="是"/>
-                                        {% else %}
-                                            <input type="radio" name="mri_examination" value=0 data-labelauty="否" />
-                                            <input type="radio" name="mri_examination" value=1 data-labelauty="是" checked/>
-                                        {% endif %}
-                                    </div>
-
 
                                 <div class="form-group">
-                                        <label class="control-label col-md-4 col-sm-4 col-xs-12" for="subject_number">首发否<span class="required">:</span></label>
-
-
-                                        {% if  patient_detail.first == 0 or patient_detail.first is null %}
-                                            <input type="radio" name="first" value=0 data-labelauty="否" checked/>
-                                            <input type="radio" name="first" value=1 data-labelauty="是"/>
-                                        {% else %}
-                                            <input type="radio" name="first" value=0 data-labelauty="否" />
-                                            <input type="radio" name="first" value=1 data-labelauty="是" checked/>
-
-                                        {% endif %}
-                                    </div>
-
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-6" for="last-name">姓名 <span
+                                            class="required">:</span></label>
+                                    <p class="col-md-4 col-sm-4 col-xs-6"
+                                       style="padding-top: 7px;margin-bottom: 0;text-align: left">{{ patient_baseinfo.name }}</p>
                                 </div>
 
-                            </div>
-                            <div class="col-md-12 ln_solid">
+                                <div class="form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-6">性别 <span
+                                            class="required">:</span></label>
+                                    <p class="col-md-4 col-sm-4 col-xs-6"
+                                       style="padding-top: 7px;margin-bottom: 0;text-align: left">
+                                        {% if patient_baseinfo.sex == 0 %}
+                                            男
+                                        {% else %}
+                                            女
+                                        {% endif %}
+                                    </p>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-6">民族 <span
+                                            class="required">:</span></label>
+                                    <p class="col-md-4 col-sm-4 col-xs-6"
+                                       style="padding-top: 7px;margin-bottom: 0;text-align: left">{{ patient_baseinfo.nation }}</p>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="birth_date" class="control-label col-md-4 col-sm-4 col-xs-6">出生日期<span
+                                            class="required">:</span></label>
+                                    <p class="col-md-4 col-sm-4 col-xs-6"
+                                       style="width: 120px; padding-top: 7px;margin-bottom: 0;text-align: left;">{{ patient_baseinfo.birth_date }}</p>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12"
+                                           for="subject_number">年龄<span class="required">:</span></label>
+                                    <p class="col-md-4 col-sm-4 col-xs-12" id="patient_id"
+                                       style="padding-top: 7px;margin-bottom: 0;text-align: left"> {{ patient_detail.age }}</p>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12"
+                                           for="subject_number">头动参数<span class="required">:</span></label>
+                                    <input type="text" name="head_motion_parameters" class="sel_beauty" value="{{ patient_detail.head_motion_parameters|processNone }}"/>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12"
+                                           for="subject_number">扫描时间<span class="required">:</span></label>
+                                    <input type="date" name="scan_date" class="sel_beauty"
+                                           value="{{ patient_detail.scan_date }}"/>
+                                </div>
+
 
                             </div>
-                            <div class="col-md-12">
-                                <label class="control-label col-md-2 col-sm-2 col-xs-2" for="subject_number">备注<span
-                                        class="required">:</span></label>
-                                <textarea class="col-md-8 col-sm-8 col-xs-8" rows="3" style="resize: none;border-color: #6688a8"></textarea>
-                            </div>
-                            <div></div>
-                            <div class="col-md-12"
-                                 style="text-align: center;transform:translateY(50%);-ms-transform:translateY(50%);-webkit-transform:translateY(50%);">
-                                {% csrf_token %}
-                                <input type="submit" class="btn btn-success " style="margin-right: 40px" value="提交"/>
+                            <br/>
 
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 col-xs-12">
+                        <div class="x_panel" style="height: 410px">
+                            <div class="x_title">
+                                <h2>量表录入选项列表</h2>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="x_content" style="text-align: center">
+                            <br/>
+                                <a href="/scales/get_general_info_forms?patient_session_id={{ patient_session_id }}&patient_id={{ patient_baseinfo.id }}&do_type=0"
+                                   style="color: white">
+                                    {% if todo_generalinfo_scale_size == 0 %}
+                                        <button class="btn btn-success  " style="width: 70%" disabled="disabled">个人一般信息录入</button>
+                                    {% else %}
+                                        <button class="btn btn-success  " style="width: 70%" >
+                                            个人一般信息录入({{ todo_generalinfo_scale_size }})
+                                        </button>
+                                    {% endif %}
+                                </a>
+                                <br/><br/>
+                                <a href="/scales/get_other_test_forms?patient_session_id={{ patient_session_id }}&patient_id={{ patient_baseinfo.id }}"
+                                   style="color: white">
+                                    {% if todo_other_test_scale_size == 0 %}
+                                        <button class="btn btn-warning " style="width: 70%" disabled="disabled">他测量表录入</button>
+                                    {% else %}
+                                        <button class="btn btn-warning " style="width: 70%">
+                                            他测量表录入({{ todo_other_test_scale_size }})
+                                        </button>
+                                    {% endif %}
+                                </a>
+                                <br/><br/>
+                                <a href="/scales/get_self_test_forms?patient_session_id={{ patient_session_id }}&patient_id={{ patient_baseinfo.id }}"
+                                   style="color: white">
+                                    {% if todo_self_test_scale_size == 0 %}
+                                        <button class="btn btn-primary  " style="width: 70%" disabled="disabled">自评量表录入</button>
+                                    {% else %}
+                                        <button class="btn btn-primary " style="width: 70%">自评量表录入({{ todo_self_test_scale_size }})</button>
+                                    {% endif %}
+                                </a>
+                                <br/><br/>
+                                <a href="/scales/get_cognition_forms?patient_session_id={{ patient_session_id }}&patient_id={{ patient_baseinfo.id }}"
+                                   style="color: white">
+                                    {% if todo_cognition_scale_size == 0 %}
+                                        <button class="btn btn-info  " style="width: 70%" disabled="disabled">认知量表录入</button>
+                                    {% else %}
+                                        <button class="btn btn-info " style="width: 70%">认知量表录入({{ todo_cognition_scale_size }})
+                                        </button>
+                                    {% endif %}
+                                </a>
+                                <br><br/>
+                                <a href="/scales/get_rtms_forms?patient_session_id={{ patient_session_id }}&patient_id={{ patient_baseinfo.id }}"
+                                   style="color: white">
+                                    {% if tms == 1 %}
+                                        <button class="btn btn-danger  " style="width: 70%" disabled="disabled">rtms治疗信息录入</button>
+                                    {% else %}
+                                        <button class="btn btn-danger " style="width: 70%">rtms治疗信息录入</button>
+
+                                    {% endif %}
+                                </a>
+                                <br/>
                             </div>
                         </div>
-                        <br/>
-                    </form>
+
+                    </div>
+
+                    <div class="col-md-4 col-xs-12">
+                        <div class="x_panel" style="height: 410px">
+                            <div class="x_title">
+                                <h2>qewrwe</h2>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="x_content">
+                                <div class="form-group">
+                                    <label class="control-label col-md-offset-1 col-md-5"
+                                           for="subject_number">认知是否完成<span class="required">:</span></label>
+                                    {% if patient_detail.cognitive == 0 or patient_detail.cognitive is null %}
+                                        <input type="radio" name="cognitive" value=0 data-labelauty="否" checked/>
+                                        <input type="radio" name="cognitive" value=1 data-labelauty="是"/>
+                                    {% else %}
+                                        <input type="radio" name="cognitive" value=0 data-labelauty="否"/>
+                                        <input type="radio" name="cognitive" value=1 data-labelauty="是" checked/>
+                                    {% endif %}
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-offset-1 col-md-5"
+                                           for="subject_number">录音是否完成<span class="required">:</span></label>
+                                    {% if  patient_detail.sound  == 0 or patient_detail.sound is null %}
+                                        <input type="radio" name="sound" value=0 data-labelauty="否" checked/>
+                                        <input type="radio" name="sound" value=1 data-labelauty="是"/>
+                                    {% else %}
+                                        <input type="radio" name="sound" value=0 data-labelauty="否"/>
+                                        <input type="radio" name="sound" value=1 data-labelauty="是" checked/>
+                                    {% endif %}
+
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-offset-1 col-md-5"
+                                           for="subject_number">血液是否采集<span class="required">:</span></label>
+
+                                    {% if  patient_detail.blood  == 0 or patient_detail.blood is null %}
+                                        <input type="radio" name="blood" value=0 data-labelauty="否" checked/>
+                                        <input type="radio" name="blood" value=1 data-labelauty="是"/>
+                                    {% else %}
+                                        <input type="radio" name="blood" value=0 data-labelauty="否"/>
+                                        <input type="radio" name="blood" value=1 data-labelauty="是" checked/>
+                                    {% endif %}
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-offset-1 col-md-5"
+                                           for="subject_number">毛发是否采集<span class="required">:</span></label>
+
+                                    {% if  patient_detail.hairs  == 0 or patient_detail.hairs is null %}
+                                        <input type="radio" name="hairs" value=0 data-labelauty="否" checked/>
+                                        <input type="radio" name="hairs" value=1 data-labelauty="是"/>
+                                    {% else %}
+                                        <input type="radio" name="hairs" value=0 data-labelauty="否"/>
+                                        <input type="radio" name="hairs" value=1 data-labelauty="是" checked/>
+                                    {% endif %}
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-offset-1 col-md-5"
+                                           for="subject_number">粪便是否检测<span class="required">:</span></label>
+
+                                    {% if  patient_detail.manure  == 0 or patient_detail.manure is null %}
+                                        <input type="radio" name="manure" value=0 data-labelauty="否" checked/>
+                                        <input type="radio" name="manure" value=1 data-labelauty="是"/>
+                                    {% else %}
+                                        <input type="radio" name="manure" value=0 data-labelauty="否"/>
+                                        <input type="radio" name="manure" value=1 data-labelauty="是" checked/>
+                                    {% endif %}
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label  col-md-offset-1 col-md-5"
+                                           for="subject_number">是否用药<span class="required">:</span></label>
+
+                                    {% if  patient_detail.drugs_information  == 0 or patient_detail.drugs_information is null %}
+                                        <input type="radio" name="drugs_information" value=0 data-labelauty="否"
+                                               checked/>
+                                        <input type="radio" name="drugs_information" value=1 data-labelauty="是"/>
+                                    {% else %}
+                                        <input type="radio" name="drugs_information" value=0 data-labelauty="否"/>
+                                        <input type="radio" name="drugs_information" value=1 data-labelauty="是"
+                                               checked/>
+                                    {% endif %}
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-offset-1 col-md-5"
+                                           for="subject_number">磁共振情况<span class="required">:</span></label>
+
+                                    {% if  patient_detail.mri_examination  == 0 or patient_detail.mri_examination is null %}
+                                        <input type="radio" name="mri_examination" value=0 data-labelauty="否" checked/>
+                                        <input type="radio" name="mri_examination" value=1 data-labelauty="是"/>
+                                    {% else %}
+                                        <input type="radio" name="mri_examination" value=0 data-labelauty="否"/>
+                                        <input type="radio" name="mri_examination" value=1 data-labelauty="是" checked/>
+                                    {% endif %}
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-offset-1 col-md-5" for="subject_number">首发否<span
+                                            class="required">:</span></label>
+                                    {% if  patient_detail.first == 0 or patient_detail.first is null %}
+                                        <input type="radio" name="first" value=0 data-labelauty="否" checked/>
+                                        <input type="radio" name="first" value=1 data-labelauty="是"/>
+                                    {% else %}
+                                        <input type="radio" name="first" value=0 data-labelauty="否"/>
+                                        <input type="radio" name="first" value=1 data-labelauty="是" checked/>
+
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
                 </div>
-            </div>
+
+                <div class="col-md-12">
+                    <br/><br/>
+                    <label class="control-label col-md-2 col-sm-2 col-xs-2" for="subject_number">备注<span
+                            class="required">:</span></label>
+                    <textarea class="col-md-8 col-sm-8 col-xs-8" rows="3" style="resize: none;border-color: #6688a8"
+                              name="note">{{ patient_detail.note|processNone }}</textarea>
+                </div>
+                <div></div>
+                <div class="col-md-12"
+                     style="text-align: center;transform:translateY(50%);-ms-transform:translateY(50%);-webkit-transform:translateY(50%);">
+                    {% csrf_token %}
+                    <input type="submit" class="btn btn-success " style="margin-right: 40px" value="提交"/>
+                </div>
+            </form>
 
         </div>
+
+
     </div>
 
     <script>
-       function getData(){
-        var patient_detail_emotional_state = "{{ patient_detail.emotional_state  }}";
-        var emotional_state = Number(patient_detail_emotional_state);
-        $("#emotional_state option[value="+emotional_state+"]").prop("selected",true);
+        function getData() {
+            var patient_detail_emotional_state = "{{ patient_detail.emotional_state  }}";
+            var emotional_state = Number(patient_detail_emotional_state);
+            $("#emotional_state option[value=" + emotional_state + "]").prop("selected", true);
 
-        var patient_detail_source = "{{ patient_detail.source  }}";
-        var source = Number(patient_detail_source);
-        $("#source option[value="+source+"]").prop("selected",true);
+            var patient_detail_source = "{{ patient_detail.source  }}";
+            var source = Number(patient_detail_source);
+            $("#source option[value=" + source + "]").prop("selected", true);
 
-        var patient_detail_diagnosis = "{{ patient_baseinfo.diagnosis }}";
-        var diagnosis = Number(patient_detail_diagnosis);
-        $("#diagnosis option[value="+diagnosis+"]").prop("selected",true);
+            var patient_detail_diagnosis = "{{ patient_baseinfo.diagnosis }}";
+            var diagnosis = Number(patient_detail_diagnosis);
+            $("#diagnosis option[value=" + diagnosis + "]").prop("selected", true);
 
-        if(diagnosis == 99) {
+            if (diagnosis == 99) {
                 document.getElementById("other_diagnosis_div").style.display = "";
-                document.getElementById("other_diagnosis").value="{{ patient_baseinfo.other_diagnosis }}";
+                document.getElementById("other_diagnosis").value = "{{ patient_baseinfo.other_diagnosis }}";
             }
-       }
+        }
     </script>
 {% endblock %}
 

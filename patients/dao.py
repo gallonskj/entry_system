@@ -111,12 +111,9 @@ def get_patient_detail_last_byPatientId(patient_id):
         return patient_detail_res.last()
 
 
-def get_patient_detail_byPatientId(patient_id,session_id):
-    patient_detail_res = patients_models.DPatientDetail.objects.filter(patient_id=patient_id,session_id=session_id)
-    if patient_detail_res.count() == 0:
-        return None
-    else:
-        return patient_detail_res[0]
+def get_patient_detail_byPatientId(patient_session_id):
+    patient_detail_res = patients_models.DPatientDetail.objects.filter(id=patient_session_id)[0]
+    return patient_detail_res
 
 # get scales表
 def get_scales_all():
@@ -221,3 +218,8 @@ def get_patient_scales_byPatientDetailId(patient_detail_id):
 # d_patient_appointment表
 def get_patient_appointment_all():
     patients_models.DPatientAppointment.objects.all()
+
+
+#rtms:
+def add_rtms_info(bPatientRtms):
+    bPatientRtms.save()

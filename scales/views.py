@@ -5,6 +5,7 @@ import scales.models as scales_models
 import tools.config as tools_config
 import patients.dao as patients_dao
 import tools.Utils as tools_utils
+import patients.models  as patients_models
 
 '''
 跳过量表:跳到下一个未完成的量表
@@ -205,6 +206,58 @@ def skip_scale(request):
 获取表单
 '''
 
+
+
+#rtms:
+def get_rtms_forms(request):
+    patient_session_id = request.GET.get('patient_session_id')
+    patient_id = request.GET.get('patient_id')
+    patient = patients_dao.get_base_info_byPK(patient_id)
+    patient.birth_date = patient.birth_date.strftime('%Y-%m-%d')
+    patient_detail = patients_dao.get_patient_detail_last_byPatientId(patient_id)
+    patient_detail.scan_date=patient_detail.scan_date.strftime('%Y-%m-%d')
+
+    return render(request, 'nbh/add_patient_rtms.html', {'patient_session_id': request.GET.get('patient_session_id'),
+                                                        'patient_id': request.GET.get('patient_id'),
+                                                        'username': request.session.get('username'),
+                                                         'patient_baseinfo': patient,
+                                                         'standard_id': patient_detail.standard_id,
+                                                         'patient_session_id': patient_session_id,
+                                                         "username": request.session.get('username'),
+                                                         'patient_detail': patient_detail,
+                                                         })
+##add
+def add_rtms(request):
+    if request.POST:
+        patient_session_id = request.GET.get('patient_session_id')
+        doctor_id = request.session.get('doctor_id')
+        bPatientRtms=patients_models.BPatientRtms(patient_session_id=patient_session_id,doctor_id=doctor_id)
+        for key in request.POST.keys():
+            pos = key.rfind('_')
+            st = key[:pos]
+            st2 = key[pos + 1]
+
+            if hasattr(bPatientRtms, st):
+
+                val = request.POST.get(key)
+                if val == '':
+                    val = None
+
+                setattr(bPatientRtms, st, val)
+                if st == 'note':
+                    patients_dao.add_rtms_info(bPatientRtms)
+                    bPatientRtms=patients_models.BPatientRtms(patient_session_id=patient_session_id,doctor_id=doctor_id)
+    #保存后：让d_patient_detail中的tms字段置1,表示tms已经录入
+    patient_detail = patients_models.DPatientDetail.objects.filter(id=patient_session_id)[0]
+    patient_detail.tms = '1'
+    patients_dao.add_patient_detail(patient_detail)
+
+    return render(request, 'manage_patients.html')
+
+
+
+
+
 # 个人基本信息
 def get_general_info_forms(request):
     patient_session_id = request.GET.get('patient_session_id')
@@ -242,16 +295,17 @@ def get_cognition_forms(request):
 def get_select_scales(request):
     patient_session_id = request.GET.get('patient_session_id')
     patient_id = request.GET.get('patient_id')
-    session_id= request.GET.get('session_id')
     patient = patients_dao.get_base_info_byPK(patient_id)
     patient.birth_date = patient.birth_date.strftime('%Y-%m-%d')
     #patient_detail = patients_dao.get_patient_detail_last_byPatientId(patient_id)
-    patient_detail = patients_dao.get_patient_detail_byPatientId(patient_id,session_id)
-    patient_detail.scan_date=patient_detail.scan_date.strftime('%Y-%m-%d')
+    patient_detail = patients_dao.get_patient_detail_byPatientId(patient_session_id)
+    if patient_detail.scan_date is not None:
+        patient_detail.scan_date=patient_detail.scan_date.strftime('%Y-%m-%d')
     # 获取各个scaleType的list信息
     scales_list = patients_dao.judgment_scales(patient_session_id)
     generalinfo_scale_list, other_test_scale_list, self_test_scale_list, cognition_scale_list = scales_dao.get_uodo_scales(
         patient_session_id)
+    tms= patients_models.DPatientDetail.objects.filter(id=patient_session_id)[0].tms
     return render(request, 'select_scales.html', {'patient_baseinfo': patient,
                                                   'patient_id': patient.id,
                                                   'standard_id': patient_detail.standard_id,
@@ -262,6 +316,7 @@ def get_select_scales(request):
                                                   "todo_other_test_scale_size": len(other_test_scale_list),
                                                   "todo_self_test_scale_size": len(self_test_scale_list),
                                                   "todo_cognition_scale_size": len(cognition_scale_list),
+                                                  'tms':tms,
                                                   })
 
 # 获取耶鲁布朗表单
