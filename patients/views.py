@@ -54,6 +54,7 @@ def add_patient_baseinfo(request):
     # 自动分配id
     # patient_id = tools_idAssignments.patient_Id_assignment()
     patient_id, session_id, standard_id = tools_idAssignments.patient_session_id_assignment(patient_id)
+    #rtms:  state:0
 
     # 插入高危信息表:需要在b_patient_base_info之前创建
     rPatientGhr = patients_models.RPatientGhr(ghr_id=patient_id, doctor_id=doctor_id)
@@ -86,7 +87,7 @@ def add_patient_baseinfo(request):
     patient_detail = patients_models.DPatientDetail(patient_id=patient_id, session_id=session_id,
                                                     standard_id=standard_id,
                                                     age=age, doctor_id=doctor_id,
-                                                    scan_date=scan_date)
+                                                    scan_date=scan_date,tms=None)
     patients_dao.add_patient_detail(patient_detail)
     # 查询需要做的量表,并在r_patient_scales中插入需要做的量表
     scales_list = patients_dao.judgment_scales(patient_detail.id)
@@ -117,6 +118,7 @@ def add_patient_followup(request):
     # 插入前的准备工作，这里需要预先进行处理，将上次的值赋进去
     patient_detail = patient_detail_last
     patient_detail.id = None
+    patient_detail.tms = None
     patient_detail.patient_id = patient_id
     patient_detail.session_id = session_id
     patient_detail.standard_id = standard_id
@@ -225,11 +227,19 @@ def del_patient(request):
 def del_followup(request):
     patient_id = request.GET.get("patient_id")
     patient_session_id = request.GET.get("patient_session_id")
+    print('session:   ',patient_session_id,"-----------pid",patient_id)
     patient_detail = DPatientDetail.objects.all().select_related('doctor').filter(pk=patient_session_id)
+
+    all_list_tms = patients_models.BPatientRtms.objects.filter(patient_session_id=patient_session_id)
+    for list in all_list_tms:
+        list.delete()
+
     if patient_detail.count() == 1:
         # 只有创建该条记录的用户才能够删除本条记录
         if patient_detail.first().doctor.username == request.session.get('username'):
             patient_detail.first().delete()
+
+
     return redirect('/patients/get_patient_detail?patient_id=' + patient_id)
 
 

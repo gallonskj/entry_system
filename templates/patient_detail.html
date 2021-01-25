@@ -321,12 +321,13 @@
                                                 <td>
                                                     <a href='/scales/get_rtms_forms?patient_session_id={{ patient_detail.id }}&patient_id={{ patient_detail.patient_id }}&do_type=0'>重做</a>
                                                 </td>
-                                                <td> <a href='/scales/get_rtms_forms?patient_session_id={{ patient_detail.id }}&patient_id={{ patient_detail.patient_id }}&do_type=1'>查看</a></td>
+
+                                                <td><a href='/scales/get_rtms_forms?patient_session_id={{ patient_detail.id }}&patient_id={{ patient_detail.patient_id }}&do_type=1'>查看</a></td>
                                             {% else %}
                                                 <td>-</td>
                                                 <td>未完成</td>
                                                 <td>
-                                                    <a href='/scales/get_rtms_forms?patient_session_id={{ patient_detail.id }}&patient_id={{ patient_detail.patient_id }}&do_type=1'>续做</a>
+                                                    <a href='/scales/get_rtms_forms?patient_session_id={{ patient_detail.id }}&patient_id={{ patient_detail.patient_id }}&do_type=0'>续做</a>
                                                 </td>
                                                 <td>-</td>
                                             {% endif %}

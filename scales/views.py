@@ -216,6 +216,11 @@ def get_rtms_forms(request):
     patient.birth_date = patient.birth_date.strftime('%Y-%m-%d')
     patient_detail = patients_dao.get_patient_detail_last_byPatientId(patient_id)
     patient_detail.scan_date=patient_detail.scan_date.strftime('%Y-%m-%d')
+    patient_rtms_info = patients_models.BPatientRtms.objects.all().filter(patient_session_id=patient_session_id)
+    do_type=request.GET.get('do_type')
+    for list in patient_rtms_info:
+        if list.treatment_date is not None:
+            list.treatment_date = list.treatment_date.strftime('%Y-%m-%d')
 
     return render(request, 'nbh/add_patient_rtms.html', {'patient_session_id': request.GET.get('patient_session_id'),
                                                         'patient_id': request.GET.get('patient_id'),
@@ -225,34 +230,48 @@ def get_rtms_forms(request):
                                                          'patient_session_id': patient_session_id,
                                                          "username": request.session.get('username'),
                                                          'patient_detail': patient_detail,
+                                                         'patient_rtms_info':patient_rtms_info,
+                                                         'do_type':do_type
                                                          })
-##add
+##tms
 def add_rtms(request):
     if request.POST:
+        # 只要重新进入这个页面就将tms设置为初始空
+        patient_id=request.GET.get('patient_id')
         patient_session_id = request.GET.get('patient_session_id')
         doctor_id = request.session.get('doctor_id')
+        do_type = request.GET.get('do_type')
+
+        #if do_type == '0':  #如果从重做或者续做进来:清空之前的所有数据
+        all_list = patients_models.BPatientRtms.objects.filter(patient_session_id=patient_session_id)
+        for list in all_list:
+            list.delete()
         bPatientRtms=patients_models.BPatientRtms(patient_session_id=patient_session_id,doctor_id=doctor_id)
         for key in request.POST.keys():
             pos = key.rfind('_')
             st = key[:pos]
             st2 = key[pos + 1]
-
             if hasattr(bPatientRtms, st):
-
                 val = request.POST.get(key)
                 if val == '':
                     val = None
 
+                #print(st,"=========================",val,"------",request.POST.get(key))
                 setattr(bPatientRtms, st, val)
                 if st == 'note':
                     patients_dao.add_rtms_info(bPatientRtms)
+                    #print("ok-------------")
                     bPatientRtms=patients_models.BPatientRtms(patient_session_id=patient_session_id,doctor_id=doctor_id)
     #保存后：让d_patient_detail中的tms字段置1,表示tms已经录入
-    patient_detail = patients_models.DPatientDetail.objects.filter(id=patient_session_id)[0]
-    patient_detail.tms = '1'
+    #print("session------------------------------",patient_session_id)
+    patient_detail = patients_models.DPatientDetail.objects.filter(id=patient_session_id,doctor_id=doctor_id)[0]
+    patient_detail.tms='1'
     patients_dao.add_patient_detail(patient_detail)
 
-    return render(request, 'manage_patients.html')
+    patient_id = request.GET.get('patient_id')
+    redirect_url = '/scales/get_rtms_forms?patient_session_id={}&patient_id={}&do_type={}'.format(
+        str(patient_session_id), str(patient_id), 1)
+    return redirect(redirect_url)
 
 
 
