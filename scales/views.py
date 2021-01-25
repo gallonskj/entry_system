@@ -256,11 +256,11 @@ def add_rtms(request):
                 if val == '':
                     val = None
 
-                print(st,"=========================",val,"------",request.POST.get(key))
+                #print(st,"=========================",val,"------",request.POST.get(key))
                 setattr(bPatientRtms, st, val)
                 if st == 'note':
                     patients_dao.add_rtms_info(bPatientRtms)
-                    print("ok-------------")
+                    #print("ok-------------")
                     bPatientRtms=patients_models.BPatientRtms(patient_session_id=patient_session_id,doctor_id=doctor_id)
     #保存后：让d_patient_detail中的tms字段置1,表示tms已经录入
     #print("session------------------------------",patient_session_id)
