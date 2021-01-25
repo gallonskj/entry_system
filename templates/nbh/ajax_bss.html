@@ -1227,7 +1227,7 @@
 				ajax_post($('#bss_3_2'))
 				$("div[class='bss_3_2']").hide();
 				$("div[class='bss_4_1']").show();
-			}
+ 			}
 		});
 
 		$("#bss_4_1_submit").on('click', function(){
@@ -1280,7 +1280,8 @@
 			}else{
 				end_flag = 1;
 				//跳转
-				location = location.host + "/scales/select_scales?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&session_id={{ session_id }}";
+
+				location = "/scales/get_next_self_scale_url?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}";
 			}
 		});
 
@@ -1563,8 +1564,9 @@
 				end_flag = 1;
 				ajax_post($('#bss_19_2'))
 
-				// 跳转
-				location = location.host + "/scales/select_scales?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&session_id={{ session_id }}";
+
+				//跳转
+				location = "/scales/get_next_self_scale_url?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}";
 				last = 1;
 			}
 		});

@@ -174,7 +174,8 @@
                     alter_option_names("answer", "question14_answer");
                     // 跳转
                     document.getElementById('question_submit').setAttribute('onclick',"location=\'" +
-                        location.host + "/scales/select_scales?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&session_id={{ session_id }}" +
+
+                        "/scales/get_next_self_scale_url?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}" +
                         "\'"
                     );
                     end_flag = 1;

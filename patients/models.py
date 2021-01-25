@@ -37,6 +37,7 @@ class BPatientBaseInfo(models.Model):
     update_time = models.DateTimeField(auto_now=True)
     diagnosis = models.IntegerField(blank=True, null=True, choices=DIAGNOSIS_TYPE)
     other_diagnosis = models.CharField(max_length=45)
+    inpatient_state = models.IntegerField()
     class Meta:
         managed = False
         db_table = 'b_patient_base_info'
@@ -75,6 +76,7 @@ class DPatientDetail(models.Model):
     contact_way = models.IntegerField(blank=True, null=True)
     contact_info = models.CharField(max_length=45, blank=True, null=True)
     scan_date = models.DateField()
+    head_motion_parameters = models.FloatField(blank=True, null=True)
 
     class Meta:
         managed = False
@@ -118,3 +120,30 @@ class RPatientGhr(models.Model):
         db_table = 'r_patient_ghr'
 
 
+#rtms
+class BPatientRtms(models.Model):
+    id = models.IntegerField(primary_key=True)
+    patient_session = models.ForeignKey('DPatientDetail', models.DO_NOTHING, unique=True)
+    treatment_num = models.IntegerField()
+    treatment_date = models.DateField()
+    therapeutic_target = models.IntegerField(blank=True, null=True)
+    times_per_day = models.IntegerField(blank=True, null=True)
+    total_num = models.IntegerField()
+    resting_motor_threshold = models.IntegerField()
+    intensity = models.IntegerField()
+    frequency = models.IntegerField()
+    pulses = models.IntegerField()
+    stimulation_time = models.IntegerField()
+    inter_train_intervals = models.IntegerField()
+    pulse_trains = models.IntegerField()
+    total_pulses = models.IntegerField()
+    total_time_minute = models.IntegerField()
+    total_time_second = models.IntegerField()
+    note = models.TextField(blank=True, null=True)
+    doctor = models.ForeignKey('users.Suser', models.DO_NOTHING)
+    create_time = models.DateTimeField(auto_now_add=True)
+    update_time = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        managed = False
+        db_table = 'b_patient_rtms'

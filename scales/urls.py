@@ -3,6 +3,10 @@ from . import views
 
 urlpatterns = [
     # url(r'^subjectSelfTestbuild', views.subjectSelfTest_build),
+    # rtms:
+    url(r'^get_rtms_forms', views.get_rtms_forms),
+    url(r'^add_rtms', views.add_rtms),
+
     url(r'^get_self_test_forms', views.get_self_test_forms),
     url(r'^get_other_test_forms', views.get_other_test_forms),
     # 被试详细信息录入
@@ -85,5 +89,6 @@ urlpatterns = [
     # -----------------------------------------------------------------#
     url(r'^self_tests', views.test),
     url(r'^test_submit', views.test_submit),
+    url(r'^get_next_self_scale_url', views.get_next_self_scale_url),
 ]
 
