@@ -274,9 +274,6 @@ def add_rtms(request):
     return redirect(redirect_url)
 
 
-
-
-
 # 个人基本信息
 def get_general_info_forms(request):
     patient_session_id = request.GET.get('patient_session_id')
@@ -300,8 +297,10 @@ def get_other_test_forms(request):
 def get_self_test_forms(request):
     patient_session_id = request.GET.get('patient_session_id')
     patient_id = request.GET.get('patient_id')
-    redirect_url = get_redirect_url(patient_session_id, patient_id, tools_config.self_test_next_type_url,
-                                    tools_config.self_test_type, 0)
+    scale_id=scales_dao.get_min_unfinished_scale(2, patient_session_id, 10)
+    redirect_url = '/scales/self_tests?scale_id={}&patient_session_id={}&patient_id={}'.format(str(scale_id),
+                                                                                               str(patient_session_id),
+                                                                                               str(patient_id))
     return redirect(redirect_url)
 
 
@@ -1465,47 +1464,11 @@ def test(request):
     patient_session_id = request.GET.get('patient_session_id')
     patient_id = request.GET.get('patient_id')
     scale_id = int(request.GET.get('scale_id'))
-    if scale_id == 11:
-        return render(request, 'nbh/ajax_ybo.html', {"patient_session_id": patient_session_id,
-                                                     "patient_id": patient_id,
-                                                     'scale_id': scale_id})
-    elif scale_id == 12:
-        return render(request, 'nbh/ajax_bss.html', {"patient_session_id": patient_session_id,
-                                                     "patient_id": patient_id,
-                                                     'scale_id': scale_id})
-    elif scale_id == 13:
-        return render(request, 'nbh/ajax_hcl_33.html', {"patient_session_id": patient_session_id,
-                                                        "patient_id": patient_id,
-                                                        'scale_id': scale_id})
-    elif scale_id == 14:
-        return render(request, 'nbh/ajax_shaps.html', {"patient_session_id": patient_session_id,
-                                                       "patient_id": patient_id,
-                                                       'scale_id': scale_id})
-    elif scale_id == 15:
-        return render(request, 'nbh/ajax_teps.html', {"patient_session_id": patient_session_id,
-                                                      "patient_id": patient_id,
-                                                      'scale_id': scale_id})
-    elif scale_id == 16:
-        return render(request, 'nbh/ajax_ctq_sf.html', {"patient_session_id": patient_session_id,
-                                                        "patient_id": patient_id,
-                                                        'scale_id': scale_id})
-    elif scale_id == 17:
-        return render(request, 'nbh/ajax_cerq_c.html', {"patient_session_id": patient_session_id,
-                                                        "patient_id": patient_id,
-                                                        'scale_id': scale_id})
-    elif scale_id == 18:
-        return render(request, 'nbh/ajax_aslec.html', {"patient_session_id": patient_session_id,
-                                                       "patient_id": patient_id,
-                                                       'scale_id': scale_id})
-    elif scale_id == 19:
-        return render(request, 'nbh/ajax_s_embu.html', {"patient_session_id": patient_session_id,
-                                                        "patient_id": patient_id,
-                                                        'scale_id': scale_id})
-    elif scale_id == 20:
-        return render(request, 'nbh/ajax_atq.html', {"patient_session_id": patient_session_id,
-                                                     "patient_id": patient_id,
-                                                     'scale_id': scale_id})
 
+    get_page_url=tools_config.scales_html_dict[scale_id]
+    return render(request, get_page_url, {"patient_session_id": patient_session_id,
+                                                      "patient_id": patient_id,
+                                                     'scale_id': scale_id})
 
 ajax_buffer = {}
 duration_buffer = []
@@ -1584,3 +1547,22 @@ def test_submit(request):
             print('clean patient')
             ajax_buffer.pop(patient_session_id)
     return HttpResponse(request.POST)
+
+
+def get_next_self_scale_url(request):
+    current_scale_id = request.GET.get('scale_id')
+    patient_session_id = request.GET.get('patient_session_id')    # 暂定下一个，需要调到最近的未完成量表
+    scale_id = get_next_self_scale_id(patient_session_id = patient_session_id,cur_scale_id=current_scale_id)
+    patient_id = request.GET.get('patient_id')
+    if scale_id==None:
+        redirect_url='/scales/select_scales?patient_session_id={}&patient_id={}'.format(str(patient_session_id),str(patient_id))
+    else:
+        redirect_url = '/scales/self_tests?scale_id={}&patient_session_id={}&patient_id={}'.format(str(scale_id),str(patient_session_id),str(patient_id))
+    return redirect(redirect_url)
+
+
+def get_next_self_scale_id(patient_session_id,cur_scale_id):
+    min_unfinished_scale = scales_dao.get_min_unfinished_scale(2, patient_session_id, cur_scale_id)
+    if min_unfinished_scale is None:
+        return None
+    return min_unfinished_scale

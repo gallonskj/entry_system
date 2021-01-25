@@ -89,5 +89,6 @@ urlpatterns = [
     # -----------------------------------------------------------------#
     url(r'^self_tests', views.test),
     url(r'^test_submit', views.test_submit),
+    url(r'^get_next_self_scale_url', views.get_next_self_scale_url),
 ]
 

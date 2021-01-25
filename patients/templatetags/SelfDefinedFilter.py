@@ -97,3 +97,10 @@ def get_baseinfo_check_scale_url(scale_detail):
     redirect_url = '{}?patient_session_id={}&patient_id={}&do_type=1'.format(next_page_url, str(patient_session_id), str(patient_id))
     return redirect_url
 
+@register.filter(name='get_self_scale_url')
+def get_self_scale_url(scale_detail):
+    scale_id = scale_detail['scale_id']
+    patient_session_id = scale_detail['patient_session_id']
+    patient_id = scale_detail['patient_session_id__patient_id']
+    redirect_url = '/scales/self_tests?scale_id={}&patient_session_id={}&patient_id={}'.format(str(scale_id),str(patient_session_id), str(patient_id))
+    return redirect_url
