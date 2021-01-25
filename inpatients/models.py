@@ -1,5 +1,7 @@
 from django.db import models
 from patients.models import BPatientBaseInfo
+from tools.Utils import get_progress_note_direct,get_out_record_direct
+from django.core import validators
 class BInpatientInfo(models.Model):
     id = models.AutoField(primary_key=True)
     patient = models.ForeignKey(BPatientBaseInfo, models.DO_NOTHING)
@@ -10,6 +12,8 @@ class BInpatientInfo(models.Model):
     inpatient_number = models.CharField(max_length=20, blank=True, null=True)
     in_date = models.DateField(blank=True, null=True)
     out_date = models.DateField(blank=True, null=True)
+    out_record = models.FileField(upload_to=get_out_record_direct)
+    progress_note = models.FileField(upload_to=get_progress_note_direct)
     create_time = models.DateTimeField(auto_now_add=True)
     update_time = models.DateTimeField(auto_now=True)
 

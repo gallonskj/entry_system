@@ -15,8 +15,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-# from entrySystem20201129.entry_system.patients import views
-from patients import views
+from django.conf import settings
+from django.conf.urls.static import static
 from users import views as users_view
 
 urlpatterns = [
@@ -25,14 +25,4 @@ urlpatterns = [
     path('patients/', include('patients.urls')),
     path('scales/', include('scales.urls')),
     path('inpatients/', include('inpatients.urls')),
-
-]
-# 在原有的urlpatterns下面添加以下代码
-from django.conf import settings
-if settings.DEBUG:
-    from django.conf.urls import include, url
-    import debug_toolbar
-    urlpatterns = [
-        url(r'^__debug__/', include(debug_toolbar.urls)),
-    ] + urlpatterns
-
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -37,6 +37,7 @@ class BPatientBaseInfo(models.Model):
     update_time = models.DateTimeField(auto_now=True)
     diagnosis = models.IntegerField(blank=True, null=True, choices=DIAGNOSIS_TYPE)
     other_diagnosis = models.CharField(max_length=45)
+    inpatient_state = models.IntegerField()
     class Meta:
         managed = False
         db_table = 'b_patient_base_info'

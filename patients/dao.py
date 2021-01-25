@@ -210,3 +210,8 @@ def get_patient_scales_byPatientDetailId(patient_detail_id):
 # d_patient_appointment表
 def get_patient_appointment_all():
     patients_models.DPatientAppointment.objects.all()
+
+def set_inpatient_type(patient_id,inpatient_state):
+    patient = patients_models.BPatientBaseInfo.objects.filter(pk = patient_id)[0]
+    patient.inpatient_state = inpatient_state
+    patient.save()
