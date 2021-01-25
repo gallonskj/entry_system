@@ -315,18 +315,18 @@
                                         <tbody>
                                         <tr>
                                             <td>tms治疗信息</td>
-                                            {% if  patient_detail.tms == '1' %}
-                                                <td>{{ patient_detail.end_time }}</td>
+                                            {% if  patient_detail.tms == 1 %}
+                                                <td>{{ patient_detail.update_time }}</td>
                                                 <td>已完成</td>
                                                 <td>
-                                                    <a href='/scales/get_rtms_forms?patient_session_id={{ patient_detail.id }}&patient_id={{ patient_detail.patient_id }}'>重做</a>
+                                                    <a href='/scales/get_rtms_forms?patient_session_id={{ patient_detail.id }}&patient_id={{ patient_detail.patient_id }}&do_type=0'>重做</a>
                                                 </td>
-                                                <td><a href="#">查看</a></td>
+                                                <td><a href='/scales/get_rtms_forms?patient_session_id={{ patient_detail.id }}&patient_id={{ patient_detail.patient_id }}&do_type=1'>查看</a></td>
                                             {% else %}
                                                 <td>-</td>
                                                 <td>未完成</td>
                                                 <td>
-                                                    <a href='/scales/get_rtms_forms?patient_session_id={{ patient_detail.id }}&patient_id={{ patient_detail.patient_id }}'>续做</a>
+                                                    <a href='/scales/get_rtms_forms?patient_session_id={{ patient_detail.id }}&patient_id={{ patient_detail.patient_id }}&do_type=0'>续做</a>
                                                 </td>
                                                 <td>-</td>
                                             {% endif %}

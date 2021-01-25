@@ -87,10 +87,21 @@ def del_patient_detail_byPK(patient_detail_id):
     patients_models.DPatientDetail.object.filter(id=patient_detail_id)[0].delete()
 
 
-# del patient_base_info表
+# del patient_base_info表,同时需要删除高危信息,rtms治疗情况
 def del_patient_base_info_byPK(patient_id):
     if patients_models.BPatientBaseInfo.objects.filter(pk=patient_id).count() > 0:
+        #删除所有的rtms信息
+        patient_detail = patients_models.DPatientDetail.objects.filter(patient_id=patient_id)
+        for detail in patient_detail:
+            patient_session_id = detail.id
+            all_list_tms = patients_models.BPatientRtms.objects.filter(patient_session_id=patient_session_id)
+            for list in all_list_tms:
+                list.delete()
         patients_models.BPatientBaseInfo.objects.filter(pk=patient_id).first().delete()
+        all_list_ghr = patients_models.RPatientGhr.objects.filter(ghr_id=patient_id)
+        for list in all_list_ghr:
+            list.delete()
+
 
 
 #高危信息表
