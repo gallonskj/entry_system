@@ -255,13 +255,13 @@ td {
                                                                             <input type=date value="{{ items.treatment_date|processNone }}" name="treatment_date_{{ forloop.counter }}">
                                                                         </td>
                                                                         <td>
-                                                                            {%  if items.therapeutic_target|processNone == "0" %}
+                                                                            {%  if items.therapeutic_target|processNone == 0 %}
                                                                             <select  tabindex=-1 style="font-size: 10px"  class="sel_beauty  form-control"  name="therapeutic_target_{{ forloop.counter }}" value="0">
                                                                                 <option  value="0" selected>枕叶</option>
                                                                                 <option  value="1">前额</option>
                                                                                 <option  value="2">额顶叶</option>
                                                                             </select>
-                                                                                {% elif items.therapeutic_target|processNone == "1"  %}
+                                                                                {% elif items.therapeutic_target|processNone == 1  %}
                                                                                  <select  tabindex=-1 style="font-size: 10px " class="sel_beauty  form-control"  name="therapeutic_target_{{ forloop.counter }}" value="1">
                                                                                 <option  value="0" >枕叶</option>
                                                                                 <option  value="1" selected>前额</option>
