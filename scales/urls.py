@@ -1,5 +1,6 @@
 from django.conf.urls import url
 from . import views
+
 urlpatterns = [
     # url(r'^subjectSelfTestbuild', views.subjectSelfTest_build),
     url(r'^get_self_test_forms', views.get_self_test_forms),
@@ -46,7 +47,7 @@ urlpatterns = [
     url(r'^add_ybo', views.add_ybo),
     url(r'^add_suicide', views.add_suicide),
     url(r'^add_family_info', views.add_family_info),
-    url(r'^add_patient_medical_history',views.add_patient_medical_history),
+    url(r'^add_patient_medical_history', views.add_patient_medical_history),
     url(r'^add_bprs', views.add_bprs),
     url(r'^add_rbans', views.add_rbans),
     url(r'^add_cognitive_emotion', views.add_cognitive_emotion),
@@ -68,7 +69,7 @@ urlpatterns = [
     url(r'^add_study', views.add_information_study),
     url(r'^add_health', views.add_patient_basic_information_health),
     url(r'^skip_scale', views.skip_scale),
-#-----------------------------------------------------------------#
+    # -----------------------------------------------------------------#
     url(r'^get_check_hama_form', views.get_check_hama_form),
     url(r'^get_check_hamd_17_form', views.get_check_hamd_17_form),
     url(r'^get_check_ymrs_form', views.get_check_ymrs_form),
@@ -81,5 +82,8 @@ urlpatterns = [
     url(r'^get_check_rbans_form', views.get_check_rbans_form),
     url(r'^get_check_fept_form', views.get_check_fept_form),
     url(r'^get_check_vept_form', views.get_check_vept_form),
-
+    # -----------------------------------------------------------------#
+    url(r'^self_tests', views.test),
+    url(r'^test_submit', views.test_submit),
 ]
+
