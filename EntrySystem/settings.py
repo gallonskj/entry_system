@@ -164,4 +164,3 @@ SESSION_SAVE_EVERY_REQUEST = True
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True  # 设置关闭浏览器时失效
 # 在settings文件内添加下面的代码
 INTERNAL_IPS = ['127.0.0.1']
-

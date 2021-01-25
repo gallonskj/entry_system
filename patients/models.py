@@ -76,6 +76,7 @@ class DPatientDetail(models.Model):
     contact_way = models.IntegerField(blank=True, null=True)
     contact_info = models.CharField(max_length=45, blank=True, null=True)
     scan_date = models.DateField()
+    head_motion_parameters = models.FloatField(blank=True, null=True)
 
     class Meta:
         managed = False
@@ -103,3 +104,46 @@ class DPatientAppointment(models.Model):
     class Meta:
         managed = False
         db_table = 'd_patient_appointment'
+
+
+class RPatientGhr(models.Model):
+    ghr_id = models.IntegerField()
+    patient_session_id = models.IntegerField(blank=True, null=True)
+    diagnosis = models.IntegerField(blank=True, null=True)
+    kinship = models.IntegerField(blank=True, null=True)
+    doctor_id = models.IntegerField()
+    create_time = models.DateTimeField(auto_now_add=True)
+    update_time = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        managed = False
+        db_table = 'r_patient_ghr'
+
+
+#rtms
+class BPatientRtms(models.Model):
+    id = models.IntegerField(primary_key=True)
+    patient_session = models.ForeignKey('DPatientDetail', models.DO_NOTHING, unique=True)
+    treatment_num = models.IntegerField()
+    treatment_date = models.DateField()
+    therapeutic_target = models.IntegerField(blank=True, null=True)
+    times_per_day = models.IntegerField(blank=True, null=True)
+    total_num = models.IntegerField()
+    resting_motor_threshold = models.IntegerField()
+    intensity = models.IntegerField()
+    frequency = models.IntegerField()
+    pulses = models.IntegerField()
+    stimulation_time = models.IntegerField()
+    inter_train_intervals = models.IntegerField()
+    pulse_trains = models.IntegerField()
+    total_pulses = models.IntegerField()
+    total_time_minute = models.IntegerField()
+    total_time_second = models.IntegerField()
+    note = models.TextField(blank=True, null=True)
+    doctor = models.ForeignKey('users.Suser', models.DO_NOTHING)
+    create_time = models.DateTimeField(auto_now_add=True)
+    update_time = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        managed = False
+        db_table = 'b_patient_rtms'

@@ -15,11 +15,11 @@ def add_medical_advice(bInpatientMedicalAdvice):
     return bInpatientMedicalAdvice.id
 
 def get_in_time_by_patientid(patient_id):
-    res = BInpatientInfo.objects.filter(patient_id = patient_id).order_by('in_time').values('in_time')
+    res = BInpatientInfo.objects.filter(patient_id = patient_id).order_by('-in_time')
     if not res.exists():
         return 1
     else:
-        return res[0]
+        return res[0].in_time
 # 根据inpatient_id获取所有医嘱信息
 def get_mecical_advice(inpatient_id):
     res = BInpatientMedicalAdvice.objects.filter(pk = inpatient_id)

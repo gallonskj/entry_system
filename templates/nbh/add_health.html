@@ -123,7 +123,7 @@
                                         <input type="text" id="patient_mental_diseases_name"
                                                name="patient_mental_diseases_name" class="form-control">
                                     </div>
-                                    <label class="control-label col-md-1 col-sm-2 ">患病时长<span class="required">:</span></label>
+                                    <label class="control-label col-md-1 col-sm-2 ">患病时长<span>:</span></label>
                                     <div class="col-md-2 col-sm-1 form-group ">
                                         <input type="text" id="patient_mental_diseases_year" placeholder="年"
                                                name="patient_mental_diseases_year" class="form-control">
@@ -180,7 +180,7 @@
                         {#0.重做按钮组合#}
                     <div class="row" id="redo_bt_group">
                         <div class="col-md-4 col-sm-6 text-center" style="text-align: center">
-                            <a href="/scales/get_last_url?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}"
+                            <a href="/scales/get_last_baseinfo_url?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}"
                                id="last_scale0">
                                 <button type="button" class="btn btn-warning" id="bt_return">返回上一量表</button>
                             </a>
@@ -197,7 +197,7 @@
                         {#1.展示按钮组合#}
                     <div class="row" id="bt_group" style="display: none">
                             <div  class="col-md-4 col-sm-6 text-center"  >
-                               <a  href="/scales/get_last_url?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}"
+                               <a  href="/scales/get_last_baseinfo_url?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}"
                                id="last_scale">
                                    <button type="button" class="btn btn-warning" id="bt_return">返回上一量表</button>
                                </a>
@@ -205,7 +205,7 @@
 
                             <div  class="col-md-4 col-sm-6" id="next_scale" >
                                  {% csrf_token %}
-                                <a href="/scales/get_next_url?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}">
+                                <a href="/scales/get_next_baseinfo_url?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}">
                                     <input  type="button" class="btn btn-success text-center"  value="进入下一量表"  >
                                 </a>
                             </div>
@@ -234,40 +234,43 @@
            var do_type="{{ do_type }}";
            if(do_type=='1')
            {
-               {#数据填充 读数据#}
-               var patient_somatic_diseases = Number({{ patient_baseinfo_health.patient_somatic_diseases }});
-               $("input[name='patient_somatic_diseases'][value="+patient_somatic_diseases+"]").prop("checked",true);
-               if (patient_somatic_diseases==0){
-                   $(".patient_somatic_diseases_name_year").attr("style","display:none;");
-                   $("input[name='patient_somatic_diseases_name']").val('');
-                   $("input[name='patient_somatic_diseases_year']").val('');
-               }else if(patient_somatic_diseases==1){
-                   $(".patient_somatic_diseases_name_year").attr("style","display:block;");
-                   $("input[name='patient_somatic_diseases_name']").val('{{ patient_baseinfo_health.patient_somatic_diseases_name|processNone }}');
-                   $("input[name='patient_somatic_diseases_year']").val('{{ patient_baseinfo_health.patient_somatic_diseases_year|processNone }}');
+               if('{{ patient_baseinfo_health }}'!='None')
+               {
+                   {#数据填充 读数据#}
+                   var patient_somatic_diseases = Number("{{ patient_baseinfo_health.patient_somatic_diseases }}");
+                   $("input[name='patient_somatic_diseases'][value=" + patient_somatic_diseases + "]").prop("checked", true);
+                   if (patient_somatic_diseases == 0) {
+                       $(".patient_somatic_diseases_name_year").attr("style", "display:none;");
+                       $("input[name='patient_somatic_diseases_name']").val('');
+                       $("input[name='patient_somatic_diseases_year']").val('');
+                   } else if (patient_somatic_diseases == 1) {
+                       $(".patient_somatic_diseases_name_year").attr("style", "display:block;");
+                       $("input[name='patient_somatic_diseases_name']").val('{{ patient_baseinfo_health.patient_somatic_diseases_name|processNone }}');
+                       $("input[name='patient_somatic_diseases_year']").val('{{ patient_baseinfo_health.patient_somatic_diseases_year|processNone }}');
+                   }
+                   var patient_mental_diseases = Number("{{ patient_baseinfo_health.patient_mental_diseases }}");
+                   $("input[name='patient_mental_diseases'][value=" + patient_mental_diseases + "]").prop("checked", true);
+                   if (patient_mental_diseases == 0) {
+                       $(".patient_mental_diseases_name_year").attr("style", "display:none;");
+                       $("input[name='patient_mental_diseases_name']").val('');
+                       $("input[name='patient_mental_diseases_year']").val('');
+                   } else if (patient_mental_diseases == 1) {
+                       $(".patient_mental_diseases_name_year").attr("style", "display:block;");
+                       $("input[name='patient_mental_diseases_name']").val('{{ patient_baseinfo_health.patient_mental_diseases_name|processNone }}');
+                       $("input[name='patient_mental_diseases_year']").val('{{ patient_baseinfo_health.patient_mental_diseases_year|processNone }}');
+                   }
+                   var patient_family_diseases_history = Number("{{ patient_baseinfo_health.patient_family_diseases_history }}");
+                   $("input[name='patient_family_diseases_history'][value=" + patient_family_diseases_history + "]").prop("checked", true);
+                   if (patient_family_diseases_history == 0) {
+                       $(".patient_family_diseases_name").attr("style", "display:none;");
+                       $("input[name='patient_family_diseases_name']").val('');
+                   } else if (patient_family_diseases_history == 1) {
+                       $(".patient_family_diseases_name").attr("style", "display:block;");
+                       $("input[name='patient_family_diseases_name']").val('{{ patient_baseinfo_health.patient_family_diseases_name|processNone }}');
+                   }
+                   document.getElementById("patient_medicine_information").value = "{{ patient_baseinfo_health.patient_medicine_information|processNone }}"
+                   document.getElementById("patient_treatment_information").value = "{{ patient_baseinfo_health.patient_treatment_information|processNone }}"
                }
-              var patient_mental_diseases = Number({{ patient_baseinfo_health.patient_mental_diseases }});
-              $("input[name='patient_mental_diseases'][value="+patient_mental_diseases+"]").prop("checked",true);
-              if (patient_mental_diseases==0){
-                   $(".patient_mental_diseases_name_year").attr("style","display:none;");
-                   $("input[name='patient_mental_diseases_name']").val('');
-                   $("input[name='patient_mental_diseases_year']").val('');
-              }else if(patient_mental_diseases==1){
-                   $(".patient_mental_diseases_name_year").attr("style","display:block;");
-                   $("input[name='patient_mental_diseases_name']").val('{{ patient_baseinfo_health.patient_mental_diseases_name|processNone }}');
-                   $("input[name='patient_mental_diseases_year']").val('{{ patient_baseinfo_health.patient_mental_diseases_year|processNone }}');
-              }
-              var patient_family_diseases_history = Number({{ patient_baseinfo_health.patient_family_diseases_history }});
-               $("input[name='patient_family_diseases_history'][value="+patient_family_diseases_history+"]").prop("checked",true);
-              if (patient_family_diseases_history==0){
-                  $(".patient_family_diseases_name").attr("style","display:none;");
-                  $("input[name='patient_family_diseases_name']").val('');
-               }else if(patient_family_diseases_history==1){
-                  $(".patient_family_diseases_name").attr("style","display:block;");
-                  $("input[name='patient_family_diseases_name']").val('{{ patient_baseinfo_health.patient_family_diseases_name|processNone }}');
-               }
-              document.getElementById("patient_medicine_information").value="{{ patient_baseinfo_health.patient_medicine_information|processNone }}"
-              document.getElementById("patient_treatment_information").value="{{ patient_baseinfo_health.patient_treatment_information|processNone }}"
                {#锁住#}
                $("input[name='patient_somatic_diseases']").attr("disabled","disabled");
                $("input[name='patient_somatic_diseases_name']").attr("disabled","disabled");

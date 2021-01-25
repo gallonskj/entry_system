@@ -60,7 +60,7 @@ def out_inpatient(request):
         patient.inpatient_state = 2
         patient_dao.add_base_info(patient)
         inpatient.out_date = out_date
-@csrf_exempt
+
 def upload_medical_advice(request):
     '''
     Args:
@@ -71,7 +71,7 @@ def upload_medical_advice(request):
     '''
     bInpatientMedicalAdvice_list = []
     excel_object_list = utils.read_excel(request.FILES['excel'].read())
-    inpatient_id = request.GET.get('inpatient_id')
+    inpatient_id = request.POST.get('inpatient_id')
     inpatient_id = 1
     # 根据inpatient_id删除旧的记录
     inpatients_dao.del_medical_advice_by_inpatientid(inpatient_id)
@@ -91,7 +91,6 @@ def upload_medical_advice(request):
     inpatients_model.BInpatientMedicalAdvice.objects.bulk_create(bInpatientMedicalAdvice_list)
     return HttpResponse('ok')
 
-@csrf_exempt
 def upload_out_record(request):
     '''
     上传出院记录pdf文件
@@ -115,7 +114,6 @@ def upload_out_record(request):
     print(res_message.message)
     return HttpResponse(json.dumps(res_message.__dict__))
 
-@csrf_exempt
 def upload_progress_note(request):
     '''
     将病程记录上传到服务器
@@ -123,7 +121,7 @@ def upload_progress_note(request):
     2.插入新纪录
     '''
     if request.method == 'POST':
-        inpatient_id = 1
+        inpatient_id = request.POST.get('inpatient_id')
         progress_note = request.FILES['progress_note']
         if progress_note.name.split('.')[-1] in ['pdf']:
             inpatient = inpatients_dao.get_inpatient_info_byPK(inpatient_id)
@@ -164,12 +162,13 @@ def get_out_record(request):
     inpatient = inpatients_model.BInpatientInfo.objects.filter(pk = inpatient_id)
     url = inpatient.out_record.url
     return redirect(url)
+# 获取大类信息
 def get_type(drug_type):
     if drug_type in tools_config.drug_types:
         return 0
     else:
         return 1
-
+# 获取第几次入院的信息
 def check_get_in_time(patient_id):
     patient = patient_dao.get_base_info_byPK(patient_id)
     if patient is None:

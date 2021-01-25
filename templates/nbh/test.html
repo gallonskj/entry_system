@@ -6,13 +6,13 @@
     <title></title>
 </head>
 <body>
-<form class="" action="/inpatients/upload_medical_advice" method="post" enctype="multipart/form-data" >
-    {% csrf_token %}
-    <input type="file" name="excel">
-    <input type="submit" value="上传">
-</form>
+    <form class="" action="/inpatients/upload_medical_advice" method="post" enctype="multipart/form-data" >
+        {% csrf_token %}
+        <input type="file" name="excel">
+        <input type="submit" value="上传">
+    </form>
     <form enctype="multipart/form-data">
-        <p>上传csv文件<input type="file" id="out_record" name="out_record"/></p>
+        <p>上传出院记录<input type="file" id="out_record" name="out_record"/></p>
     </form>
         <button id="import">导入</button>
     <script type="application/javascript">
@@ -20,6 +20,7 @@
             var formData = new FormData();
             formData.append('inpatient_id',1);
             formData.append('out_record',document.getElementById("out_record").files[0])
+            formData.append("csrfmiddlewaretoken", $("[name = 'csrfmiddlewaretoken']").val())
             $.ajax({
                 type: 'POST',
                 url: "/inpatients/upload_out_record",
@@ -27,8 +28,9 @@
                 cache: false,
                 processData: false,
                 contentType: false,
+                dataType:'json',
                 success: function (data) {
-                    alert(data.message);
+                    alert(data['message']);
                 },
                 error: function () {
                     alert("上传失败！");
