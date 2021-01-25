@@ -30,8 +30,6 @@ class DTreatments(models.Model):
 class RPatientAdolescentEvents(models.Model):
     patient_session = models.ForeignKey(DPatientDetail, models.DO_NOTHING)
     scale = models.ForeignKey(DScales, models.DO_NOTHING)
-    suicide_history = models.IntegerField(blank=True, null=True)
-    suicide_times = models.IntegerField(blank=True, null=True)
     question1_answer = models.IntegerField(blank=True, null=True)
     question2_answer = models.IntegerField(blank=True, null=True)
     question3_answer = models.IntegerField(blank=True, null=True)
@@ -72,8 +70,6 @@ class RPatientAdolescentEvents(models.Model):
 class RPatientAtq(models.Model):
     patient_session = models.ForeignKey(DPatientDetail, models.DO_NOTHING)
     scale = models.ForeignKey(DScales, models.DO_NOTHING)
-    suicide_history = models.IntegerField(blank=True, null=True)
-    suicide_times = models.IntegerField(blank=True, null=True)
     question1_answer = models.IntegerField(blank=True, null=True)
     question2_answer = models.IntegerField(blank=True, null=True)
     question3_answer = models.IntegerField(blank=True, null=True)
@@ -121,8 +117,8 @@ class RPatientBasicInformationAbuse(models.Model):
     patient_smoke_age = models.IntegerField(blank=True, null=True)
     patient_daily_smoke_num = models.IntegerField(blank=True, null=True)
     patient_stop_smoke_age = models.IntegerField(blank=True, null=True)
-    patient_alcohal = models.IntegerField(blank=True, null=True)
-    patient_alcohal_age = models.IntegerField(blank=True, null=True)
+    patient_alcohol = models.IntegerField(blank=True, null=True)
+    patient_alcohol_age = models.IntegerField(blank=True, null=True)
     patient_other_abuse = models.IntegerField(blank=True, null=True)
     patient_other_abuse_age = models.IntegerField(blank=True, null=True)
     doctor = models.ForeignKey('users.Suser', models.DO_NOTHING)
@@ -151,7 +147,6 @@ class RPatientBasicInformationFamily(models.Model):
     mother_occupation = models.CharField(max_length=30, blank=True, null=True)
     father_tele = models.CharField(max_length=20, blank=True, null=True)
     mother_tele = models.CharField(max_length=20, blank=True, null=True)
-    patient_email_qq_wechat = models.CharField(max_length=200, blank=True, null=True)
     father_education = models.IntegerField(blank=True, null=True)
     mother_education = models.IntegerField(blank=True, null=True)
     parent_marry = models.IntegerField(blank=True, null=True)
@@ -248,7 +243,7 @@ class RPatientBprs(models.Model):
     feeling_flat = models.IntegerField(blank=True, null=True)
     excitement = models.IntegerField(blank=True, null=True)
     directional_disorder = models.IntegerField(blank=True, null=True)
-    total_score = models.FloatField(blank=True, null=True)
+    total_score = models.IntegerField(blank=True, null=True)
     doctor = models.ForeignKey('users.Suser', models.DO_NOTHING, blank=True, null=True)
     create_time = models.DateTimeField(auto_now_add=True)
     update_time = models.DateTimeField(auto_now=True)
@@ -361,7 +356,7 @@ class RPatientDrugsInformation(models.Model):
     drug_name = models.CharField(max_length=40, blank=True, null=True)
     drug_general_name = models.CharField(max_length=40, blank=True, null=True)
     drug_type = models.CharField(max_length=40, blank=True, null=True)
-    dosage = models.FloatField(blank=True, null=True)
+    dosage = models.CharField(max_length=50, blank=True, null=True)
     begin_time = models.DateField(blank=True, null=True)
     end_time = models.DateField(blank=True, null=True)
     note = models.TextField(blank=True, null=True)
@@ -470,6 +465,7 @@ class RPatientHama(models.Model):
 
 
 class RPatientHamd17(models.Model):
+    id = models.IntegerField(primary_key=True)
     patient_session = models.ForeignKey(DPatientDetail, models.DO_NOTHING)
     scale = models.ForeignKey(DScales, models.DO_NOTHING)
     depression = models.IntegerField(blank=True, null=True)
@@ -524,63 +520,6 @@ class RPatientHappiness(models.Model):
     class Meta:
         managed = False
         db_table = 'r_patient_happiness'
-
-
-class RPatientInclusionExclusionCriteria(models.Model):
-    patient_session = models.ForeignKey(DPatientDetail, models.DO_NOTHING)
-    scale = models.ForeignKey(DScales, models.DO_NOTHING)
-    informaed_consent_signature = models.IntegerField(blank=True, null=True)
-    informaed_consent_date = models.DateField(blank=True, null=True)
-    answer_1 = models.IntegerField(blank=True, null=True)
-    answer_2 = models.IntegerField(blank=True, null=True)
-    answer_3 = models.IntegerField(blank=True, null=True)
-    answer_4 = models.IntegerField(blank=True, null=True)
-    answer_5 = models.IntegerField(blank=True, null=True)
-    answer_6 = models.IntegerField(blank=True, null=True)
-    answer_7 = models.IntegerField(blank=True, null=True)
-    answer_8 = models.IntegerField(blank=True, null=True)
-    answer_9 = models.IntegerField(blank=True, null=True)
-    answer_10 = models.IntegerField(blank=True, null=True)
-    answer_11 = models.IntegerField(blank=True, null=True)
-    answer_12 = models.IntegerField(blank=True, null=True)
-    answer_13 = models.IntegerField(blank=True, null=True)
-    answer_14 = models.IntegerField(blank=True, null=True)
-    answer_15 = models.IntegerField(blank=True, null=True)
-    answer_16 = models.IntegerField(blank=True, null=True)
-    answer_17 = models.IntegerField(blank=True, null=True)
-    qualified = models.IntegerField(blank=True, null=True)
-    blood_sample = models.IntegerField(blank=True, null=True)
-    hair_sample = models.IntegerField(blank=True, null=True)
-    saliva_sample = models.IntegerField(blank=True, null=True)
-    faeces_sample = models.IntegerField(blank=True, null=True)
-    doctor = models.ForeignKey('users.Suser', models.DO_NOTHING)
-    create_time = models.DateTimeField(auto_now_add=True)
-    update_time = models.DateTimeField(auto_now=True)
-
-    class Meta:
-        managed = False
-        db_table = 'r_patient_inclusion_exclusion_criteria'
-
-
-class RPatientInformedConsentSignaturePage(models.Model):
-    patient_session = models.ForeignKey(DPatientDetail, models.DO_NOTHING)
-    scale = models.ForeignKey(DScales, models.DO_NOTHING)
-    subject_name = models.CharField(max_length=20, blank=True, null=True)
-    guardian_name = models.TextField(blank=True, null=True)
-    researcher_name = models.TextField(blank=True, null=True)
-    chief_researcher_name = models.TextField(blank=True, null=True)
-    subject_signature_date = models.DateField(blank=True, null=True)
-    guardian_signature_date = models.DateField(blank=True, null=True)
-    researcher_signature_date = models.DateField(blank=True, null=True)
-    chief_researcher_signature_date = models.DateField(blank=True, null=True)
-    doctor = models.ForeignKey('users.Suser', models.DO_NOTHING)
-    create_time = models.DateTimeField(auto_now_add=True)
-    update_time = models.DateTimeField(auto_now=True)
-
-    class Meta:
-        managed = False
-        db_table = 'r_patient_informed_consent_signature_page'
-
 
 class RPatientManicsymptom(models.Model):
     patient_session = models.ForeignKey(DPatientDetail, models.DO_NOTHING)
@@ -676,9 +615,8 @@ class RPatientMriExamination(models.Model):
                                          null=True)  # Field name made lowercase.
     finishing_time = models.DateField(blank=True, null=True)
     having_special_events = models.IntegerField(blank=True, null=True)
-    special_enents_note = models.TextField(blank=True, null=True)
-    having_abnormal_region_field = models.IntegerField(db_column='having_abnormal_region_', blank=True,
-                                                       null=True)  # Field renamed because it ended with '_'.
+    special_events_note = models.TextField(blank=True, null=True)
+    having_abnormal_region = models.IntegerField(db_column='having_abnormal_region_', blank=True, null=True)
     abnormal_region_note = models.TextField(blank=True, null=True)
     researcher_sign = models.TextField(blank=True, null=True)
     sign_date = models.DateField(blank=True, null=True)
@@ -689,63 +627,6 @@ class RPatientMriExamination(models.Model):
     class Meta:
         managed = False
         db_table = 'r_patient_mri_examination'
-
-
-class RPatientMriSafetyQuestionnaire(models.Model):
-    patient_session = models.ForeignKey(DPatientDetail, models.DO_NOTHING)
-    scale = models.ForeignKey(DScales, models.DO_NOTHING)
-    birth_date = models.DateField(blank=True, null=True)
-    inspection_date = models.DateField(blank=True, null=True)
-    patient_weight = models.FloatField(blank=True, null=True)
-    patient_height = models.FloatField(blank=True, null=True)
-    answer_1 = models.IntegerField(blank=True, null=True)
-    answer_2 = models.IntegerField(blank=True, null=True)
-    answer_3 = models.IntegerField(blank=True, null=True)
-    answer_4 = models.IntegerField(blank=True, null=True)
-    answer_5 = models.IntegerField(blank=True, null=True)
-    answer_6 = models.IntegerField(blank=True, null=True)
-    answer_7 = models.IntegerField(blank=True, null=True)
-    answer_8 = models.IntegerField(blank=True, null=True)
-    answer_9 = models.IntegerField(blank=True, null=True)
-    answer_10 = models.IntegerField(blank=True, null=True)
-    answer_11 = models.IntegerField(blank=True, null=True)
-    answer_11_1 = models.IntegerField(blank=True, null=True)
-    answer_12 = models.IntegerField(blank=True, null=True)
-    answer_13 = models.IntegerField(blank=True, null=True)
-    answer_14 = models.IntegerField(blank=True, null=True)
-    answer_15 = models.IntegerField(blank=True, null=True)
-    answer_16 = models.IntegerField(blank=True, null=True)
-    answer_17 = models.IntegerField(blank=True, null=True)
-    answer_18 = models.IntegerField(blank=True, null=True)
-    answer_19 = models.IntegerField(blank=True, null=True)
-    answer_20 = models.IntegerField(blank=True, null=True)
-    answer_21 = models.IntegerField(blank=True, null=True)
-    answer_22 = models.IntegerField(blank=True, null=True)
-    answer_23 = models.IntegerField(blank=True, null=True)
-    answer_24 = models.IntegerField(blank=True, null=True)
-    answer_25 = models.IntegerField(blank=True, null=True)
-    answer_26 = models.IntegerField(blank=True, null=True)
-    answer_27 = models.IntegerField(blank=True, null=True)
-    answer_28 = models.IntegerField(blank=True, null=True)
-    answer_29 = models.IntegerField(blank=True, null=True)
-    answer_29_1 = models.IntegerField(blank=True, null=True)
-    answer_30 = models.IntegerField(blank=True, null=True)
-    answer_30_1 = models.IntegerField(blank=True, null=True)
-    answer_30_2 = models.IntegerField(blank=True, null=True)
-    answer_31 = models.IntegerField(blank=True, null=True)
-    answer_31_1 = models.IntegerField(blank=True, null=True)
-    answer_32 = models.IntegerField(blank=True, null=True)
-    answer_33 = models.IntegerField(blank=True, null=True)
-    answer_33_1 = models.IntegerField(blank=True, null=True)
-    answer_34 = models.IntegerField(blank=True, null=True)
-    doctor = models.ForeignKey('users.Suser', models.DO_NOTHING)
-    create_time = models.DateTimeField(auto_now_add=True)
-    update_time = models.DateTimeField(auto_now=True)
-
-    class Meta:
-        managed = False
-        db_table = 'r_patient_mri_safety_questionnaire'
-
 
 class RPatientPleasure(models.Model):
     patient_session = models.ForeignKey(DPatientDetail, models.DO_NOTHING)
@@ -769,7 +650,7 @@ class RPatientPleasure(models.Model):
     question17_answer = models.IntegerField(blank=True, null=True)
     question18_answer = models.IntegerField(blank=True, null=True)
     total_score = models.IntegerField(blank=True, null=True)
-    exception_score = models.IntegerField(blank=True, null=True)
+    expectation_score = models.IntegerField(blank=True, null=True)
     consume_score = models.IntegerField(blank=True, null=True)
     doctor = models.ForeignKey('users.Suser', models.DO_NOTHING)
     create_time = models.DateTimeField(auto_now_add=True)
@@ -800,7 +681,7 @@ class RPatientRbans(models.Model):
     speech_total = models.IntegerField(blank=True, null=True)
     attention_total = models.IntegerField(blank=True, null=True)
     delayed_retention_total = models.IntegerField(blank=True, null=True)
-    total_score = models.FloatField(blank=True, null=True)
+    total_score = models.IntegerField(blank=True, null=True)
     doctor = models.ForeignKey('users.Suser', models.DO_NOTHING)
     create_time = models.DateTimeField(auto_now_add=True)
     update_time = models.DateTimeField(auto_now=True)
@@ -930,7 +811,7 @@ class RPatientSuicidal(models.Model):
     question19_lastweek = models.IntegerField(blank=True, null=True)
     question19_mostdepressed = models.IntegerField(blank=True, null=True)
     total_score_lastweek = models.FloatField(blank=True, null=True)
-    total_score_mostdpressed = models.FloatField(blank=True, null=True)
+    total_score_mostdepressed = models.FloatField(blank=True, null=True)
     doctor = models.ForeignKey('users.Suser', models.DO_NOTHING)
     create_time = models.DateTimeField(auto_now_add=True)
     update_time = models.DateTimeField(auto_now=True)
@@ -1002,7 +883,7 @@ class RPatientWcst(models.Model):
     rfp = models.FloatField(blank=True, null=True)
     rp = models.IntegerField(blank=True, null=True)
     rpe = models.IntegerField(blank=True, null=True)
-    rpep = models.IntegerField(blank=True, null=True)
+    rpep = models.FloatField(blank=True, null=True)
     nrpe = models.IntegerField(blank=True, null=True)
     fm = models.IntegerField(blank=True, null=True)
     l_l = models.FloatField(blank=True, null=True)

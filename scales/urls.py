@@ -76,7 +76,14 @@ urlpatterns = [
     url(r'^get_check_bprs_form', views.get_check_bprs_form),
     url(r'^get_last_url', views.get_last_url),
     url(r'^get_next_url', views.get_next_url),
+    url(r'^get_last_baseinfo_url', views.get_last_baseinfo_url),
+    url(r'^get_next_baseinfo_url', views.get_next_baseinfo_url),
+    url(r'^get_check_wcst_form', views.get_check_wcst_form),
+    url(r'^get_check_rbans_form', views.get_check_rbans_form),
+    url(r'^get_check_fept_form', views.get_check_fept_form),
+    url(r'^get_check_vept_form', views.get_check_vept_form),
     # -----------------------------------------------------------------#
     url(r'^self_tests', views.test),
     url(r'^test_submit', views.test_submit),
 ]
+
