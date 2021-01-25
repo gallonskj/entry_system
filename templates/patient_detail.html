@@ -152,12 +152,12 @@
                                                     {% if scale_detail|get_item:'state' == 1 %}
                                                         <td>{{ scale_detail|get_item:'end_time' }}</td>
                                                         <td>已完成</td>
-                                                        <td><a href={{ scale_detail|get_scale_url }}>重做</a></td>
+                                                        <td><a href={{ scale_detail|get_self_scale_url }}>重做</a></td>
                                                         <td>-</td>
                                                     {% else %}
                                                         <td>-</td>
                                                         <td>未完成</td>
-                                                        <td><a href={{ scale_detail|get_scale_url }}>续做</a></td>
+                                                        <td><a href={{ scale_detail|get_self_scale_url }}>续做</a></td>
                                                         <td>-</td>
                                                     {% endif %}
                                                 </tr>
