@@ -66,8 +66,8 @@ def add_patient_baseinfo(request):
             val = request.POST.get(key)
             if val == '':
                 val = None
-            else:
-                setattr(rPatientGhr, st, val)
+
+            setattr(rPatientGhr, st, val)
             if st == 'kinship':
                 patients_dao.add_patient_ghr(rPatientGhr)
                 rPatientGhr = patients_models.RPatientGhr(ghr_id=patient_id, doctor_id=doctor_id)
@@ -191,6 +191,7 @@ def get_patient_detail(request):
             ghr_kinship.append(i.kinship)
 
         num_ghr = ghr_list.count()
+        patients = patients_dao.get_base_info_all()
         return render(request, 'patient_detail.html',
                       {
                           'patient_id': patient_id,
@@ -207,7 +208,8 @@ def get_patient_detail(request):
                           'other_diagnosis': patient_baseinfo.other_diagnosis,
                           'ghr_diagnosis': ghr_diagnosis,
                           'ghr_kinship': ghr_kinship,
-                          'num_ghr': num_ghr
+                          'num_ghr': num_ghr,
+                          'patients':patients
                       })
     else:
         return render(request, 'patient_detail.html', {"username": request.session.get("username")})
@@ -273,11 +275,19 @@ def update_base_info(request):
     print("#################" + str(request.POST.get('nation')))
     patient_base_info = patients_dao.get_base_info_byPK(patient_id)
     print("################" + str(patient_base_info.nation))
+    ori_diagnosis=patient_base_info.diagnosis #获取之前的诊断
+    print("ori_diagnosis--------------",ori_diagnosis)
     patient_base_info = scale_views.set_attr_by_post(request, patient_base_info)
     print("################" + str(patient_base_info.nation))
+    new_diagnosis=patient_base_info.diagnosis
+    print("new_diagnosis--------------",new_diagnosis)
+
     patients_dao.add_base_info(patient_base_info)
     #更新高危信息
-    patient_ghr = set_ghr_by_post(request, patient_id)
+    set_ghr_by_post(request, patient_id)
+    #添加高危信息
+    if ori_diagnosis!=7 and new_diagnosis==7:
+        add_ghr_by_post(request,patient_id)
 
 
 
@@ -517,4 +527,25 @@ def set_ghr_by_post(request,id):
         patient_ghr.diagnosis=diagnosis
         patients_dao.add_patient_ghr(patient_ghr)
 
-    return patient_ghr
+
+
+def add_ghr_by_post(request,id):
+    doctor_id=request.GET.get("doctor_id")
+    rPatientGhr = patients_models.RPatientGhr(ghr_id=id, doctor_id=doctor_id)
+    for key in request.POST.keys():
+        pos = key.rfind('_')
+        str = key[0:pos]
+        print('-----------------------',str)
+        pos2=str.rfind('_')
+        st=str[pos+1:]
+        print("st:    ==========================",st)
+
+        if hasattr(rPatientGhr, st) and key != 'diagnosis':
+            val = request.POST.get(key)
+            if val == '':
+                val = None
+            print('st---',st,'--------------',val)
+            setattr(rPatientGhr, st, val)
+            if st == 'kinship':
+                patients_dao.add_patient_ghr(rPatientGhr)
+                rPatientGhr = patients_models.RPatientGhr(ghr_id=id, doctor_id=doctor_id)

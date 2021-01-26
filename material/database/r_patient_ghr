@@ -1,0 +1,31 @@
+
+--
+-- Table structure for table `r_patient_ghr`
+--
+
+DROP TABLE IF EXISTS `r_patient_ghr`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `r_patient_ghr` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `ghr_id` int(11) NOT NULL,
+  `patient_session_id` int(11) DEFAULT NULL,
+  `diagnosis` tinyint(4) DEFAULT NULL,
+  `kinship` tinyint(4) DEFAULT NULL,
+  `doctor_id` int(11) NOT NULL,
+  `create_time` datetime NOT NULL,
+  `update_time` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=240 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `r_patient_ghr`
+--
+
+LOCK TABLES `r_patient_ghr` WRITE;
+/*!40000 ALTER TABLE `r_patient_ghr` DISABLE KEYS */;
+INSERT INTO `r_patient_ghr` VALUES (239,1,0,2,0,2,'2021-01-25 13:51:11','2021-01-25 13:51:11');
+/*!40000 ALTER TABLE `r_patient_ghr` ENABLE KEYS */;
+UNLOCK TABLES;
+
