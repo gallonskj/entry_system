@@ -155,12 +155,12 @@
                                                     {% if scale_detail|get_item:'state' == 1 %}
                                                         <td>{{ scale_detail|get_item:'end_time' }}</td>
                                                         <td>已完成</td>
-                                                        <td><a href={{ scale_detail|get_scale_url }}>重做</a></td>
+                                                        <td><a href={{ scale_detail|get_self_scale_url }}>重做</a></td>
                                                         <td>-</td>
                                                     {% else %}
                                                         <td>-</td>
                                                         <td>未完成</td>
-                                                        <td><a href={{ scale_detail|get_scale_url }}>续做</a></td>
+                                                        <td><a href={{ scale_detail|get_self_scale_url }}>续做</a></td>
                                                         <td>-</td>
                                                     {% endif %}
                                                 </tr>
@@ -324,6 +324,7 @@
                                                 <td>
                                                     <a href='/scales/get_rtms_forms?patient_session_id={{ patient_detail.id }}&patient_id={{ patient_detail.patient_id }}&do_type=0'>重做</a>
                                                 </td>
+
                                                 <td><a href='/scales/get_rtms_forms?patient_session_id={{ patient_detail.id }}&patient_id={{ patient_detail.patient_id }}&do_type=1'>查看</a></td>
                                             {% else %}
                                                 <td>-</td>
@@ -425,7 +426,7 @@
                                     <div class="row"  id="ghr_modify" style="display: none;margin:12px;margin-bottom:12px; border:1.5px solid cadetblue;">
                             <div class="col-md-4" >
                                 <label class="" for="subject_number" style="text-align: right  ;margin-top: 10px ">患者编号<span class="required">:</span></label>
-                                <select tabindex="-1" style="font-size: 5px;  margin-top: 5px ;margin-bottom: 5px ;max-height: 5px"  class="sel_beauty" name="add_patient_session_id_0" id="singleSelect">
+                                <select tabindex="-1" style="font-size: 5px;  margin-top: 5px ;margin-bottom: 5px ;max-height: 5px"  class="sel_beauty" name="patient_session_id_add_0" id="singleSelect">
                                     <option   value=0>无</option>
                                     {% for obj in patients %}
                                         <option value ="{{ obj.id }}">{{ obj.id }}-{{ obj.name }}-{{ obj.birth_date }}</option>
@@ -435,7 +436,7 @@
                             </div>
                             <div class="col-md-4"  >
                                 <label class="" for="subject_number" style="text-align: right;margin-top: 10px ">患病类型<span class="required">:</span></label>
-                                <select tabindex="-1" style=" font-size: 5px; margin-top: 10px ;margin-bottom: 10px " name="add_diagnosis_0" id="ghr_diagnosis_add" class="sel_beauty select2_single form-control col-md-4" required>
+                                <select tabindex="-1" style=" font-size: 5px; margin-top: 10px ;margin-bottom: 10px " name="diagnosis_add_0" id="ghr_diagnosis_add" class="sel_beauty select2_single form-control col-md-4" required>
                                    <option value=2>重性抑郁障碍</option>
                                    <option value=3>焦虑障碍</option>
                                    <option value=4>双相障碍</option>
@@ -449,7 +450,7 @@
                             </div>
                             <div class="col-md-2" >
                                  <label class="" for="subject_number" style="text-align: right;margin-top: 10px" >亲属关系<span class="required">:</span></label>
-                                 <select tabindex="-1" style=" font-size: 5px; margin-bottom: 10px ; margin-top: 10px " name="add_kinship_0" id="ghr_kinship_add" class="sel_beauty select2_single form-control col-md-4"  required>
+                                 <select tabindex="-1" style=" font-size: 5px; margin-bottom: 10px ; margin-top: 10px " name="kinship_add_0" id="ghr_kinship_add" class="sel_beauty select2_single form-control col-md-4"  required>
                                    <option value=0>父亲</option>
                                    <option value=1>母亲</option>
                                    <option value=2>儿子</option>
@@ -662,7 +663,7 @@ function addLine_ghr() {
      var s=""
 	s+="<div class=col-md-4 style=margin: 10px >"
 
-    s+="<select tabindex=-1 style=font-size: 10px ;style=margin: 10px; class=sel_beauty  form-control col-md-4 id=singleSelect"+i+" name=add_patient_session_id_" + i + " >"
+    s+="<select tabindex=-1 style=font-size: 10px ;style=margin: 10px; class=sel_beauty  form-control col-md-4 id=singleSelect"+i+" name=patient_session_id_add_" + i + " >"
     s+=" <option value= 0 >无</option>"
                               s+= " {% for obj in patients %}"
                                    s+= "<option value ={{ obj.id }}>{{ obj.id }}-{{ obj.name }}-{{ obj.birth_date }}</option>"
@@ -675,7 +676,7 @@ function addLine_ghr() {
     var txt2=document.createElement("p");
 	var str = "" ;
 	str+="<div class=col-md-4 style=margin: 10px>"
-    str+="<select tabindex=-1 style=font-size: 10px ;style=margin: 10px; class=sel_beauty select2_single form-control col-md-4 required id=ghr_diagnosis_add"+i+" name=add_diagnosis_"+i+ ">"
+    str+="<select tabindex=-1 style=font-size: 10px ;style=margin: 10px; class=sel_beauty select2_single form-control col-md-4 required id=ghr_diagnosis_add"+i+" name=diagnosis_add_"+i+ ">"
      str+="<option  value=2>"+'重性抑郁障碍';
 	 str+="<option  value=3>"+'焦虑障碍';
     str+="<option  value=4>"+'双相障碍';
@@ -695,7 +696,7 @@ function addLine_ghr() {
     var txt3=document.createElement("p");
     var str2 = "" ;
 	str2+="<div class=col-md-4 style=margin: 10px>"
-    str2+="<select tabindex=-1 style=font-size: 10px ;style=margin: 10px; class=sel_beauty select2_single form-control col-md-4 required id=ghr_kinship_add"+i+" name=add_kinship_"+i+ ">"
+    str2+="<select tabindex=-1 style=font-size: 10px ;style=margin: 10px; class=sel_beauty select2_single form-control col-md-4 required id=ghr_kinship_add"+i+" name=kinship_add_"+i+ ">"
      str2+="<option  value=0>"+'父亲';
 	 str2+="<option  value=1>"+'母亲';
     str2+="<option  value=2>"+'儿子';
@@ -816,6 +817,12 @@ function addLine_ghr() {
         function judge_diagnosis(obj) {
             if (obj.options[obj.selectedIndex].value == 99) {
                 document.getElementById("other_diagnosis_div").style.display = "";
+                 var j ={{ num_ghr }};
+                for (i = 1; i <= j; i++) {
+                  document.getElementById("ghr_diagnosis" + i + "").disabled="true";
+                }
+                document.getElementById("ghr_label_div").style.display = "none";
+                document.getElementById("ghr_diagnosis_p").style.display = "none";
             }
             else if(obj.options[obj.selectedIndex].value == 7)
             {
@@ -824,7 +831,12 @@ function addLine_ghr() {
                 document.getElementById("ghr_modify").style.display = "";
             }
             else {
-
+                 var j ={{ num_ghr }};
+                for (i = 1; i <= j; i++) {
+                  document.getElementById("ghr_diagnosis" + i + "").disabled="true";
+                }
+                document.getElementById("ghr_label_div").style.display = "none";
+                document.getElementById("ghr_diagnosis_p").style.display = "none";
                 document.getElementById("other_diagnosis_div").style.display = "none";
                 document.getElementById("other_diagnosis").value = "NULL";
             }

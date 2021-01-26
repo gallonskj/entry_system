@@ -45,16 +45,16 @@ scales_html_dict = {1: '/scales/get_family_form',
                     8: '/scales/get_hama_form',
                     9: '/scales/get_ymrs_form',
                     10: '/scales/get_bprs_form',
-                    11: '/scales/get_ybocs_form',
-                    12: '/scales/get_bss_form',
-                    13: '/scales/get_hcl_33_form',
-                    14: '/scales/get_shaps_form',
-                    15: '/scales/get_teps_form',
-                    16: '/scales/get_ctq_sf_form',
-                    17: '/scales/get_cerq_c_form',
-                    18: '/scales/get_aslec_form',
-                    19: '/scales/get_s_embu_form',
-                    20: '/scales/get_atq_form',
+                    11: 'nbh/ajax_ybo.html',
+                    12: 'nbh/ajax_bss.html',
+                    13: 'nbh/ajax_hcl_33.html',
+                    14: 'nbh/ajax_shaps.html',
+                    15: 'nbh/ajax_teps.html',
+                    16: 'nbh/ajax_ctq_sf.html',
+                    17: 'nbh/ajax_cerq_c.html',
+                    18: 'nbh/ajax_aslec.html',
+                    19: 'nbh/ajax_s_embu.html',
+                    20: 'nbh/ajax_atq.html',
                     21: '/scales/get_wcst_form',
                     22: '/scales/get_rbans_form',
                     23: '/scales/get_fept_form',
@@ -102,3 +102,9 @@ disease_type_dict = {0: '未诊断', 1: '健康者', 2: '重性抑郁障碍', 3:
 
 STATE_FINISHED = 1
 STATE_UNFINISHED = 0
+
+# =================================关于excel表格的一些配置信息==============================================
+# 属性列所在的索引
+excel_col_dict = {'start_time':0,'medical_name':3,'is_tomorrow':7,'dose':8,'group_flag':9,'drug_type':10,
+                  'usage_way':11,'start_doctor':12,'start_nurse':14,'end_doctor':18,'end_nurse':19,'end_time':16}
+drug_types = ['PO','IVGTT']

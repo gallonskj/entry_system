@@ -27,3 +27,12 @@ def calculate_age_by_scandate(born, scan_date):
 def object_judgment(object_flag):
     if object_flag:
         return None
+
+# 获取住院患者病程记录存储路径
+def get_progress_note_direct(instance,filename):
+    return '病程记录/{}/{}'.format(str(instance.id),filename)
+
+# 获取住院患者出院记录存储路径
+def get_out_record_direct(instance,filename):
+    return '出院记录/{}/{}'.format(str(instance.id),filename)
+

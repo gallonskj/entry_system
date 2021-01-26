@@ -276,18 +276,25 @@ def update_base_info(request):
     patient_base_info = patients_dao.get_base_info_byPK(patient_id)
     print("################" + str(patient_base_info.nation))
     ori_diagnosis=patient_base_info.diagnosis #获取之前的诊断
-    print("ori_diagnosis--------------",ori_diagnosis)
     patient_base_info = scale_views.set_attr_by_post(request, patient_base_info)
     print("################" + str(patient_base_info.nation))
     new_diagnosis=patient_base_info.diagnosis
-    print("new_diagnosis--------------",new_diagnosis)
 
     patients_dao.add_base_info(patient_base_info)
+
+
     #更新高危信息
-    set_ghr_by_post(request, patient_id)
+
+    set_ghr_by_post(request, patient_id)  #如果高危信息页面没有变化，函数不会保存新的内容
+    if ori_diagnosis==7 and new_diagnosis!='7': #从高危改成其他患病类型，要把原先的高危信息删除
+        all_list_ghr = patients_models.RPatientGhr.objects.filter(ghr_id=patient_id)
+        for list in all_list_ghr:
+            list.delete()
+
     #添加高危信息
-    if ori_diagnosis!=7 and new_diagnosis==7:
+    if  new_diagnosis=='7' and ori_diagnosis!=7:
         add_ghr_by_post(request,patient_id)
+
 
 
 
@@ -504,6 +511,7 @@ def set_attr_by_post(request, _object):
 
 # 根据request post信息更新高危信息
 def set_ghr_by_post(request,id):
+    #doctor_id=request.session.get('doctor_id')
     rPatientGhr = patients_models.RPatientGhr()
     ghr_kinship_list = []
     ghr_diagnosis_list = []
@@ -530,21 +538,19 @@ def set_ghr_by_post(request,id):
 
 
 def add_ghr_by_post(request,id):
-    doctor_id=request.GET.get("doctor_id")
+    doctor_id=request.session.get('doctor_id')
     rPatientGhr = patients_models.RPatientGhr(ghr_id=id, doctor_id=doctor_id)
     for key in request.POST.keys():
-        pos = key.rfind('_')
-        str = key[0:pos]
-        print('-----------------------',str)
-        pos2=str.rfind('_')
-        st=str[pos+1:]
-        print("st:    ==========================",st)
+        #pos = key.rfind('_')-4
+        #st = key[:pos]
+        end_pos = key.rfind('_') - 1  # 倒数第一个"_"的位置再左移一位
+        start_pos = key.rfind('_', 0, end_pos)  # 从开始截至到end_pos的位置，从右往左出现的第一个"_"也就是我们要找的倒数第二个"_"
+        st = key[:start_pos]
 
         if hasattr(rPatientGhr, st) and key != 'diagnosis':
             val = request.POST.get(key)
             if val == '':
                 val = None
-            print('st---',st,'--------------',val)
             setattr(rPatientGhr, st, val)
             if st == 'kinship':
                 patients_dao.add_patient_ghr(rPatientGhr)
