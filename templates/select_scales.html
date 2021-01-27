@@ -31,9 +31,9 @@
         </div>
         <div class="row x_panel">
         <br/><br/>
-            <form class="form-horizontal form-label-left"
+            <form  name="save_form" class="form-horizontal form-label-left"
                   action="/patients/update_patient_detail?patient_session_id={{ patient_session_id }}&patient_id={{ patient_baseinfo.id }}&session_id={{ patient_detail.session_id }}"
-                  method="POST">
+                  method="POST"  onSubmit="return myCheck(this) ">
 
                 <div class="col-md-12 col-xs-12">
 
@@ -303,6 +303,20 @@
 
 
     </div>
+
+
+
+<script>
+var num=1
+ function myCheck(save_form) {
+    if(num==1)
+    {
+        alert("提交成功！");
+    }
+    num=num+1;
+            return true;
+ }
+</script>
 
     <script>
         function getData() {

@@ -282,21 +282,17 @@ def update_base_info(request):
 
     patients_dao.add_base_info(patient_base_info)
 
-
     #更新高危信息
-
     set_ghr_by_post(request, patient_id)  #如果高危信息页面没有变化，函数不会保存新的内容
     if ori_diagnosis==7 and new_diagnosis!='7': #从高危改成其他患病类型，要把原先的高危信息删除
+        #print("del_ghr------------------------------------")
         all_list_ghr = patients_models.RPatientGhr.objects.filter(ghr_id=patient_id)
         for list in all_list_ghr:
             list.delete()
-
     #添加高危信息
     if  new_diagnosis=='7' and ori_diagnosis!=7:
+        #print('add_ghr----------------------------')
         add_ghr_by_post(request,patient_id)
-
-
-
 
     return redirect('/patients/get_patient_detail?patient_id=' + patient_id)
 
@@ -511,6 +507,7 @@ def set_attr_by_post(request, _object):
 
 # 根据request post信息更新高危信息
 def set_ghr_by_post(request,id):
+    #print('modify_ghr--------------------------')
     #doctor_id=request.session.get('doctor_id')
     rPatientGhr = patients_models.RPatientGhr()
     ghr_kinship_list = []

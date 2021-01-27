@@ -360,7 +360,7 @@
         <div class="row x_panel">
             <div class="col-md-12 col-xs-12">
 
-                <form action="/patients/update_base_info?patient_id={{ patient_id }}" method="post">
+                <form name="modify_form" action="/patients/update_base_info?patient_id={{ patient_id }}" method="post"  onSubmit="return myCheck(this) ">
                     {% csrf_token %}
                     <div class="x_panel">
                         <div class="x_title">
@@ -655,6 +655,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/js/select2.min.js"></script>
     <script type="text/javascript" src="{% static '/js/subjectEstablish.js' %}"></script>
 
+
     <script>
 var i=1;
 function addLine_ghr() {
@@ -725,21 +726,37 @@ function addLine_ghr() {
 </script>
 
 
+<script>
+
+function saveForm() {
+    $('#modify_form').ajaxSubmit(function () {
+        alert("设置保存成功！");
+    });
+    return false; //阻止表单默认提交
+}
+
+</script>
+
+<script>
+var num=1
+ function myCheck(modify_form) {
+    if(num==1)
+    {
+        alert("提交成功！");
+    }
+    num=num+1;
+            return true;
+ }
+</script>
 
 
-
-    <script>
-        $(document).ready(function () {
-            $("input[type='radio']").labelauty();
-            $('#singleSelect').select2();
-       $('#ghr_diagnosis_add').select2();
-       $('#ghr_kinship_add').select2();
-
-        });
-    </script>
     <script type="text/javascript" language="JavaScript">
 
         $(document).ready(function () {
+              $("input[type='radio']").labelauty();
+            $('#singleSelect').select2();
+       $('#ghr_diagnosis_add').select2();
+       $('#ghr_kinship_add').select2();
             document.getElementById("patient_id").innerHTML = 'NN_' + formatZero({{ patient_id }}, 8)
             document.getElementById("diagnosis").value ={{ diagnosis }};
             var diagnosistype ={{ diagnosis }};
@@ -814,6 +831,7 @@ function addLine_ghr() {
     </script>
 
     <script>
+
         function judge_diagnosis(obj) {
             if (obj.options[obj.selectedIndex].value == 99) {
                 document.getElementById("other_diagnosis_div").style.display = "";
