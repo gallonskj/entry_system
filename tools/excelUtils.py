@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-# -*- coding: UTF-8 -*-
 '''
 @Project ：entry_system
 @File ：excelUtils.py

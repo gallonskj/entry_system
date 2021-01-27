@@ -394,6 +394,11 @@
             if (obj.options[obj.selectedIndex].value == 99) {
                 document.getElementById("other_diagnosis_div").style.display = "";
                 document.getElementById("ghr_div").style.display = "none";
+                document.getElementById("singleSelect").disabled="true";
+                document.getElementById("ghr_diagnosis").disabled="true";
+                document.getElementById("ghr_kinship").disabled="true";
+
+
             } else if(obj.options[obj.selectedIndex].value == 7){
                  document.getElementById("other_diagnosis_div").style.display = "none";
                 document.getElementById("ghr_div").style.display = "";
@@ -401,6 +406,10 @@
             else {
                 document.getElementById("ghr_div").style.display = "none";
                 document.getElementById("other_diagnosis_div").style.display = "none";
+                 document.getElementById("singleSelect").disabled="true";
+                document.getElementById("ghr_diagnosis").disabled="true";
+                document.getElementById("ghr_kinship").disabled="true";
+
             }
         }
 
@@ -497,8 +506,6 @@ function addLine() {
     $('#singleSelect').select2();
        $('#ghr_diagnosis').select2();
        $('#ghr_kinship').select2();
-
-
 
   });
 </script>
