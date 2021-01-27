@@ -123,7 +123,7 @@ class RPatientGhr(models.Model):
 #rtms
 class BPatientRtms(models.Model):
     id = models.IntegerField(primary_key=True)
-    patient_session = models.ForeignKey('DPatientDetail', models.DO_NOTHING, unique=True)
+    patient_session = models.OneToOneField('DPatientDetail', models.DO_NOTHING)
     treatment_num = models.IntegerField()
     treatment_date = models.DateField()
     therapeutic_target = models.IntegerField(blank=True, null=True)

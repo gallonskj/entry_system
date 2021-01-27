@@ -53,6 +53,7 @@ add_XXX:添加量表逻辑,实际上更新以及添加走的都是这个逻辑,�
 ================================================================
 '''
 
+
 def get_redirect_url(patient_session_id, patient_id, next_type, do_scale_type, cur_scale_id):
     '''
     获取需要跳转的url
@@ -79,9 +80,13 @@ def get_redirect_url(patient_session_id, patient_id, next_type, do_scale_type, c
     redirect_url = '{}?patient_session_id={}&patient_id={}'.format(next_page_url, str(patient_session_id),
                                                                    str(patient_id))
     return redirect_url
+
+
 '''
 封装的函数
 '''
+
+
 def set_attr_by_post(request, scale_object):
     '''
     对象进行赋值操作
@@ -96,6 +101,7 @@ def set_attr_by_post(request, scale_object):
             setattr(scale_object, key, None)
     return scale_object
 
+
 def judge_other_scale_state(request):
     '''
     根据所作题目的个数去判断量表的完成状态
@@ -105,19 +111,20 @@ def judge_other_scale_state(request):
     Returns:
         该量表的完成状态
     '''
-    total=tools_config.other_test_scale_num[request.GET.get('scale_id')]
-    count=0
+    total = tools_config.other_test_scale_num[request.GET.get('scale_id')]
+    count = 0
     for key in request.POST.keys():
-      if  request.POST.get(key).strip() != '':
-          count=count+1
-    count=count-1
-    if total==count:
-        state=1
+        if request.POST.get(key).strip() != '':
+            count = count + 1
+    count = count - 1
+    if total == count:
+        state = 1
     else:
-        state=0
+        state = 0
     return state
 
-#进入上一量表
+
+# 进入上一量表
 def get_last_url(request):
     '''
     获取上一页url:
@@ -133,17 +140,19 @@ def get_last_url(request):
     patient_session_id = request.GET.get('patient_session_id')
     patient_id = request.GET.get('patient_id')
     scale_id = int(request.GET.get('scale_id'))
-    rPatientScales=scales_dao.get_last_scales_detail(patient_session_id,scale_id)
-    if int(rPatientScales.state) == 0  :
+    rPatientScales = scales_dao.get_last_scales_detail(patient_session_id, scale_id)
+    if int(rPatientScales.state) == 0:
         last_page_url = tools_config.scales_html_dict[rPatientScales.scale_id]
-        redirect_url = '{}?patient_session_id={}&patient_id={}'.format(last_page_url, str(patient_session_id), str(patient_id))
+        redirect_url = '{}?patient_session_id={}&patient_id={}'.format(last_page_url, str(patient_session_id),
+                                                                       str(patient_id))
     else:
         last_page_url = tools_config.check_scales_html_dict[rPatientScales.scale_id]
         redirect_url = '{}?patient_session_id={}&patient_id={}'.format(last_page_url, str(patient_session_id),
                                                                        str(patient_id))
     return redirect(redirect_url)
 
-#进入下一量表
+
+# 进入下一量表
 def get_next_url(request):
     '''
     获取下一页url:
@@ -159,19 +168,21 @@ def get_next_url(request):
     patient_session_id = request.GET.get('patient_session_id')
     patient_id = request.GET.get('patient_id')
     scale_id = int(request.GET.get('scale_id'))
-    rPatientScales=scales_dao.get_next_scales_detail(patient_session_id,scale_id)
-   #如果上一条未答
-    if int(rPatientScales.state) == 0 :
-        #未填写的
+    rPatientScales = scales_dao.get_next_scales_detail(patient_session_id, scale_id)
+    # 如果上一条未答
+    if int(rPatientScales.state) == 0:
+        # 未填写的
         next_page_url = tools_config.scales_html_dict[rPatientScales.scale_id]
-        redirect_url = '{}?patient_session_id={}&patient_id={}'.format(next_page_url, str(patient_session_id), str(patient_id))
+        redirect_url = '{}?patient_session_id={}&patient_id={}'.format(next_page_url, str(patient_session_id),
+                                                                       str(patient_id))
     else:
         next_page_url = tools_config.check_scales_html_dict[rPatientScales.scale_id]
         redirect_url = '{}?patient_session_id={}&patient_id={}'.format(next_page_url, str(patient_session_id),
                                                                        str(patient_id))
     return redirect(redirect_url)
 
-def get_scale_order(patient_session_id, scale_id,scale_type):
+
+def get_scale_order(patient_session_id, scale_id, scale_type):
     '''
     :param patient_session_id:
     :param scale_id:
@@ -193,6 +204,7 @@ def get_scale_order(patient_session_id, scale_id,scale_type):
         order = 2
     return scale_name_list, order
 
+
 # 跳过量表
 def skip_scale(request):
     patient_session_id = request.GET.get('patient_session_id')
@@ -202,51 +214,54 @@ def skip_scale(request):
     redirect_url = get_redirect_url(patient_session_id, patient_id, tools_config.general_info_next_url,
                                     scale.do_scale_type, scale_id)
     return redirect(redirect_url)
+
+
 '''
 获取表单
 '''
 
 
-
-#rtms:
+# rtms:
 def get_rtms_forms(request):
     patient_session_id = request.GET.get('patient_session_id')
     patient_id = request.GET.get('patient_id')
     patient = patients_dao.get_base_info_byPK(patient_id)
     patient.birth_date = patient.birth_date.strftime('%Y-%m-%d')
     patient_detail = patients_dao.get_patient_detail_last_byPatientId(patient_id)
-    patient_detail.scan_date=patient_detail.scan_date.strftime('%Y-%m-%d')
+    patient_detail.scan_date = patient_detail.scan_date.strftime('%Y-%m-%d')
     patient_rtms_info = patients_models.BPatientRtms.objects.all().filter(patient_session_id=patient_session_id)
-    do_type=request.GET.get('do_type')
+    do_type = request.GET.get('do_type')
     for list in patient_rtms_info:
         if list.treatment_date is not None:
             list.treatment_date = list.treatment_date.strftime('%Y-%m-%d')
 
     return render(request, 'nbh/add_patient_rtms.html', {'patient_session_id': request.GET.get('patient_session_id'),
-                                                        'patient_id': request.GET.get('patient_id'),
-                                                        'username': request.session.get('username'),
+                                                         'patient_id': request.GET.get('patient_id'),
+                                                         'username': request.session.get('username'),
                                                          'patient_baseinfo': patient,
                                                          'standard_id': patient_detail.standard_id,
                                                          'patient_session_id': patient_session_id,
                                                          "username": request.session.get('username'),
                                                          'patient_detail': patient_detail,
-                                                         'patient_rtms_info':patient_rtms_info,
-                                                         'do_type':do_type
+                                                         'patient_rtms_info': patient_rtms_info,
+                                                         'do_type': do_type
                                                          })
+
+
 ##tms
 def add_rtms(request):
     if request.POST:
         # 只要重新进入这个页面就将tms设置为初始空
-        patient_id=request.GET.get('patient_id')
+        patient_id = request.GET.get('patient_id')
         patient_session_id = request.GET.get('patient_session_id')
         doctor_id = request.session.get('doctor_id')
         do_type = request.GET.get('do_type')
 
-        #if do_type == '0':  #如果从重做或者续做进来:清空之前的所有数据
+        # if do_type == '0':  #如果从重做或者续做进来:清空之前的所有数据
         all_list = patients_models.BPatientRtms.objects.filter(patient_session_id=patient_session_id)
         for list in all_list:
             list.delete()
-        bPatientRtms=patients_models.BPatientRtms(patient_session_id=patient_session_id,doctor_id=doctor_id)
+        bPatientRtms = patients_models.BPatientRtms(patient_session_id=patient_session_id, doctor_id=doctor_id)
         for key in request.POST.keys():
             pos = key.rfind('_')
             st = key[:pos]
@@ -256,16 +271,17 @@ def add_rtms(request):
                 if val == '':
                     val = None
 
-                #print(st,"=========================",val,"------",request.POST.get(key))
+                # print(st,"=========================",val,"------",request.POST.get(key))
                 setattr(bPatientRtms, st, val)
                 if st == 'note':
                     patients_dao.add_rtms_info(bPatientRtms)
-                    #print("ok-------------")
-                    bPatientRtms=patients_models.BPatientRtms(patient_session_id=patient_session_id,doctor_id=doctor_id)
-    #保存后：让d_patient_detail中的tms字段置1,表示tms已经录入
-    #print("session------------------------------",patient_session_id)
-    patient_detail = patients_models.DPatientDetail.objects.filter(id=patient_session_id,doctor_id=doctor_id)[0]
-    patient_detail.tms='1'
+                    # print("ok-------------")
+                    bPatientRtms = patients_models.BPatientRtms(patient_session_id=patient_session_id,
+                                                                doctor_id=doctor_id)
+    # 保存后：让d_patient_detail中的tms字段置1,表示tms已经录入
+    # print("session------------------------------",patient_session_id)
+    patient_detail = patients_models.DPatientDetail.objects.filter(id=patient_session_id, doctor_id=doctor_id)[0]
+    patient_detail.tms = '1'
     patients_dao.add_patient_detail(patient_detail)
 
     patient_id = request.GET.get('patient_id')
@@ -278,9 +294,9 @@ def add_rtms(request):
 def get_general_info_forms(request):
     patient_session_id = request.GET.get('patient_session_id')
     patient_id = request.GET.get('patient_id')
-    do_type=request.GET.get('do_type')
+    do_type = request.GET.get('do_type')
     redirect_url = get_baseinfo_redirect_url(patient_session_id, patient_id, tools_config.general_info_next_url,
-                                    tools_config.general_info_type, 0,do_type)
+                                             tools_config.general_info_type, 0, do_type)
     return redirect(redirect_url)
 
 
@@ -297,7 +313,7 @@ def get_other_test_forms(request):
 def get_self_test_forms(request):
     patient_session_id = request.GET.get('patient_session_id')
     patient_id = request.GET.get('patient_id')
-    scale_id=scales_dao.get_min_unfinished_scale(2, patient_session_id, 10)
+    scale_id = scales_dao.get_min_unfinished_scale(2, patient_session_id, 10)
     redirect_url = '/scales/self_tests?scale_id={}&patient_session_id={}&patient_id={}'.format(str(scale_id),
                                                                                                str(patient_session_id),
                                                                                                str(patient_id))
@@ -319,15 +335,15 @@ def get_select_scales(request):
     patient_id = request.GET.get('patient_id')
     patient = patients_dao.get_base_info_byPK(patient_id)
     patient.birth_date = patient.birth_date.strftime('%Y-%m-%d')
-    #patient_detail = patients_dao.get_patient_detail_last_byPatientId(patient_id)
+    # patient_detail = patients_dao.get_patient_detail_last_byPatientId(patient_id)
     patient_detail = patients_dao.get_patient_detail_byPatientId(patient_session_id)
     if patient_detail.scan_date is not None:
-        patient_detail.scan_date=patient_detail.scan_date.strftime('%Y-%m-%d')
+        patient_detail.scan_date = patient_detail.scan_date.strftime('%Y-%m-%d')
     # 获取各个scaleType的list信息
     scales_list = patients_dao.judgment_scales(patient_session_id)
     generalinfo_scale_list, other_test_scale_list, self_test_scale_list, cognition_scale_list = scales_dao.get_uodo_scales(
         patient_session_id)
-    tms= patients_models.DPatientDetail.objects.filter(id=patient_session_id)[0].tms
+    tms = patients_models.DPatientDetail.objects.filter(id=patient_session_id)[0].tms
     return render(request, 'select_scales.html', {'patient_baseinfo': patient,
                                                   'patient_id': patient.id,
                                                   'standard_id': patient_detail.standard_id,
@@ -338,7 +354,7 @@ def get_select_scales(request):
                                                   "todo_other_test_scale_size": len(other_test_scale_list),
                                                   "todo_self_test_scale_size": len(self_test_scale_list),
                                                   "todo_cognition_scale_size": len(cognition_scale_list),
-                                                  'tms':tms,
+                                                  'tms': tms,
                                                   })
 
 
@@ -451,10 +467,13 @@ def get_atq_form(request):
                                                 'scale_name_list': scale_name_list,
                                                 'scale_id': tools_config.atq, })
 
+
 '''
 量表具体操作
 '''
-#自评
+
+
+# 自评
 def add_ybo(request):
     if request.POST:
         patient_session_id = request.GET.get('patient_session_id')
@@ -629,6 +648,7 @@ def add_atq(request):
                                     tools_config.self_test_type, tools_config.atq)
     return redirect(redirect_url)
 
+
 '''
 def check_form(request):
     pass
@@ -649,6 +669,7 @@ def next_url(request):
     # state==1，check_form；state==0，form 填充
 '''
 
+
 # 汉密尔顿抑郁量表
 def add_hamd(request):
     patient_session_id = request.GET.get('patient_session_id')
@@ -662,22 +683,23 @@ def add_hamd(request):
         rPatientHAMD17_new.create_time = rPatientHAMD17.create_time
         rPatientHAMD17_new.id = rPatientHAMD17.id
     rPatientHAMD17_new = set_attr_by_post(request, rPatientHAMD17_new)
-    state=judge_other_scale_state(request)
+    state = judge_other_scale_state(request)
     # 插入数据库
-    scales_dao.add_hamd_database(rPatientHAMD17_new,state)
+    scales_dao.add_hamd_database(rPatientHAMD17_new, state)
     redirect_url = '/scales/get_check_hamd_17_form?patient_session_id={}&patient_id={}'.format(patient_session_id,
-                                                                                                patient_id)
+                                                                                               patient_id)
     return redirect(redirect_url)
+
 
 def get_hamd_17_form(request):
     patient_session_id = request.GET.get('patient_session_id')
     scale_id = tools_config.hamd_17
-    state = scales_dao.get_scale_state(patient_session_id=patient_session_id,scale_id=scale_id)
+    state = scales_dao.get_scale_state(patient_session_id=patient_session_id, scale_id=scale_id)
     # state==1,表明是重做逻辑,需要删除旧的记录,更新state状态
     if state == 1:
         scales_dao.del_hamd(patient_session_id=patient_session_id, scale_id=scale_id)
         scales_dao.update_rscales_state(patient_session_id, scale_id, 0)
-    scale_name_list,order=get_scale_order(patient_session_id,scale_id,tools_config.other_test_type)
+    scale_name_list, order = get_scale_order(patient_session_id, scale_id, tools_config.other_test_type)
     hamd_answer = scales_dao.get_patient_HAMD17_byPatientDetailId(patient_session_id)
     return render(request, 'nbh/add_hamd_17.html', {'patient_session_id': patient_session_id,
                                                     'patient_id': request.GET.get('patient_id'),
@@ -685,22 +707,24 @@ def get_hamd_17_form(request):
                                                     'scale_name_list': scale_name_list,
                                                     'scale_id': scale_id,
                                                     'hamd_answer': hamd_answer,
-                                                    'order':order,
+                                                    'order': order,
                                                     })
 
+
 def get_check_hamd_17_form(request):
-     patient_session_id = request.GET.get('patient_session_id')
-     scale_id = tools_config.hamd_17
-     scale_name_list, order = get_scale_order(patient_session_id, scale_id, tools_config.other_test_type)
-     hamd_answer = scales_dao.get_patient_HAMD17_byPatientDetailId(patient_session_id)
-     return render(request, 'nbh/edit_hamd_17.html', {'patient_session_id': patient_session_id,
-                                                      'patient_id': request.GET.get('patient_id'),
-                                                      'username': request.session.get('username'),
-                                                      'scale_name_list': scale_name_list,
-                                                      'scale_id': tools_config.hamd_17,
-                                                      'hamd_answer':hamd_answer,
-                                                      'order':order,
-                                                    })
+    patient_session_id = request.GET.get('patient_session_id')
+    scale_id = tools_config.hamd_17
+    scale_name_list, order = get_scale_order(patient_session_id, scale_id, tools_config.other_test_type)
+    hamd_answer = scales_dao.get_patient_HAMD17_byPatientDetailId(patient_session_id)
+    return render(request, 'nbh/edit_hamd_17.html', {'patient_session_id': patient_session_id,
+                                                     'patient_id': request.GET.get('patient_id'),
+                                                     'username': request.session.get('username'),
+                                                     'scale_name_list': scale_name_list,
+                                                     'scale_id': tools_config.hamd_17,
+                                                     'hamd_answer': hamd_answer,
+                                                     'order': order,
+                                                     })
+
 
 # 汉密尔顿焦虑量表
 def add_hama(request):
@@ -710,26 +734,27 @@ def add_hama(request):
     patient_id = request.GET.get('patient_id')
     rPatientHama = scales_dao.get_patient_HAMA_byPatientDetailId(patient_session_id)
     rPatientHAMA_new = scales_models.RPatientHama(patient_session_id=patient_session_id, scale_id=scale_id,
-                                                      doctor_id=doctor_id)
+                                                  doctor_id=doctor_id)
     if rPatientHama is not None:
         rPatientHAMA_new.create_time = rPatientHama.create_time
         rPatientHAMA_new.id = rPatientHama.id
     rPatientHAMA_new = set_attr_by_post(request, rPatientHAMA_new)
-    state=judge_other_scale_state(request)
-    scales_dao.add_hama_database(rPatientHAMA_new,state)
+    state = judge_other_scale_state(request)
+    scales_dao.add_hama_database(rPatientHAMA_new, state)
     redirect_url = '/scales/get_check_hama_form?patient_session_id={}&patient_id={}'.format(patient_session_id,
-                                                                                               patient_id)
-    #redirect_url = return_next(request)
+                                                                                            patient_id)
+    # redirect_url = return_next(request)
     return redirect(redirect_url)
+
 
 def get_hama_form(request):
     patient_session_id = request.GET.get('patient_session_id')
     scale_id = tools_config.hama
-    state = scales_dao.get_scale_state(patient_session_id=patient_session_id,scale_id=scale_id)
+    state = scales_dao.get_scale_state(patient_session_id=patient_session_id, scale_id=scale_id)
     if state == 1:
-        scales_dao.del_hama(patient_session_id=patient_session_id,scale_id=scale_id)
-        scales_dao.update_rscales_state(patient_session_id,scale_id,0)
-    scale_name_list,order=get_scale_order(patient_session_id,scale_id,tools_config.other_test_type)
+        scales_dao.del_hama(patient_session_id=patient_session_id, scale_id=scale_id)
+        scales_dao.update_rscales_state(patient_session_id, scale_id, 0)
+    scale_name_list, order = get_scale_order(patient_session_id, scale_id, tools_config.other_test_type)
     hama_answer = scales_dao.get_patient_HAMA_byPatientDetailId(patient_session_id)
     return render(request, 'nbh/add_hama.html', {'patient_session_id': patient_session_id,
                                                  'patient_id': request.GET.get('patient_id'),
@@ -737,8 +762,9 @@ def get_hama_form(request):
                                                  'scale_name_list': scale_name_list,
                                                  'scale_id': scale_id,
                                                  'hama_answer': hama_answer,
-                                                 'order':order,
+                                                 'order': order,
                                                  })
+
 
 def get_check_hama_form(request):
     patient_session_id = request.GET.get('patient_session_id')
@@ -746,13 +772,14 @@ def get_check_hama_form(request):
     scale_name_list, order = get_scale_order(patient_session_id, scale_id, tools_config.other_test_type)
     hama_answer = scales_dao.get_patient_HAMA_byPatientDetailId(patient_session_id)
     return render(request, 'nbh/edit_hama.html', {'patient_session_id': patient_session_id,
-                                                 'patient_id': request.GET.get('patient_id'),
-                                                 'username': request.session.get('username'),
-                                                 'scale_name_list': scale_name_list,
-                                                 'scale_id': scale_id,
-                                                 'hama_answer': hama_answer,
-                                                 'order': order,
-                                                 })
+                                                  'patient_id': request.GET.get('patient_id'),
+                                                  'username': request.session.get('username'),
+                                                  'scale_name_list': scale_name_list,
+                                                  'scale_id': scale_id,
+                                                  'hama_answer': hama_answer,
+                                                  'order': order,
+                                                  })
+
 
 # 杨氏躁狂量表
 def add_ymrs(request):
@@ -763,24 +790,25 @@ def add_ymrs(request):
     rPatientYmrs = scales_dao.get_patient_YMRS_byPatientDetailId(patient_session_id)
     rPatientYmrs_new = scales_models.RPatientYmrs(patient_session_id=patient_session_id, scale_id=scale_id,
                                                   doctor_id=doctor_id)
-    state=judge_other_scale_state(request)
+    state = judge_other_scale_state(request)
     if rPatientYmrs is not None:
         rPatientYmrs_new.create_time = rPatientYmrs.create_time
         rPatientYmrs_new.id = rPatientYmrs.id
 
     rPatientYmrs_new = set_attr_by_post(request, rPatientYmrs_new)
-    scales_dao.add_ymrs_database(rPatientYmrs_new,state)
+    scales_dao.add_ymrs_database(rPatientYmrs_new, state)
     redirect_url = '/scales/get_check_ymrs_form?patient_session_id={}&patient_id={}'.format(patient_session_id,
                                                                                             patient_id)
     return redirect(redirect_url)
+
 
 def get_ymrs_form(request):
     patient_session_id = request.GET.get('patient_session_id')
     scale_id = tools_config.ymrs
     state = scales_dao.get_scale_state(patient_session_id=patient_session_id, scale_id=scale_id)
     if state == 1:
-        scales_dao.del_ymrs(patient_session_id=patient_session_id,scale_id=scale_id)
-        scales_dao.update_rscales_state(patient_session_id,scale_id,0)
+        scales_dao.del_ymrs(patient_session_id=patient_session_id, scale_id=scale_id)
+        scales_dao.update_rscales_state(patient_session_id, scale_id, 0)
     scale_name_list, order = get_scale_order(patient_session_id, scale_id, tools_config.other_test_type)
     ymrs_answer = scales_dao.get_patient_YMRS_byPatientDetailId(patient_session_id)
     return render(request, 'nbh/add_ymrs.html', {'patient_session_id': patient_session_id,
@@ -792,19 +820,21 @@ def get_ymrs_form(request):
                                                  'order': order,
                                                  })
 
+
 def get_check_ymrs_form(request):
     patient_session_id = request.GET.get('patient_session_id')
     scale_id = tools_config.ymrs
     scale_name_list, order = get_scale_order(patient_session_id, scale_id, tools_config.other_test_type)
     ymrs_answer = scales_dao.get_patient_YMRS_byPatientDetailId(patient_session_id)
     return render(request, 'nbh/edit_ymrs.html', {'patient_session_id': patient_session_id,
-                                                 'patient_id': request.GET.get('patient_id'),
-                                                 'username': request.session.get('username'),
-                                                 'scale_name_list': scale_name_list,
-                                                 'scale_id': scale_id,
-                                                 'ymrs_answer': ymrs_answer,
-                                                 'order': order,
-                                                 })
+                                                  'patient_id': request.GET.get('patient_id'),
+                                                  'username': request.session.get('username'),
+                                                  'scale_name_list': scale_name_list,
+                                                  'scale_id': scale_id,
+                                                  'ymrs_answer': ymrs_answer,
+                                                  'order': order,
+                                                  })
+
 
 # 简明精神量表
 def add_bprs(request):
@@ -825,13 +855,14 @@ def add_bprs(request):
                                                                                             patient_id)
     return redirect(redirect_url)
 
+
 def get_bprs_form(request):
     patient_session_id = request.GET.get('patient_session_id')
     scale_id = tools_config.bprs
     state = scales_dao.get_scale_state(patient_session_id=patient_session_id, scale_id=scale_id)
     if state == 1:
-        scales_dao.del_bprs(patient_session_id=patient_session_id,scale_id=scale_id)
-        scales_dao.update_rscales_state(patient_session_id,scale_id,0)
+        scales_dao.del_bprs(patient_session_id=patient_session_id, scale_id=scale_id)
+        scales_dao.update_rscales_state(patient_session_id, scale_id, 0)
     scale_name_list, order = get_scale_order(patient_session_id, scale_id, tools_config.other_test_type)
     bprs_answer = scales_dao.get_patient_BPRS_byPatientDetailId(patient_session_id)
     return render(request, 'nbh/add_bprs.html', {'patient_session_id': patient_session_id,
@@ -841,7 +872,8 @@ def get_bprs_form(request):
                                                  'scale_id': scale_id,
                                                  'bprs_answer': bprs_answer,
                                                  'order': order,
-                                                })
+                                                 })
+
 
 def get_check_bprs_form(request):
     patient_session_id = request.GET.get('patient_session_id')
@@ -849,15 +881,13 @@ def get_check_bprs_form(request):
     scale_name_list, order = get_scale_order(patient_session_id, scale_id, tools_config.other_test_type)
     bprs_answer = scales_dao.get_patient_BPRS_byPatientDetailId(patient_session_id)
     return render(request, 'nbh/edit_bprs.html', {'patient_session_id': patient_session_id,
-                                                 'patient_id': request.GET.get('patient_id'),
-                                                 'username': request.session.get('username'),
-                                                 'scale_name_list': scale_name_list,
-                                                 'scale_id': scale_id,
-                                                 'bprs_answer': bprs_answer,
-                                                 'order': order,
-                                                 })
-
-
+                                                  'patient_id': request.GET.get('patient_id'),
+                                                  'username': request.session.get('username'),
+                                                  'scale_name_list': scale_name_list,
+                                                  'scale_id': scale_id,
+                                                  'bprs_answer': bprs_answer,
+                                                  'order': order,
+                                                  })
 
 
 '''
@@ -865,29 +895,31 @@ def get_check_bprs_form(request):
 '''
 
 
-#进入上一量表
+# 进入上一量表
 def get_last_baseinfo_url(request):
     patient_session_id = request.GET.get('patient_session_id')
     patient_id = request.GET.get('patient_id')
     scale_id = int(request.GET.get('scale_id'))
-    rPatientScales=scales_dao.get_last_scales_detail(patient_session_id,scale_id)
+    rPatientScales = scales_dao.get_last_scales_detail(patient_session_id, scale_id)
     last_page_url = tools_config.scales_html_dict[rPatientScales.scale_id]
-    redirect_url = '{}?patient_session_id={}&patient_id={}&do_type={}'.format(last_page_url, str(patient_session_id), str(patient_id),rPatientScales.state)
+    redirect_url = '{}?patient_session_id={}&patient_id={}&do_type={}'.format(last_page_url, str(patient_session_id),
+                                                                              str(patient_id), rPatientScales.state)
     return redirect(redirect_url)
 
-#进入下一量表
+
+# 进入下一量表
 def get_next_baseinfo_url(request):
     patient_session_id = request.GET.get('patient_session_id')
     patient_id = request.GET.get('patient_id')
     scale_id = int(request.GET.get('scale_id'))
-    rPatientScales=scales_dao.get_next_scales_detail(patient_session_id,scale_id)
+    rPatientScales = scales_dao.get_next_scales_detail(patient_session_id, scale_id)
     next_page_url = tools_config.scales_html_dict[rPatientScales.scale_id]
     redirect_url = '{}?patient_session_id={}&patient_id={}&do_type={}'.format(next_page_url, str(patient_session_id),
-                                                                             str(patient_id),rPatientScales.state)
+                                                                              str(patient_id), rPatientScales.state)
     return redirect(redirect_url)
 
-def get_baseinfo_redirect_url(patient_session_id, patient_id, next_type, do_scale_type, cur_scale_id,do_type):
 
+def get_baseinfo_redirect_url(patient_session_id, patient_id, next_type, do_scale_type, cur_scale_id, do_type):
     min_unfinished_scale = scales_dao.get_min_unfinished_scale(do_scale_type, patient_session_id, cur_scale_id)
     if min_unfinished_scale is None:
         redirect_url = '{}?patient_session_id={}&patient_id={}'.format(tools_config.select_scales_url,
@@ -895,20 +927,22 @@ def get_baseinfo_redirect_url(patient_session_id, patient_id, next_type, do_scal
         return redirect_url
     next_page_url = tools_config.scales_html_dict[min_unfinished_scale]
     redirect_url = '{}?patient_session_id={}&patient_id={}&do_type={}'.format(next_page_url, str(patient_session_id),
-                                                                   str(patient_id),do_type)
+                                                                              str(patient_id), do_type)
     return redirect_url
+
+
 # 获取家庭情况表单
 def get_family_form(request):
     # 由于要传入生日信息，因此这里需要获取一些下一页面所需要的值
     patient_id = request.GET.get('patient_id')
     patient_session_id = request.GET.get('patient_session_id')
     base_info = patients_dao.get_base_info_byPK(patient_id)
-    do_type=request.GET.get('do_type')
-    scale_id=tools_config.information_family
+    do_type = request.GET.get('do_type')
+    scale_id = tools_config.information_family
     patient_detail = patients_dao.get_patient_detail_byPK(patient_session_id)
     base_info.birth_date = base_info.birth_date.strftime('%Y-%m-%d')
     age = patient_detail.age
-    patient_baseinfo_family=scales_dao.get_patient_base_info_family_byPatientDetailId(patient_session_id)
+    patient_baseinfo_family = scales_dao.get_patient_base_info_family_byPatientDetailId(patient_session_id)
     nation_list = patients_dao.get_DEthnicity_all()
     if patient_detail.handy is None:
         patient_detail.handy = 0
@@ -923,10 +957,11 @@ def get_family_form(request):
                                                    'patient_detail': patient_detail,
                                                    'scale_id': scale_id,
                                                    'handy': patient_detail.handy,
-                                                   'do_type':do_type,
-                                                   'patient_baseinfo_family':patient_baseinfo_family,
+                                                   'do_type': do_type,
+                                                   'patient_baseinfo_family': patient_baseinfo_family,
                                                    'order': order
                                                    })
+
 
 def add_family_info(request):
     if request.POST:
@@ -958,27 +993,30 @@ def add_family_info(request):
     # state=0:
     # state=1:填过就是已完成
 
-    scales_dao.dao_add_family_info(patient_basic_info_family,1)
-    redirect_url = '/scales/get_family_form?patient_session_id={}&patient_id={}&do_type={}'.format( str(patient_session_id),
-                                                                            str(patient_id), 1)
+    scales_dao.dao_add_family_info(patient_basic_info_family, 1)
+    redirect_url = '/scales/get_family_form?patient_session_id={}&patient_id={}&do_type={}'.format(
+        str(patient_session_id),
+        str(patient_id), 1)
     return redirect(redirect_url)
+
 
 # 获取学习情况表单
 def get_study_form(request):
     patient_session_id = request.GET.get('patient_session_id')
-    do_type=request.GET.get('do_type')
-    scale_id=tools_config.information_study
-    patient_baseinfo_study=scales_dao.get_patient_base_info_study_byPatientDetailId(patient_session_id)
+    do_type = request.GET.get('do_type')
+    scale_id = tools_config.information_study
+    patient_baseinfo_study = scales_dao.get_patient_base_info_study_byPatientDetailId(patient_session_id)
     scale_name_list, order = get_scale_order(patient_session_id, scale_id, tools_config.general_info_type)
     return render(request, 'nbh/add_study.html', {'patient_session_id': patient_session_id,
                                                   'patient_id': request.GET.get('patient_id'),
                                                   'username': request.session.get('username'),
                                                   'scale_name_list': scale_name_list,
                                                   'scale_id': scale_id,
-                                                   'do_type':do_type,
-                                                   'patient_baseinfo_study':patient_baseinfo_study,
-                                                   'order': order
+                                                  'do_type': do_type,
+                                                  'patient_baseinfo_study': patient_baseinfo_study,
+                                                  'order': order
                                                   })
+
 
 def add_information_study(request):
     patient_session_id = request.GET.get('patient_session_id')
@@ -989,11 +1027,12 @@ def add_information_study(request):
         rPatientBasicInformationStudy = scales_models.RPatientBasicInformationStudy(
             patient_session_id=patient_session_id, scale_id=scale_id, doctor_id=doctor_id)
     rPatientBasicInformationStudy = set_attr_by_post(request, rPatientBasicInformationStudy)
-    scales_dao.add_information_study_database(rPatientBasicInformationStudy,1)
+    scales_dao.add_information_study_database(rPatientBasicInformationStudy, 1)
     patient_id = request.GET.get('patient_id')
     redirect_url = '/scales/get_study_form?patient_session_id={}&patient_id={}&do_type={}'.format(
         str(patient_session_id), str(patient_id), 1)
     return redirect(redirect_url)
+
 
 # 获取健康情况表单
 def get_health_form(request):
@@ -1012,6 +1051,7 @@ def get_health_form(request):
                                                    'order': order
                                                    })
 
+
 def add_patient_basic_information_health(request):
     patient_session_id = request.GET.get('patient_session_id')
     scale_id = tools_config.information_health
@@ -1024,8 +1064,10 @@ def add_patient_basic_information_health(request):
     rPatientBasicInformationHealth = set_attr_by_post(request, rPatientBasicInformationHealth)
     scales_dao.add_patient_basic_information_health_database(rPatientBasicInformationHealth, 1)
     patient_id = request.GET.get('patient_id')
-    redirect_url = '/scales/get_health_form?patient_session_id={}&patient_id={}&do_type={}'.format(str(patient_session_id),str(patient_id), 1)
+    redirect_url = '/scales/get_health_form?patient_session_id={}&patient_id={}&do_type={}'.format(
+        str(patient_session_id), str(patient_id), 1)
     return redirect(redirect_url)
+
 
 # 获取物质依赖表单
 def get_abuse_form(request):
@@ -1044,6 +1086,7 @@ def get_abuse_form(request):
                                                   'order': order
                                                   })
 
+
 def add_abuse(request):
     patient_session_id = request.GET.get('patient_session_id')
     scale_id = tools_config.information_abuse
@@ -1053,11 +1096,12 @@ def add_abuse(request):
         rPatientBasicInformationAbuse = scales_models.RPatientBasicInformationAbuse(
             patient_session_id=patient_session_id, scale_id=scale_id, doctor_id=doctor_id)
     rPatientBasicInformationAbuse = set_attr_by_post(request, rPatientBasicInformationAbuse)
-    scales_dao.add_abuse_database(rPatientBasicInformationAbuse,1)
+    scales_dao.add_abuse_database(rPatientBasicInformationAbuse, 1)
     patient_id = request.GET.get('patient_id')
     redirect_url = '/scales/get_abuse_form?patient_session_id={}&patient_id={}&do_type={}'.format(
         str(patient_session_id), str(patient_id), 1)
     return redirect(redirect_url)
+
 
 # 获取其他资料表单
 def get_other_form(request):
@@ -1076,6 +1120,7 @@ def get_other_form(request):
                                                   'order': order
                                                   })
 
+
 def add_other(request):
     patient_session_id = request.GET.get('patient_session_id')
     scale_id = tools_config.information_other
@@ -1085,11 +1130,12 @@ def add_other(request):
         rPatientBasicInformationOther = scales_models.RPatientBasicInformationOther(
             patient_session_id=patient_session_id, scale_id=scale_id, doctor_id=doctor_id)
     rPatientBasicInformationOther = set_attr_by_post(request, rPatientBasicInformationOther)
-    scales_dao.add_other_database(rPatientBasicInformationOther,1)
+    scales_dao.add_other_database(rPatientBasicInformationOther, 1)
     patient_id = request.GET.get('patient_id')
     redirect_url = '/scales/get_other_form?patient_session_id={}&patient_id={}&do_type={}'.format(
         str(patient_session_id), str(patient_id), 1)
     return redirect(redirect_url)
+
 
 # 获取利手量表表单
 def get_chi_form(request):
@@ -1108,6 +1154,7 @@ def get_chi_form(request):
                                                 'order': order
                                                 })
 
+
 def add_chinesehandle(request):
     patient_session_id = request.GET.get('patient_session_id')
     scale_id = tools_config.chi
@@ -1117,7 +1164,7 @@ def add_chinesehandle(request):
         rPatientChineseHandy = scales_models.RPatientChineseHandy(patient_session_id=patient_session_id,
                                                                   scale_id=scale_id, doctor_id=doctor_id)
     rPatientChineseHandy = set_attr_by_post(request, rPatientChineseHandy)
-    scales_dao.add_chinesehandle_database(rPatientChineseHandy,1)
+    scales_dao.add_chinesehandle_database(rPatientChineseHandy, 1)
     # 这里还要更新d_patient_detail表中的利手关系
     patient_detail = patients_dao.get_patient_detail_byPK(patient_session_id)
     patient_detail.handy = rPatientChineseHandy.result
@@ -1129,11 +1176,11 @@ def add_chinesehandle(request):
     return redirect(redirect_url)
 
 
-#简要病史
+# 简要病史
 def add_patient_medical_history(request):
     if request.POST:
         patient_session_id = request.GET.get('patient_session_id')
-        do_type =  request.GET.get('do_type')
+        do_type = request.GET.get('do_type')
         if do_type == '0':
             all_list = scales_models.RPatientDrugsInformation.objects.filter(patient_session_id=patient_session_id)
             for list in all_list:
@@ -1151,8 +1198,8 @@ def add_patient_medical_history(request):
         del_flag = 0
         medical_list = scales_models.RPatientMedicalHistory.objects.filter(patient_session_id=patient_session_id)
         medical_list.delete()
-        flag1=0
-        flag2=0
+        flag1 = 0
+        flag2 = 0
         for key in request.POST.keys():
             if hasattr(rPatientMedicalHistory, key):
                 val = request.POST.get(key)
@@ -1169,18 +1216,19 @@ def add_patient_medical_history(request):
                         val = val + seperator + datestr
                     if key == 'current_episode_date':
                         val = val + seperator + datestr
-                if key=='historical_drugs' and val== '0':
-                    flag1=1
-                if key=='scanning_using_drugs' and val == '0':
-                    flag2=1
+                if key == 'historical_drugs' and val == '0':
+                    flag1 = 1
+                if key == 'scanning_using_drugs' and val == '0':
+                    flag2 = 1
                 setattr(rPatientMedicalHistory, key, val)
             else:
                 pos = key.rfind('_')
                 st = key[:pos]
                 st2 = key[pos + 1]
-                if del_flag==0 and hasattr(rPatientDrugsInformation, st):
-                    del_flag=1
-                    all_list = scales_models.RPatientDrugsInformation.objects.filter(patient_session_id=patient_session_id)
+                if del_flag == 0 and hasattr(rPatientDrugsInformation, st):
+                    del_flag = 1
+                    all_list = scales_models.RPatientDrugsInformation.objects.filter(
+                        patient_session_id=patient_session_id)
                     for list in all_list:
                         list.delete()
 
@@ -1199,21 +1247,22 @@ def add_patient_medical_history(request):
                         rPatientDrugsInformation = scales_models.RPatientDrugsInformation(
                             patient_session_id=patient_session_id, scale_id=scale_id,
                             doctor_id=doctor_id)
-    if flag1==1:
-        all_list = scales_models.RPatientDrugsInformation.objects.filter(patient_session_id=patient_session_id,type=0)
+    if flag1 == 1:
+        all_list = scales_models.RPatientDrugsInformation.objects.filter(patient_session_id=patient_session_id, type=0)
         for list in all_list:
             list.delete()
-    if flag2==1:
+    if flag2 == 1:
         all_list = scales_models.RPatientDrugsInformation.objects.filter(patient_session_id=patient_session_id, type=1)
         for list in all_list:
             list.delete()
     # 添加数据库
-    scales_dao.add_medical_history(rPatientMedicalHistory,1)
+    scales_dao.add_medical_history(rPatientMedicalHistory, 1)
     # 页面跳转
     patient_id = request.GET.get('patient_id')
     redirect_url = '/scales/get_patient_medical_history_form?patient_session_id={}&patient_id={}&do_type={}'.format(
         str(patient_session_id), str(patient_id), 1)
     return redirect(redirect_url)
+
 
 # 获取病人病史表单
 def get_patient_medical_history_form(request):
@@ -1225,7 +1274,7 @@ def get_patient_medical_history_form(request):
     patient_medical_history = scales_dao.get_patient_medical_history_byPatientId(patient_session_id)
     if patient_medical_history is not None:
         if patient_medical_history.prophase_begin is not None:
-            patient_medical_history.prophase_begin=patient_medical_history.prophase_begin.strftime('%Y-%m')
+            patient_medical_history.prophase_begin = patient_medical_history.prophase_begin.strftime('%Y-%m')
 
         if patient_medical_history.prophase_end is not None:
             patient_medical_history.prophase_end = patient_medical_history.prophase_end.strftime('%Y-%m')
@@ -1237,46 +1286,50 @@ def get_patient_medical_history_form(request):
             patient_medical_history.first_time_end = patient_medical_history.first_time_end.strftime('%Y-%m')
 
         if patient_medical_history.current_episode_date is not None:
-            patient_medical_history.current_episode_date = patient_medical_history.current_episode_date.strftime('%Y-%m')
+            patient_medical_history.current_episode_date = patient_medical_history.current_episode_date.strftime(
+                '%Y-%m')
     scale_name_list, order = get_scale_order(patient_session_id, scale_id, tools_config.general_info_type)
-    historical_drugs_information,scanning_drugs_information,historical_drugs_information_num,scanning_drugs_information_num = scales_dao.get_patient_drugs_information_byPatientId(patient_session_id)
+    historical_drugs_information, scanning_drugs_information, historical_drugs_information_num, scanning_drugs_information_num = scales_dao.get_patient_drugs_information_byPatientId(
+        patient_session_id)
 
     for historical_drugs in historical_drugs_information:
         if historical_drugs is not None:
             if historical_drugs.begin_time is not None:
-                historical_drugs.begin_time=historical_drugs.begin_time.strftime('%Y-%m')
+                historical_drugs.begin_time = historical_drugs.begin_time.strftime('%Y-%m')
             if historical_drugs.end_time is not None:
-                historical_drugs.end_time=historical_drugs.end_time.strftime('%Y-%m')
+                historical_drugs.end_time = historical_drugs.end_time.strftime('%Y-%m')
 
     for scanning_drugs in scanning_drugs_information:
         if scanning_drugs is not None:
             if scanning_drugs.begin_time is not None:
-                scanning_drugs.begin_time=scanning_drugs.begin_time.strftime('%Y-%m')
+                scanning_drugs.begin_time = scanning_drugs.begin_time.strftime('%Y-%m')
             if scanning_drugs.end_time is not None:
-                scanning_drugs.end_time=scanning_drugs.end_time.strftime('%Y-%m')
-    return render(request, 'nbh/add_patient_medical_history.html', {'patient_session_id': patient_session_id,
-                                                                    'patient_id': patient_id,
-                                                                    'username': request.session.get('username'),
-                                                                    'scale_name_list': scale_name_list,
-                                                                    'scale_id': scale_id,
-                                                                    'do_type' : do_type,
-                                                                    'patient_medical_history': patient_medical_history,
-                                                                    'historical_drugs_information':historical_drugs_information,
-                                                                    'scanning_drugs_information':scanning_drugs_information,
-                                                                    'historical_drugs_information_num':historical_drugs_information_num,
-                                                                    'scanning_drugs_information_num':scanning_drugs_information_num,
-                                                                    'order': order
-                                                                    })
+                scanning_drugs.end_time = scanning_drugs.end_time.strftime('%Y-%m')
+    return render(request,
+                  'nbh/add_patient_medical_history.html',
+                  {'patient_session_id': patient_session_id,
+                   'patient_id': patient_id,
+                   'username': request.session.get('username'),
+                   'scale_name_list': scale_name_list,
+                   'scale_id': scale_id,
+                   'do_type': do_type,
+                   'patient_medical_history': patient_medical_history,
+                   'historical_drugs_information': historical_drugs_information,
+                   'scanning_drugs_information': scanning_drugs_information,
+                   'historical_drugs_information_num': historical_drugs_information_num,
+                   'scanning_drugs_information_num': scanning_drugs_information_num,
+                   'order': order
+                   })
+
 
 def patient_basic_information(request):
     return render(request, 'patient_basic_information.html')
-#一般资料
 
 
+# 一般资料
 
 
-
-#认知
+# 认知
 def add_wcst(request):
     patient_session_id = request.GET.get('patient_session_id')
     scale_id = tools_config.wcst
@@ -1286,10 +1339,12 @@ def add_wcst(request):
         rPatientWcst = scales_models.RPatientWcst(patient_session_id=patient_session_id, scale_id=scale_id,
                                                   doctor_id=doctor_id)
     rPatientWcst = set_attr_by_post(request, rPatientWcst)
-    scales_dao.add_wcst_database(rPatientWcst,1)
+    scales_dao.add_wcst_database(rPatientWcst, 1)
     patient_id = request.GET.get('patient_id')
-    redirect_url = '/scales/get_check_wcst_form?patient_session_id={}&patient_id={}'.format(patient_session_id, patient_id)
+    redirect_url = '/scales/get_check_wcst_form?patient_session_id={}&patient_id={}'.format(patient_session_id,
+                                                                                            patient_id)
     return redirect(redirect_url)
+
 
 def add_rbans(request):
     patient_session_id = request.GET.get('patient_session_id')
@@ -1300,10 +1355,12 @@ def add_rbans(request):
         rPatientrbans = scales_models.RPatientRbans(patient_session_id=patient_session_id, scale_id=scale_id,
                                                     doctor_id=doctor_id)
     rPatientrbans = set_attr_by_post(request, rPatientrbans)
-    scales_dao.add_rbans_database(rPatientrbans,1)
+    scales_dao.add_rbans_database(rPatientrbans, 1)
     patient_id = request.GET.get('patient_id')
-    redirect_url = '/scales/get_check_rbans_form?patient_session_id={}&patient_id={}'.format(patient_session_id, patient_id)
+    redirect_url = '/scales/get_check_rbans_form?patient_session_id={}&patient_id={}'.format(patient_session_id,
+                                                                                             patient_id)
     return redirect(redirect_url)
+
 
 def add_fept(request):
     patient_session_id = request.GET.get('patient_session_id')
@@ -1314,10 +1371,12 @@ def add_fept(request):
         rPatientFept = scales_models.RPatientFept(patient_session_id=patient_session_id, scale_id=scale_id,
                                                   doctor_id=doctor_id)
     rPatientFept = set_attr_by_post(request, rPatientFept)
-    scales_dao.add_fept_database(rPatientFept,1)
+    scales_dao.add_fept_database(rPatientFept, 1)
     patient_id = request.GET.get('patient_id')
-    redirect_url = '/scales/get_check_fept_form?patient_session_id={}&patient_id={}'.format(patient_session_id, patient_id)
+    redirect_url = '/scales/get_check_fept_form?patient_session_id={}&patient_id={}'.format(patient_session_id,
+                                                                                            patient_id)
     return redirect(redirect_url)
+
 
 def add_vept(request):
     # GET请求获取pd，sid，did
@@ -1329,10 +1388,12 @@ def add_vept(request):
         rPatientVept = scales_models.RPatientVept(patient_session_id=patient_session_id, scale_id=scale_id,
                                                   doctor_id=doctor_id)
     rPatientVept = set_attr_by_post(request, rPatientVept)
-    scales_dao.add_vept_database(rPatientVept,1)
+    scales_dao.add_vept_database(rPatientVept, 1)
     patient_id = request.GET.get('patient_id')
-    redirect_url = '/scales/get_check_vept_form?patient_session_id={}&patient_id={}'.format(patient_session_id, patient_id)
+    redirect_url = '/scales/get_check_vept_form?patient_session_id={}&patient_id={}'.format(patient_session_id,
+                                                                                            patient_id)
     return redirect(redirect_url)
+
 
 def get_wcst_form(request):
     patient_session_id = request.GET.get('patient_session_id')
@@ -1342,15 +1403,16 @@ def get_wcst_form(request):
         scales_dao.del_wcst(patient_session_id=patient_session_id, scale_id=scale_id)
         scales_dao.update_rscales_state(patient_session_id, scale_id, 0)
     scale_name_list, order = get_scale_order(patient_session_id, scale_id, tools_config.cognition_type)
-    wcst_answer=scales_dao.get_patient_wcst_byPatientDetailId(patient_session_id)
+    wcst_answer = scales_dao.get_patient_wcst_byPatientDetailId(patient_session_id)
     return render(request, 'nbh/add_wcst.html', {'patient_session_id': patient_session_id,
-                                                    'patient_id': request.GET.get('patient_id'),
-                                                    'username': request.session.get('username'),
-                                                    'scale_name_list': scale_name_list,
-                                                    'scale_id': scale_id,
-                                                    'wcst_answer': wcst_answer,
-                                                    'order': order,
+                                                 'patient_id': request.GET.get('patient_id'),
+                                                 'username': request.session.get('username'),
+                                                 'scale_name_list': scale_name_list,
+                                                 'scale_id': scale_id,
+                                                 'wcst_answer': wcst_answer,
+                                                 'order': order,
                                                  })
+
 
 def get_rbans_form(request):
     patient_session_id = request.GET.get('patient_session_id')
@@ -1362,13 +1424,13 @@ def get_rbans_form(request):
     scale_name_list, order = get_scale_order(patient_session_id, scale_id, tools_config.cognition_type)
     rbans_answer = scales_dao.get_patient_rbans_byPatientDetailId(patient_session_id)
     return render(request, 'nbh/add_rbans.html', {'patient_session_id': patient_session_id,
-                                                 'patient_id': request.GET.get('patient_id'),
-                                                 'username': request.session.get('username'),
-                                                 'scale_name_list': scale_name_list,
-                                                 'scale_id': scale_id,
-                                                 'rbans_answer': rbans_answer,
-                                                 'order': order,
-                                                 })
+                                                  'patient_id': request.GET.get('patient_id'),
+                                                  'username': request.session.get('username'),
+                                                  'scale_name_list': scale_name_list,
+                                                  'scale_id': scale_id,
+                                                  'rbans_answer': rbans_answer,
+                                                  'order': order,
+                                                  })
 
 
 def get_fept_form(request):
@@ -1381,13 +1443,14 @@ def get_fept_form(request):
     scale_name_list, order = get_scale_order(patient_session_id, scale_id, tools_config.cognition_type)
     fept_answer = scales_dao.get_patient_fept_byPatientDetailId(patient_session_id)
     return render(request, 'nbh/add_fept.html', {'patient_session_id': patient_session_id,
-                                                  'patient_id': request.GET.get('patient_id'),
-                                                  'username': request.session.get('username'),
-                                                  'scale_name_list': scale_name_list,
-                                                  'scale_id': scale_id,
-                                                  'fept_answer': fept_answer,
-                                                  'order': order,
-                                                  })
+                                                 'patient_id': request.GET.get('patient_id'),
+                                                 'username': request.session.get('username'),
+                                                 'scale_name_list': scale_name_list,
+                                                 'scale_id': scale_id,
+                                                 'fept_answer': fept_answer,
+                                                 'order': order,
+                                                 })
+
 
 def get_vept_form(request):
     patient_session_id = request.GET.get('patient_session_id')
@@ -1407,18 +1470,19 @@ def get_vept_form(request):
                                                  'order': order,
                                                  })
 
+
 def get_check_wcst_form(request):
     patient_session_id = request.GET.get('patient_session_id')
     scale_id = tools_config.wcst
     scale_name_list, order = get_scale_order(patient_session_id, scale_id, tools_config.cognition_type)
     wcst_answer = scales_dao.get_patient_wcst_byPatientDetailId(patient_session_id)
     return render(request, 'nbh/edit_wcst.html', {'patient_session_id': patient_session_id,
-                                                 'patient_id': request.GET.get('patient_id'),
-                                                 'username': request.session.get('username'),
-                                                 'scale_name_list': scale_name_list,
-                                                 'scale_id': tools_config.wcst,
-                                                 'wcst_answer': wcst_answer,
-                                                 'order': order})
+                                                  'patient_id': request.GET.get('patient_id'),
+                                                  'username': request.session.get('username'),
+                                                  'scale_name_list': scale_name_list,
+                                                  'scale_id': tools_config.wcst,
+                                                  'wcst_answer': wcst_answer,
+                                                  'order': order})
 
 
 def get_check_rbans_form(request):
@@ -1427,12 +1491,13 @@ def get_check_rbans_form(request):
     scale_name_list, order = get_scale_order(patient_session_id, scale_id, tools_config.cognition_type)
     rbans_answer = scales_dao.get_patient_rbans_byPatientDetailId(patient_session_id)
     return render(request, 'nbh/edit_rbans.html', {'patient_session_id': patient_session_id,
-                                                     'patient_id': request.GET.get('patient_id'),
-                                                     'username': request.session.get('username'),
-                                                     'scale_name_list': scale_name_list,
-                                                     'scale_id': tools_config.rbans,
-                                                     'rbans_answer': rbans_answer,
-                                                     'order': order})
+                                                   'patient_id': request.GET.get('patient_id'),
+                                                   'username': request.session.get('username'),
+                                                   'scale_name_list': scale_name_list,
+                                                   'scale_id': tools_config.rbans,
+                                                   'rbans_answer': rbans_answer,
+                                                   'order': order})
+
 
 def get_check_fept_form(request):
     patient_session_id = request.GET.get('patient_session_id')
@@ -1440,12 +1505,13 @@ def get_check_fept_form(request):
     scale_name_list, order = get_scale_order(patient_session_id, scale_id, tools_config.cognition_type)
     fept_answer = scales_dao.get_patient_fept_byPatientDetailId(patient_session_id)
     return render(request, 'nbh/edit_fept.html', {'patient_session_id': patient_session_id,
-                                                   'patient_id': request.GET.get('patient_id'),
-                                                   'username': request.session.get('username'),
-                                                   'scale_name_list': scale_name_list,
-                                                   'scale_id': tools_config.fept,
-                                                   'fept_answer': fept_answer,
-                                                   'order': order})
+                                                  'patient_id': request.GET.get('patient_id'),
+                                                  'username': request.session.get('username'),
+                                                  'scale_name_list': scale_name_list,
+                                                  'scale_id': tools_config.fept,
+                                                  'fept_answer': fept_answer,
+                                                  'order': order})
+
 
 def get_check_vept_form(request):
     patient_session_id = request.GET.get('patient_session_id')
@@ -1460,15 +1526,19 @@ def get_check_vept_form(request):
                                                   'vept_answer': vept_answer,
                                                   'order': order})
 
+
 def test(request):
     patient_session_id = request.GET.get('patient_session_id')
     patient_id = request.GET.get('patient_id')
     scale_id = int(request.GET.get('scale_id'))
-
-    get_page_url=tools_config.scales_html_dict[scale_id]
+    session_id = patients_dao.get_patient_detail_byPatientId(patient_session_id)
+    get_page_url = tools_config.scales_html_dict[scale_id]
     return render(request, get_page_url, {"patient_session_id": patient_session_id,
-                                                      "patient_id": patient_id,
-                                                     'scale_id': scale_id})
+                                          "patient_id": patient_id,
+                                          'scale_id': scale_id,
+                                          'session_id': session_id,
+                                          'username': request.session.get('username')})
+
 
 ajax_buffer = {}
 duration_buffer = []
@@ -1488,11 +1558,11 @@ def test_submit(request):
     test_name = request.POST.get('test_name')
     duration = request.POST.get('duration')
 
-    print(patient_session_id, scale_id, form_data, question_index, flag, test_name, duration)
+    # print(patient_session_id, scale_id, form_data, question_index, flag, test_name, duration)
 
     '''缓存不存在当前复诊记录就创建，把所有量表对象查出来'''
     if patient_session_id not in ajax_buffer.keys():
-        print('buffer in')
+        # print('buffer in')
         ajax_buffer[patient_session_id] = {
             'ybo': scales_dao.get_or_default_patient_YBO_byPatientDetailId(patient_session_id, doctor_id),
             'bss': scales_dao.get_or_default_patient_suicidal_byPatientDetailId(patient_session_id, doctor_id),
@@ -1505,34 +1575,35 @@ def test_submit(request):
             's_embu': scales_dao.get_or_default_patient_SEmbu_byPatientDetailId(patient_session_id, doctor_id),
             'atq': scales_dao.get_or_default_patient_ATQ_byPatientDetailId(patient_session_id, doctor_id),
         }
-        print(ajax_buffer[patient_session_id])
+        # print(ajax_buffer[patient_session_id])
     '''获取序列化的form_data中的表单信息'''
     attribute_name = []
     attribute_value = []
     for element in form_data.split('&'):
         attribute_name.append(element.split('=')[0])
         attribute_value.append(element.split('=')[1])
-    print(attribute_name)
-    print(attribute_value)
+    # print(attribute_name)
+    # print(attribute_value)
     '''遍历form_data,填充对应的属性值'''
     for attribute in attribute_name:
         if hasattr(ajax_buffer[patient_session_id][test_name], attribute):
-            print('set attribute')
-            setattr(ajax_buffer[patient_session_id][test_name], attribute, attribute_value[attribute_name.index(attribute)])
-            print('set attribute successs')
+            # print('set attribute')
+            setattr(ajax_buffer[patient_session_id][test_name], attribute,
+                    attribute_value[attribute_name.index(attribute)])
+            # print('set attribute successs')
     duration_buffer.append(RSelfTestDuration(patient_session_id=patient_session_id,
                                              scale_id=scale_id,
                                              question_index=question_index,
                                              duration=duration))
-    print('duration_buffer append success')
-    print(duration_buffer)
+    # print('duration_buffer append success')
+    # print(duration_buffer)
     '''填充完毕之后判断flag, 提交相应量表对象, flush duration_buffer'''
     if flag == '1':
-        print('do flush')
+        # print('do flush')
         # 保存
         ajax_buffer[patient_session_id][test_name].save()
         RSelfTestDuration.objects.bulk_create(duration_buffer)
-        print('clean buffer')
+        # print('clean buffer')
         # 清空缓存
         ajax_buffer[patient_session_id][test_name] = None
         duration_buffer.clear()
@@ -1544,24 +1615,30 @@ def test_submit(request):
                 clean_patient_session_flag = False
                 break
         if clean_patient_session_flag:
-            print('clean patient')
+            # print('clean patient')
             ajax_buffer.pop(patient_session_id)
     return HttpResponse(request.POST)
 
 
 def get_next_self_scale_url(request):
     current_scale_id = request.GET.get('scale_id')
-    patient_session_id = request.GET.get('patient_session_id')    # 暂定下一个，需要调到最近的未完成量表
-    scale_id = get_next_self_scale_id(patient_session_id = patient_session_id,cur_scale_id=current_scale_id)
+    patient_session_id = request.GET.get('patient_session_id')  # 暂定下一个，需要调到最近的未完成量表
+    scale_id = get_next_self_scale_id(patient_session_id=patient_session_id, cur_scale_id=current_scale_id)
     patient_id = request.GET.get('patient_id')
-    if scale_id==None:
-        redirect_url='/scales/select_scales?patient_session_id={}&patient_id={}'.format(str(patient_session_id),str(patient_id))
+    if scale_id is None:
+        next_test_url = '/scales/select_scales?patient_session_id={}&patient_id={}'.format(str(patient_session_id),
+                                                                                           str(patient_id))
     else:
-        redirect_url = '/scales/self_tests?scale_id={}&patient_session_id={}&patient_id={}'.format(str(scale_id),str(patient_session_id),str(patient_id))
-    return redirect(redirect_url)
+        next_test_url = '/scales/self_tests?scale_id={}&patient_session_id={}&patient_id={}'.format(str(scale_id), str(
+            patient_session_id), str(patient_id))
+    print(next_test_url)
+    return render(request, 'warning.html', {
+        "content": "当前量表已经完成",
+        "distance_url": next_test_url,
+    })
 
 
-def get_next_self_scale_id(patient_session_id,cur_scale_id):
+def get_next_self_scale_id(patient_session_id, cur_scale_id):
     min_unfinished_scale = scales_dao.get_min_unfinished_scale(2, patient_session_id, cur_scale_id)
     if min_unfinished_scale is None:
         return None
