@@ -835,12 +835,17 @@ var num=1
         function judge_diagnosis(obj) {
             if (obj.options[obj.selectedIndex].value == 99) {
                 document.getElementById("other_diagnosis_div").style.display = "";
+                 document.getElementById("singleSelect").disabled="true";
+                document.getElementById("ghr_diagnosis_add").disabled="true";
+                document.getElementById("ghr_kinship_add").disabled="true";
+
                  var j ={{ num_ghr }};
                 for (i = 1; i <= j; i++) {
                   document.getElementById("ghr_diagnosis" + i + "").disabled="true";
                 }
                 document.getElementById("ghr_label_div").style.display = "none";
                 document.getElementById("ghr_diagnosis_p").style.display = "none";
+                 document.getElementById("ghr_modify").style.display = "none";
             }
             else if(obj.options[obj.selectedIndex].value == 7)
             {
@@ -849,14 +854,19 @@ var num=1
                 document.getElementById("ghr_modify").style.display = "";
             }
             else {
+
                  var j ={{ num_ghr }};
                 for (i = 1; i <= j; i++) {
                   document.getElementById("ghr_diagnosis" + i + "").disabled="true";
                 }
+                document.getElementById("ghr_modify").style.display = "none";
                 document.getElementById("ghr_label_div").style.display = "none";
                 document.getElementById("ghr_diagnosis_p").style.display = "none";
                 document.getElementById("other_diagnosis_div").style.display = "none";
                 document.getElementById("other_diagnosis").value = "NULL";
+                document.getElementById("singleSelect").disabled="true";
+                document.getElementById("ghr_diagnosis_add").disabled="true";
+                document.getElementById("ghr_kinship_add").disabled="true";
             }
         }
 
