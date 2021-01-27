@@ -8,7 +8,7 @@
 <body>
     <form class="" action="/inpatients/upload_medical_advice" method="post" enctype="multipart/form-data" >
         {% csrf_token %}
-        <input type="file" name="excel">
+        <input type="file" name="medical_advice">
         <input type="submit" value="上传">
     </form>
     <form enctype="multipart/form-data">
@@ -18,7 +18,7 @@
     <script type="application/javascript">
         $("#import").click(function () {
             var formData = new FormData();
-            formData.append('inpatient_id',1);
+            formData.append('inpatient_id',2);
             formData.append('out_record',document.getElementById("out_record").files[0])
             formData.append("csrfmiddlewaretoken", $("[name = 'csrfmiddlewaretoken']").val())
             $.ajax({

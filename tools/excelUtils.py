@@ -1,3 +1,10 @@
+'''
+@Project ：entry_system
+@File ：excelUtils.py
+@IDE  ：PyCharm
+@Author ：skj
+@Date ：1/26/21 8:39 PM
+'''
 import xlrd
 from tools.config import excel_col_dict
 import re
