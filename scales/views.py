@@ -297,6 +297,8 @@ def get_other_test_forms(request):
 def get_self_test_forms(request):
     patient_session_id = request.GET.get('patient_session_id')
     patient_id = request.GET.get('patient_id')
+    redirect_url = get_redirect_url(patient_session_id, patient_id, tools_config.other_test_next_type_url,
+                                    tools_config.other_test_type, 0)
     scale_id=scales_dao.get_min_unfinished_scale(2, patient_session_id, 10)
     redirect_url = '/scales/self_tests?scale_id={}&patient_session_id={}&patient_id={}'.format(str(scale_id),
                                                                                                str(patient_session_id),

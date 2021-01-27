@@ -61,7 +61,6 @@ def add_hamd_database(rPatientHAMD17,state):
     tools_insertCascadeCheck.insert_hama_check(rPatientHAMD17)
     # 插入数据库
     rPatientHAMD17.save()
-    state = 1
     # 修改r_patient_scales表中state状态
     update_rscales_state(rPatientHAMD17.patient_session_id, rPatientHAMD17.scale_id,state)
 
