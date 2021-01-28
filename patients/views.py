@@ -161,6 +161,8 @@ def add_patient_followup(request):
 
 # 获取病人详细信息
 
+# 获取病人详细信息
+
 def get_patient_detail(request):
     if request.GET:
         patient_id = request.GET.get("patient_id")
@@ -176,6 +178,11 @@ def get_patient_detail(request):
             'patient_session_id','patient_session_id__session_id','patient_session_id__patient_id',
             'scale_id','scale__scale_name', 'scale__do_scale_type','state','end_time'
         )
+        for patient_detail in patient_detail_list:
+            patient_session_id = patient_detail['id']
+            patient_rtms_info = patients_models.BPatientRtms.objects.all().filter(patient_session_id=patient_session_id)
+            count = patient_rtms_info.count()
+            patient_detail['rtms_count'] = count
         ordered_dic = {}
         for test_state in test_states:
             if test_state['patient_session_id__session_id'] not in ordered_dic:
@@ -189,7 +196,6 @@ def get_patient_detail(request):
         for i in ghr_list:
             ghr_diagnosis.append(i.diagnosis)
             ghr_kinship.append(i.kinship)
-
         num_ghr = ghr_list.count()
         patients = patients_dao.get_base_info_all()
         return render(request, 'patient_detail.html',

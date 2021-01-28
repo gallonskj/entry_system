@@ -310,7 +310,7 @@ CREATE TABLE `b_patient_rtms` (
   `patient_session_id` int(11) DEFAULT NULL,
   `treatment_num` int(11) DEFAULT NULL,
   `treatment_date` date DEFAULT NULL,
-  `therapeutic_target` tinyint(4) DEFAULT NULL,
+  `therapeutic_target` text,
   `times_per_day` tinyint(4) DEFAULT NULL,
   `total_num` int(11) DEFAULT NULL,
   `resting_motor_threshold` int(11) DEFAULT NULL,
