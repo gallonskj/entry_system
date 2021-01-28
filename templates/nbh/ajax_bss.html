@@ -11,7 +11,10 @@
         <div class="modal-content">
             <h4 align="center"> 您确认要退出当前自评量表测评吗？</h4>
             <div align="center">
-                <button type="button" onclick="location='/scales/select_scales?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&session_id={{ session_id }}'" class="btn btn-danger" style="width:68px;height:34px">退出</button>
+                <button type="button"
+                        onclick="location='/scales/select_scales?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&session_id={{ session_id }}'"
+                        class="btn btn-danger" style="width:68px;height:34px">退出
+                </button>
                 <button type="button" class="btn btn-success" style="width:68px;height:34px" data-dismiss="modal">关闭
                 </button>
             </div>
@@ -1346,7 +1349,6 @@
     });
     let time = new Date();
     let suicide = false;
-    let last = 0;
     let end_flag = 0;
     let question_index = 1;
 
@@ -1478,19 +1480,22 @@
             if (document.bss_5_2.question5_mostdepressed.value === "") {
                 alert("问题不能为空！");
             } else if (document.bss_5_2.question5_mostdepressed.value === "1") {
-                ajax_post($('#bss_5_2'))
+                if (suicide == true) {
+                    ajax_post($('#bss_5_2'));
+                    $("div[class='bss_5_2']").hide();
+                    $("div[class='bss_6_1']").show();
+                } else {
+                    end_flag = 1;
+                    //跳转
+                    ajax_post($('#bss_5_2'));
+                    location = "/scales/get_next_self_scale_url?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}";
+                }
+
             } else {
                 suicide = true;
-                ajax_post($('#bss_5_2'))
-            }
-            if (suicide) {
+                ajax_post($('#bss_5_2'));
                 $("div[class='bss_5_2']").hide();
                 $("div[class='bss_6_1']").show();
-            } else {
-                end_flag = 1;
-                //跳转
-
-                location = "/scales/get_next_self_scale_url?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}";
             }
         });
 
@@ -1767,16 +1772,11 @@
         $("#bss_19_2_submit").on('click', function () {
             if (document.bss_19_2.question19_mostdepressed.value === "") {
                 alert("问题不能为空！");
-            } else if (last == 1) {
-                alert("请不要重复提交！");
             } else {
                 end_flag = 1;
                 ajax_post($('#bss_19_2'))
-
-
                 //跳转
                 location = "/scales/get_next_self_scale_url?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}";
-                last = 1;
             }
         });
     });
