@@ -41,6 +41,46 @@ class BPatientBaseInfo(models.Model):
         managed = False
         db_table = 'b_patient_base_info'
 
+class BInpatientInfo(models.Model):
+    patient = models.ForeignKey('BPatientBaseInfo', models.DO_NOTHING)
+    in_time = models.IntegerField(blank=True, null=True)
+    department = models.CharField(max_length=40, blank=True, null=True)
+    inpatient_area = models.CharField(max_length=20, blank=True, null=True)
+    bed_number = models.CharField(max_length=20, blank=True, null=True)
+    inpatient_number = models.CharField(max_length=20, blank=True, null=True)
+    in_date = models.DateField(blank=True, null=True)
+    out_date = models.DateField(blank=True, null=True)
+    create_time = models.DateTimeField()
+    update_time = models.DateTimeField()
+    out_record = models.CharField(max_length=50, blank=True, null=True)
+    progress_note = models.CharField(max_length=50, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'b_inpatient_info'
+
+class BInpatientMedicalAdvice(models.Model):
+    inpatient = models.ForeignKey(BInpatientInfo, models.DO_NOTHING)
+    start_time = models.DateTimeField(blank=True, null=True)
+    medical_name = models.CharField(max_length=40, blank=True, null=True)
+    dose_num = models.FloatField(blank=True, null=True)
+    dose_unit = models.CharField(max_length=10, blank=True, null=True)
+    group = models.CharField(max_length=10, blank=True, null=True)
+    drug_type = models.CharField(max_length=20, blank=True, null=True)
+    type = models.IntegerField(blank=True, null=True)
+    usage_way = models.CharField(max_length=20, blank=True, null=True)
+    start_doctor = models.CharField(max_length=20, blank=True, null=True)
+    start_nurse = models.CharField(max_length=20, blank=True, null=True)
+    end_doctor = models.CharField(max_length=20, blank=True, null=True)
+    end_nurse = models.CharField(max_length=20, blank=True, null=True)
+    end_time = models.DateTimeField(blank=True, null=True)
+    create_time = models.DateTimeField()
+    update_time = models.DateTimeField()
+
+    class Meta:
+        managed = False
+        db_table = 'b_inpatient_medical_advice'
+
 
 class DPatientDetail(models.Model):
     patient = models.ForeignKey(BPatientBaseInfo, models.DO_NOTHING, blank=True, null=True)
@@ -75,6 +115,7 @@ class DPatientDetail(models.Model):
     contact_way = models.IntegerField(blank=True, null=True)
     contact_info = models.CharField(max_length=45, blank=True, null=True)
     scan_date = models.DateField()
+    head_motion_parameters = models.FloatField(blank=True, null=True)
 
     class Meta:
         managed = False
@@ -118,3 +159,30 @@ class RPatientGhr(models.Model):
         db_table = 'r_patient_ghr'
 
 
+#rtms
+class BPatientRtms(models.Model):
+    id = models.IntegerField(primary_key=True)
+    patient_session = models.ForeignKey('DPatientDetail', models.DO_NOTHING, unique=True)
+    treatment_num = models.IntegerField()
+    treatment_date = models.DateField()
+    therapeutic_target = models.IntegerField(blank=True, null=True)
+    times_per_day = models.IntegerField(blank=True, null=True)
+    total_num = models.IntegerField()
+    resting_motor_threshold = models.IntegerField()
+    intensity = models.IntegerField()
+    frequency = models.IntegerField()
+    pulses = models.IntegerField()
+    stimulation_time = models.IntegerField()
+    inter_train_intervals = models.IntegerField()
+    pulse_trains = models.IntegerField()
+    total_pulses = models.IntegerField()
+    total_time_minute = models.IntegerField()
+    total_time_second = models.IntegerField()
+    note = models.TextField(blank=True, null=True)
+    doctor = models.ForeignKey('users.Suser', models.DO_NOTHING)
+    create_time = models.DateTimeField(auto_now_add=True)
+    update_time = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        managed = False
+        db_table = 'b_patient_rtms'

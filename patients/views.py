@@ -31,6 +31,13 @@ def get_all_patients_baseinfo(request):
                                                     'username': username,
                                                     'nations': nations})
 
+def get_all_inpatients_baseinfo(request):
+    patients = patients_dao.get_base_info_all()
+    username = request.session.get('username')
+    nations = DEthnicity.objects.all()
+    return render(request, 'manage_inpatients.html', {"patients": patients,
+                                                    'username': username,
+                                                    'nations': nations})
 
 # 被试基本信息录入，需要生成id的信息，需要向patient_detail进行信息插入(session==1的信息)
 # todo 在进行病人或者复扫创建的时候，需要创建ｒ_patients_scales创建量表完成信息，默认应该是未完成的，需要根据青少年这些去做
