@@ -18,7 +18,7 @@
     <script type="application/javascript">
         $("#import").click(function () {
             var formData = new FormData();
-            formData.append('inpatient_id',2);
+            formData.append('inpatient_id',5);
             formData.append('out_record',document.getElementById("out_record").files[0])
             formData.append("csrfmiddlewaretoken", $("[name = 'csrfmiddlewaretoken']").val())
             $.ajax({

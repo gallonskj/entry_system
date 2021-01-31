@@ -58,4 +58,6 @@ def insert_medical_dict():
         dmedicaladvice = DMedicalAdvice(medical_name=table.cell(i, 1).text.strip(), type=type_dict[table.cell(i, 2).text.strip()])
         dmedicaladvice_list.append(dmedicaladvice)
     DMedicalAdvice.objects.bulk_create(dmedicaladvice_list)
-
+def convert_to_pdf():
+    import docx2pdf
+    docx2pdf.convert()

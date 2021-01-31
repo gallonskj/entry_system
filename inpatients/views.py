@@ -11,6 +11,8 @@ from tools.responseMessage import ErrorMessage,SuccessMessage
 from tools.ConfigClass import HospitalizedState,MedicalType
 import json
 from tools.exception import BussinessException
+from django.core.files import File
+from tools.doctopdf import ConvertFileModelField
 
 def get(request):
     return render(request,'nbh/test.html')
@@ -141,17 +143,17 @@ def upload_out_record(request):
     if request.method == 'POST':
         inpatient_id = request.POST.get('inpatient_id')
         out_record = request.FILES['out_record']
-        if out_record.name.split('.')[-1] in ['pdf']:
-            inpatient = inpatients_dao.get_inpatient_info_byPK(inpatient_id)
-            if not inpatient:
-                res_message = ErrorMessage('该住院患者不存在,请确认')
-            else:
-                inpatient.out_record.delete()
-                inpatient.out_record = out_record
-                inpatient.save()
-                res_message = SuccessMessage('上传成功')
+        inpatient = inpatients_dao.get_inpatient_info_byPK(inpatient_id)
+        if not inpatient:
+            res_message = ErrorMessage('该住院患者不存在,请确认')
         else:
-            res_message = ErrorMessage('文件格式错误,请上传正确的pdf格式文件')
+            inpatient.out_record.delete()
+            inst = ConvertFileModelField(out_record)
+            out_record = inst.get_content()
+            inpatient.out_record = File(open(out_record.get('path'), 'rb'))
+            inpatient.out_record.name = out_record.get('name')
+            inpatient.save()
+            res_message = SuccessMessage('上传成功')
     return HttpResponse(json.dumps(res_message.__dict__))
 
 def upload_progress_note(request):
