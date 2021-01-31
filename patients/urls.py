@@ -16,7 +16,7 @@ urlpatterns = [
     # 获取病人详细信息
     url(r'^get_patient_detail', views.get_patient_detail),
     # 获取被试统计
-    url(r'^patient_statistics', views.patient_statistics, name='patient_statistics'),
+    # url(r'^patient_statistics', views.patient_statistics, name='patient_statistics'),
     # 自动生成id
     url(r'^get_generateId_and_nation', views.get_generateId),
     # 添加复扫

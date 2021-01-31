@@ -49,7 +49,6 @@
 				         
                 <div id="right-side" class="col-md-10">
                   <div id="first" class="active">
-                        <form name="cerq_cform" action="/scales/add_cognitive_emotion?patient_session_id={{ patient_session_id }}&&patient_id={{ patient_id }}" method="POST" onSubmit="return myCheck(this)">
                            <div class="container">
                             <div class="row" style="margin-left:5px;margin-top: 5px;padding-bottom: 5px;">
                                 <h4><strong><center>认知情绪调节问卷</center></strong></h4>
@@ -378,29 +377,200 @@
                                 </div>
                             </div>
 
-
-                               <div class="row">
-                                <div  class="col-md-4 col-sm-6 text-center" style="text-align: center">
-                                   <a  href="#"><button type="button" class="btn btn-warning" id="bt_return">返回上一量表</button></a>
+                               <div class="row" id="bt_group">
+                                <div class="col-md-4 col-sm-6 text-center">
+                                    <a href="/scales/get_self_last_url?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}"
+                                       id="last_scale">
+                                        <button type="button" class="btn btn-warning" id="bt_return">返回上一量表</button>
+                                    </a>
                                 </div>
-                                <div  class="col-md-4 col-sm-6">
-                                     {% csrf_token %}
-                                    <input  type="submit" class="btn btn-success text-center"  value="保存提交量表" id="cognitive_bt" >
+                                <div class="col-md-4 col-sm-6" id="next_scale">
+                                    {% csrf_token %}
+                                    <a href="/scales/get_self_next_url?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}">
+                                        <input type="button" class="btn btn-success text-center" value="进入下一量表">
+                                    </a>
                                 </div>
-                                 <div class="col-md-4 col-sm-6">
-                                     <a href="/scales/skip_scale?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{scale_id}}"  style="float: right"><u>跳过该量表</u></a>
-                                 </div>
+                                <div class="col-md-4 col-sm-6" id="next_scale_final">
+                                    <a href="/scales/select_scales?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}">
+                                        <input type="button" class="btn btn-success text-center" value="进入下一量表">
+                                    </a>
+                                </div>
                             </div>
 
 
 
                         </div>
-                        </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <script>
+        function getData() {
+            var order = "{{ order }}";
+            if (order == 0) {{% comment %}第一个{% endcomment %}
+                $("#last_scale").attr("style", "display:none;");
+                $("#next_scale_final").attr("style", "display:none;");
+                $("#next_scale").attr("style", "display:block;");
+            } else if (order == 1) {{% comment %}最后一个{% endcomment %}
+                $("#last_scale").attr("style", "display:block;");
+                $("#next_scale_final").attr("style", "display:block;");
+                $("#next_scale").attr("style", "display:none;");
+            } else {{# 啥也不是 #}
+                $("#last_scale").attr("style", "display:block;");
+                $("#next_scale_final").attr("style", "display:none;");
+                $("#next_scale").attr("style", "display:block;");
+            }
+            if ('{{ cerq_c_answer }}' != 'None') {
+                {#数据填充 读数据#}
+                if ('{{ cerq_c_answer.question1_answer }}' != 'None') {
+                    $("input[name='question1_answer'][value=" + Number({{ cerq_c_answer.question1_answer }}) + "]").prop("checked", true);
+                }
+                if ('{{ cerq_c_answer.question2_answer }}' != 'None') {
+                    $("input[name='question2_answer'][value=" + Number({{ cerq_c_answer.question2_answer }}) + "]").prop("checked", true);
+                }
+                if ('{{ cerq_c_answer.question3_answer }}' != 'None') {
+                    $("input[name='question3_answer'][value=" + Number({{ cerq_c_answer.question3_answer }}) + "]").prop("checked", true);
+                }
+                if ('{{ cerq_c_answer.question4_answer }}' != 'None') {
+                    $("input[name='question4_answer'][value=" + Number({{ cerq_c_answer.question4_answer }}) + "]").prop("checked", true);
+                }
+                if ('{{ cerq_c_answer.question5_answer }}' != 'None') {
+                    $("input[name='question5_answer'][value=" + Number({{ cerq_c_answer.question5_answer }}) + "]").prop("checked", true);
+                }
+                if ('{{ cerq_c_answer.question6_answer }}' != 'None') {
+                    $("input[name='question6_answer'][value=" + Number({{ cerq_c_answer.question6_answer }}) + "]").prop("checked", true);
+                }
+                if ('{{ cerq_c_answer.question7_answer }}' != 'None') {
+                    $("input[name='question7_answer'][value=" + Number({{ cerq_c_answer.question7_answer }}) + "]").prop("checked", true);
+                }
+                if ('{{ cerq_c_answer.question8_answer }}' != 'None') {
+                    $("input[name='question8_answer'][value=" + Number({{ cerq_c_answer.question8_answer }}) + "]").prop("checked", true);
+                }
+                if ('{{ cerq_c_answer.question9_answer }}' != 'None') {
+                    $("input[name='question9_answer'][value=" + Number({{ cerq_c_answer.question9_answer }}) + "]").prop("checked", true);
+                }if ('{{ cerq_c_answer.question10_answer }}' != 'None') {
+                    $("input[name='question10_answer'][value=" + Number({{ cerq_c_answer.question10_answer }}) + "]").prop("checked", true);
+                }
+                if ('{{ cerq_c_answer.question11_answer }}' != 'None') {
+                    $("input[name='question11_answer'][value=" + Number({{ cerq_c_answer.question11_answer }}) + "]").prop("checked", true);
+                }
+                if ('{{ cerq_c_answer.question12_answer }}' != 'None') {
+                    $("input[name='question12_answer'][value=" + Number({{ cerq_c_answer.question12_answer }}) + "]").prop("checked", true);
+                }
+                if ('{{ cerq_c_answer.question13_answer }}' != 'None') {
+                    $("input[name='question13_answer'][value=" + Number({{ cerq_c_answer.question13_answer }}) + "]").prop("checked", true);
+                }
+                if ('{{ cerq_c_answer.question14_answer }}' != 'None') {
+                    $("input[name='question14_answer'][value=" + Number({{ cerq_c_answer.question14_answer }}) + "]").prop("checked", true);
+                }
+                if ('{{ cerq_c_answer.question15_answer }}' != 'None') {
+                    $("input[name='question15_answer'][value=" + Number({{ cerq_c_answer.question15_answer }}) + "]").prop("checked", true);
+                }
+                if ('{{ cerq_c_answer.question16_answer }}' != 'None') {
+                    $("input[name='question16_answer'][value=" + Number({{ cerq_c_answer.question16_answer }}) + "]").prop("checked", true);
+                }
+                if ('{{ cerq_c_answer.question17_answer }}' != 'None') {
+                    $("input[name='question17_answer'][value=" + Number({{ cerq_c_answer.question17_answer }}) + "]").prop("checked", true);
+                }
+                if ('{{ cerq_c_answer.question18_answer }}' != 'None') {
+                    $("input[name='question18_answer'][value=" + Number({{ cerq_c_answer.question18_answer }}) + "]").prop("checked", true);
+                }
+                if ('{{ cerq_c_answer.question19_answer }}' != 'None') {
+                    $("input[name='question19_answer'][value=" + Number({{ cerq_c_answer.question19_answer }}) + "]").prop("checked", true);
+                }if ('{{ cerq_c_answer.question20_answer }}' != 'None') {
+                    $("input[name='question20_answer'][value=" + Number({{ cerq_c_answer.question20_answer }}) + "]").prop("checked", true);
+                }
+                if ('{{ cerq_c_answer.question21_answer }}' != 'None') {
+                    $("input[name='question21_answer'][value=" + Number({{ cerq_c_answer.question21_answer }}) + "]").prop("checked", true);
+                }
+                if ('{{ cerq_c_answer.question22_answer }}' != 'None') {
+                    $("input[name='question22_answer'][value=" + Number({{ cerq_c_answer.question22_answer }}) + "]").prop("checked", true);
+                }
+                if ('{{ cerq_c_answer.question23_answer }}' != 'None') {
+                    $("input[name='question23_answer'][value=" + Number({{ cerq_c_answer.question23_answer }}) + "]").prop("checked", true);
+                }
+                if ('{{ cerq_c_answer.question24_answer }}' != 'None') {
+                    $("input[name='question24_answer'][value=" + Number({{ cerq_c_answer.question24_answer }}) + "]").prop("checked", true);
+                }
+                if ('{{ cerq_c_answer.question25_answer }}' != 'None') {
+                    $("input[name='question25_answer'][value=" + Number({{ cerq_c_answer.question25_answer }}) + "]").prop("checked", true);
+                }
+                if ('{{ cerq_c_answer.question26_answer }}' != 'None') {
+                    $("input[name='question26_answer'][value=" + Number({{ cerq_c_answer.question26_answer }}) + "]").prop("checked", true);
+                }
+                if ('{{ cerq_c_answer.question27_answer }}' != 'None') {
+                    $("input[name='question27_answer'][value=" + Number({{ cerq_c_answer.question27_answer }}) + "]").prop("checked", true);
+                }
+                if ('{{ cerq_c_answer.question28_answer }}' != 'None') {
+                    $("input[name='question28_answer'][value=" + Number({{ cerq_c_answer.question28_answer }}) + "]").prop("checked", true);
+                }
+                if ('{{ cerq_c_answer.question29_answer }}' != 'None') {
+                    $("input[name='question29_answer'][value=" + Number({{ cerq_c_answer.question29_answer }}) + "]").prop("checked", true);
+                }if ('{{ cerq_c_answer.question30_answer }}' != 'None') {
+                    $("input[name='question30_answer'][value=" + Number({{ cerq_c_answer.question30_answer }}) + "]").prop("checked", true);
+                }
+                if ('{{ cerq_c_answer.question31_answer }}' != 'None') {
+                    $("input[name='question31_answer'][value=" + Number({{ cerq_c_answer.question31_answer }}) + "]").prop("checked", true);
+                }
+                if ('{{ cerq_c_answer.question32_answer }}' != 'None') {
+                    $("input[name='question32_answer'][value=" + Number({{ cerq_c_answer.question32_answer }}) + "]").prop("checked", true);
+                }
+                if ('{{ cerq_c_answer.question33_answer }}' != 'None') {
+                    $("input[name='question33_answer'][value=" + Number({{ cerq_c_answer.question33_answer }}) + "]").prop("checked", true);
+                }
+                if ('{{ cerq_c_answer.question34_answer }}' != 'None') {
+                    $("input[name='question34_answer'][value=" + Number({{ cerq_c_answer.question34_answer }}) + "]").prop("checked", true);
+                }
+                if ('{{ cerq_c_answer.question35_answer }}' != 'None') {
+                    $("input[name='question35_answer'][value=" + Number({{ cerq_c_answer.question35_answer }}) + "]").prop("checked", true);
+                }
+                if ('{{ cerq_c_answer.question36_answer }}' != 'None') {
+                    $("input[name='question36_answer'][value=" + Number({{ cerq_c_answer.question36_answer }}) + "]").prop("checked", true);
+                }
+
+            }
+            {#锁住#}
+            $("input[name='question1_answer']").attr("disabled", "disabled");
+            $("input[name='question2_answer']").attr("disabled", "disabled");
+            $("input[name='question3_answer']").attr("disabled", "disabled");
+            $("input[name='question4_answer']").attr("disabled", "disabled");
+            $("input[name='question5_answer']").attr("disabled", "disabled");
+            $("input[name='question6_answer']").attr("disabled", "disabled");
+            $("input[name='question7_answer']").attr("disabled", "disabled");
+            $("input[name='question8_answer']").attr("disabled", "disabled");
+            $("input[name='question9_answer']").attr("disabled", "disabled");
+            $("input[name='question10_answer']").attr("disabled", "disabled");
+            $("input[name='question11_answer']").attr("disabled", "disabled");
+            $("input[name='question12_answer']").attr("disabled", "disabled");
+            $("input[name='question13_answer']").attr("disabled", "disabled");
+            $("input[name='question14_answer']").attr("disabled", "disabled");
+            $("input[name='question15_answer']").attr("disabled", "disabled");
+            $("input[name='question16_answer']").attr("disabled", "disabled");
+            $("input[name='question17_answer']").attr("disabled", "disabled");
+            $("input[name='question18_answer']").attr("disabled", "disabled");
+            $("input[name='question19_answer']").attr("disabled", "disabled");
+            $("input[name='question20_answer']").attr("disabled", "disabled");
+            $("input[name='question21_answer']").attr("disabled", "disabled");
+            $("input[name='question22_answer']").attr("disabled", "disabled");
+            $("input[name='question23_answer']").attr("disabled", "disabled");
+            $("input[name='question24_answer']").attr("disabled", "disabled");
+            $("input[name='question25_answer']").attr("disabled", "disabled");
+            $("input[name='question26_answer']").attr("disabled", "disabled");
+            $("input[name='question27_answer']").attr("disabled", "disabled");
+            $("input[name='question28_answer']").attr("disabled", "disabled");
+            $("input[name='question29_answer']").attr("disabled", "disabled");
+            $("input[name='question30_answer']").attr("disabled", "disabled");
+            $("input[name='question31_answer']").attr("disabled", "disabled");
+            $("input[name='question32_answer']").attr("disabled", "disabled");
+            $("input[name='question33_answer']").attr("disabled", "disabled");
+            $("input[name='question34_answer']").attr("disabled", "disabled");
+            $("input[name='question35_answer']").attr("disabled", "disabled");
+            $("input[name='question36_answer']").attr("disabled", "disabled");
+
+
+        }
+    </script>
 
 
 {% endblock %}
@@ -412,154 +582,5 @@ $(document).ready(function(){
 	$("input[type='radio']").labelauty();
 });
 </script>
-<script type="text/javascript">
-    function myCheck(cerq_cform)
-    {
-        if (document.cerq_cform.question1_answer.value=="") {
-            alert("问题一不能为空！");
-            return false;
-        }
-        if (document.cerq_cform.question2_answer.value=="") {
-            alert("问题二不能为空！");
-            return false;
-        }
-        if (document.cerq_cform.question3_answer.value=="") {
-            alert("问题三不能为空！");
-            return false;
-        }
-        if (document.cerq_cform.question4_answer.value=="") {
-            alert("问题四不能为空！");
-            return false;
-        }
-        if (document.cerq_cform.question5_answer.value=="") {
-            alert("问题五不能为空！");
-            return false;
-        }if (document.cerq_cform.question6_answer.value=="") {
-            alert("问题六不能为空！");
-            return false;
-        }
-        if (document.cerq_cform.question7_answer.value=="") {
-            alert("问题七不能为空！");
-            return false;
-        }
-        if (document.cerq_cform.question8_answer.value=="") {
-            alert("问题八不能为空！");
-            return false;
-        }
-        if (document.cerq_cform.question9_answer.value=="") {
-            alert("问题九不能为空！");
-            return false;
-        }
-        if (document.cerq_cform.question10_answer.value=="") {
-            alert("问题十不能为空！");
-            return false;
-        }
-        if (document.cerq_cform.question11_answer.value=="") {
-            alert("问题十一不能为空！");
-            return false;
-        }
-        if (document.cerq_cform.question12_answer.value=="") {
-            alert("问题十二不能为空！");
-            return false;
-        }
-        if (document.cerq_cform.question13_answer.value=="") {
-            alert("问题十三不能为空！");
-            return false;
-        }
-        if (document.cerq_cform.question14_answer.value=="") {
-            alert("问题十四不能为空！");
-            return false;
-        }
-        if (document.cerq_cform.question15_answer.value=="") {
-            alert("问题十五不能为空！");
-            return false;
-        }
-        if (document.cerq_cform.question16_answer.value=="") {
-            alert("问题十六不能为空！");
-            return false;
-        }
-        if (document.cerq_cform.question17_answer.value=="") {
-            alert("问题十七不能为空！");
-            return false;
-        }
-        if (document.cerq_cform.question18_answer.value=="") {
-            alert("问题十八不能为空！");
-            return false;
-        }
-        if (document.cerq_cform.question19_answer.value=="") {
-            alert("问题十九不能为空！");
-            return false;
-        }
-        if (document.cerq_cform.question20_answer.value=="") {
-            alert("问题二十不能为空！");
-            return false;
-        }
-        if (document.cerq_cform.question21_answer.value=="") {
-            alert("问题二十一不能为空！");
-            return false;
-        }
-        if (document.cerq_cform.question22_answer.value=="") {
-            alert("问题二十二不能为空！");
-            return false;
-        }
-        if (document.cerq_cform.question23_answer.value=="") {
-            alert("问题二十三不能为空！");
-            return false;
-        }
-        if (document.cerq_cform.question24_answer.value=="") {
-            alert("问题二十四不能为空！");
-            return false;
-        }
-        if (document.cerq_cform.question25_answer.value=="") {
-            alert("问题二十五不能为空！");
-            return false;
-        }
-        if (document.cerq_cform.question26_answer.value=="") {
-            alert("问题二十六不能为空！");
-            return false;
-        }
-        if (document.cerq_cform.question27_answer.value=="") {
-            alert("问题二十七不能为空！");
-            return false;
-        }
-        if (document.cerq_cform.question28_answer.value=="") {
-            alert("问题二十八不能为空！");
-            return false;
-        }
-        if (document.cerq_cform.question29_answer.value=="") {
-            alert("问题二十九不能为空！");
-            return false;
-        }
-        if (document.cerq_cform.question30_answer.value=="") {
-            alert("问题三十不能为空！");
-            return false;
-        }
-        if (document.cerq_cform.question31_answer.value=="") {
-            alert("问题三十一不能为空！");
-            return false;
-        }
-        if (document.cerq_cform.question32_answer.value=="") {
-            alert("问题三十二不能为空！");
-            return false;
-        }
-        if (document.cerq_cform.question33_answer.value=="") {
-            alert("问题三十三不能为空！");
-            return false;
-        }
-        if (document.cerq_cform.question34_answer.value=="") {
-            alert("问题三十四不能为空！");
-            return false;
-        }
-        if (document.cerq_cform.question35_answer.value=="") {
-            alert("问题三十五不能为空！");
-            return false;
-        }
-        if (document.cerq_cform.question36_answer.value=="") {
-            alert("问题三十六不能为空！");
-            return false;
-        }
-        alert("提交成功！");
-        return true;
-    }
-</script>
+
 {% endblock %}

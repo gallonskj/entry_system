@@ -6,8 +6,7 @@
 #   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
 # Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
-
-
+from tools.ConfigClass import HospitalizedState
 class BPatientBaseInfo(models.Model):
     SEX_TYPE = (
         (0, '男'),
@@ -25,7 +24,11 @@ class BPatientBaseInfo(models.Model):
         (8, '临床高危'),
         (9, '抑郁症状'),
         (99, '其他诊断')
-
+    )
+    HOSPITALIZED_TYPE = (
+        (HospitalizedState.NOT_HOSPITALIZED,'未入院'),
+        (HospitalizedState.INPATIENT,'在院'),
+        (HospitalizedState.OUT_HOSPITAL,'出院'),
     )
     id = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=20)
@@ -37,6 +40,7 @@ class BPatientBaseInfo(models.Model):
     update_time = models.DateTimeField(auto_now=True)
     diagnosis = models.IntegerField(blank=True, null=True, choices=DIAGNOSIS_TYPE)
     other_diagnosis = models.CharField(max_length=45)
+    inpatient_state = models.IntegerField(choices=HOSPITALIZED_TYPE,default=HospitalizedState.NOT_HOSPITALIZED)
     class Meta:
         managed = False
         db_table = 'b_patient_base_info'
@@ -122,7 +126,7 @@ class RPatientGhr(models.Model):
 #rtms
 class BPatientRtms(models.Model):
     id = models.IntegerField(primary_key=True)
-    patient_session = models.ForeignKey('DPatientDetail', models.DO_NOTHING, unique=True)
+    patient_session = models.OneToOneField('DPatientDetail', models.DO_NOTHING)
     treatment_num = models.IntegerField()
     treatment_date = models.DateField()
     therapeutic_target = models.IntegerField(blank=True, null=True)
