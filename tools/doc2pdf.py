@@ -2,18 +2,17 @@
 # -*- coding: UTF-8 -*-
 '''
 @Project ：entry_system 
-@File ：doctopdf.py
+@File ：doc2pdf.py
 @IDE  ：PyCharm 
 @Author ：skj
 @Date ：1/31/21 11:39 AM 
 '''
 import os
 import tempfile
-from subprocess import  Popen
-
+import subprocess
 from django.conf import settings
 from django.http import StreamingHttpResponse
-
+from tools.exception import BussinessException
 class StreamingConvertedPdf:
 
     def __init__(self, dock_obj, download=True):
@@ -23,7 +22,7 @@ class StreamingConvertedPdf:
 
     def validate_document(self):
         if not self.doc.name.split('.')[-1] in ('doc', 'docm', 'docx'):
-            raise Exception('校验输入格式,需要为word文档')
+            raise BussinessException('请校验文件格式,上传文件为word格式')
 
     def check_tmp_folder(self):
         if not os.path.exists(self.tmp_path):
@@ -32,10 +31,16 @@ class StreamingConvertedPdf:
     def convert_to_pdf(self):
         self.validate_document()
         self.check_tmp_folder()
+
         with tempfile.NamedTemporaryFile(prefix=self.tmp_path) as tmp:
             tmp.write(self.doc.read())
-            process = Popen(['lowriter', '--convert-to', 'pdf', tmp.name, '--outdir', self.tmp_path])
-            process.wait()
+            cmd = 'soffice --headless --convert-to pdf'.split() + [tmp.name] + ['--outdir'] + [self.tmp_path]
+            print(cmd)
+            p = subprocess.Popen(cmd, stderr=subprocess.PIPE, stdout=subprocess.PIPE)
+            p.wait()
+            stdout, stderr = p.communicate()
+            if stderr:
+                raise subprocess.SubprocessError(stderr)
             self.tmp_path = tmp.name + '.pdf'
 
     def get_file_name(self):

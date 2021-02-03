@@ -1,7 +1,7 @@
+from django.core.files.storage import FileSystemStorage
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from django.utils.datastructures import MultiValueDictKeyError
-
 import patients.dao as patient_dao
 import tools.excelUtils as utils
 import inpatients.dao as inpatients_dao
@@ -12,7 +12,8 @@ from tools.ConfigClass import HospitalizedState,MedicalType
 import json
 from tools.exception import BussinessException
 from django.core.files import File
-from tools.doctopdf import ConvertFileModelField
+from tools.doc2pdf import ConvertFileModelField
+from tools.Utils import get_progress_note_direct
 
 def get(request):
     return render(request,'nbh/test.html')
@@ -148,7 +149,7 @@ def upload_out_record(request):
             res_message = ErrorMessage('该住院患者不存在,请确认')
         else:
             inpatient.out_record.delete()
-            inst = ConvertFileModelField(out_record)
+            inst = ConvertFileModelField(out_record,download=False)
             out_record = inst.get_content()
             inpatient.out_record = File(open(out_record.get('path'), 'rb'))
             inpatient.out_record.name = out_record.get('name')
@@ -158,24 +159,34 @@ def upload_out_record(request):
 
 def upload_progress_note(request):
     '''
-    将病程记录上传到服务器
+    将病程记录转化为pdf,上传到服务器,
     1.删除旧记录
-    2.插入新纪录
+    2.转化为pdf文件
+    3.存储文件,更新数据库
     '''
     if request.method == 'POST':
         inpatient_id = request.POST.get('inpatient_id')
         progress_note = request.FILES['progress_note']
-        if progress_note.name.split('.')[-1] in ['pdf']:
-            inpatient = inpatients_dao.get_inpatient_info_byPK(inpatient_id)
-            if not inpatient:
-                res_message = ErrorMessage('该住院患者不存在,请确认')
-            else:
-                inpatient.progress_note.delete()
-                inpatient.out_record = progress_note
-                inpatient.save()
-                message = SuccessMessage('上传成功')
+        inpatient = inpatients_dao.get_inpatient_info_byPK(inpatient_id)
+        if not inpatient:
+            res_message = ErrorMessage('该住院患者不存在,请确认')
         else:
-            res_message = ErrorMessage('文件格式错误,请上传正确的pdf格式文件')
+            # 1.删除旧记录
+            inpatient.progress_note.delete()
+            # 2.转成pdf文件
+            inst = ConvertFileModelField(progress_note)
+            progress_note_pdf = inst.get_content()
+            inpatient.progress_note = File(open(progress_note_pdf.get('path'), 'rb'))
+            # 3.存储文件,入库
+            inpatient.progress_note.name = progress_note_pdf.get('name')
+            inpatient.save()
+            # 4.存储word文件作为备份
+            progress_note.seek(0)
+            save_path = get_progress_note_direct(inpatient,progress_note.name)
+            fs = FileSystemStorage()
+            file_path = fs.save(save_path, progress_note)
+            # 返回message
+            res_message = SuccessMessage('上传成功')
     return HttpResponse(json.dumps(res_message.__dict__))
 
 # 获取所有住院病人信息
