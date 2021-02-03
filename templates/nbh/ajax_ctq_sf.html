@@ -11,7 +11,10 @@
         <div class="modal-content">
             <h4 align="center"> 您确认要退出当前自评量表测评吗？</h4>
             <div align="center">
-                <button type="button" onclick="location='/scales/select_scales?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&session_id={{ session_id }}'" class="btn btn-danger" style="width:68px;height:34px">退出</button>
+                <button type="button"
+                        onclick="location='/scales/select_scales?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&session_id={{ session_id }}'"
+                        class="btn btn-danger" style="width:68px;height:34px">退出
+                </button>
                 <button type="button" class="btn btn-success" style="width:68px;height:34px" data-dismiss="modal">关闭
                 </button>
             </div>
@@ -151,7 +154,6 @@
                 question_index++;
                 // 跳转
                 document.getElementById('question_submit').setAttribute('onclick', "location=\'" +
-
                     "/scales/get_next_self_scale_url?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}" +
                     "\'"
                 );
@@ -159,17 +161,19 @@
                 const answers = document.getElementsByClassName("answer");
                 let flag = 0;
                 for (let i = 0; i < answers.length; i++) {
-                    if (answers[i].checked && question_index <= 28) {
-                        ajax_post($('#question_form'));
-                        update_question(question_index);
-                        question_index++;
-                        break;
+                    if (answers[i].checked) {
+                        flag = 1;
                     }
                 }
                 if (flag == 0) {
                     alert("问题不能为空！");
+                } else {
+                    ajax_post($('#question_form'));
+                    update_question(question_index);
+                    question_index++;
                 }
             }
+            $("input[type='radio']").removeAttr("checked");
         });
     });
 
@@ -296,7 +300,6 @@
             case 27:
                 document.getElementById('question_text').innerHTML = "28.当时家是我获得力量和支持的源泉。";
                 alter_option_names("answer", "question28_answer");
-                end_flag = 1;
                 break;
         }
     }

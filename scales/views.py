@@ -1570,12 +1570,12 @@ def test_submit(request):
             'shaps': scales_dao.get_or_default_patient_happiness_byPatientDetailId(patient_session_id, doctor_id),
             'teps': scales_dao.get_or_default_patient_pleasure_byPatientDetailId(patient_session_id, doctor_id),
             'ctq_sf': scales_dao.get_or_default_patient_growth_byPatientDetailId(patient_session_id, doctor_id),
-            'cerq_c': scales_dao.get_or_default_patient_adolescent_byPatientDetailId(patient_session_id, doctor_id),
-            'aslec': scales_dao.get_or_default_patient_cognitive_byPatientDetailId(patient_session_id, doctor_id),
+            'cerq_c': scales_dao.get_or_default_patient_cognitive_byPatientDetailId(patient_session_id, doctor_id),
+            'aslec': scales_dao.get_or_default_patient_adolescent_byPatientDetailId(patient_session_id, doctor_id),
             's_embu': scales_dao.get_or_default_patient_SEmbu_byPatientDetailId(patient_session_id, doctor_id),
             'atq': scales_dao.get_or_default_patient_ATQ_byPatientDetailId(patient_session_id, doctor_id),
         }
-        print(ajax_buffer[patient_session_id])
+    print(ajax_buffer[patient_session_id])
     '''获取序列化的form_data中的表单信息'''
     attribute_name = []
     attribute_value = []
@@ -1600,10 +1600,14 @@ def test_submit(request):
     '''填充完毕之后判断flag, 提交相应量表对象, flush duration_buffer'''
     if flag == '1':
         print('do flush')
+        # 计算当前量表总分
+        scales_dao.self_tests_total_score(scale_id, ajax_buffer[patient_session_id][test_name])
         # 保存
         ajax_buffer[patient_session_id][test_name].save()
         RSelfTestDuration.objects.bulk_create(duration_buffer)
         print('clean buffer')
+        # 更新量表完成状态
+        scales_dao.update_rscales_state(patient_session_id, scale_id, 1)
         # 清空缓存
         ajax_buffer[patient_session_id][test_name] = None
         duration_buffer.clear()
