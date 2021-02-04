@@ -22,7 +22,7 @@ def get(request):
 def get_inpatient_detail(request):
     inpatient_id = request.GET.get('inpatient_id')
     inpatient_detail = inpatients_dao.get_inpatient_detail(inpatient_id)
-    return render(request,'nbh/inpatient_detail.html',{'inpatient_detail':inpatient_detail})
+    return render(request,'manage_inpatients.html',{'inpatient_detail':inpatient_detail})
 
 # 添加住院患者信息
 def add_inpatient_info(request):
@@ -49,7 +49,7 @@ def add_inpatient_info(request):
                                                in_date=in_date,in_time=in_time,inpatient_number = inpatient_number)
     binpatient.save()
 
-    redirect_url = '/inpatients/get_inpatient_detail?inpatient_id={}'.format(str(binpatient.id))
+    redirect_url = '/inpatients/get_all_inpatient_info?inpatient_id={}'.format(str(binpatient.id))
     return redirect(redirect_url)
 
 # 住院患者设置为出院状态
@@ -97,8 +97,6 @@ def upload_medical_advice(request):
     bInpatientMedicalAdvice_list = []
     medical_advice_dict = inpatients_dao.get_medical_dict()
     inpatient_id = request.POST.get('inpatient_id')
-    # todo
-    inpatient_id = 5
     try:
         excel = request.FILES['medical_advice']
         if excel.name.split('.')[-1] in ['xls','xlsx']:
@@ -133,28 +131,6 @@ def upload_medical_advice(request):
         res_message = ErrorMessage(e.message)
     except MultiValueDictKeyError as e:
         res_message = ErrorMessage('文件不存在,请重新上传')
-    return HttpResponse(json.dumps(res_message.__dict__))
-# 上传出院信息文件
-def upload_out_record(request):
-    '''
-    上传出院记录pdf文件
-    1.删除旧记录
-    2.插入新纪录
-    '''
-    if request.method == 'POST':
-        inpatient_id = request.POST.get('inpatient_id')
-        out_record = request.FILES['out_record']
-        inpatient = inpatients_dao.get_inpatient_info_byPK(inpatient_id)
-        if not inpatient:
-            res_message = ErrorMessage('该住院患者不存在,请确认')
-        else:
-            inpatient.out_record.delete()
-            inst = ConvertFileModelField(out_record,download=False)
-            out_record = inst.get_content()
-            inpatient.out_record = File(open(out_record.get('path'), 'rb'))
-            inpatient.out_record.name = out_record.get('name')
-            inpatient.save()
-            res_message = SuccessMessage('上传成功')
     return HttpResponse(json.dumps(res_message.__dict__))
 
 def upload_progress_note(request):
@@ -192,7 +168,7 @@ def upload_progress_note(request):
 # 获取所有住院病人信息
 def get_all_inpatient_info(request):
     res = inpatients_dao.get_all_inpatient_info()
-    return render(request,'inpatients_info.html',{'inpatients':res})
+    return render(request,'manage_inpatients.html',{'inpatients':res})
 
 # 读取用药信息
 def read_medical_advice(request):
@@ -217,6 +193,8 @@ def del_inpatient(request):
 #         except KeyError:
 #             raise BussinessException('{} 在数据库不存在,请联系管理员'.format(object.medical_name))
 #         return type
+
+# 获取医嘱属于哪一个大类,需要从数据库中预先读取,缓存到dict中,假如不存在于dict中,直接将其设置other类型存储
 def get_type(object,medical_dict):
     list = []
     if object.drug_type in tools_config.drug_types:
@@ -243,6 +221,31 @@ def check_get_in_time(patient_id):
 def insert_medical_dict(request):
     from tools.Utils import insert_medical_dict
     insert_medical_dict()
+
+
+# ===========deprecated============上传出院信息文件
+def upload_out_record(request):
+    '''
+    上传出院记录pdf文件
+    1.删除旧记录
+    2.插入新纪录
+    '''
+    if request.method == 'POST':
+        inpatient_id = request.POST.get('inpatient_id')
+        out_record = request.FILES['out_record']
+        inpatient = inpatients_dao.get_inpatient_info_byPK(inpatient_id)
+        if not inpatient:
+            res_message = ErrorMessage('该住院患者不存在,请确认')
+        else:
+            inpatient.out_record.delete()
+            inst = ConvertFileModelField(out_record,download=False)
+            out_record = inst.get_content()
+            inpatient.out_record = File(open(out_record.get('path'), 'rb'))
+            inpatient.out_record.name = out_record.get('name')
+            inpatient.save()
+            res_message = SuccessMessage('上传成功')
+    return HttpResponse(json.dumps(res_message.__dict__))
+
 # def upload_out_record(request):
 #     if request.method == 'POST':
 #         inpatient_id = 1

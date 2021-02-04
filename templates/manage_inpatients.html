@@ -1,0 +1,412 @@
+{% extends 'templates/index.html' %}
+{% load static %}
+{% load SelfDefinedFilter %}
+{% block title %}被试管理{% endblock %}
+{% block css %}
+    <link rel="stylesheet" href="{% static '/css/appointToday.css' %}">
+    <link href="{% static '/vendors/iCheck/skins/flat/green.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href={% static '/css/tinyselect.css' %}>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/css/select2.min.css" rel="stylesheet" />
+
+    <style>
+        .sel_beauty {
+            background: #fafdfe;
+            height: 33px;
+            width: 180px;
+            line-height: 28px;
+            border: 1px solid #9bc0dd;
+            -moz-border-radius: 2px;
+            -webkit-border-radius: 2px;
+            border-radius: 2px;
+            width: 158px;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+<!-- 删除确认开始 -->
+{% for patient in inpatients %}
+    <div class="modal fade" id="delete_inpatient_{{ forloop.counter }}" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body" >
+                    <div class = "row" style="margin-bottom: 10px;">
+                        <div class = "form-group" align="center">
+                            <br>
+                            是否删除{{ patient.patient.id }}号患者{{ patient.patient.name }}的住院记录?
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="row">
+                        <div class="text-center">
+
+                            <a href="/inpatients/out_inpatient?patient_id={{ patient.patient.id }}">
+                                <button class="btn btn-success">确定</button>
+                            </a>
+                            <a href="/inpatients/get_all_inpatient_info">
+                                <button class="btn btn-danger">取消</button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endfor %}
+<!-- 删除确认结束 -->
+
+
+<!-- 添加选择上传文件模态框 开始 -->
+{% for patient in inpatients %}
+    <div class="modal fade" id="upload_file_{{ forloop.counter }}" role="dialog" aria-labelledby="myModalLabel" >
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <h5 class="modal-title" id="myModalLabel">
+                            选择需要上传的文件
+                        </h5>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="row">
+                            <div class="text-center">
+                                   <form enctype="multipart/form-data">
+                                       {% csrf_token %}
+                                       <p>上传病程记录<input type="file" id="progress_note" name="progress_note"/></p>
+                                    </form>
+                                        <button id="import_progress_note" onclick="upload_progress_note({{ patient.id }})">导入</button>
+
+<!--                                <a href="manage_patients.html"><button class="btn btn-danger" type="button" onclick="">取消</button></a>-->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <div class="row">
+                            <div class="text-center">
+                                   <form enctype="multipart/form-data">
+                                       <p>上传医嘱单<input type="file" id="medical_advice" name="medical_advice"/></p>
+                                    </form>
+                                <button id="import_medical_advice" onclick="upload_medical_advice({{ patient.id }})">导入</button>
+<!--                                <a href="manage_patients.html"><button class="btn btn-danger" type="button" onclick="">取消</button></a>-->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="row">
+                            <div class="text-center">
+<!--                                <input type="submit" class="btn btn-success" onclick="" value="提交"/>-->
+                                <a href="manage_patients.html"><button class="btn btn-danger" type="button" onclick="">取消</button></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+    {% endfor %}
+<!-- 结束-->
+
+<!-- 添加查看文件模态框 开始 -->
+{% for patient in inpatients %}
+    <div class="modal fade" id="check_file_{{ forloop.counter }}" role="dialog" aria-labelledby="myModalLabel" >
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-footer">
+                        <div class="row">
+                            <div class="text-center">
+                                <a href="{{ patient|get_progress_note_url }}">病程记录</a>
+<!--                                <a href="manage_patients.html"><button class="btn btn-danger" type="button" onclick="">取消</button></a>-->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <div class="row">
+                            <div class="text-center">
+{#                                <a href="{{ patient.progress_note.url }}">医嘱记录</a>#}
+<!--                                <a href="manage_patients.html"><button class="btn btn-danger" type="button" onclick="">取消</button></a>-->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="row">
+                            <div class="text-center">
+<!--                                <input type="submit" class="btn btn-success" onclick="" value="提交"/>-->
+                                <a href="manage_patients.html"><button class="btn btn-danger" type="button" onclick="">取消</button></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+    {% endfor %}
+<!-- 结束-->
+
+
+
+
+
+    <script src="{% static '/js/layerJquery.js' %}"></script>
+    <script src="{% static '/js/layer.js' %}"></script>
+    <div class="right_col" role="main">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <ul class="breadcrumb" style="background-color: white;font-weight:bold">
+                        <li><a href="/inpatients/get_all_inpatient_info">被试信息</a></li>
+                        <li class="active"><a href="#">住院管理</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="dashboard_graph x_panel">
+            <div class="x_content">
+<!--                <div class="row">-->
+<!--                    <div class="col-md-12 col-sm-12 col-xs-12">-->
+<!--                        <a href="#modal_container_subjectBaseInfo_build" data-toggle="modal">-->
+<!--                            <button class="btn btn-success btn-sm"><span class="fa fa-plus"></span><span>&nbsp;&nbsp;新建被试</span>-->
+<!--                            </button>-->
+<!--                        </a>-->
+<!--                    </div>-->
+<!--                </div>-->
+                <div class="row" style="border-top: solid #ACC0D8 1px;margin:5px 0px"></div>
+                <div class="row clearfix">
+                    <div class="col-md-12 column">
+                        <table id="datatable" class="table table-striped table-hover" style="font-size: 13px;cellspacing:15px;">
+                            <thead>
+                            <tr>
+                                <th>编号</th><th>姓名</th><th>性别</th><th>出生日期</th><th>民族</th><th>诊断</th><th>操作</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for patient in inpatients %}
+                                {% if patient.id|divisibleby:"2" %}
+                                    <tr class="success">
+                                        {% else %}
+                                    <tr>
+                                {% endif %}
+                            <td>
+                            {{ patient.id|calciulateId }}
+                            </td>
+                            <td>
+                                {{ patient.patient.name }}
+                            </td>
+                            <td>
+                                {% if patient.patient.sex == 0 %}
+                                    男
+                                {% else %}
+                                    女
+                                {% endif %}
+                            </td>
+                            <td>
+                                {{ patient.patient.birth_date }}
+                            </td>
+                            <td>
+                                {{ patient.patient.nation }}
+                            </td>
+                            <td>
+                               {{  patient.patient|get_diagnosis_by_object }}
+
+                            </td>
+
+                            <td>
+
+                              <a href="#upload_file_{{ forloop.counter }}" data-toggle="modal" style="color:white">
+                                  <button class="btn btn-info btn-xs" style="margin:0px;color:white">上传文件</button>
+                              </a>
+                              <a href="#check_file_{{ forloop.counter }}" data-toggle="modal" style="color:white">
+                                  <button class="btn btn-info btn-xs" style="margin:0px;color:white">查看文件</button>
+                              </a>
+                              <a href="#delete_inpatient_{{ forloop.counter }}" data-toggle="modal" style="color:white">
+                                  <button class="btn btn-warning btn-xs" style="margin:0px;color:white">出院</button>
+                              </a>
+                          </td>
+                          </tr>
+                            {% endfor %}
+                          </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/js/select2.min.js"></script>
+
+
+
+
+    <script type="text/javascript" src="{% static '/js/subjectEstablish.js' %}"></script>
+    <script type="text/javascript" language="JavaScript">
+
+        function zeropadding(num, length) {
+            //这里用slice和substr均可
+            return (Array(length).join("0") + num).slice(-length);
+        }
+
+        function judge_diagnosis(obj) {
+            if (obj.options[obj.selectedIndex].value == 99) {
+                document.getElementById("other_diagnosis_div").style.display = "";
+                document.getElementById("ghr_div").style.display = "none";
+            } else if(obj.options[obj.selectedIndex].value == 7){
+                 document.getElementById("other_diagnosis_div").style.display = "none";
+                document.getElementById("ghr_div").style.display = "";
+            }
+            else {
+                document.getElementById("ghr_div").style.display = "none";
+                document.getElementById("other_diagnosis_div").style.display = "none";
+            }
+        }
+
+        /*获取生成id
+        $('#modal_container_subjectBaseInfo_build').on('show.bs.modal', function (e) {
+            $.ajax({
+                url: '/patients/get_generateId_and_nation',
+                type: 'POST',
+                data: {},
+                dataType: 'json',
+                success: function (result) {
+                    $('#modal_container_subjectBaseInfo_build #standard_id').val(result.standard_id);
+                },
+                error: function () {
+                    // alert('出错了');
+                }
+            });
+        })
+        */
+    </script>
+    {% comment %}填充0{% endcomment %}
+
+<script>
+var i=1;
+function addLine() {
+
+     var txt1=document.createElement("p");
+     var s=""
+	s+="<div class=col-md-4 style=margin: 10px >"
+
+    s+="<select tabindex=-1 style=font-size: 10px ;style=margin: 10px; class=sel_beauty  form-control col-md-4 id=singleSelect"+i+" name=patient_session_id_" + i + " >"
+    s+=" <option value= 0 >无</option>"
+                              s+= " {% for obj in patients %}"
+                                   s+= "<option value ={{ obj.id }}>{{ obj.id }}-{{ obj.name }}-{{ obj.birth_date }}</option>"
+                                s+="{% endfor %}"
+                          s+=" </select>"
+    s+="</div>"
+
+    txt1.innerHTML=s;
+
+    var txt2=document.createElement("p");
+	var str = "" ;
+	str+="<div class=col-md-4 style=margin: 10px>"
+    str+="<select tabindex=-1 style=font-size: 10px ;style=margin: 10px; class=sel_beauty select2_single form-control col-md-4 required id=ghr_diagnosis"+i+" name=diagnosis_"+i+ ">"
+     str+="<option  value=2>"+'重性抑郁障碍';
+	 str+="<option  value=3>"+'焦虑障碍';
+    str+="<option  value=4>"+'双相障碍';
+    str+="<option  value=5>"+'精神分裂症';
+    str+="<option  value=6>"+'强迫症';
+    str+="<option  value=8>"+'临床高危';
+    str+="<option  value=9>"+'抑郁症状';
+    str+="<option  value=99>"+'其他诊断';
+
+	 str+="</select>";
+    str+="</div>";
+
+
+
+
+    txt2.innerHTML=str;
+    var txt3=document.createElement("p");
+    var str2 = "" ;
+	str2+="<div class=col-md-4 style=margin: 10px>"
+    str2+="<select tabindex=-1 style=font-size: 10px ;style=margin: 10px; class=sel_beauty select2_single form-control col-md-4 required id=ghr_kinship"+i+" name=kinship_"+i+ ">"
+     str2+="<option  value=0>"+'父亲';
+	 str2+="<option  value=1>"+'母亲';
+    str2+="<option  value=2>"+'儿子';
+    str2+="<option  value=3>"+'女儿';
+    str2+="<option  value=4>"+'哥哥';
+    str2+="<option  value=5>"+'弟弟';
+    str2+="<option  value=6>"+'姐姐';
+    str2+="<option  value=7>"+'妹妹';
+	 str2+="</select>";
+    str2+="</div>";
+
+
+	txt3.innerHTML=str2;
+
+    $("#ghr_add").append(txt1,txt2,txt3);
+    $("#singleSelect"+i+"").select2();
+    $("#ghr_diagnosis"+i+"").select2();
+    $("#ghr_kinship"+i+"").select2();
+    i++;
+
+
+        }
+
+
+
+</script>
+
+    <script type="text/javascript">
+  $(document).ready(function () {//加载页面时执行select2
+    $('#singleSelect').select2();
+       $('#ghr_diagnosis').select2();
+       $('#ghr_kinship').select2();
+
+
+
+  });
+</script>
+ <script type="application/javascript">
+    function upload_progress_note(inpatient_id) {
+        var formData = new FormData();
+            formData.append('inpatient_id',inpatient_id);
+            formData.append('progress_note',document.getElementById("progress_note").files[0])
+            formData.append("csrfmiddlewaretoken", $("[name = 'csrfmiddlewaretoken']").val())
+            $.ajax({
+                type: 'POST',
+                url: "/inpatients/upload_progress_note",
+                data:formData,
+                cache: false,
+                processData: false,
+                contentType: false,
+                dataType:'json',
+                success: function (data) {
+                    alert(data['message']);
+                },
+                error: function () {
+                    alert("上传失败！");
+                }
+            });
+    }
+
+     function upload_medical_advice(inpatient_id) {
+        var formData = new FormData();
+            formData.append('inpatient_id',inpatient_id);
+            formData.append('medical_advice',document.getElementById("medical_advice").files[0])
+            formData.append("csrfmiddlewaretoken", $("[name = 'csrfmiddlewaretoken']").val())
+            $.ajax({
+                type: 'POST',
+                url: "/inpatients/upload_medical_advice",
+                data:formData,
+                cache: false,
+                processData: false,
+                contentType: false,
+                dataType:'json',
+                success: function (data) {
+                    alert(data['message']);
+                },
+                error: function () {
+                    alert("上传失败！");
+                }
+            });
+    }
+    </script>
+
+
+
+{% endblock %}
