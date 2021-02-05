@@ -15,10 +15,10 @@ import patients.dao as patients_dao
 
 # 这里不能使用update方法，django中使用自带update方法无法更新带有auto_now的时间字段
 # 更新r_patient_scales中的state状态
-def update_rscales_state(patient_session_id, scale_id):
+def update_rscales_state(patient_session_id, scale_id, state):
     rPatientScales = \
         scales_models.RPatientScales.objects.filter(patient_session_id=patient_session_id, scale_id=scale_id)[0]
-    rPatientScales.state = 1
+    rPatientScales.state = state
     rPatientScales.save()
 
 
@@ -40,11 +40,11 @@ def update_rscales_skip(patient_session_id, scale_id, state):
 #######################################################################################
 
 # 病人病史表
-def add_medical_history(rPatientMedicalHistory):
+def add_medical_history(rPatientMedicalHistory, state):
     # 插入前的级联检验
     # 存入数据库
     rPatientMedicalHistory.save()
-    update_rscales_state(rPatientMedicalHistory.patient_session_id, rPatientMedicalHistory.scale_id)
+    update_rscales_state(rPatientMedicalHistory.patient_session_id, rPatientMedicalHistory.scale_id, state)
 
 
 def add_drugs_information(rPatientDrugsInformation):
@@ -52,7 +52,7 @@ def add_drugs_information(rPatientDrugsInformation):
 
 
 # 汉密尔顿焦虑量表
-def add_hamd_database(rPatientHAMD17):
+def add_hamd_database(rPatientHAMD17, state):
     # 计算量表得分
     rPatientHAMD17.total_score, object_flag = tools_calculatingScores.HAMD17_total_score(rPatientHAMD17)
     # 量表得分检验
@@ -62,7 +62,7 @@ def add_hamd_database(rPatientHAMD17):
     # 插入数据库
     rPatientHAMD17.save()
     # 修改r_patient_scales表中state状态
-    update_rscales_state(rPatientHAMD17.patient_session_id, rPatientHAMD17.scale_id)
+    update_rscales_state(rPatientHAMD17.patient_session_id, rPatientHAMD17.scale_id, state)
 
 
 # 33 项轻躁狂症状清单
@@ -92,7 +92,7 @@ def add_happiness_database(rPatienthappiness):
     update_rscales_state(rPatienthappiness.patient_session_id, rPatienthappiness.scale_id)
 
 
-def add_chinesehandle_database(rPatientChineseHandy):
+def add_chinesehandle_database(rPatientChineseHandy, state):
     rPatientChineseHandy.result, object_flag = tools_calculatingScores.Handy_total_score(rPatientChineseHandy)
     tools_utils.object_judgment(object_flag)
     # 插入前的级联检验
@@ -100,20 +100,21 @@ def add_chinesehandle_database(rPatientChineseHandy):
     # 插入数据库
     rPatientChineseHandy.save()
     # 修改r_patient_scales表中state状态
-    update_rscales_state(rPatientChineseHandy.patient_session_id, rPatientChineseHandy.scale_id)
+    update_rscales_state(rPatientChineseHandy.patient_session_id, rPatientChineseHandy.scale_id, state)
     # 做完利手量表后，也需要修改patient_detail表中的利手状态
     patient_detail = patients_dao.get_patient_detail_byPK(rPatientChineseHandy.patient_session_id)
     patient_detail.handy = rPatientChineseHandy.result
     patients_dao.add_patient_detail(patient_detail)
 
 
-def add_information_study_database(rPatientBasicInformationStudy):
+def add_information_study_database(rPatientBasicInformationStudy, state):
     # 插入前的级联检验
     tools_insertCascadeCheck.insert_information_study_check(rPatientBasicInformationStudy)
     # 插入数据库
     rPatientBasicInformationStudy.save()
     # 修改r_patient_scales表中state状态
-    update_rscales_state(rPatientBasicInformationStudy.patient_session_id, rPatientBasicInformationStudy.scale_id)
+    update_rscales_state(rPatientBasicInformationStudy.patient_session_id, rPatientBasicInformationStudy.scale_id,
+                         state)
 
 
 #############################################################################################
@@ -151,10 +152,10 @@ def add_cognitive_emotion_database(rPatientCognitiveEmotion):
 
 
 def add_pleasure_database(rPatientPleasure):
-    rPatientPleasure.exception_score, rPatientPleasure.consume_score, object_flag = tools_calculatingScores.pleasure_total_score(
+    rPatientPleasure.expectation_score, rPatientPleasure.consume_score, object_flag = tools_calculatingScores.pleasure_total_score(
         rPatientPleasure)
-    if rPatientPleasure.exception_score is not None and rPatientPleasure.consume_score is not None:
-        rPatientPleasure.total_score = rPatientPleasure.exception_score + rPatientPleasure.consume_score
+    if rPatientPleasure.expectation_score is not None and rPatientPleasure.consume_score is not None:
+        rPatientPleasure.total_score = rPatientPleasure.expectation_score + rPatientPleasure.consume_score
         tools_utils.object_judgment(object_flag)
     else:
         tools_utils.object_judgment(True)
@@ -166,7 +167,7 @@ def add_pleasure_database(rPatientPleasure):
     update_rscales_state(rPatientPleasure.patient_session_id, rPatientPleasure.scale_id)
 
 
-def add_bprs_database(rPatientbprs):
+def add_bprs_database(rPatientbprs, state):
     rPatientbprs.total_score, object_flag = tools_calculatingScores.Bprs_total_score(rPatientbprs)
     tools_utils.object_judgment(object_flag)
     # 插入前的级联检验
@@ -174,32 +175,33 @@ def add_bprs_database(rPatientbprs):
     # 插入数据库
     rPatientbprs.save()
     # 修改r_patient_scales表中state状态
-    update_rscales_state(rPatientbprs.patient_session_id, rPatientbprs.scale_id)
+    update_rscales_state(rPatientbprs.patient_session_id, rPatientbprs.scale_id, state)
 
 
-def add_rbans_database(rPatientrbans):
+def add_rbans_database(rPatientrbans, state):
     # 插入前的级联检验
     tools_insertCascadeCheck.insert_rbans_check(rPatientrbans)
     # 插入数据库
     rPatientrbans.save()
     # 修改r_patient_scales表中state状态
-    update_rscales_state(rPatientrbans.patient_session_id, rPatientrbans.scale_id)
+    update_rscales_state(rPatientrbans.patient_session_id, rPatientrbans.scale_id, state)
 
 
-def add_patient_basic_information_health_database(rPatientBasicInformationHealth):
+def add_patient_basic_information_health_database(rPatientBasicInformationHealth, state):
     # 插入前的级联检验
     tools_insertCascadeCheck.insert_information_health_check(rPatientBasicInformationHealth)
     # 插入数据库
     rPatientBasicInformationHealth.save()
     # 修改r_patient_scales表中state状态
-    update_rscales_state(rPatientBasicInformationHealth.patient_session_id, rPatientBasicInformationHealth.scale_id)
+    update_rscales_state(rPatientBasicInformationHealth.patient_session_id, rPatientBasicInformationHealth.scale_id,
+                         state)
 
 
 #############################################################################################syh
 ############################################################
 # zrq------------------------------------
 
-def add_hama_database(rPatientHama):
+def add_hama_database(rPatientHama, state):
     rPatientHama.total_score, object_flag = tools_calculatingScores.HAMA_total_score(rPatientHama)
     tools_utils.object_judgment(object_flag)
     # 插入前的级联检验
@@ -207,16 +209,17 @@ def add_hama_database(rPatientHama):
     # 插入数据库
     rPatientHama.save()
     # 修改r_patient_scales表中state状态
-    update_rscales_state(rPatientHama.patient_session_id, rPatientHama.scale_id)
+    update_rscales_state(rPatientHama.patient_session_id, rPatientHama.scale_id, state)
 
 
-def add_abuse_database(rPatientBasicInformationAbuse):
+def add_abuse_database(rPatientBasicInformationAbuse, state):
     # 插入前的级联检验
     tools_insertCascadeCheck.insert_information_abuse_check(rPatientBasicInformationAbuse)
     # 插入数据库
     rPatientBasicInformationAbuse.save()
     # 修改r_patient_scales表中state状态
-    update_rscales_state(rPatientBasicInformationAbuse.patient_session_id, rPatientBasicInformationAbuse.scale_id)
+    update_rscales_state(rPatientBasicInformationAbuse.patient_session_id, rPatientBasicInformationAbuse.scale_id,
+                         state)
 
 
 def add_growth_database(rPatientGrowth):
@@ -244,30 +247,30 @@ def add_adolescent_events_database(rPatientAdolescentEvents):
 
 
 # 这里的total_score需要从前台获取，认知的所有表都需要手动填总分 面孔情绪感知
-def add_fept_database(rPatientFept):
+def add_fept_database(rPatientFept, state):
     # 存进数据库
     # 插入前的级联检验
     tools_insertCascadeCheck.insert_fept_check(rPatientFept)
     # 插入数据库
     rPatientFept.save()
     # 修改r_patient_scales表中state状态
-    update_rscales_state(rPatientFept.patient_session_id, rPatientFept.scale_id)
+    update_rscales_state(rPatientFept.patient_session_id, rPatientFept.scale_id, state)
 
 
 # 这里的total_score需要从前台或许，认知的所有表都需要手动填总分 语音情绪感知
-def add_vept_database(rPatientVept):
+def add_vept_database(rPatientVept, state):
     # 存进数据库
     # 插入前的级联检验
     tools_insertCascadeCheck.insert_vept_check(rPatientVept)
     # 插入数据库
     rPatientVept.save()
     # 修改r_patient_scales表中state状态
-    update_rscales_state(rPatientVept.patient_session_id, rPatientVept.scale_id)
+    update_rscales_state(rPatientVept.patient_session_id, rPatientVept.scale_id, state)
 
 
 ###################################
 
-def add_ymrs_database(rPatientYmrs):
+def add_ymrs_database(rPatientYmrs, state):
     rPatientYmrs.total_score, object_flag = tools_calculatingScores.YMRS_total_score(rPatientYmrs)
     tools_utils.object_judgment(object_flag)
     # 插入前的级联检验
@@ -275,7 +278,7 @@ def add_ymrs_database(rPatientYmrs):
     # 插入数据库
     rPatientYmrs.save()
     # 修改r_patient_scales表中state状态
-    update_rscales_state(rPatientYmrs.patient_session_id, rPatientYmrs.scale_id)
+    update_rscales_state(rPatientYmrs.patient_session_id, rPatientYmrs.scale_id, state)
 
 
 def add_sembu_database(rPatientSembu):
@@ -292,18 +295,18 @@ def add_sembu_database(rPatientSembu):
     update_rscales_state(rPatientSembu.patient_session_id, rPatientSembu.scale_id)
 
 
-def dao_add_family_info(patient_basic_info_family):
+def dao_add_family_info(patient_basic_info_family, state):
     # 插入前的级联检验
     tools_insertCascadeCheck.insert_information_family_check(patient_basic_info_family)
     # 插入数据库
     patient_basic_info_family.save()
     # 修改r_patient_scales表中state状态
-    update_rscales_state(patient_basic_info_family.patient_session_id, patient_basic_info_family.scale_id)
+    update_rscales_state(patient_basic_info_family.patient_session_id, patient_basic_info_family.scale_id, state)
 
 
 def dao_add_suicide(rpatientsuicidal):
     # 计算总分
-    rpatientsuicidal.total_score_lastweek, rpatientsuicidal.total_score_mostdpressed, object_flag = tools_calculatingScores.Suicidal_total_score(
+    rpatientsuicidal.total_score_lastweek, rpatientsuicidal.total_score_mostdepressed, object_flag = tools_calculatingScores.Suicidal_total_score(
         rpatientsuicidal)
     tools_utils.object_judgment(object_flag)
     # 插入前的级联检验
@@ -338,22 +341,23 @@ def add_atq_database(rPatientAtq):
     update_rscales_state(rPatientAtq.patient_session_id, rPatientAtq.scale_id)
 
 
-def add_wcst_database(rPatientWcst):
+def add_wcst_database(rPatientWcst, state):
     # 插入前的级联检验
     tools_insertCascadeCheck.insert_wcst_check(rPatientWcst)
     # 插入数据库
     rPatientWcst.save()
     # 修改r_patient_scales表中state状态
-    update_rscales_state(rPatientWcst.patient_session_id, rPatientWcst.scale_id)
+    update_rscales_state(rPatientWcst.patient_session_id, rPatientWcst.scale_id, state)
 
 
-def add_other_database(rPatientBasicInformationOther):
+def add_other_database(rPatientBasicInformationOther, state):
     # 插入前的级联检验
     tools_insertCascadeCheck.insert_information_other_check(rPatientBasicInformationOther)
     # 插入数据库
     rPatientBasicInformationOther.save()
     # 修改r_patient_scales表中state状态
-    update_rscales_state(rPatientBasicInformationOther.patient_session_id, rPatientBasicInformationOther.scale_id)
+    update_rscales_state(rPatientBasicInformationOther.patient_session_id, rPatientBasicInformationOther.scale_id,
+                         state)
 
 
 ################### get方法部分 #####################
@@ -372,9 +376,15 @@ def get_patient_medical_history_byPatientId(patient_detail_id):
 
 # r_patient_drugs_information 表
 def get_patient_drugs_information_byPatientId(patient_detail_id):
-    patient_drugs_information_list = scales_models.RPatientDrugsInformation.objects.filter(
-        patient_session=patient_detail_id)
-    return patient_drugs_information_list
+    historical_drugs_information_list = scales_models.RPatientDrugsInformation.objects.all().filter(
+        patient_session=patient_detail_id, type='0')
+    scanning_drugs_information_list = scales_models.RPatientDrugsInformation.objects.all().filter(
+        patient_session=patient_detail_id, type='1')
+    historical_drugs_information_num = scales_models.RPatientDrugsInformation.objects.all().filter(
+        patient_session=patient_detail_id, type='0').count()
+    scanning_drugs_information_num = scales_models.RPatientDrugsInformation.objects.all().filter(
+        patient_session=patient_detail_id, type='1').count()
+    return historical_drugs_information_list, scanning_drugs_information_list, historical_drugs_information_num, scanning_drugs_information_num
 
 
 # patient base info 表
@@ -685,16 +695,21 @@ def get_bprs_answer(patient_id):
 
 ##############__________________________######################
 def get_last_scales_detail(patient_session_id, scale_id):
+    do_scale_type = scales_models.DScales.objects.filter(id=scale_id)[0].do_scale_type
     scale_queryset = scales_models.RPatientScales.objects.filter(patient_session_id=patient_session_id,
-                                                                 scale_id__lt=scale_id).order_by('-scale_id')
+                                                                 scale_id__lt=scale_id).select_related('scale'). \
+        filter(scale__do_scale_type=do_scale_type).order_by('-scale_id')
     if not scale_queryset.exists():
         return None
     return scale_queryset[0]
 
 
 def get_next_scales_detail(patient_session_id, scale_id):
+    # 按顺序查找patient_session_id=patient_session_id，大于scale_id
+    do_scale_type = scales_models.DScales.objects.filter(id=scale_id)[0].do_scale_type
     scale_queryset = scales_models.RPatientScales.objects.filter(patient_session_id=patient_session_id,
-                                                                 scale_id__gt=scale_id).order_by('scale_id')
+                                                                 scale_id__gt=scale_id).select_related('scale'). \
+        filter(scale__do_scale_type=do_scale_type).order_by('scale_id')
     if not scale_queryset.exists():
         return None
     return scale_queryset[0]
@@ -711,6 +726,64 @@ def get_order(patient_session_id, scale_id):
     first = scales_order[0].scale_id
     last = invert_scales_order[0].scale_id
     return first, last
+
+
+def get_scale_state(patient_session_id, scale_id):
+    res = scales_models.RPatientScales.objects.filter(patient_session_id=patient_session_id, scale_id=scale_id)
+    if not res.exists():
+        return None
+    return res[0].state
+
+
+def del_hamd(patient_session_id, scale_id):
+    res = scales_models.RPatientHamd17.objects.filter(patient_session_id=patient_session_id, scale_id=scale_id)
+    if res.exists():
+        res[0].delete()
+
+
+def del_hama(patient_session_id, scale_id):
+    res = scales_models.RPatientHama.objects.filter(patient_session_id=patient_session_id, scale_id=scale_id)
+    if res.exists():
+        res[0].delete()
+
+
+def del_bprs(patient_session_id, scale_id):
+    res = scales_models.RPatientBprs.objects.filter(patient_session_id=patient_session_id, scale_id=scale_id)
+    if res.exists():
+        res[0].delete()
+
+
+def del_ymrs(patient_session_id, scale_id):
+    res = scales_models.RPatientYmrs.objects.filter(patient_session_id=patient_session_id, scale_id=scale_id)
+    if res.exists():
+        res[0].delete()
+
+
+# =================================================认知==============================
+
+
+def del_wcst(patient_session_id, scale_id):
+    res = scales_models.RPatientWcst.objects.filter(patient_session_id=patient_session_id, scale_id=scale_id)
+    if res.exists():
+        res[0].delete()
+
+
+def del_rbans(patient_session_id, scale_id):
+    res = scales_models.RPatientRbans.objects.filter(patient_session_id=patient_session_id, scale_id=scale_id)
+    if res.exists():
+        res[0].delete()
+
+
+def del_fept(patient_session_id, scale_id):
+    res = scales_models.RPatientFept.objects.filter(patient_session_id=patient_session_id, scale_id=scale_id)
+    if res.exists():
+        res[0].delete()
+
+
+def del_vept(patient_session_id, scale_id):
+    res = scales_models.RPatientVept.objects.filter(patient_session_id=patient_session_id, scale_id=scale_id)
+    if res.exists():
+        res[0].delete()
 
 
 '''取量表对象 如果不存在就返回一个'''
@@ -823,3 +896,32 @@ def get_or_default_patient_ATQ_byPatientDetailId(patient_detail_id, doctor_id):
                                          scale_id=20)
     else:
         return patient_ATQ[0]
+
+
+def self_tests_total_score(scale_id, obj):
+    if scale_id == 11:
+        obj.total_score, object_flag = tools_calculatingScores.YBO_total_score(obj)
+    elif scale_id == 12:
+        obj.total_score_lastweek, obj.total_score_mostdepressed, object_flag = tools_calculatingScores.Suicidal_total_score(
+            obj)
+    elif scale_id == 13:
+        obj.total_score, object_flag = tools_calculatingScores.ManicSymptom_total_score(obj)
+    elif scale_id == 14:
+        obj.total_score, object_flag = tools_calculatingScores.happiness_total_score(obj)
+    elif scale_id == 15:
+        obj.expectation_score, obj.consume_score, object_flag = tools_calculatingScores.pleasure_total_score(obj)
+    elif scale_id == 16:
+        obj.emotion_abuse_score, obj.body_abuse_score, obj.sex_abuse_score, obj.emotion_ignore_score, \
+        obj.body_ignore_score, object_flag = tools_calculatingScores.growth_total_score(obj)
+    elif scale_id == 17:
+        obj.total_score, obj.blame_self, obj.blame_others, obj.meditation, obj.catastrophization, obj.accepted, \
+        obj.positive_refocus, obj.program_refocus, obj.positive_evaluation, obj.rational_analysis, object_flag \
+            = tools_calculatingScores.CognitiveEmotion_total_score(obj)
+    elif scale_id == 18:
+        obj.total_score, object_flag = tools_calculatingScores.AdolescentEvents_total_score(obj)
+    elif scale_id == 19:
+        obj.refusal_mother, obj.refusal_father, obj.emotional_warmth_mother, obj.emotional_warmth_father, \
+        obj.overprotection_mother, obj.overprotection_father, object_flag = tools_calculatingScores.SEmbu_total_score(
+            obj)
+    elif scale_id == 20:
+        obj.total_score, object_flag = tools_calculatingScores.ATQ_total_score(obj)

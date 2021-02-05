@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <script src="https://cdn.bootcss.com/jquery/1.10.2/jquery.min.js"></script>
+    <title></title>
+</head>
+<body>
+    <form class="" action="/inpatients/upload_medical_advice" method="post" enctype="multipart/form-data" >
+        {% csrf_token %}
+        <input type="file" name="medical_advice">
+        <input type="submit" value="上传">
+    </form>
+    <form enctype="multipart/form-data">
+        <p>上传病程记录<input type="file" id="progress_note" name="progress_note"/></p>
+    </form>
+        <button id="import">导入</button>
+    <script type="application/javascript">
+        $("#import").click(function () {
+            var formData = new FormData();
+            formData.append('inpatient_id',5);
+            formData.append('progress_note',document.getElementById("progress_note").files[0])
+            formData.append("csrfmiddlewaretoken", $("[name = 'csrfmiddlewaretoken']").val())
+            $.ajax({
+                type: 'POST',
+                url: "/inpatients/upload_progress_note",
+                data:formData,
+                cache: false,
+                processData: false,
+                contentType: false,
+                dataType:'json',
+                success: function (data) {
+                    alert(data['message']);
+                },
+                error: function () {
+                    alert("上传失败！");
+                }
+            });
+        });
+    </script>

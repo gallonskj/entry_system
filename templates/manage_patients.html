@@ -296,8 +296,8 @@
     <div class="modal fade" id="add_inpatient_{{ forloop.counter }}" role="dialog" aria-labelledby="myModalLabel" >
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <form action="/patients/add_patient_followup?patient_id={{ patient.id }}" method="post">
-                    {% csrf_token %}
+                    <form action="/inpatients/add_inpatient_info?patient_id={{ patient.id }}" method="post">
+                        {% csrf_token %}
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                         <h5 class="modal-title" id="myModalLabel">
@@ -479,6 +479,11 @@
             if (obj.options[obj.selectedIndex].value == 99) {
                 document.getElementById("other_diagnosis_div").style.display = "";
                 document.getElementById("ghr_div").style.display = "none";
+                document.getElementById("singleSelect").disabled="true";
+                document.getElementById("ghr_diagnosis").disabled="true";
+                document.getElementById("ghr_kinship").disabled="true";
+
+
             } else if(obj.options[obj.selectedIndex].value == 7){
                  document.getElementById("other_diagnosis_div").style.display = "none";
                 document.getElementById("ghr_div").style.display = "";
@@ -486,6 +491,10 @@
             else {
                 document.getElementById("ghr_div").style.display = "none";
                 document.getElementById("other_diagnosis_div").style.display = "none";
+                 document.getElementById("singleSelect").disabled="true";
+                document.getElementById("ghr_diagnosis").disabled="true";
+                document.getElementById("ghr_kinship").disabled="true";
+
             }
         }
 
@@ -582,8 +591,6 @@ function addLine() {
     $('#singleSelect').select2();
        $('#ghr_diagnosis').select2();
        $('#ghr_kinship').select2();
-
-
 
   });
 </script>

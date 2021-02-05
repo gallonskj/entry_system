@@ -87,10 +87,21 @@ def del_patient_detail_byPK(patient_detail_id):
     patients_models.DPatientDetail.object.filter(id=patient_detail_id)[0].delete()
 
 
-# del patient_base_info表
+# del patient_base_info表,同时需要删除高危信息,rtms治疗情况
 def del_patient_base_info_byPK(patient_id):
     if patients_models.BPatientBaseInfo.objects.filter(pk=patient_id).count() > 0:
+        #删除所有的rtms信息
+        patient_detail = patients_models.DPatientDetail.objects.filter(patient_id=patient_id)
+        for detail in patient_detail:
+            patient_session_id = detail.id
+            all_list_tms = patients_models.BPatientRtms.objects.filter(patient_session_id=patient_session_id)
+            for list in all_list_tms:
+                list.delete()
         patients_models.BPatientBaseInfo.objects.filter(pk=patient_id).first().delete()
+        all_list_ghr = patients_models.RPatientGhr.objects.filter(ghr_id=patient_id)
+        for list in all_list_ghr:
+            list.delete()
+
 
 
 #高危信息表
@@ -111,12 +122,9 @@ def get_patient_detail_last_byPatientId(patient_id):
         return patient_detail_res.last()
 
 
-def get_patient_detail_byPatientId(patient_id,session_id):
-    patient_detail_res = patients_models.DPatientDetail.objects.filter(patient_id=patient_id,session_id=session_id)
-    if patient_detail_res.count() == 0:
-        return None
-    else:
-        return patient_detail_res[0]
+def get_patient_detail_byPatientId(patient_session_id):
+    patient_detail_res = patients_models.DPatientDetail.objects.filter(id=patient_session_id)[0]
+    return patient_detail_res
 
 # get scales表
 def get_scales_all():
@@ -221,3 +229,12 @@ def get_patient_scales_byPatientDetailId(patient_detail_id):
 # d_patient_appointment表
 def get_patient_appointment_all():
     patients_models.DPatientAppointment.objects.all()
+
+def set_inpatient_type(patient_id,inpatient_state):
+    patient = patients_models.BPatientBaseInfo.objects.filter(pk = patient_id)[0]
+    patient.inpatient_state = inpatient_state
+    patient.save()
+
+#rtms:
+def add_rtms_info(bPatientRtms):
+    bPatientRtms.save()

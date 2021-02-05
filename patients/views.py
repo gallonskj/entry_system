@@ -61,6 +61,7 @@ def add_patient_baseinfo(request):
     # 自动分配id
     # patient_id = tools_idAssignments.patient_Id_assignment()
     patient_id, session_id, standard_id = tools_idAssignments.patient_session_id_assignment(patient_id)
+    #rtms:  state:0
 
     # 插入高危信息表:需要在b_patient_base_info之前创建
     rPatientGhr = patients_models.RPatientGhr(ghr_id=patient_id, doctor_id=doctor_id)
@@ -72,8 +73,8 @@ def add_patient_baseinfo(request):
             val = request.POST.get(key)
             if val == '':
                 val = None
-            else:
-                setattr(rPatientGhr, st, val)
+
+            setattr(rPatientGhr, st, val)
             if st == 'kinship':
                 patients_dao.add_patient_ghr(rPatientGhr)
                 rPatientGhr = patients_models.RPatientGhr(ghr_id=patient_id, doctor_id=doctor_id)
@@ -93,7 +94,7 @@ def add_patient_baseinfo(request):
     patient_detail = patients_models.DPatientDetail(patient_id=patient_id, session_id=session_id,
                                                     standard_id=standard_id,
                                                     age=age, doctor_id=doctor_id,
-                                                    scan_date=scan_date)
+                                                    scan_date=scan_date,tms=None)
     patients_dao.add_patient_detail(patient_detail)
     # 查询需要做的量表,并在r_patient_scales中插入需要做的量表
     scales_list = patients_dao.judgment_scales(patient_detail.id)
@@ -124,6 +125,7 @@ def add_patient_followup(request):
     # 插入前的准备工作，这里需要预先进行处理，将上次的值赋进去
     patient_detail = patient_detail_last
     patient_detail.id = None
+    patient_detail.tms = None
     patient_detail.patient_id = patient_id
     patient_detail.session_id = session_id
     patient_detail.standard_id = standard_id
@@ -196,6 +198,7 @@ def get_patient_detail(request):
             ghr_kinship.append(i.kinship)
 
         num_ghr = ghr_list.count()
+        patients = patients_dao.get_base_info_all()
         return render(request, 'patient_detail.html',
                       {
                           'patient_id': patient_id,
@@ -212,7 +215,8 @@ def get_patient_detail(request):
                           'other_diagnosis': patient_baseinfo.other_diagnosis,
                           'ghr_diagnosis': ghr_diagnosis,
                           'ghr_kinship': ghr_kinship,
-                          'num_ghr': num_ghr
+                          'num_ghr': num_ghr,
+                          'patients':patients
                       })
     else:
         return render(request, 'patient_detail.html', {"username": request.session.get("username")})
@@ -232,11 +236,19 @@ def del_patient(request):
 def del_followup(request):
     patient_id = request.GET.get("patient_id")
     patient_session_id = request.GET.get("patient_session_id")
+    print('session:   ',patient_session_id,"-----------pid",patient_id)
     patient_detail = DPatientDetail.objects.all().select_related('doctor').filter(pk=patient_session_id)
+
+    all_list_tms = patients_models.BPatientRtms.objects.filter(patient_session_id=patient_session_id)
+    for list in all_list_tms:
+        list.delete()
+
     if patient_detail.count() == 1:
         # 只有创建该条记录的用户才能够删除本条记录
         if patient_detail.first().doctor.username == request.session.get('username'):
             patient_detail.first().delete()
+
+
     return redirect('/patients/get_patient_detail?patient_id=' + patient_id)
 
 
@@ -246,7 +258,7 @@ def del_followup(request):
 def update_patient_detail(request):
     patient_session_id = request.GET.get('patient_session_id')
     patient_id = request.GET.get('patient_id')
-    page=request.GET.get('page')
+    session_id = request.GET.get('session_id')
     patient_detail = patients_dao.get_patient_detail_byPK(patient_session_id)
     patient_base_info = patients_dao.get_base_info_byPK(patient_id)
     # 通过field的方式进行数据的传递，注意，需要保证form表单中各项的名称与数据库中字段名称是名称相同
@@ -259,11 +271,8 @@ def update_patient_detail(request):
     patient_base_info.diagnosis = request.POST.get('diagnosis')
     patient_base_info.other_diagnosis = request.POST.get('other_diagnosis')
     patients_dao.add_base_info(patient_base_info)
-    if page=='1':
-        redirect_url = '/scales/select_scales?patient_session_id={}&patient_id={}'.format(str(patient_session_id),
-                                                                         str(patient_id))
-    elif page=='2':
-        redirect_url = '/patients/get_patient_detail?patient_id={}'.format(str(patient_id))
+    redirect_url = '/scales/select_scales?patient_session_id={}&patient_id={}'.format(str(patient_session_id),str(patient_id))
+
     return redirect(redirect_url)
 
 
@@ -273,13 +282,24 @@ def update_base_info(request):
     print("#################" + str(request.POST.get('nation')))
     patient_base_info = patients_dao.get_base_info_byPK(patient_id)
     print("################" + str(patient_base_info.nation))
+    ori_diagnosis=patient_base_info.diagnosis #获取之前的诊断
     patient_base_info = scale_views.set_attr_by_post(request, patient_base_info)
     print("################" + str(patient_base_info.nation))
+    new_diagnosis=patient_base_info.diagnosis
+
     patients_dao.add_base_info(patient_base_info)
+
     #更新高危信息
-    patient_ghr = set_ghr_by_post(request, patient_id)
-
-
+    set_ghr_by_post(request, patient_id)  #如果高危信息页面没有变化，函数不会保存新的内容
+    if ori_diagnosis==7 and new_diagnosis!='7': #从高危改成其他患病类型，要把原先的高危信息删除
+        #print("del_ghr------------------------------------")
+        all_list_ghr = patients_models.RPatientGhr.objects.filter(ghr_id=patient_id)
+        for list in all_list_ghr:
+            list.delete()
+    #添加高危信息
+    if  new_diagnosis=='7' and ori_diagnosis!=7:
+        #print('add_ghr----------------------------')
+        add_ghr_by_post(request,patient_id)
 
     return redirect('/patients/get_patient_detail?patient_id=' + patient_id)
 
@@ -494,6 +514,8 @@ def set_attr_by_post(request, _object):
 
 # 根据request post信息更新高危信息
 def set_ghr_by_post(request,id):
+    #print('modify_ghr--------------------------')
+    #doctor_id=request.session.get('doctor_id')
     rPatientGhr = patients_models.RPatientGhr()
     ghr_kinship_list = []
     ghr_diagnosis_list = []
@@ -517,4 +539,23 @@ def set_ghr_by_post(request,id):
         patient_ghr.diagnosis=diagnosis
         patients_dao.add_patient_ghr(patient_ghr)
 
-    return patient_ghr
+
+
+def add_ghr_by_post(request,id):
+    doctor_id=request.session.get('doctor_id')
+    rPatientGhr = patients_models.RPatientGhr(ghr_id=id, doctor_id=doctor_id)
+    for key in request.POST.keys():
+        #pos = key.rfind('_')-4
+        #st = key[:pos]
+        end_pos = key.rfind('_') - 1  # 倒数第一个"_"的位置再左移一位
+        start_pos = key.rfind('_', 0, end_pos)  # 从开始截至到end_pos的位置，从右往左出现的第一个"_"也就是我们要找的倒数第二个"_"
+        st = key[:start_pos]
+
+        if hasattr(rPatientGhr, st) and key != 'diagnosis':
+            val = request.POST.get(key)
+            if val == '':
+                val = None
+            setattr(rPatientGhr, st, val)
+            if st == 'kinship':
+                patients_dao.add_patient_ghr(rPatientGhr)
+                rPatientGhr = patients_models.RPatientGhr(ghr_id=id, doctor_id=doctor_id)
