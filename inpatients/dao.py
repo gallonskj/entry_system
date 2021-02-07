@@ -23,8 +23,11 @@ def get_in_time_by_patientid(patient_id):
         return res[0].in_time+1
 # 根据inpatient_id获取所有医嘱信息
 def get_mecical_advice(inpatient_id):
-    res = BInpatientMedicalAdvice.objects.filter(pk = inpatient_id)
-    return res
+    res = BInpatientMedicalAdvice.objects.filter(inpatient_id = inpatient_id)
+    if not res.exists():
+        return None,0
+    else:
+        return res,1
 
 # 获取所有住院患者信息
 def get_all_inpatient_info(types):

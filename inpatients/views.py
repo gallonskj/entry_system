@@ -176,7 +176,8 @@ def get_all_inpatient_info(request):
 # 读取用药信息
 def read_medical_advice(request):
     inpatient_id = request.GET.get('inpatient_id')
-    medical_advices = inpatients_dao.get_mecical_advice(inpatient_id)
+    medical_advices,a = inpatients_dao.get_mecical_advice(inpatient_id)
+    print(a)
     return render(request,'medical_advice_detail.html',{'medical_advices':medical_advices,
                                                         'inpatient_id':inpatient_id})
 

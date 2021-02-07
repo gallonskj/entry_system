@@ -30,8 +30,6 @@ medical_advices
         -webkit-border-radius: 2px;
         border-radius: 2px;
     }
-
-
 </style>
 <script src="{% static '/js/layerJquery.js' %}"></script>
 <script src="{% static '/js/layer.js' %}"></script>
@@ -61,20 +59,76 @@ medical_advices
                     <div class="x_content">
                         <br>
                         <div class="form-group">
-                            <table>
+                            <table border="1" class="clearfix">
                                 <thead>
-
+                                    <tr>
+                                        <td rowspan="2" align="center">起始日期</td>
+                                        <td colspan="4" rowspan="2" align="center">医嘱</td>
+                                        <td rowspan="2" align="center">医生签名</td>
+                                        <td rowspan="2" align="center">执行护士签名</td>
+                                        <td colspan="3" align="center">停止</td>
+                                    </tr>
+                                    <tr>
+                                        <td align="center">停止日期</td>
+                                        <td align="center">停止医生签名</td>
+                                        <td align="center">停止执行护士签名</td>
+                                    </tr>
                                 </thead>
                                 <tbody>
+
                                     {% for advice in medical_advices %}
                                     <tr>
                                         <td>
-                                            {{ advice.medical_name }}
+
+                                            {{ advice.start_time|processNone }}
+                                            &nbsp;
+                                        </td>
+                                        <td>
+
+                                            {{ advice.medical_name|processNone }}
+                                            &nbsp;
+                                        </td>
+                                        <td>
+                                           {{ advice.dose_num|processNone }} {{ advice.dose_unit|processNone }}
+
                                         </td>
 
                                         <td>
+                                            {{ advice.drug_type|processNone }}
 
+                                            &nbsp;
                                         </td>
+
+                                        <td>
+                                           {{ advice.usage_way|processNone }}
+                                            &nbsp;
+                                        </td>
+
+                                        <td>
+                                           {{ advice.start_doctor|processNone }}
+                                            &nbsp;
+                                        </td>
+
+                                        <td>
+                                            {{ advice.start_nurse|processNone }}
+                                            &nbsp;
+                                        </td>
+
+
+                                        <td>
+                                            {{ advice.end_time|processNone }}
+                                            &nbsp;
+                                        </td>
+
+                                        <td>
+                                            {{ advice.end_doctor|processNone }}
+                                            &nbsp;
+                                        </td>
+                                        <td>
+                                            {{ advice.end_nurse|processNone }}
+                                            &nbsp;
+                                        </td>
+
                                     </tr>
                                     {% endfor %}
                                 </tbody>
