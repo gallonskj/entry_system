@@ -24,125 +24,46 @@
 {% endblock %}
 
 {% block content %}
-<!-- 删除确认开始 -->
+<!-- 出院开始 -->
 {% for patient in inpatients %}
+
     <div class="modal fade" id="delete_inpatient_{{ forloop.counter }}" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-body" >
-                    <div class = "row" style="margin-bottom: 10px;">
-                        <div class = "form-group" align="center">
-                            <br>
-                            是否删除{{ patient.patient.id }}号患者{{ patient.patient.name }}的住院记录?
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <div class="row">
-                        <div class="text-center">
-
-                            <a href="/inpatients/out_inpatient?patient_id={{ patient.patient.id }}">
-                                <button class="btn btn-success">确定</button>
-                            </a>
-                            <a href="/inpatients/get_all_inpatient_info">
-                                <button class="btn btn-danger">取消</button>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-{% endfor %}
-<!-- 删除确认结束 -->
-
-
-<!-- 添加选择上传文件模态框 开始 -->
-{% for patient in inpatients %}
-    <div class="modal fade" id="upload_file_{{ forloop.counter }}" role="dialog" aria-labelledby="myModalLabel" >
             <div class="modal-dialog">
                 <div class="modal-content">
+                    <form method="post">
+                        {% csrf_token %}
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                         <h5 class="modal-title" id="myModalLabel">
-                            选择需要上传的文件
+                            出院
                         </h5>
                     </div>
-                    <div class="modal-footer">
-                        <div class="row">
-                            <div class="text-center">
-                                   <form enctype="multipart/form-data">
-                                       {% csrf_token %}
-                                       <p>上传病程记录<input type="file" id="progress_note" name="progress_note"/></p>
-                                    </form>
-                                        <button id="import_progress_note" onclick="upload_progress_note({{ patient.id }})">导入</button>
-                                <!--                                <a href="manage_patients.html"><button class="btn btn-danger" type="button" onclick="">取消</button></a>-->
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="modal-footer">
-                        <div class="row">
-                            <div class="text-center">
-                                   <form enctype="multipart/form-data">
-                                       <p>上传医嘱单<input type="file" id="medical_advice" name="medical_advice"/></p>
-                                    </form>
-                                <button id="import_medical_advice" onclick="upload_medical_advice({{ patient.id }})">导入</button>
+                    <div class="modal-body">
+                        <div class="row" style="margin-bottom: 10px;">
+                            <label class="col-sm-2 control-label" for="out_date" style="text-align: right">出院日期：</label>
+                            <div class="col-sm-4">
+                                <input type="date" class=" sel_beauty form-control input-sm " name="in_date" required="required"/>
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer">
                         <div class="row">
                             <div class="text-center">
-                                <a href="/inpatients/get_all_inpatient_info">
-                                <button class="btn btn-danger">取消</button>
-                                </a>
+                                <input type="submit" class="btn btn-success" onclick="out_inpatient({{patient.id}})" value="提交"/>
+<!--                                <a href="manage_inpatients.html"><button class="btn btn-danger" type="button" onclick="">取消</button></a>-->
+<!--                                <a href="/patients/inpatientManage">-->
+<!--                                    <button class="btn btn-danger">取消</button>-->
+<!--                                </a>-->
+                                <a href="/inpatients/get_all_inpatient_info"><button class="btn btn-danger" type="button" >取消</button></a>
                             </div>
                         </div>
                     </div>
+                    </form>
                 </div>
             </div>
     </div>
-    {% endfor %}
-<!-- 结束-->
-
-<!-- 添加查看文件模态框 开始 -->
-{% for patient in inpatients %}
-    <div class="modal fade" id="check_file_{{ forloop.counter }}" role="dialog" aria-labelledby="myModalLabel" >
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-footer">
-                        <div class="row">
-                            <div class="text-center">
-                                <a href="{{ patient|get_progress_note_url }}">病程记录</a>
-<!---->
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="modal-footer">
-                        <div class="row">
-                            <div class="text-center">
-{#                                <a href="{{ patient.progress_note.url }}">医嘱记录</a>#}
-<!--                                <a href="manage_patients.html"><button ="btn btn-danger" type="button" onclick="">取消</button></a>-->
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <div class="row">
-                            <div class="text-center">
-<!--                                <input type="submit" class="btn btn-success" onclick="" value="提交"/>-->
-                                <a href="/inpatients/get_all_inpatient_info">
-                                <button class="btn btn-danger">取消</button>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-    </div>
-    {% endfor %}
-<!-- 结束-->
+{% endfor %}
+<!-- 出院结束 -->
 
 
 
@@ -167,14 +88,16 @@
             <div class="col-md-12 column">
                 <div class="tabbable" id="tabs-362408">
                     <ul class="nav nav-tabs">
-                        <li>
-                             <a href="#panel-974044" data-toggle="tab">在院</a>
-                        </li>
                         <li class="active">
-                             <a href="#panel-578948" data-toggle="tab">出院</a>
+                             <a  href="" onclick="get_inpatients_by_type('all')" data-toggle="tab">所有住院患者</a>
+                        </li>
+                        <li>
+                             <a href="" onclick="get_inpatients_by_type(1)" data-toggle="tab">在院患者</a>
+                        </li>
+                        <li>
+                             <a href="" onclick="get_inpatients_by_type(2)" data-toggle="tab">出院患者</a>
                         </li>
                     </ul>
-
                 </div>
             </div>
         </div>
@@ -184,7 +107,8 @@
             <div class="x_content">
                 <div class="row" style="border-top: solid #ACC0D8 1px;margin:5px 0px"></div>
                 <div class="row clearfix">
-                    <div class="col-md-12 column">
+                    <div class="col-md-12 column" id="inpatients">
+                    <div class="table-responsive">
                         <table id="datatable" class="table table-striped table-hover" style="font-size: 13px;cellspacing:15px;">
                             <thead>
                             <tr>
@@ -224,14 +148,9 @@
 
                             <td>
                               <a href="/inpatients/get_inpatient_detail?inpatient_id={{ patient.id }}" style="color:white">
-                                  <button class="btn btn-info btn-xs" style="margin:0px;color:white">信息管理</button>
+                                  <button class="btn btn-success btn-xs" style="margin:0px;color:white">信息管理</button>
                               </a>
-                              <a href="#upload_file_{{ forloop.counter }}" data-toggle="modal" style="color:white">
-                                  <button class="btn btn-info btn-xs" style="margin:0px;color:white">上传文件</button>
-                              </a>
-                              <a href="#check_file_{{ forloop.counter }}" data-toggle="modal" style="color:white">
-                                  <button class="btn btn-info btn-xs" style="margin:0px;color:white">查看文件</button>
-                              </a>
+
                               <a href="#delete_inpatient_{{ forloop.counter }}" data-toggle="modal" style="color:white">
                                   <button class="btn btn-warning btn-xs" style="margin:0px;color:white">出院</button>
                               </a>
@@ -240,6 +159,7 @@
                             {% endfor %}
                           </tbody>
                         </table>
+                    </div>
                     </div>
                 </div>
             </div>
@@ -251,10 +171,6 @@
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/js/select2.min.js"></script>
-
-
-
-
     <script type="text/javascript" src="{% static '/js/subjectEstablish.js' %}"></script>
     <script type="text/javascript" language="JavaScript">
 
@@ -375,6 +291,34 @@ function addLine() {
 
   });
 </script>
+
+
+
+    <script type="application/javascript">
+    function out_inpatient(inpatient_id) {
+        var formData = new FormData();
+        formData.append('inpatient_id',inpatient_id);
+        formData.append("csrfmiddlewaretoken", $("[name = 'csrfmiddlewaretoken']").val())
+        $.ajax({
+                type: 'POST',
+                url: "/inpatients/out_inpatient",
+                data:formData,
+                cache: false,
+                processData: false,
+                contentType: false,
+                dataType:'json',
+                success: function (data) {
+                    alert(data['message']);
+                },
+                error: function () {
+                    alert("上传失败！");
+                }
+            });
+    }
+
+    </script>
+
+
  <script type="application/javascript">
     function upload_progress_note(inpatient_id) {
         var formData = new FormData();
@@ -412,12 +356,25 @@ function addLine() {
                 contentType: false,
                 dataType:'json',
                 success: function (data) {
-                    alert(data['message']);
+                    inpatients = data['inpatients']
+                    for(var i = 0;i<inpatients.length;i++){
+                        str1 = "<tr>" +
+                        "<td>"+data.data[i].user_id + "</td>" +
+                        "<td>"+data.data[i].user_id + "</td>" +
+                        "<td>"+data.data[i].user_id + "</td>" +
+                        "</tr>";
+                $("#test").append(str1);
+            }
                 },
                 error: function () {
                     alert("上传失败！");
                 }
             });
+    }
+    function get_inpatients_by_type(hospitalized_type) {
+        $("#inpatients").load("/inpatients/get_inpatient_by_hospitalized_type .table-responsive",{"hospitalized_type":hospitalized_type,
+            'csrfmiddlewaretoken': $("[name = 'csrfmiddlewaretoken']").val()
+        });
     }
     </script>
 {% endblock %}

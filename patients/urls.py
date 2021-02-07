@@ -35,6 +35,7 @@ urlpatterns = [
     url(r'^subjectDetailInfo', views.subjectDetailInfo),
     # 管理住院信息
     url(r'^inpatientManage', views.get_all_inpatients_baseinfo),
+
     # 用来捕获未匹配成功的url
     url(r'', views.get_all_patients_baseinfo),
 

@@ -10,6 +10,7 @@ urlpatterns = [
     url(r'^get_all_inpatient_info', views.get_all_inpatient_info),
     # 获取住院患者详细信息
     url(r'^get_inpatient_detail', views.get_inpatient_detail),
+
     # 患者设置为出院
     url(r'^out_inpatient', views.out_inpatient),
     # 删除住院患者信息
@@ -20,5 +21,6 @@ urlpatterns = [
     url(r'^read_medical_advice', views.read_medical_advice),
     # =============deprecated==================
     url(r'^insert_medical_dict', views.insert_medical_dict),
-    url(r'^get', views.get),
+    url(r'^get_inpatient_by_hospitalized_type', views.get_inpatient_by_hospitalized_type),
+
 ]
