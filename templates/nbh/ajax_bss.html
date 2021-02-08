@@ -1350,12 +1350,18 @@
     let time = new Date();
     let suicide = false;
     let end_flag = 0;
-    let question_index = 1;
+    let question_index = 1 + {{ question_index }};
 
     $(document).ready(function () {
         $("input[type='radio']").labelauty();
-        $("div[class='bss_0_1']").show();
-
+        // $("div[class='bss_0_1']").show();
+        if(question_index > 38){
+            $("div[class='bss_0_1']").show();
+        }else{
+            const class_name = 'bss_' + (Math.floor((question_index + 1) / 2) - 1) + '_' + (((question_index - 1) % 2) + 1);
+            // alert(((question_index - 1) % 2) + 1);
+            $(this.getElementsByClassName(class_name)).show();
+        }
         $("#bss_0_1_submit").on('click', function () {
             if (document.bss_0_1.suicide_history.value === "") {
                 alert("问题不能为空！");
@@ -1792,7 +1798,7 @@
         const csrf = $('input[name="csrfmiddlewaretoken"]').val();
         $.ajax({
             url: 'http://' + location.host +
-                '/scales/test_submit?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}',
+                '/scales/self_tests_submit?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}',
             type: 'POST',
             dataType: 'JSON',
             async: true,
