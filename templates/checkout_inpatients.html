@@ -8,9 +8,7 @@
 <link rel="stylesheet" href="{% static '/css/tinyselect.css' %}">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/css/select2.min.css" rel="stylesheet"/>
 
-
-
-<style>
+    <style>
         .sel_beauty {
             background: #fafdfe;
             height: 33px;
@@ -116,10 +114,10 @@
 <!--                <h3>Form Elements</h3>-->
 <!--            </div>-->
 <!--        </div>-->
-        <div class="clearfix"></div>
+        <div class="clearfix"></div>get_inpatient_detail
         <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12">
-                <form name="modify_form" action="/inpatients/get_inpatient_detail?patient_id={{ patient_id }}">
+                <form name="modify_form" action="/inpatients/?patient_id={{ patient_id }}">
                     {% csrf_token %}
                     <div class="x_panel">
                         <div class="x_title">

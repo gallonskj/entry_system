@@ -45,7 +45,7 @@ def add_inpatient_info(request):
     patient_dao.set_inpatient_type(patient_id,HospitalizedState.INPATIENT)
     binpatient = inpatients_dao.BInpatientInfo(patient_id = patient_id,department = department,
                                                inpatient_area = inpatient_area,bed_number=bed_number,
-                                               in_date=in_date,in_time=in_time,inpatient_number = inpatient_number)
+                                               in_date=in_date,in_time=in_time,inpatient_number = inpatient_number,inpatient_state = HospitalizedState.INPATIENT)
     binpatient.save()
 
     redirect_url = '/inpatients/get_all_inpatient_info?inpatient_id={}'.format(str(binpatient.id))
@@ -76,6 +76,7 @@ def out_inpatient(request):
         patient.inpatient_state = HospitalizedState.OUT_HOSPITAL
         patient_dao.add_base_info(patient)
         inpatient.out_date = out_date
+        inpatient.inpatient_state = HospitalizedState.OUT_HOSPITAL
         inpatient.save()
         res_message = SuccessMessage('修改成功')
 

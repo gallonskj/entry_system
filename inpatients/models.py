@@ -23,6 +23,7 @@ class BInpatientInfo(models.Model):
     out_record = models.FileField(upload_to=get_out_record_direct)
     progress_note = models.FileField(upload_to=get_progress_note_direct)
     medical_advice_path = models.FileField(upload_to=get_medical_advice_direct)
+    inpatient_state = models.IntegerField(blank=True, null=True)
     create_time = models.DateTimeField(auto_now_add=True)
     update_time = models.DateTimeField(auto_now=True)
 
