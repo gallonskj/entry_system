@@ -44,7 +44,7 @@
                             <input type="file" id="medical_advice" name="medical_advice" class="col-md-4 col-md-offset-4"/>
                         </form>
                         <br>
-                        <button id="import_medical_advice" onclick="upload_medical_advice({{ patient.id }})" >导入</button>
+                        <button id="import_medical_advice" onclick="upload_medical_advice({{ inpatient_detail.id }})" >导入</button>
                 </div>
             </div>
             <div class="modal-footer">
@@ -78,7 +78,7 @@
                             {% csrf_token %}
                             <p>上传病程记录<input type="file" id="progress_note" name="progress_note"/></p>
                         </form>
-                        <button id="import_progress_note" onclick="upload_progress_note({{ patient.id }})">导入</button>
+                        <button id="import_progress_note" onclick="upload_progress_note({{ inpatient_detail.id }})">导入</button>
                     </div>
                 </div>
             </div>
@@ -117,7 +117,7 @@
         <div class="clearfix"></div>get_inpatient_detail
         <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12">
-                <form name="modify_form" action="/inpatients/?patient_id={{ patient_id }}">
+                <form name="modify_form" action="/inpatients/update_inpatient_info?inpatient_id={{ inpatient_detail.id }}" method="POST">
                     {% csrf_token %}
                     <div class="x_panel">
                         <div class="x_title">
@@ -308,7 +308,7 @@
                                         <button class="btn btn-danger" align="center">上传</button>
                                     </a>
                                     <div class="ln_solid"></div>
-                                    <button type="button" class="btn btn-success">查看</button>
+                                    <a href="{{ inpatient_detail|get_progress_note_url }}">查看</a>
                                 </div>
                             </div>
                         </form>
@@ -489,15 +489,7 @@ function addLine() {
                 contentType: false,
                 dataType:'json',
                 success: function (data) {
-                    inpatients = data['inpatients']
-                    for(var i = 0;i<inpatients.length;i++){
-                        str1 = "<tr>" +
-                        "<td>"+data.data[i].user_id + "</td>" +
-                        "<td>"+data.data[i].user_id + "</td>" +
-                        "<td>"+data.data[i].user_id + "</td>" +
-                        "</tr>";
-                $("#test").append(str1);
-            }
+                    alert(data['message'])
                 },
                 error: function () {
                     alert("上传失败！");

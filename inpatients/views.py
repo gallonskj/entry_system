@@ -48,7 +48,20 @@ def add_inpatient_info(request):
                                                in_date=in_date,in_time=in_time,inpatient_number = inpatient_number,inpatient_state = HospitalizedState.INPATIENT)
     binpatient.save()
 
-    redirect_url = '/inpatients/get_all_inpatient_info?inpatient_id={}'.format(str(binpatient.id))
+    redirect_url = '/inpatients/get_inpatient_detail?inpatient_id={}'.format(str(binpatient.id))
+    return redirect(redirect_url)
+
+def update_inpatient_info(request):
+    department = request.POST.get("department")
+    inpatient_area = request.POST.get("inpatient_area")
+    bed_number = request.POST.get("bed_number")
+    in_date = request.POST.get("in_date")
+    inpatient_number = request.POST.get('inpatient_number')
+    inpatient_id = request.GET.get('inpatient_id')
+    inpatient = inpatients_dao.get_inpatient_info_byPK(inpatient_id)
+    inpatient = set_attr_by_post(request,inpatient)
+    inpatient.save()
+    redirect_url = '/inpatients/get_inpatient_detail?inpatient_id={}'.format(str(inpatient.id))
     return redirect(redirect_url)
 
 # 住院患者设置为出院状态
@@ -228,6 +241,11 @@ def get_inpatient_by_hospitalized_type(request):
 def get_drugs_by_medical_treatment(request):
     inpatient_id = request.GET.get('inpatient_id')
 
+def set_attr_by_post(request, _object):
+    for key in request.POST.keys():
+        if hasattr(_object, key) and request.POST.get(key) != '':
+            setattr(_object, key, request.POST.get(key))
+    return _object
 # ===========deprecated============上传出院信息文件
 def upload_out_record(request):
     '''

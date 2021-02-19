@@ -19,6 +19,7 @@ urlpatterns = [
     url(r'^upload_progress_note', views.upload_progress_note),
     # 读取医嘱记录信息
     url(r'^read_medical_advice', views.read_medical_advice),
+    url(r'^update_inpatient_info', views.update_inpatient_info),
     # =============deprecated==================
     url(r'^insert_medical_dict', views.insert_medical_dict),
     url(r'^get_inpatient_by_hospitalized_type', views.get_inpatient_by_hospitalized_type),
