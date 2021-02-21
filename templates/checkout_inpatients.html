@@ -167,7 +167,11 @@
                                                     class="required">*:</span></label>
                                             <div id="sex" class="col-md-8 col-sm-8 col-xs-12"
                                                  style="padding-top: 7px;margin-bottom: 0;text-align: left">
-                                                {{ inpatient_detail.patient.sex }}
+                                         {% if  inpatient_detail.patient.sex == 0 %}
+                                                男
+                                         {% else %}
+                                                女
+                                         {% endif %}
                                             </div>
                                         </div>
 
@@ -194,7 +198,8 @@
                                                    for="patient_id">入院日<span class="required">*:</span></label>
                                             <div id="in_date" class="col-md-8 col-sm-8 col-xs-12"
                                                  style="padding-top: 7px;margin-bottom: 0;text-align: left">
-                                                <input type="text" name="in_date" class="sel_beauty" value="{{ inpatient_detail.in_date|processNone }}">
+                                                <input type="date" name="in_date" class="sel_beauty"
+                                           value="{{ inpatient_detail.in_date }}"/>
                                             </div>
                                         </div>
                                         </div>
@@ -211,13 +216,6 @@
                                         </div>
                                     </div>
 
-
-
-                                    <!--姓名-->
-
-
-
-                                    <!--性别-->
                                     <div class="row">
                                         <div class="col-md-6">
                                         <div class="form-group">
@@ -242,10 +240,6 @@
                                         </div>
 
                                     </div>
-                                    <!--病区-->
-
-
-                                    <!--住院号-->
                                     <div class="row">
                                         <div class="col-md-6">
                                         <div class="form-group">
@@ -263,13 +257,13 @@
                                                    for="patient_id">出院日<span class="required">*:</span></label>
                                             <div id="out_date" class="col-md-8 col-sm-8 col-xs-12"
                                                  style="padding-top: 7px;margin-bottom: 0;text-align: left">
-                                                <input type="text" name="out_date" class="sel_beauty" value="{{ inpatient_detail.out_date|processNone }}">
+                                                 <input type="date" name="out_date" class="sel_beauty"
+                                           value="{{ inpatient_detail.out_date }}"/>
                                             </div>
                                         </div>
                                     </div>
                                     </div>
 
-                                    <!--出院日-->
 
                                     <div class="row" style="text-align: center;margin-top: 30px;" >
                                         <input type="submit" class="btn btn-success" id="change_detail" value="保存修改"/>
@@ -287,7 +281,7 @@
                             <h2>查看文件信息 </h2>
                             <div class="clearfix"></div>
                         </div>
-                        <div class="x_content">
+                        <div class="x_content" id ="show_files">
                             <a href="/inpatients/read_medical_advice?inpatient_id={{ inpatient_detail.id }}">
                                 <button type="button" class="btn btn-success">长期医嘱单</button>
                             </a>
@@ -376,7 +370,6 @@
         var inpatient_id ={{ inpatient_detail.id }}
         var formData = new FormData();
         formData.append('inpatient_id', inpatient_id)
-        alert(document.getElementById("input-23"))
         formData.append('medical_advice', document.getElementById("input-23").files[0])
         formData.append("csrfmiddlewaretoken", $("[name = 'csrfmiddlewaretoken']").val())
         $.ajax({
@@ -412,6 +405,8 @@
             dataType: 'json',
             success: function (data) {
                 alert(data['message'])
+                window.location.reload(true);
+
             },
             error: function () {
                 alert("上传失败！");
@@ -543,54 +538,13 @@ function addLine() {
 
 </script>
 <script type="application/javascript">
-    function upload_progress_note(inpatient_id) {
-        var formData = new FormData();
-            formData.append('inpatient_id',inpatient_id);
-            formData.append('progress_note',document.getElementById("progress_note").files[0])
-            formData.append("csrfmiddlewaretoken", $("[name = 'csrfmiddlewaretoken']").val())
-            $.ajax({
-                type: 'POST',
-                url: "/inpatients/upload_progress_note",
-                data:formData,
-                cache: false,
-                processData: false,
-                contentType: false,
-                dataType:'json',
-                success: function (data) {
-                    alert(data['message']);
-                },
-                error: function () {
-                    alert("上传失败！");
-                }
-            });
-    }
-
-     function upload_medical_advice(inpatient_id) {
-        var formData = new FormData();
-            formData.append('inpatient_id',inpatient_id);
-            formData.append('medical_advice',document.getElementById("medical_advice").files[0])
-            formData.append("csrfmiddlewaretoken", $("[name = 'csrfmiddlewaretoken']").val())
-            $.ajax({
-                type: 'POST',
-                url: "/inpatients/upload_medical_advice",
-                data:formData,
-                cache: false,
-                processData: false,
-                contentType: false,
-                dataType:'json',
-                success: function (data) {
-                    alert(data['message'])
-                },
-                error: function () {
-                    alert("上传失败！");
-                }
-            });
-    }
     function get_inpatients_by_type(hospitalized_type) {
         $("#inpatients").load("/inpatients/get_inpatient_by_hospitalized_type .table-responsive",{"hospitalized_type":hospitalized_type,
             'csrfmiddlewaretoken': $("[name = 'csrfmiddlewaretoken']").val()
         });
     }
+
+
 
 
 
