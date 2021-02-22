@@ -314,7 +314,7 @@ def get_self_test_forms(request):
     patient_session_id = request.GET.get('patient_session_id')
     patient_id = request.GET.get('patient_id')
     scale_id = scales_dao.get_min_unfinished_scale(2, patient_session_id, 10)
-    redirect_url = '/scales/self_tests?scale_id={}&patient_session_id={}&patient_id={}'.format(str(scale_id),
+    redirect_url = '/scales/get_self_tests?scale_id={}&patient_session_id={}&patient_id={}'.format(str(scale_id),
                                                                                                str(patient_session_id),
                                                                                                str(patient_id))
     return redirect(redirect_url)
@@ -1602,7 +1602,7 @@ def self_tests_submit(request):
     if flag == '1':
         print('do flush')
         # 计算当前量表总分
-        scales_dao.self_tests_total_score(scale_id, ajax_buffer[patient_session_id][test_name])
+        scales_dao.self_tests_total_score(int(scale_id), ajax_buffer[patient_session_id][test_name])
         # 保存
         ajax_buffer[patient_session_id][test_name].save()
         RSelfTestDuration.objects.bulk_create(duration_buffer)
@@ -1634,7 +1634,7 @@ def get_next_self_scale_url(request):
         next_test_url = '/scales/select_scales?patient_session_id={}&patient_id={}'.format(str(patient_session_id),
                                                                                            str(patient_id))
     else:
-        next_test_url = '/scales/self_tests?scale_id={}&patient_session_id={}&patient_id={}'.format(str(scale_id), str(
+        next_test_url = '/scales/get_self_tests?scale_id={}&patient_session_id={}&patient_id={}'.format(str(scale_id), str(
             patient_session_id), str(patient_id))
     print(next_test_url)
     return render(request, 'warning.html', {
