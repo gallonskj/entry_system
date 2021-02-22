@@ -128,7 +128,7 @@ class BPatientRtms(models.Model):
     patient_session = models.OneToOneField('DPatientDetail', models.DO_NOTHING)
     treatment_num = models.IntegerField()
     treatment_date = models.DateField()
-    therapeutic_target = models.IntegerField(blank=True, null=True)
+    therapeutic_target = models.TextField(blank=True, null=True)
     times_per_day = models.IntegerField(blank=True, null=True)
     total_num = models.IntegerField()
     resting_motor_threshold = models.IntegerField()

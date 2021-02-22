@@ -301,42 +301,7 @@ UNLOCK TABLES;
 --
 -- Table structure for table `b_patient_rtms`
 --
-
-DROP TABLE IF EXISTS `b_patient_rtms`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `b_patient_rtms` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `patient_session_id` int(11) DEFAULT NULL,
-  `treatment_num` int(11) DEFAULT NULL,
-  `treatment_date` date DEFAULT NULL,
-  `therapeutic_target` tinyint(4) DEFAULT NULL,
-  `times_per_day` tinyint(4) DEFAULT NULL,
-  `total_num` int(11) DEFAULT NULL,
-  `resting_motor_threshold` int(11) DEFAULT NULL,
-  `intensity` int(11) DEFAULT NULL,
-  `frequency` int(11) DEFAULT NULL,
-  `pulses` int(11) DEFAULT NULL,
-  `stimulation_time` int(11) DEFAULT NULL,
-  `inter_train_intervals` int(11) DEFAULT NULL,
-  `pulse_trains` int(11) DEFAULT NULL,
-  `total_pulses` int(11) DEFAULT NULL,
-  `total_time_minute` int(11) DEFAULT NULL,
-  `total_time_second` int(11) DEFAULT NULL,
-  `note` text,
-  `doctor_id` int(11) DEFAULT NULL,
-  `create_time` datetime NOT NULL,
-  `update_time` datetime NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `doctor_id` (`doctor_id`),
-  KEY `patient_session_id` (`patient_session_id`),
-  CONSTRAINT `b_patient_rtms_ibfk_1` FOREIGN KEY (`doctor_id`) REFERENCES `s_user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=188 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `b_patient_rtms`
---
+.
 
 LOCK TABLES `b_patient_rtms` WRITE;
 /*!40000 ALTER TABLE `b_patient_rtms` DISABLE KEYS */;
