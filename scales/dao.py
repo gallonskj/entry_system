@@ -829,6 +829,7 @@ def get_or_default_patient_happiness_byPatientDetailId(patient_detail_id, doctor
                                                doctor_id=doctor_id,
                                                scale_id=14)
     else:
+
         return patient_happiness[0]
 
 
@@ -925,3 +926,30 @@ def self_tests_total_score(scale_id, obj):
             obj)
     elif scale_id == 20:
         obj.total_score, object_flag = tools_calculatingScores.ATQ_total_score(obj)
+
+
+def get_or_default_self_tests_obj_by_scale_id(scale_id, patient_session_id, doctor_id):
+    if scale_id == 11:
+        return get_or_default_patient_YBO_byPatientDetailId(patient_session_id, doctor_id)
+    elif scale_id == 12:
+        return get_or_default_patient_suicidal_byPatientDetailId(patient_session_id, doctor_id)
+    elif scale_id == 13:
+        return get_or_default_patient_manicSymptom_byPatientDetailId(patient_session_id, doctor_id)
+    elif scale_id == 14:
+        return get_or_default_patient_happiness_byPatientDetailId(patient_session_id, doctor_id)
+    elif scale_id == 15:
+        return get_or_default_patient_pleasure_byPatientDetailId(patient_session_id, doctor_id)
+    elif scale_id == 16:
+        return get_or_default_patient_growth_byPatientDetailId(patient_session_id, doctor_id)
+    elif scale_id == 17:
+        return get_or_default_patient_cognitive_byPatientDetailId(patient_session_id, doctor_id)
+    elif scale_id == 18:
+        return get_or_default_patient_adolescent_byPatientDetailId(patient_session_id, doctor_id)
+    elif scale_id == 19:
+        return get_or_default_patient_SEmbu_byPatientDetailId(patient_session_id, doctor_id)
+    elif scale_id == 20:
+        return get_or_default_patient_ATQ_byPatientDetailId(patient_session_id, doctor_id)
+
+
+def del_duration_by_scale_id(patient_session_id, scale_id):
+    scales_models.RSelfTestDuration.objects.filter(patient_session_id=patient_session_id, scale_id=scale_id).delete()

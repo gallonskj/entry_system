@@ -6,7 +6,7 @@ import tools.config as tools_config
 import patients.dao as patients_dao
 import tools.Utils as tools_utils
 import patients.models  as patients_models
-
+from .models import RSelfTestDuration
 '''
 跳过量表:跳到下一个未完成的量表
 
@@ -1419,18 +1419,18 @@ def get_check_vept_form(request):
                                                   'order': order})
 
 
-def test(request):
+def get_self_tests(request):
     patient_session_id = request.GET.get('patient_session_id')
     patient_id = request.GET.get('patient_id')
     scale_id = int(request.GET.get('scale_id'))
     session_id = patients_dao.get_patient_detail_byPatientId(patient_session_id)
-    get_page_url = tools_config.scales_html_dict[scale_id]
-    return render(request, get_page_url, {"patient_session_id": patient_session_id,
-
-                                          "patient_id": patient_id,
-                                          'scale_id': scale_id,
-                                          'session_id': session_id,
-                                          'username': request.session.get('username')})
+    page_url = tools_config.scales_html_dict[scale_id]
+    return render(request, page_url, {"patient_session_id": patient_session_id,
+                                      "patient_id": patient_id,
+                                      'scale_id': scale_id,
+                                      'session_id': session_id,
+                                      'question_index': 0,
+                                      'username': request.session.get('username')})
 
 def redo_self_scale(request):
     patient_session_id = request.GET.get('patient_session_id')
@@ -1449,11 +1449,10 @@ ajax_buffer = {}
 duration_buffer = []
 
 
-def test_submit(request):
-    from .models import RSelfTestDuration
-    """取patient——session_id"""
+def self_tests_submit(request):
+    print('================================')
     patient_session_id = request.GET.get('patient_session_id')
-    # patient_id = request.GET.get('patient_id')
+    patient_id = request.GET.get('patient_id')
     scale_id = request.GET.get('scale_id')
     doctor_id = request.session.get('doctor_id')
     '''取POST中的表单信息'''
@@ -1496,6 +1495,7 @@ def test_submit(request):
             setattr(ajax_buffer[patient_session_id][test_name], attribute,
                     attribute_value[attribute_name.index(attribute)])
             print('set attribute successs')
+            ajax_buffer[patient_session_id][scale_id] = question_index
     duration_buffer.append(RSelfTestDuration(patient_session_id=patient_session_id,
                                              scale_id=scale_id,
                                              question_index=question_index,
@@ -1742,3 +1742,38 @@ def get_next_self_scale_id(patient_session_id, cur_scale_id):
     if min_unfinished_scale is None:
         return None
     return min_unfinished_scale
+
+
+def get_previous_self_tests(request):
+    patient_session_id = request.GET.get('patient_session_id')
+    patient_id = request.GET.get('patient_id')
+    scale_id = int(request.GET.get('scale_id'))
+    question_index = ajax_buffer[patient_session_id][scale_id]
+    session_id = patients_dao.get_patient_detail_byPatientId(patient_session_id)
+    page_url = tools_config.scales_html_dict[scale_id]
+    return render(request, page_url, {"patient_session_id": patient_session_id,
+                                      "patient_id": patient_id,
+                                      'scale_id': scale_id,
+                                      'question_index': question_index,
+                                      'session_id': session_id,
+                                      'username': request.session.get('username')})
+
+
+def redo_self_tests(request):
+    patient_session_id = request.GET.get('patient_session_id')
+    scale_id = int(request.GET.get('scale_id'))
+    doctor_id = request.session.get('doctor_id')
+    # 判断是做完了重做（记录在数据库中）还是做了一半重做（记录在缓存中）
+    # 判断缓存中是否有这个病人 如果有则看一下相应的量表对象是否存在
+    if patient_session_id not in ajax_buffer.keys() or ajax_buffer[patient_session_id][scale_id] is None:
+        # 不在缓存 那就是在数据库 将以前的对象取出来  不存在则创建一个新的
+        ajax_buffer[patient_session_id][scale_id] = scales_dao.get_or_default_self_tests_obj_by_scale_id(scale_id,
+                                                                                                         patient_session_id,
+                                                                                                         doctor_id)
+    # 否则量表数据就在缓存中 这个时候缓存中已经确保有量表对象了
+    # 更改量表的完成状态为未完成
+    scales_dao.update_rscales_state(patient_session_id, scale_id, 0)
+    # 删除之前的相应时记录
+    scales_dao.del_duration_by_scale_id(patient_session_id, scale_id)
+    # 跳转到相应的页面就可以了
+    return redirect(get_self_tests)
