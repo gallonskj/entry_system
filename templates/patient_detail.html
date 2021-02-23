@@ -155,13 +155,15 @@
                                                     {% if scale_detail|get_item:'state' == 1 %}
                                                         <td>{{ scale_detail|get_item:'end_time' }}</td>
                                                         <td>已完成</td>
-                                                        <td><a href={{ scale_detail|get_self_scale_url }}>重做</a></td>
-                                                        <td>-</td>
+                                                        <td><a href='scales/redo_self_tests?patient_session_id={{ scale_detail|get_item:'patient_session_id' }}&scale_id = {{ scale_id }}'>重做</a></td>
+                                                        <td><a href={{ scale_detail|get_self_check_scale_url }}>查看</a></td>
+
                                                     {% else %}
                                                         <td>-</td>
                                                         <td>未完成</td>
                                                         <td><a href={{ scale_detail|get_self_scale_url }}>续做</a></td>
                                                         <td>-</td>
+
                                                     {% endif %}
                                                 </tr>
                                             {% endif %}
@@ -295,6 +297,7 @@
                 </ul>
             </div>
         </div>
+
         <div class="row x_panel">
             <div class="col-md-12 col-xs-12">
 
@@ -481,6 +484,7 @@
                                             </div>
                                         {% endif %}
                                     </div>
+
                                 </div>
                                 <div class="col-md-1"></div>
                             </div>
@@ -493,6 +497,7 @@
                 </form>
             </div>
         </div>
+
         <div class="row x_panel">
             <div class="col-md-12 col-xs-12">
                 <div class="x_panel">

@@ -301,6 +301,7 @@
            if(order==0) {
                $("#last_scale").attr("style", "display:none;");
            }
+
            if('{{ hama_answer }}'!='None') {
                if ('{{ hama_answer.anxiety }}' != 'None') {
                    $("input[name='anxiety'][value=" + Number({{ hama_answer.anxiety }}) + "]").prop("checked", true);

@@ -955,3 +955,87 @@ class RSelfTestDuration(models.Model):
     class Meta:
         managed = False
         db_table = 'r_self_test_duration'
+
+class RPatientPss(models.Model):
+    patient_session = models.ForeignKey(DPatientDetail, models.DO_NOTHING)
+    scale = models.ForeignKey(DScales, models.DO_NOTHING)
+    question1_answer = models.IntegerField(blank=True, null=True)
+    question2_answer = models.IntegerField(blank=True, null=True)
+    question3_answer = models.IntegerField(blank=True, null=True)
+    question4_answer = models.IntegerField(blank=True, null=True)
+    question5_answer = models.IntegerField(blank=True, null=True)
+    question6_answer = models.IntegerField(blank=True, null=True)
+    question7_answer = models.IntegerField(blank=True, null=True)
+    question8_answer = models.IntegerField(blank=True, null=True)
+    question9_answer = models.IntegerField(blank=True, null=True)
+    question10_answer = models.IntegerField(blank=True, null=True)
+    question11_answer = models.IntegerField(blank=True, null=True)
+    question12_answer = models.IntegerField(blank=True, null=True)
+    question13_answer = models.IntegerField(blank=True, null=True)
+    total_score = models.IntegerField(blank=True, null=True)
+    doctor = models.ForeignKey('users.Suser', models.DO_NOTHING)
+    create_time = models.DateTimeField()
+    update_time = models.DateTimeField()
+
+    class Meta:
+        managed = False
+        db_table = 'r_patient_pss'
+
+class RPatientInsomnia(models.Model):
+    patient_session = models.ForeignKey(DPatientDetail, models.DO_NOTHING)
+    scale = models.ForeignKey(DScales, models.DO_NOTHING)
+    question1_answer = models.IntegerField(blank=True, null=True)
+    question2_answer = models.IntegerField(blank=True, null=True)
+    question3_answer = models.IntegerField(blank=True, null=True)
+    question4_answer = models.IntegerField(blank=True, null=True)
+    question5_answer = models.IntegerField(blank=True, null=True)
+    question6_answer = models.IntegerField(blank=True, null=True)
+    question7_answer = models.IntegerField(blank=True, null=True)
+    total_score = models.IntegerField(blank=True, null=True)
+    doctor = models.ForeignKey('users.Suser', models.DO_NOTHING)
+    create_time = models.DateTimeField()
+    update_time = models.DateTimeField()
+
+    class Meta:
+        managed = False
+        db_table = 'r_patient_insomnia'
+
+class RPatientPhq(models.Model):
+    patient_session = models.ForeignKey(DPatientDetail, models.DO_NOTHING)
+    scale = models.ForeignKey(DScales, models.DO_NOTHING)
+    question1_answer = models.IntegerField(blank=True, null=True)
+    question2_answer = models.IntegerField(blank=True, null=True)
+    question3_answer = models.IntegerField(blank=True, null=True)
+    question4_answer = models.IntegerField(blank=True, null=True)
+    question5_answer = models.IntegerField(blank=True, null=True)
+    question6_answer = models.IntegerField(blank=True, null=True)
+    question7_answer = models.IntegerField(blank=True, null=True)
+    question8_answer = models.IntegerField(blank=True, null=True)
+    question9_answer = models.IntegerField(blank=True, null=True)
+    total_score = models.IntegerField(blank=True, null=True)
+    doctor = models.ForeignKey('users.Suser', models.DO_NOTHING)
+    create_time = models.DateTimeField()
+    update_time = models.DateTimeField()
+
+    class Meta:
+        managed = False
+        db_table = 'r_patient_phq'
+
+class RPatientGad(models.Model):
+    patient_session = models.ForeignKey(DPatientDetail, models.DO_NOTHING)
+    scale = models.ForeignKey(DScales, models.DO_NOTHING)
+    question1_answer = models.IntegerField(blank=True, null=True)
+    question2_answer = models.IntegerField(blank=True, null=True)
+    question3_answer = models.IntegerField(blank=True, null=True)
+    question4_answer = models.IntegerField(blank=True, null=True)
+    question5_answer = models.IntegerField(blank=True, null=True)
+    question6_answer = models.IntegerField(blank=True, null=True)
+    question7_answer = models.IntegerField(blank=True, null=True)
+    total_score = models.IntegerField(blank=True, null=True)
+    doctor = models.ForeignKey('users.Suser', models.DO_NOTHING)
+    create_time = models.DateTimeField()
+    update_time = models.DateTimeField()
+
+    class Meta:
+        managed = False
+        db_table = 'r_patient_gad'

@@ -2,6 +2,7 @@ from inpatients.models import BInpatientInfo,BInpatientMedicalAdvice,DMedicalAdv
 # 根据inpatient_id获取对象
 def get_inpatient_info_byPK(inpatient_id):
     res = BInpatientInfo.objects.filter(pk = inpatient_id)
+    print(res.count())
     if res.exists():
         return res[0]
     return None
@@ -22,13 +23,16 @@ def get_in_time_by_patientid(patient_id):
         return res[0].in_time+1
 # 根据inpatient_id获取所有医嘱信息
 def get_mecical_advice(inpatient_id):
-    res = BInpatientMedicalAdvice.objects.filter(pk = inpatient_id)
-    return res
+    res = BInpatientMedicalAdvice.objects.filter(inpatient_id = inpatient_id)
+    if not res.exists():
+        return None,0
+    else:
+        return res,1
 
 # 获取所有住院患者信息
-def get_all_inpatient_info():
+def get_all_inpatient_info(types):
     # 进行联合查询,返回个人基本信息以及住院患者信息等
-    res = BInpatientInfo.objects.all().select_related('patient')
+    res = BInpatientInfo.objects.all().select_related('patient').filter(inpatient_state__in = types)
     if res.exists():
         return res
     return None

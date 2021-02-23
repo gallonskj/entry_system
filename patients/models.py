@@ -45,7 +45,6 @@ class BPatientBaseInfo(models.Model):
         managed = False
         db_table = 'b_patient_base_info'
 
-
 class DPatientDetail(models.Model):
     patient = models.ForeignKey(BPatientBaseInfo, models.DO_NOTHING, blank=True, null=True)
     session_id = models.IntegerField(blank=True, null=True)

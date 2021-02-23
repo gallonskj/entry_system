@@ -185,8 +185,15 @@
     });
     let time = new Date();
     let suicide = false;
-    let question_index = 1;
+    let question_index = 1 + {{ question_index }};
     let end_flag = 0;
+    if(question_index > 1){
+        $('#pre_questions').hide();
+        $('#question_form').show();
+        for(let index = 2 ; index < question_index ; index ++){
+            update_question(index - 1);
+        }
+    }
     $(document).ready(function () {
         $("input[type='radio']").labelauty();
 
@@ -369,7 +376,7 @@
         const csrf = $('input[name="csrfmiddlewaretoken"]').val();
         $.ajax({
             url: 'http://' + location.host +
-                '/scales/test_submit?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}',
+                '/scales/self_tests_submit?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}',
             type: 'POST',
             dataType: 'JSON',
             async: true,

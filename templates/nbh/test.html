@@ -12,18 +12,18 @@
         <input type="submit" value="上传">
     </form>
     <form enctype="multipart/form-data">
-        <p>上传出院记录<input type="file" id="out_record" name="out_record"/></p>
+        <p>上传病程记录<input type="file" id="progress_note" name="progress_note"/></p>
     </form>
         <button id="import">导入</button>
     <script type="application/javascript">
         $("#import").click(function () {
             var formData = new FormData();
-            formData.append('inpatient_id',2);
-            formData.append('out_record',document.getElementById("out_record").files[0])
+            formData.append('inpatient_id',5);
+            formData.append('progress_note',document.getElementById("progress_note").files[0])
             formData.append("csrfmiddlewaretoken", $("[name = 'csrfmiddlewaretoken']").val())
             $.ajax({
                 type: 'POST',
-                url: "/inpatients/upload_out_record",
+                url: "/inpatients/upload_progress_note",
                 data:formData,
                 cache: false,
                 processData: false,
