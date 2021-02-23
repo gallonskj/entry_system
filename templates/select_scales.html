@@ -74,7 +74,8 @@
                                     <label class="control-label col-md-4 col-sm-4 col-xs-6">民族 <span
                                             class="required">:</span></label>
                                     <p class="col-md-4 col-sm-4 col-xs-6"
-                                       style="padding-top: 7px;margin-bottom: 0;text-align: left">{{ patient_baseinfo.nation }}</p>
+                                       style="padding-top: 7px;margin-bottom: 0;text-align: left">{{ patient_baseinfo.nation }}
+                                    </p>
                                 </div>
 
                                 <div class="form-group">
@@ -291,6 +292,17 @@
                     <textarea class="col-md-8 col-sm-8 col-xs-8" rows="3" style="resize: none;border-color: #6688a8"
                               name="note">{{ patient_detail.note|processNone }}</textarea>
                 </div>
+
+                <div class="col-md-12">
+                    <a href="/patients/get_patient_detail?patient_id={{ patient_baseinfo.id }}" style="color:white" >
+                        <button class="btn danger btn-lg" type="button" style="margin:0px;color:red" >信息查询</button>
+                    </a>
+                </div>
+
+
+
+
+
                 <div></div>
                 <div class="col-md-12"
                      style="text-align: center;transform:translateY(50%);-ms-transform:translateY(50%);-webkit-transform:translateY(50%);">

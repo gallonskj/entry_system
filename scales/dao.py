@@ -567,6 +567,37 @@ def get_patient_ATQ_byPatientDetailId(patient_detail_id):
     else:
         return patient_ATQ[0]
 
+#PHQ-9
+def get_patient_PHQ_9_byPatientDetailId(patient_detail_id):
+    patient_PHQ_9 = scales_models.RPatientPhq.objects.filter(patient_session=patient_detail_id)
+    if patient_PHQ_9.count() == 0:
+        return None
+    else:
+        return patient_PHQ_9[0]
+
+#GAD_7
+def get_patient_GAD_7_byPatientDetailId(patient_detail_id):
+    patient_GAD_7 = scales_models.RPatientGad.objects.filter(patient_session=patient_detail_id)
+    if patient_GAD_7.count() == 0:
+        return None
+    else:
+        return patient_GAD_7[0]
+
+#失眠严重指数量表
+def get_patient_Insomnia_byPatientDetailId(patient_detail_id):
+    patient_insomnia = scales_models.RPatientInsomnia.objects.filter(patient_session=patient_detail_id)
+    if patient_insomnia.count() == 0:
+        return None
+    else:
+        return patient_insomnia[0]
+
+#压力知觉量表
+def get_patient_Pss_byPatientDetailId(patient_detail_id):
+    patient_Pss = scales_models.RPatientPss.objects.filter(patient_session=patient_detail_id)
+    if patient_Pss.count() == 0:
+        return None
+    else:
+        return patient_Pss[0]
 
 # 威斯康星WCST
 def get_patient_wcst_byPatientDetailId(patient_detail_id):

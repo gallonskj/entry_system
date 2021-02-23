@@ -925,6 +925,15 @@
 
                                 </div>
                             </div>
+                            <div class="row">
+                                 <div class="col-md-12 col-sm-12">
+                                     <a  style="float: left;font-weight: bold">最近一周总分：{{ bss_answer.total_score_lastweek|processNone }}</a>
+                                 </div>
+                                <div class="col-md-12 col-sm-12">
+                                     <a  style="float: left;font-weight: bold">最消沉总分：{{ bss_answer.total_score_mostdepressed|processNone }}</a>
+                                 </div>
+
+                            </div>
 
                             <div class="row" id="bt_group">
                                 <div class="col-md-4 col-sm-6 text-center">

@@ -250,6 +250,12 @@
                                 <div class="row show-grid" style="margin:10px">
                                     <input type="radio"  name="control_ability2" value=4 data-labelauty="4=完全无法控制。连耽搁一下的能力都没有"/>
                                 </div>
+
+                            </div>
+                             <div class="row">
+                                 <div class="col-md-12 col-sm-12">
+                                     <a  style="float: left;font-weight: bold">总分：{{ ybocs_answer.total_score|processNone }}</a>
+                                 </div>
                             </div>
                             <div class="row" id="bt_group">
                             <div class="col-md-4 col-sm-6 text-center">
@@ -277,7 +283,7 @@
 	          </div>
         </div>
     </div>
-     <script>
+    <script>
        function getData(){
         var order = "{{ order }}";
         if(order==0){{% comment %}第一个{% endcomment %}
@@ -294,13 +300,12 @@
             $("#next_scale").attr("style","display:block;");
         }
         if('{{ ybocs_answer }}'!='None') {
-
                    {#数据填充 读数据#}
                    if ('{{ ybocs_answer.forced_frequency }}' != 'None')
                    {
                        forced_frequency=Number({{ ybocs_answer.forced_frequency }})
                        $("input[name='forced_frequency'][value=" + forced_frequency + "]").prop("checked", true);
-                       if(forced_frequency==1){
+                       if(forced_frequency!=0){
                            $("#impediment_degree1").show();
                            $("#distress").show();
                            $("#fightforced_degree").show();
@@ -329,7 +334,7 @@
                    {
                        compulsion_frequency=Number({{ ybocs_answer.compulsion_frequency }})
                        $("input[name='compulsion_frequency'][value=" + compulsion_frequency + "]").prop("checked", true);
-                       if(compulsion_frequency==1){
+                       if(compulsion_frequency!=0){
                            $("#stopcompulsion_anxiety").show();
                            $("#impediment_degree2").show();
                            $("#stopforced_frequency").show();
