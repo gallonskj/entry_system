@@ -308,7 +308,23 @@
                                         </table>
                                     </div>
                                 </div>
-
+                                <div class="row">
+                                 <div class="col-md-12 col-sm-12">
+                                     <a  style="float: left;font-weight: bold">情感虐待总分：{{ ctq_sf_answer.emotion_abuse_score|processNone }}</a>
+                                 </div>
+                                    <div class="col-md-12 col-sm-12">
+                                     <a  style="float: left;font-weight: bold">躯体虐待总分：{{ ctq_sf_answer.body_abuse_score|processNone }}</a>
+                                 </div>
+                                    <div class="col-md-12 col-sm-12">
+                                     <a  style="float: left;font-weight: bold">性虐待总分：{{ ctq_sf_answer.sex_abuse_score|processNone }}</a>
+                                 </div>
+                                    <div class="col-md-12 col-sm-12">
+                                     <a  style="float: left;font-weight: bold">情感忽视总分：{{ ctq_sf_answer.emotion_ignore_score|processNone }}</a>
+                                 </div>
+                                    <div class="col-md-12 col-sm-12">
+                                     <a  style="float: left;font-weight: bold">躯体忽视总分：{{ ctq_sf_answer.body_ignore_score|processNone }}</a>
+                                 </div>
+                            </div>
 
                                 <div class="row" id="bt_group">
                                 <div class="col-md-4 col-sm-6 text-center">

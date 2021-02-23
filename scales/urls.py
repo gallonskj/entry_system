@@ -81,6 +81,7 @@ urlpatterns = [
     url(r'^get_check_cerq_c_form', views.get_cerq_c_form),
     url(r'^get_check_s_embu_form', views.get_s_embu_form),
     url(r'^get_check_atq_form', views.get_atq_form),
+    url(r'^get_check_phq_9_form', views.get_phq_9_form),
     url(r'^get_last_baseinfo_url', views.get_last_baseinfo_url),
     url(r'^get_next_baseinfo_url', views.get_next_baseinfo_url),
     url(r'^get_check_wcst_form', views.get_check_wcst_form),

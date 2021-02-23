@@ -249,6 +249,17 @@
                                     </table>
                                 </div>
                             </div>
+                               <div class="row">
+                                  <div class="col-md-12 col-sm-12">
+                                     <a  style="float: left;font-weight: bold">期待性总分：{{ teps_answer.expectation_score|processNone }}</a>
+                                 </div>
+                                   <div class="col-md-12 col-sm-12">
+                                     <a  style="float: left;font-weight: bold">消费性总分：{{ teps_answer.consume_score|processNone }}</a>
+                                 </div>
+                                 <div class="col-md-12 col-sm-12">
+                                     <a  style="float: left;font-weight: bold">总分：{{ teps_answer.total_score|processNone }}</a>
+                                 </div>
+                            </div>
 
                                <div class="row" id="bt_group">
                                 <div class="col-md-4 col-sm-6 text-center">

@@ -26,6 +26,10 @@ rbans = 22  # 重复成套性神经心理状态测验系统
 fept = 23  # 面孔情绪感知能力测试
 vept = 24  # 语音情绪感知能力测试
 mediacal_history = 25
+phq_9=29#PHQ-9
+gad_7=30#GAD-7
+insomnia=31#失眠严重指数量表
+pss=32#压力知觉量表
 '''#### 获取他评的题数 ####'''
 other_test_scale_num={
     '7': 17,#hamd_17
@@ -59,7 +63,11 @@ scales_html_dict = {1: '/scales/get_family_form',
                     22: '/scales/get_rbans_form',
                     23: '/scales/get_fept_form',
                     24: '/scales/get_vept_form',
-                    25: '/scales/get_patient_medical_history_form'
+                    25: '/scales/get_patient_medical_history_form',
+                    29: 'nbh/ajax_phq_9.html',
+                    30: 'nbh/ajax_gad_7.html',
+                    31: 'nbh/ajax_insomnia.html',
+                    32: 'nbh/ajax_pss.html',
                     }
 
 check_scales_html_dict = {7: '/scales/get_check_hamd_17_form',
@@ -80,7 +88,11 @@ check_scales_html_dict = {7: '/scales/get_check_hamd_17_form',
                           22: '/scales/get_check_rbans_form',
                           23: '/scales/get_check_fept_form',
                           24: '/scales/get_check_vept_form',
-                          25: '/scales/get_check_patient_medical_history_form'
+                          25: '/scales/get_check_patient_medical_history_form',
+                          29: '/scales/get_check_phq_9_form',
+                          30: '/scales/get_check_gad_7_form',
+                          31: '/scales/get_check_insomnia_form',
+                          32: '/scales/get_check_pss_form',
                     }
 
 general_info_type = 0

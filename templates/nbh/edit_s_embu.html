@@ -456,6 +456,26 @@
                                     </div>
                                 </div>
 
+                                <div class="row">
+                                 <div class="col-md-12 col-sm-12">
+                                     <a  style="float: left;font-weight: bold">母亲拒绝总分：{{ s_embu_answer.refusal_mother|processNone }}</a>
+                                 </div>
+                                    <div class="col-md-12 col-sm-12">
+                                     <a  style="float: left;font-weight: bold">父亲拒绝总分：{{ s_embu_answer.refusal_father|processNone }}</a>
+                                 </div>
+                                    <div class="col-md-12 col-sm-12">
+                                     <a  style="float: left;font-weight: bold">母亲情感温暖总分：{{ s_embu_answer.emotional_warmth_mother|processNone }}</a>
+                                 </div>
+                                    <div class="col-md-12 col-sm-12">
+                                     <a  style="float: left;font-weight: bold">父亲情感温暖总分：{{ s_embu_answer.emotional_warmth_father|processNone }}</a>
+                                 </div>
+                                    <div class="col-md-12 col-sm-12">
+                                     <a  style="float: left;font-weight: bold">母亲过度保护总分：{{ s_embu_answer.overprotection_mother|processNone }}</a>
+                                 </div>
+                                    <div class="col-md-12 col-sm-12">
+                                     <a  style="float: left;font-weight: bold">父亲过度保护总分：{{ s_embu_answer.overprotection_father|processNone }}</a>
+                                 </div>
+                            </div>
                            <div class="row" id="bt_group">
                                 <div class="col-md-4 col-sm-6 text-center">
                                     <a href="/scales/get_self_last_url?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}"

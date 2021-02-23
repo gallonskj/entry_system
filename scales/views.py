@@ -1673,7 +1673,7 @@ def get_aslec_form(request):
     patient_session_id = request.GET.get('patient_session_id')
     scale_id = tools_config.aslec
     scale_name_list, order = get_scale_order(patient_session_id, scale_id, tools_config.self_test_type)
-    aslec_answer = scales_dao.get_patient_growth_byPatientDetailId(patient_session_id)
+    aslec_answer = scales_dao.get_patient_adolescent_byPatientDetailId(patient_session_id)
     return render(request, 'nbh/edit_aslec.html', {'patient_session_id': request.GET.get('patient_session_id'),
                                                    'patient_id': request.GET.get('patient_id'),
                                                    'username': request.session.get('username'),
@@ -1714,6 +1714,23 @@ def get_atq_form(request):
                                                    'atq_answer': atq_answer,
                                                    'order': order,
                                                    })
+
+# 获取PHQ_9表单
+def get_phq_9_form(request):
+    patient_session_id = request.GET.get('patient_session_id')
+    scale_id = tools_config.phq_9
+    scale_name_list, order = get_scale_order(patient_session_id, scale_id, tools_config.self_test_type)
+    phq_9_answer = scales_dao.get_patient_PHQ_9_byPatientDetailId(patient_session_id)
+    return render(request, 'nbh/edit_phq_9.html', {'patient_session_id': request.GET.get('patient_session_id'),
+                                                   'patient_id': request.GET.get('patient_id'),
+                                                   'username': request.session.get('username'),
+                                                   'scale_name_list': scale_name_list,
+                                                   'scale_id': scale_id,
+                                                   'phq_9_answer': phq_9_answer,
+                                                   'order': order,
+                                                   })
+    return render(request, 'nbh/edit_phq_9.html')
+
 
 def get_self_last_url(request):
     patient_session_id = request.GET.get('patient_session_id')

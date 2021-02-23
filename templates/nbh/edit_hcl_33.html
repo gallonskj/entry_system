@@ -726,9 +726,14 @@
                                     <input type="radio" name="question10" value=1 data-labelauty="是"/>
                                 </div>
                                 <div class="row show-grid" style="margin: 5px">
-                                    <input type="radio" name="question10" value=1 data-labelauty="否"/>
+                                    <input type="radio" name="question10" value=0 data-labelauty="否"/>
                                 </div>
-
+                                <br>
+                                <div class="row">
+                                 <div class="col-md-12 col-sm-12">
+                                     <a  style="float: left;font-weight: bold">总分：{{ hcl_33_answer.total_score|processNone }}</a>
+                                 </div>
+                            </div>
 
                                 <div class="row" id="bt_group">
                                     <div class="col-md-4 col-sm-6 text-center">
@@ -835,7 +840,7 @@
                    $("input[name='question3_17'][value=" + Number({{ hcl_33_answer.question3_17 }}) + "]").prop("checked", true);
                }
                if ('{{ hcl_33_answer.question3_18 }}' != 'None') {
-                   $("input[name='question3_18'][value=" + Number({{ hcl_33_answer.question3_8 }}) + "]").prop("checked", true);
+                   $("input[name='question3_18'][value=" + Number({{ hcl_33_answer.question3_18 }}) + "]").prop("checked", true);
                }
                if ('{{ hcl_33_answer.question3_19 }}' != 'None') {
                    $("input[name='question3_19'][value=" + Number({{ hcl_33_answer.question3_19 }}) + "]").prop("checked", true);
@@ -901,7 +906,7 @@
                    $("input[name='question6_1'][value=" + Number({{ hcl_33_answer.question6_1 }}) + "]").prop("checked", true);
                }
                if ('{{ hcl_33_answer.question6_2 }}' != 'None') {
-                   $("input[name='question6_2'][value=" + Number({{ hcl_33_answer.question6_1 }}) + "]").prop("checked", true);
+                   $("input[name='question6_2'][value=" + Number({{ hcl_33_answer.question6_2 }}) + "]").prop("checked", true);
                }
                if ('{{ hcl_33_answer.question7 }}' != 'None') {
                    $("input[name='question7'][value=" + Number({{ hcl_33_answer.question7 }}) + "]").prop("checked", true);

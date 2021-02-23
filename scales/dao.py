@@ -567,7 +567,13 @@ def get_patient_ATQ_byPatientDetailId(patient_detail_id):
     else:
         return patient_ATQ[0]
 
-
+# #PHQ-9
+# def get_patient_PHQ_9_byPatientDetailId(patient_detail_id):
+#     patient_PHQ_9 = scales_models.RPatientAtq.objects.filter(patient_session=patient_detail_id)
+#     if patient_ATQ.count() == 0:
+#         return None
+#     else:
+#         return patient_ATQ[0]
 # 威斯康星WCST
 def get_patient_wcst_byPatientDetailId(patient_detail_id):
     patient_wcst = scales_models.RPatientWcst.objects.filter(patient_session=patient_detail_id)
