@@ -441,7 +441,8 @@ td {
     </script>
 
     <script language="javascript">
-
+var count=1;
+var del_count=1;
         function addLine() {
 
 
@@ -451,14 +452,12 @@ td {
             var num=idx-1
 
 
-
-
     col = row.insertCell(0);
     col.innerHTML = "<input type=number  value=" + idx + " name=treatment_num_" + newLine + ">";
     var col = row.insertCell(1);
     col.innerHTML = "<input type=date   name=treatment_date_" + newLine + ">";
     col = row.insertCell(2);
-    col.innerHTML = "<input type=text    name=therapeutic_target_" + newLine + ">";
+    col.innerHTML = "<input type=text required   name=therapeutic_target_" + newLine + ">";
     col = row.insertCell(3);
     var str2 = "";
     str2 += "<select tabindex=-1 style=font-size: 10px ; class=sel_beauty  form-control   name=times_per_day_" + newLine + ">"
@@ -469,76 +468,81 @@ td {
     str2 += "</select>";
     col.innerHTML = str2;
 
-    if(newLine<3) {
+
+var do_type = "{{ do_type }}";
+
+       if(newLine<3 ||(do_type=='1' &&count=='1')||del_count>1 ) {
+           count=2;
+           del_count=1;
     col = row.insertCell(4);
-    col.innerHTML = "<input type=number    name=total_num_" + newLine + ">";
+    col.innerHTML = "<input type=number   required name=total_num_" + newLine + ">";
     col = row.insertCell(5);
-    col.innerHTML = "<input  type=number   name=resting_motor_threshold_" + newLine + ">";
+    col.innerHTML = "<input  type=number  required name=resting_motor_threshold_" + newLine + ">";
     col = row.insertCell(6);
-    col.innerHTML = "<input  type=number    name=intensity_" + newLine + ">";
+    col.innerHTML = "<input  type=number   required name=intensity_" + newLine + ">";
     col = row.insertCell(7);
-    col.innerHTML = "<input type=number   name=frequency_" + newLine + ">";
+    col.innerHTML = "<input type=number  required name=frequency_" + newLine + ">";
     col = row.insertCell(8);
-    col.innerHTML = "<input type=number  name=pulses_" + newLine + ">";
+    col.innerHTML = "<input type=number required name=pulses_" + newLine + ">";
     col = row.insertCell(9);
-    col.innerHTML = "<input type=number   name=stimulation_time_" + newLine + ">";
+    col.innerHTML = "<input type=number required  name=stimulation_time_" + newLine + ">";
     col = row.insertCell(10);
-    col.innerHTML = "<input type=number   name=inter_train_intervals_" + newLine + ">";
+    col.innerHTML = "<input type=number  required  name=inter_train_intervals_" + newLine + ">";
     col = row.insertCell(11);
-    col.innerHTML = "<input type=number  name=pulse_trains_" + newLine + ">";
+    col.innerHTML = "<input type=number required name=pulse_trains_" + newLine + ">";
     col = row.insertCell(12);
-    col.innerHTML = "<input type=number   name=total_pulses_" + newLine + ">";
+    col.innerHTML = "<input type=number required  name=total_pulses_" + newLine + ">";
     col = row.insertCell(13);
-    col.innerHTML = "<input type=number    name=total_time_minute_" + newLine + ">";
+    col.innerHTML = "<input type=number  required  name=total_time_minute_" + newLine + ">";
     col = row.insertCell(14);
-    col.innerHTML = "<input type=number  name=total_time_second_" + newLine + ">";
+    col.innerHTML = "<input type=number required name=total_time_second_" + newLine + ">";
 
 }
+
 else
 {
 
-    var v1= document.getElementsByName("total_num_" + idx + "")[0].value;
+         var v1 = document.getElementsByName("total_num_" + idx + "")[0].value;
+         var v2 = document.getElementsByName("resting_motor_threshold_" + idx + "")[0].value;
+         var v3 = document.getElementsByName("intensity_" + idx + "")[0].value;
+         var v4 = document.getElementsByName("frequency_" + idx + "")[0].value;
+         var v5 = document.getElementsByName("pulses_" + idx + "")[0].value;
+         var v6 = document.getElementsByName("stimulation_time_" + idx + "")[0].value;
+         var v7 = document.getElementsByName("inter_train_intervals_" + idx + "")[0].value;
 
-    var v2= document.getElementsByName("resting_motor_threshold_" + idx + "")[0].value;
-    var v3= document.getElementsByName("intensity_" + idx + "")[0].value;
-    var v4= document.getElementsByName("frequency_" + idx + "")[0].value;
-    var v5= document.getElementsByName("pulses_" + idx + "")[0].value;
-    var v6= document.getElementsByName("stimulation_time_" + idx + "")[0].value;
-    var v7= document.getElementsByName("inter_train_intervals_" + idx + "")[0].value;
+         var v8 = document.getElementsByName("pulse_trains_" + idx + "")[0].value;
 
-    var v8= document.getElementsByName("pulse_trains_" + idx + "")[0].value;
+         var v9 = document.getElementsByName("total_pulses_" + idx + "")[0].value;
 
-    var v9= document.getElementsByName("total_pulses_" + idx + "")[0].value;
+         var v10 = document.getElementsByName("total_time_minute_" + idx + "")[0].value;
 
-    var v10= document.getElementsByName("total_time_minute_" + idx + "")[0].value;
+         var v11 = document.getElementsByName("total_time_second_" + idx + "")[0].value;
 
-    var v11= document.getElementsByName("total_time_second_" + idx + "")[0].value;
 
      col = row.insertCell(4);
-    col.innerHTML = "<input type=number    value=" + v1 + " name=total_num_" + newLine + ">";
+    col.innerHTML = "<input type=number required   value=" + v1 + " name=total_num_" + newLine + ">";
     col = row.insertCell(5);
-    col.innerHTML = "<input  type=number value=" + v2 + "  name=resting_motor_threshold_" + newLine + ">";
+    col.innerHTML = "<input  type=number required value=" + v2 + "  name=resting_motor_threshold_" + newLine + ">";
     col = row.insertCell(6);
-    col.innerHTML = "<input  type=number value=" + v3 + "   name=intensity_" + newLine + ">";
+    col.innerHTML = "<input  type=number required  value=" + v3 + "   name=intensity_" + newLine + ">";
     col = row.insertCell(7);
-    col.innerHTML = "<input type=number  value=" + v4 + " name=frequency_" + newLine + ">";
+    col.innerHTML = "<input type=number required  value=" + v4 + " name=frequency_" + newLine + ">";
     col = row.insertCell(8);
-    col.innerHTML = "<input type=number value=" + v5 + " name=pulses_" + newLine + ">";
+    col.innerHTML = "<input type=number required  value=" + v5 + " name=pulses_" + newLine + ">";
     col = row.insertCell(9);
-    col.innerHTML = "<input type=number  value=" + v6 + " name=stimulation_time_" + newLine + ">";
+    col.innerHTML = "<input type=number  required value=" + v6 + " name=stimulation_time_" + newLine + ">";
     col = row.insertCell(10);
-    col.innerHTML = "<input type=number  value=" + v7 + " name=inter_train_intervals_" + newLine + ">";
+    col.innerHTML = "<input type=number required   value=" + v7 + " name=inter_train_intervals_" + newLine + ">";
     col = row.insertCell(11);
-    col.innerHTML = "<input type=number  value=" + v8 + " name=pulse_trains_" + newLine + ">";
+    col.innerHTML = "<input type=number  required value=" + v8 + " name=pulse_trains_" + newLine + ">";
     col = row.insertCell(12);
-    col.innerHTML = "<input type=number  value=" + v9 + " name=total_pulses_" + newLine + ">";
+    col.innerHTML = "<input type=number required value=" + v9 + " name=total_pulses_" + newLine + ">";
     col = row.insertCell(13);
-    col.innerHTML = "<input type=number  value=" + v10 + "  name=total_time_minute_" + newLine + ">";
+    col.innerHTML = "<input type=number required value=" + v10 + "  name=total_time_minute_" + newLine + ">";
     col = row.insertCell(14);
-    col.innerHTML = "<input type=number value=" + v11 + "  name=total_time_second_" + newLine + ">";
+    col.innerHTML = "<input type=number  required value=" + v11 + "  name=total_time_second_" + newLine + ">";
 
 }
-
 
     col = row.insertCell(15);
     col.innerHTML = "<input type=text   name=note_" + newLine + ">";
@@ -557,6 +561,7 @@ else
         function delLine() {
             var i;
             var count;
+            del_count=del_count+1;
             count = planTable.rows.length;
             if (count > 2) {
                 planTable.deleteRow(planTable.rows.length - 1)
