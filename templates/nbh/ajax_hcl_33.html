@@ -138,6 +138,7 @@
 {% block js %}
 <script type="text/javascript" src="{% static '/js/jquery-radio-beauty.js'%}"></script>
 <script>
+    $("input[type='radio']").labelauty();
     // dom加载完毕
     const $m_btn = $('.exit_button');
     const $modal = $('#exit_confirm');
@@ -156,11 +157,32 @@
     let time = new Date();
     let question_index_1 = 1;
     let question_index_2 = 1;
-    let question_index = 1;
+    let question_index = 1 + {{ question_index }};
     let end_flag = 0;
+    if(question_index <= 2){
+        for(let index = 1 ; index < question_index ; index ++){
+            update_question_1(index);
+        }
+        question_index_1 = question_index;
+    }else if(question_index < 36){
+        question_index_1 = 3;
+        update_question_1(2);
+        $('#question_form_1').hide();
+        $('#question_form_2').show();
+        question_index_2 = question_index - 2;
+        for(let index = 1 ; index < question_index_2 ; index ++){
+            update_question_2(index);
+        }
+    }else{
+        question_index_1 = question_index - 33;
+        question_index_2 = 33;
+        for(let index = 1 ; index < question_index_1 ; index ++){
+            update_question_1(index);
+        }
+    }
 
     $(document).ready(function () {
-        $("input[type='radio']").labelauty();
+
         $("#question_submit_1").on('click', function () {
             if (question_index > 46) {
                 alert("请不要重复提交！");
@@ -515,7 +537,7 @@
         const csrf = $('input[name="csrfmiddlewaretoken"]').val();
         $.ajax({
             url: 'http://' + location.host +
-                '/scales/test_submit?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}',
+                '/scales/self_tests_submit?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}',
             type: 'POST',
             dataType: 'JSON',
             async: true,

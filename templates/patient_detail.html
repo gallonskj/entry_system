@@ -155,7 +155,7 @@
                                                     {% if scale_detail|get_item:'state' == 1 %}
                                                         <td>{{ scale_detail|get_item:'end_time' }}</td>
                                                         <td>已完成</td>
-                                                        <td><a href={{ scale_detail|get_self_scale_url }}>重做</a></td>
+                                                        <td><a href='scales/redo_self_tests?patient_session_id={{ scale_detail|get_item:'patient_session_id' }}&scale_id = {{ scale_id }}'>重做</a></td>
                                                         <td><a href={{ scale_detail|get_self_check_scale_url }}>查看</a></td>
 
                                                     {% else %}
@@ -288,68 +288,6 @@
         <!-- 认知表量表详细模态框 结束-->
 
     {% endfor %}
-<!-- tms详细模态框 开始 -->
-        {% for patient_detail in patient_detail_res %}
-        <div class="modal fade" id="modal_tms_{{ forloop.counter }}" role="dialog" aria-labelledby="myModalLabel"
-             aria-hidden="true">
-
-        {% comment %}<div class="modal fade" id="modal_tms_{{ session_id }}" role="dialog" aria-labelledby="myModalLabel"
-             aria-hidden="true">{% endcomment %}
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <form action="" method="post">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                            <h4 class="modal-title">
-                                tms治疗信息列表
-                            </h4>
-                        </div>
-                        <div class="modal-body">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <table class="table table-hover table-bordered" style="font-size: 10px;">
-                                        <thead>
-                                        <tr>
-                                            <th>测查种类</th>
-                                            <th>测查时间</th>
-                                            <th>状态</th>
-                                            <th>操作</th>
-                                            <th>查看</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <tr>
-                                            <td>tms治疗信息</td>
-                                            {% if  patient_detail.tms == 1 %}
-                                                <td>{{ patient_detail.update_time }}</td>
-                                                <td>已完成</td>
-                                                <td>
-                                                    <a href='/scales/get_rtms_forms?patient_session_id={{ patient_detail.id }}&patient_id={{ patient_detail.patient_id }}&do_type=0'>重做</a>
-                                                </td>
-
-                                                <td><a href='/scales/get_rtms_forms?patient_session_id={{ patient_detail.id }}&patient_id={{ patient_detail.patient_id }}&do_type=1'>查看</a></td>
-                                            {% else %}
-                                                <td>-</td>
-                                                <td>未完成</td>
-                                                <td>
-                                                    <a href='/scales/get_rtms_forms?patient_session_id={{ patient_detail.id }}&patient_id={{ patient_detail.patient_id }}&do_type=0'>续做</a>
-                                                </td>
-                                                <td>-</td>
-                                            {% endif %}
-                                        </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-        {% endfor %}
-        <!-- tms详细模态框 结束-->
-
-
     <div class="right_col" role="main">
         <div class="row " style="margin-left:-20px">
             <div class="col-md-12 col-sm-12 col-xs-12">
@@ -626,9 +564,15 @@
                                         <a href="#modal_cognitionTest_{{ patient_detail|get_item:'session_id' }}"
                                            data-toggle="modal">量表详情</a>
                                     </td>
-                                    <td>
-                                        <a href="#modal_tms_{{ forloop.counter }}" data-toggle="modal">tms治疗</a>
-                                    </td>
+                                            {% if  patient_detail.rtms_count == 0 %}
+                                                <td>
+                                                    <a href='/scales/get_rtms_forms?patient_session_id={{ patient_detail.id }}&patient_id={{ patient_detail.patient_id }}&do_type=0' data-toggle="modal">{{ patient_detail|get_item:'rtms_count' }}</a>
+                                                </td>
+                                            {% else %}
+                                                <td>
+                                                    <a href='/scales/get_rtms_forms?patient_session_id={{ patient_detail.id }}&patient_id={{ patient_detail.patient_id }}&do_type=1' data-toggle="modal">{{ patient_detail|get_item:'rtms_count' }}</a>
+                                                </td>
+                                            {% endif %}
                                     <td>
                                         <button class="btn btn-warning btn-xs">
 
