@@ -7,6 +7,7 @@ import patients.dao as patients_dao
 import tools.Utils as tools_utils
 import patients.models  as patients_models
 from .models import RSelfTestDuration
+
 '''
 跳过量表:跳到下一个未完成的量表
 
@@ -315,8 +316,9 @@ def get_self_test_forms(request):
     patient_id = request.GET.get('patient_id')
     scale_id = scales_dao.get_min_unfinished_scale(2, patient_session_id, 10)
     redirect_url = '/scales/get_self_tests?scale_id={}&patient_session_id={}&patient_id={}'.format(str(scale_id),
-                                                                                               str(patient_session_id),
-                                                                                               str(patient_id))
+                                                                                                   str(
+                                                                                                       patient_session_id),
+                                                                                                   str(patient_id))
     return redirect(redirect_url)
 
 
@@ -356,8 +358,6 @@ def get_select_scales(request):
                                                   "todo_cognition_scale_size": len(cognition_scale_list),
                                                   'tms': tms,
                                                   })
-
-
 
 
 '''
@@ -1432,6 +1432,7 @@ def get_self_tests(request):
                                       'question_index': 0,
                                       'username': request.session.get('username')})
 
+
 def redo_self_scale(request):
     patient_session_id = request.GET.get('patient_session_id')
     patient_id = request.GET.get('patient_id')
@@ -1444,6 +1445,7 @@ def redo_self_scale(request):
                                           'scale_id': scale_id,
                                           'session_id': session_id,
                                           'username': request.session.get('username')})
+
 
 ajax_buffer = {}
 duration_buffer = []
@@ -1528,11 +1530,13 @@ def self_tests_submit(request):
             ajax_buffer.pop(patient_session_id)
     return HttpResponse(request.POST)
 
-def get_next_self_scale_id(patient_session_id,cur_scale_id):
+
+def get_next_self_scale_id(patient_session_id, cur_scale_id):
     min_unfinished_scale = scales_dao.get_min_unfinished_scale(2, patient_session_id, cur_scale_id)
     if min_unfinished_scale is None:
         return None
     return min_unfinished_scale
+
 
 def get_next_self_scale_url(request):
     current_scale_id = request.GET.get('scale_id')
@@ -1543,8 +1547,10 @@ def get_next_self_scale_url(request):
         next_test_url = '/scales/select_scales?patient_session_id={}&patient_id={}'.format(str(patient_session_id),
                                                                                            str(patient_id))
     else:
-        next_test_url = '/scales/get_self_tests?scale_id={}&patient_session_id={}&patient_id={}'.format(str(scale_id), str(
-            patient_session_id), str(patient_id))
+        next_test_url = '/scales/get_self_tests?scale_id={}&patient_session_id={}&patient_id={}'.format(str(scale_id),
+                                                                                                        str(
+                                                                                                            patient_session_id),
+                                                                                                        str(patient_id))
     print(next_test_url)
     return render(request, 'warning.html', {
         "content": "当前量表已经完成",
@@ -1552,23 +1558,19 @@ def get_next_self_scale_url(request):
     })
 
 
-
-
-
-
 # 获取耶鲁布朗表单
 def get_ybocs_form(request):
     patient_session_id = request.GET.get('patient_session_id')
     scale_id = tools_config.ybocs
     scale_name_list, order = get_scale_order(patient_session_id, scale_id, tools_config.self_test_type)
-    ybocs_answer=scales_dao.get_patient_YBO_byPatientDetailId(patient_session_id)
+    ybocs_answer = scales_dao.get_patient_YBO_byPatientDetailId(patient_session_id)
     return render(request, 'nbh/edit_ybocs.html', {'patient_session_id': request.GET.get('patient_session_id'),
-                                                  'patient_id': request.GET.get('patient_id'),
-                                                  'username': request.session.get('username'),
-                                                  'scale_name_list': scale_name_list,
-                                                  'scale_id': scale_id,
-                                                  'ybocs_answer': ybocs_answer,
-                                                  'order': order,
+                                                   'patient_id': request.GET.get('patient_id'),
+                                                   'username': request.session.get('username'),
+                                                   'scale_name_list': scale_name_list,
+                                                   'scale_id': scale_id,
+                                                   'ybocs_answer': ybocs_answer,
+                                                   'order': order,
                                                    })
 
 
@@ -1579,13 +1581,13 @@ def get_bss_form(request):
     scale_name_list, order = get_scale_order(patient_session_id, scale_id, tools_config.self_test_type)
     bss_answer = scales_dao.get_patient_suicidal_byPatientDetailId(patient_session_id)
     return render(request, 'nbh/edit_bss.html', {'patient_session_id': request.GET.get('patient_session_id'),
-                                                  'patient_id': request.GET.get('patient_id'),
-                                                  'username': request.session.get('username'),
-                                                  'scale_name_list': scale_name_list,
-                                                  'scale_id': scale_id,
-                                                  'bss_answer': bss_answer,
-                                                  'order': order,
-                                                   })
+                                                 'patient_id': request.GET.get('patient_id'),
+                                                 'username': request.session.get('username'),
+                                                 'scale_name_list': scale_name_list,
+                                                 'scale_id': scale_id,
+                                                 'bss_answer': bss_answer,
+                                                 'order': order,
+                                                 })
 
 
 # 获取33项轻躁狂表单
@@ -1595,13 +1597,13 @@ def get_hcl_33_form(request):
     scale_name_list, order = get_scale_order(patient_session_id, scale_id, tools_config.self_test_type)
     hcl_33_answer = scales_dao.get_patient_manicSymptom_byPatientDetailId(patient_session_id)
     return render(request, 'nbh/edit_hcl_33.html', {'patient_session_id': request.GET.get('patient_session_id'),
-                                                   'patient_id': request.GET.get('patient_id'),
-                                                   'username': request.session.get('username'),
-                                                   'scale_name_list': scale_name_list,
-                                                   'scale_id': scale_id,
-                                                   'hcl_33_answer': hcl_33_answer,
-                                                   'order': order,
-                                                   })
+                                                    'patient_id': request.GET.get('patient_id'),
+                                                    'username': request.session.get('username'),
+                                                    'scale_name_list': scale_name_list,
+                                                    'scale_id': scale_id,
+                                                    'hcl_33_answer': hcl_33_answer,
+                                                    'order': order,
+                                                    })
 
 
 # 获取斯奈斯快乐量表
@@ -1627,13 +1629,13 @@ def get_teps_form(request):
     scale_name_list, order = get_scale_order(patient_session_id, scale_id, tools_config.self_test_type)
     teps_answer = scales_dao.get_patient_pleasure_byPatientDetailId(patient_session_id)
     return render(request, 'nbh/edit_teps.html', {'patient_session_id': request.GET.get('patient_session_id'),
-                                                   'patient_id': request.GET.get('patient_id'),
-                                                   'username': request.session.get('username'),
-                                                   'scale_name_list': scale_name_list,
-                                                   'scale_id': scale_id,
-                                                   'teps_answer': teps_answer,
-                                                   'order': order,
-                                                   })
+                                                  'patient_id': request.GET.get('patient_id'),
+                                                  'username': request.session.get('username'),
+                                                  'scale_name_list': scale_name_list,
+                                                  'scale_id': scale_id,
+                                                  'teps_answer': teps_answer,
+                                                  'order': order,
+                                                  })
 
 
 # 获取儿童期成长经历表单
@@ -1643,13 +1645,13 @@ def get_ctq_sf_form(request):
     scale_name_list, order = get_scale_order(patient_session_id, scale_id, tools_config.self_test_type)
     ctq_sf_answer = scales_dao.get_patient_growth_byPatientDetailId(patient_session_id)
     return render(request, 'nbh/edit_ctq_sf.html', {'patient_session_id': request.GET.get('patient_session_id'),
-                                                   'patient_id': request.GET.get('patient_id'),
-                                                   'username': request.session.get('username'),
-                                                   'scale_name_list': scale_name_list,
-                                                   'scale_id': scale_id,
-                                                   'ctq_sf_answer': ctq_sf_answer,
-                                                   'order': order,
-                                                   })
+                                                    'patient_id': request.GET.get('patient_id'),
+                                                    'username': request.session.get('username'),
+                                                    'scale_name_list': scale_name_list,
+                                                    'scale_id': scale_id,
+                                                    'ctq_sf_answer': ctq_sf_answer,
+                                                    'order': order,
+                                                    })
 
 
 # 获取认知情绪调节表单
@@ -1659,13 +1661,13 @@ def get_cerq_c_form(request):
     scale_name_list, order = get_scale_order(patient_session_id, scale_id, tools_config.self_test_type)
     cerq_c_answer = scales_dao.get_patient_cognitive_byPatientDetailId(patient_session_id)
     return render(request, 'nbh/edit_cerq_c.html', {'patient_session_id': request.GET.get('patient_session_id'),
-                                                   'patient_id': request.GET.get('patient_id'),
-                                                   'username': request.session.get('username'),
-                                                   'scale_name_list': scale_name_list,
-                                                   'scale_id': scale_id,
-                                                   'cerq_c_answer': cerq_c_answer,
-                                                   'order': order,
-                                                   })
+                                                    'patient_id': request.GET.get('patient_id'),
+                                                    'username': request.session.get('username'),
+                                                    'scale_name_list': scale_name_list,
+                                                    'scale_id': scale_id,
+                                                    'cerq_c_answer': cerq_c_answer,
+                                                    'order': order,
+                                                    })
 
 
 # 获取青少年生活事件表单
@@ -1691,13 +1693,13 @@ def get_s_embu_form(request):
     scale_name_list, order = get_scale_order(patient_session_id, scale_id, tools_config.self_test_type)
     s_embu_answer = scales_dao.get_patient_SEmbu_byPatientDetailId(patient_session_id)
     return render(request, 'nbh/edit_s_embu.html', {'patient_session_id': request.GET.get('patient_session_id'),
-                                                   'patient_id': request.GET.get('patient_id'),
-                                                   'username': request.session.get('username'),
-                                                   'scale_name_list': scale_name_list,
-                                                   'scale_id': scale_id,
-                                                   's_embu_answer': s_embu_answer,
-                                                   'order': order,
-                                                   })
+                                                    'patient_id': request.GET.get('patient_id'),
+                                                    'username': request.session.get('username'),
+                                                    'scale_name_list': scale_name_list,
+                                                    'scale_id': scale_id,
+                                                    's_embu_answer': s_embu_answer,
+                                                    'order': order,
+                                                    })
 
 
 # 获取自动思维问卷表单
@@ -1707,13 +1709,14 @@ def get_atq_form(request):
     scale_name_list, order = get_scale_order(patient_session_id, scale_id, tools_config.self_test_type)
     atq_answer = scales_dao.get_patient_ATQ_byPatientDetailId(patient_session_id)
     return render(request, 'nbh/edit_atq.html', {'patient_session_id': request.GET.get('patient_session_id'),
-                                                   'patient_id': request.GET.get('patient_id'),
-                                                   'username': request.session.get('username'),
-                                                   'scale_name_list': scale_name_list,
-                                                   'scale_id': scale_id,
-                                                   'atq_answer': atq_answer,
-                                                   'order': order,
-                                                   })
+                                                 'patient_id': request.GET.get('patient_id'),
+                                                 'username': request.session.get('username'),
+                                                 'scale_name_list': scale_name_list,
+                                                 'scale_id': scale_id,
+                                                 'atq_answer': atq_answer,
+                                                 'order': order,
+                                                 })
+
 
 # 获取PHQ_9表单
 def get_phq_9_form(request):
@@ -1731,6 +1734,7 @@ def get_phq_9_form(request):
                                                    })
     return render(request, 'nbh/edit_phq_9.html')
 
+
 # 获取GAD-7表单
 def get_gad_7_form(request):
     patient_session_id = request.GET.get('patient_session_id')
@@ -1746,6 +1750,7 @@ def get_gad_7_form(request):
                                                    'order': order,
                                                    })
 
+
 # 获取失眠严重指数量表表单
 def get_insomnia_form(request):
     patient_session_id = request.GET.get('patient_session_id')
@@ -1753,13 +1758,14 @@ def get_insomnia_form(request):
     scale_name_list, order = get_scale_order(patient_session_id, scale_id, tools_config.self_test_type)
     insomnia_answer = scales_dao.get_patient_Insomnia_byPatientDetailId(patient_session_id)
     return render(request, 'nbh/edit_insomnia.html', {'patient_session_id': request.GET.get('patient_session_id'),
-                                                   'patient_id': request.GET.get('patient_id'),
-                                                   'username': request.session.get('username'),
-                                                   'scale_name_list': scale_name_list,
-                                                   'scale_id': scale_id,
-                                                   'insomnia_answer': insomnia_answer,
-                                                   'order': order,
-                                                   })
+                                                      'patient_id': request.GET.get('patient_id'),
+                                                      'username': request.session.get('username'),
+                                                      'scale_name_list': scale_name_list,
+                                                      'scale_id': scale_id,
+                                                      'insomnia_answer': insomnia_answer,
+                                                      'order': order,
+                                                      })
+
 
 # 获取压力知觉量表表单
 def get_pss_form(request):
@@ -1768,35 +1774,38 @@ def get_pss_form(request):
     scale_name_list, order = get_scale_order(patient_session_id, scale_id, tools_config.self_test_type)
     pss_answer = scales_dao.get_patient_Pss_byPatientDetailId(patient_session_id)
     return render(request, 'nbh/edit_pss.html', {'patient_session_id': request.GET.get('patient_session_id'),
-                                                   'patient_id': request.GET.get('patient_id'),
-                                                   'username': request.session.get('username'),
-                                                   'scale_name_list': scale_name_list,
-                                                   'scale_id': scale_id,
-                                                   'pss_answer': pss_answer,
-                                                   'order': order,
-                                                   })
+                                                 'patient_id': request.GET.get('patient_id'),
+                                                 'username': request.session.get('username'),
+                                                 'scale_name_list': scale_name_list,
+                                                 'scale_id': scale_id,
+                                                 'pss_answer': pss_answer,
+                                                 'order': order,
+                                                 })
+
 
 def get_self_last_url(request):
     patient_session_id = request.GET.get('patient_session_id')
     patient_id = request.GET.get('patient_id')
     scale_id = int(request.GET.get('scale_id'))
-    rPatientScales=scales_dao.get_last_scales_detail(patient_session_id,scale_id)
+    rPatientScales = scales_dao.get_last_scales_detail(patient_session_id, scale_id)
 
     last_page_url = tools_config.check_scales_html_dict[rPatientScales.scale_id]
     redirect_url = '{}?patient_session_id={}&patient_id={}'.format(last_page_url, str(patient_session_id),
-                                                                       str(patient_id))
+                                                                   str(patient_id))
     return redirect(redirect_url)
+
 
 def get_self_next_url(request):
     patient_session_id = request.GET.get('patient_session_id')
     patient_id = request.GET.get('patient_id')
     scale_id = int(request.GET.get('scale_id'))
-    rPatientScales=scales_dao.get_next_scales_detail(patient_session_id,scale_id)
+    rPatientScales = scales_dao.get_next_scales_detail(patient_session_id, scale_id)
 
     next_page_url = tools_config.check_scales_html_dict[rPatientScales.scale_id]
     redirect_url = '{}?patient_session_id={}&patient_id={}'.format(next_page_url, str(patient_session_id),
-                                                                       str(patient_id))
+                                                                   str(patient_id))
     return redirect(redirect_url)
+
 
 def get_next_self_scale_id(patient_session_id, cur_scale_id):
     min_unfinished_scale = scales_dao.get_min_unfinished_scale(2, patient_session_id, cur_scale_id)
@@ -1805,11 +1814,30 @@ def get_next_self_scale_id(patient_session_id, cur_scale_id):
     return min_unfinished_scale
 
 
+selfTestsEnum = {
+    # 修改此映射关系时，注意 tools.config 中还有一组 scale_id 与 scale_name 的映射，要一起修改
+    11: 'ybo',
+    12: 'bss',
+    13: 'hcl_33',
+    14: 'shaps',
+    15: 'teps',
+    16: 'ctq_sf',
+    17: 'cerq_c',
+    18: 'aslec',
+    19: 's_embu',
+    20: 'atq'
+}
+
+
+# 续做
 def get_previous_self_tests(request):
     patient_session_id = request.GET.get('patient_session_id')
     patient_id = request.GET.get('patient_id')
     scale_id = int(request.GET.get('scale_id'))
-    question_index = ajax_buffer[patient_session_id][scale_id]
+    # 如果ajax_buffer中没有当前续作的patient_session_id 或者 没有相应的量表 默认重做
+    if patient_session_id not in ajax_buffer.keys() or ajax_buffer[patient_session_id][selfTestsEnum[scale_id]] is None:
+        return redirect(redo_self_tests)
+    question_index = ajax_buffer[patient_session_id][selfTestsEnum[scale_id]]
     session_id = patients_dao.get_patient_detail_byPatientId(patient_session_id)
     page_url = tools_config.scales_html_dict[scale_id]
     return render(request, page_url, {"patient_session_id": patient_session_id,
@@ -1820,18 +1848,21 @@ def get_previous_self_tests(request):
                                       'username': request.session.get('username')})
 
 
+# 重做
 def redo_self_tests(request):
-    print('=================')
     patient_session_id = request.GET.get('patient_session_id')
     scale_id = int(request.GET.get('scale_id'))
     doctor_id = request.session.get('doctor_id')
     # 判断是做完了重做（记录在数据库中）还是做了一半重做（记录在缓存中）
     # 判断缓存中是否有这个病人 如果有则看一下相应的量表对象是否存在
-    if patient_session_id not in ajax_buffer.keys() or ajax_buffer[patient_session_id][scale_id] is None:
+    if patient_session_id not in ajax_buffer.keys() or ajax_buffer[patient_session_id][selfTestsEnum[scale_id]] is None:
+        # 防止patient_session_id不在ajax_buffer中导致ajax_buffer[patient_session_id][selfTestsEnum[scale_id]]报key不存在
+        # 如果满足条件1就新建一个key
+        if patient_session_id not in ajax_buffer.keys():
+            ajax_buffer[patient_session_id] = {}
         # 不在缓存 那就是在数据库 将以前的对象取出来  不存在则创建一个新的
-        ajax_buffer[patient_session_id][scale_id] = scales_dao.get_or_default_self_tests_obj_by_scale_id(scale_id,
-                                                                                                         patient_session_id,
-                                                                                                         doctor_id)
+        ajax_buffer[patient_session_id][selfTestsEnum[scale_id]] = scales_dao.get_or_default_self_tests_obj_by_scale_id(
+            scale_id, patient_session_id, doctor_id)
     # 否则量表数据就在缓存中 这个时候缓存中已经确保有量表对象了
     # 更改量表的完成状态为未完成
     scales_dao.update_rscales_state(patient_session_id, scale_id, 0)
