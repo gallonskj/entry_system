@@ -1731,6 +1731,50 @@ def get_phq_9_form(request):
                                                    })
     return render(request, 'nbh/edit_phq_9.html')
 
+# 获取GAD-7表单
+def get_gad_7_form(request):
+    patient_session_id = request.GET.get('patient_session_id')
+    scale_id = tools_config.gad_7
+    scale_name_list, order = get_scale_order(patient_session_id, scale_id, tools_config.self_test_type)
+    gad_7_answer = scales_dao.get_patient_GAD_7_byPatientDetailId(patient_session_id)
+    return render(request, 'nbh/edit_gad_7.html', {'patient_session_id': request.GET.get('patient_session_id'),
+                                                   'patient_id': request.GET.get('patient_id'),
+                                                   'username': request.session.get('username'),
+                                                   'scale_name_list': scale_name_list,
+                                                   'scale_id': scale_id,
+                                                   'gad_7_answer': gad_7_answer,
+                                                   'order': order,
+                                                   })
+
+# 获取失眠严重指数量表表单
+def get_insomnia_form(request):
+    patient_session_id = request.GET.get('patient_session_id')
+    scale_id = tools_config.insomnia
+    scale_name_list, order = get_scale_order(patient_session_id, scale_id, tools_config.self_test_type)
+    insomnia_answer = scales_dao.get_patient_Insomnia_byPatientDetailId(patient_session_id)
+    return render(request, 'nbh/edit_insomnia.html', {'patient_session_id': request.GET.get('patient_session_id'),
+                                                   'patient_id': request.GET.get('patient_id'),
+                                                   'username': request.session.get('username'),
+                                                   'scale_name_list': scale_name_list,
+                                                   'scale_id': scale_id,
+                                                   'insomnia_answer': insomnia_answer,
+                                                   'order': order,
+                                                   })
+
+# 获取压力知觉量表表单
+def get_pss_form(request):
+    patient_session_id = request.GET.get('patient_session_id')
+    scale_id = tools_config.pss
+    scale_name_list, order = get_scale_order(patient_session_id, scale_id, tools_config.self_test_type)
+    pss_answer = scales_dao.get_patient_Pss_byPatientDetailId(patient_session_id)
+    return render(request, 'nbh/edit_pss.html', {'patient_session_id': request.GET.get('patient_session_id'),
+                                                   'patient_id': request.GET.get('patient_id'),
+                                                   'username': request.session.get('username'),
+                                                   'scale_name_list': scale_name_list,
+                                                   'scale_id': scale_id,
+                                                   'pss_answer': pss_answer,
+                                                   'order': order,
+                                                   })
 
 def get_self_last_url(request):
     patient_session_id = request.GET.get('patient_session_id')

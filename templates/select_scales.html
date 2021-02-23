@@ -293,18 +293,10 @@
                               name="note">{{ patient_detail.note|processNone }}</textarea>
                 </div>
 
-            <div class="col-md-12">
-
-                <a href="/patients/get_patient_detail?patient_id={{ patient_baseinfo.id }}" style="color:white" >
-                    <button class="btn danger btn-lg" type="button" style="margin:0px;color:red" >信息查询</button>
-                </a>
-
-                <a href="/scales/get_check_phq_9_form" style="color:black" >
-                    PHQ_9
-                </a>
-
-
-
+                <div class="col-md-12">
+                    <a href="/patients/get_patient_detail?patient_id={{ patient_baseinfo.id }}" style="color:white" >
+                        <button class="btn danger btn-lg" type="button" style="margin:0px;color:red" >信息查询</button>
+                    </a>
                 </div>
 
 
