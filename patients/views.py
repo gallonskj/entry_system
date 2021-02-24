@@ -22,6 +22,34 @@ scale_class_dict = {7: [scales_models.RPatientHamd17, [8, 21, 35], ['正常', '�
                     10: [scales_models.RPatientBprs, [36], ['正常', '偏高']]}
 
 
+def search_patient_base_info(request):
+    search_dict = {}
+    name = request.POST.get('name')
+    sex = request.POST.get('sex')
+    id = request.POST.get('id')
+    diagnosis = request.POST.get('diagnosis')
+    if name.strip()!='':
+        search_dict['name'] = name
+    if sex.strip()!='':
+        search_dict['sex'] = sex
+    if id.strip()!='':
+        search_dict['id'] = id
+    if diagnosis.strip()!='':
+        search_dict['diagnosis'] = diagnosis
+    patients = patients_models.BPatientBaseInfo.filter(**search_dict).all().order_by('-id')
+    username = request.session.get('username')
+    nations = DEthnicity.objects.all()
+    obj_count = len(patients)
+    obj_perpage = 10
+    pagetag_current = request.GET.get('page',1)
+    pagetag_dsp_count = 6
+    paginator = Paginator(obj_count, obj_perpage, pagetag_current, pagetag_dsp_count)
+    patients = patients[paginator.obj_slice_start:paginator.obj_slice_end]
+    return render(request, 'manage_patients.html', {"patients": patients,
+                                                    'username': username,
+                                                    'nations': nations,
+                                                    'paginator': paginator})
+
 # 获取所有被试基础信息,以及民族字典表信息（创建被试时会使用到）
 def get_all_patients_baseinfo(request):
     patients = patients_dao.get_base_info_all()
