@@ -31,6 +31,7 @@
 {% endblock %}
 {% block content %}
     <div class="right_col" role="main">
+
         <div class="container">
             <div class="row show-grid">
                 <div class="col-md-12 col-sm-12 col-xs-12">
@@ -39,13 +40,14 @@
                         <li><a href="#">他评量表</a></li>
                         <li class="active"><a href="#">汉密尔顿抑郁量表（HAMD-17）</a></li>
                         <div style="float: right;margin-bottom: 0px;">
-                            <a id ='return_url' href="/scales/select_scales?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&page=1"
-                               class="btn btn-warning btn-sm"><i class="fa fa-arrow-left"></i><strong>&nbsp;返&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回</strong></a>
+                            <a id ="return_url" href="/scales/select_scales?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&page=1"
+                               class="btn btn-warning btn-xs"><i class="fa fa-arrow-left"></i><strong>&nbsp;返&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回</strong></a>
                         </div>
                     </ul>
                 </div>
             </div>
         </div>
+
         <div class="dashboard_graph x_panel" style="margin-top: 0px;height: 80%;">
             <div id="wrapper">
                 <div id="left-side" style="height: 100%;" class="col-md-2">
@@ -383,12 +385,12 @@
     <script type="text/javascript" language="JavaScript">
         $(document).ready(function () {
             $("input[type='radio']").labelauty();
-            cookie_val = getCookie('return_page')
+            cookie_val = getCookie('zrq')
             alert(cookie_val)
             var return_url =  '/scales/select_scales?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&page=1'
-            if(return_apge=='1') return_url = "/patients/get_patient_detail?patient_id={{ patient_id }}"
-
-            $("#return_url").href = return_url
+            if(cookie_val=='detail') return_url = "/patients/get_patient_detail?patient_id={{ patient_id }}"
+            var aObj = document.getElementById("return_url");
+            aObj.href = return_url;
         });
 
 

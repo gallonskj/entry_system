@@ -705,7 +705,8 @@ var num=1
     <script type="text/javascript" language="JavaScript">
 
         $(document).ready(function () {
-            addCookie('return_page','1',0)
+            document.cookie = "zrq=detail;path=/"
+            alert(document.cookie)
             $("input[type='radio']").labelauty();
             $('#singleSelect').select2();
        $('#ghr_diagnosis_add').select2();
@@ -765,6 +766,16 @@ var num=1
                 document.getElementById("other_diagnosis_div").style.display = ""
         });
 
+
+           function getCookie(name){
+            var strCookie=document.cookie;
+            var arrCookie=strCookie.split("; ");
+            for(var i=0;i<arrCookie.length;i++){
+            var arr=arrCookie[i].split("=");
+            if(arr[0]==name)return arr[1];
+            }
+            return "";
+        }
         function formatZero(num, len) {
             if (String(num).length > len) return num;
             return (Array(len).join(0) + num).slice(-len);
@@ -791,7 +802,7 @@ var num=1
             if(expiresHours>0){
             var date=new Date();
             date.setTime(date.getTime+expiresHours*3600*1000);
-            cookieString=cookieString+"; expires="+date.toGMTString();
+            cookieString=cookieString+"; expires="+date.toGMTString()+";path=/";
             }
             document.cookie=cookieString;
         }
