@@ -11,18 +11,16 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/css/select2.min.css" rel="stylesheet"/>
 
     <style>
-        .sel_beauty {
+         .sel_beauty {
             background: #fafdfe;
-            height: 33px;
-            width: 100px;
+            height: 28px;
             line-height: 28px;
             border: 1px solid #9bc0dd;
             -moz-border-radius: 2px;
             -webkit-border-radius: 2px;
             border-radius: 2px;
-
+            width: 125px;
         }
-
 </style>
 <script src="{% static '/js/layerJquery.js' %}"></script>
 <script src="{% static '/js/layer.js' %}"></script>
@@ -38,8 +36,6 @@
                     上传医嘱单
                 </h5>
             </div>
-
-
             <div class="modal-footer">
                 <div class="row text-center">
                         <form enctype="multipart/form-data">
@@ -52,7 +48,6 @@
             <div class="modal-footer">
                 <div class="row">
                     <div class="text-center">
-
                        <a href="/inpatients/get_inpatient_detail?inpatient_id={{ inpatient_detail.id }}">
                             <button class="btn btn-danger">取消</button>
                         </a>
@@ -84,8 +79,6 @@
                     </div>
                 </div>
             </div>
-
-
             <div class="modal-footer">
                 <div class="row">
                     <div class="text-center">
@@ -111,15 +104,9 @@
         </div>
     </div>
     <div class="">
-<!--        <div class="page-title">-->
-<!--            <div class="title_left">-->
-<!--                <h3>Form Elements</h3>-->
-<!--            </div>-->
-<!--        </div>-->
         <div class="clearfix"></div>
         <div class="row">
             <div class="col-md-5 col-sm-5 col-xs-12" >
-
                     <div class="row">
                         <form name="modify_form" action="/inpatients/update_inpatient_info?inpatient_id={{ inpatient_detail.id }}" method="POST" style="height:438px;">
                     {% csrf_token %}
@@ -152,13 +139,10 @@
                                             <div class="col-md-8 col-sm-8 col-xs-12"
                                                  style="padding-top: 7px;margin-bottom: 0;text-align: left">
                                                 {{ inpatient_detail.patient|get_diagnosis_by_object }}
-
                                             </div>
-
                                         </div>
                                         </div>
                                     </div>
-
                                     <div class="row">
                                         <!--科室-->
                                         <div class="col-md-6">
@@ -170,7 +154,6 @@
                                                 {{ inpatient_detail.patient.sex }}
                                             </div>
                                         </div>
-
                                         </div>
                                         <div class="col-md-6">
                                         <!--床号-->
@@ -182,10 +165,8 @@
                                                 {{ inpatient_detail.patient.name }}
                                             </div>
                                         </div>
-
                                         </div>
                                     </div>
-
                                     <div class="row">
                                         <!--入院日-->
                                         <div class="col-md-6">
@@ -194,7 +175,9 @@
                                                    for="patient_id">入院日<span class="required">*:</span></label>
                                             <div id="in_date" class="col-md-8 col-sm-8 col-xs-12"
                                                  style="padding-top: 7px;margin-bottom: 0;text-align: left">
-                                                <input type="text" name="in_date" class="sel_beauty" value="{{ inpatient_detail.in_date|processNone }}">
+                                                <input type="text" name="in_date" class="sel_beauty"
+                                                       value="{{ inpatient_detail.in_date|processNone }}"/>
+                                                <input type="date" class=" sel_beauty form-control input-sm " name="in_date" required="required"/>
                                             </div>
                                         </div>
                                         </div>
@@ -205,18 +188,11 @@
                                             <div id="bed_number" class="col-md-8 col-sm-8 col-xs-12"
                                                  style="padding-top: 7px;margin-bottom: 0;text-align: left">
                                                 <input type="text" name="bed_number" class="sel_beauty" value="{{ inpatient_detail.bed_number|processNone }}">
-
                                             </div>
                                         </div>
                                         </div>
                                     </div>
-
-
-
                                     <!--姓名-->
-
-
-
                                     <!--性别-->
                                     <div class="row">
                                         <div class="col-md-6">
@@ -226,7 +202,6 @@
                                             <div id="department" class="col-md-8 col-sm-8 col-xs-12"
                                                  style="padding-top: 7px;margin-bottom: 0;text-align: left">
                                                 <input type="text" name="department" class="sel_beauty" value="{{ inpatient_detail.department|processNone }}">
-
                                             </div>
                                         </div>
                                         </div>
@@ -240,11 +215,8 @@
                                             </div>
                                         </div>
                                         </div>
-
                                     </div>
                                     <!--病区-->
-
-
                                     <!--住院号-->
                                     <div class="row">
                                         <div class="col-md-6">
@@ -264,19 +236,16 @@
                                             <div id="out_date" class="col-md-8 col-sm-8 col-xs-12"
                                                  style="padding-top: 7px;margin-bottom: 0;text-align: left">
                                                 <input type="text" name="out_date" class="sel_beauty" value="{{ inpatient_detail.out_date|processNone }}">
+                                                <input type="date" class=" sel_beauty form-control input-sm " name="out_date" required="required"/>
                                             </div>
                                         </div>
                                     </div>
                                     </div>
-
-                                    <!--出院日-->
-
                                     <div class="row" style="text-align: center;margin-top: 30px;" >
                                         <input type="submit" class="btn btn-success" id="change_detail" value="保存修改"/>
                                     </div>
                                 </div>
                         </div>
-
                     </div>
                         </form>
                     </div>
@@ -313,9 +282,11 @@
                             <div class="form-group">
                                 <div class="col-md-12 col-sm-12 col-xs-12 ">
                                     <div class="container my-1" style="height: 300px;">
-                                        <div class="file-loading">
+                                        <div class="file-loading" style="position:relative;border:1px solid red;">
 		                                    <input id="input-23" name="input23[]" type="file" multiple />
 	                                    </div>
+                                        <div class='load_img1'></div>
+<!--                                        <i class="fa fa-spinner fa-spin"></i>-->
                                     </div>
                                 </div>
                             </div>
@@ -323,7 +294,7 @@
                     </div>
                 </div>
             </div>
-                <div class="row">
+            <div class="row">
                 <div class="x_panel" style="height:440px;">
                     <div class="x_title">
                         <h2>病程记录 </h2>
@@ -334,10 +305,11 @@
                         <div class="form-horizontal form-label-left input_mask">
                             <div class="form-group">
                                 <div class="col-md-12 col-sm-12 col-xs-12">
-                                    <div class="container my-4">
-                                        <div class="file-loading">
+                                    <div class="container my-4" style="height: 300px;">
+                                        <div class="file-loading" style="position:relative;border:1px solid red;">
 		                                    <input id="input-24" name="input24[]" type="file" multiple />
 	                                    </div>
+                                        <div class='load_img2'></div>
                                     </div>
                                 </div>
                             </div>
@@ -347,9 +319,6 @@
             </div>
             </div>
         </div>
-
-
-
     </div>
 </div>
 {% endblock %}
@@ -365,20 +334,24 @@
 <script type="text/javascript" src="{% static '/js/subjectEstablish.js' %}"></script>
 <script>
   $(document).ready(function() {
+    $('.load_img1').hide();
+    $('.load_img2').hide();
     $("#input-23").fileinput({
 	     maxFileCount: 1,
+
     });
     $("#input-24").fileinput({
 	     maxFileCount: 1,
     });
-
     $(".my-1 .fileinput-upload-button").click(function() {
         var inpatient_id ={{ inpatient_detail.id }}
         var formData = new FormData();
         formData.append('inpatient_id', inpatient_id)
-        alert(document.getElementById("input-23"))
+        /*alert(document.getElementById("input-23"))*/
         formData.append('medical_advice', document.getElementById("input-23").files[0])
         formData.append("csrfmiddlewaretoken", $("[name = 'csrfmiddlewaretoken']").val())
+        $(".my-1 .fileinput-upload-button").attr('disabled',true);
+        $('.load_img1').show();
         $.ajax({
             type: 'POST',
             url: "/inpatients/upload_medical_advice",
@@ -388,9 +361,13 @@
             contentType: false,
             dataType: 'json',
             success: function (data) {
+                $('.load_img1').hide();
+                $(".my-1 .fileinput-upload-button").attr('disabled',false);
                 alert(data['message'])
             },
             error: function () {
+                $('.load_img1').hide();
+                $(".my-1 .fileinput-upload-button").attr('disabled',false);
                 alert("上传失败！");
             }
         });
@@ -402,6 +379,8 @@
         formData.append('inpatient_id', inpatient_id)
         formData.append('progress_note', document.getElementById("input-24").files[0])
         formData.append("csrfmiddlewaretoken", $("[name = 'csrfmiddlewaretoken']").val())
+        $(".my-4 .fileinput-upload-button").attr('disabled',true);
+        $('.load_img2').show();
         $.ajax({
             type: 'POST',
             url: "/inpatients/upload_progress_note",
@@ -411,9 +390,13 @@
             contentType: false,
             dataType: 'json',
             success: function (data) {
+                $('.load_img2').hide();
+                $(".my-4 .fileinput-upload-button").attr('disabled',false);
                 alert(data['message'])
             },
             error: function () {
+                $('.load_img2').hide();
+                $(".my-4 .fileinput-upload-button").attr('disabled',false);
                 alert("上传失败！");
             }
         });
