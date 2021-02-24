@@ -21,6 +21,10 @@ from django.core import serializers
 def get_inpatient_detail(request):
     inpatient_id = request.GET.get('inpatient_id')
     inpatient_detail = inpatients_dao.get_inpatient_detail(inpatient_id)
+    if inpatient_detail.in_date is not None:
+        inpatient_detail.in_date = inpatient_detail.in_date.strftime('%Y-%m-%d')
+    if inpatient_detail.out_date is not None:
+        inpatient_detail.out_date = inpatient_detail.out_date.strftime('%Y-%m-%d')
     return render(request, 'checkout_inpatients.html',{'inpatient_detail':inpatient_detail,
                                                       })
 # 添加住院患者信息
