@@ -382,12 +382,15 @@
             });
 
             $(".my-1 .fileinput-upload-button").click(function () {
+
                 var inpatient_id =
                 {{ inpatient_detail.id }}
                 var formData = new FormData();
                 formData.append('inpatient_id', inpatient_id)
                 formData.append('medical_advice', document.getElementById("input-23").files[0])
                 formData.append("csrfmiddlewaretoken", $("[name = 'csrfmiddlewaretoken']").val())
+                $(".my-1 .fileinput-upload-button").attr('disabled',true);
+
                 $.ajax({
                     type: 'POST',
                     url: "/inpatients/upload_medical_advice",
@@ -398,9 +401,13 @@
                     dataType: 'json',
                     success: function (data) {
                         alert(data['message'])
+                        $(".my-1 .fileinput-upload-button").attr('disabled',false);
+
                     },
                     error: function () {
+                        $(".my-1 .fileinput-upload-button").attr('disabled',false);
                         alert("上传失败！");
+
                     }
                 });
             });
@@ -412,6 +419,8 @@
                 formData.append('inpatient_id', inpatient_id)
                 formData.append('progress_note', document.getElementById("input-24").files[0])
                 formData.append("csrfmiddlewaretoken", $("[name = 'csrfmiddlewaretoken']").val())
+                $(".my-4 .fileinput-upload-button").attr('disabled',true);
+
                 $.ajax({
                     type: 'POST',
                     url: "/inpatients/upload_progress_note",
@@ -423,6 +432,7 @@
                     success: function (data) {
                         alert(data['message'])
                         window.location.reload(true);
+                        $(".my-4 .fileinput-upload-button").attr('disabled',false);
 
                     },
                     error: function () {
