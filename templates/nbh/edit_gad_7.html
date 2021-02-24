@@ -24,7 +24,7 @@
         </div>  
         <div class="dashboard_graph x_panel" style="margin-top:0px;height: 80%;">
             <div id="left-side" style="height: 100%;" class="col-md-2">
-                <ul class="scales_progress">
+                <ul class="scales_progress" style="margin-top:0px;border:1px solid red">
                     {% for scale_name in scale_name_list %}
                         {% if scale_name|get_item:'scale__scale_name' == 'GAD-7' %}
                             <li class="step doing">
@@ -181,32 +181,30 @@
                 $("#next_scale_final").attr("style", "display:none;");
                 $("#next_scale").attr("style", "display:block;");
             }
-            if ('{{  gad_7_answer }}' != 'None') {
+
+            if ('{{ gad_7_answer }}' != 'None') {
                 {#数据填充 读数据#}
-                if ('{{  gad_7_answer.question1_answer }}' != 'None') {
-                    $("input[name='question1_answer'][value=" + Number({{  gad_7_answer.question1_answer }}) + "]").prop("checked", true);
+                if ('{{ gad_7_answer.question1_answer }}' != 'None') {
+                    $("input[name='question1_answer'][value=" + Number({{ gad_7_answer.question1_answer }}) + "]").prop("checked", true);
                 }
-                if ('{{  gad_7_answer.question2_answer }}' != 'None') {
-                    $("input[name='question2_answer'][value=" + Number({{  gad_7_answer.question2_answer }}) + "]").prop("checked", true);
+                if ('{{ gad_7_answer.question2_answer }}' != 'None') {
+                    $("input[name='question2_answer'][value=" + Number({{ gad_7_answer.question2_answer }}) + "]").prop("checked", true);
                 }
-                if ('{{  gad_7_answer.question3_answer }}' != 'None') {
-                    $("input[name='question3_answer'][value=" + Number({{  gad_7_answer.question3_answer }}) + "]").prop("checked", true);
+                if ('{{ gad_7_answer.question3_answer }}' != 'None') {
+                    $("input[name='question3_answer'][value=" + Number({{ gad_7_answer.question3_answer }}) + "]").prop("checked", true);
                 }
-                if ('{{  gad_7_answer.question4_answer }}' != 'None') {
-                    $("input[name='question4_answer'][value=" + Number({{  gad_7_answer.question4_answer }}) + "]").prop("checked", true);
+                if ('{{ gad_7_answer.question4_answer }}' != 'None') {
+                    $("input[name='question4_answer'][value=" + Number({{ gad_7_answer.question4_answer }}) + "]").prop("checked", true);
                 }
-                if ('{{  gad_7_answer.question5_answer }}' != 'None') {
-                    $("input[name='question5_answer'][value=" + Number({{  gad_7_answer.question5_answer }}) + "]").prop("checked", true);
+                if ('{{ gad_7_answer.question5_answer }}' != 'None') {
+                    $("input[name='question5_answer'][value=" + Number({{ gad_7_answer.question5_answer }}) + "]").prop("checked", true);
                 }
-                if ('{{  gad_7_answer.question6_answer }}' != 'None') {
-                    $("input[name='question6_answer'][value=" + Number({{  gad_7_answer.question6_answer }}) + "]").prop("checked", true);
+                if ('{{ gad_7_answer.question6_answer }}' != 'None') {
+                    $("input[name='question6_answer'][value=" + Number({{ gad_7_answer.question6_answer }}) + "]").prop("checked", true);
                 }
-                if ('{{  gad_7_answer.question7_answer }}' != 'None') {
-                    $("input[name='question7_answer'][value=" + Number({{  gad_7_answer.question7_answer }}) + "]").prop("checked", true);
+                if ('{{ gad_7_answer.question7_answer }}' != 'None') {
+                    $("input[name='question7_answer'][value=" + Number({{ gad_7_answer.question7_answer }}) + "]").prop("checked", true);
                 }
-
-                
-
             }
             {#锁住#}
             $("input[name='question1_answer']").attr("disabled", "disabled");

@@ -1821,6 +1821,7 @@ def get_previous_self_tests(request):
 
 
 def redo_self_tests(request):
+    print('=================')
     patient_session_id = request.GET.get('patient_session_id')
     scale_id = int(request.GET.get('scale_id'))
     doctor_id = request.session.get('doctor_id')

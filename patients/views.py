@@ -11,7 +11,7 @@ import scales.models as scales_models
 import scales.views as scale_views
 import patients.dao as patients_dao
 import tools.config as tools_config
-
+from tools.Utils import Paginator
 import json
 import scales.dao as scales_dao
 import time
@@ -27,9 +27,16 @@ def get_all_patients_baseinfo(request):
     patients = patients_dao.get_base_info_all()
     username = request.session.get('username')
     nations = DEthnicity.objects.all()
+    obj_count = len(patients)
+    obj_perpage = 10
+    pagetag_current = request.GET.get('page',1)
+    pagetag_dsp_count = 6
+    paginator = Paginator(obj_count, obj_perpage, pagetag_current, pagetag_dsp_count)
+    patients = patients[paginator.obj_slice_start:paginator.obj_slice_end]
     return render(request, 'manage_patients.html', {"patients": patients,
                                                     'username': username,
-                                                    'nations': nations})
+                                                    'nations': nations,
+                                                    'paginator': paginator})
 
 def get_all_inpatients_baseinfo(request):
     patients = patients_dao.get_base_info_all()
