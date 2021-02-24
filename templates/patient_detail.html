@@ -705,7 +705,8 @@ var num=1
     <script type="text/javascript" language="JavaScript">
 
         $(document).ready(function () {
-              $("input[type='radio']").labelauty();
+            addCookie('return_page','1',0)
+            $("input[type='radio']").labelauty();
             $('#singleSelect').select2();
        $('#ghr_diagnosis_add').select2();
        $('#ghr_kinship_add').select2();
@@ -784,6 +785,16 @@ var num=1
 
     <script>
 
+        function addCookie(name,value,expiresHours){
+            var cookieString=name+"="+escape(value);
+            //判断是否设置过期时间
+            if(expiresHours>0){
+            var date=new Date();
+            date.setTime(date.getTime+expiresHours*3600*1000);
+            cookieString=cookieString+"; expires="+date.toGMTString();
+            }
+            document.cookie=cookieString;
+        }
         function judge_diagnosis(obj) {
             if (obj.options[obj.selectedIndex].value == 99) {
                 document.getElementById("other_diagnosis_div").style.display = "";
