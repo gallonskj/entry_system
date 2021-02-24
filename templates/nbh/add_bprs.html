@@ -38,15 +38,8 @@
                          <li><a href="#" >他评量表</a></li>
                          <li class="active"><a href="#" >简明精神量表（BPRS）</a></li>
                        <div style="float: right;margin-bottom: 0px;">
-                           {% if enter_page == 2 %}
-                           <a href="/scales/select_scales?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}"
-                               class="btn btn-warning btn-sm"><i class="fa fa-arrow-left"></i><strong><strong>&nbsp;返&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回</strong></strong></a>
-                           {% else %}
 
-                            <a href="/patients/get_patient_detail?patient_id={{ patient_id }}"  class="btn btn-warning btn-sm">
-                                <i class="fa fa-arrow-left"></i><strong><strong>&nbsp;返&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回</strong></strong>
-                            </a>
-                           {% endif %}
+                    <a href="/scales/select_scales?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}" class="btn btn-warning btn-xs"><i class="fa fa-arrow-left"></i><strong>&nbsp;返回量表选择</strong></a>
                    </div>
                     </ul>
                 </div>
@@ -78,7 +71,7 @@
                 </div>
                 <div id="right-side" class="col-md-10">
                     <div id="first" class="active">
-                      <form action="/scales/add_bprs?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}&enter_page={{ enter_page }}" method="post" name="bprs_form" onSubmit="return myCheck(this)" >
+                      <form action="/scales/add_bprs?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}" method="post" name="bprs_form" onSubmit="return myCheck(this)" >
                           {%  csrf_token %}
                         <div class="container">
                             <div class="col-md-12 text-center">
@@ -297,7 +290,7 @@
                             </div>
                             <div class="row">
                                 <div  class="col-md-4 col-sm-6 text-center" style="text-align: center">
-                                    <a  href="/scales/get_last_url?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}&enter_page={{ enter_page }}"
+                                    <a  href="/scales/get_last_url?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}"
                                             id="last_scale">
                                         <button type="button" class="btn btn-warning" id="bt_return">返回上一量表</button>
                                     </a>
@@ -307,7 +300,7 @@
                                     <input  type="submit" class="btn btn-success text-center"  value="保存提交量表" >
                                 </div>
                                  <div class="col-md-4 col-sm-6">
-                                     <a href="/scales/skip_scale?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{scale_id}}&enter_page={{ enter_page }}"  style="float: right"><u>跳过该量表</u></a>
+                                     <a href="/scales/skip_scale?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{scale_id}}"  style="float: right"><u>跳过该量表</u></a>
                                  </div>
                             </div>
 

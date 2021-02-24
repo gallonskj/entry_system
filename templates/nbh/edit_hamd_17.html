@@ -38,15 +38,8 @@
                         <li><a href="#">他评量表</a></li>
                         <li class="active"><a href="#">汉密尔顿抑郁量表（HAMD-17）</a></li>
                         <div style="float: right;margin-bottom: 0px;">
-                            {% if enter_page == 2 %}
-                           <a href="/scales/select_scales?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}"
-                               class="btn btn-warning btn-sm"><i class="fa fa-arrow-left"></i><strong><strong>&nbsp;返&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回</strong></strong></a>
-                           {% else %}
-
-                            <a href="/patients/get_patient_detail?patient_id={{ patient_id }}"  class="btn btn-warning btn-sm">
-                                <i class="fa fa-arrow-left"></i><strong><strong>&nbsp;返&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回</strong></strong>
-                            </a>
-                           {% endif %}                        </div>
+                            <a href="/scales/select_scales?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}" class="btn btn-warning btn-xs"><i class="fa fa-arrow-left"></i><strong>&nbsp;返回量表选择</strong></a>
+                        </div>
                     </ul>
                 </div>
             </div>
@@ -279,33 +272,30 @@
 
                                 <div class="row" id="bt_group">
                                         <div  class="col-md-4 col-sm-6 text-center"  >
-                                           <a  href="/scales/get_last_url?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}&enter_page={{ enter_page }}"
+                                           <a  href="/scales/get_last_url?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}"
                                            id="last_scale">
                                                <button type="button" class="btn btn-warning" id="bt_return">返回上一量表</button>
                                            </a>
                                         </div>
+                                        {% comment %}<div  class="col-md-4 col-sm-6 text-center"  >
+                                               <button type="button" class="btn btn-warning" id="bt_return" onclick="return myCheck(this)">提交</button>
+                                        </div>{% endcomment %}
+
                                         <div  class="col-md-4 col-sm-6" id="next_scale" >
                                              {% csrf_token %}
-                                            <a href="/scales/get_next_url?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}&enter_page={{ enter_page }}">
+                                            <a href="/scales/get_next_url?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}">
                                                 <input  type="button" class="btn btn-success text-center"  value="进入下一量表"  >
                                             </a>
                                         </div>
                                         <div  class="col-md-4 col-sm-6" id="next_scale_final" >
                                                  {% csrf_token %}
-                                            {% if enter_page == 2 %}
                                                 <a href="/scales/select_scales?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}">
                                                     <input  type="button" class="btn btn-success text-center"  value="进入下一量表"  >
                                                 </a>
-                                           {% else %}
-                                                <a href="/patients/get_patient_detail?patient_id={{ patient_id }}">
-                                                    <input  type="button" class="btn btn-success text-center"  value="进入下一量表"  >
-                                                </a>
-                                           {% endif %}
                                         </div>
                                         <div class="col-md-4 col-sm-6">
                                             <a onclick="remove_disabled()"  style="float: right"><u>修改</u></a>
                                         </div>
-
                                 </div>
                             </div>
                         </form>

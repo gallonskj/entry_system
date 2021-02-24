@@ -12,11 +12,11 @@ body{
 
 /* 已经做完的量表，显示绿色  */
 .scales_progress li.done{background: url(../images/back_black.png) repeat-y 7px 0;}
-.scales_progress li.done p {background:url(../images/icon_black.png) no-repeat 0 0;color: #2A3F54; font-weight: 800;}
+.scales_progress li.done p {background:url(../images/icon_black.png) no-repeat 0 0;color: #26B99A; font-weight: 800;}
 
 /* 正在做的量表，显示蓝色  */
 .scales_progress li.doing{background: url(../images/back_black.png) repeat-y 7px 0;}
-.scales_progress li.doing p {background:url(../images/icon_black.png) no-repeat 0 0;color: black; font-weight: 800;font-family:"SimHei" ;}
+.scales_progress li.doing p {background:url(../images/icon_black.png) no-repeat 0 0;color: #73879C; font-weight: 800;font-family:"SimHei" ;}
 
     /* 还没有做的量表，显示灰色   */
 .scales_progress li.nodone{background: url(../images/back3.png) repeat-y 7px 0;}
