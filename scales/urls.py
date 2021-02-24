@@ -94,6 +94,7 @@ urlpatterns = [
     url(r'^get_check_vept_form', views.get_check_vept_form),
     url(r'^get_self_next_url', views.get_self_next_url),
     url(r'^get_self_last_url', views.get_self_last_url),
+
     # -----------------------------------------------------------------#
     url(r'^redo_self_tests', views.redo_self_tests),
     url(r'^get_self_tests', views.get_self_tests),
