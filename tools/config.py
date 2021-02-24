@@ -105,6 +105,7 @@ other_test_next_type_url = '/scales/get_self_test_forms'
 self_test_next_type_url = '/scales/get_cognition_forms'
 cognition_next_type_url = '/scales/select_scales'
 select_scales_url = '/scales/select_scales'
+patient_detail_url='/patients/get_patient_detail'
 adult_age = 18
 
 '''###################  disease_type_dict  ###################'''

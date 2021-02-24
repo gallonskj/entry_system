@@ -54,7 +54,7 @@ add_XXX:添加量表逻辑,实际上更新以及添加走的都是这个逻辑,�
 '''
 
 
-def get_redirect_url(patient_session_id, patient_id, next_type, do_scale_type, cur_scale_id):
+def get_redirect_url(patient_session_id, patient_id, next_type, do_scale_type, cur_scale_id,enter_page):
     '''
     获取需要跳转的url
     Args:
@@ -72,13 +72,17 @@ def get_redirect_url(patient_session_id, patient_id, next_type, do_scale_type, c
     min_unfinished_scale = scales_dao.get_min_unfinished_scale(do_scale_type, patient_session_id, cur_scale_id)
     # min_unfinished_scale = scales_dao.get_next_scales_detail(patient_session_id, cur_scale_id)
     if min_unfinished_scale is None:
-        redirect_url = '{}?patient_session_id={}&patient_id={}'.format(tools_config.select_scales_url,
-                                                                       str(patient_session_id), str(patient_id))
-        return redirect_url
+        if enter_page == 2:
+            redirect_url = '{}?patient_session_id={}&patient_id={}'.format(tools_config.select_scales_url,
+                                                                           str(patient_session_id), str(patient_id))
+            return redirect_url
+        else:
+            redirect_url = '{}?patient_id={}'.format(tools_config.patient_detail_url,str(patient_id))
+            return redirect_url
     # /scales/get_XXX_form
     next_page_url = tools_config.scales_html_dict[min_unfinished_scale]
-    redirect_url = '{}?patient_session_id={}&patient_id={}'.format(next_page_url, str(patient_session_id),
-                                                                   str(patient_id))
+    redirect_url = '{}?patient_session_id={}&patient_id={}&enter_page={}'.format(next_page_url, str(patient_session_id),
+                                                                   str(patient_id),enter_page)
     return redirect_url
 
 
@@ -140,15 +144,16 @@ def get_last_url(request):
     patient_session_id = request.GET.get('patient_session_id')
     patient_id = request.GET.get('patient_id')
     scale_id = int(request.GET.get('scale_id'))
+    enter_page = request.GET.get('enter_page')
     rPatientScales = scales_dao.get_last_scales_detail(patient_session_id, scale_id)
     if int(rPatientScales.state) == 0:
         last_page_url = tools_config.scales_html_dict[rPatientScales.scale_id]
-        redirect_url = '{}?patient_session_id={}&patient_id={}'.format(last_page_url, str(patient_session_id),
-                                                                       str(patient_id))
+        redirect_url = '{}?patient_session_id={}&patient_id={}&enter_page={}'.format(last_page_url, str(patient_session_id),
+                                                                       str(patient_id),enter_page)
     else:
         last_page_url = tools_config.check_scales_html_dict[rPatientScales.scale_id]
-        redirect_url = '{}?patient_session_id={}&patient_id={}'.format(last_page_url, str(patient_session_id),
-                                                                       str(patient_id))
+        redirect_url = '{}?patient_session_id={}&patient_id={}&enter_page={}'.format(last_page_url, str(patient_session_id),
+                                                                       str(patient_id),enter_page)
     return redirect(redirect_url)
 
 
@@ -168,17 +173,18 @@ def get_next_url(request):
     patient_session_id = request.GET.get('patient_session_id')
     patient_id = request.GET.get('patient_id')
     scale_id = int(request.GET.get('scale_id'))
+    enter_page = request.GET.get('enter_page')
     rPatientScales = scales_dao.get_next_scales_detail(patient_session_id, scale_id)
     # 如果上一条未答
     if int(rPatientScales.state) == 0:
         # 未填写的
         next_page_url = tools_config.scales_html_dict[rPatientScales.scale_id]
-        redirect_url = '{}?patient_session_id={}&patient_id={}'.format(next_page_url, str(patient_session_id),
-                                                                       str(patient_id))
+        redirect_url = '{}?patient_session_id={}&patient_id={}&enter_page={}'.format(next_page_url, str(patient_session_id),
+                                                                       str(patient_id),enter_page)
     else:
         next_page_url = tools_config.check_scales_html_dict[rPatientScales.scale_id]
-        redirect_url = '{}?patient_session_id={}&patient_id={}'.format(next_page_url, str(patient_session_id),
-                                                                       str(patient_id))
+        redirect_url = '{}?patient_session_id={}&patient_id={}&enter_page={}'.format(next_page_url, str(patient_session_id),
+                                                                       str(patient_id),enter_page)
     return redirect(redirect_url)
 
 
@@ -211,8 +217,9 @@ def skip_scale(request):
     scale_id = request.GET.get('scale_id')
     scale = scales_dao.get_scale_by_id(scale_id)
     patient_id = request.GET.get('patient_id')
+    enter_page = request.GET.get('enter_page')
     redirect_url = get_redirect_url(patient_session_id, patient_id, tools_config.general_info_next_url,
-                                    scale.do_scale_type, scale_id)
+                                    scale.do_scale_type, scale_id,enter_page)
     return redirect(redirect_url)
 
 
@@ -305,7 +312,7 @@ def get_other_test_forms(request):
     patient_session_id = request.GET.get('patient_session_id')
     patient_id = request.GET.get('patient_id')
     redirect_url = get_redirect_url(patient_session_id, patient_id, tools_config.other_test_next_type_url,
-                                    tools_config.other_test_type, 0)
+                                    tools_config.other_test_type, 0,2)
     return redirect(redirect_url)
 
 
@@ -568,6 +575,7 @@ def add_hamd(request):
     scale_id = tools_config.hamd_17
     doctor_id = request.session.get('doctor_id')
     patient_id = request.GET.get('patient_id')
+    enter_page = request.GET.get('enter_page')
     rPatientHAMD17 = scales_dao.get_patient_HAMD17_byPatientDetailId(patient_session_id)
     rPatientHAMD17_new = scales_models.RPatientHamd17(patient_session_id=patient_session_id, scale_id=scale_id,
                                                       doctor_id=doctor_id)
@@ -578,8 +586,8 @@ def add_hamd(request):
     state = judge_other_scale_state(request)
     # 插入数据库
     scales_dao.add_hamd_database(rPatientHAMD17_new, state)
-    redirect_url = '/scales/get_check_hamd_17_form?patient_session_id={}&patient_id={}'.format(patient_session_id,
-                                                                                               patient_id)
+    redirect_url = '/scales/get_check_hamd_17_form?patient_session_id={}&patient_id={}&enter_page={}'.format(patient_session_id,
+                                                                                               patient_id,enter_page)
     return redirect(redirect_url)
 
 
@@ -600,6 +608,7 @@ def get_hamd_17_form(request):
                                                     'scale_id': scale_id,
                                                     'hamd_answer': hamd_answer,
                                                     'order': order,
+                                                    'enter_page':request.GET.get('enter_page')
                                                     })
 
 
@@ -615,6 +624,7 @@ def get_check_hamd_17_form(request):
                                                      'scale_id': tools_config.hamd_17,
                                                      'hamd_answer': hamd_answer,
                                                      'order': order,
+                                                     'enter_page': request.GET.get('enter_page')
                                                      })
 
 
@@ -624,6 +634,7 @@ def add_hama(request):
     scale_id = tools_config.hama
     doctor_id = request.session.get('doctor_id')
     patient_id = request.GET.get('patient_id')
+    enter_page = request.GET.get('enter_page')
     rPatientHama = scales_dao.get_patient_HAMA_byPatientDetailId(patient_session_id)
     rPatientHAMA_new = scales_models.RPatientHama(patient_session_id=patient_session_id, scale_id=scale_id,
                                                   doctor_id=doctor_id)
@@ -633,8 +644,8 @@ def add_hama(request):
     rPatientHAMA_new = set_attr_by_post(request, rPatientHAMA_new)
     state = judge_other_scale_state(request)
     scales_dao.add_hama_database(rPatientHAMA_new, state)
-    redirect_url = '/scales/get_check_hama_form?patient_session_id={}&patient_id={}'.format(patient_session_id,
-                                                                                            patient_id)
+    redirect_url = '/scales/get_check_hama_form?patient_session_id={}&patient_id={}&enter_page={}'.format(patient_session_id,
+                                                                                            patient_id,enter_page)
     # redirect_url = return_next(request)
     return redirect(redirect_url)
 
@@ -655,6 +666,7 @@ def get_hama_form(request):
                                                  'scale_id': scale_id,
                                                  'hama_answer': hama_answer,
                                                  'order': order,
+                                                 'enter_page': request.GET.get('enter_page')
                                                  })
 
 
@@ -670,6 +682,7 @@ def get_check_hama_form(request):
                                                   'scale_id': scale_id,
                                                   'hama_answer': hama_answer,
                                                   'order': order,
+                                                  'enter_page': request.GET.get('enter_page')
                                                   })
 
 
@@ -679,6 +692,8 @@ def add_ymrs(request):
     scale_id = tools_config.ymrs
     doctor_id = request.session.get('doctor_id')
     patient_id = request.GET.get('patient_id')
+    enter_page = request.GET.get('enter_page')
+
     rPatientYmrs = scales_dao.get_patient_YMRS_byPatientDetailId(patient_session_id)
     rPatientYmrs_new = scales_models.RPatientYmrs(patient_session_id=patient_session_id, scale_id=scale_id,
                                                   doctor_id=doctor_id)
@@ -689,8 +704,8 @@ def add_ymrs(request):
 
     rPatientYmrs_new = set_attr_by_post(request, rPatientYmrs_new)
     scales_dao.add_ymrs_database(rPatientYmrs_new, state)
-    redirect_url = '/scales/get_check_ymrs_form?patient_session_id={}&patient_id={}'.format(patient_session_id,
-                                                                                            patient_id)
+    redirect_url = '/scales/get_check_ymrs_form?patient_session_id={}&patient_id={}&enter_page={}'.format(patient_session_id,
+                                                                                            patient_id,enter_page)
     return redirect(redirect_url)
 
 
@@ -710,6 +725,7 @@ def get_ymrs_form(request):
                                                  'scale_id': scale_id,
                                                  'ymrs_answer': ymrs_answer,
                                                  'order': order,
+                                                 'enter_page': request.GET.get('enter_page')
                                                  })
 
 
@@ -725,6 +741,7 @@ def get_check_ymrs_form(request):
                                                   'scale_id': scale_id,
                                                   'ymrs_answer': ymrs_answer,
                                                   'order': order,
+                                                  'enter_page': request.GET.get('enter_page')
                                                   })
 
 
@@ -734,6 +751,7 @@ def add_bprs(request):
     scale_id = tools_config.bprs
     doctor_id = request.session.get('doctor_id')
     patient_id = request.GET.get('patient_id')
+    enter_page = request.GET.get('enter_page')
     rPatientbprs = scales_dao.get_patient_BPRS_byPatientDetailId(patient_session_id)
     rPatientbprs_new = scales_models.RPatientBprs(patient_session_id=patient_session_id, scale_id=scale_id,
                                                   doctor_id=doctor_id)
@@ -743,8 +761,8 @@ def add_bprs(request):
         rPatientbprs_new.id = rPatientbprs.id
     rPatientbprs_new = set_attr_by_post(request, rPatientbprs_new)
     scales_dao.add_bprs_database(rPatientbprs_new, state)
-    redirect_url = '/scales/get_check_bprs_form?patient_session_id={}&patient_id={}'.format(patient_session_id,
-                                                                                            patient_id)
+    redirect_url = '/scales/get_check_bprs_form?patient_session_id={}&patient_id={}&enter_page={}'.format(patient_session_id,
+                                                                                            patient_id,enter_page)
     return redirect(redirect_url)
 
 
@@ -764,6 +782,7 @@ def get_bprs_form(request):
                                                  'scale_id': scale_id,
                                                  'bprs_answer': bprs_answer,
                                                  'order': order,
+                                                 'enter_page': request.GET.get('enter_page')
                                                  })
 
 
@@ -779,6 +798,7 @@ def get_check_bprs_form(request):
                                                   'scale_id': scale_id,
                                                   'bprs_answer': bprs_answer,
                                                   'order': order,
+                                                  'enter_page': request.GET.get('enter_page')
                                                   })
 
 
