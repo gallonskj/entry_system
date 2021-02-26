@@ -35,9 +35,9 @@
                     <li><a href="#">个人详细信息录入</a></li>
                     <li class="active"><a href="#">家族及疾病史</a></li>
                     <div style="float: right;margin-bottom: 0px;">
-                        <a href="/scales/select_scales?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}"
-                           class="btn btn-warning btn-xs"><i class="fa fa-arrow-left"></i><strong>&nbsp;返回量表选择</strong></a>
-                    </div>
+                            <a id ="return_url" href="/scales/select_scales?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}"
+                               class="btn btn-warning btn-xs"><i class="fa fa-arrow-left"></i><strong>&nbsp;返&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回</strong></a>
+                        </div>
                 </ul>
             </div>
         </div>
@@ -306,8 +306,12 @@
 {% endblock %}
 
 {% block js %}
+        <script type="text/javascript" src="{% static '/js/utils.js' %}"></script>
+
 <script>
 $(document).ready(function(){
+    cookie_val = getCookie('enter_page')
+    set_return_url(cookie_val,'{{ patient_session_id }}' ,'{{ patient_id }}')
     $("input:radio[name='patient_somatic_diseases']").click(function() {
         patient_somatic_diseases = $(this).val();
         if (Number(patient_somatic_diseases == 0)) {

@@ -15,10 +15,9 @@
                          <li><a href="#" >自评量表</a></li>
                          <li class="active"><a href="#" >压力知觉量表（PSS）</a></li>
                          <div style="float: right;margin-bottom: 0px;">
-                           <a href="/patients/get_patient_detail?patient_id={{ patient_id }}"  class="btn btn-warning btn-sm">
-                                <i class="fa fa-arrow-left"></i><strong>&nbsp;返回个人信息详情页</strong>
-                            </a>
-                       </div>
+                            <a id ="return_url" href="/patients/get_patient_detail?&patient_id={{ patient_id }}&page=1"
+                               class="btn btn-warning btn-xs"><i class="fa fa-arrow-left"></i><strong>&nbsp;返&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回</strong></a>
+                        </div>
                     </ul>
                 </div>
             </div>
@@ -27,7 +26,7 @@
             <div id="left-side" style="height: 100%;" class="col-md-2">
                 <ul class="scales_progress">
                     {% for scale_name in scale_name_list %}
-                        {% if scale_name|get_item:'scale__scale_name' == '压力知觉量表' %}
+                        {% if scale_name|get_item:'scale__scale_name' == '压力知觉量表（PSS）' %}
                             <li class="step doing">
                                 <p>{{ scale_name|get_item:'scale__scale_name' }}</p>
                             </li>
@@ -218,7 +217,7 @@
                                     </a>
                                 </div>
                                 <div class="col-md-4 col-sm-6" id="next_scale_final">
-                                    <a href="/patients/get_patient_detail?patient_id={{ patient_id }}">
+                                    <a href="/scales/select_scales?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}">
                                         <input type="button" class="btn btn-success text-center" value="进入下一量表">
                                     </a>
                                 </div>

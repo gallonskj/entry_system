@@ -38,9 +38,9 @@
                         <li><a href="#">他评量表</a></li>
                         <li class="active"><a href="#">汉密尔顿焦虑量表（HAMA）</a></li>
                        <div style="float: right;margin-bottom: 0px;">
-
-                    <a href="/scales/select_scales?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&page=2" class="btn btn-warning btn-xs"><i class="fa fa-arrow-left"></i><strong>&nbsp;返回量表选择</strong></a>
-                   </div>
+                            <a id ="return_url" href="/scales/select_scales?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&page=1"
+                               class="btn btn-warning btn-xs"><i class="fa fa-arrow-left"></i><strong>&nbsp;返&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回</strong></a>
+                        </div>
                     </ul>
                 </div>
             </div>
@@ -287,7 +287,16 @@
 {% endblock %}
 
 {% block js %}
+    <script type="text/javascript" src="{% static '/js/utils.js' %}"></script>
+    <script type="text/javascript" src="{% static '/js/jquery-radio-beauty.js' %}"></script>
 
+    <script type="text/javascript" language="JavaScript">
+        $(document).ready(function () {
+            $("input[type='radio']").labelauty();
+            cookie_val = getCookie('enter_page')
+            set_return_url(cookie_val,'{{ patient_session_id }}' ,'{{ patient_id }}')
+        });
+    </script>
     <script>
     if('{{ hama_answer }}'!='None') {
 
@@ -358,14 +367,6 @@
     </script>
 
 
-
-
-    <script type="text/javascript" language="JavaScript">
-        $(document).ready(function () {
-            $("input[type='radio']").labelauty();
-        });
-    </script>
-    <script type="text/javascript" src="{% static '/js/jquery-radio-beauty.js' %}"></script>
 
 
 {% endblock %}

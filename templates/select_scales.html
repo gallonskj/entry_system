@@ -357,8 +357,7 @@ var num=1
 
         $(document).ready(function () {
             document.getElementById("patient_id").innerHTML = 'NN_' + formatZero({{ patient_baseinfo.id }}, 8)
-            addCookie('return_page','0',0)
-
+            document.cookie = "enter_page=select;path=/"
         });
 
         function formatZero(num, len) {
@@ -381,7 +380,7 @@ var num=1
             if(expiresHours>0){
             var date=new Date();
             date.setTime(date.getTime+expiresHours*3600*1000);
-            cookieString=cookieString+"; expires="+date.toGMTString();
+            cookieString=cookieString+"; expires="+date.toGMTString()+";path=/";;
             }
             document.cookie=cookieString;
         }

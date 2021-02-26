@@ -15,10 +15,9 @@
                          <li><a href="#" >自评量表</a></li>
                          <li class="active"><a href="#" >失眠严重指数量表</a></li>
                          <div style="float: right;margin-bottom: 0px;">
-                           <a href="/patients/get_patient_detail?patient_id={{ patient_id }}"  class="btn btn-warning btn-sm">
-                                <i class="fa fa-arrow-left"></i><strong>&nbsp;返回个人信息详情页</strong>
-                            </a>
-                       </div>
+                            <a id ="return_url" href="/patients/get_patient_detail?&patient_id={{ patient_id }}&page=1"
+                               class="btn btn-warning btn-xs"><i class="fa fa-arrow-left"></i><strong>&nbsp;返&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回</strong></a>
+                        </div>
                     </ul>
                 </div>
             </div>
@@ -161,7 +160,7 @@
                                     </a>
                                 </div>
                                 <div class="col-md-4 col-sm-6" id="next_scale_final">
-                                    <a href="/patients/get_patient_detail?patient_id={{ patient_id }}">
+                                    <a href="/scales/select_scales?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}">
                                         <input type="button" class="btn btn-success text-center" value="进入下一量表">
                                     </a>
                                 </div>
