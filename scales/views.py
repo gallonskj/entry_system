@@ -1445,11 +1445,18 @@ def get_self_tests(request):
     scale_id = int(request.GET.get('scale_id'))
     session_id = patients_dao.get_patient_detail_byPatientId(patient_session_id)
     page_url = tools_config.scales_html_dict[scale_id]
+    question_index = 0
+    # 续做的情况
+    # 续作的时候量表没做完，一定在ajax_buffer中
+    # 找到ajax_buffer中的这个人
+    if patient_session_id in ajax_buffer.keys():
+        if ajax_buffer[patient_session_id][selfTestsEnum[scale_id]][0] is not None:
+            question_index = ajax_buffer[patient_session_id][selfTestsEnum[scale_id]][1]
     return render(request, page_url, {"patient_session_id": patient_session_id,
                                       "patient_id": patient_id,
                                       'scale_id': scale_id,
                                       'session_id': session_id,
-                                      'question_index': 0,
+                                      'question_index': question_index,
                                       'username': request.session.get('username')})
 
 
@@ -1460,7 +1467,6 @@ def redo_self_scale(request):
     session_id = patients_dao.get_patient_detail_byPatientId(patient_session_id)
     get_page_url = tools_config.scales_html_dict[scale_id]
     return render(request, get_page_url, {"patient_session_id": patient_session_id,
-
                                           "patient_id": patient_id,
                                           'scale_id': scale_id,
                                           'session_id': session_id,
@@ -1490,16 +1496,20 @@ def self_tests_submit(request):
     if patient_session_id not in ajax_buffer.keys():
         print('buffer in')
         ajax_buffer[patient_session_id] = {
-            'ybo': scales_dao.get_or_default_patient_YBO_byPatientDetailId(patient_session_id, doctor_id),
-            'bss': scales_dao.get_or_default_patient_suicidal_byPatientDetailId(patient_session_id, doctor_id),
-            'hcl_33': scales_dao.get_or_default_patient_manicSymptom_byPatientDetailId(patient_session_id, doctor_id),
-            'shaps': scales_dao.get_or_default_patient_happiness_byPatientDetailId(patient_session_id, doctor_id),
-            'teps': scales_dao.get_or_default_patient_pleasure_byPatientDetailId(patient_session_id, doctor_id),
-            'ctq_sf': scales_dao.get_or_default_patient_growth_byPatientDetailId(patient_session_id, doctor_id),
-            'cerq_c': scales_dao.get_or_default_patient_cognitive_byPatientDetailId(patient_session_id, doctor_id),
-            'aslec': scales_dao.get_or_default_patient_adolescent_byPatientDetailId(patient_session_id, doctor_id),
-            's_embu': scales_dao.get_or_default_patient_SEmbu_byPatientDetailId(patient_session_id, doctor_id),
-            'atq': scales_dao.get_or_default_patient_ATQ_byPatientDetailId(patient_session_id, doctor_id),
+            'ybo': [scales_dao.get_or_default_patient_YBO_byPatientDetailId(patient_session_id, doctor_id), 0],
+            'bss': [scales_dao.get_or_default_patient_suicidal_byPatientDetailId(patient_session_id, doctor_id), 0],
+            'hcl_33': [scales_dao.get_or_default_patient_manicSymptom_byPatientDetailId(patient_session_id, doctor_id), 0],
+            'shaps': [scales_dao.get_or_default_patient_happiness_byPatientDetailId(patient_session_id, doctor_id), 0],
+            'teps': [scales_dao.get_or_default_patient_pleasure_byPatientDetailId(patient_session_id, doctor_id), 0],
+            'ctq_sf': [scales_dao.get_or_default_patient_growth_byPatientDetailId(patient_session_id, doctor_id), 0],
+            'cerq_c': [scales_dao.get_or_default_patient_cognitive_byPatientDetailId(patient_session_id, doctor_id), 0],
+            'aslec': [scales_dao.get_or_default_patient_adolescent_byPatientDetailId(patient_session_id, doctor_id), 0],
+            's_embu': [scales_dao.get_or_default_patient_SEmbu_byPatientDetailId(patient_session_id, doctor_id), 0],
+            'atq': [scales_dao.get_or_default_patient_ATQ_byPatientDetailId(patient_session_id, doctor_id), 0],
+            'pss': [scales_dao.get_or_default_patient_PSS_byPatientDetailId(patient_session_id, doctor_id), 0],
+            'phq_9': [scales_dao.get_or_default_patient_PHQ_byPatientDetailId(patient_session_id, doctor_id), 0],
+            'gad_7': [scales_dao.get_or_default_patient_GAD_byPatientDetailId(patient_session_id, doctor_id), 0],
+            'insomnia': [scales_dao.get_or_default_patient_ISI_byPatientDetailId(patient_session_id, doctor_id), 0]
         }
     print(ajax_buffer[patient_session_id])
     '''获取序列化的form_data中的表单信息'''
@@ -1512,12 +1522,12 @@ def self_tests_submit(request):
     print(attribute_value)
     '''遍历form_data,填充对应的属性值'''
     for attribute in attribute_name:
-        if hasattr(ajax_buffer[patient_session_id][test_name], attribute):
+        if hasattr(ajax_buffer[patient_session_id][test_name][0], attribute):
             print('set attribute')
-            setattr(ajax_buffer[patient_session_id][test_name], attribute,
+            setattr(ajax_buffer[patient_session_id][test_name][0], attribute,
                     attribute_value[attribute_name.index(attribute)])
             print('set attribute successs')
-            ajax_buffer[patient_session_id][scale_id] = question_index
+            ajax_buffer[patient_session_id][test_name][1] = question_index
     duration_buffer.append(RSelfTestDuration(patient_session_id=patient_session_id,
                                              scale_id=scale_id,
                                              question_index=question_index,
@@ -1528,21 +1538,22 @@ def self_tests_submit(request):
     if flag == '1':
         print('do flush')
         # 计算当前量表总分
-        scales_dao.self_tests_total_score(int(scale_id), ajax_buffer[patient_session_id][test_name])
+        scales_dao.self_tests_total_score(int(scale_id), ajax_buffer[patient_session_id][test_name][0])
         # 保存
-        ajax_buffer[patient_session_id][test_name].save()
+        ajax_buffer[patient_session_id][test_name][0].save()
         RSelfTestDuration.objects.bulk_create(duration_buffer)
         print('clean buffer')
         # 更新量表完成状态
         scales_dao.update_rscales_state(patient_session_id, scale_id, 1)
         # 清空缓存
-        ajax_buffer[patient_session_id][test_name] = None
+        ajax_buffer[patient_session_id][test_name][0] = None
+        ajax_buffer[patient_session_id][test_name][1] = None
         duration_buffer.clear()
 
         # 清空病人
         clean_patient_session_flag = True
         for key in ajax_buffer[patient_session_id].keys():
-            if ajax_buffer[patient_session_id][key] is not None:
+            if ajax_buffer[patient_session_id][key][0] is not None:
                 clean_patient_session_flag = False
                 break
         if clean_patient_session_flag:
@@ -1568,8 +1579,7 @@ def get_next_self_scale_url(request):
                                                                                            str(patient_id))
     else:
         next_test_url = '/scales/get_self_tests?scale_id={}&patient_session_id={}&patient_id={}'.format(str(scale_id),
-                                                                                                        str(
-                                                                                                            patient_session_id),
+                                                                                                        str(patient_session_id),
                                                                                                         str(patient_id))
     print(next_test_url)
     return render(request, 'warning.html', {
@@ -1845,27 +1855,31 @@ selfTestsEnum = {
     17: 'cerq_c',
     18: 'aslec',
     19: 's_embu',
-    20: 'atq'
+    20: 'atq',
+    29: 'phq_9',
+    30: 'gad_7',
+    31: 'insomnia',
+    32: 'pss'
 }
 
 
-# 续做
-def get_previous_self_tests(request):
-    patient_session_id = request.GET.get('patient_session_id')
-    patient_id = request.GET.get('patient_id')
-    scale_id = int(request.GET.get('scale_id'))
-    # 如果ajax_buffer中没有当前续作的patient_session_id 或者 没有相应的量表 默认重做
-    if patient_session_id not in ajax_buffer.keys() or ajax_buffer[patient_session_id][selfTestsEnum[scale_id]] is None:
-        return redirect(redo_self_tests)
-    question_index = ajax_buffer[patient_session_id][selfTestsEnum[scale_id]]
-    session_id = patients_dao.get_patient_detail_byPatientId(patient_session_id)
-    page_url = tools_config.scales_html_dict[scale_id]
-    return render(request, page_url, {"patient_session_id": patient_session_id,
-                                      "patient_id": patient_id,
-                                      'scale_id': scale_id,
-                                      'question_index': question_index,
-                                      'session_id': session_id,
-                                      'username': request.session.get('username')})
+# # 续做
+# def get_previous_self_tests(request):
+#     patient_session_id = request.GET.get('patient_session_id')
+#     patient_id = request.GET.get('patient_id')
+#     scale_id = int(request.GET.get('scale_id'))
+#     # 如果ajax_buffer中没有当前续作的patient_session_id 或者 没有相应的量表 默认重做
+#     if patient_session_id not in ajax_buffer.keys() or ajax_buffer[patient_session_id][selfTestsEnum[scale_id]] is None:
+#         return redirect(redo_self_tests)
+#     question_index = ajax_buffer[patient_session_id][selfTestsEnum[scale_id]]
+#     session_id = patients_dao.get_patient_detail_byPatientId(patient_session_id)
+#     page_url = tools_config.scales_html_dict[scale_id]
+#     return render(request, page_url, {"patient_session_id": patient_session_id,
+#                                       "patient_id": patient_id,
+#                                       'scale_id': scale_id,
+#                                       'question_index': question_index,
+#                                       'session_id': session_id,
+#                                       'username': request.session.get('username')})
 
 
 # 重做
@@ -1873,20 +1887,45 @@ def redo_self_tests(request):
     patient_session_id = request.GET.get('patient_session_id')
     scale_id = int(request.GET.get('scale_id'))
     doctor_id = request.session.get('doctor_id')
+    patient_id = scales_models.DPatientDetail.objects.all().filter(pk=int(patient_session_id)).first().patient_id
     # 判断是做完了重做（记录在数据库中）还是做了一半重做（记录在缓存中）
     # 判断缓存中是否有这个病人 如果有则看一下相应的量表对象是否存在
-    if patient_session_id not in ajax_buffer.keys() or ajax_buffer[patient_session_id][selfTestsEnum[scale_id]] is None:
-        # 防止patient_session_id不在ajax_buffer中导致ajax_buffer[patient_session_id][selfTestsEnum[scale_id]]报key不存在
-        # 如果满足条件1就新建一个key
-        if patient_session_id not in ajax_buffer.keys():
-            ajax_buffer[patient_session_id] = {}
-        # 不在缓存 那就是在数据库 将以前的对象取出来  不存在则创建一个新的
-        ajax_buffer[patient_session_id][selfTestsEnum[scale_id]] = scales_dao.get_or_default_self_tests_obj_by_scale_id(
+    if patient_session_id not in ajax_buffer.keys():
+        ajax_buffer[patient_session_id] = {
+            'ybo': [None, 0],
+            'bss': [None, 0],
+            'hcl_33': [None, 0],
+            'shaps': [None, 0],
+            'teps': [None, 0],
+            'ctq_sf': [None, 0],
+            'cerq_c': [None, 0],
+            'aslec': [None, 0],
+            's_embu': [None, 0],
+            'atq': [None, 0],
+            'pss': [None, 0],
+            'phq_9': [None, 0],
+            'gad_7': [None, 0],
+            'insomnia': [None, 0]
+        }
+    if ajax_buffer[patient_session_id][selfTestsEnum[scale_id]][0] is None:
+        # 在数据库里,对象取到缓存，question_index置为0，量表状态置为未完成
+        ajax_buffer[patient_session_id][selfTestsEnum[scale_id]][0] = scales_dao.get_or_default_self_tests_obj_by_scale_id(
             scale_id, patient_session_id, doctor_id)
+        ajax_buffer[patient_session_id][selfTestsEnum[scale_id]][1] = 0
+    else:
+        # 在缓存里
+        # question_id 置为0，量表状态置为未完成，然后跳转到当前量表就可以了
+        ajax_buffer[patient_session_id][selfTestsEnum[scale_id]][1] = 0
     # 否则量表数据就在缓存中 这个时候缓存中已经确保有量表对象了
     # 更改量表的完成状态为未完成
     scales_dao.update_rscales_state(patient_session_id, scale_id, 0)
     # 删除之前的相应时记录
     scales_dao.del_duration_by_scale_id(patient_session_id, scale_id)
     # 跳转到相应的页面就可以了
-    return redirect(get_self_tests)
+    return redirect('/scales/get_self_tests?patient_session_id={}&patient_id={}&scale_id={}'.format(patient_session_id,
+                                                                                                    patient_id,
+                                                                                                    scale_id))
+
+
+def testNewAjax(request):
+    return render(request, 'nbh/ajax_insomnia.html', {'question_index': 0})

@@ -536,12 +536,12 @@ def growth_total_score(rPatientGrowth_object):
             rPatientGrowth_object.question24_answer) + \
                                    int(rPatientGrowth_object.question27_answer)
         emotional_ignorance_total_score = (6 - int(rPatientGrowth_object.question5_answer)) + (
-                    6 - int(rPatientGrowth_object.question7_answer)) + \
+                6 - int(rPatientGrowth_object.question7_answer)) + \
                                           (6 - int(rPatientGrowth_object.question13_answer)) + (
-                                                      6 - int(rPatientGrowth_object.question19_answer)) + \
+                                                  6 - int(rPatientGrowth_object.question19_answer)) + \
                                           (6 - int(rPatientGrowth_object.question28_answer))
         physical_ignorance_total_score = int(rPatientGrowth_object.question1_answer) + (
-                    6 - int(rPatientGrowth_object.question2_answer)) + \
+                6 - int(rPatientGrowth_object.question2_answer)) + \
                                          int(rPatientGrowth_object.question4_answer) + int(
             rPatientGrowth_object.question6_answer) + (6 - int(rPatientGrowth_object.question26_answer))
 
@@ -916,3 +916,35 @@ def ATQ_total_score(rPatientAtq_object):
             object_flag = True
             total_score = None
     return total_score, object_flag
+
+
+def PHQ_total_score(RPatientPhq_obj):
+    total_score = 0
+    for each_score in RPatientPhq_obj.__dict__:
+        if each_score.split('_')[1] == 'answer':
+            total_score = total_score + int(getattr(RPatientPhq_obj, each_score))
+    return total_score
+
+
+def GAD_total_score(RPatientGad_obj):
+    total_score = 0
+    for each_score in RPatientGad_obj.__dict__:
+        if each_score.split('_')[1] == 'answer':
+            total_score = total_score + int(getattr(RPatientGad_obj, each_score))
+    return total_score
+
+
+def PSS_total_score(RPatientPss_obj):
+    total_score = 0
+    for each_score in RPatientPss_obj.__dict__:
+        if each_score.split('_')[1] == 'answer':
+            total_score = total_score + int(getattr(RPatientPss_obj, each_score))
+    return total_score
+
+
+def ISI_total_score(RPatientInsomnia_obj):
+    total_score = 0
+    for each_score in RPatientInsomnia_obj.__dict__:
+        if each_score.split('_')[1] == 'answer':
+            total_score = total_score + int(getattr(RPatientInsomnia_obj, each_score))
+    return total_score
