@@ -521,6 +521,7 @@ class RPatientHappiness(models.Model):
         managed = False
         db_table = 'r_patient_happiness'
 
+
 class RPatientManicsymptom(models.Model):
     patient_session = models.ForeignKey(DPatientDetail, models.DO_NOTHING)
     scale = models.ForeignKey(DScales, models.DO_NOTHING)
@@ -627,6 +628,7 @@ class RPatientMriExamination(models.Model):
     class Meta:
         managed = False
         db_table = 'r_patient_mri_examination'
+
 
 class RPatientPleasure(models.Model):
     patient_session = models.ForeignKey(DPatientDetail, models.DO_NOTHING)
@@ -956,6 +958,7 @@ class RSelfTestDuration(models.Model):
         managed = False
         db_table = 'r_self_test_duration'
 
+
 class RPatientPss(models.Model):
     patient_session = models.ForeignKey(DPatientDetail, models.DO_NOTHING)
     scale = models.ForeignKey(DScales, models.DO_NOTHING)
@@ -981,6 +984,7 @@ class RPatientPss(models.Model):
         managed = False
         db_table = 'r_patient_pss'
 
+
 class RPatientInsomnia(models.Model):
     patient_session = models.ForeignKey(DPatientDetail, models.DO_NOTHING)
     scale = models.ForeignKey(DScales, models.DO_NOTHING)
@@ -999,6 +1003,7 @@ class RPatientInsomnia(models.Model):
     class Meta:
         managed = False
         db_table = 'r_patient_insomnia'
+
 
 class RPatientPhq(models.Model):
     patient_session = models.ForeignKey(DPatientDetail, models.DO_NOTHING)
@@ -1020,6 +1025,7 @@ class RPatientPhq(models.Model):
     class Meta:
         managed = False
         db_table = 'r_patient_phq'
+
 
 class RPatientGad(models.Model):
     patient_session = models.ForeignKey(DPatientDetail, models.DO_NOTHING)

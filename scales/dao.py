@@ -567,7 +567,8 @@ def get_patient_ATQ_byPatientDetailId(patient_detail_id):
     else:
         return patient_ATQ[0]
 
-#PHQ-9
+
+# PHQ-9
 def get_patient_PHQ_9_byPatientDetailId(patient_detail_id):
     patient_PHQ_9 = scales_models.RPatientPhq.objects.filter(patient_session=patient_detail_id)
     if patient_PHQ_9.count() == 0:
@@ -575,7 +576,8 @@ def get_patient_PHQ_9_byPatientDetailId(patient_detail_id):
     else:
         return patient_PHQ_9[0]
 
-#GAD_7
+
+# GAD_7
 def get_patient_GAD_7_byPatientDetailId(patient_detail_id):
     patient_GAD_7 = scales_models.RPatientGad.objects.filter(patient_session=patient_detail_id)
     if patient_GAD_7.count() == 0:
@@ -583,7 +585,8 @@ def get_patient_GAD_7_byPatientDetailId(patient_detail_id):
     else:
         return patient_GAD_7[0]
 
-#失眠严重指数量表
+
+# 失眠严重指数量表
 def get_patient_Insomnia_byPatientDetailId(patient_detail_id):
     patient_insomnia = scales_models.RPatientInsomnia.objects.filter(patient_session=patient_detail_id)
     if patient_insomnia.count() == 0:
@@ -591,13 +594,15 @@ def get_patient_Insomnia_byPatientDetailId(patient_detail_id):
     else:
         return patient_insomnia[0]
 
-#压力知觉量表
+
+# 压力知觉量表
 def get_patient_Pss_byPatientDetailId(patient_detail_id):
     patient_Pss = scales_models.RPatientPss.objects.filter(patient_session=patient_detail_id)
     if patient_Pss.count() == 0:
         return None
     else:
         return patient_Pss[0]
+
 
 # 威斯康星WCST
 def get_patient_wcst_byPatientDetailId(patient_detail_id):
@@ -930,6 +935,46 @@ def get_or_default_patient_ATQ_byPatientDetailId(patient_detail_id, doctor_id):
         return patient_ATQ[0]
 
 
+def get_or_default_patient_PHQ_byPatientDetailId(patient_detail_id, doctor_id):
+    patient_PHQ = scales_models.RPatientPhq.objects.filter(patient_session=patient_detail_id)
+    if patient_PHQ.count() == 0:
+        return scales_models.RPatientPhq(patient_session_id=patient_detail_id,
+                                         doctor_id=doctor_id,
+                                         scale_id=20)
+    else:
+        return patient_PHQ[0]
+
+
+def get_or_default_patient_GAD_byPatientDetailId(patient_detail_id, doctor_id):
+    patient_GAD = scales_models.RPatientGad.objects.filter(patient_session=patient_detail_id)
+    if patient_GAD.count() == 0:
+        return scales_models.RPatientGad(patient_session_id=patient_detail_id,
+                                         doctor_id=doctor_id,
+                                         scale_id=20)
+    else:
+        return patient_GAD[0]
+
+
+def get_or_default_patient_PSS_byPatientDetailId(patient_detail_id, doctor_id):
+    patient_PSS = scales_models.RPatientPss.objects.filter(patient_session=patient_detail_id)
+    if patient_PSS.count() == 0:
+        return scales_models.RPatientPss(patient_session_id=patient_detail_id,
+                                         doctor_id=doctor_id,
+                                         scale_id=20)
+    else:
+        return patient_PSS[0]
+
+
+def get_or_default_patient_ISI_byPatientDetailId(patient_detail_id, doctor_id):
+    patient_ISI = scales_models.RPatientInsomnia.objects.filter(patient_session=patient_detail_id)
+    if patient_ISI.count() == 0:
+        return scales_models.RPatientInsomnia(patient_session_id=patient_detail_id,
+                                              doctor_id=doctor_id,
+                                              scale_id=20)
+    else:
+        return patient_ISI[0]
+
+
 def self_tests_total_score(scale_id, obj):
     if scale_id == 11:
         obj.total_score, object_flag = tools_calculatingScores.YBO_total_score(obj)
@@ -957,6 +1002,14 @@ def self_tests_total_score(scale_id, obj):
             obj)
     elif scale_id == 20:
         obj.total_score, object_flag = tools_calculatingScores.ATQ_total_score(obj)
+    elif scale_id == 29:
+        obj.total_score = tools_calculatingScores.PHQ_total_score(obj)
+    elif scale_id == 30:
+        obj.total_score = tools_calculatingScores.GAD_total_score(obj)
+    elif scale_id == 31:
+        obj.total_score = tools_calculatingScores.ISI_total_score(obj)
+    elif scale_id == 32:
+        obj.total_score = tools_calculatingScores.ISI_total_score(obj)
 
 
 def get_or_default_self_tests_obj_by_scale_id(scale_id, patient_session_id, doctor_id):

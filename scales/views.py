@@ -1440,7 +1440,6 @@ def redo_self_scale(request):
     session_id = patients_dao.get_patient_detail_byPatientId(patient_session_id)
     get_page_url = tools_config.scales_html_dict[scale_id]
     return render(request, get_page_url, {"patient_session_id": patient_session_id,
-
                                           "patient_id": patient_id,
                                           'scale_id': scale_id,
                                           'session_id': session_id,
@@ -1480,6 +1479,10 @@ def self_tests_submit(request):
             'aslec': scales_dao.get_or_default_patient_adolescent_byPatientDetailId(patient_session_id, doctor_id),
             's_embu': scales_dao.get_or_default_patient_SEmbu_byPatientDetailId(patient_session_id, doctor_id),
             'atq': scales_dao.get_or_default_patient_ATQ_byPatientDetailId(patient_session_id, doctor_id),
+            'pss': scales_dao.get_or_default_patient_PSS_byPatientDetailId(patient_session_id, doctor_id),
+            'phq_9': scales_dao.get_or_default_patient_PHQ_byPatientDetailId(patient_session_id, doctor_id),
+            'gad_7': scales_dao.get_or_default_patient_GAD_byPatientDetailId(patient_session_id, doctor_id),
+            'insomnia': scales_dao.get_or_default_patient_ISI_byPatientDetailId(patient_session_id, doctor_id)
         }
     print(ajax_buffer[patient_session_id])
     '''获取序列化的form_data中的表单信息'''
@@ -1825,7 +1828,11 @@ selfTestsEnum = {
     17: 'cerq_c',
     18: 'aslec',
     19: 's_embu',
-    20: 'atq'
+    20: 'atq',
+    29: 'phq_9',
+    30: 'gad_7',
+    31: 'insomnia',
+    32: 'pss'
 }
 
 
@@ -1870,3 +1877,7 @@ def redo_self_tests(request):
     scales_dao.del_duration_by_scale_id(patient_session_id, scale_id)
     # 跳转到相应的页面就可以了
     return redirect(get_self_tests)
+
+
+def testNewAjax(request):
+    return render(request, 'nbh/ajax_insomnia.html', {'question_index': 0})
