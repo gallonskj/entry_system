@@ -1033,6 +1033,14 @@ def get_or_default_self_tests_obj_by_scale_id(scale_id, patient_session_id, doct
         return get_or_default_patient_SEmbu_byPatientDetailId(patient_session_id, doctor_id)
     elif scale_id == 20:
         return get_or_default_patient_ATQ_byPatientDetailId(patient_session_id, doctor_id)
+    elif scale_id == 29:
+        return get_or_default_patient_PHQ_byPatientDetailId(patient_session_id, doctor_id)
+    elif scale_id == 30:
+        return get_or_default_patient_GAD_byPatientDetailId(patient_session_id, doctor_id)
+    elif scale_id == 31:
+        return get_or_default_patient_ISI_byPatientDetailId(patient_session_id, doctor_id)
+    elif scale_id == 32:
+        return get_or_default_patient_PSS_byPatientDetailId(patient_session_id, doctor_id)
 
 
 def del_duration_by_scale_id(patient_session_id, scale_id):
