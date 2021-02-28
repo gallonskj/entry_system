@@ -175,9 +175,7 @@
                                                    for="patient_id">入院日<span class="required">*:</span></label>
                                             <div id="in_date" class="col-md-8 col-sm-8 col-xs-12"
                                                  style="padding-top: 7px;margin-bottom: 0;text-align: left">
-                                                <input type="text" name="in_date" class="sel_beauty"
-                                                       value="{{ inpatient_detail.in_date|processNone }}"/>
-                                                <input type="date" class=" sel_beauty form-control input-sm " name="in_date" required="required"/>
+                                                <input type="date" name="in_date" class="sel_beauty" value="{{ inpatient_detail.in_date|processNone }}"/>
                                             </div>
                                         </div>
                                         </div>
@@ -235,8 +233,10 @@
                                                    for="patient_id">出院日<span class="required">*:</span></label>
                                             <div id="out_date" class="col-md-8 col-sm-8 col-xs-12"
                                                  style="padding-top: 7px;margin-bottom: 0;text-align: left">
-                                                <input type="text" name="out_date" class="sel_beauty" value="{{ inpatient_detail.out_date|processNone }}">
-                                                <input type="date" class=" sel_beauty form-control input-sm " name="out_date" required="required"/>
+                                                <input type="date" name="out_date" class="sel_beauty" value="{{ inpatient_detail.out_date|processNone }}"/>
+
+
+
                                             </div>
                                         </div>
                                     </div>
