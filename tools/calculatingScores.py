@@ -921,30 +921,34 @@ def ATQ_total_score(rPatientAtq_object):
 def PHQ_total_score(RPatientPhq_obj):
     total_score = 0
     for each_score in RPatientPhq_obj.__dict__:
-        if each_score.split('_')[1] == 'answer':
-            total_score = total_score + int(getattr(RPatientPhq_obj, each_score))
+        if len(each_score.split('_')) > 1:
+            if each_score.split('_')[1] == 'answer':
+                total_score = total_score + int(getattr(RPatientPhq_obj, each_score))
     return total_score
 
 
 def GAD_total_score(RPatientGad_obj):
     total_score = 0
     for each_score in RPatientGad_obj.__dict__:
-        if each_score.split('_')[1] == 'answer':
-            total_score = total_score + int(getattr(RPatientGad_obj, each_score))
+        if len(each_score.split('_')) > 1:
+            if each_score.split('_')[1] == 'answer':
+                total_score = total_score + int(getattr(RPatientGad_obj, each_score))
     return total_score
 
 
 def PSS_total_score(RPatientPss_obj):
     total_score = 0
     for each_score in RPatientPss_obj.__dict__:
-        if each_score.split('_')[1] == 'answer':
-            total_score = total_score + int(getattr(RPatientPss_obj, each_score))
+        if len(each_score.split('_')) > 1:
+            if each_score.split('_')[1] == 'answer':
+                total_score = total_score + int(getattr(RPatientPss_obj, each_score))
     return total_score
 
 
 def ISI_total_score(RPatientInsomnia_obj):
     total_score = 0
     for each_score in RPatientInsomnia_obj.__dict__:
-        if each_score.split('_')[1] == 'answer':
-            total_score = total_score + int(getattr(RPatientInsomnia_obj, each_score))
+        if len(each_score.split('_')) > 1:
+            if each_score.split('_')[1] == 'answer':
+                total_score = total_score + int(getattr(RPatientInsomnia_obj, each_score))
     return total_score

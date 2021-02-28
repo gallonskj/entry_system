@@ -977,8 +977,8 @@ class RPatientPss(models.Model):
     question13_answer = models.IntegerField(blank=True, null=True)
     total_score = models.IntegerField(blank=True, null=True)
     doctor = models.ForeignKey('users.Suser', models.DO_NOTHING)
-    create_time = models.DateTimeField()
-    update_time = models.DateTimeField()
+    create_time = models.DateTimeField(auto_now_add=True)
+    update_time = models.DateTimeField(auto_now=True)
 
     class Meta:
         managed = False
@@ -997,8 +997,8 @@ class RPatientInsomnia(models.Model):
     question7_answer = models.IntegerField(blank=True, null=True)
     total_score = models.IntegerField(blank=True, null=True)
     doctor = models.ForeignKey('users.Suser', models.DO_NOTHING)
-    create_time = models.DateTimeField()
-    update_time = models.DateTimeField()
+    create_time = models.DateTimeField(auto_now_add=True)
+    update_time = models.DateTimeField(auto_now=True)
 
     class Meta:
         managed = False
@@ -1019,8 +1019,8 @@ class RPatientPhq(models.Model):
     question9_answer = models.IntegerField(blank=True, null=True)
     total_score = models.IntegerField(blank=True, null=True)
     doctor = models.ForeignKey('users.Suser', models.DO_NOTHING)
-    create_time = models.DateTimeField()
-    update_time = models.DateTimeField()
+    create_time = models.DateTimeField(auto_now_add=True)
+    update_time = models.DateTimeField(auto_now=True)
 
     class Meta:
         managed = False
@@ -1039,8 +1039,8 @@ class RPatientGad(models.Model):
     question7_answer = models.IntegerField(blank=True, null=True)
     total_score = models.IntegerField(blank=True, null=True)
     doctor = models.ForeignKey('users.Suser', models.DO_NOTHING)
-    create_time = models.DateTimeField()
-    update_time = models.DateTimeField()
+    create_time = models.DateTimeField(auto_now_add=True)
+    update_time = models.DateTimeField(auto_now=True)
 
     class Meta:
         managed = False
