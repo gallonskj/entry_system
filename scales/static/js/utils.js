@@ -13,4 +13,5 @@ function getCookie(name){
     if(arr[0]==name)return arr[1];
     }
     return "";
+
 }

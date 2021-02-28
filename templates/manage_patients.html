@@ -267,6 +267,29 @@
                                 {{ patient|get_diagnosis_by_object }}
                             </p>
 
+<<<<<<< HEAD
+=======
+                            <label class="col-sm-2 control-label" for="subject_number"
+                                   style="text-align: right">诊断情况<span class="required">:</span></label>
+                            <input type="hidden" value="{{ patient_detail.diagnosis }}" id="diagnosis1">
+                            <div class="col-md-4">
+                                <select tabindex="-1" style="font-size: 10px" name="diagnosis" id="diagnosis"
+                                        class="sel_beauty select2_single form-control col-md-4">
+                                    <option value="">所有</option>
+                                    <option value=0>未诊断</option>
+                                    <option value=1>健康者</option>
+                                    <option value=2>重性抑郁障碍</option>
+                                    <option value=3>焦虑障碍</option>
+                                    <option value=4>双相障碍</option>
+                                    <option value=5>精神分裂症</option>
+                                    <option value=6>强迫症</option>
+                                    <option value=7>高危遗传</option>
+                                    <option value=8>临床高危</option>
+                                    <option value=9>抑郁症状</option>
+                                    <option value=99>其他诊断</option>
+                                </select>
+                            </div>
+>>>>>>> origin/skj
                         </div>
 
                     </div>
@@ -315,12 +338,14 @@
                                 <input type="text" class="sel_beauty form-control input-sm" id="inpatient_area" name="inpatient_area" class="sel_beauty">
                             </div>
 
-                        </div>
 
-                        <div class="row" style="margin-bottom: 10px;">
-                            <label class="col-sm-2 control-label" for="bed_number" style="text-align: right">床号：</label>
-                            <div class="col-md-4">
-                                <input type="text" class="sel_beauty form-control input-sm" id="bed_number" name="bed_number" class="sel_beauty">
+                            <div class="row" style="margin-bottom: 10px;">
+                                <label class="col-sm-2 control-label" for="inpatient_area"
+                                       style="text-align: right">病区：</label>
+                                <div class="col-md-4">
+                                    <input type="text" class="sel_beauty form-control input-sm" id="inpatient_area"
+                                           name="inpatient_area" class="sel_beauty">
+                                </div>
                             </div>
                         </div>
 
