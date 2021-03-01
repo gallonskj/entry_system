@@ -11,8 +11,6 @@ urlpatterns = [
     url(r'^add_patient_baseinfo', views.add_patient_baseinfo),
     # 创建复扫基本信息
     url(r'^add_patient_followup', views.add_patient_followup),
-    # 获取所有病人信息
-    url(r'^get_all_patients_baseinfo', views.get_all_patients_baseinfo),
     # 获取病人详细信息
     url(r'^get_patient_detail', views.get_patient_detail),
     # 获取被试统计
@@ -33,10 +31,10 @@ urlpatterns = [
     url(r'^update_base_info', views.update_base_info),
     # 貌似未使用
     url(r'^subjectDetailInfo', views.subjectDetailInfo),
-    # 管理住院信息
-    url(r'^inpatientManage', views.get_all_inpatients_baseinfo),
-    url(r'^search_patient_base_info', views.search_patient_base_info),
+
+    url(r'^get_patient_by_search', views.get_patient_by_search),
     # 用来捕获未匹配成功的url
-    url(r'', views.get_all_patients_baseinfo),
+    url(r'', views.get_patient_by_search),
+
 
 ]
