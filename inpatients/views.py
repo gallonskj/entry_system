@@ -14,8 +14,57 @@ from tools.exception import BussinessException
 from django.core.files import File
 from tools.doc2pdf import ConvertFileModelField
 from tools.Utils import get_progress_note_direct
+from tools.Utils import Paginator
+
 from django.conf import settings
 from django.core import serializers
+
+
+def search_inpatient_base_info(request):
+    search_dict = {}
+    name = request.POST.get('name')
+    sex = request.POST.get('sex')
+    id = request.POST.get('patient_id')
+    diagnosis = request.POST.get('diagnosis')
+    hospitalized_type = request.POST.get('hospitalized_type')
+    if name and name.strip()!='':
+        search_dict['patient__name'] = name
+    if sex and sex.strip()!='':
+        search_dict['patient__sex'] = sex
+    if id and id.strip()!='':
+        search_dict['patient__id'] = int(id)
+    if diagnosis and diagnosis.strip()!='':
+        search_dict['patient__diagnosis'] = diagnosis
+    if hospitalized_type == 'all' or hospitalized_type is None:
+        hospitalized_type = [HospitalizedState.INPATIENT, HospitalizedState.OUT_HOSPITAL]
+    inpatients = inpatients_dao.get_all_inpatient_info(hospitalized_type).filter(**search_dict).all().order_by('-id')
+    #patients = patients_models.BPatientBaseInfo.objects.filter(**search_dict).all().order_by('-id')
+    username = request.session.get('username')
+    obj_count = len(inpatients)
+    obj_perpage = 10
+    pagetag_current = request.GET.get('page',1)
+    pagetag_dsp_count = 6
+    paginator = Paginator(obj_count, obj_perpage, pagetag_current, pagetag_dsp_count)
+    inpatients = inpatients[paginator.obj_slice_start:paginator.obj_slice_end]
+    return render(request, 'manage_inpatients.html', {"inpatients": inpatients,
+                                                    'username': username,
+                                                    'paginator': paginator})
+
+# 根据住院类型获取患者信息
+def get_inpatient_by_hospitalized_type(request):
+    hospitalized_type = request.POST.get('hospitalized_type')
+    if hospitalized_type=='all' or hospitalized_type is None:
+        hospitalized_type = [HospitalizedState.INPATIENT,HospitalizedState.OUT_HOSPITAL]
+    inpatients = inpatients_dao.get_all_inpatient_info(hospitalized_type)
+    obj_count = len(inpatients)
+    obj_perpage = 10
+    pagetag_current = request.GET.get('page', 1)
+    pagetag_dsp_count = 6
+    paginator = Paginator(obj_count, obj_perpage, pagetag_current, pagetag_dsp_count)
+    return render(request,'manage_inpatients.html',{'inpatients':inpatients,
+                                                    'paginator':paginator,
+                                                    })
+
 
 # 根据id获取住院患者的详细信息
 def get_inpatient_detail(request):
@@ -186,10 +235,9 @@ def upload_progress_note(request):
             res_message = SuccessMessage('上传成功')
     return HttpResponse(json.dumps(res_message.__dict__))
 
-# 获取所有住院病人信息
-def get_all_inpatient_info(request):
-    res = inpatients_dao.get_all_inpatient_info([HospitalizedState.INPATIENT,HospitalizedState.OUT_HOSPITAL])
-    return render(request,'manage_inpatients.html',{'inpatients':res})
+
+
+
 
 
 # 读取用药信息
@@ -234,13 +282,7 @@ def insert_medical_dict(request):
     from tools.Utils import insert_medical_dict
     insert_medical_dict()
 
-# 根据住院类型获取患者信息
-def get_inpatient_by_hospitalized_type(request):
-    hospitalized_type = request.POST.get('hospitalized_type')
-    if hospitalized_type=='all':
-        hospitalized_type = [HospitalizedState.INPATIENT,HospitalizedState.OUT_HOSPITAL]
-    inpatients = inpatients_dao.get_all_inpatient_info(hospitalized_type)
-    return render(request,'manage_inpatients.html',{'inpatients':inpatients})
+
 
 # 获取病人治疗期间用药情况
 def get_drugs_by_medical_treatment(request):
