@@ -19,51 +19,39 @@ from tools.Utils import Paginator
 from django.conf import settings
 from django.core import serializers
 
-
-def search_inpatient_base_info(request):
+# 根据入院类型以及一些基本查询条件获取住院患者信息
+def get_inpatient_by_search(request):
+    username = request.session.get('username')
+    obj_perpage = 10
+    pagetag_current = request.GET.get('page',1)
+    pagetag_dsp_count = 6
+    # 查询条件
     search_dict = {}
     name = request.POST.get('name')
     sex = request.POST.get('sex')
     id = request.POST.get('patient_id')
     diagnosis = request.POST.get('diagnosis')
     hospitalized_type = request.POST.get('hospitalized_type')
-    if name and name.strip()!='':
+    if name and name.strip() != '':
         search_dict['patient__name'] = name
-    if sex and sex.strip()!='':
+    if sex and sex.strip() != '':
         search_dict['patient__sex'] = sex
-    if id and id.strip()!='':
+    if id and id.strip() != '':
         search_dict['patient__id'] = int(id)
-    if diagnosis and diagnosis.strip()!='':
+    if diagnosis and diagnosis.strip() != '':
         search_dict['patient__diagnosis'] = diagnosis
-    if hospitalized_type == 'all' or hospitalized_type is None:
-        hospitalized_type = [HospitalizedState.INPATIENT, HospitalizedState.OUT_HOSPITAL]
-    inpatients = inpatients_dao.get_all_inpatient_info(hospitalized_type).filter(**search_dict).all().order_by('-id')
-    #patients = patients_models.BPatientBaseInfo.objects.filter(**search_dict).all().order_by('-id')
-    username = request.session.get('username')
+    if hospitalized_type and hospitalized_type.strip() != '':
+        search_dict['inpatient_state'] = hospitalized_type
+
+    inpatients = inpatients_model.BInpatientInfo.objects.all().select_related('patient').filter(**search_dict).all().order_by('-id')
     obj_count = len(inpatients)
-    obj_perpage = 10
-    pagetag_current = request.GET.get('page',1)
-    pagetag_dsp_count = 6
     paginator = Paginator(obj_count, obj_perpage, pagetag_current, pagetag_dsp_count)
     inpatients = inpatients[paginator.obj_slice_start:paginator.obj_slice_end]
     return render(request, 'manage_inpatients.html', {"inpatients": inpatients,
                                                     'username': username,
                                                     'paginator': paginator})
 
-# 根据住院类型获取患者信息
-def get_inpatient_by_hospitalized_type(request):
-    hospitalized_type = request.POST.get('hospitalized_type')
-    if hospitalized_type=='all' or hospitalized_type is None:
-        hospitalized_type = [HospitalizedState.INPATIENT,HospitalizedState.OUT_HOSPITAL]
-    inpatients = inpatients_dao.get_all_inpatient_info(hospitalized_type)
-    obj_count = len(inpatients)
-    obj_perpage = 10
-    pagetag_current = request.GET.get('page', 1)
-    pagetag_dsp_count = 6
-    paginator = Paginator(obj_count, obj_perpage, pagetag_current, pagetag_dsp_count)
-    return render(request,'manage_inpatients.html',{'inpatients':inpatients,
-                                                    'paginator':paginator,
-                                                    })
+
 
 
 # 根据id获取住院患者的详细信息

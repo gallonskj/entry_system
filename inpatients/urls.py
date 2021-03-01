@@ -20,9 +20,9 @@ urlpatterns = [
     # 读取医嘱记录信息
     url(r'^read_medical_advice', views.read_medical_advice),
     url(r'^update_inpatient_info', views.update_inpatient_info),
+    url(r'^get_inpatient_by_search', views.get_inpatient_by_search),
     # =============deprecated==================
     url(r'^insert_medical_dict', views.insert_medical_dict),
-    url(r'^get_inpatient_by_hospitalized_type', views.get_inpatient_by_hospitalized_type),
-    url(r'^search_inpatient_base_info', views.search_inpatient_base_info),
+
 
 ]

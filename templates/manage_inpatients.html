@@ -64,7 +64,6 @@
          aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form action="/inpatients/search_inpatient_base_info" name="search" id="search" method="post">
                     {% csrf_token %}
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -91,9 +90,9 @@
                             </div>
                             <label class="col-sm-2 control-label" style="text-align: right" for="sex">性别：</label>
                             <div class="col-sm-4">
-                                <input type="radio" class=" flat" name="sex" value=0/>
+                                <input type="radio" class=" flat" name="sex" value=0 />
                                 <span style="margin-right: 10px;"></span>男<span style="margin-right: 20px;"></span>
-                                <input type="radio" class="flat" name="sex" value=1>
+                                <input type="radio" class="flat" name="sex" value=1 >
                                 <span style="margin-right: 10px;"></span>女
                             </div>
 
@@ -102,7 +101,6 @@
 
                             <label class="col-sm-2 control-label" for="subject_number"
                                    style="text-align: right">诊断情况<span class="required">:</span></label>
-                            <input type="hidden" value="{{ patient_detail.diagnosis }}" id="diagnosis1">
                             <div class="col-md-4">
                                 <select tabindex="-1" style="font-size: 10px" name="diagnosis" id="diagnosis"
                                         class="sel_beauty select2_single form-control col-md-4">
@@ -126,14 +124,12 @@
                     <div class="modal-footer">
                         <div class="row">
                             <div class="text-center">
-                                <input type="submit" class="btn btn-success" onclick="" value="查找"/>
-                                <a href="manage_inpatients.html">
-                                    <button class="btn btn-danger" type="button" onclick="">取消</button>
-                                </a>
+                                <button type="button" class="btn btn-success" onclick="search_inpatients()">&nbsp;查找&nbsp;&nbsp;</button>
+                                <button class="btn btn-danger" type="button" onclick="">取消</button>
+                                <button class="btn btn-danger" type="button" onclick="">取消</button>
                             </div>
                         </div>
                     </div>
-                </form>
             </div>
         </div>
     </div>
@@ -159,7 +155,7 @@
                 <div class="tabbable" id="tabs-362408">
                     <ul class="nav nav-tabs">
                         <li class="active">
-                             <a  href="" onclick="get_inpatients_by_type('all')" data-toggle="tab">所有住院患者</a>
+                             <a  href="" onclick="get_inpatients_by_type('')" data-toggle="tab">所有住院患者</a>
                         </li>
                         <li>
                              <a href="" onclick="get_inpatients_by_type(1)" data-toggle="tab">在院患者</a>
@@ -431,63 +427,47 @@ function addLine() {
 </script>
 
  <script type="application/javascript">
-    function upload_progress_note(inpatient_id) {
-        var formData = new FormData();
-            formData.append('inpatient_id',inpatient_id);
-            formData.append('progress_note',document.getElementById("progress_note").files[0])
-            formData.append("csrfmiddlewaretoken", $("[name = 'csrfmiddlewaretoken']").val())
-            $.ajax({
-                type: 'POST',
-                url: "/inpatients/upload_progress_note",
-                data:formData,
-                cache: false,
-                processData: false,
-                contentType: false,
-                dataType:'json',
-                success: function (data) {
-                    alert(data['message']);
-                },
-                error: function () {
-                    alert("上传失败！");
-                }
-            });
-    }
-    function upload_medical_advice(inpatient_id) {
-        var formData = new FormData();
-            formData.append('inpatient_id',inpatient_id);
-            formData.append('medical_advice',document.getElementById("medical_advice").files[0])
-            formData.append("csrfmiddlewaretoken", $("[name = 'csrfmiddlewaretoken']").val())
-            $.ajax({
-                type: 'POST',
-                url: "/inpatients/upload_medical_advice",
-                data:formData,
-                cache: false,
-                processData: false,
-                contentType: false,
-                dataType:'json',
-                success: function (data) {
-                    inpatients = data['inpatients']
-                    for(var i = 0;i<inpatients.length;i++){
-                        str1 = "<tr>" +
-                        "<td>"+data.data[i].user_id + "</td>" +
-                        "<td>"+data.data[i].user_id + "</td>" +
-                        "<td>"+data.data[i].user_id + "</td>" +
-                        "</tr>";
-                $("#test").append(str1);
-            }
-                },
-                error: function () {
-                    alert("上传失败！");
-                }
-            });
-    }
-    function get_inpatients_by_type(hospitalized_type) {
-        {#修改form的action url#}
-        document.search.action="/inpatients/search_inpatient_base_info?hospitalized_type="+hospitalized_type
-        $("#inpatients").load("/inpatients/get_inpatient_by_hospitalized_type .table-responsive",{"hospitalized_type":hospitalized_type,
+    var checked_hospitalized_type = ''
+    function get_inpatients_by_type(type) {
+        hospitalized_type = type
+        $("#inpatients").load("/inpatients/get_inpatient_by_search .table-responsive", {
+            "hospitalized_type": type,
             'csrfmiddlewaretoken': $("[name = 'csrfmiddlewaretoken']").val()
-        });
+        })
     }
+
+    function search_inpatients() {
+        var patient_id = $("input[name='patient_id']").val()
+        var name = $("input[name='name']").val()
+        var diagnosis = $("select[name='diagnosis']").val()
+        var sex = $("input[name='sex']:checked").val()
+
+        $("#inpatients").load("/inpatients/get_inpatient_by_search .table-responsive", {
+            "hospitalized_type": hospitalized_type,
+            "patient_id":patient_id,
+            "name":name,
+            "diagnosis":diagnosis,
+            "sex":sex,
+            'csrfmiddlewaretoken': $("[name = 'csrfmiddlewaretoken']").val()
+        })
+        $("#modal_container_search").modal('hide');
+
+
+    }
+
+    function reset(num) {
+        if(num==1){
+            $("#modal_container_search").modal('hide');
+        }
+        $("input[name='patient_id']").val('')
+        $("input[name='name']").val('')
+        $("select[name='diagnosis']").val('')
+        $("input[name='sex']:checked").val('')
+
+    }
+
+
+
 
      function out_inpatient(inpatient_id) {
         var formData = new FormData();

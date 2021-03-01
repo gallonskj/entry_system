@@ -22,7 +22,7 @@ scale_class_dict = {7: [scales_models.RPatientHamd17, [8, 21, 35], ['正常', '�
                     10: [scales_models.RPatientBprs, [36], ['正常', '偏高']]}
 
 
-def search_patient_base_info(request):
+def get_patient_by_search(request):
     search_dict = {}
     name = request.POST.get('name')
     sex = request.POST.get('sex')
@@ -41,7 +41,7 @@ def search_patient_base_info(request):
     nations = DEthnicity.objects.all()
     obj_count = len(patients)
     obj_perpage = 10
-    pagetag_current = request.GET.get('page',1)
+    pagetag_current = request.POST.get('page',1)
     pagetag_dsp_count = 6
     paginator = Paginator(obj_count, obj_perpage, pagetag_current, pagetag_dsp_count)
     patients = patients[paginator.obj_slice_start:paginator.obj_slice_end]
@@ -49,30 +49,6 @@ def search_patient_base_info(request):
                                                     'username': username,
                                                     'nations': nations,
                                                     'paginator': paginator})
-
-# 获取所有被试基础信息,以及民族字典表信息（创建被试时会使用到）
-def get_all_patients_baseinfo(request):
-    patients = patients_dao.get_base_info_all()
-    username = request.session.get('username')
-    nations = DEthnicity.objects.all()
-    obj_count = len(patients)
-    obj_perpage = 10
-    pagetag_current = request.GET.get('page',1)
-    pagetag_dsp_count = 6
-    paginator = Paginator(obj_count, obj_perpage, pagetag_current, pagetag_dsp_count)
-    patients = patients[paginator.obj_slice_start:paginator.obj_slice_end]
-    return render(request, 'manage_patients.html', {"patients": patients,
-                                                    'username': username,
-                                                    'nations': nations,
-                                                    'paginator': paginator})
-
-def get_all_inpatients_baseinfo(request):
-    patients = patients_dao.get_base_info_all()
-    username = request.session.get('username')
-    nations = DEthnicity.objects.all()
-    return render(request, 'manage_inpatients.html', {"patients": patients,
-                                                    'username': username,
-                                                    'nations': nations})
 
 # 被试基本信息录入，需要生成id的信息，需要向patient_detail进行信息插入(session==1的信息)
 # todo 在进行病人或者复扫创建的时候，需要创建ｒ_patients_scales创建量表完成信息，默认应该是未完成的，需要根据青少年这些去做
