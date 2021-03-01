@@ -5,6 +5,17 @@
 {% block css %}
     <link href="{% static '/vendors/iCheck/skins/flat/green.css' %}" rel="stylesheet">
     <link href="{% static '/css/scales_style.css' %}" rel="stylesheet">
+    <style>
+        .sel_beauty {
+            height: 30px;
+            line-height: 28px;
+            border: 1px solid #0D3349;
+            -moz-border-radius: 2px;
+            -webkit-border-radius: 2px;
+            border-radius: 2px;
+            width: 150px;
+        }
+    </style>
 {% endblock %}
 {% block content %}
     <div class="right_col" role="main">
@@ -16,7 +27,7 @@
                         <li><a href="#">自评量表</a></li>
                         <li class="active"><a href="#">自杀意念及行为史bss</a></li>
                         <div style="float: right;margin-bottom: 0px;">
-                            <a id ="return_url" href="/patients/get_patient_detail?&patient_id={{ patient_id }}&page=1"
+                            <a id="return_url" href="/patients/get_patient_detail?&patient_id={{ patient_id }}&page=1"
                                class="btn btn-warning btn-xs"><i class="fa fa-arrow-left"></i><strong>&nbsp;返&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回</strong></a>
 
                         </div>
@@ -65,11 +76,15 @@
                             <div class="row" id="suicides_times_block"
                                  style="margin-left:5px;margin-top: 5px;padding-bottom: 5px;">
                                 <strong>如果有过自杀行为史，记录次数：<input type="text" name="suicide_times"
-                                                              class="suicides_times_content" id="suicides_times_content"
+                                                              class="suicides_times_content sel_beauty" id="suicides_times_content"
                                                               value="0"/> 次 &nbsp;&nbsp;&nbsp;&nbsp;</strong>
-                                <strong>备注：<input type="text" name="self_mutilation_remark"
-                                                  class="self_mutilation_remark"
-                                                  id="self_mutilation_remark"/><br/></strong>
+
+                                <strong>备注：</strong>
+                                    <select class="sel_beauty" name="self_mutilation_remark" id="self_mutilation_remark" >
+                                        <option value="1">自杀</option>
+                                        <option value="0">自伤</option>
+                                    </select>
+
                             </div>
                             <div class="row" style="margin-left:5px;margin-top: 5px;padding-bottom: 5px;">
                                 <h5>
@@ -926,6 +941,16 @@
                                 </div>
                             </div>
 
+
+                            <div class="row">
+                                <div class="col-md-12 col-sm-12">
+                                    <a style="float: left;font-weight: bold">最近一周总分：{{ bss_answer.total_score_lastwee|processNone }}</a>
+                                </div>
+                                <div class="col-md-12 col-sm-12">
+                                    <a style="float: left;font-weight: bold">最消沉总分：{{ bss_answer.total_score_mostdepressed|processNone }}</a>
+                                </div>
+                            </div>
+
                             <div class="row" id="bt_group">
                                 <div class="col-md-4 col-sm-6 text-center">
                                     <a href="/scales/get_self_last_url?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}"
@@ -977,7 +1002,9 @@
                     } else {
                         $("#suicides_times_block").show();
                         $("input[name='suicide_times']").val('{{ bss_answer.suicide_times|processNone }}');
-                        $("input[name='self_mutilation_remark']").val('{{ bss_answer.self_mutilation_remark|processNone }}');
+
+                        var self_mutilation_remark = Number("{{ patient_baseinfo_family.self_mutilation_remark }}");
+                        $("#self_mutilation_remark option[value="+self_mutilation_remark+"]").prop("selected",true);
                     }
                 }
 
@@ -1107,7 +1134,7 @@
             {#锁住#}
             $("input[name='suicide_history']").attr("disabled", "disabled");
             $("input[name='suicide_times']").attr("disabled", "disabled");
-            $("input[name='self_mutilation_remark']").attr("disabled", "disabled");
+            $("select[name='self_mutilation_remark']").attr("disabled", "disabled");
             $("input[name='question1_lastweek']").attr("disabled", "disabled")
             $("input[name='question1_mostdepressed']").attr("disabled", "disabled");
             $("input[name='question2_lastweek']").attr("disabled", "disabled")
