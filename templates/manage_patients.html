@@ -254,7 +254,7 @@
                             <div class="col-sm-4">
                                 <input type="radio" class="flat" name="sex_search" value=0 id="sex_search" />
                                 <span style="margin-right: 10px;"></span>男<span style="margin-right: 20px;"></span>
-                                <input type="radio" class="flat" name="sex_search" value=1 id="sex_search" />
+                                <input type="radio" class="flat" name="sex_search" value=1 id="sex_search"/>
                                 <span style="margin-right: 10px;"></span>女
                                 <input type="hidden" name="sex_cache" />
 
@@ -729,8 +729,16 @@
             $("#diagnosis_search").val('')
             {% comment %}$("#sex_search").attr("checked",false);{% endcomment %}
 
-            $("#sex_search").attr("checked",false);
-            $("#sex_search").removeClass(iradio_flat-green.checked)
+{% comment %}            $("input[name='sex_search']:checked").val(''){% endcomment %}
+           {% comment %} $("input[name='sex_search']:checked").removeAttr("checked"){% endcomment %}
+  {% comment %}          $("#sex_search").removeClass("checked"){% endcomment %}
+            var test = $("input[type='radio']:checked").val()
+            alert(test)
+            $("input[type='radio']").attr("checked",false)
+
+
+
+
         }
         /*获取生成id
         这一段千万千万不能删呀！！！！！！！！！
