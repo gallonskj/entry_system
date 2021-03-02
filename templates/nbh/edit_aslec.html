@@ -15,7 +15,7 @@
                          <li><a href="#" >自评量表</a></li>
                          <li class="active"><a href="#" >青少年生活事件量表(aslec)</a></li>
                          <div style="float: right;margin-bottom: 0px;">
-                            <a id ="return_url" href="/patients/get_patient_detail?&patient_id={{ patient_id }}&page=1"
+                            <a id ="return_url" href="/patients/get_patient_detail?&patient_id={{ patient_id }}"
                                class="btn btn-warning btn-xs"><i class="fa fa-arrow-left"></i><strong>&nbsp;返&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回</strong></a>
                         </div>
 
@@ -320,6 +320,11 @@
                                         </tbody>
                                         </table>
                                     </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12 col-sm-12">
+                                            <a  style="float: left;font-weight: bold">总分：{{ aslec_answer.total_score|processNone }}</a>
+                                        </div>
                                 </div>
 
 

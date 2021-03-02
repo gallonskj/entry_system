@@ -324,7 +324,7 @@ def Suicidal_total_score(rPatientSuicidal_object):
                 object_flag_mostdepressed = True
                 total_score_mostdepressed = None
         object_flag = object_flag_lastweek and object_flag_mostdepressed
-    if object_flag:
+    if not object_flag:
         if total_score_lastweek is None and total_score_mostdepressed is None:
             suicide_ideation = 0
         else:

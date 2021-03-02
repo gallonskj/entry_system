@@ -198,7 +198,7 @@
                                     <tr>
                                 {% endif %}
                             <td>
-                            {{ patient.patient.id }}
+                             {{ patient.patient.id|calciulateId }}
                             </td>
                             <td>
                                 {{ patient.patient.name }}
@@ -239,9 +239,6 @@
                             {% endfor %}
                           </tbody>
                         </table>
-
-
-
                     <nav aria-label="Page navigation">
                             <ul class="pagination">
                                 <li>
@@ -414,8 +411,6 @@ function addLine() {
 
         }
 
-
-
 </script>
 
     <script type="text/javascript">
@@ -463,7 +458,6 @@ function addLine() {
         $("input[name='name']").val('')
         $("select[name='diagnosis']").val('')
         $("input[name='sex']:checked").val('')
-
     }
 
 

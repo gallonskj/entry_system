@@ -21,6 +21,7 @@ urlpatterns = [
     url(r'^read_medical_advice', views.read_medical_advice),
     url(r'^update_inpatient_info', views.update_inpatient_info),
     url(r'^get_inpatient_by_search', views.get_inpatient_by_search),
+    url(r'^del_inpatient', views.del_inpatient),
     # =============deprecated==================
     url(r'^insert_medical_dict', views.insert_medical_dict),
 

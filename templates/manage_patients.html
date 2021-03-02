@@ -728,15 +728,16 @@
             $("#name_search").val('')
             $("#diagnosis_search").val('')
             {% comment %}$("#sex_search").attr("checked",false);{% endcomment %}
-            var checkedbrowser=document.getElementsByName("sex_search");
-			var len = checkedbrowser.length;
-			var i = 0;
-			for(; i < len; i++){
-				checkedbrowser[i].checked = false;
-				checkedbrowser[i].removeAttribute("checked");
-			}
+
+            $("#sex_search").attr("checked",false);
+            $("#sex_search").removeClass(iradio_flat-green.checked)
         }
         /*获取生成id
+        这一段千万千万不能删呀！！！！！！！！！
+        千万千万不能删呀！！！！！！！！！
+        千万千万不能删呀！！！！！！！！！
+        千万千万不能删呀！！！！！！！！！
+        千万千万不能删呀！！！！！！！！！
         $('#modal_container_subjectBaseInfo_build').on('show.bs.modal', function (e) {
             $.ajax({
                 url: '/patients/get_generateId_and_nation',
