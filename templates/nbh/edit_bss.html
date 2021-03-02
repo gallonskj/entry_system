@@ -944,6 +944,17 @@
 
                             <div class="row">
                                 <div class="col-md-12 col-sm-12">
+                                    <a style="float: left;font-weight: bold">自杀意念：
+                                    {% if bss_answer.suicide_ideation is not None %}
+                                        {% if bss_answer.suicide_ideation == 0  %}
+                                            无自杀意念
+                                        {% elif bss_answer.suicide_ideation == 1 %}
+                                            有自杀意念
+                                        {% endif %}
+                                    {% endif %}
+                                    </a>
+                                </div>
+                                <div class="col-md-12 col-sm-12">
                                     <a style="float: left;font-weight: bold">最近一周总分：{{ bss_answer.total_score_lastwee|processNone }}</a>
                                 </div>
                                 <div class="col-md-12 col-sm-12">

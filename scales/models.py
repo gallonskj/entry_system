@@ -818,7 +818,7 @@ class RPatientSuicidal(models.Model):
     create_time = models.DateTimeField(auto_now_add=True)
     update_time = models.DateTimeField(auto_now=True)
     self_mutilation_remark = models.CharField(max_length=50, blank=True, null=True)
-
+    suicide_ideation = models.IntegerField(blank=True, null=True)
     class Meta:
         managed = False
         db_table = 'r_patient_suicidal'

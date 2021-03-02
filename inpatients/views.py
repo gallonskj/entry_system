@@ -19,6 +19,22 @@ from tools.Utils import Paginator
 from django.conf import settings
 from django.core import serializers
 
+def del_inpatient(request):
+    inpatient_id = request.GET.get("inpatient_id")
+    inpatients = inpatients_dao.BInpatientInfo.objects.filter(pk = inpatient_id)
+    if len(inpatients)>0:
+        inpatient = inpatients[0]
+        # 删除住院信息
+        inpatient.delete()
+        # 更新病人在院的状态,获取住院表里该病人的记录,没有的话
+        patient = patient_dao.get_base_info_byPK(inpatient.patient_id)
+        res = inpatients_dao.BInpatientInfo.objects.filter(patient_id=inpatient.patient_id).all().order_by('-in_time')
+        if len(res)==0:
+            patient.inpatient_state = HospitalizedState.NOT_HOSPITALIZED
+        else:
+            patient.inpatient_state = res[0].inpatient_state
+        patient_dao.add_base_info(patient)
+        return redirect(get_inpatient_by_search)
 # 根据入院类型以及一些基本查询条件获取住院患者信息
 def get_inpatient_by_search(request):
     username = request.session.get('username')
@@ -235,12 +251,6 @@ def read_medical_advice(request):
     print(a)
     return render(request,'medical_advice_detail.html',{'medical_advices':medical_advices,
                                                         'inpatient_id':inpatient_id})
-
-# 删除住院患者信息
-def del_inpatient(request):
-    inpatient_id = request.GET.get('inpatient_id')
-    inpatients_dao.del_inpatient_by_pk(inpatient_id)
-    return redirect('/inpatients/get_all_inpatient_info')
 
 # 获取医嘱属于哪一个大类,需要从数据库中预先读取,缓存到dict中,假如不存在于dict中,直接将其设置other类型存储
 def get_type(object,medical_dict):

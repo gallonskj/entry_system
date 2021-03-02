@@ -306,7 +306,7 @@ def dao_add_family_info(patient_basic_info_family, state):
 
 def dao_add_suicide(rpatientsuicidal):
     # 计算总分
-    rpatientsuicidal.total_score_lastweek, rpatientsuicidal.total_score_mostdepressed, object_flag = tools_calculatingScores.Suicidal_total_score(
+    rpatientsuicidal.total_score_lastweek, rpatientsuicidal.total_score_mostdepressed, object_flag,rpatientsuicidal.suicide_ideation = tools_calculatingScores.Suicidal_total_score(
         rpatientsuicidal)
     tools_utils.object_judgment(object_flag)
     # 插入前的级联检验
@@ -979,7 +979,7 @@ def self_tests_total_score(scale_id, obj):
     if scale_id == 11:
         obj.total_score, object_flag = tools_calculatingScores.YBO_total_score(obj)
     elif scale_id == 12:
-        obj.total_score_lastweek, obj.total_score_mostdepressed, object_flag = tools_calculatingScores.Suicidal_total_score(
+        obj.total_score_lastweek, obj.total_score_mostdepressed, object_flag,obj.suicide_ideation = tools_calculatingScores.Suicidal_total_score(
             obj)
     elif scale_id == 13:
         obj.total_score, object_flag = tools_calculatingScores.ManicSymptom_total_score(obj)
