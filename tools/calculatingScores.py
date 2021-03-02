@@ -225,6 +225,7 @@ def YBO_total_score(rPatientYbobsessiontable_object):
 
 # 自杀意念及行为史
 def Suicidal_total_score(rPatientSuicidal_object):
+    suicide_ideation = None
     if rPatientSuicidal_object is None \
             or rPatientSuicidal_object.question1_lastweek is None \
             or rPatientSuicidal_object.question1_mostdepressed is None \
@@ -323,8 +324,12 @@ def Suicidal_total_score(rPatientSuicidal_object):
                 object_flag_mostdepressed = True
                 total_score_mostdepressed = None
         object_flag = object_flag_lastweek and object_flag_mostdepressed
-
-    return total_score_lastweek, total_score_mostdepressed, object_flag
+    if object_flag:
+        if total_score_lastweek is None and total_score_mostdepressed is None:
+            suicide_ideation = 0
+        else:
+            suicide_ideation = 1
+    return total_score_lastweek, total_score_mostdepressed, object_flag,suicide_ideation
 
 
 # 33项轻躁狂
