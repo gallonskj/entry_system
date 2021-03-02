@@ -129,6 +129,8 @@
             } else {
                 ajax_post($('#question_form'));
                 update_question(question_index);
+                const input_range = document.getElementsByClassName('answer')[0];
+                input_range.value = 2;
                 question_index++;
             }
         });
