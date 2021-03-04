@@ -37,11 +37,6 @@ def del_inpatient(request):
         return redirect(get_inpatient_by_search)
 # 根据入院类型以及一些基本查询条件获取住院患者信息
 def get_inpatient_by_search(request):
-    username = request.session.get('username')
-    obj_perpage = 10
-    pagetag_current = request.GET.get('page',1)
-    pagetag_dsp_count = 6
-    # 查询条件
     search_dict = {}
     name = request.POST.get('name')
     sex = request.POST.get('sex')
@@ -58,9 +53,12 @@ def get_inpatient_by_search(request):
         search_dict['patient__diagnosis'] = diagnosis
     if hospitalized_type and hospitalized_type.strip() != '':
         search_dict['inpatient_state'] = hospitalized_type
-
     inpatients = inpatients_model.BInpatientInfo.objects.all().select_related('patient').filter(**search_dict).all().order_by('-id')
+    username = request.session.get('username')
     obj_count = len(inpatients)
+    obj_perpage = 10
+    pagetag_current = request.POST.get('page', 1)
+    pagetag_dsp_count = 6
     paginator = Paginator(obj_count, obj_perpage, pagetag_current, pagetag_dsp_count)
     inpatients = inpatients[paginator.obj_slice_start:paginator.obj_slice_end]
     return render(request, 'manage_inpatients.html', {"inpatients": inpatients,

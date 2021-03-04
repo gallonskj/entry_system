@@ -208,7 +208,7 @@
                             <div class="text-center">
                                 <input type="submit" class="btn btn-success" onclick="" value="提交"/>
                                 <a href="manage_patients.html">
-                                    <button class="btn btn-danger" type="button" onclick="">取消</button>
+                                    <button class="btn btn-danger" data-dismiss="modal" type="button" onclick="">取消</button>
                                 </a>
                             </div>
                         </div>
@@ -243,9 +243,7 @@
                         </div>
 
                     </div>
-
                     <div class="row" style="margin-bottom: 10px;">
-
                         <label class="col-sm-2 control-label" for="name" style="text-align: right">姓名：</label>
                         <div class="col-sm-4">
                             <input type="text" class=" sel_beauty form-control input-sm " name="name" id="name_search"/>
@@ -258,12 +256,10 @@
                             <input type="radio" class="flat" name="sex_search" value=1 id="sex_search"/>
                             <span style="margin-right: 10px;"></span>女
                             <input type="hidden" name="sex_cache"/>
-
                         </div>
 
                     </div>
                     <div class="row" style="margin-bottom: 10px;">
-
                         <label class="col-sm-2 control-label" for="subject_number"
                                style="text-align: right">诊断情况<span class="required">:</span></label>
                         <input type="hidden" value="{{ patient_detail.diagnosis }}" id="diagnosis1">
@@ -293,9 +289,9 @@
                 <div class="modal-footer">
                     <div class="row">
                         <div class="text-center">
-                            <button class="btn btn-success" type="button" onclick="search_patients('1')" data-dismiss="modal">查找</button>
-                            <button class="btn btn-warning" type="button" onclick="reset(0)" data-dismiss="modal">重置</button>
-                            <button class="btn btn-danger" type="button" onclick="reset(1)" data-dismiss="modal">取消</button>
+                            <button class="btn btn-success" type="button"  data-dismiss="modal" onclick="search_patients('1')">查找</button>
+                            <button class="btn btn-warning" type="button"  onclick="reset()">重置</button>
+                            <button class="btn btn-danger" type="button"  data-dismiss="modal" onclick="reset()">取消</button>
                         </div>
                     </div>
                 </div>
@@ -306,16 +302,14 @@
 
     <div id="patients_data">
     <!-- 删除确认开始 -->
-    {% for patient in patients %}
-        <div class="modal fade" id="delete_patient_{{ forloop.counter }}" role="dialog" aria-labelledby="myModalLabel"
+        <div class="modal fade" id="delete_patient_modal" role="dialog" aria-labelledby="myModalLabel"
              aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-body">
                         <div class="row" style="margin-bottom: 10px;">
                             <div class="form-group" align="center">
-                                <br>
-                                确定要删除{{ patient.id }}号患者{{ patient.name }}吗?
+                                <p id="del_alert_message"></p>
                             </div>
                         </div>
                     </div>
@@ -323,11 +317,11 @@
                         <div class="row">
                             <div class="text-center">
 
-                                <a href="/patients/del_patient?patient_id={{ patient.id }}">
+                                <a href="" id="delete_patient_href">
                                     <button class="btn btn-success">确定</button>
                                 </a>
-                                <a href="/patients/get_all_patients_baseinfo">
-                                    <button class="btn btn-danger">取消</button>
+                                <a href="">
+                                    <button class="btn btn-danger" data-dismiss="modal">取消</button>
                                 </a>
                             </div>
                         </div>
@@ -335,15 +329,13 @@
                 </div>
             </div>
         </div>
-    {% endfor %}
     <!-- 删除确认结束 -->
 
     <!-- 添加复扫模态框 开始 -->
-    {% for patient in patients %}
-        <div class="modal fade" id="add_followup_{{ forloop.counter }}" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal fade" id="add_followup_modal" role="dialog" aria-labelledby="myModalLabel">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <form action="/patients/add_patient_followup?patient_id={{ patient.id }}" method="post">
+                    <form action="#" name="add_followup_form" method="post">
                         {% csrf_token %}
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -356,29 +348,23 @@
                             <div class="row" style="margin-bottom: 10px;">
 
                                 <label class="col-sm-2 control-label" for="name" style="text-align: right">编号：</label>
-                                <p class="col-md-4">{{ patient.id|calciulateId }}</p>
+                                <p class="col-md-4" id="followup_patient_id_message"></p>
 
                                 <label class="col-sm-2 control-label" style="text-align: right" for="sex">性别：</label>
-                                <p class="col-sm-4">
-                                    {% if  patient.sex == 1 %}
-                                        女
-                                    {% else %}
-                                        男
-                                    {% endif %}
-                                </p>
+                                <p class="col-sm-4" id="followup_sex_message">></p>
                             </div>
 
                             <div class="row" style="margin-bottom: 10px;">
                                 <label class="col-sm-2 control-label" for="name" style="text-align: right">姓名：</label>
-                                <p class="col-md-4">{{ patient.name }}</p>
+                                <p class="col-md-4" id="followup_name_message"></p>
                                 <label class="col-sm-2 control-label" for="nation" style="text-align: right">民族：</label>
-                                <p class="col-sm-4"> {{ patient.nation }}</p>
+                                <p class="col-sm-4" id="followup_nation_message"></p>
                             </div>
 
                             <div class="row" style="margin-bottom: 10px;">
                                 <label class="col-sm-2 control-label" for="birth_date"
                                        style="text-align: right">出生日期：</label>
-                                <p class="col-sm-4"> {{ patient.birth_date }}</p>
+                                <p class="col-sm-4" id="followup_birth_date_message"> </p>
 
                                 <label class="col-sm-2 control-label" for="birth_date"
                                        style="text-align: right">扫描日期：</label>
@@ -390,9 +376,7 @@
                             <div class="row" style="margin-bottom: 10px;">
                                 <label class="col-sm-2 control-label" for="birth_date"
                                        style="text-align: right">诊断情况：</label>
-                                <p class="col-md-4">
-                                    {{ patient|get_diagnosis_by_object }}
-                                </p>
+                                <p class="col-md-4" id="followup_diagnosis_message"></p>
 
                             </div>
 
@@ -401,8 +385,8 @@
                             <div class="row">
                                 <div class="text-center">
                                     <input type="submit" class="btn btn-success" onclick="" value="提交"/>
-                                    <a href="manage_patients.html">
-                                        <button class="btn btn-danger" type="button" onclick="">取消</button>
+                                    <a href="#">
+                                        <button class="btn btn-danger" data-dismiss="modal" type="button" onclick="">取消</button>
                                     </a>
                                 </div>
                             </div>
@@ -413,15 +397,13 @@
                 </div>
             </div>
         </div>
-    {% endfor %}
     <!-- 添加复扫模态框模态框 结束-->
 
     <!-- 添加住院模态框 开始 -->
-    {% for patient in patients %}
-        <div class="modal fade" id="add_inpatient_{{ forloop.counter }}" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal fade" id="add_inpatient_modal" role="dialog" aria-labelledby="myModalLabel">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <form action="/inpatients/add_inpatient_info?patient_id={{ patient.id }}" method="post">
+                    <form action="#" method="post" name="add_inpatient_form">
                         {% csrf_token %}
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -479,8 +461,8 @@
                             <div class="row">
                                 <div class="text-center">
                                     <input type="submit" class="btn btn-success" onclick="" value="提交"/>
-                                    <a href="manage_patients.html">
-                                        <button class="btn btn-danger" type="button" onclick="">取消</button>
+                                    <a href="#">
+                                        <button class="btn btn-danger" type="button" data-dismiss="modal" onclick="">取消</button>
                                     </a>
                                 </div>
                             </div>
@@ -489,7 +471,6 @@
                 </div>
             </div>
         </div>
-    {% endfor %}
     <!-- 添加住院模态 结束-->
     <div class="right_col" role="main">
         <div class="container">
@@ -561,7 +542,6 @@
                             <td>
                                 {{ patient|get_diagnosis_by_object }}
                             </td>
-
                             <td>
                                 {{ patient.get_inpatient_state_display }}
                             </td>
@@ -570,24 +550,28 @@
                                 <a href="/patients/get_patient_detail?patient_id={{ patient.id }}" style="color:white">
                                     <button class="btn btn-success btn-xs" style="margin:0px;color:white">信息查询</button>
                                 </a>
-                                <a href="#add_followup_{{ forloop.counter }}" data-toggle="modal" style="color:white">
+                                <a href="javascript:void(0);"
+                                   onclick="add_followup_before('{{ patient.id }}','{{ patient.sex }}','{{ patient.name }}',
+                                           '{{ patient.nation }}','{{ patient.birth_date }}','{{ patient|get_diagnosis_by_object }}')"
+                                   style="color:white">
                                     <button class="btn btn-info btn-xs" style="margin:0px;color:white">添加复扫</button>
                                 </a>
                                 {% if patient.inpatient_state != 1 %}
-                                    <a href="#add_inpatient_{{ forloop.counter }}" data-toggle="modal"
+                                    <a href="javascript:void(0);"
+                                       onclick="add_inpatient_before('{{ patient.id}}')"
                                        style="color:white">
-                                        <button class="btn btn-primary btn-xs" style="margin:0px;color:white">添加住院
+                                        <button class="btn btn-primary btn-xs" style="margin:0px;color:white">
+                                            添加住院
                                         </button>
                                     </a>
                                 {% else %}
-                                    <a href="#add_inpatient_{{ forloop.counter }}" data-toggle="modal"
-                                       style="color:white">
+                                    <a href="javascript:void(0);" style="color:white">
                                         <button class="btn btn-primary btn-xs" style="margin:0px;color:white" disabled>
                                             添加住院
                                         </button>
                                     </a>
                                 {% endif %}
-                                <a href="#delete_patient_{{ forloop.counter }}" data-toggle="modal" style="color:white">
+                                <a href="javascript:void(0);"  onclick="del_patient_before('{{ patient.id}}','{{ patient.name }}')" style="color:white">
                                     <button class="btn btn-warning btn-xs" style="margin:0px;color:white">删除</button>
                                 </a>
 
@@ -662,17 +646,12 @@
 {% endblock %}
 
 {% block js %}
-        <script src="{% static '/js/layerJquery.js' %}"></script>
+    <script src="{% static '/js/layerJquery.js' %}"></script>
     <script src="{% static '/js/layer.js' %}"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/js/select2.min.js"></script>
     <script type="text/javascript" src="{% static '/js/subjectEstablish.js' %}"></script>
     <script type="text/javascript" language="JavaScript">
-
-        function zeropadding(num, length) {
-            //这里用slice和substr均可
-            return (Array(length).join("0") + num).slice(-length);
-        }
-
         function judge_diagnosis(obj) {
             if (obj.options[obj.selectedIndex].value == 99) {
                 document.getElementById("other_diagnosis_div").style.display = "";
@@ -680,9 +659,8 @@
                 document.getElementById("singleSelect").disabled = "true";
                 document.getElementById("ghr_diagnosis").disabled = "true";
                 document.getElementById("ghr_kinship").disabled = "true";
-
-
-            } else if (obj.options[obj.selectedIndex].value == 7) {
+            }
+            else if (obj.options[obj.selectedIndex].value == 7) {
                 document.getElementById("other_diagnosis_div").style.display = "none";
                 document.getElementById("ghr_div").style.display = "";
             } else {
@@ -691,7 +669,6 @@
                 document.getElementById("singleSelect").disabled = "true";
                 document.getElementById("ghr_diagnosis").disabled = "true";
                 document.getElementById("ghr_kinship").disabled = "true";
-
             }
         }
 
@@ -716,8 +693,6 @@
                 "page": page_num,
                 'csrfmiddlewaretoken': $("[name = 'csrfmiddlewaretoken']").val()
             })
-            $("#modal_container_search").modal('hide');
-            $('.modal-backdrop').remove();//去掉遮罩层
         }
 
         function get_patient_by_page(page_num) {
@@ -730,19 +705,48 @@
                 'csrfmiddlewaretoken': $("[name = 'csrfmiddlewaretoken']").val()
             })
         }
-
-        function reset(num) {
-            if (num == 1) {
-                $("#modal_container_search").modal('hide');
-                $('.modal-backdrop').remove();//去掉遮罩层
-            }
+        function reset() {
             $("#patient_id_search").val('')
             $("#name_search").val('')
             $("#diagnosis_search").val('')
-            var test = $("input[type='radio']:checked").val()
             $("input[type='radio']").attr("checked", false)
         }
 
+
+
+
+        function del_patient_before(patient_id,patient_name){
+            $('#delete_patient_modal').modal("show");
+            document.getElementById("del_alert_message").innerHTML = "确定删除"+patient_id+"号患者"+patient_name+"吗？";
+            $("#delete_patient_href").attr("href","/patients/del_patient?patient_id="+patient_id);
+        }
+
+        function add_inpatient_before(patient_id){
+            $('#add_inpatient_modal').modal("show");
+            document.add_inpatient_form.action="/patients/del_patient?patient_id="+patient_id;
+        }
+
+        function add_followup_before(patient_id,sex,name,nation,birth_date,diagnosis){
+            $('#add_followup_modal').modal("show");
+            document.getElementById("followup_patient_id_message").innerHTML = 'NN_'+zeropadding(patient_id,8);
+
+            if(sex==1){
+                sex='女';
+            }else{
+                sex='男';
+            }
+            document.getElementById("followup_sex_message").innerHTML = sex;
+            document.getElementById("followup_name_message").innerHTML = name;
+            document.getElementById("followup_nation_message").innerHTML = nation;
+            document.getElementById("followup_birth_date_message").innerHTML = birth_date;
+            document.getElementById("followup_diagnosis_message").innerHTML = diagnosis
+            document.add_followup_form.action="/patients/add_patient_followup?patient_id="+patient_id;
+        }
+
+        function zeropadding(num, length) {
+            //这里用slice和substr均可
+            return (Array(length).join("0") + num).slice(-length);
+        }
         /*获取生成id
         这一段千万千万不能删呀！！！！！！！！！
         千万千万不能删呀！！！！！！！！！
@@ -828,5 +832,4 @@
             $('#ghr_kinship').select2();
         });
     </script>
-
 {% endblock %}
