@@ -234,7 +234,7 @@
                         break;
                     }
                 }
-                if (flag_1 && flag_2) {
+                if (flag_1 || flag_2) {
                     ajax_post($('#question_form'));
                     update_question(question_index - 1);
                     question_index++;
