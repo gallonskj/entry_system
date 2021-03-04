@@ -92,9 +92,9 @@
                     <div class="modal-footer">
                         <div class="row">
                             <div class="text-center">
-                                <button type="button" class="btn btn-success" onclick="search_inpatients('1')">&nbsp;查找&nbsp;&nbsp;</button>
-                                <button class="btn btn-danger" type="button" onclick="reset(0)">取消</button>
-                                <button class="btn btn-danger" type="button" onclick="reset(1)">取消</button>
+                                <button type="button" class="btn btn-success" data-dismiss="modal" onclick="search_inpatients('1')">&nbsp;查找&nbsp;&nbsp;</button>
+                                <button class="btn btn-warning" type="button" onclick="reset()">重置</button>
+                                <button class="btn btn-danger" type="button" data-dismiss="modal" onclick="reset()">取消</button>
                             </div>
                         </div>
                     </div>
@@ -409,18 +409,13 @@
             "page":page_num,
             'csrfmiddlewaretoken': $("[name = 'csrfmiddlewaretoken']").val()
         })
-        $("#modal_container_search").modal('hide');
     }
 
-    function reset(num) {
-        if(num==1){
-            $("#modal_container_search").modal('hide');
-        }
+    function reset() {
         $("#patient_id_search").val('')
         $("#name_search").val('')
         $("#diagnosis_search").val('')
-        var test = $("input[type='radio']:checked").val()
-        alert(test)
+
         $("input[type='radio']").attr("checked",false)
     }
 
