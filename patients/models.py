@@ -79,6 +79,7 @@ class DPatientDetail(models.Model):
     contact_info = models.CharField(max_length=45, blank=True, null=True)
     scan_date = models.DateField()
     head_motion_parameters = models.FloatField(blank=True, null=True)
+    blood_sampling_date = models.DateField()
 
     class Meta:
         managed = False
