@@ -1458,7 +1458,6 @@ duration_buffer = []
 
 
 def self_tests_submit(request):
-    print('================================')
     patient_session_id = request.GET.get('patient_session_id')
     patient_id = request.GET.get('patient_id')
     scale_id = request.GET.get('scale_id')

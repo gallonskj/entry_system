@@ -838,6 +838,7 @@ def get_or_default_patient_YBO_byPatientDetailId(patient_detail_id, doctor_id):
 # 自杀意念及行为史
 def get_or_default_patient_suicidal_byPatientDetailId(patient_detail_id, doctor_id):
     patient_suicidal = scales_models.RPatientSuicidal.objects.filter(patient_session=patient_detail_id)
+    print(patient_suicidal)
     if patient_suicidal.count() == 0:
         return scales_models.RPatientSuicidal(patient_session_id=patient_detail_id,
                                               doctor_id=doctor_id,

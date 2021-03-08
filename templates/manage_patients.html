@@ -568,7 +568,7 @@
                                 {% else %}
                                     <a href="javascript:void(0);" style="color:white">
                                         <button class="btn btn-primary btn-xs" style="margin:0px;color:white" disabled>
-                                            添加住院
+                                            &nbsp;已&nbsp;住&nbsp;院&nbsp;
                                         </button>
                                     </a>
                                 {% endif %}
@@ -725,7 +725,7 @@
 
         function add_inpatient_before(patient_id){
             $('#add_inpatient_modal').modal("show");
-            document.add_inpatient_form.action="/patients/del_patient?patient_id="+patient_id;
+            document.add_inpatient_form.action="/inpatients/add_inpatient_info?patient_id="+patient_id;
         }
 
         function add_followup_before(patient_id,sex,name,nation,birth_date,diagnosis){
