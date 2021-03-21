@@ -264,7 +264,7 @@
                                 {% endif %}
 
                                 <a href="javascript:void(0);" onclick="del_inpatient_before('{{ inpatient.id }}','{{ inpatient.patient.id}}','{{ inpatient.patient.name }}')" style="color:white">
-                                    <button class="btn btn-warning btn-xs" style="margin:0px;color:white">删除</button>
+                                    <button class="btn btn-danger btn-xs" style="margin:0px;color:white">删除</button>
                                 </a>
 
                           </td>
@@ -377,7 +377,6 @@
     }
     
     function get_inpatient_by_page(page_num){
-            alert(page_num)
             $("#inpatients_data").load("/inpatients/get_inpatient_by_search #inpatients_data", {
                 "patient_id":$("input[name='patient_id_cache']").val(),
                 "name":$("input[name='name_cache']").val(),
