@@ -37,6 +37,7 @@ def get_patient_by_search(request):
     if diagnosis and diagnosis.strip()!='':
         search_dict['diagnosis'] = diagnosis
     patients = patients_models.BPatientBaseInfo.objects.filter(**search_dict).all().order_by('-id')
+    all_patients=patients_models.BPatientBaseInfo.objects.all().order_by('id')
     username = request.session.get('username')
     nations = DEthnicity.objects.all()
     obj_count = len(patients)
@@ -46,6 +47,7 @@ def get_patient_by_search(request):
     paginator = Paginator(obj_count, obj_perpage, pagetag_current, pagetag_dsp_count)
     patients = patients[paginator.obj_slice_start:paginator.obj_slice_end]
     return render(request, 'manage_patients.html', {"patients": patients,
+                                                    "all_patients":all_patients,
                                                     'username': username,
                                                     'nations': nations,
                                                     'paginator': paginator})
@@ -76,6 +78,7 @@ def add_patient_baseinfo(request):
 
     # 插入高危信息表:需要在b_patient_base_info之前创建
     rPatientGhr = patients_models.RPatientGhr(ghr_id=patient_id, doctor_id=doctor_id)
+
     for key in request.POST.keys():
         pos = key.rfind('_')
         st = key[:pos]
@@ -84,11 +87,20 @@ def add_patient_baseinfo(request):
             val = request.POST.get(key)
             if val == '':
                 val = None
-
             setattr(rPatientGhr, st, val)
             if st == 'kinship':
                 patients_dao.add_patient_ghr(rPatientGhr)
                 rPatientGhr = patients_models.RPatientGhr(ghr_id=patient_id, doctor_id=doctor_id)
+        if st=='kin_patient_id':
+            kin_patient_id=request.POST.get(key)
+            if kin_patient_id != '0':
+                # rPatientGhr.diagnosis = patients_models.BPatientBaseInfo.objects.filter(
+                #     pk=kin_patient_id).first().diagnosis
+                diagnosis_val=patients_models.BPatientBaseInfo.objects.filter(
+                    pk=kin_patient_id).first().diagnosis
+                setattr(rPatientGhr, 'diagnosis', diagnosis_val)
+                print(diagnosis_val)
+
 
 
     # 基本信息创建

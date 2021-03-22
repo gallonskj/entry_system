@@ -111,7 +111,7 @@ class DPatientAppointment(models.Model):
 
 class RPatientGhr(models.Model):
     ghr_id = models.IntegerField()
-    patient_session_id = models.IntegerField(blank=True, null=True)
+    kin_patient_id = models.IntegerField(blank=True, null=True)
     diagnosis = models.IntegerField(blank=True, null=True)
     kinship = models.IntegerField(blank=True, null=True)
     doctor_id = models.IntegerField()

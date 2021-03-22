@@ -942,11 +942,20 @@ def GAD_total_score(RPatientGad_obj):
 
 
 def PSS_total_score(RPatientPss_obj):
-    total_score = 0
     for each_score in RPatientPss_obj.__dict__:
-        if len(each_score.split('_')) > 1:
-            if each_score.split('_')[1] == 'answer':
-                total_score = total_score + int(getattr(RPatientPss_obj, each_score))
+        if each_score is None:
+            total_score = None
+            break
+    else:
+        total_score= int(RPatientPss_obj.question1_answer) +  int(RPatientPss_obj.question2_answer)+\
+                     int(RPatientPss_obj.question3_answer)+ int(RPatientPss_obj.question8_answer)+\
+                     int(RPatientPss_obj.question11_answer)+ int(RPatientPss_obj.question14_answer)+\
+                     (6 - int(RPatientPss_obj.question4_answer)) + (6 - int(RPatientPss_obj.question5_answer))+ \
+                     (6 - int(RPatientPss_obj.question6_answer)) + (6 - int(RPatientPss_obj.question7_answer)) + \
+                     (6 - int(RPatientPss_obj.question9_answer)) + (6 - int(RPatientPss_obj.question10_answer)) + \
+                     (6 - int(RPatientPss_obj.question12_answer)) + (6 - int(RPatientPss_obj.question13_answer)) -14
+    if total_score<=0 and total_score>=56:
+        total_score=None
     return total_score
 
 

@@ -54,7 +54,7 @@
 
                             <label class="col-sm-2 control-label" for="name" style="text-align: right">编号：</label>
                             <div class="col-sm-4">
-                                <input type="text" class=" sel_beauty form-control input-sm " name="patient_id"
+                                <input type="number" class=" sel_beauty form-control input-sm " name="patient_id"
                                        required="required"/>
                             </div>
 
@@ -148,9 +148,9 @@
                                        style="text-align: right  ;margin-top: 10px ">患者编号<span class="required">:</span></label>
                                 <select tabindex="-1"
                                         style="font-size: 5px;  margin-top: 5px ;margin-bottom: 5px ;max-height: 5px"
-                                        class="sel_beauty" name="patient_session_id_0" id="singleSelect">
+                                        class="sel_beauty" name="kin_patient_id_0" id="singleSelect">
                                     <option value=0>无</option>
-                                    {% for obj in patients %}
+                                    {% for obj in all_patients %}
                                         <option value="{{ obj.id }}">{{ obj.id }}-{{ obj.name }}-{{ obj.birth_date }}</option>
                                     {% endfor %}
                                 </select>
@@ -780,10 +780,11 @@
             var s = ""
             s += "<div class=col-md-4 style=margin: 10px >"
 
-            s += "<select tabindex=-1 style=font-size: 10px ;style=margin: 10px; class=sel_beauty  form-control col-md-4 id=singleSelect" + i + " name=patient_session_id_" + i + " >"
+            s += "<select tabindex=-1 style=font-size: 10px ;style=margin: 10px; class=sel_beauty  form-control col-md-4 id=singleSelect" + i + " name=kin_patient_id_" + i + " >"
             s += " <option value= 0 >无</option>"
-            s += " {% for obj in patients %}"
+            s += " {% for obj in all_patients %}"
                 s += "<option value ={{ obj.id }}>{{ obj.id }}-{{ obj.name }}-{{ obj.birth_date }}</option>"
+
                 s+="{% endfor %}"
             s += " </select>"
             s += "</div>"

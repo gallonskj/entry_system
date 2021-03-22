@@ -331,11 +331,11 @@ $(document).ready(function(){
     });
     $("input:radio[name='patient_mental_diseases']").click(function() {
         patient_mental_diseases = $(this).val();
-        if (Number(patient_mental_diseases == 1)) {
+        if (Number(patient_mental_diseases == 0)) {
             $("input[name='patient_mental_diseases_name']").attr('disabled','disabled');
             $("input[name='patient_mental_diseases_year']").attr('disabled','disabled');
         }
-        if (Number(patient_mental_diseases == 0)) {
+        if (Number(patient_mental_diseases == 1)) {
             $("input[name='patient_mental_diseases_name']").removeAttr("disabled");
             $("input[name='patient_mental_diseases_year']").removeAttr("disabled");
         }
