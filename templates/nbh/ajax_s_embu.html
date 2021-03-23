@@ -196,7 +196,6 @@
     }
     $(document).ready(function () {
         $("input[type='radio']").labelauty();
-
         $("#pre_question_submit").on('click', function () {
             if (document.pre_questions.grade.value === "" ||
                 document.pre_questions.year_of_school.value === "" ||
@@ -381,7 +380,7 @@
             dataType: 'JSON',
             async: true,
             data: {
-                'data': form.serialize(),
+                'data': decodeURIComponent(form.serialize(),true),
                 'question_index': question_index,
                 'duration': get_duration(),
                 'test_name': 's_embu',

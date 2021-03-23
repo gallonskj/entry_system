@@ -1137,7 +1137,7 @@
         <div class="bss_17_1" style="text-align: center;display: none">
             <form id="bss_17_1" name="bss_17_1" action="#">
                 <div class="row"><h3>17. 您已着手写自杀遗言了吗?</h3></div>
-                <div class="row"><h4>（最消沉、最忧郁的时候）</h4></div>
+                <div class="row"><h4>（最近一周）</h4></div>
                 <div class="options" style=" text-align: left;padding-left: 45%">
                     <div class="row show-grid" style="margin:10px">
                         <label>
@@ -1168,7 +1168,7 @@
         <div class="bss_17_2" style="text-align: center;display: none">
             <form id="bss_17_2" name="bss_17_2" action="#">
                 <div class="row"><h3>17. 您已着手写自杀遗言了吗?</h3></div>
-                <div class="row"><h4>（最近一周）</h4></div>
+                <div class="row"><h4>（最消沉、最忧郁的时候）</h4></div>
                 <div class="options" style=" text-align: left;padding-left: 45%">
                     <div class="row show-grid" style="margin:10px">
                         <label>
@@ -1348,7 +1348,7 @@
         $modal_dialog.css({'margin-top': Math.max(0, ($(window).height() - $modal_dialog.height()) / 2)});
     });
     let time = new Date();
-    let suicide = false;
+    let suicide = {{ suicide }};
     let end_flag = 0;
     let question_index = 1 + {{ question_index }};
 
@@ -1451,6 +1451,9 @@
             if (document.bss_4_1.question4_lastweek.value === "") {
                 alert("问题不能为空！");
             } else {
+                if(document.bss_4_1.question4_lastweek.value != "1"){
+                    suicide = true;
+                }
                 ajax_post($('#bss_4_1'))
                 $("div[class='bss_4_1']").hide();
                 $("div[class='bss_4_2']").show();
@@ -1461,6 +1464,9 @@
             if (document.bss_4_2.question4_mostdepressed.value === "") {
                 alert("问题不能为空！");
             } else {
+                if(document.bss_4_2.question4_mostdepressed.value != "1"){
+                    suicide = true;
+                }
                 ajax_post($('#bss_4_2'))
                 $("div[class='bss_4_2']").hide();
                 $("div[class='bss_5_1']").show();
@@ -1470,12 +1476,10 @@
         $("#bss_5_1_submit").on('click', function () {
             if (document.bss_5_1.question5_lastweek.value === "") {
                 alert("问题不能为空！");
-            } else if (document.bss_5_1.question5_lastweek.value === "1") {
-                ajax_post($('#bss_5_1'))
-                $("div[class='bss_5_1']").hide();
-                $("div[class='bss_5_2']").show();
             } else {
-                suicide = true;
+                if(document.bss_5_1.question5_lastweek.value != "1"){
+                    suicide = true;
+                }
                 ajax_post($('#bss_5_1'))
                 $("div[class='bss_5_1']").hide();
                 $("div[class='bss_5_2']").show();

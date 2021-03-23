@@ -243,6 +243,7 @@
                         </div>
 
                     </div>
+
                     <div class="row" style="margin-bottom: 10px;">
                         <label class="col-sm-2 control-label" for="name" style="text-align: right">姓名：</label>
                         <div class="col-sm-4">
@@ -567,7 +568,7 @@
                                 {% else %}
                                     <a href="javascript:void(0);" style="color:white">
                                         <button class="btn btn-primary btn-xs" style="margin:0px;color:white" disabled>
-                                            添加住院
+                                            &nbsp;已&nbsp;住&nbsp;院&nbsp;
                                         </button>
                                     </a>
                                 {% endif %}
@@ -705,6 +706,7 @@
                 'csrfmiddlewaretoken': $("[name = 'csrfmiddlewaretoken']").val()
             })
         }
+
         function reset() {
             $("#patient_id_search").val('')
             $("#name_search").val('')
@@ -723,7 +725,7 @@
 
         function add_inpatient_before(patient_id){
             $('#add_inpatient_modal').modal("show");
-            document.add_inpatient_form.action="/patients/del_patient?patient_id="+patient_id;
+            document.add_inpatient_form.action="/inpatients/add_inpatient_info?patient_id="+patient_id;
         }
 
         function add_followup_before(patient_id,sex,name,nation,birth_date,diagnosis){
@@ -747,6 +749,8 @@
             //这里用slice和substr均可
             return (Array(length).join("0") + num).slice(-length);
         }
+
+
         /*获取生成id
         这一段千万千万不能删呀！！！！！！！！！
         千万千万不能删呀！！！！！！！！！
@@ -832,4 +836,9 @@
             $('#ghr_kinship').select2();
         });
     </script>
+
+
+
+
+
 {% endblock %}
