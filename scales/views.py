@@ -74,22 +74,12 @@ def get_redirect_url(patient_session_id, patient_id, next_type, do_scale_type, c
     # min_unfinished_scale = scales_dao.get_next_scales_detail(patient_session_id, cur_scale_id)
     if min_unfinished_scale is None:
         redirect_url = '{}?patient_session_id={}&patient_id={}'.format(tools_config.select_scales_url,
-<<<<<<< HEAD
                                                             str(patient_session_id), str(patient_id))
     # /scales/get_XXX_form
     else:
         next_page_url = tools_config.scales_html_dict[min_unfinished_scale]
         redirect_url = '{}?patient_session_id={}&patient_id={}'.format(next_page_url, str(patient_session_id),
-=======
-                                                                       str(patient_session_id), str(patient_id))
-        return redirect_url
 
-    # /scales/get_XXX_form
-
-    next_page_url = tools_config.scales_html_dict[min_unfinished_scale]
-
-    redirect_url = '{}?patient_session_id={}&patient_id={}'.format(next_page_url, str(patient_session_id),
->>>>>>> skj
                                                                    str(patient_id))
     return redirect_url
 
