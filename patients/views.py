@@ -153,6 +153,7 @@ def add_patient_followup(request):
     patient_detail.session_id = session_id
     patient_detail.standard_id = standard_id
     patient_detail.age = tools_utils.calculate_age_by_scandate(str(patient_baseinfo.birth_date), str(scan_date))
+    patient_detail.scan_date=scan_date
     patient_detail.doctor_id = doctor_id
 
     patients_dao.add_patient_detail(patient_detail)

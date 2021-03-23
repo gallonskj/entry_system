@@ -74,11 +74,22 @@ def get_redirect_url(patient_session_id, patient_id, next_type, do_scale_type, c
     # min_unfinished_scale = scales_dao.get_next_scales_detail(patient_session_id, cur_scale_id)
     if min_unfinished_scale is None:
         redirect_url = '{}?patient_session_id={}&patient_id={}'.format(tools_config.select_scales_url,
+<<<<<<< HEAD
                                                             str(patient_session_id), str(patient_id))
     # /scales/get_XXX_form
     else:
         next_page_url = tools_config.scales_html_dict[min_unfinished_scale]
         redirect_url = '{}?patient_session_id={}&patient_id={}'.format(next_page_url, str(patient_session_id),
+=======
+                                                                       str(patient_session_id), str(patient_id))
+        return redirect_url
+
+    # /scales/get_XXX_form
+
+    next_page_url = tools_config.scales_html_dict[min_unfinished_scale]
+
+    redirect_url = '{}?patient_session_id={}&patient_id={}'.format(next_page_url, str(patient_session_id),
+>>>>>>> skj
                                                                    str(patient_id))
     return redirect_url
 
@@ -1420,6 +1431,22 @@ def get_check_vept_form(request):
                                                   'order': order})
 
 
+def is_suicide(obj, question_index):
+    if question_index == 9:
+        if obj.question4_lastweek != 1:
+            return 'true'
+    elif question_index == 10:
+        if obj.question4_mostdepressed != 1 or obj.question4_lastweek != 1:
+            return 'true'
+    elif question_index == 11:
+        if obj.question5_lastweek != 1 or obj.question4_mostdepressed != 1 or obj.question4_lastweek != 1:
+            return 'true'
+    else:
+        if obj.question5_lastweek != 1 or obj.question4_mostdepressed != 1 or obj.question4_lastweek != 1 or obj.question5_mostdepressed != 1:
+            return 'true'
+        return 'false'
+
+
 def get_self_tests(request):
     patient_session_id = request.GET.get('patient_session_id')
     patient_id = request.GET.get('patient_id')
@@ -1427,17 +1454,27 @@ def get_self_tests(request):
     session_id = patients_dao.get_patient_detail_byPatientId(patient_session_id)
     page_url = tools_config.scales_html_dict[scale_id]
     question_index = 0
+    suicide = 'false'
     # 续做的情况
     # 续作的时候量表没做完，一定在ajax_buffer中
     # 找到ajax_buffer中的这个人
+    # print(patient_session_id, patient_id, scale_id, session_id)
     if patient_session_id in ajax_buffer.keys():
         if ajax_buffer[patient_session_id][selfTestsEnum[scale_id]][0] is not None:
             question_index = ajax_buffer[patient_session_id][selfTestsEnum[scale_id]][1]
+            if scale_id==12:
+                suicide = is_suicide(ajax_buffer[patient_session_id][selfTestsEnum[scale_id]][0], ajax_buffer[patient_session_id][selfTestsEnum[scale_id]][1])
+            # print('=====================================================================')
+            # print(suicide)
+            # print('=====================================================================')
+
+    # print(page_url, question_index)
     return render(request, page_url, {"patient_session_id": patient_session_id,
                                       "patient_id": patient_id,
                                       'scale_id': scale_id,
                                       'session_id': session_id,
                                       'question_index': question_index,
+                                      'suicide': suicide,
                                       'username': request.session.get('username')})
 
 
@@ -1478,7 +1515,8 @@ def self_tests_submit(request):
         ajax_buffer[patient_session_id] = {
             'ybo': [scales_dao.get_or_default_patient_YBO_byPatientDetailId(patient_session_id, doctor_id), 0],
             'bss': [scales_dao.get_or_default_patient_suicidal_byPatientDetailId(patient_session_id, doctor_id), 0],
-            'hcl_33': [scales_dao.get_or_default_patient_manicSymptom_byPatientDetailId(patient_session_id, doctor_id), 0],
+            'hcl_33': [scales_dao.get_or_default_patient_manicSymptom_byPatientDetailId(patient_session_id, doctor_id),
+                       0],
             'shaps': [scales_dao.get_or_default_patient_happiness_byPatientDetailId(patient_session_id, doctor_id), 0],
             'teps': [scales_dao.get_or_default_patient_pleasure_byPatientDetailId(patient_session_id, doctor_id), 0],
             'ctq_sf': [scales_dao.get_or_default_patient_growth_byPatientDetailId(patient_session_id, doctor_id), 0],
@@ -1559,7 +1597,8 @@ def get_next_self_scale_url(request):
                                                                                            str(patient_id))
     else:
         next_test_url = '/scales/get_self_tests?scale_id={}&patient_session_id={}&patient_id={}'.format(str(scale_id),
-                                                                                                        str(patient_session_id),
+                                                                                                        str(
+                                                                                                            patient_session_id),
                                                                                                         str(patient_id))
     print(next_test_url)
     return render(request, 'warning.html', {
@@ -1889,7 +1928,8 @@ def redo_self_tests(request):
         }
     if ajax_buffer[patient_session_id][selfTestsEnum[scale_id]][0] is None:
         # 在数据库里,对象取到缓存，question_index置为0，量表状态置为未完成
-        ajax_buffer[patient_session_id][selfTestsEnum[scale_id]][0] = scales_dao.get_or_default_self_tests_obj_by_scale_id(
+        ajax_buffer[patient_session_id][selfTestsEnum[scale_id]][
+            0] = scales_dao.get_or_default_self_tests_obj_by_scale_id(
             scale_id, patient_session_id, doctor_id)
         ajax_buffer[patient_session_id][selfTestsEnum[scale_id]][1] = 0
     else:

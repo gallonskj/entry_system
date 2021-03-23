@@ -243,6 +243,7 @@
                         </div>
 
                     </div>
+
                     <div class="row" style="margin-bottom: 10px;">
                         <label class="col-sm-2 control-label" for="name" style="text-align: right">姓名：</label>
                         <div class="col-sm-4">
@@ -705,6 +706,7 @@
                 'csrfmiddlewaretoken': $("[name = 'csrfmiddlewaretoken']").val()
             })
         }
+
         function reset() {
             $("#patient_id_search").val('')
             $("#name_search").val('')
@@ -747,6 +749,8 @@
             //这里用slice和substr均可
             return (Array(length).join("0") + num).slice(-length);
         }
+
+
         /*获取生成id
         这一段千万千万不能删呀！！！！！！！！！
         千万千万不能删呀！！！！！！！！！
@@ -833,4 +837,9 @@
             $('#ghr_kinship').select2();
         });
     </script>
+
+
+
+
+
 {% endblock %}
