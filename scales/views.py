@@ -1423,18 +1423,20 @@ def get_check_vept_form(request):
 
 def is_suicide(obj, question_index):
     if question_index == 9:
-        if obj.question4_lastweek != 1:
-            return 'true'
+        if obj.question4_lastweek == 1:
+            return 'false'
     elif question_index == 10:
-        if obj.question4_mostdepressed != 1 or obj.question4_lastweek != 1:
-            return 'true'
+        if obj.question4_mostdepressed == 1 and obj.question4_lastweek == 1:
+            return 'false'
     elif question_index == 11:
-        if obj.question5_lastweek != 1 or obj.question4_mostdepressed != 1 or obj.question4_lastweek != 1:
-            return 'true'
+        if obj.question5_lastweek == 1 and obj.question4_mostdepressed == 1 and obj.question4_lastweek == 1:
+            return 'false'
     else:
-        if obj.question5_lastweek != 1 or obj.question4_mostdepressed != 1 or obj.question4_lastweek != 1 or obj.question5_mostdepressed != 1:
-            return 'true'
-        return 'false'
+        if obj.question5_lastweek == 1 and obj.question4_mostdepressed == 1 and obj.question4_lastweek == 1 and obj.question5_mostdepressed == 1:
+            return 'false'
+        elif obj.question5_lastweek is None and obj.question4_mostdepressed == None and obj.question4_lastweek == None and obj.question5_mostdepressed == None:
+            return 'false'
+        return 'true'
 
 
 def get_self_tests(request):
