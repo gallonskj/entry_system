@@ -1010,7 +1010,7 @@ def self_tests_total_score(scale_id, obj):
     elif scale_id == 31:
         obj.total_score = tools_calculatingScores.ISI_total_score(obj)
     elif scale_id == 32:
-        obj.total_score = tools_calculatingScores.ISI_total_score(obj)
+        obj.total_score = tools_calculatingScores.PSS_total_score(obj)
 
 
 def get_or_default_self_tests_obj_by_scale_id(scale_id, patient_session_id, doctor_id):
