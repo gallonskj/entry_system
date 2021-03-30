@@ -74,13 +74,13 @@ def get_redirect_url(patient_session_id, patient_id, next_type, do_scale_type, c
     # min_unfinished_scale = scales_dao.get_next_scales_detail(patient_session_id, cur_scale_id)
     if min_unfinished_scale is None:
         redirect_url = '{}?patient_session_id={}&patient_id={}'.format(tools_config.select_scales_url,
-                                                            str(patient_session_id), str(patient_id))
+                                                                       str(patient_session_id), str(patient_id))
     # /scales/get_XXX_form
     else:
         next_page_url = tools_config.scales_html_dict[min_unfinished_scale]
         redirect_url = '{}?patient_session_id={}&patient_id={}'.format(next_page_url, str(patient_session_id),
 
-                                                                   str(patient_id))
+                                                                       str(patient_id))
     return redirect_url
 
 
@@ -1454,8 +1454,10 @@ def get_self_tests(request):
     if patient_session_id in ajax_buffer.keys():
         if ajax_buffer[patient_session_id][selfTestsEnum[scale_id]][0] is not None:
             question_index = ajax_buffer[patient_session_id][selfTestsEnum[scale_id]][1]
-            if scale_id==12:
-                suicide = is_suicide(ajax_buffer[patient_session_id][selfTestsEnum[scale_id]][0], ajax_buffer[patient_session_id][selfTestsEnum[scale_id]][1])
+            # 对自杀（bss）量表单独做处理，获取自杀倾向的状态
+            if scale_id == 12:
+                suicide = is_suicide(ajax_buffer[patient_session_id][selfTestsEnum[scale_id]][0],
+                                     ajax_buffer[patient_session_id][selfTestsEnum[scale_id]][1])
             # print('=====================================================================')
             # print(suicide)
             # print('=====================================================================')
@@ -1489,7 +1491,7 @@ duration_buffer = []
 
 def self_tests_submit(request):
     patient_session_id = request.GET.get('patient_session_id')
-    patient_id = request.GET.get('patient_id')
+    # patient_id = request.GET.get('patient_id')
     scale_id = request.GET.get('scale_id')
     doctor_id = request.session.get('doctor_id')
     '''取POST中的表单信息'''
@@ -1507,8 +1509,7 @@ def self_tests_submit(request):
         ajax_buffer[patient_session_id] = {
             'ybo': [scales_dao.get_or_default_patient_YBO_byPatientDetailId(patient_session_id, doctor_id), 0],
             'bss': [scales_dao.get_or_default_patient_suicidal_byPatientDetailId(patient_session_id, doctor_id), 0],
-            'hcl_33': [scales_dao.get_or_default_patient_manicSymptom_byPatientDetailId(patient_session_id, doctor_id),
-                       0],
+            'hcl_33': [scales_dao.get_or_default_patient_manicSymptom_byPatientDetailId(patient_session_id, doctor_id), 0],
             'shaps': [scales_dao.get_or_default_patient_happiness_byPatientDetailId(patient_session_id, doctor_id), 0],
             'teps': [scales_dao.get_or_default_patient_pleasure_byPatientDetailId(patient_session_id, doctor_id), 0],
             'ctq_sf': [scales_dao.get_or_default_patient_growth_byPatientDetailId(patient_session_id, doctor_id), 0],
