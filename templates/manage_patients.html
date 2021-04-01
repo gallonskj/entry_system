@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="{% static '/css/appointToday.css' %}">
     <link href="{% static '/vendors/iCheck/skins/flat/green.css' %}" rel="stylesheet">
     <link rel="stylesheet" href={% static '/css/tinyselect.css' %}>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/css/select2.min.css" rel="stylesheet"/>
+    <link href="{% static '/vendors/ajax/libs/select2/4.0.4/css/select2.min.css' %}" rel="stylesheet" />
 
     <style>
         .sel_beauty {
@@ -649,8 +649,9 @@
 {% block js %}
     <script src="{% static '/js/layerJquery.js' %}"></script>
     <script src="{% static '/js/layer.js' %}"></script>
-    <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/js/select2.min.js"></script>
+
+    <script src="{% static '/vendors/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js' %}"></script>
+    <script src="{% static '/vendors/ajax/libs/select2/4.0.4/js/select2.min.js' %}"></script>
     <script type="text/javascript" src="{% static '/js/subjectEstablish.js' %}"></script>
     <script type="text/javascript" language="JavaScript">
         function judge_diagnosis(obj) {
