@@ -1939,20 +1939,98 @@ def redo_self_tests(request):
             scale_id, patient_session_id, doctor_id)
 
         ajax_buffer[patient_session_id][selfTestsEnum[scale_id]][1] = 0
-        print('redoredoredoredoredoredoredoredoredoredoredoredoredoredoredo')
+        # print('redoredoredoredoredoredoredoredoredoredoredoredoredoredoredo')
         print(ajax_buffer[patient_session_id][selfTestsEnum[scale_id]][0])
 
         if int(scale_id) == 11:
             res = scales_models.RPatientYbobsessiontable.objects.filter(patient_session_id=patient_session_id,
                                                                         scale_id=scale_id)
             if res.exists():
-                a = res[0]
                 res[0].delete()
         if int(scale_id) == 12:
             res = scales_models.RPatientSuicidal.objects.filter(patient_session_id=patient_session_id,
                                                                 scale_id=scale_id)
             if res.exists():
-                a = res[0]
+                res[0].delete()
+        if int(scale_id) == 13:
+            res = scales_models.RPatientManicsymptom.objects.filter(patient_session_id=patient_session_id,
+                                                                scale_id=scale_id)
+            if res.exists():
+                res[0].delete()
+        if int(scale_id) == 14:
+            res = scales_models.RPatientHappiness.objects.filter(patient_session_id=patient_session_id,
+                                                                scale_id=scale_id)
+            if res.exists():
+                res[0].delete()
+        if int(scale_id) == 15:
+            res = scales_models.RPatientPleasure.objects.filter(patient_session_id=patient_session_id,
+                                                                        scale_id=scale_id)
+            if res.exists():
+                res[0].delete()
+        if int(scale_id) == 16:
+            res = scales_models.RPatientGrowth.objects.filter(patient_session_id=patient_session_id,
+                                                                scale_id=scale_id)
+            if res.exists():
+                res[0].delete()
+        if int(scale_id) == 17:
+            res = scales_models.RPatientCognitiveEmotion.objects.filter(patient_session_id=patient_session_id,
+                                                                scale_id=scale_id)
+            if res.exists():
+                res[0].delete()
+        if int(scale_id) == 18:
+            res = scales_models.RPatientAdolescentEvents.objects.filter(patient_session_id=patient_session_id,
+                                                                scale_id=scale_id)
+            if res.exists():
+                res[0].delete()
+        if int(scale_id) == 15:
+            res = scales_models.RPatientPleasure.objects.filter(patient_session_id=patient_session_id,
+                                                                        scale_id=scale_id)
+            if res.exists():
+                res[0].delete()
+        if int(scale_id) == 16:
+            res = scales_models.RPatientGrowth.objects.filter(patient_session_id=patient_session_id,
+                                                                scale_id=scale_id)
+            if res.exists():
+                res[0].delete()
+        if int(scale_id) == 17:
+            res = scales_models.RPatientCognitiveEmotion.objects.filter(patient_session_id=patient_session_id,
+                                                                scale_id=scale_id)
+            if res.exists():
+                res[0].delete()
+        if int(scale_id) == 18:
+            res = scales_models.RPatientAdolescentEvents.objects.filter(patient_session_id=patient_session_id,
+                                                                scale_id=scale_id)
+            if res.exists():
+                res[0].delete()
+        if int(scale_id) == 19:
+            res = scales_models.RPatientSembu.objects.filter(patient_session_id=patient_session_id,
+                                                                        scale_id=scale_id)
+            if res.exists():
+                res[0].delete()
+        if int(scale_id) == 20:
+            res = scales_models.RPatientAtq.objects.filter(patient_session_id=patient_session_id,
+                                                                scale_id=scale_id)
+            if res.exists():
+                res[0].delete()
+        if int(scale_id) == 29:
+            res = scales_models.RPatientPhq.objects.filter(patient_session_id=patient_session_id,
+                                                                scale_id=scale_id)
+            if res.exists():
+                res[0].delete()
+        if int(scale_id) == 30:
+            res = scales_models.RPatientGad.objects.filter(patient_session_id=patient_session_id,
+                                                                scale_id=scale_id)
+            if res.exists():
+                res[0].delete()
+        if int(scale_id) == 31:
+            res = scales_models.RPatientInsomnia.objects.filter(patient_session_id=patient_session_id,
+                                                                scale_id=scale_id)
+            if res.exists():
+                res[0].delete()
+        if int(scale_id) == 32:
+            res = scales_models.RPatientPss.objects.filter(patient_session_id=patient_session_id,
+                                                                scale_id=scale_id)
+            if res.exists():
                 res[0].delete()
     else:
         # 在缓存里
