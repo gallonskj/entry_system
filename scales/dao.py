@@ -826,12 +826,17 @@ def del_vept(patient_session_id, scale_id):
 
 
 def get_or_default_patient_YBO_byPatientDetailId(patient_detail_id, doctor_id):
-    patient_YBO = scales_models.RPatientYbobsessiontable.objects.filter(patient_session=patient_detail_id)
+    print('DAODAODAODAODAODAODAODAODAODAODAODAODAODAODAODAODAODAODAODAODAODAODAODAODAODAODAODAODAODAODAODAO')
+    print(patient_detail_id)
+    patient_YBO = scales_models.RPatientYbobsessiontable.objects.filter(patient_session=patient_detail_id).all()
+    print(scales_models.RPatientYbobsessiontable.objects.filter(patient_session_id=patient_detail_id).first())
     if patient_YBO.count() == 0:
+        print(100)
         return scales_models.RPatientYbobsessiontable(patient_session_id=patient_detail_id,
                                                       doctor_id=doctor_id,
                                                       scale_id=11)
     else:
+        print(111)
         return patient_YBO[0]
 
 

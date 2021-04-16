@@ -80,7 +80,7 @@ class DPatientDetail(models.Model):
     scan_date = models.DateField()
     head_motion_parameters = models.FloatField(blank=True, null=True)
     blood_sampling_date = models.DateField()
-
+    ua=models.FloatField(blank=True, null=True)
     class Meta:
         managed = False
         db_table = 'd_patient_detail'

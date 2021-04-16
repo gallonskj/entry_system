@@ -158,7 +158,8 @@
                                                                 class="required">*:</span></label>
                                                     <div id="sex" class="col-md-8 col-sm-8 col-xs-12"
                                                          style="padding-top: 7px;margin-bottom: 0;text-align: left">
-                                                        {{ inpatient_detail.patient.sex }}
+
+                                                        {{ inpatient_detail.patient.get_sex_display }}
                                                     </div>
                                                 </div>
                                             </div>
@@ -360,7 +361,8 @@
 {% block js %}
     <script src="{% static '/vendors/ajax/libs/select2/4.0.4/js/select2.min.js' %}"></script>
     <script type="text/javascript" src="{% static '/js/pdfobject.min.js' %}"></script>
-
+    <script src="{% static '/vendors/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+s
     <script type="text/javascript" src="{% static '/js/fileinput.js' %}"></script>
     <script type="text/javascript" src="{% static '/js/bootstrap.bundle.min.js' %}"></script>
 

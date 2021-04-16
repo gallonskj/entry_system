@@ -1509,7 +1509,8 @@ def self_tests_submit(request):
         ajax_buffer[patient_session_id] = {
             'ybo': [scales_dao.get_or_default_patient_YBO_byPatientDetailId(patient_session_id, doctor_id), 0],
             'bss': [scales_dao.get_or_default_patient_suicidal_byPatientDetailId(patient_session_id, doctor_id), 0],
-            'hcl_33': [scales_dao.get_or_default_patient_manicSymptom_byPatientDetailId(patient_session_id, doctor_id), 0],
+            'hcl_33': [scales_dao.get_or_default_patient_manicSymptom_byPatientDetailId(patient_session_id, doctor_id),
+                       0],
             'shaps': [scales_dao.get_or_default_patient_happiness_byPatientDetailId(patient_session_id, doctor_id), 0],
             'teps': [scales_dao.get_or_default_patient_pleasure_byPatientDetailId(patient_session_id, doctor_id), 0],
             'ctq_sf': [scales_dao.get_or_default_patient_growth_byPatientDetailId(patient_session_id, doctor_id), 0],
@@ -1522,7 +1523,7 @@ def self_tests_submit(request):
             'gad_7': [scales_dao.get_or_default_patient_GAD_byPatientDetailId(patient_session_id, doctor_id), 0],
             'insomnia': [scales_dao.get_or_default_patient_ISI_byPatientDetailId(patient_session_id, doctor_id), 0]
         }
-    print(ajax_buffer[patient_session_id])
+    print(ajax_buffer[patient_session_id]['ybo'][0])
     '''获取序列化的form_data中的表单信息'''
     attribute_name = []
     attribute_value = []
@@ -1533,6 +1534,16 @@ def self_tests_submit(request):
     print(attribute_value)
     '''遍历form_data,填充对应的属性值'''
     for attribute in attribute_name:
+        if attribute == 'forced_frequency':
+            setattr(ajax_buffer[patient_session_id][test_name][0], 'impediment_degree1', 0)
+            setattr(ajax_buffer[patient_session_id][test_name][0], 'distress', 0)
+            setattr(ajax_buffer[patient_session_id][test_name][0], 'fightforced_degree', 0)
+            setattr(ajax_buffer[patient_session_id][test_name][0], 'control_ability1', 0)
+        elif attribute == 'compulsion_frequency':
+            setattr(ajax_buffer[patient_session_id][test_name][0], 'impediment_degree2', 0)
+            setattr(ajax_buffer[patient_session_id][test_name][0], 'stopcompulsion_anxiety', 0)
+            setattr(ajax_buffer[patient_session_id][test_name][0], 'stopforced_frequency', 0)
+            setattr(ajax_buffer[patient_session_id][test_name][0], 'control_ability2', 0)
         if hasattr(ajax_buffer[patient_session_id][test_name][0], attribute):
             print('set attribute')
             setattr(ajax_buffer[patient_session_id][test_name][0], attribute,
@@ -1548,9 +1559,11 @@ def self_tests_submit(request):
     '''填充完毕之后判断flag, 提交相应量表对象, flush duration_buffer'''
     if flag == '1':
         print('do flush')
+
         # 计算当前量表总分
         scales_dao.self_tests_total_score(int(scale_id), ajax_buffer[patient_session_id][test_name][0])
         # 保存
+        a = ajax_buffer[patient_session_id][test_name][0]
         ajax_buffer[patient_session_id][test_name][0].save()
         RSelfTestDuration.objects.bulk_create(duration_buffer)
         print('clean buffer')
@@ -1924,7 +1937,23 @@ def redo_self_tests(request):
         ajax_buffer[patient_session_id][selfTestsEnum[scale_id]][
             0] = scales_dao.get_or_default_self_tests_obj_by_scale_id(
             scale_id, patient_session_id, doctor_id)
+
         ajax_buffer[patient_session_id][selfTestsEnum[scale_id]][1] = 0
+        print('redoredoredoredoredoredoredoredoredoredoredoredoredoredoredo')
+        print(ajax_buffer[patient_session_id][selfTestsEnum[scale_id]][0])
+
+        if int(scale_id) == 11:
+            res = scales_models.RPatientYbobsessiontable.objects.filter(patient_session_id=patient_session_id,
+                                                                        scale_id=scale_id)
+            if res.exists():
+                a = res[0]
+                res[0].delete()
+        if int(scale_id) == 12:
+            res = scales_models.RPatientSuicidal.objects.filter(patient_session_id=patient_session_id,
+                                                                scale_id=scale_id)
+            if res.exists():
+                a = res[0]
+                res[0].delete()
     else:
         # 在缓存里
         # question_id 置为0，量表状态置为未完成，然后跳转到当前量表就可以了
