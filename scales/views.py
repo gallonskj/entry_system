@@ -342,6 +342,8 @@ def get_select_scales(request):
     patient_detail = patients_dao.get_patient_detail_byPatientId(patient_session_id)
     if patient_detail.scan_date is not None:
         patient_detail.scan_date = patient_detail.scan_date.strftime('%Y-%m-%d')
+    if patient_detail.blood_sampling_date is not None:
+        patient_detail.blood_sampling_date = patient_detail.blood_sampling_date.strftime('%Y-%m-%d')
     # 获取各个scaleType的list信息
     scales_list = patients_dao.judgment_scales(patient_session_id)
     generalinfo_scale_list, other_test_scale_list, self_test_scale_list, cognition_scale_list = scales_dao.get_uodo_scales(

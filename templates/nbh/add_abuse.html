@@ -231,12 +231,12 @@
                    var patient_smoke = Number("{{ patient_baseinfo_abuse.patient_smoke }}");
                    $("#patient_smoke_1 option[value="+patient_smoke+"]").prop("selected",true);
 
-                   if (patient_smoke==1 || patient_smoke==2){
+                   if (patient_smoke==1){
                        $(".smoke_detail").attr("style","display:none;");
                        $("input[name='patient_smoke_age']").val('');
                        $("input[name='patient_daily_smoke_num']").val('');
                        $("input[name='patient_stop_smoke_age']").val('');
-                   }else if(patient_smoke==3|| patient_smoke==4){
+                   }else if( patient_smoke==2 ||patient_smoke==3|| patient_smoke==4){
                       $(".smoke_detail").removeAttr("style","display:none;");
                        $("input[name='patient_smoke_age']").val('{{ patient_baseinfo_abuse.patient_smoke_age|processNone }}');
                        $("input[name='patient_daily_smoke_num']").val('{{ patient_baseinfo_abuse.patient_daily_smoke_num|processNone }}');
@@ -246,10 +246,10 @@
                    var patient_alcohol = Number("{{ patient_baseinfo_abuse.patient_alcohol }}");
                    $("#alcoholSelect option[value="+patient_alcohol+"]").prop("selected",true);
 
-                   if (patient_alcohol==1 || patient_alcohol==2){
+                   if (patient_alcohol==1 ){
                        $(".alcohol_detail").attr("style","display:none;");
                        $("input[name='patient_alcohol_age']").val('');
-                   }else if(patient_alcohol==3|| patient_alcohol==4){
+                   }else if( patient_alcohol==2||patient_alcohol==3|| patient_alcohol==4){
                       $(".alcohol_detail").removeAttr("style","display:none;");
                        $("input[name='patient_alcohol_age']").val('{{ patient_baseinfo_abuse.patient_alcohol_age|processNone }}');
                    }
@@ -314,7 +314,7 @@ $(document).ready(function(){
     set_return_url(cookie_val,'{{ patient_session_id }}' ,'{{ patient_id }}')
         $('.smoke_detail').hide();
         $('#patient_smoke_1').change(function(){
-       if ($('#patient_smoke_1 option:selected').val()>2){
+       if ($('#patient_smoke_1 option:selected').val()>1){
            $('.smoke_detail').show();
        }
        else{
@@ -325,7 +325,7 @@ $(document).ready(function(){
 
     $('.alcohol_detail').hide();
     $('#alcoholSelect').change(function(){
-       if ($('#alcoholSelect option:selected').val()>2){
+       if ($('#alcoholSelect option:selected').val()>1){
            $('.alcohol_detail').show();
            $("input[name='patient_alcohol_age']").attr('required','required');
        }

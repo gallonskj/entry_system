@@ -173,29 +173,29 @@
             case 2:
                 document.getElementById('question_text').innerHTML = "c.太早就醒了的问题";
                 alter_option_names("answer", "question3_answer");
-                alter_label_names("非常满意", "", "", "", "非常不满意");
-                document.getElementById('label_1').setAttribute('width', '80px')
-                document.getElementById('label_5').setAttribute('width', '80px')
                 break;
             case 3:
                 document.getElementById('question_text').innerHTML = "d.你对过去两个星期的睡眠状况满意度如何";
                 alter_option_names("answer", "question4_answer");
-                alter_label_names("完全没有妨碍", "少许", "颇为", "非常", "极之妨碍");
-                document.getElementById('label_1').setAttribute('width', '100px')
+                alter_label_names("非常满意", "", "", "", "非常不满意");
+                document.getElementById('label_1').setAttribute('width', '80px')
+                document.getElementById('label_5').setAttribute('width', '80px')
                 break;
             case 4:
                 document.getElementById('question_text').innerHTML = "e.你认为你的睡眠问题妨碍你日常运作（例如：日渐疲劳、处理工作/日常时务的能力、集中力、记忆、情绪等等）到哪一个程度？";
                 alter_option_names("answer", "question5_answer");
-                alter_label_names("完全不明显", "仅为", "颇为", "非常", "极之明显");
+                alter_label_names("完全没有妨碍", "少许", "颇为", "非常", "极之妨碍");
+                document.getElementById('label_1').setAttribute('width', '100px')
                 break;
             case 5:
-                document.getElementById('question_text').innerHTML = "f.你的睡眠问题在降低生活素质而言，在其他人眼中有多明显？";
+                document.getElementById('question_text').innerHTML = "f.你的睡眠问题在降低生活质素而言，在其它人眼中有多明显?";
                 alter_option_names("answer", "question6_answer");
-                alter_label_names("完全没有", "少许", "颇为", "非常", "非常大");
+                alter_label_names("完全不明显", "仅为", "颇为", "非常", "极之明显");
                 break;
             case 6:
                 document.getElementById('question_text').innerHTML = "g.你对你现时的睡眠问题有多忧虑/苦恼？";
                 alter_option_names("answer", "question7_answer");
+                alter_label_names("完全没有", "少许", "颇为", "非常", "非常大");
                 // 跳转
                 document.getElementById('question_submit').setAttribute('onclick', "location=\'" +
                     "/scales/get_next_self_scale_url?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}" +
