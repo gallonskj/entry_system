@@ -37,7 +37,7 @@
                 <div class="col-md-12 col-xs-12">
 
                     <div class="col-md-4  col-xs-12">
-                        <div class="x_panel" style="height: 410px">
+                        <div class="x_panel" style="height: 460px">
                             <div class="x_title">
                                 <h2>个人信息<small>基本信息{{ standard_id }}</small></h2>
                                 <div class="clearfix"></div>
@@ -46,8 +46,11 @@
                                 <div class="form-group">
                                     <label class="control-label col-md-4 col-sm-4 col-xs-6"
                                            for="subject_number">受试编号<span class="required">:</span></label>
-                                    <p class="col-md-4 col-sm-4 col-xs-6" id="patient_id"
-                                       style="padding-top: 7px;margin-bottom: 0;text-align: left">{{ standard_id }}</p>
+                                    <a href="/patients/get_patient_detail?patient_id={{ patient_baseinfo.id }}">
+                                        <p class="col-md-4 col-sm-4 col-xs-6" id="patient_id"
+                                       style="padding-top: 7px;margin-bottom: 0;text-align: left;text-decoration: underline">{{ standard_id }}</p>
+                                    </a>
+
                                 </div>
 
                                 <div class="form-group">
@@ -124,13 +127,13 @@
                     </div>
 
                    <div class="col-md-4 col-xs-12">
-                        <div class="x_panel" style="height: 410px">
+                        <div class="x_panel" style="height: 460px">
                             <div class="x_title">
                                 <h2>量表录入选项列表</h2>
                                 <div class="clearfix"></div>
                             </div>
                             <div class="x_content" style="text-align: center">
-                            <br/>
+                            <br/><br/><br/>
                                 <a href="/scales/get_general_info_forms?patient_session_id={{ patient_session_id }}&patient_id={{ patient_baseinfo.id }}&do_type=0"
                                    style="color: white">
                                     {% if todo_generalinfo_scale_size == 0 %}
@@ -188,11 +191,12 @@
                     </div>
 
                     <div class="col-md-4 col-xs-12">
-                        <div class="x_panel" style="height: 410px">
+                        <div class="x_panel" style="height: 460px">
                             <div class="x_title">
                                 <h2>信息采集情况</h2>
                                 <div class="clearfix"></div>
                             </div>
+                        <br/><br/>
                             <div class="x_content">
                                 <div class="form-group">
                                     <label class="control-label col-md-offset-1 col-md-5"

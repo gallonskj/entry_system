@@ -57,30 +57,37 @@
         <div class="question_area" name="question_area" style="text-align: center">
             <form id="question_form" name="question_form" action="#">
                 <h3>
-                    <div name="question_text" id="question_text" class="row">a.入睡困难</div>
+                    <div name="question_text" id="question_text" class="row">1.感觉紧张，焦虑或急切</div>
                 </h3>
-                <table align="center">
-                    <tr>
-                        <td id="label_1" width="60px" align="center">没有</td>
-                        <td id="label_2" width="60px" align="center">轻微</td>
-                        <td id="label_3" width="60px" align="center">普通</td>
-                        <td id="label_4" width="60px" align="center">严重</td>
-                        <td id="label_5" width="70px" align="center">非常严重</td>
-                    </tr>
-                </table>
-                <div class="options" style=" text-align: left;padding-left: 41.4%">
-
+                <div class="options" style=" text-align: left;padding-left: 47.5%">
                     <div class="row show-grid" style="margin:10px">
                         <label>
-                            <input type="range" min="0" max="4" step="1" style="width: 200%" class="answer"
-                                   name="question1_answer" list="tickmarks"/>
-                            <datalist id="tickmarks">
-                                <option value="0"></option>
-                                <option value="1"></option>
-                                <option value="2"></option>
-                                <option value="3"></option>
-                                <option value="4"></option>
-                            </datalist>
+                            <input type="radio" class="answer" name="question1_answer" value=0 id="label_1"
+                                   data-labelauty="没有"/>
+                        </label>
+                    </div>
+                    <div class="row show-grid" style="margin:10px">
+                        <label>
+                            <input type="radio" class="answer" name="question1_answer" value=1 id="label_2"
+                                   data-labelauty="轻微"/>
+                        </label>
+                    </div>
+                    <div class="row show-grid" style="margin:10px">
+                        <label>
+                            <input type="radio" class="answer" name="question1_answer" value=2 id="label_3"
+                                   data-labelauty="普通"/>
+                        </label>
+                    </div>
+                    <div class="row show-grid" style="margin:10px">
+                        <label>
+                            <input type="radio" class="answer" name="question1_answer" value=3 id="label_4"
+                                   data-labelauty="严重"/>
+                        </label>
+                    </div>
+                    <div class="row show-grid" style="margin:10px">
+                        <label>
+                            <input type="radio" class="answer" name="question1_answer" value=4 id="label_5"
+                                   data-labelauty="非常严重"/>
                         </label>
                     </div>
                 </div>
@@ -118,7 +125,7 @@
     let suicide = false;
     let question_index = 1 + {{ question_index }};
     let end_flag = 0;
-    for (let index = 1; index < question_index; index++) {
+    for(let index  = 1 ; index < question_index ; index ++){
         update_question(index);
     }
     $(document).ready(function () {
@@ -127,12 +134,22 @@
             if (question_index > 7) {
                 alert("请不要重复提交！");
             } else {
-                ajax_post($('#question_form'));
-                update_question(question_index);
-                const input_range = document.getElementsByClassName('answer')[0];
-                input_range.value = 2;
-                question_index++;
+                const answers = document.getElementsByClassName("answer");
+                let flag = 0;
+                for (let i = 0; i < answers.length; i++) {
+                    if (answers[i].checked && question_index <= 7) {
+                        ajax_post($('#question_form'));
+                        update_question(question_index);
+                        question_index++;
+                        flag = 1;
+                        break;
+                    }
+                }
+                if (flag == 0) {
+                    alert("问题不能为空！");
+                }
             }
+            $("input[type='radio']").removeAttr("checked");
         });
     });
 
@@ -151,18 +168,18 @@
     }
 
     function alter_label_names(name_1, name_2, name_3, name_4, name_5) {
-        const nodes_1 = document.getElementById('label_1');
-        nodes_1.innerHTML = name_1;
-        const nodes_2 = document.getElementById('label_2');
-        nodes_2.innerHTML = name_2;
-        const nodes_3 = document.getElementById('label_3');
-        nodes_3.innerHTML = name_3;
-        const nodes_4 = document.getElementById('label_4');
-        nodes_4.innerHTML = name_4;
-        const nodes_5 = document.getElementById('label_5');
-        nodes_5.innerHTML = name_5
-        ;
+        var nodes_1 = document.getElementById('label_1');
+        nodes_1.setAttribute("data-labelauty",name_1);
+        var nodes_2 = document.getElementById('label_2');
+        nodes_2.setAttribute("data-labelauty",name_2);
+        var nodes_3 = document.getElementById('label_3');
+        nodes_3.setAttribute("data-labelauty",name_3);
+        var nodes_4 = document.getElementById('label_4');
+        nodes_4.setAttribute("data-labelauty",name_4);
+        var nodes_5 = document.getElementById('label_5');
+        nodes_5.setAttribute("data-labelauty",name_5);
     }
+
 
     function update_question(index) {
         switch (index) {
@@ -171,33 +188,30 @@
                 alter_option_names("answer", "question2_answer");
                 break;
             case 2:
-                document.getElementById('question_text').innerHTML = "c.太早就醒了的问题";
+                document.getElementById('question_text').innerHTML = "c.太早就醒了的问题 ";
                 alter_option_names("answer", "question3_answer");
                 break;
             case 3:
                 document.getElementById('question_text').innerHTML = "d.你对过去两个星期的睡眠状况满意度如何";
                 alter_option_names("answer", "question4_answer");
-                alter_label_names("非常满意", "", "", "", "非常不满意");
-                document.getElementById('label_1').setAttribute('width', '80px')
-                document.getElementById('label_5').setAttribute('width', '80px')
+                alter_label_names("非常满意", "满意", "一般", "不满意", "非常不满意");
                 break;
             case 4:
                 document.getElementById('question_text').innerHTML = "e.你认为你的睡眠问题妨碍你日常运作（例如：日渐疲劳、处理工作/日常时务的能力、集中力、记忆、情绪等等）到哪一个程度？";
-                alter_option_names("answer", "question5_answer");
                 alter_label_names("完全没有妨碍", "少许", "颇为", "非常", "极之妨碍");
-                document.getElementById('label_1').setAttribute('width', '100px')
+                alter_option_names("answer", "question5_answer");
                 break;
             case 5:
                 document.getElementById('question_text').innerHTML = "f.你的睡眠问题在降低生活质素而言，在其它人眼中有多明显?";
-                alter_option_names("answer", "question6_answer");
                 alter_label_names("完全不明显", "仅为", "颇为", "非常", "极之明显");
+                alter_option_names("answer", "question6_answer");
                 break;
             case 6:
                 document.getElementById('question_text').innerHTML = "g.你对你现时的睡眠问题有多忧虑/苦恼？";
-                alter_option_names("answer", "question7_answer");
                 alter_label_names("完全没有", "少许", "颇为", "非常", "非常大");
                 // 跳转
                 document.getElementById('question_submit').setAttribute('onclick', "location=\'" +
+
                     "/scales/get_next_self_scale_url?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}" +
                     "\'"
                 );
