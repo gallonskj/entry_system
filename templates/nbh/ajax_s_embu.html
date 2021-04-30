@@ -378,7 +378,7 @@
                 '/scales/self_tests_submit?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}',
             type: 'POST',
             dataType: 'JSON',
-            async: true,
+            async: false,
             data: {
                 'data': decodeURIComponent(form.serialize(),true),
                 'question_index': question_index,

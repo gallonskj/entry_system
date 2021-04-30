@@ -28,7 +28,7 @@
                 <ul class="breadcrumb" style="background-color: white;font-weight:bold">
                     <li>量表录入</li>
                     <li>自评量表</li>
-                    <li class="active">失眠严重指数量表</li>
+                    <li class="active">贝克自杀意念及强度量表</li>
                     <div style="float: right;margin-bottom: 0;"></div>
                 </ul>
             </div>
@@ -42,7 +42,7 @@
                         <i class="fa fa-hand-o-down"></i>&nbsp;
                         <i class="fa fa-hand-o-down"></i>&nbsp;
                         <i class="fa fa-hand-o-down"></i>&nbsp;
-                        指导语：请评估你过去两个星期睡眠问题的严重程度。
+                        指导语：下述项目是一些有关您对生命和死亡想法的问题。每个问题既问最近一周您是如何感觉的，又问既往您最消沉、最代或自杀倾向最严重的时候是如何感觉的。每个问题的答案各有不同，请您注意听清提问和备选答案，然后根据您的情况选择最适合的答案。
                     </strong>
                 </h5>
             </div>
@@ -54,51 +54,193 @@
         <br>
         <br>
         {% csrf_token %}
-        <div class="question_area" name="question_area" style="text-align: center">
-            <form id="question_form" name="question_form" action="#">
-                <h3>
-                    <div name="question_text" id="question_text" class="row">1.感觉紧张，焦虑或急切</div>
-                </h3>
-                <div class="options" style=" text-align: left;padding-left: 47.5%">
+
+        <div class="bss_1_1" style="text-align: center;display: none">
+            <form id="bss_1_1" name="bss_1_1" action="#">
+
+                <div class="row"><h3>1. 您希望活下去的程度如何?</h3></div>
+                <div class="row"><h4>（最近一周）</h4></div>
+                <div class="options" style=" text-align: left;padding-left: 45%">
                     <div class="row show-grid" style="margin:10px">
                         <label>
-                            <input type="radio" class="answer" name="question1_answer" value=0 id="label_1"
-                                   data-labelauty="没有"/>
+                            <input type="radio" name="question1_lastweek" value=1
+                                   data-labelauty="&nbsp;&nbsp;&nbsp;中等到强烈&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"/>
                         </label>
                     </div>
                     <div class="row show-grid" style="margin:10px">
                         <label>
-                            <input type="radio" class="answer" name="question1_answer" value=1 id="label_2"
-                                   data-labelauty="轻微"/>
+                            <input type="radio" name="question1_lastweek" value=2
+                                   data-labelauty="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;弱&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"/>
                         </label>
                     </div>
                     <div class="row show-grid" style="margin:10px">
                         <label>
-                            <input type="radio" class="answer" name="question1_answer" value=2 id="label_3"
-                                   data-labelauty="普通"/>
-                        </label>
-                    </div>
-                    <div class="row show-grid" style="margin:10px">
-                        <label>
-                            <input type="radio" class="answer" name="question1_answer" value=3 id="label_4"
-                                   data-labelauty="严重"/>
-                        </label>
-                    </div>
-                    <div class="row show-grid" style="margin:10px">
-                        <label>
-                            <input type="radio" class="answer" name="question1_answer" value=4 id="label_5"
-                                   data-labelauty="非常严重"/>
+                            <input type="radio" name="question1_lastweek" value=3 data-labelauty="没有活着的欲望"/>
                         </label>
                     </div>
                 </div>
                 <div>
-                    <input id="question_submit" type="button" class="btn btn-success text-center"
+                    <input id="bss_1_1_submit" type="button" class="btn btn-success text-center"
                            style="width:68px;height:34px" value="下一题">
                     <input type="button" class="btn btn-danger text-center exit_button" style="width:68px;height:34px"
                            value="退&nbsp;&nbsp;出">
                 </div>
             </form>
         </div>
+        <div class="bss_1_2" style="text-align: center;display: none">
+            <form id="bss_1_2" name="bss_1_2" action="#">
+                <div class="row"><h3>1. 您希望活下去的程度如何?</h3></div>
+                <div class="row"><h4>（最消沉、最忧郁的时候）</h4></div>
+                <div class="options" style=" text-align: left;padding-left: 45%">
+                    <div class="row show-grid" style="margin:10px">
+                        <label>
+                            <input type="radio" name="question1_mostdepressed" value=1
+                                   data-labelauty="&nbsp;&nbsp;&nbsp;中等到强烈&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"/>
+                        </label>
+                    </div>
+                    <div class="row show-grid" style="margin:10px">
+                        <label>
+                            <input type="radio" name="question1_mostdepressed" value=2
+                                   data-labelauty="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;弱&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"/>
+                        </label>
+                    </div>
+                    <div class="row show-grid" style="margin:10px">
+                        <label>
+                            <input type="radio" name="question1_mostdepressed" value=3 data-labelauty="没有活着的欲望"/>
+                        </label>
+                    </div>
+                </div>
+                <div>
+                    <input id="bss_1_2_submit" type="button" class="btn btn-success text-center"
+                           style="width:68px;height:34px" value="下一题">
+                    <input type="button" class="btn btn-danger text-center exit_button" style="width:68px;height:34px"
+                           value="退&nbsp;&nbsp;出">
+                </div>
+            </form>
+        </div>
+        <div class="bss_2_1" style="text-align: center;display: none">
+            <form id="bss_2_1" name="bss_2_1" action="#">
+                <div class="row"><h3>2. 您希望死去的程度如何?</h3></div>
+                <div class="row"><h4>（最近一周）</h4></div>
+                <div class="options" style=" text-align: left;padding-left: 45%">
+                    <div class="row show-grid" style="margin:10px">
+                        <label>
+                            <input type="radio" name="question2_lastweek" value=1 data-labelauty="没有死去的欲望"/>
+                        </label>
+                    </div>
+                    <div class="row show-grid" style="margin:10px">
+                        <label>
+                            <input type="radio" name="question2_lastweek" value=2
+                                   data-labelauty="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;弱&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"/>
+                        </label>
+                    </div>
+                    <div class="row show-grid" style="margin:10px">
+                        <label>
+                            <input type="radio" name="question2_lastweek" value=3
+                                   data-labelauty="&nbsp;&nbsp;&nbsp;中等到强烈&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"/>
+                        </label>
+                    </div>
+                </div>
+                <div>
+                    <input id="bss_2_1_submit" type="button" class="btn btn-success text-center"
+                           style="width:68px;height:34px" value="下一题">
+                    <input type="button" class="btn btn-danger text-center exit_button" style="width:68px;height:34px"
+                           value="退&nbsp;&nbsp;出">
+                </div>
+            </form>
+        </div>
+        <div class="bss_2_2" style="text-align: center;display: none">
+            <form id="bss_2_2" name="bss_2_2" action="#">
+                <div class="row"><h3>2. 您希望死去的程度如何?</h3></div>
+                <div class="row"><h4>（最消沉、最忧郁的时候）</h4></div>
+                <div class="options" style=" text-align: left;padding-left: 45%">
+                    <div class="row show-grid" style="margin:10px">
+                        <label>
+                            <input type="radio" name="question2_mostdepressed" value=1 data-labelauty="没有死去的欲望"/>
+                        </label>
+                    </div>
+                    <div class="row show-grid" style="margin:10px">
+                        <label>
+                            <input type="radio" name="question2_mostdepressed" value=2
+                                   data-labelauty="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;弱&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"/>
+                        </label>
+                    </div>
+                    <div class="row show-grid" style="margin:10px">
+                        <label>
+                            <input type="radio" name="question2_mostdepressed" value=3
+                                   data-labelauty="&nbsp;&nbsp;&nbsp;中等到强烈&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"/>
+                        </label>
+                    </div>
+                </div>
+                <div>
+                    <input id="bss_2_2_submit" type="button" class="btn btn-success text-center"
+                           style="width:68px;height:34px" value="下一题">
+                    <input type="button" class="btn btn-danger text-center exit_button" style="width:68px;height:34px"
+                           value="退&nbsp;&nbsp;出">
+                </div>
+            </form>
+        </div>
+        <div class="bss_3_1" style="text-align: center;display: none">
+            <form id="bss_3_1" name="bss_3_1" action="#">
+                <div class="row"><h3>3. 您要活下去的理由胜过您要死去的理由吗?</h3></div>
+                <div class="row"><h4>（最近一周）</h4></div>
+                <div class="options" style=" text-align: left;padding-left: 45%">
+                    <div class="row show-grid" style="margin:10px">
+                        <label>
+                            <input type="radio" name="question3_lastweek" value=1 data-labelauty="要活下去胜过要死去"/>
+                        </label>
+                    </div>
+                    <div class="row show-grid" style="margin:10px">
+                        <label>
+                            <input type="radio" name="question3_lastweek" value=2
+                                   data-labelauty="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;二者相当&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"/>
+                        </label>
+                    </div>
+                    <div class="row show-grid" style="margin:10px">
+                        <label>
+                            <input type="radio" name="question3_lastweek" value=3 data-labelauty="要死去胜过要活下来"/>
+                        </label>
+                    </div>
+                </div>
+                <div>
+                    <input id="bss_3_1_submit" type="button" class="btn btn-success text-center"
+                           style="width:68px;height:34px" value="下一题">
+                    <input type="button" class="btn btn-danger text-center exit_button" style="width:68px;height:34px"
+                           value="退&nbsp;&nbsp;出">
+                </div>
+            </form>
+        </div>
+        <div class="bss_3_2" style="text-align: center;display: none">
+            <form id="bss_3_2" name="bss_3_2" action="#">
+                <div class="row"><h3>3. 您要活下去的理由胜过您要死去的理由吗?</h3></div>
+                <div class="row"><h4>（最消沉、最忧郁的时候）</h4></div>
+                <div class="options" style=" text-align: left;padding-left: 45%">
+                    <div class="row show-grid" style="margin:10px">
+                        <label>
+                            <input type="radio" name="question3_mostdepressed" value=1 data-labelauty="要活下去胜过要死去"/>
+                        </label>
+                    </div>
+                    <div class="row show-grid" style="margin:10px">
+                        <label>
+                            <input type="radio" name="question3_mostdepressed" value=2
+                                   data-labelauty="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;二者相当&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"/>
+                        </label>
+                    </div>
+                    <div class="row show-grid" style="margin:10px">
+                        <label>
+                            <input type="radio" name="question3_mostdepressed" value=3 data-labelauty="要死去胜过要活下来"/>
+                        </label>
+                    </div>
+                </div>
+                <div>
+                    <input id="bss_3_2_submit" type="button" class="btn btn-success text-center"
+                           style="width:68px;height:34px" value="下一题">
+                    <input type="button" class="btn btn-danger text-center exit_button" style="width:68px;height:34px"
+                           value="退&nbsp;&nbsp;出">
+                </div>
+            </form>
+        </div>
+
     </div>
 </div>
 {% endblock %}
@@ -122,34 +264,120 @@
         $modal_dialog.css({'margin-top': Math.max(0, ($(window).height() - $modal_dialog.height()) / 2)});
     });
     let time = new Date();
-    let suicide = false;
-    let question_index = 1 + {{ question_index }};
+    let suicide = {{ suicide }};
     let end_flag = 0;
-    for(let index  = 1 ; index < question_index ; index ++){
-        update_question(index);
-    }
+    let question_index = 1 + {{ question_index }};
+
     $(document).ready(function () {
         $("input[type='radio']").labelauty();
-        $("#question_submit").on('click', function () {
-            if (question_index > 7) {
-                alert("请不要重复提交！");
+        // $("div[class='bss_0_1']").show();
+        if(question_index > 38){
+            $("div[class='bss_0_1']").show();
+        }else{
+            const class_name = 'bss_' + (Math.floor((question_index + 1) / 2) - 1) + '_' + (((question_index - 1) % 2) + 1);
+            // alert(((question_index - 1) % 2) + 1);
+            $(this.getElementsByClassName(class_name)).show();
+        }
+        $("#bss_0_1_submit").on('click', function () {
+            if (document.bss_0_1.suicide_history.value === "") {
+                alert("问题不能为空！");
+            } else if (document.bss_0_1.suicide_history.value === "0") {
+                ajax_post($('#bss_0_1'))
+                $("div[class='bss_0_1']").hide();
+                $("div[class='bss_1_1']").show();
+                question_index++;
             } else {
-                const answers = document.getElementsByClassName("answer");
-                let flag = 0;
-                for (let i = 0; i < answers.length; i++) {
-                    if (answers[i].checked && question_index <= 7) {
-                        ajax_post($('#question_form'));
-                        update_question(question_index);
-                        question_index++;
-                        flag = 1;
-                        break;
-                    }
-                }
-                if (flag == 0) {
-                    alert("问题不能为空！");
-                }
+                ajax_post($('#bss_0_1'))
+                $("div[class='bss_0_1']").hide();
+                $("div[class='bss_0_2']").show();
             }
-            $("input[type='radio']").removeAttr("checked");
+        });
+
+        $("#bss_0_2_submit").on('click', function () {
+            if (document.bss_0_2.suicide_times.value === "") {
+                alert("问题不能为空！");
+            } else {
+                ajax_post($('#bss_0_2'))
+                $("div[class='bss_0_2']").hide();
+                $("div[class='bss_1_1']").show();
+            }
+        });
+
+        $("#bss_1_1_submit").on('click', function () {
+            if (document.bss_1_1.question1_lastweek.value === "") {
+                alert("问题不能为空！");
+            } else {
+                ajax_post($('#bss_1_1'))
+                $("div[class='bss_1_1']").hide();
+                $("div[class='bss_1_2']").show();
+            }
+        });
+
+        $("#bss_1_2_submit").on('click', function () {
+            if (document.bss_1_2.question1_mostdepressed.value === "") {
+                alert("问题不能为空！");
+            } else {
+                ajax_post($('#bss_1_2'))
+                $("div[class='bss_1_2']").hide();
+                $("div[class='bss_2_1']").show();
+            }
+        });
+
+        $("#bss_2_1_submit").on('click', function () {
+            if (document.bss_2_1.question2_lastweek.value === "") {
+                alert("问题不能为空！");
+            } else {
+                ajax_post($('#bss_2_1'))
+                $("div[class='bss_2_1']").hide();
+                $("div[class='bss_2_2']").show();
+            }
+        });
+
+        $("#bss_2_2_submit").on('click', function () {
+            if (document.bss_2_2.question2_mostdepressed.value === "") {
+                alert("问题不能为空！");
+            } else {
+                ajax_post($('#bss_2_2'))
+                $("div[class='bss_2_2']").hide();
+                $("div[class='bss_3_1']").show();
+            }
+        });
+
+        $("#bss_3_1_submit").on('click', function () {
+            if (document.bss_3_1.question3_lastweek.value === "") {
+                alert("问题不能为空！");
+            } else {
+                ajax_post($('#bss_3_1'))
+                $("div[class='bss_3_1']").hide();
+                $("div[class='bss_3_2']").show();
+            }
+        });
+
+        $("#bss_3_2_submit").on('click', function () {
+            if (document.bss_3_2.question3_mostdepressed.value === "") {
+                alert("问题不能为空！");
+            } else {
+                ajax_post($('#bss_3_2'))
+                $("div[class='bss_3_2']").hide();
+                $("div[class='bss_4_1']").show();
+            }
+        });
+
+
+
+
+
+
+
+        $("#bss_19_2_submit").on('click', function () {
+            if (document.bss_19_2.question19_mostdepressed.value === "") {
+                alert("问题不能为空！");
+            } else {
+                end_flag = 1;
+                ajax_post($('#bss_19_2'))
+                //跳转
+                location = "/scales/get_next_self_scale_url?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}";
+            }
         });
     });
 
@@ -158,67 +386,6 @@
         const duration = time - current_time;
         time = current_time;
         return -duration;
-    }
-
-    function alter_option_names(option_class_name, name) {
-        const nodes = document.getElementsByClassName(option_class_name);
-        for (let i = 0; i < nodes.length; i++) {
-            nodes[i].setAttribute("name", name);
-        }
-    }
-
-    function alter_label_names(name_1, name_2, name_3, name_4, name_5) {
-        const nodes_1 = document.getElementById('label_1');
-        nodes_1.innerHTML = name_1;
-        const nodes_2 = document.getElementById('label_2');
-        nodes_2.innerHTML = name_2;
-        const nodes_3 = document.getElementById('label_3');
-        nodes_3.innerHTML = name_3;
-        const nodes_4 = document.getElementById('label_4');
-        nodes_4.innerHTML = name_4;
-        const nodes_5 = document.getElementById('label_5');
-        nodes_5.innerHTML = name_5
-        ;
-    }
-
-
-    function update_question(index) {
-        switch (index) {
-            case 1:
-                document.getElementById('question_text').innerHTML = "b.难以维持睡眠";
-                alter_option_names("answer", "question2_answer");
-                break;
-            case 2:
-                document.getElementById('question_text').innerHTML = "c.太早就醒了的问题 ";
-                alter_option_names("answer", "question3_answer");
-                break;
-            case 3:
-                document.getElementById('question_text').innerHTML = "d.你对过去两个星期的睡眠状况满意度如何";
-                alter_option_names("answer", "question4_answer");
-                alter_label_names("非常满意", "满意", "一般", "不满意", "非常不满意");
-                break;
-            case 4:
-                document.getElementById('question_text').innerHTML = "e.你认为你的睡眠问题妨碍你日常运作（例如：日渐疲劳、处理工作/日常时务的能力、集中力、记忆、情绪等等）到哪一个程度？";
-                alter_option_names("answer", "question5_answer");
-                alter_label_names("完全没有妨碍", "少许", "颇为", "非常", "极之妨碍");
-                break;
-            case 5:
-                document.getElementById('question_text').innerHTML = "f.你的睡眠问题在降低生活质素而言，在其它人眼中有多明显?";
-                alter_option_names("answer", "question6_answer");
-                alter_label_names("完全不明显", "仅为", "颇为", "非常", "极之明显");
-                break;
-            case 6:
-                document.getElementById('question_text').innerHTML = "g.你对你现时的睡眠问题有多忧虑/苦恼？";
-                alter_label_names("完全没有", "少许", "颇为", "非常", "非常大");
-                // 跳转
-                document.getElementById('question_submit').setAttribute('onclick', "location=\'" +
-
-                    "/scales/get_next_self_scale_url?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}" +
-                    "\'"
-                );
-                end_flag = 1;
-                break;
-        }
     }
 
     function ajax_post(form) {
@@ -231,13 +398,14 @@
             async: true,
             data: {
                 'data': form.serialize(),
-                'question_index': question_index,
                 'duration': get_duration(),
-                'test_name': 'insomnia',
                 'flag': end_flag,
+                'test_name': "bss",
+                'question_index': question_index,
                 'csrfmiddlewaretoken': csrf
             }
-        })
+        });
+        question_index++;
     }
 
 </script>

@@ -57,7 +57,7 @@
         <div class="question_area" name="question_area" style="text-align: center">
             <form id="question_form" name="question_form" action="#">
                 <h3>
-                    <div name="question_text" id="question_text" class="row">1.感觉紧张，焦虑或急切</div>
+                    <div name="question_text" id="question_text" class="row">a.感觉紧张，焦虑或急切</div>
                 </h3>
                 <div class="options" style=" text-align: left;padding-left: 47.5%">
                     <div class="row show-grid" style="margin:10px">
@@ -140,6 +140,8 @@
                     if (answers[i].checked && question_index <= 7) {
                         ajax_post($('#question_form'));
                         update_question(question_index);
+                        {#$('#question_form').hidden()#}
+                        {#$('#question_form').show()#}
                         question_index++;
                         flag = 1;
                         break;
@@ -167,17 +169,32 @@
         }
     }
 
+    function addScript(url){
+
+        document.write("<script language=javascript src="+url+"></"+"script>");
+
+    }
+    {#<script type="text/javascript" src="{% static '/js/jquery-radio-beauty.js'%}"></script>#}
+
     function alter_label_names(name_1, name_2, name_3, name_4, name_5) {
         var nodes_1 = document.getElementById('label_1');
-        nodes_1.setAttribute("data-labelauty",name_1);
+        {#nodes_1.removeAttribute("data-labelauty");#}
+        {#nodes_1.setAttribute("data-labelauty",name_1);#}
+        addScript({% static '/js/jquery-radio-beauty.js'%});
+        nodes_1.setAttribute('data-labelauty',name_1);
         var nodes_2 = document.getElementById('label_2');
+        {#nodes_2.removeAttribute("data-labelauty");#}
         nodes_2.setAttribute("data-labelauty",name_2);
         var nodes_3 = document.getElementById('label_3');
+        {#nodes_3.removeAttribute("data-labelauty");#}
         nodes_3.setAttribute("data-labelauty",name_3);
         var nodes_4 = document.getElementById('label_4');
+        {#nodes_4.removeAttribute("data-labelauty");#}
         nodes_4.setAttribute("data-labelauty",name_4);
         var nodes_5 = document.getElementById('label_5');
+        {#nodes_5.removeAttribute("data-labelauty");#}
         nodes_5.setAttribute("data-labelauty",name_5);
+        {#$(".options").load(location.href + " .options")#}
     }
 
 
@@ -235,8 +252,8 @@
                 'test_name': 'insomnia',
                 'flag': end_flag,
                 'csrfmiddlewaretoken': csrf
-            }
-        })
+            },
+        });
     }
 
 </script>
