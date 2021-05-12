@@ -37,7 +37,7 @@
                 <div class="col-md-12 col-xs-12">
 
                     <div class="col-md-4  col-xs-12">
-                        <div class="x_panel" style="height: 410px">
+                        <div class="x_panel" style="height: 460px">
                             <div class="x_title">
                                 <h2>个人信息<small>基本信息{{ standard_id }}</small></h2>
                                 <div class="clearfix"></div>
@@ -46,8 +46,11 @@
                                 <div class="form-group">
                                     <label class="control-label col-md-4 col-sm-4 col-xs-6"
                                            for="subject_number">受试编号<span class="required">:</span></label>
-                                    <p class="col-md-4 col-sm-4 col-xs-6" id="patient_id"
-                                       style="padding-top: 7px;margin-bottom: 0;text-align: left"></p>
+                                    <a href="/patients/get_patient_detail?patient_id={{ patient_baseinfo.id }}">
+                                        <p class="col-md-4 col-sm-4 col-xs-6" id="patient_id"
+                                       style="padding-top: 7px;margin-bottom: 0;text-align: left;text-decoration: underline">{{ standard_id }}</p>
+                                    </a>
+
                                 </div>
 
                                 <div class="form-group">
@@ -74,7 +77,8 @@
                                     <label class="control-label col-md-4 col-sm-4 col-xs-6">民族 <span
                                             class="required">:</span></label>
                                     <p class="col-md-4 col-sm-4 col-xs-6"
-                                       style="padding-top: 7px;margin-bottom: 0;text-align: left">{{ patient_baseinfo.nation }}</p>
+                                       style="padding-top: 7px;margin-bottom: 0;text-align: left">{{ patient_baseinfo.nation }}
+                                    </p>
                                 </div>
 
                                 <div class="form-group">
@@ -87,7 +91,7 @@
                                 <div class="form-group">
                                     <label class="control-label col-md-4 col-sm-4 col-xs-12"
                                            for="subject_number">年龄<span class="required">:</span></label>
-                                    <p class="col-md-4 col-sm-4 col-xs-12" id="patient_id"
+                                    <p class="col-md-4 col-sm-4 col-xs-12" id="age"
                                        style="padding-top: 7px;margin-bottom: 0;text-align: left"> {{ patient_detail.age }}</p>
                                 </div>
                                 <div class="form-group">
@@ -96,14 +100,26 @@
                                     <input type="text" name="head_motion_parameters" class="sel_beauty"
                                            value="{{ patient_detail.head_motion_parameters|processNone }}"/>
                                 </div>
+
+                                 <div class="form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12"
+                                           for="subject_number">尿酸<span class="required">:</span></label>
+                                    <input type="text" name="ua" class="sel_beauty"
+                                           value="{{ patient_detail.ua|processNone }}"/>
+                                </div>
+
                                 <div class="form-group">
                                     <label class="control-label col-md-4 col-sm-4 col-xs-12"
                                            for="subject_number">扫描时间<span class="required">:</span></label>
                                     <input type="date" name="scan_date" class="sel_beauty"
                                            value="{{ patient_detail.scan_date }}"/>
                                 </div>
-
-
+                                <div class="form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12"
+                                           for="subject_number">采血时间<span class="required">:</span></label>
+                                    <input type="date" name="blood_sampling_date" class="sel_beauty"
+                                           value="{{ patient_detail.blood_sampling_date }}"/>
+                                </div>
                             </div>
                             <br/>
 
@@ -111,13 +127,13 @@
                     </div>
 
                    <div class="col-md-4 col-xs-12">
-                        <div class="x_panel" style="height: 410px">
+                        <div class="x_panel" style="height: 460px">
                             <div class="x_title">
                                 <h2>量表录入选项列表</h2>
                                 <div class="clearfix"></div>
                             </div>
                             <div class="x_content" style="text-align: center">
-                            <br/>
+                            <br/><br/><br/>
                                 <a href="/scales/get_general_info_forms?patient_session_id={{ patient_session_id }}&patient_id={{ patient_baseinfo.id }}&do_type=0"
                                    style="color: white">
                                     {% if todo_generalinfo_scale_size == 0 %}
@@ -175,11 +191,12 @@
                     </div>
 
                     <div class="col-md-4 col-xs-12">
-                        <div class="x_panel" style="height: 410px">
+                        <div class="x_panel" style="height: 460px">
                             <div class="x_title">
                                 <h2>信息采集情况</h2>
                                 <div class="clearfix"></div>
                             </div>
+                        <br/><br/>
                             <div class="x_content">
                                 <div class="form-group">
                                     <label class="control-label col-md-offset-1 col-md-5"
@@ -291,6 +308,7 @@
                     <textarea class="col-md-8 col-sm-8 col-xs-8" rows="3" style="resize: none;border-color: #6688a8"
                               name="note">{{ patient_detail.note|processNone }}</textarea>
                 </div>
+
                 <div></div>
                 <div class="col-md-12"
                      style="text-align: center;transform:translateY(50%);-ms-transform:translateY(50%);-webkit-transform:translateY(50%);">
@@ -345,6 +363,7 @@ var num=1
 
         $(document).ready(function () {
             document.getElementById("patient_id").innerHTML = 'NN_' + formatZero({{ patient_baseinfo.id }}, 8)
+            document.cookie = "enter_page=select;path=/"
         });
 
         function formatZero(num, len) {
@@ -360,6 +379,17 @@ var num=1
         $(document).ready(function () {
             $("input[type='radio']").labelauty();
         });
+
+         function addCookie(name,value,expiresHours){
+            var cookieString=name+"="+escape(value);
+            //判断是否设置过期时间
+            if(expiresHours>0){
+            var date=new Date();
+            date.setTime(date.getTime+expiresHours*3600*1000);
+            cookieString=cookieString+"; expires="+date.toGMTString()+";path=/";;
+            }
+            document.cookie=cookieString;
+        }
     </script>
 
     <script>

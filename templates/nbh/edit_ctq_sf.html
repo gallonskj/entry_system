@@ -26,9 +26,10 @@
                          <li><a href="#" >自评量表</a></li>
                          <li class="active"><a href="#" >儿童期（16岁以前）的成长经历(ctq_sf)</a></li>
                          <div style="float: right;margin-bottom: 0px;">
-                           <a href="/scales/select_scales?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}" class="btn btn-warning btn-sm">
-                               <i class="fa fa-arrow-left"></i><strong>&nbsp;返&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回</strong></a>
-                       </div>
+                            <a id ="return_url" href="/patients/get_patient_detail?&patient_id={{ patient_id }}&page=1"
+                               class="btn btn-warning btn-xs"><i class="fa fa-arrow-left"></i><strong>&nbsp;返&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回</strong></a>
+                        </div>
+
                     </ul>
                 </div>
             </div>
@@ -256,7 +257,7 @@
                                                  <td><input type="radio" name="question23_answer" value=2 data-labelauty="偶尔" />
                                                  <td><input type="radio" name="question23_answer" value=3 data-labelauty="有时" />
                                                  <td><input type="radio" name="question23_answer" value=4 data-labelauty="经常" />
-                                                 <td><input type="radio" name="question23_answer" value=4 data-labelauty="总是" />
+                                                 <td><input type="radio" name="question23_answer" value=5 data-labelauty="总是" />
 					                        </tr>
                                            <tr>
 						                        <td>24.当时有人猥亵我，如耍流氓、动手动脚等。</td>
@@ -308,6 +309,25 @@
                                         </table>
                                     </div>
                                 </div>
+                                
+                                <div class="row">
+                                <div class="col-md-12 col-sm-12">
+                                    <a style="float: left;font-weight: bold">情感虐待总分：{{ ctq_sf_answer.emotion_abuse_score|processNone }}</a>
+                                </div>
+                                <div class="col-md-12 col-sm-12">
+                                    <a style="float: left;font-weight: bold">躯体虐待总分：{{ ctq_sf_answer.body_abuse_score|processNone }}</a>
+                                </div>
+                                <div class="col-md-12 col-sm-12">
+                                    <a style="float: left;font-weight: bold">性虐待总分：{{ ctq_sf_answer.sex_abuse_score|processNone }}</a>
+                                </div>
+                                   <div class="col-md-12 col-sm-12">
+                                    <a style="float: left;font-weight: bold">情感忽视总分：{{ ctq_sf_answer.emotion_ignore_score|processNone }}</a>
+                                </div>
+                                <div class="col-md-12 col-sm-12">
+                                    <a style="float: left;font-weight: bold">躯体忽视总分：{{ ctq_sf_answer.body_ignore_score|processNone }}</a>
+                                </div>
+                                
+                            </div>
 
 
                                 <div class="row" id="bt_group">

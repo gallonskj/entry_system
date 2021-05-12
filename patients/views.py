@@ -11,7 +11,7 @@ import scales.models as scales_models
 import scales.views as scale_views
 import patients.dao as patients_dao
 import tools.config as tools_config
-
+from tools.Utils import Paginator
 import json
 import scales.dao as scales_dao
 import time
@@ -22,22 +22,35 @@ scale_class_dict = {7: [scales_models.RPatientHamd17, [8, 21, 35], ['正常', '�
                     10: [scales_models.RPatientBprs, [36], ['正常', '偏高']]}
 
 
-# 获取所有被试基础信息,以及民族字典表信息（创建被试时会使用到）
-def get_all_patients_baseinfo(request):
-    patients = patients_dao.get_base_info_all()
+def get_patient_by_search(request):
+    search_dict = {}
+    name = request.POST.get('name')
+    sex = request.POST.get('sex')
+    id = request.POST.get('patient_id')
+    diagnosis = request.POST.get('diagnosis')
+    if name and name.strip()!='':
+        search_dict['name'] = name
+    if sex and sex.strip()!='':
+        search_dict['sex'] = sex
+    if id and id.strip()!='':
+        search_dict['id'] = int(id)
+    if diagnosis and diagnosis.strip()!='':
+        search_dict['diagnosis'] = diagnosis
+    patients = patients_models.BPatientBaseInfo.objects.filter(**search_dict).all().order_by('-id')
+    all_patients=patients_models.BPatientBaseInfo.objects.all().order_by('id')
     username = request.session.get('username')
     nations = DEthnicity.objects.all()
+    obj_count = len(patients)
+    obj_perpage = 10
+    pagetag_current = request.POST.get('page',1)
+    pagetag_dsp_count = 6
+    paginator = Paginator(obj_count, obj_perpage, pagetag_current, pagetag_dsp_count)
+    patients = patients[paginator.obj_slice_start:paginator.obj_slice_end]
     return render(request, 'manage_patients.html', {"patients": patients,
+                                                    "all_patients":all_patients,
                                                     'username': username,
-                                                    'nations': nations})
-
-def get_all_inpatients_baseinfo(request):
-    patients = patients_dao.get_base_info_all()
-    username = request.session.get('username')
-    nations = DEthnicity.objects.all()
-    return render(request, 'manage_inpatients.html', {"patients": patients,
-                                                    'username': username,
-                                                    'nations': nations})
+                                                    'nations': nations,
+                                                    'paginator': paginator})
 
 # 被试基本信息录入，需要生成id的信息，需要向patient_detail进行信息插入(session==1的信息)
 # todo 在进行病人或者复扫创建的时候，需要创建ｒ_patients_scales创建量表完成信息，默认应该是未完成的，需要根据青少年这些去做
@@ -65,6 +78,7 @@ def add_patient_baseinfo(request):
 
     # 插入高危信息表:需要在b_patient_base_info之前创建
     rPatientGhr = patients_models.RPatientGhr(ghr_id=patient_id, doctor_id=doctor_id)
+
     for key in request.POST.keys():
         pos = key.rfind('_')
         st = key[:pos]
@@ -73,11 +87,20 @@ def add_patient_baseinfo(request):
             val = request.POST.get(key)
             if val == '':
                 val = None
-
             setattr(rPatientGhr, st, val)
             if st == 'kinship':
                 patients_dao.add_patient_ghr(rPatientGhr)
                 rPatientGhr = patients_models.RPatientGhr(ghr_id=patient_id, doctor_id=doctor_id)
+        if st=='kin_patient_id':
+            kin_patient_id=request.POST.get(key)
+            if kin_patient_id != '0':
+                # rPatientGhr.diagnosis = patients_models.BPatientBaseInfo.objects.filter(
+                #     pk=kin_patient_id).first().diagnosis
+                diagnosis_val=patients_models.BPatientBaseInfo.objects.filter(
+                    pk=kin_patient_id).first().diagnosis
+                setattr(rPatientGhr, 'diagnosis', diagnosis_val)
+                print(diagnosis_val)
+
 
 
     # 基本信息创建
@@ -130,6 +153,7 @@ def add_patient_followup(request):
     patient_detail.session_id = session_id
     patient_detail.standard_id = standard_id
     patient_detail.age = tools_utils.calculate_age_by_scandate(str(patient_baseinfo.birth_date), str(scan_date))
+    patient_detail.scan_date=scan_date
     patient_detail.doctor_id = doctor_id
 
     patients_dao.add_patient_detail(patient_detail)

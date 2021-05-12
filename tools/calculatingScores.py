@@ -225,6 +225,7 @@ def YBO_total_score(rPatientYbobsessiontable_object):
 
 # 自杀意念及行为史
 def Suicidal_total_score(rPatientSuicidal_object):
+    suicide_ideation = None
     if rPatientSuicidal_object is None \
             or rPatientSuicidal_object.question1_lastweek is None \
             or rPatientSuicidal_object.question1_mostdepressed is None \
@@ -239,15 +240,13 @@ def Suicidal_total_score(rPatientSuicidal_object):
         object_flag = True
         total_score_lastweek = None
         total_score_mostdepressed = None
+    #前五题非空
     else:
         flag_lastweek = int(rPatientSuicidal_object.question4_lastweek) + int(
             rPatientSuicidal_object.question5_lastweek)
         flag_mostdepressed = int(rPatientSuicidal_object.question4_mostdepressed) + int(
             rPatientSuicidal_object.question5_mostdepressed)
-        if flag_lastweek == 2:
-            total_score_lastweek = None
-            object_flag_lastweek = False
-        elif rPatientSuicidal_object.question6_lastweek is None \
+        if rPatientSuicidal_object.question6_lastweek is None \
                 or rPatientSuicidal_object.question7_lastweek is None \
                 or rPatientSuicidal_object.question8_lastweek is None \
                 or rPatientSuicidal_object.question9_lastweek is None \
@@ -276,16 +275,15 @@ def Suicidal_total_score(rPatientSuicidal_object):
                 rPatientSuicidal_object.question19_lastweek)
 
             total_score_lastweek = (sum_lastweek - 9) / 33 * 100
-            if total_score_lastweek <= 100 and total_score_lastweek >= 0:
+            if flag_lastweek == 2:
+                object_flag_lastweek = False
+            elif total_score_lastweek <= 100 and total_score_lastweek >= 0:
                 object_flag_lastweek = False
             else:
                 object_flag_lastweek = True
                 total_score_lastweek = None
         # 另一分支
-        if flag_mostdepressed == 2:
-            total_score_mostdepressed = None
-            object_flag_mostdepressed = False
-        elif rPatientSuicidal_object.question6_mostdepressed is None \
+        if rPatientSuicidal_object.question6_mostdepressed is None \
                 or rPatientSuicidal_object.question7_mostdepressed is None \
                 or rPatientSuicidal_object.question8_mostdepressed is None \
                 or rPatientSuicidal_object.question9_mostdepressed is None \
@@ -317,14 +315,20 @@ def Suicidal_total_score(rPatientSuicidal_object):
                                 int(rPatientSuicidal_object.question18_mostdepressed) + int(
                 rPatientSuicidal_object.question19_mostdepressed)
             total_score_mostdepressed = (sum_mostdepressed - 9) / 33 * 100
-            if total_score_mostdepressed <= 100 and total_score_mostdepressed >= 0:
+            if flag_mostdepressed == 2:
+                object_flag_mostdepressed = False
+            elif total_score_mostdepressed <= 100 and total_score_mostdepressed >= 0:
                 object_flag_mostdepressed = False
             else:
                 object_flag_mostdepressed = True
                 total_score_mostdepressed = None
         object_flag = object_flag_lastweek and object_flag_mostdepressed
-
-    return total_score_lastweek, total_score_mostdepressed, object_flag
+    if not object_flag:
+        if total_score_lastweek is None and total_score_mostdepressed is None:
+            suicide_ideation = 0
+        else:
+            suicide_ideation = 1
+    return total_score_lastweek, total_score_mostdepressed, object_flag,suicide_ideation
 
 
 # 33项轻躁狂
@@ -536,12 +540,12 @@ def growth_total_score(rPatientGrowth_object):
             rPatientGrowth_object.question24_answer) + \
                                    int(rPatientGrowth_object.question27_answer)
         emotional_ignorance_total_score = (6 - int(rPatientGrowth_object.question5_answer)) + (
-                    6 - int(rPatientGrowth_object.question7_answer)) + \
+                6 - int(rPatientGrowth_object.question7_answer)) + \
                                           (6 - int(rPatientGrowth_object.question13_answer)) + (
-                                                      6 - int(rPatientGrowth_object.question19_answer)) + \
+                                                  6 - int(rPatientGrowth_object.question19_answer)) + \
                                           (6 - int(rPatientGrowth_object.question28_answer))
         physical_ignorance_total_score = int(rPatientGrowth_object.question1_answer) + (
-                    6 - int(rPatientGrowth_object.question2_answer)) + \
+                6 - int(rPatientGrowth_object.question2_answer)) + \
                                          int(rPatientGrowth_object.question4_answer) + int(
             rPatientGrowth_object.question6_answer) + (6 - int(rPatientGrowth_object.question26_answer))
 
@@ -916,3 +920,51 @@ def ATQ_total_score(rPatientAtq_object):
             object_flag = True
             total_score = None
     return total_score, object_flag
+
+
+def PHQ_total_score(RPatientPhq_obj):
+    total_score = 0
+    for each_score in RPatientPhq_obj.__dict__:
+        if len(each_score.split('_')) > 1:
+            if each_score.split('_')[1] == 'answer':
+                total_score = total_score + int(getattr(RPatientPhq_obj, each_score))
+    return total_score
+
+
+def GAD_total_score(RPatientGad_obj):
+    total_score = 0
+    for each_score in RPatientGad_obj.__dict__:
+        if len(each_score.split('_')) > 1:
+            if each_score.split('_')[1] == 'answer':
+                total_score = total_score + int(getattr(RPatientGad_obj, each_score))
+    return total_score
+
+
+def PSS_total_score(RPatientPss_obj):
+    print('================================')
+    for each_score in RPatientPss_obj.__dict__:
+        if each_score is None:
+            total_score = None
+            break
+    else:
+        total_score= int(RPatientPss_obj.question1_answer) + int(RPatientPss_obj.question2_answer)+\
+                     int(RPatientPss_obj.question3_answer) + int(RPatientPss_obj.question8_answer)+\
+                     int(RPatientPss_obj.question11_answer) + int(RPatientPss_obj.question14_answer)+\
+                     (6 - int(RPatientPss_obj.question4_answer)) + (6 - int(RPatientPss_obj.question5_answer))+ \
+                     (6 - int(RPatientPss_obj.question6_answer)) + (6 - int(RPatientPss_obj.question7_answer)) + \
+                     (6 - int(RPatientPss_obj.question9_answer)) + (6 - int(RPatientPss_obj.question10_answer)) + \
+                     (6 - int(RPatientPss_obj.question12_answer)) + (6 - int(RPatientPss_obj.question13_answer)) -14
+    if total_score<=0 and total_score>=56:
+        total_score=None
+    return total_score
+
+
+def ISI_total_score(RPatientInsomnia_obj):
+    total_score = 0
+
+
+    for each_score in RPatientInsomnia_obj.__dict__:
+        if len(each_score.split('_')) > 1:
+            if each_score.split('_')[1] == 'answer':
+                total_score = total_score + int(getattr(RPatientInsomnia_obj, each_score))
+    return total_score

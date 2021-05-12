@@ -2,7 +2,7 @@ body{
     font-size: 14px;
 }
 .scales_progress {margin-top: 40px ;margin-left:0px;overflow: hidden;position: absolute}
-.scales_progress li {background: url(../images/back1.png) repeat-y 7px 0;padding-bottom: 30px;zoom: 1;display: flex; margin-left: -40px;}
+.scales_progress li {background: url(../images/back1.png) repeat-y 7px 0;padding-bottom: 20px;zoom: 1;display: flex; margin-left: -40px;}
 .scales_progress li:after {content:" ";display: block;height: 0;clear: both;visibility: hidden;}
 .scales_progress li:last-child {background:none !important;}
 .scales_progress li p {background:url(../images/icon3.jpg) no-repeat 0 0;display:inline-block;width:240px;font-size: 14px;text-align:left;padding-left:20px;color:c3c3c3;}
@@ -12,11 +12,11 @@ body{
 
 /* 已经做完的量表，显示绿色  */
 .scales_progress li.done{background: url(../images/back_black.png) repeat-y 7px 0;}
-.scales_progress li.done p {background:url(../images/icon_black.png) no-repeat 0 0;color: #2A3F54; font-weight: 800;}
+.scales_progress li.done p {background:url(../images/icon_black.png) no-repeat 0 0;color: #26B99A; font-weight: 800;}
 
 /* 正在做的量表，显示蓝色  */
 .scales_progress li.doing{background: url(../images/back_black.png) repeat-y 7px 0;}
-.scales_progress li.doing p {background:url(../images/icon_black.png) no-repeat 0 0;color: black; font-weight: 800;font-family:"SimHei" ;}
+.scales_progress li.doing p {background:url(../images/icon_black.png) no-repeat 0 0;color: #73879C; font-weight: 800;font-family:"SimHei" ;}
 
     /* 还没有做的量表，显示灰色   */
 .scales_progress li.nodone{background: url(../images/back3.png) repeat-y 7px 0;}
@@ -37,8 +37,8 @@ body{
   display: flex;
   -webkit-box-pack: left;
   -webkit-justify-content: left;
-    -ms-flex-pack: left;
-      justify-content: left;
+	-ms-flex-pack: left;
+	justify-content: left;
   border:1px solid #c3c3c3 ;
 }
 #right-side {

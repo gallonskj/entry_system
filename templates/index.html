@@ -20,6 +20,8 @@
     <link href="{%  static '/vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css' %}" rel="stylesheet">
 	<link href="{%  static '/vendors/bootstrap-daterangepicker/daterangepicker.css' %}" rel="stylesheet">
     <link href="{%  static '/build/css/custom.min.css' %}" rel="stylesheet">
+    <link href="{%  static '/vendors/bootstrap-table/1.11.1/bootstrap-table.min.css' %}" rel="stylesheet">
+
    <!-- Select2 -->
   <link href="{%  static '/vendors/select2/dist/css/select2.min.css' %}" rel="stylesheet">
       {% block css %}{% endblock %}
@@ -49,8 +51,8 @@
                   </li>
                   <li><a><i class="fa fa-hourglass-start"></i>被试信息<span class = "fa fa-angle-right fa-lg"></span></a>
 					    <ul class="nav child_menu">
-                            <li><a href="/patients/subjectManage">被试管理与录入</a></li>
-                            <li><a href="/inpatients/get_all_inpatient_info">住院管理</a></li>
+                            <li><a href="/patients/get_patient_by_search">被试管理与录入</a></li>
+                            <li><a href="/inpatients/get_inpatient_by_search">住院管理</a></li>
 						</ul>
 
                   </li>
@@ -457,7 +459,7 @@
     <script src="{% static '/vendors/datatables.net-responsive/js/dataTables.responsive.min.js' %}"></script>
     <script src="{% static '/vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js' %}"></script>
     <script src="{% static '/vendors/datatables.net-scroller/js/dataTables.scroller.js' %}"></script>
-    {% comment %}<script type="javascript" src="/mystatic/js/layer.js%20"></script>{% endcomment %}
+    <script type="javascript" src="/mystatic/js/layer.js%20"></script>
 
     <!-- bootstrap-daterangepicker -->
     <script src="{% static '/vendors/moment/min/moment.min.js' %}"></script>

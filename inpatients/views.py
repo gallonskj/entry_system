@@ -14,8 +14,59 @@ from tools.exception import BussinessException
 from django.core.files import File
 from tools.doc2pdf import ConvertFileModelField
 from tools.Utils import get_progress_note_direct
+from tools.Utils import Paginator
+
 from django.conf import settings
 from django.core import serializers
+
+def del_inpatient(request):
+    inpatient_id = request.GET.get("inpatient_id")
+    inpatients = inpatients_dao.BInpatientInfo.objects.filter(pk = inpatient_id)
+    if len(inpatients)>0:
+        inpatient = inpatients[0]
+        # 删除住院信息
+        inpatient.delete()
+        # 更新病人在院的状态,获取住院表里该病人的记录,没有的话
+        patient = patient_dao.get_base_info_byPK(inpatient.patient_id)
+        res = inpatients_dao.BInpatientInfo.objects.filter(patient_id=inpatient.patient_id).all().order_by('-in_time')
+        if len(res)==0:
+            patient.inpatient_state = HospitalizedState.NOT_HOSPITALIZED
+        else:
+            patient.inpatient_state = res[0].inpatient_state
+        patient_dao.add_base_info(patient)
+        return redirect(get_inpatient_by_search)
+# 根据入院类型以及一些基本查询条件获取住院患者信息
+def get_inpatient_by_search(request):
+    search_dict = {}
+    name = request.POST.get('name')
+    sex = request.POST.get('sex')
+    id = request.POST.get('patient_id')
+    diagnosis = request.POST.get('diagnosis')
+    hospitalized_type = request.POST.get('hospitalized_type')
+    if name and name.strip() != '':
+        search_dict['patient__name'] = name
+    if sex and sex.strip() != '':
+        search_dict['patient__sex'] = sex
+    if id and id.strip() != '':
+        search_dict['patient__id'] = int(id)
+    if diagnosis and diagnosis.strip() != '':
+        search_dict['patient__diagnosis'] = diagnosis
+    if hospitalized_type and hospitalized_type.strip() != '':
+        search_dict['inpatient_state'] = hospitalized_type
+    inpatients = inpatients_model.BInpatientInfo.objects.all().select_related('patient').filter(**search_dict).all().order_by('-id')
+    username = request.session.get('username')
+    obj_count = len(inpatients)
+    obj_perpage = 10
+    pagetag_current = request.POST.get('page', 1)
+    pagetag_dsp_count = 6
+    paginator = Paginator(obj_count, obj_perpage, pagetag_current, pagetag_dsp_count)
+    inpatients = inpatients[paginator.obj_slice_start:paginator.obj_slice_end]
+    return render(request, 'manage_inpatients.html', {"inpatients": inpatients,
+                                                    'username': username,
+                                                    'paginator': paginator})
+
+
+
 
 # 根据id获取住院患者的详细信息
 def get_inpatient_detail(request):
@@ -186,10 +237,9 @@ def upload_progress_note(request):
             res_message = SuccessMessage('上传成功')
     return HttpResponse(json.dumps(res_message.__dict__))
 
-# 获取所有住院病人信息
-def get_all_inpatient_info(request):
-    res = inpatients_dao.get_all_inpatient_info([HospitalizedState.INPATIENT,HospitalizedState.OUT_HOSPITAL])
-    return render(request,'manage_inpatients.html',{'inpatients':res})
+
+
+
 
 
 # 读取用药信息
@@ -199,12 +249,6 @@ def read_medical_advice(request):
     print(a)
     return render(request,'medical_advice_detail.html',{'medical_advices':medical_advices,
                                                         'inpatient_id':inpatient_id})
-
-# 删除住院患者信息
-def del_inpatient(request):
-    inpatient_id = request.GET.get('inpatient_id')
-    inpatients_dao.del_inpatient_by_pk(inpatient_id)
-    return redirect('/inpatients/get_all_inpatient_info')
 
 # 获取医嘱属于哪一个大类,需要从数据库中预先读取,缓存到dict中,假如不存在于dict中,直接将其设置other类型存储
 def get_type(object,medical_dict):
@@ -234,13 +278,7 @@ def insert_medical_dict(request):
     from tools.Utils import insert_medical_dict
     insert_medical_dict()
 
-# 根据住院类型获取患者信息
-def get_inpatient_by_hospitalized_type(request):
-    hospitalized_type = request.POST.get('hospitalized_type')
-    if hospitalized_type=='all':
-        hospitalized_type = [HospitalizedState.INPATIENT,HospitalizedState.OUT_HOSPITAL]
-    inpatients = inpatients_dao.get_all_inpatient_info(hospitalized_type)
-    return render(request,'manage_inpatients.html',{'inpatients':inpatients})
+
 
 # 获取病人治疗期间用药情况
 def get_drugs_by_medical_treatment(request):
@@ -300,3 +338,4 @@ def upload_out_record(request):
 #         except KeyError:
 #             raise BussinessException('{} 在数据库不存在,请联系管理员'.format(object.medical_name))
 #         return type
+

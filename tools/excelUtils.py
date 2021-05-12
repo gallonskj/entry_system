@@ -91,13 +91,15 @@ def get_start_time(start_time,is_tommorrow):
 
 # 计量单位统一换算为ml或者mg,返回剂量数值以及基本单位
 def get_dose(base_dose):
-    p = re.compile('(\d+)\s*(\w+)')
+    p_number = re.findall(r"\d+\.?\d*", base_dose)
+    danwei = re.findall(r'[mg|kg|ml|l|M|g|ug|µg]+', base_dose)
     dose_num = None
     dose_unit = None
-    if p.match(base_dose) and len(p.match(base_dose).groups())==2:
-        groups = p.match(base_dose).groups()
-        dose_unit = groups[1]
-        dose_num = groups[0]
-        if dose_unit in ['l','g']:
-            dose_num = float(dose_num)*1000
+    if len(p_number)==1 and len(danwei)==1:
+        dose_num = p_number[0]
+        dose_unit = danwei[0]
+        if dose_unit in  ['l','g']:
+            dose_num = float(dose_num) * 1000
+            dose_unit = 'm'+dose_unit
     return dose_num,dose_unit
+

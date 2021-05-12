@@ -306,7 +306,7 @@ def dao_add_family_info(patient_basic_info_family, state):
 
 def dao_add_suicide(rpatientsuicidal):
     # 计算总分
-    rpatientsuicidal.total_score_lastweek, rpatientsuicidal.total_score_mostdepressed, object_flag = tools_calculatingScores.Suicidal_total_score(
+    rpatientsuicidal.total_score_lastweek, rpatientsuicidal.total_score_mostdepressed, object_flag,rpatientsuicidal.suicide_ideation = tools_calculatingScores.Suicidal_total_score(
         rpatientsuicidal)
     tools_utils.object_judgment(object_flag)
     # 插入前的级联检验
@@ -568,6 +568,42 @@ def get_patient_ATQ_byPatientDetailId(patient_detail_id):
         return patient_ATQ[0]
 
 
+# PHQ-9
+def get_patient_PHQ_9_byPatientDetailId(patient_detail_id):
+    patient_PHQ_9 = scales_models.RPatientPhq.objects.filter(patient_session=patient_detail_id)
+    if patient_PHQ_9.count() == 0:
+        return None
+    else:
+        return patient_PHQ_9[0]
+
+
+# GAD_7
+def get_patient_GAD_7_byPatientDetailId(patient_detail_id):
+    patient_GAD_7 = scales_models.RPatientGad.objects.filter(patient_session=patient_detail_id)
+    if patient_GAD_7.count() == 0:
+        return None
+    else:
+        return patient_GAD_7[0]
+
+
+# 失眠严重指数量表
+def get_patient_Insomnia_byPatientDetailId(patient_detail_id):
+    patient_insomnia = scales_models.RPatientInsomnia.objects.filter(patient_session=patient_detail_id)
+    if patient_insomnia.count() == 0:
+        return None
+    else:
+        return patient_insomnia[0]
+
+
+# 压力知觉量表
+def get_patient_Pss_byPatientDetailId(patient_detail_id):
+    patient_Pss = scales_models.RPatientPss.objects.filter(patient_session=patient_detail_id)
+    if patient_Pss.count() == 0:
+        return None
+    else:
+        return patient_Pss[0]
+
+
 # 威斯康星WCST
 def get_patient_wcst_byPatientDetailId(patient_detail_id):
     patient_wcst = scales_models.RPatientWcst.objects.filter(patient_session=patient_detail_id)
@@ -790,18 +826,24 @@ def del_vept(patient_session_id, scale_id):
 
 
 def get_or_default_patient_YBO_byPatientDetailId(patient_detail_id, doctor_id):
-    patient_YBO = scales_models.RPatientYbobsessiontable.objects.filter(patient_session=patient_detail_id)
+    print('DAODAODAODAODAODAODAODAODAODAODAODAODAODAODAODAODAODAODAODAODAODAODAODAODAODAODAODAODAODAODAODAO')
+    print(patient_detail_id)
+    patient_YBO = scales_models.RPatientYbobsessiontable.objects.filter(patient_session=patient_detail_id).all()
+    print(scales_models.RPatientYbobsessiontable.objects.filter(patient_session_id=patient_detail_id).first())
     if patient_YBO.count() == 0:
+        print(100)
         return scales_models.RPatientYbobsessiontable(patient_session_id=patient_detail_id,
                                                       doctor_id=doctor_id,
                                                       scale_id=11)
     else:
+        print(111)
         return patient_YBO[0]
 
 
 # 自杀意念及行为史
 def get_or_default_patient_suicidal_byPatientDetailId(patient_detail_id, doctor_id):
     patient_suicidal = scales_models.RPatientSuicidal.objects.filter(patient_session=patient_detail_id)
+    print(patient_suicidal)
     if patient_suicidal.count() == 0:
         return scales_models.RPatientSuicidal(patient_session_id=patient_detail_id,
                                               doctor_id=doctor_id,
@@ -899,11 +941,51 @@ def get_or_default_patient_ATQ_byPatientDetailId(patient_detail_id, doctor_id):
         return patient_ATQ[0]
 
 
+def get_or_default_patient_PHQ_byPatientDetailId(patient_detail_id, doctor_id):
+    patient_PHQ = scales_models.RPatientPhq.objects.filter(patient_session=patient_detail_id)
+    if patient_PHQ.count() == 0:
+        return scales_models.RPatientPhq(patient_session_id=patient_detail_id,
+                                         doctor_id=doctor_id,
+                                         scale_id=20)
+    else:
+        return patient_PHQ[0]
+
+
+def get_or_default_patient_GAD_byPatientDetailId(patient_detail_id, doctor_id):
+    patient_GAD = scales_models.RPatientGad.objects.filter(patient_session=patient_detail_id)
+    if patient_GAD.count() == 0:
+        return scales_models.RPatientGad(patient_session_id=patient_detail_id,
+                                         doctor_id=doctor_id,
+                                         scale_id=20)
+    else:
+        return patient_GAD[0]
+
+
+def get_or_default_patient_PSS_byPatientDetailId(patient_detail_id, doctor_id):
+    patient_PSS = scales_models.RPatientPss.objects.filter(patient_session=patient_detail_id)
+    if patient_PSS.count() == 0:
+        return scales_models.RPatientPss(patient_session_id=patient_detail_id,
+                                         doctor_id=doctor_id,
+                                         scale_id=20)
+    else:
+        return patient_PSS[0]
+
+
+def get_or_default_patient_ISI_byPatientDetailId(patient_detail_id, doctor_id):
+    patient_ISI = scales_models.RPatientInsomnia.objects.filter(patient_session=patient_detail_id)
+    if patient_ISI.count() == 0:
+        return scales_models.RPatientInsomnia(patient_session_id=patient_detail_id,
+                                              doctor_id=doctor_id,
+                                              scale_id=20)
+    else:
+        return patient_ISI[0]
+
+
 def self_tests_total_score(scale_id, obj):
     if scale_id == 11:
         obj.total_score, object_flag = tools_calculatingScores.YBO_total_score(obj)
     elif scale_id == 12:
-        obj.total_score_lastweek, obj.total_score_mostdepressed, object_flag = tools_calculatingScores.Suicidal_total_score(
+        obj.total_score_lastweek, obj.total_score_mostdepressed, object_flag,obj.suicide_ideation = tools_calculatingScores.Suicidal_total_score(
             obj)
     elif scale_id == 13:
         obj.total_score, object_flag = tools_calculatingScores.ManicSymptom_total_score(obj)
@@ -926,6 +1008,14 @@ def self_tests_total_score(scale_id, obj):
             obj)
     elif scale_id == 20:
         obj.total_score, object_flag = tools_calculatingScores.ATQ_total_score(obj)
+    elif scale_id == 29:
+        obj.total_score = tools_calculatingScores.PHQ_total_score(obj)
+    elif scale_id == 30:
+        obj.total_score = tools_calculatingScores.GAD_total_score(obj)
+    elif scale_id == 31:
+        obj.total_score = tools_calculatingScores.ISI_total_score(obj)
+    elif scale_id == 32:
+        obj.total_score = tools_calculatingScores.PSS_total_score(obj)
 
 
 def get_or_default_self_tests_obj_by_scale_id(scale_id, patient_session_id, doctor_id):
@@ -949,6 +1039,14 @@ def get_or_default_self_tests_obj_by_scale_id(scale_id, patient_session_id, doct
         return get_or_default_patient_SEmbu_byPatientDetailId(patient_session_id, doctor_id)
     elif scale_id == 20:
         return get_or_default_patient_ATQ_byPatientDetailId(patient_session_id, doctor_id)
+    elif scale_id == 29:
+        return get_or_default_patient_PHQ_byPatientDetailId(patient_session_id, doctor_id)
+    elif scale_id == 30:
+        return get_or_default_patient_GAD_byPatientDetailId(patient_session_id, doctor_id)
+    elif scale_id == 31:
+        return get_or_default_patient_ISI_byPatientDetailId(patient_session_id, doctor_id)
+    elif scale_id == 32:
+        return get_or_default_patient_PSS_byPatientDetailId(patient_session_id, doctor_id)
 
 
 def del_duration_by_scale_id(patient_session_id, scale_id):

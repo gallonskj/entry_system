@@ -6,7 +6,7 @@
     <link href="{% static '/vendors/iCheck/skins/flat/green.css' %}" rel="stylesheet">
     <link href="{% static '/css/scales_style.css' %}" rel="stylesheet">
       <link rel="stylesheet" href={% static '/css/tinyselect.css' %}>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/css/select2.min.css" rel="stylesheet" />
+    <link href="{% static '/vendors/ajax/libs/select2/4.0.4/css/select2.min.css' %}" rel="stylesheet" />
 
     <style>
         .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
@@ -155,14 +155,17 @@
                                                     {% if scale_detail|get_item:'state' == 1 %}
                                                         <td>{{ scale_detail|get_item:'end_time' }}</td>
                                                         <td>已完成</td>
-                                                        <td><a href='scales/redo_self_tests?patient_session_id={{ scale_detail|get_item:'patient_session_id' }}&scale_id = {{ scale_id }}'>重做</a></td>
+                                                        <td><a href='/scales/redo_self_tests?patient_session_id={{ scale_detail|get_item:'patient_session_id' }}&scale_id={{ scale_id }}'>重做</a></td>
                                                         <td><a href={{ scale_detail|get_self_check_scale_url }}>查看</a></td>
 
                                                     {% else %}
                                                         <td>-</td>
                                                         <td>未完成</td>
                                                         <td><a href={{ scale_detail|get_self_scale_url }}>续做</a></td>
+                                                        {% comment %}<td>-</td>
+                                                        测试用{% endcomment %}
                                                         <td>-</td>
+
 
                                                     {% endif %}
                                                 </tr>
@@ -539,7 +542,7 @@
                                         </a>
                                     </td>
                                     <td>
-                                        {{ patient_detail|get_item:'create_time' }}
+                                        {{ patient_detail|get_item:'scan_date' }}
                                     </td>
                                     <td>
                                         {{ patient_detail|get_diagnosis_by_dict }}
@@ -549,28 +552,34 @@
                                     </td>
                                     <td>
                                         <a href="#modal_DetailInfo_{{ patient_detail|get_item:'session_id' }}"
-                                           data-toggle="modal" data-orderId="{{ patient_detail.id }}">量表详情</a>
+                                           data-toggle="modal" data-orderId="{{ patient_detail.id }}" style="text-decoration: underline">量表详情</a>
 
                                     </td>
                                     <td>
                                         <a href="#modal_OtherTest_{{ patient_detail|get_item:'session_id' }}"
-                                           data-toggle="modal" data-orderId="{{ patient_detail.id }}">量表详情</a>
+                                           data-toggle="modal" data-orderId="{{ patient_detail.id }}" style="text-decoration: underline">量表详情</a>
                                     </td>
                                     <td>
                                         <a href="#modal_SelfTest_{{ patient_detail|get_item:'session_id' }}"
-                                           data-toggle="modal">量表详情</a>
+                                           data-toggle="modal" style="text-decoration: underline">量表详情</a>
                                     </td>
                                     <td>
                                         <a href="#modal_cognitionTest_{{ patient_detail|get_item:'session_id' }}"
-                                           data-toggle="modal">量表详情</a>
+                                           data-toggle="modal" style="text-decoration: underline">量表详情</a>
                                     </td>
                                             {% if  patient_detail.rtms_count == 0 %}
                                                 <td>
-                                                    <a href='/scales/get_rtms_forms?patient_session_id={{ patient_detail.id }}&patient_id={{ patient_detail.patient_id }}&do_type=0' data-toggle="modal">{{ patient_detail|get_item:'rtms_count' }}</a>
+                                                    <a href='/scales/get_rtms_forms?patient_session_id={{ patient_detail.id }}&patient_id={{ patient_detail.patient_id }}&do_type=0' data-toggle="modal"
+                                                    style="text-decoration: underline">
+                                                        {{ patient_detail|get_item:'rtms_count' }}
+                                                    </a>
                                                 </td>
                                             {% else %}
                                                 <td>
-                                                    <a href='/scales/get_rtms_forms?patient_session_id={{ patient_detail.id }}&patient_id={{ patient_detail.patient_id }}&do_type=1' data-toggle="modal">{{ patient_detail|get_item:'rtms_count' }}</a>
+                                                    <a href='/scales/get_rtms_forms?patient_session_id={{ patient_detail.id }}&patient_id={{ patient_detail.patient_id }}&do_type=1' data-toggle="modal"
+                                                    style="text-decoration: underline" >
+                                                        {{ patient_detail|get_item:'rtms_count' }}
+                                                    </a>
                                                 </td>
                                             {% endif %}
                                     <td>
@@ -601,7 +610,7 @@
     <script src="{% static '/js/layerJquery.js' %}"></script>
     <script src="{% static '/js/layer.js' %}"></script>
     <script type="text/javascript" src="{% static '/js/jquery-radio-beauty.js' %}"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/js/select2.min.js"></script>
+    <script src="{% static '/vendors/ajax/libs/select2/4.0.4/js/select2.min.js' %}"></script>
     <script type="text/javascript" src="{% static '/js/subjectEstablish.js' %}"></script>
 
 
@@ -702,7 +711,8 @@ var num=1
     <script type="text/javascript" language="JavaScript">
 
         $(document).ready(function () {
-              $("input[type='radio']").labelauty();
+            document.cookie = "enter_page=detail;path=/"
+            $("input[type='radio']").labelauty();
             $('#singleSelect').select2();
        $('#ghr_diagnosis_add').select2();
        $('#ghr_kinship_add').select2();
@@ -761,6 +771,16 @@ var num=1
                 document.getElementById("other_diagnosis_div").style.display = ""
         });
 
+
+           function getCookie(name){
+            var strCookie=document.cookie;
+            var arrCookie=strCookie.split("; ");
+            for(var i=0;i<arrCookie.length;i++){
+            var arr=arrCookie[i].split("=");
+            if(arr[0]==name)return arr[1];
+            }
+            return "";
+        }
         function formatZero(num, len) {
             if (String(num).length > len) return num;
             return (Array(len).join(0) + num).slice(-len);
@@ -781,6 +801,16 @@ var num=1
 
     <script>
 
+        function addCookie(name,value,expiresHours){
+            var cookieString=name+"="+escape(value);
+            //判断是否设置过期时间
+            if(expiresHours>0){
+            var date=new Date();
+            date.setTime(date.getTime+expiresHours*3600*1000);
+            cookieString=cookieString+"; expires="+date.toGMTString()+";path=/";
+            }
+            document.cookie=cookieString;
+        }
         function judge_diagnosis(obj) {
             if (obj.options[obj.selectedIndex].value == 99) {
                 document.getElementById("other_diagnosis_div").style.display = "";

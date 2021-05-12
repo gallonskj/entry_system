@@ -196,21 +196,20 @@
     }
     $(document).ready(function () {
         $("input[type='radio']").labelauty();
-
         $("#pre_question_submit").on('click', function () {
-            if (document.pre_questions.grade.value === "" ||
-                document.pre_questions.enrollmentyear.value === "" ||
-                document.pre_questions.area.value === "" ||
-                document.pre_questions.parent.value === "" ||
-                document.pre_questions.gradelevel.value === ""
+            {% comment %}if (document.pre_questions.grade.value === "" ||
+                document.pre_questions.year_of_school.value === "" ||
+                document.pre_questions.region.value === "" ||
+                document.pre_questions.parents_status.value === "" ||
+                document.pre_questions.mark_level.value === ""
             ) {
                 alert("问题不能为空！");
-            } else {
-                ajax_post($('#pre_questions'));
-                $('#pre_questions').hide();
-                $('#question_form').show();
-                question_index++;
-            }
+            } else {{% endcomment %}
+            ajax_post($('#pre_questions'));
+            $('#pre_questions').hide();
+            $('#question_form').show();
+            question_index++;
+            {% comment %}}{% endcomment %}
             $("input[type='radio']").removeAttr("checked");
         });
 
@@ -234,7 +233,7 @@
                         break;
                     }
                 }
-                if (flag_1 && flag_2) {
+                if (flag_1 || flag_2) {
                     ajax_post($('#question_form'));
                     update_question(question_index - 1);
                     question_index++;
@@ -381,7 +380,7 @@
             dataType: 'JSON',
             async: true,
             data: {
-                'data': form.serialize(),
+                'data': decodeURIComponent(form.serialize(),true),
                 'question_index': question_index,
                 'duration': get_duration(),
                 'test_name': 's_embu',

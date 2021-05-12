@@ -15,9 +15,10 @@
                          <li><a href="#" >自评量表</a></li>
                          <li class="active"><a href="#" >快感体验能力量表（teps）</a></li>
                          <div style="float: right;margin-bottom: 0px;">
-                           <a href="/scales/select_scales?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}" class="btn btn-warning btn-sm">
-                               <i class="fa fa-arrow-left"></i><strong>&nbsp;返&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回</strong></a>
-                       </div>
+                            <a id ="return_url" href="/patients/get_patient_detail?&patient_id={{ patient_id }}&page=1"
+                               class="btn btn-warning btn-xs"><i class="fa fa-arrow-left"></i><strong>&nbsp;返&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回</strong></a>
+                        </div>
+
                     </ul>
                 </div>
             </div>
@@ -248,6 +249,15 @@
                                         </tbody>
                                     </table>
                                 </div>
+                            </div>
+                               <div class="row">
+                                  <div class="col-md-12 col-sm-12">
+                                     <a  style="float: left;font-weight: bold">期待性总分：{{ teps_answer.expectation_score|processNone }}</a>
+                                 </div>
+                                   <div class="col-md-12 col-sm-12">
+                                     <a  style="float: left;font-weight: bold">消费性总分：{{ teps_answer.consume_score|processNone }}</a>
+                                 </div>
+
                             </div>
 
                                <div class="row" id="bt_group">

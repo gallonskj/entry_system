@@ -13,7 +13,7 @@ class SUser(models.Model):
     password = models.CharField(max_length=50)
     description = models.TextField(blank=True, null=True)
     active = models.IntegerField()
-    name = models.CharField(max_length=45, blank=True, null=True)
+    # name = models.CharField(max_length=45, blank=True, null=True)
     type = models.IntegerField()
 
     class Meta:

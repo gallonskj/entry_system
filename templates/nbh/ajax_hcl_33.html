@@ -213,6 +213,16 @@
                 } else {
                     alert("问题不能为空！");
                 }
+            }else if(question_index_1 === 11){
+                const answer = document.getElementsByName('question8').value;
+                if (answer === ""){
+                    alert("问题不能为空！");
+                }else{
+                    ajax_post($('#question_form_1'));
+                    update_question_1(question_index_1);
+                    question_index++;
+                    question_index_1++;
+                }
             } else {
                 const answers = document.getElementsByClassName("answer_1");
                 let flag = 0;
@@ -226,8 +236,8 @@
                         break;
                     }
                 }
-                if (flag == 0) {
-                    alert("here！");
+                if(flag == 0){
+                    alert("问题不能为空！");
                 }
             }
             $("input[type='radio']").removeAttr("checked");

@@ -517,10 +517,19 @@
             if (document.ybo_1.forced_frequency.value === "") {
                 alert("问题不能为空！");
             } else if (document.ybo_1.forced_frequency.value === "0") {
+                // 如果第一题0设置跳过的题目也为0，并提交
+                {#$("input:radio[name='impediment_degree1']").eq(0).attr("checked",'checked');#}
+                {#$("input:radio[name='distress']").eq(0).attr("checked",'checked');#}
+                {#$("input:radio[name='fightforced_degree']").eq(0).attr("checked",'checked');#}
+                {#$("input:radio[name='control_ability1']").eq(0).attr("checked",'checked');#}
+                question_index += 4;
                 ajax_post($('#ybo_1'));
+                {#ajax_post($('#ybo_2'));#}
+                {#ajax_post($('#ybo_3'));#}
+                {#ajax_post($('#ybo_4'));#}
+                {#ajax_post($('#ybo_5'));#}
                 $("div[class='ybo_1']").hide();
                 $("div[class='ybo_6']").show();
-                question_index += 4;
             } else {
                 ajax_post($('#ybo_1'))
                 $("div[class='ybo_1']").hide();
@@ -572,8 +581,27 @@
             if (document.ybo_6.compulsion_frequency.value === "") {
                 alert("问题不能为空！");
             } else if (document.ybo_6.compulsion_frequency.value === "0") {
+
+                // 第六题选0 默认将跳过的题置为0并提交
+                {% comment %}$("input[name='impediment_degree2'][value= '0']").prop("checked", true);
+                $("input[name='stopcompulsion_anxiety'][value='0']").prop("checked", true);
+                $("input[name='stopforced_frequency'][value='0']").prop("checked", true);
+                $("input[name='control_ability2'][value='0']").prop("checked", true);{% endcomment %}
+
+
+                {#$("input:radio[name='impediment_degree2']").eq(0).attr("checked",'checked');#}
+                {#$("input:radio[name='stopcompulsion_anxiety']").eq(0).attr("checked",'checked');#}
+                {#$("input:radio[name='stopforced_frequency']").eq(0).attr("checked",'checked');#}
+                {#$("input:radio[name='control_ability2']").eq(0).attr("checked",'checked');#}
                 end_flag = 1;
+                question_index += 4;
                 ajax_post($('#ybo_6'));
+                {#ajax_post($('#ybo_7'));#}
+                {#ajax_post($('#ybo_8'));#}
+                {#ajax_post($('#ybo_9'));#}
+
+                {#ajax_post($('#ybo_10'));#}
+
                 // 跳转
                 location = "/scales/get_next_self_scale_url?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}";
             } else {

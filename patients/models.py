@@ -79,7 +79,8 @@ class DPatientDetail(models.Model):
     contact_info = models.CharField(max_length=45, blank=True, null=True)
     scan_date = models.DateField()
     head_motion_parameters = models.FloatField(blank=True, null=True)
-
+    blood_sampling_date = models.DateField()
+    ua=models.FloatField(blank=True, null=True)
     class Meta:
         managed = False
         db_table = 'd_patient_detail'
@@ -110,7 +111,7 @@ class DPatientAppointment(models.Model):
 
 class RPatientGhr(models.Model):
     ghr_id = models.IntegerField()
-    patient_session_id = models.IntegerField(blank=True, null=True)
+    kin_patient_id = models.IntegerField(blank=True, null=True)
     diagnosis = models.IntegerField(blank=True, null=True)
     kinship = models.IntegerField(blank=True, null=True)
     doctor_id = models.IntegerField()

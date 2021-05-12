@@ -24,8 +24,10 @@
                         <li><a href="#">他评量表</a></li>
                         <li class="active"><a href="#">杨氏躁狂量表（YMRS）</a></li>
                         <div style="float: right;margin-bottom: 0px;">
-                    <a href="/scales/select_scales?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}" class="btn btn-warning btn-sm"><i class="fa fa-arrow-left"></i><strong>&nbsp;返&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回</strong></a>
-                   </div>
+                            <a id ="return_url" href="/scales/select_scales?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&page=1"
+                               class="btn btn-warning btn-xs"><i class="fa fa-arrow-left"></i><strong>&nbsp;返&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回</strong></a>
+                        </div>
+
                     </ul>
                 </div>
             </div>
@@ -240,6 +242,13 @@
 
 {% block js %}
     <script type="text/javascript" src="{% static '/js/jquery-radio-beauty.js' %}"></script>
+    <script type="text/javascript" src="{% static '/js/utils.js' %}"></script>
+    <script type="text/javascript" language="JavaScript">
+        $(document).ready(function () {
+            cookie_val = getCookie('enter_page')
+            set_return_url(cookie_val,'{{ patient_session_id }}' ,'{{ patient_id }}')
+        });
+    </script>
     <script type="text/javascript">
     function notice(num){
         if(num==1){

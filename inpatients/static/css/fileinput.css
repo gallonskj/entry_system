@@ -10,6 +10,28 @@
  * Licensed under the BSD-3-Clause
  * https://github.com/kartik-v/bootstrap-fileinput/blob/master/LICENSE.md
  */
+ .load_img1{
+    position:absolute;
+    background:url("../images/load.gif");
+    background-repeat:no-repeat;
+    z-index:100;
+    background-size:100%;
+    top:100px;
+    left:110px;
+    width:100px;
+    height:100px;
+ }
+  .load_img2{
+    position:absolute;
+    background:url("../images/load.gif");
+    background-repeat:no-repeat;
+    z-index:100;
+    background-size:100%;
+    top:100px;
+    left:110px;
+    width:100px;
+    height:100px;
+ }
 .file-loading input[type=file], input[type=file].file-loading {
     width: 0;
     height: 0;

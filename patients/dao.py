@@ -146,7 +146,7 @@ def get_DEthnicity_all():
 
 # get base info表
 def get_base_info_all():
-    base_info_list = patients_models.BPatientBaseInfo.objects.all()
+    base_info_list = patients_models.BPatientBaseInfo.objects.all().order_by('-id')
     return base_info_list
 
 

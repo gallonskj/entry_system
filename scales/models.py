@@ -521,6 +521,7 @@ class RPatientHappiness(models.Model):
         managed = False
         db_table = 'r_patient_happiness'
 
+
 class RPatientManicsymptom(models.Model):
     patient_session = models.ForeignKey(DPatientDetail, models.DO_NOTHING)
     scale = models.ForeignKey(DScales, models.DO_NOTHING)
@@ -627,6 +628,7 @@ class RPatientMriExamination(models.Model):
     class Meta:
         managed = False
         db_table = 'r_patient_mri_examination'
+
 
 class RPatientPleasure(models.Model):
     patient_session = models.ForeignKey(DPatientDetail, models.DO_NOTHING)
@@ -816,7 +818,7 @@ class RPatientSuicidal(models.Model):
     create_time = models.DateTimeField(auto_now_add=True)
     update_time = models.DateTimeField(auto_now=True)
     self_mutilation_remark = models.CharField(max_length=50, blank=True, null=True)
-
+    suicide_ideation = models.IntegerField(blank=True, null=True)
     class Meta:
         managed = False
         db_table = 'r_patient_suicidal'
@@ -956,6 +958,7 @@ class RSelfTestDuration(models.Model):
         managed = False
         db_table = 'r_self_test_duration'
 
+
 class RPatientPss(models.Model):
     patient_session = models.ForeignKey(DPatientDetail, models.DO_NOTHING)
     scale = models.ForeignKey(DScales, models.DO_NOTHING)
@@ -972,14 +975,16 @@ class RPatientPss(models.Model):
     question11_answer = models.IntegerField(blank=True, null=True)
     question12_answer = models.IntegerField(blank=True, null=True)
     question13_answer = models.IntegerField(blank=True, null=True)
+    question14_answer = models.IntegerField(blank=True, null=True)
     total_score = models.IntegerField(blank=True, null=True)
     doctor = models.ForeignKey('users.Suser', models.DO_NOTHING)
-    create_time = models.DateTimeField()
-    update_time = models.DateTimeField()
+    create_time = models.DateTimeField(auto_now_add=True)
+    update_time = models.DateTimeField(auto_now=True)
 
     class Meta:
         managed = False
         db_table = 'r_patient_pss'
+
 
 class RPatientInsomnia(models.Model):
     patient_session = models.ForeignKey(DPatientDetail, models.DO_NOTHING)
@@ -993,12 +998,13 @@ class RPatientInsomnia(models.Model):
     question7_answer = models.IntegerField(blank=True, null=True)
     total_score = models.IntegerField(blank=True, null=True)
     doctor = models.ForeignKey('users.Suser', models.DO_NOTHING)
-    create_time = models.DateTimeField()
-    update_time = models.DateTimeField()
+    create_time = models.DateTimeField(auto_now_add=True)
+    update_time = models.DateTimeField(auto_now=True)
 
     class Meta:
         managed = False
         db_table = 'r_patient_insomnia'
+
 
 class RPatientPhq(models.Model):
     patient_session = models.ForeignKey(DPatientDetail, models.DO_NOTHING)
@@ -1014,12 +1020,13 @@ class RPatientPhq(models.Model):
     question9_answer = models.IntegerField(blank=True, null=True)
     total_score = models.IntegerField(blank=True, null=True)
     doctor = models.ForeignKey('users.Suser', models.DO_NOTHING)
-    create_time = models.DateTimeField()
-    update_time = models.DateTimeField()
+    create_time = models.DateTimeField(auto_now_add=True)
+    update_time = models.DateTimeField(auto_now=True)
 
     class Meta:
         managed = False
         db_table = 'r_patient_phq'
+
 
 class RPatientGad(models.Model):
     patient_session = models.ForeignKey(DPatientDetail, models.DO_NOTHING)
@@ -1033,8 +1040,8 @@ class RPatientGad(models.Model):
     question7_answer = models.IntegerField(blank=True, null=True)
     total_score = models.IntegerField(blank=True, null=True)
     doctor = models.ForeignKey('users.Suser', models.DO_NOTHING)
-    create_time = models.DateTimeField()
-    update_time = models.DateTimeField()
+    create_time = models.DateTimeField(auto_now_add=True)
+    update_time = models.DateTimeField(auto_now=True)
 
     class Meta:
         managed = False

@@ -81,17 +81,26 @@ urlpatterns = [
     url(r'^get_check_cerq_c_form', views.get_cerq_c_form),
     url(r'^get_check_s_embu_form', views.get_s_embu_form),
     url(r'^get_check_atq_form', views.get_atq_form),
+    url(r'^get_check_phq_9_form', views.get_phq_9_form),
+    url(r'^get_check_gad_7_form', views.get_gad_7_form),
+    url(r'^get_check_insomnia_form', views.get_insomnia_form),
+    url(r'^get_check_pss_form', views.get_pss_form),
+
     url(r'^get_last_baseinfo_url', views.get_last_baseinfo_url),
     url(r'^get_next_baseinfo_url', views.get_next_baseinfo_url),
     url(r'^get_check_wcst_form', views.get_check_wcst_form),
     url(r'^get_check_rbans_form', views.get_check_rbans_form),
     url(r'^get_check_fept_form', views.get_check_fept_form),
     url(r'^get_check_vept_form', views.get_check_vept_form),
+    url(r'^get_self_next_url', views.get_self_next_url),
+    url(r'^get_self_last_url', views.get_self_last_url),
+
     # -----------------------------------------------------------------#
+    url(r'^redo_self_tests', views.redo_self_tests),
     url(r'^get_self_tests', views.get_self_tests),
     url(r'^self_tests_submit', views.self_tests_submit),
     url(r'^get_next_self_scale_url', views.get_next_self_scale_url),
-    url(r'^get_previous_self_tests', views.get_previous_self_tests),
-    url(r'^redo_self_tests', views.redo_self_tests),
+    url(r'^get_previous_self_tests', views.get_self_tests),
+    url(r'^testtesttest', views.testNewAjax)
 ]
 

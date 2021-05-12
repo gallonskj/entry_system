@@ -32,8 +32,9 @@
                          <li><a href="#" >认知分数录入</a></li>
 						 <li class="active"><a href="#" >语音情绪感知能力测试(vept)</a></li>
 						 <div style="float: right;margin-bottom: 0px;">
-                            <a href="/scales/select_scales?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}" class="btn btn-warning btn-sm">
-                                <i class="fa fa-arrow-left"></i><strong>&nbsp;返&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回</strong></a>
+                            <a id ="return_url" href="/scales/select_scales?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}"
+                               class="btn btn-warning btn-xs"><i class="fa fa-arrow-left"></i><strong>&nbsp;返&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回</strong></a>
+
                         </div>
                     </ul>
                 </div>
@@ -300,10 +301,12 @@
 
 {% block js %}
 <script type="text/javascript" src="{% static '/js/jquery-radio-beauty.js'%}"></script>
-
+<script type="text/javascript" src="{% static '/js/utils.js' %}"></script>
 <script>
 $(document).ready(function(){
 	$("input[type='radio']").labelauty();
+	cookie_val = getCookie('enter_page')
+    set_return_url(cookie_val,'{{ patient_session_id }}' ,'{{ patient_id }}')
 });
 
 function notice1(num){

@@ -48,9 +48,10 @@
                          <li><a href="#" >自评量表</a></li>
                          <li class="active"><a href="#" >简式父母养育方式问卷表（s_embu）</a></li>
                          <div style="float: right;margin-bottom: 0px;">
-                           <a href="/scales/select_scales?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}" class="btn btn-warning btn-sm">
-                               <i class="fa fa-arrow-left"></i><strong>&nbsp;返&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回</strong></a>
-                       </div>
+                            <a id ="return_url" href="/patients/get_patient_detail?&patient_id={{ patient_id }}&page=1"
+                               class="btn btn-warning btn-xs"><i class="fa fa-arrow-left"></i><strong>&nbsp;返&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回</strong></a>
+                        </div>
+
                     </ul>
                 </div>
             </div>
@@ -455,6 +456,29 @@
                                         </table>
                                     </div>
                                 </div>
+                                
+                                
+                                <div class="row">
+                                 <div class="col-md-12 col-sm-12">
+                                     <a  style="float: left;font-weight: bold">母亲拒绝平均分：{{ s_embu_answer.refusal_mother|processNone }}</a>
+                                 </div>
+                                    <div class="col-md-12 col-sm-12">
+                                     <a  style="float: left;font-weight: bold">父亲拒绝平均分：{{ s_embu_answer.refusal_father|processNone }}</a>
+                                 </div>
+                                    <div class="col-md-12 col-sm-12">
+                                     <a  style="float: left;font-weight: bold">母亲情感温暖平均分：{{ s_embu_answer.emotional_warmth_mother|processNone }}</a>
+                                 </div>
+                                    <div class="col-md-12 col-sm-12">
+                                     <a  style="float: left;font-weight: bold">父亲情感温暖平均分：{{ s_embu_answer.emotional_warmth_father|processNone }}</a>
+                                 </div>
+                                    <div class="col-md-12 col-sm-12">
+                                     <a  style="float: left;font-weight: bold">母亲过度保护平均分：{{ s_embu_answer.overprotection_mother|processNone }}</a>
+                                 </div>
+                                    <div class="col-md-12 col-sm-12">
+                                     <a  style="float: left;font-weight: bold">父亲过度保护平均分：{{ s_embu_answer.overprotection_father|processNone }}</a>
+                                 </div>
+
+                            </div>
 
                            <div class="row" id="bt_group">
                                 <div class="col-md-4 col-sm-6 text-center">
