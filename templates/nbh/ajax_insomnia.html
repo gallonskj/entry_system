@@ -57,9 +57,9 @@
         <div class="question_area" name="question_area" style="text-align: center">
             <form id="question_form" name="question_form" action="#">
                 <h3>
-                    <div name="question_text" id="question_text" class="row">a.感觉紧张，焦虑或急切</div>
+                    <div name="question_text" id="question_text" class="row">a.入睡困难</div>
                 </h3>
-                <div class="options" style=" text-align: left;padding-left: 47.5%">
+                <div id="options" class="options" style=" text-align: left;padding-left: 47.5%">
                     <div class="row show-grid" style="margin:10px">
                         <label>
                             <input type="radio" class="answer" name="question1_answer" value=0 id="label_1"
@@ -140,8 +140,6 @@
                     if (answers[i].checked && question_index <= 7) {
                         ajax_post($('#question_form'));
                         update_question(question_index);
-                        {#$('#question_form').hidden()#}
-                        {#$('#question_form').show()#}
                         question_index++;
                         flag = 1;
                         break;
@@ -169,35 +167,16 @@
         }
     }
 
-    function addScript(url){
 
-        document.write("<script language=javascript src="+url+"></"+"script>");
-
-    }
-    {#<script type="text/javascript" src="{% static '/js/jquery-radio-beauty.js'%}"></script>#}
-
-    function alter_label_names(name_1, name_2, name_3, name_4, name_5) {
-        var nodes_1 = document.getElementById('label_1');
-        {#nodes_1.removeAttribute("data-labelauty");#}
-        {#nodes_1.setAttribute("data-labelauty",name_1);#}
-        addScript({% static '/js/jquery-radio-beauty.js'%});
-        nodes_1.setAttribute('data-labelauty',name_1);
-        var nodes_2 = document.getElementById('label_2');
-        {#nodes_2.removeAttribute("data-labelauty");#}
-        nodes_2.setAttribute("data-labelauty",name_2);
-        var nodes_3 = document.getElementById('label_3');
-        {#nodes_3.removeAttribute("data-labelauty");#}
-        nodes_3.setAttribute("data-labelauty",name_3);
-        var nodes_4 = document.getElementById('label_4');
-        {#nodes_4.removeAttribute("data-labelauty");#}
-        nodes_4.setAttribute("data-labelauty",name_4);
-        var nodes_5 = document.getElementById('label_5');
-        {#nodes_5.removeAttribute("data-labelauty");#}
-        nodes_5.setAttribute("data-labelauty",name_5);
-        {#$(".options").load(location.href + " .options")#}
+    function alter_option_text(parent_id, option_num, option_text) {
+        const options = document.getElementById(parent_id);
+        //checked
+        options.childNodes[option_num * 2 + 1].childNodes[1].childNodes[2].childNodes[3].innerHTML = option_text;
+        //uncheck
+        options.childNodes[option_num * 2 + 1].childNodes[1].childNodes[2].childNodes[1].innerHTML = option_text;
     }
 
-
+    //切换到下一题目以及选项
     function update_question(index) {
         switch (index) {
             case 1:
@@ -205,27 +184,43 @@
                 alter_option_names("answer", "question2_answer");
                 break;
             case 2:
-                document.getElementById('question_text').innerHTML = "c.太早就醒了的问题 ";
+                document.getElementById('question_text').innerHTML = "c.太早就醒了的问题";
                 alter_option_names("answer", "question3_answer");
                 break;
             case 3:
                 document.getElementById('question_text').innerHTML = "d.你对过去两个星期的睡眠状况满意度如何";
                 alter_option_names("answer", "question4_answer");
-                alter_label_names("非常满意", "满意", "一般", "不满意", "非常不满意");
+                alter_option_text("options", 0, "非常满意");
+                alter_option_text("options", 1, "满意");
+                alter_option_text("options", 2, "一般");
+                alter_option_text("options", 3, "不满意");
+                alter_option_text("options", 4, "非常不满意");
                 break;
             case 4:
                 document.getElementById('question_text').innerHTML = "e.你认为你的睡眠问题妨碍你日常运作（例如：日渐疲劳、处理工作/日常时务的能力、集中力、记忆、情绪等等）到哪一个程度？";
-                alter_label_names("完全没有妨碍", "少许", "颇为", "非常", "极之妨碍");
                 alter_option_names("answer", "question5_answer");
+                alter_option_text("options", 0, "完全没有妨碍");
+                alter_option_text("options", 1, "少许");
+                alter_option_text("options", 2, "颇为");
+                alter_option_text("options", 3, "非常");
+                alter_option_text("options", 4, "极之妨碍");
                 break;
             case 5:
                 document.getElementById('question_text').innerHTML = "f.你的睡眠问题在降低生活质素而言，在其它人眼中有多明显?";
-                alter_label_names("完全不明显", "仅为", "颇为", "非常", "极之明显");
                 alter_option_names("answer", "question6_answer");
+                alter_option_text("options", 0, "完全不明显");
+                alter_option_text("options", 1, "仅为");
+                alter_option_text("options", 2, "颇为");
+                alter_option_text("options", 3, "非常");
+                alter_option_text("options", 4, "极之明显");
                 break;
             case 6:
                 document.getElementById('question_text').innerHTML = "g.你对你现时的睡眠问题有多忧虑/苦恼？";
-                alter_label_names("完全没有", "少许", "颇为", "非常", "非常大");
+                alter_option_text("options", 0, "完全没有");
+                alter_option_text("options", 1, "少许");
+                alter_option_text("options", 2, "颇为");
+                alter_option_text("options", 3, "非常");
+                alter_option_text("options", 4, "非常大");
                 // 跳转
                 document.getElementById('question_submit').setAttribute('onclick', "location=\'" +
 
@@ -240,11 +235,9 @@
     function ajax_post(form) {
         const csrf = $('input[name="csrfmiddlewaretoken"]').val();
         $.ajax({
-            url: 'http://' + location.host +
-                '/scales/self_tests_submit?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}',
+            url: '/scales/self_tests_submit?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}',
             type: 'POST',
             dataType: 'JSON',
-            async: true,
             data: {
                 'data': form.serialize(),
                 'question_index': question_index,
@@ -252,8 +245,8 @@
                 'test_name': 'insomnia',
                 'flag': end_flag,
                 'csrfmiddlewaretoken': csrf
-            },
-        });
+            }
+        })
     }
 
 </script>
