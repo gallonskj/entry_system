@@ -714,12 +714,12 @@ var num=1
             document.cookie = "enter_page=detail;path=/"
             $("input[type='radio']").labelauty();
             $('#singleSelect').select2();
-       $('#ghr_diagnosis_add').select2();
-       $('#ghr_kinship_add').select2();
+            $('#ghr_diagnosis_add').select2();
+            $('#ghr_kinship_add').select2();
             document.getElementById("patient_id").innerHTML = 'NN_' + formatZero({{ patient_id }}, 8)
             document.getElementById("diagnosis").value ={{ diagnosis }};
             var diagnosistype ={{ diagnosis }};
-
+            var del_action={{ del_action }};
             if (diagnosistype == 7) {
 
                 document.getElementById("ghr_label_div").style.display = "";
@@ -767,8 +767,16 @@ var num=1
 
                 }
             }
+            alert(del_action)
             if (diagnosistype == 99)
                 document.getElementById("other_diagnosis_div").style.display = ""
+            if(del_action=='fail_del'){
+                alert('请使用创建记录的医生账号进行删除！')
+            } else if(del_action =='success_del'){
+                alert('删除成功！');
+            }
+
+
         });
 
 
@@ -859,7 +867,7 @@ var num=1
         })
 
 
-        $('#myModal').modal('hide');
+        {#$('#myModal').modal('hide');#}
 
 
     </script>
