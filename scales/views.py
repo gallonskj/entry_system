@@ -7,6 +7,8 @@ import patients.dao as patients_dao
 import tools.Utils as tools_utils
 import patients.models  as patients_models
 from .models import RSelfTestDuration
+import logging
+import json
 
 '''
 跳过量表:跳到下一个未完成的量表
@@ -53,6 +55,14 @@ add_XXX:添加量表逻辑,实际上更新以及添加走的都是这个逻辑,�
     需要传递每一个量表类别还有几个量表未完成，假如没有未完成，那么不可点击
 ================================================================
 '''
+
+logging.basicConfig(level=logging.DEBUG,  # 控制台打印的日志级别
+                    filename='scaleDebug.log',
+                    filemode='a',
+                    format=
+                    '%(asctime)s - %(pathname)s[line:%(lineno)d] - %(levelname)s: %(message)s'
+                    # 日志格式
+                    )
 
 
 def get_redirect_url(patient_session_id, patient_id, next_type, do_scale_type, cur_scale_id):
@@ -1502,9 +1512,10 @@ def self_tests_submit(request):
     flag = request.POST.get('flag')
     test_name = request.POST.get('test_name')
     duration = request.POST.get('duration')
-
-    print(patient_session_id, scale_id, form_data, question_index, flag, test_name, duration)
-
+    logging.info("self_tests_submit", patient_session_id, scale_id, form_data, question_index, flag, test_name,
+                 duration)
+    # print(patient_session_id, scale_id, form_data, question_index, flag, test_name, duration)
+    logging.debug("ajax_buffer_before", json.dumps(ajax_buffer), patient_session_id)
     '''缓存不存在当前复诊记录就创建，把所有量表对象查出来'''
     if patient_session_id not in ajax_buffer.keys():
         print('buffer in')
@@ -1525,15 +1536,17 @@ def self_tests_submit(request):
             'gad_7': [scales_dao.get_or_default_patient_GAD_byPatientDetailId(patient_session_id, doctor_id), 0],
             'insomnia': [scales_dao.get_or_default_patient_ISI_byPatientDetailId(patient_session_id, doctor_id), 0]
         }
-    print(ajax_buffer[patient_session_id]['ybo'][0])
+    # print(ajax_buffer[patient_session_id]['ybo'][0])
+    logging.debug("ajax_buffer['bss'] patient_session_id_after",
+                  json.dumps(ajax_buffer[patient_session_id]['bss'][0]), patient_session_id)
     '''获取序列化的form_data中的表单信息'''
     attribute_name = []
     attribute_value = []
     for element in form_data.split('&'):
         attribute_name.append(element.split('=')[0])
         attribute_value.append(element.split('=')[1])
-    print(attribute_name)
-    print(attribute_value)
+    # print(attribute_name)
+    # print(attribute_value)
     '''遍历form_data,填充对应的属性值'''
     for attribute in attribute_name:
         if attribute == 'forced_frequency':
@@ -1556,19 +1569,20 @@ def self_tests_submit(request):
                                              scale_id=scale_id,
                                              question_index=question_index,
                                              duration=duration))
-    print('duration_buffer append success')
-    print(duration_buffer)
+    # print('duration_buffer append success')
+    # print(duration_buffer)
     '''填充完毕之后判断flag, 提交相应量表对象, flush duration_buffer'''
     if flag == '1':
-        print('do flush')
-
+        # print('do flush')
+        logging.debug("flag == 1", patient_session_id)
         # 计算当前量表总分
         scales_dao.self_tests_total_score(int(scale_id), ajax_buffer[patient_session_id][test_name][0])
         # 保存
         a = ajax_buffer[patient_session_id][test_name][0]
+        logging.debug("ajax_buffer_endFlag==1", json.dumps(a))
         ajax_buffer[patient_session_id][test_name][0].save()
         RSelfTestDuration.objects.bulk_create(duration_buffer)
-        print('clean buffer')
+        # print('clean buffer')
         # 更新量表完成状态
         scales_dao.update_rscales_state(patient_session_id, scale_id, 1)
         # 清空缓存
@@ -1582,8 +1596,9 @@ def self_tests_submit(request):
             if ajax_buffer[patient_session_id][key][0] is not None:
                 clean_patient_session_flag = False
                 break
+        logging.info("parm clean buffer", patient_session_id, clean_patient_session_flag)
         if clean_patient_session_flag:
-            print('clean patient')
+            # print('clean patient')
             ajax_buffer.pop(patient_session_id)
     return HttpResponse(request.POST)
 
@@ -1956,72 +1971,72 @@ def redo_self_tests(request):
                 res[0].delete()
         if int(scale_id) == 13:
             res = scales_models.RPatientManicsymptom.objects.filter(patient_session_id=patient_session_id,
-                                                                scale_id=scale_id)
+                                                                    scale_id=scale_id)
             if res.exists():
                 res[0].delete()
         if int(scale_id) == 14:
             res = scales_models.RPatientHappiness.objects.filter(patient_session_id=patient_session_id,
-                                                                scale_id=scale_id)
+                                                                 scale_id=scale_id)
             if res.exists():
                 res[0].delete()
         if int(scale_id) == 15:
             res = scales_models.RPatientPleasure.objects.filter(patient_session_id=patient_session_id,
-                                                                        scale_id=scale_id)
+                                                                scale_id=scale_id)
             if res.exists():
                 res[0].delete()
         if int(scale_id) == 16:
             res = scales_models.RPatientGrowth.objects.filter(patient_session_id=patient_session_id,
-                                                                scale_id=scale_id)
+                                                              scale_id=scale_id)
             if res.exists():
                 res[0].delete()
         if int(scale_id) == 17:
             res = scales_models.RPatientCognitiveEmotion.objects.filter(patient_session_id=patient_session_id,
-                                                                scale_id=scale_id)
+                                                                        scale_id=scale_id)
             if res.exists():
                 res[0].delete()
         if int(scale_id) == 18:
             res = scales_models.RPatientAdolescentEvents.objects.filter(patient_session_id=patient_session_id,
-                                                                scale_id=scale_id)
+                                                                        scale_id=scale_id)
             if res.exists():
                 res[0].delete()
         if int(scale_id) == 15:
             res = scales_models.RPatientPleasure.objects.filter(patient_session_id=patient_session_id,
-                                                                        scale_id=scale_id)
+                                                                scale_id=scale_id)
             if res.exists():
                 res[0].delete()
         if int(scale_id) == 16:
             res = scales_models.RPatientGrowth.objects.filter(patient_session_id=patient_session_id,
-                                                                scale_id=scale_id)
+                                                              scale_id=scale_id)
             if res.exists():
                 res[0].delete()
         if int(scale_id) == 17:
             res = scales_models.RPatientCognitiveEmotion.objects.filter(patient_session_id=patient_session_id,
-                                                                scale_id=scale_id)
+                                                                        scale_id=scale_id)
             if res.exists():
                 res[0].delete()
         if int(scale_id) == 18:
             res = scales_models.RPatientAdolescentEvents.objects.filter(patient_session_id=patient_session_id,
-                                                                scale_id=scale_id)
+                                                                        scale_id=scale_id)
             if res.exists():
                 res[0].delete()
         if int(scale_id) == 19:
             res = scales_models.RPatientSembu.objects.filter(patient_session_id=patient_session_id,
-                                                                        scale_id=scale_id)
+                                                             scale_id=scale_id)
             if res.exists():
                 res[0].delete()
         if int(scale_id) == 20:
             res = scales_models.RPatientAtq.objects.filter(patient_session_id=patient_session_id,
-                                                                scale_id=scale_id)
+                                                           scale_id=scale_id)
             if res.exists():
                 res[0].delete()
         if int(scale_id) == 29:
             res = scales_models.RPatientPhq.objects.filter(patient_session_id=patient_session_id,
-                                                                scale_id=scale_id)
+                                                           scale_id=scale_id)
             if res.exists():
                 res[0].delete()
         if int(scale_id) == 30:
             res = scales_models.RPatientGad.objects.filter(patient_session_id=patient_session_id,
-                                                                scale_id=scale_id)
+                                                           scale_id=scale_id)
             if res.exists():
                 res[0].delete()
         if int(scale_id) == 31:
@@ -2031,7 +2046,7 @@ def redo_self_tests(request):
                 res[0].delete()
         if int(scale_id) == 32:
             res = scales_models.RPatientPss.objects.filter(patient_session_id=patient_session_id,
-                                                                scale_id=scale_id)
+                                                           scale_id=scale_id)
             if res.exists():
                 res[0].delete()
     else:
