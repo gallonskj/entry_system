@@ -1333,7 +1333,7 @@
 <script type="text/javascript" src="{% static '/js/jquery-radio-beauty.js'%}"></script>
 <script>
     // dom加载完毕
-    const $m_btn = $('.exit_button');
+    const $m_btn = $('#exit_button');
     const $modal = $('#exit_confirm');
     $m_btn.on('click', function () {
         $modal.modal({backdrop: 'static'});
@@ -1356,10 +1356,9 @@
         $("input[type='radio']").labelauty();
         // $("div[class='bss_0_1']").show();
         if(question_index > 38){
-            $("div[class='bss_0_1']").show();
+            alert("请不要重复提交！");
         }else{
             const class_name = 'bss_' + (Math.floor((question_index + 1) / 2) - 1) + '_' + (((question_index - 1) % 2) + 1);
-            // alert(((question_index - 1) % 2) + 1);
             $(this.getElementsByClassName(class_name)).show();
         }
         $("#bss_0_1_submit").on('click', function () {
@@ -1369,7 +1368,6 @@
                 ajax_post($('#bss_0_1'))
                 $("div[class='bss_0_1']").hide();
                 $("div[class='bss_1_1']").show();
-                question_index++;
             } else {
                 ajax_post($('#bss_0_1'))
                 $("div[class='bss_0_1']").hide();
@@ -1451,7 +1449,7 @@
             if (document.bss_4_1.question4_lastweek.value === "") {
                 alert("问题不能为空！");
             } else {
-                if(document.bss_4_1.question4_lastweek.value != "1"){
+                if(document.bss_4_1.question4_lastweek.value !== "1"){
                     suicide = true;
                 }
                 ajax_post($('#bss_4_1'))
@@ -1464,7 +1462,7 @@
             if (document.bss_4_2.question4_mostdepressed.value === "") {
                 alert("问题不能为空！");
             } else {
-                if(document.bss_4_2.question4_mostdepressed.value != "1"){
+                if(document.bss_4_2.question4_mostdepressed.value !== "1"){
                     suicide = true;
                 }
                 ajax_post($('#bss_4_2'))
@@ -1477,7 +1475,7 @@
             if (document.bss_5_1.question5_lastweek.value === "") {
                 alert("问题不能为空！");
             } else {
-                if(document.bss_5_1.question5_lastweek.value != "1"){
+                if(document.bss_5_1.question5_lastweek.value !== "1"){
                     suicide = true;
                 }
                 ajax_post($('#bss_5_1'))
@@ -1490,7 +1488,7 @@
             if (document.bss_5_2.question5_mostdepressed.value === "") {
                 alert("问题不能为空！");
             } else if (document.bss_5_2.question5_mostdepressed.value === "1") {
-                if (suicide == true) {
+                if (suicide === true) {
                     ajax_post($('#bss_5_2'));
                     $("div[class='bss_5_2']").hide();
                     $("div[class='bss_6_1']").show();
