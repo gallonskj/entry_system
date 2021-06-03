@@ -341,6 +341,48 @@ def add_atq_database(rPatientAtq):
     update_rscales_state(rPatientAtq.patient_session_id, rPatientAtq.scale_id)
 
 
+def add_pss_database(rPatientPss):
+    rPatientPss.total_score = tools_calculatingScores.PSS_total_score(rPatientPss)
+    # tools_utils.object_judgment(object_flag)
+    # 插入前的级联检验
+    tools_insertCascadeCheck.insert_Pss_check(rPatientPss)
+    # 插入数据库
+    rPatientPss.save()
+    # 修改r_patient_scales表中state状态
+    update_rscales_state(rPatientPss.patient_session_id, rPatientPss.scale_id,1)
+
+
+def add_Insomnia_database(rPatientInsomnia):
+    rPatientInsomnia.total_score = tools_calculatingScores.ISI_total_score(rPatientInsomnia)
+    # tools_utils.object_judgment(object_flag)
+    # 插入前的级联检验
+    tools_insertCascadeCheck.insert_Insomnia_check(rPatientInsomnia)
+    # 插入数据库
+    rPatientInsomnia.save()
+    # 修改r_patient_scales表中state状态
+    update_rscales_state(rPatientInsomnia.patient_session_id, rPatientInsomnia.scale_id,1)
+
+
+def add_Gad_database(rPatientGad):
+    rPatientGad.total_score = tools_calculatingScores.GAD_total_score(rPatientGad)
+    # tools_utils.object_judgment(object_flag)
+    # 插入前的级联检验
+    tools_insertCascadeCheck.insert_Gad_check(rPatientGad)
+    # 插入数据库
+    rPatientGad.save()
+    # 修改r_patient_scales表中state状态
+    update_rscales_state(rPatientGad.patient_session_id, rPatientGad.scale_id,1)
+
+def add_Phq_database(rPatientPhq):
+    rPatientPhq.total_score = tools_calculatingScores.PHQ_total_score(rPatientPhq)
+    # tools_utils.object_judgment(object_flag)
+    # 插入前的级联检验
+    tools_insertCascadeCheck.insert_Phq_check(rPatientPhq)
+    # 插入数据库
+    rPatientPhq.save()
+    # 修改r_patient_scales表中state状态
+    update_rscales_state(rPatientPhq.patient_session_id, rPatientPhq.scale_id,1)
+
 def add_wcst_database(rPatientWcst, state):
     # 插入前的级联检验
     tools_insertCascadeCheck.insert_wcst_check(rPatientWcst)

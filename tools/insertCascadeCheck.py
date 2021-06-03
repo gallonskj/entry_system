@@ -560,3 +560,77 @@ def insert_information_other_check(rPatientBasicInformationOther_object):
 # 威斯康星
 def insert_wcst_check(rPatientWcst_object):
     tools_utils.object_judgment(False)
+
+
+def insert_Pss_check(rPatientPss_object):
+    # 空值判断
+    if rPatientPss_object is None \
+            or rPatientPss_object.patient_session_id is None \
+            or rPatientPss_object.scale_id is None \
+            or rPatientPss_object.doctor_id is None:
+        tools_utils.object_judgment(True)
+    else:
+        # 非空时外键判断
+        dPatientDetail = patients_models.DPatientDetail.objects.filter(pk=rPatientPss_object.patient_session_id)[0]
+        dScales = scales_models.DScales.objects.filter(pk=rPatientPss_object.scale_id)[0]
+        doctor = users_models.SUser.objects.filter(pk=rPatientPss_object.doctor_id)[0]
+        if dPatientDetail is None or dScales is None or doctor is None:
+            object_flag = True
+        else:
+            object_flag = False
+        tools_utils.object_judgment(object_flag)
+
+def insert_Insomnia_check(rPatientInsomnia_object):
+    # 空值判断
+    if rPatientInsomnia_object is None \
+            or rPatientInsomnia_object.patient_session_id is None \
+            or rPatientInsomnia_object.scale_id is None \
+            or rPatientInsomnia_object.doctor_id is None:
+        tools_utils.object_judgment(True)
+    else:
+        # 非空时外键判断
+        dPatientDetail = patients_models.DPatientDetail.objects.filter(pk=rPatientInsomnia_object.patient_session_id)[0]
+        dScales = scales_models.DScales.objects.filter(pk=rPatientInsomnia_object.scale_id)[0]
+        doctor = users_models.SUser.objects.filter(pk=rPatientInsomnia_object.doctor_id)[0]
+        if dPatientDetail is None or dScales is None or doctor is None:
+            object_flag = True
+        else:
+            object_flag = False
+        tools_utils.object_judgment(object_flag)
+
+def insert_Gad_check(rPatientGad_object):
+    # 空值判断
+    if rPatientGad_object is None \
+            or rPatientGad_object.patient_session_id is None \
+            or rPatientGad_object.scale_id is None \
+            or rPatientGad_object.doctor_id is None:
+        tools_utils.object_judgment(True)
+    else:
+        # 非空时外键判断
+        dPatientDetail = patients_models.DPatientDetail.objects.filter(pk=rPatientGad_object.patient_session_id)[0]
+        dScales = scales_models.DScales.objects.filter(pk=rPatientGad_object.scale_id)[0]
+        doctor = users_models.SUser.objects.filter(pk=rPatientGad_object.doctor_id)[0]
+        if dPatientDetail is None or dScales is None or doctor is None:
+            object_flag = True
+        else:
+            object_flag = False
+        tools_utils.object_judgment(object_flag)
+
+
+def insert_Phq_check(rPatientPhq_object):
+    # 空值判断
+    if rPatientPhq_object is None \
+            or rPatientPhq_object.patient_session_id is None \
+            or rPatientPhq_object.scale_id is None \
+            or rPatientPhq_object.doctor_id is None:
+        tools_utils.object_judgment(True)
+    else:
+        # 非空时外键判断
+        dPatientDetail = patients_models.DPatientDetail.objects.filter(pk=rPatientPhq_object.patient_session_id)[0]
+        dScales = scales_models.DScales.objects.filter(pk=rPatientPhq_object.scale_id)[0]
+        doctor = users_models.SUser.objects.filter(pk=rPatientPhq_object.doctor_id)[0]
+        if dPatientDetail is None or dScales is None or doctor is None:
+            object_flag = True
+        else:
+            object_flag = False
+        tools_utils.object_judgment(object_flag)

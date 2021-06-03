@@ -961,8 +961,6 @@ def PSS_total_score(RPatientPss_obj):
 
 def ISI_total_score(RPatientInsomnia_obj):
     total_score = 0
-
-
     for each_score in RPatientInsomnia_obj.__dict__:
         if len(each_score.split('_')) > 1:
             if each_score.split('_')[1] == 'answer':
