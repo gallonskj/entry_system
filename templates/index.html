@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>{% block title %}录入评估系统{% endblock %} </title>
+    <title>{% block title %}评估系统{% endblock %} </title>
 
     <link href="{%  static '/vendors/bootstrap/dist/css/bootstrap.min.css' %}" rel="stylesheet">
     <!-- Font Awesome -->
@@ -20,7 +20,7 @@
     <link href="{%  static '/vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css' %}" rel="stylesheet">
 	<link href="{%  static '/vendors/bootstrap-daterangepicker/daterangepicker.css' %}" rel="stylesheet">
     <link href="{%  static '/build/css/custom.min.css' %}" rel="stylesheet">
-    <link href="https://cdn.bootcss.com/bootstrap-table/1.11.1/bootstrap-table.min.css" rel="stylesheet">
+    <link href="{%  static '/vendors/bootstrap-table/1.11.1/bootstrap-table.min.css' %}" rel="stylesheet">
 
    <!-- Select2 -->
   <link href="{%  static '/vendors/select2/dist/css/select2.min.css' %}" rel="stylesheet">
@@ -31,7 +31,7 @@
         <div class="col-md-3 left_col">
           <div class="left_col scroll-view">
             <div class="navbar nav_title" style="border: 0;">
-              <a href="#" class="site_title"><i class="fa fa-paw"></i> <span>录入评估系统</span></a>
+              <a href="#" class="site_title"><i class="fa fa-paw"></i> <span>评估系统</span></a>
             </div>
 
             <div class="clearfix"></div>
@@ -49,14 +49,14 @@
                             <li><a href="#">所有待办</a></li>
                         </ul>
                   </li>
-                  <li><a><i class="fa fa-hourglass-start"></i>被试信息<span class = "fa fa-angle-right fa-lg"></span></a>
+                  <li><a><i class="fa fa-hourglass-start"></i>量表评估与信息管理<span class = "fa fa-angle-right fa-lg"></span></a>
 					    <ul class="nav child_menu">
-                            <li><a href="/patients/get_patient_by_search">被试管理与录入</a></li>
+                            <li><a href="/patients/get_patient_by_search">信息管理与评估</a></li>
                             <li><a href="/inpatients/get_inpatient_by_search">住院管理</a></li>
 						</ul>
 
                   </li>
-<!--                  <li><a href=""><i class="fa fa-desktop"></i> 被试统计与显示 <span class="fa fa-angle-right fa-lg"></span></a>-->
+<!--                  <li><a href=""><i class="fa fa-desktop"></i> 信息统计与显示 <span class="fa fa-angle-right fa-lg"></span></a>-->
                   </li>
                   <li><a href="#"><i class="fa fa-table"></i> 使用说明及日志 <span class="fa fa-angle-right fa-lg"></span></a>
                   </li>
@@ -459,7 +459,7 @@
     <script src="{% static '/vendors/datatables.net-responsive/js/dataTables.responsive.min.js' %}"></script>
     <script src="{% static '/vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js' %}"></script>
     <script src="{% static '/vendors/datatables.net-scroller/js/dataTables.scroller.js' %}"></script>
-    {% comment %}<script type="javascript" src="/mystatic/js/layer.js%20"></script>{% endcomment %}
+    <script type="javascript" src="/mystatic/js/layer.js%20"></script>
 
     <!-- bootstrap-daterangepicker -->
     <script src="{% static '/vendors/moment/min/moment.min.js' %}"></script>

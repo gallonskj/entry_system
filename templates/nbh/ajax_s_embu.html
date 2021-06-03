@@ -23,7 +23,7 @@
         <div class="row show-grid">
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <ul class="breadcrumb" style="background-color: white;font-weight:bold">
-                    <li>量表录入</li>
+                    <li>量表评估</li>
                     <li>自评量表</li>
                     <li class="active">简式父母养育方式问卷（S-Embu）</li>
                     <div style="float: right;margin-bottom: 0;"></div>
@@ -197,19 +197,19 @@
     $(document).ready(function () {
         $("input[type='radio']").labelauty();
         $("#pre_question_submit").on('click', function () {
-            if (document.pre_questions.grade.value === "" ||
+            {% comment %}if (document.pre_questions.grade.value === "" ||
                 document.pre_questions.year_of_school.value === "" ||
                 document.pre_questions.region.value === "" ||
                 document.pre_questions.parents_status.value === "" ||
                 document.pre_questions.mark_level.value === ""
             ) {
                 alert("问题不能为空！");
-            } else {
-                ajax_post($('#pre_questions'));
-                $('#pre_questions').hide();
-                $('#question_form').show();
-                question_index++;
-            }
+            } else {{% endcomment %}
+            ajax_post($('#pre_questions'));
+            $('#pre_questions').hide();
+            $('#question_form').show();
+            question_index++;
+            {% comment %}}{% endcomment %}
             $("input[type='radio']").removeAttr("checked");
         });
 
@@ -378,7 +378,7 @@
                 '/scales/self_tests_submit?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}',
             type: 'POST',
             dataType: 'JSON',
-            async: true,
+            async: false,
             data: {
                 'data': decodeURIComponent(form.serialize(),true),
                 'question_index': question_index,

@@ -975,6 +975,7 @@ class RPatientPss(models.Model):
     question11_answer = models.IntegerField(blank=True, null=True)
     question12_answer = models.IntegerField(blank=True, null=True)
     question13_answer = models.IntegerField(blank=True, null=True)
+    question14_answer = models.IntegerField(blank=True, null=True)
     total_score = models.IntegerField(blank=True, null=True)
     doctor = models.ForeignKey('users.Suser', models.DO_NOTHING)
     create_time = models.DateTimeField(auto_now_add=True)

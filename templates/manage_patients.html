@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="{% static '/css/appointToday.css' %}">
     <link href="{% static '/vendors/iCheck/skins/flat/green.css' %}" rel="stylesheet">
     <link rel="stylesheet" href={% static '/css/tinyselect.css' %}>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/css/select2.min.css" rel="stylesheet"/>
+    <link href="{% static '/vendors/ajax/libs/select2/4.0.4/css/select2.min.css' %}" rel="stylesheet" />
 
     <style>
         .sel_beauty {
@@ -265,7 +265,7 @@
                                style="text-align: right">诊断情况<span class="required">:</span></label>
                         <input type="hidden" value="{{ patient_detail.diagnosis }}" id="diagnosis1">
                         <div class="col-md-4">
-                            <select tabindex="-1" style="font-size: 10px" name="diagnosis" id="diagnosis_search"
+                            <select tabindex="-1" style="font-size: 10px" name="diagnosis1" id="diagnosis_search"
                                     class="sel_beauty select2_single form-control col-md-4">
                                 <option value="">所有</option>
                                 <option value=0>未诊断</option>
@@ -649,8 +649,9 @@
 {% block js %}
     <script src="{% static '/js/layerJquery.js' %}"></script>
     <script src="{% static '/js/layer.js' %}"></script>
-    <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/js/select2.min.js"></script>
+
+    <script src="{% static '/vendors/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js' %}"></script>
+    <script src="{% static '/vendors/ajax/libs/select2/4.0.4/js/select2.min.js' %}"></script>
     <script type="text/javascript" src="{% static '/js/subjectEstablish.js' %}"></script>
     <script type="text/javascript" language="JavaScript">
         function judge_diagnosis(obj) {

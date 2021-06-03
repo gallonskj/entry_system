@@ -23,7 +23,7 @@
         <div class="row show-grid">
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <ul class="breadcrumb" style="background-color: white;font-weight:bold">
-                    <li>量表录入</li>
+                    <li>量表评估</li>
                     <li>自评量表</li>
                     <li class="active">33项轻躁狂症状清单</li>
                     <div style="float: right;margin-bottom: 0;"></div>
@@ -550,7 +550,7 @@
                 '/scales/self_tests_submit?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}',
             type: 'POST',
             dataType: 'JSON',
-            async: true,
+            async: false,
             data: {
                 'data': form.serialize(),
                 'question_index': question_index,

@@ -6,7 +6,7 @@
     <link href="{% static '/vendors/iCheck/skins/flat/green.css' %}" rel="stylesheet">
     <link href="{% static '/css/scales_style.css' %}" rel="stylesheet">
       <link rel="stylesheet" href={% static '/css/tinyselect.css' %}>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/css/select2.min.css" rel="stylesheet" />
+    <link href="{% static '/vendors/ajax/libs/select2/4.0.4/css/select2.min.css' %}" rel="stylesheet" />
 
     <style>
         .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
@@ -542,7 +542,7 @@
                                         </a>
                                     </td>
                                     <td>
-                                        {{ patient_detail|get_item:'create_time' }}
+                                        {{ patient_detail|get_item:'scan_date' }}
                                     </td>
                                     <td>
                                         {{ patient_detail|get_diagnosis_by_dict }}
@@ -610,7 +610,7 @@
     <script src="{% static '/js/layerJquery.js' %}"></script>
     <script src="{% static '/js/layer.js' %}"></script>
     <script type="text/javascript" src="{% static '/js/jquery-radio-beauty.js' %}"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/js/select2.min.js"></script>
+    <script src="{% static '/vendors/ajax/libs/select2/4.0.4/js/select2.min.js' %}"></script>
     <script type="text/javascript" src="{% static '/js/subjectEstablish.js' %}"></script>
 
 
@@ -714,12 +714,12 @@ var num=1
             document.cookie = "enter_page=detail;path=/"
             $("input[type='radio']").labelauty();
             $('#singleSelect').select2();
-       $('#ghr_diagnosis_add').select2();
-       $('#ghr_kinship_add').select2();
+            $('#ghr_diagnosis_add').select2();
+            $('#ghr_kinship_add').select2();
             document.getElementById("patient_id").innerHTML = 'NN_' + formatZero({{ patient_id }}, 8)
             document.getElementById("diagnosis").value ={{ diagnosis }};
             var diagnosistype ={{ diagnosis }};
-
+            var del_action={{ del_action }};
             if (diagnosistype == 7) {
 
                 document.getElementById("ghr_label_div").style.display = "";
@@ -767,8 +767,16 @@ var num=1
 
                 }
             }
+            alert(del_action)
             if (diagnosistype == 99)
                 document.getElementById("other_diagnosis_div").style.display = ""
+            if(del_action=='fail_del'){
+                alert('请使用创建记录的医生账号进行删除！')
+            } else if(del_action =='success_del'){
+                alert('删除成功！');
+            }
+
+
         });
 
 
@@ -859,7 +867,7 @@ var num=1
         })
 
 
-        $('#myModal').modal('hide');
+        {#$('#myModal').modal('hide');#}
 
 
     </script>

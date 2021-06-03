@@ -240,15 +240,13 @@ def Suicidal_total_score(rPatientSuicidal_object):
         object_flag = True
         total_score_lastweek = None
         total_score_mostdepressed = None
+    #前五题非空
     else:
         flag_lastweek = int(rPatientSuicidal_object.question4_lastweek) + int(
             rPatientSuicidal_object.question5_lastweek)
         flag_mostdepressed = int(rPatientSuicidal_object.question4_mostdepressed) + int(
             rPatientSuicidal_object.question5_mostdepressed)
-        if flag_lastweek == 2:
-            total_score_lastweek = None
-            object_flag_lastweek = False
-        elif rPatientSuicidal_object.question6_lastweek is None \
+        if rPatientSuicidal_object.question6_lastweek is None \
                 or rPatientSuicidal_object.question7_lastweek is None \
                 or rPatientSuicidal_object.question8_lastweek is None \
                 or rPatientSuicidal_object.question9_lastweek is None \
@@ -277,16 +275,15 @@ def Suicidal_total_score(rPatientSuicidal_object):
                 rPatientSuicidal_object.question19_lastweek)
 
             total_score_lastweek = (sum_lastweek - 9) / 33 * 100
-            if total_score_lastweek <= 100 and total_score_lastweek >= 0:
+            if flag_lastweek == 2:
+                object_flag_lastweek = False
+            elif total_score_lastweek <= 100 and total_score_lastweek >= 0:
                 object_flag_lastweek = False
             else:
                 object_flag_lastweek = True
                 total_score_lastweek = None
         # 另一分支
-        if flag_mostdepressed == 2:
-            total_score_mostdepressed = None
-            object_flag_mostdepressed = False
-        elif rPatientSuicidal_object.question6_mostdepressed is None \
+        if rPatientSuicidal_object.question6_mostdepressed is None \
                 or rPatientSuicidal_object.question7_mostdepressed is None \
                 or rPatientSuicidal_object.question8_mostdepressed is None \
                 or rPatientSuicidal_object.question9_mostdepressed is None \
@@ -318,7 +315,9 @@ def Suicidal_total_score(rPatientSuicidal_object):
                                 int(rPatientSuicidal_object.question18_mostdepressed) + int(
                 rPatientSuicidal_object.question19_mostdepressed)
             total_score_mostdepressed = (sum_mostdepressed - 9) / 33 * 100
-            if total_score_mostdepressed <= 100 and total_score_mostdepressed >= 0:
+            if flag_mostdepressed == 2:
+                object_flag_mostdepressed = False
+            elif total_score_mostdepressed <= 100 and total_score_mostdepressed >= 0:
                 object_flag_mostdepressed = False
             else:
                 object_flag_mostdepressed = True
@@ -942,14 +941,15 @@ def GAD_total_score(RPatientGad_obj):
 
 
 def PSS_total_score(RPatientPss_obj):
+    print('================================')
     for each_score in RPatientPss_obj.__dict__:
         if each_score is None:
             total_score = None
             break
     else:
-        total_score= int(RPatientPss_obj.question1_answer) +  int(RPatientPss_obj.question2_answer)+\
-                     int(RPatientPss_obj.question3_answer)+ int(RPatientPss_obj.question8_answer)+\
-                     int(RPatientPss_obj.question11_answer)+ int(RPatientPss_obj.question14_answer)+\
+        total_score= int(RPatientPss_obj.question1_answer) + int(RPatientPss_obj.question2_answer)+\
+                     int(RPatientPss_obj.question3_answer) + int(RPatientPss_obj.question8_answer)+\
+                     int(RPatientPss_obj.question11_answer) + int(RPatientPss_obj.question14_answer)+\
                      (6 - int(RPatientPss_obj.question4_answer)) + (6 - int(RPatientPss_obj.question5_answer))+ \
                      (6 - int(RPatientPss_obj.question6_answer)) + (6 - int(RPatientPss_obj.question7_answer)) + \
                      (6 - int(RPatientPss_obj.question9_answer)) + (6 - int(RPatientPss_obj.question10_answer)) + \

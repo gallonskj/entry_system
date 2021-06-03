@@ -23,7 +23,7 @@
         <div class="row show-grid">
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <ul class="breadcrumb" style="background-color: white;font-weight:bold">
-                    <li>量表录入</li>
+                    <li>量表评估</li>
                     <li>自评量表</li>
                     <li class="active">压力知觉量表</li>
                     <div style="float: right;margin-bottom: 0;"></div>
@@ -60,31 +60,31 @@
                 <div class="options" style=" text-align: left;padding-left: 47.5%">
                     <div class="row show-grid" style="margin:10px">
                         <label>
-                            <input type="radio" class="answer" name="question1_answer" value=0
+                            <input type="radio" class="answer" name="question1_answer" value=1
                                    data-labelauty="&nbsp;&nbsp;从不&nbsp;&nbsp;"/>
                         </label>
                     </div>
                     <div class="row show-grid" style="margin:10px">
                         <label>
-                            <input type="radio" class="answer" name="question1_answer" value=1
+                            <input type="radio" class="answer" name="question1_answer" value=2
                                    data-labelauty="&nbsp;&nbsp;偶尔&nbsp;&nbsp;"/>
                         </label>
                     </div>
                     <div class="row show-grid" style="margin:10px">
                         <label>
-                            <input type="radio" class="answer" name="question1_answer" value=2
+                            <input type="radio" class="answer" name="question1_answer" value=3
                                    data-labelauty="&nbsp;&nbsp;&nbsp;&nbsp;有时&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"/>
                         </label>
                     </div>
                     <div class="row show-grid" style="margin:10px">
                         <label>
-                            <input type="radio" class="answer" name="question1_answer" value=3
+                            <input type="radio" class="answer" name="question1_answer" value=4
                                    data-labelauty="&nbsp;&nbsp;&nbsp;时常&nbsp;&nbsp;&nbsp;&nbsp;"/>
                         </label>
                     </div>
                     <div class="row show-grid" style="margin:10px">
                         <label>
-                            <input type="radio" class="answer" name="question1_answer" value=4 data-labelauty="总是"/>
+                            <input type="radio" class="answer" name="question1_answer" value=5 data-labelauty="总是"/>
                         </label>
                     </div>
                 </div>
@@ -235,7 +235,7 @@
                 '/scales/self_tests_submit?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}',
             type: 'POST',
             dataType: 'JSON',
-            async: true,
+            async: false,
             data: {
                 'data': form.serialize(),
                 'question_index': question_index,

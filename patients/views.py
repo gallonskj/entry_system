@@ -197,6 +197,10 @@ def add_patient_followup(request):
 def get_patient_detail(request):
     if request.GET:
         patient_id = request.GET.get("patient_id")
+        if request.GET.get("del_action"):
+            del_action = request.GET.get("del_action")
+        else:
+            del_action=None
         patient_baseinfo = patients_dao.get_base_info_byPK(patient_id)
         patient_detail_list = DPatientDetail.objects.all().select_related('patient__doctor').filter(
             patient_id=patient_id).values('id', 'patient_id', 'session_id', 'standard_id', 'create_time','update_time',
@@ -246,7 +250,8 @@ def get_patient_detail(request):
                           'ghr_diagnosis': ghr_diagnosis,
                           'ghr_kinship': ghr_kinship,
                           'num_ghr': num_ghr,
-                          'patients':patients
+                          'patients':patients,
+                          'del_action':del_action
                       })
     else:
         return render(request, 'patient_detail.html', {"username": request.session.get("username")})
@@ -277,9 +282,11 @@ def del_followup(request):
         # 只有创建该条记录的用户才能够删除本条记录
         if patient_detail.first().doctor.username == request.session.get('username'):
             patient_detail.first().delete()
+            del_action="success_del"
+        else:
+            del_action = "fail_del"
 
-
-    return redirect('/patients/get_patient_detail?patient_id=' + patient_id)
+    return redirect('/patients/get_patient_detail?patient_id=' + patient_id+'&del_action='+del_action)
 
 
 

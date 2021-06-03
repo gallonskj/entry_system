@@ -338,3 +338,4 @@ def upload_out_record(request):
 #         except KeyError:
 #             raise BussinessException('{} 在数据库不存在,请联系管理员'.format(object.medical_name))
 #         return type
+
