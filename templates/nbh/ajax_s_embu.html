@@ -251,7 +251,13 @@
             nodes[i].setAttribute("name", name);
         }
     }
-
+    {#radio数值反转#}
+    function change_radio_value(option_class_name){
+        const nodes = document.getElementsByClassName(option_class_name);
+        for (let i = 0; i < nodes.length; i++) {
+            nodes[i].setAttribute("value", 5-nodes[i].getAttribute('value'));
+        }
+    }
     function get_duration() {
         const current_time = new Date();
         const duration = time - current_time;
@@ -355,11 +361,16 @@
                 document.getElementById('question_text').innerHTML = "20.父\\母亲总是左右我该穿什么衣服或该打扮成什么样子";
                 alter_option_names("answer_1", "question20_father");
                 alter_option_names("answer_2", "question20_mother");
+                change_radio_value("answer_1");
+                change_radio_value("answer_2");
                 break;
             case 20:
                 document.getElementById('question_text').innerHTML = "21.当我做的事情取得成功时，我觉得父\\母亲很为我自豪";
                 alter_option_names("answer_1", "question21_father");
                 alter_option_names("answer_2", "question21_mother");
+                change_radio_value("answer_1");
+                change_radio_value("answer_2");
+
                 // 跳转
                 document.getElementById('question_submit').setAttribute('onclick', "location=\'" +
 

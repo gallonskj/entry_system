@@ -219,16 +219,23 @@
         time = current_time;
         return -duration;
     }
-
+   function change_radio_value(option_class_name){
+        const nodes = document.getElementsByClassName(option_class_name);
+        for (let i = 0; i < nodes.length; i++) {
+            nodes[i].setAttribute("value", 6-nodes[i].getAttribute('value'));
+        }
+    }
     function update_question(index) {
         switch (index) {
             case 1:
                 document.getElementById('question_text').innerHTML = "2.当时有人照顾我、保护我。";
                 alter_option_names("answer", "question2_answer");
+                change_radio_value('answer');
                 break;
             case 2:
                 document.getElementById('question_text').innerHTML = "3.当时家里有人喊我“笨蛋”、“懒虫”或“丑八怪”等。";
                 alter_option_names("answer", "question3_answer");
+                change_radio_value('answer');
                 break;
             case 3:
                 document.getElementById('question_text').innerHTML = "4.当时我的父母因为酗酒、吸毒或赌博而不能照顾家庭。";
@@ -237,18 +244,22 @@
             case 4:
                 document.getElementById('question_text').innerHTML = "5.当时家里有人重视我。";
                 alter_option_names("answer", "question5_answer");
+                change_radio_value('answer');
                 break;
             case 5:
                 document.getElementById('question_text').innerHTML = "6.当时家里没人管我衣着冷暖。";
                 alter_option_names("answer", "question6_answer");
+                change_radio_value('answer');
                 break;
             case 6:
                 document.getElementById('question_text').innerHTML = "7.当时我感到家里人爱我。";
                 alter_option_names("answer", "question7_answer");
+                change_radio_value('answer');
                 break;
             case 7:
                 document.getElementById('question_text').innerHTML = "8.当时我觉得父母希望从来没有生过我。";
                 alter_option_names("answer", "question8_answer");
+                change_radio_value('answer');
                 break;
             case 8:
                 document.getElementById('question_text').innerHTML = "9.当时家里有人把我打伤的很重，不得不去医院。";
@@ -269,10 +280,12 @@
             case 12:
                 document.getElementById('question_text').innerHTML = "13.当时家里人彼此互相关心。";
                 alter_option_names("answer", "question13_answer");
+                change_radio_value('answer');
                 break;
             case 13:
                 document.getElementById('question_text').innerHTML = "14.当时家里有人向我说过侮辱性或让我伤心的话。";
                 alter_option_names("answer", "question14_answer");
+                change_radio_value('answer');
                 break;
             case 14:
                 document.getElementById('question_text').innerHTML = "15.我当时受到了躯体虐待。";
@@ -293,10 +306,12 @@
             case 18:
                 document.getElementById('question_text').innerHTML = "19.当时家里人关系很亲密。";
                 alter_option_names("answer", "question19_answer");
+                change_radio_value('answer');
                 break;
             case 19:
                 document.getElementById('question_text').innerHTML = "20.当时有人以带有性色彩的方式触摸我或让我触摸他/她。";
                 alter_option_names("answer", "question20_answer");
+                change_radio_value('answer');
                 break;
             case 20:
                 document.getElementById('question_text').innerHTML = "21.当时有人威胁让我同他/她做性方面";
@@ -321,14 +336,17 @@
             case 25:
                 document.getElementById('question_text').innerHTML = "26.当时有人关心我的身体健康。";
                 alter_option_names("answer", "question26_answer");
+                change_radio_value('answer');
                 break;
             case 26:
                 document.getElementById('question_text').innerHTML = "27.我当时受到了性虐待。";
                 alter_option_names("answer", "question27_answer");
+                change_radio_value('answer');
                 break;
             case 27:
                 document.getElementById('question_text').innerHTML = "28.当时家是我获得力量和支持的源泉。";
                 alter_option_names("answer", "question28_answer");
+                change_radio_value('answer');
                 break;
         }
     }

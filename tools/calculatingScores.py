@@ -539,15 +539,12 @@ def growth_total_score(rPatientGrowth_object):
                                    int(rPatientGrowth_object.question23_answer) + int(
             rPatientGrowth_object.question24_answer) + \
                                    int(rPatientGrowth_object.question27_answer)
-        emotional_ignorance_total_score = (6 - int(rPatientGrowth_object.question5_answer)) + (
-                6 - int(rPatientGrowth_object.question7_answer)) + \
-                                          (6 - int(rPatientGrowth_object.question13_answer)) + (
-                                                  6 - int(rPatientGrowth_object.question19_answer)) + \
-                                          (6 - int(rPatientGrowth_object.question28_answer))
-        physical_ignorance_total_score = int(rPatientGrowth_object.question1_answer) + (
-                6 - int(rPatientGrowth_object.question2_answer)) + \
-                                         int(rPatientGrowth_object.question4_answer) + int(
-            rPatientGrowth_object.question6_answer) + (6 - int(rPatientGrowth_object.question26_answer))
+        emotional_ignorance_total_score = int(rPatientGrowth_object.question5_answer) +int(rPatientGrowth_object.question7_answer) + \
+                                          int(rPatientGrowth_object.question13_answer) + int(rPatientGrowth_object.question19_answer) + \
+                                          int(rPatientGrowth_object.question28_answer)
+        physical_ignorance_total_score = int(rPatientGrowth_object.question1_answer) + int(rPatientGrowth_object.question2_answer) + \
+                                         int(rPatientGrowth_object.question4_answer) + int(rPatientGrowth_object.question6_answer) + \
+                                         int(rPatientGrowth_object.question26_answer)
 
         if emotional_abuse_total_score >= 5 and emotional_abuse_total_score <= 25 and physical_abuse_total_score >= 5 and physical_abuse_total_score <= 25 \
                 and sexual_abuse_total_score >= 5 and sexual_abuse_total_score <= 25 and emotional_ignorance_total_score >= 5 and emotional_ignorance_total_score <= 25 \
@@ -826,14 +823,14 @@ def SEmbu_total_score(rPatientSembu_object):
             rPatientSembu_object.question15_mother) + int(rPatientSembu_object.question16_mother) + \
                                       int(rPatientSembu_object.question17_mother) + int(
             rPatientSembu_object.question18_mother) + int(rPatientSembu_object.question19_mother) + \
-                                      (5 - int(rPatientSembu_object.question20_mother)) + int(
+                                      int(rPatientSembu_object.question20_mother) + int(
             rPatientSembu_object.question21_mother)
 
         overprotection_father_total = int(rPatientSembu_object.question14_father) + int(
             rPatientSembu_object.question15_father) + int(rPatientSembu_object.question16_father) + \
                                       int(rPatientSembu_object.question17_father) + int(
             rPatientSembu_object.question18_father) + int(rPatientSembu_object.question19_father) + \
-                                      (5 - int(rPatientSembu_object.question20_father)) + int(
+                                      int(rPatientSembu_object.question20_father) + int(
             rPatientSembu_object.question21_father)
 
         if refusal_mother_total >= 6 and refusal_mother_total <= 24 and refusal_father_total >= 6 and refusal_father_total <= 24 \
@@ -941,7 +938,6 @@ def GAD_total_score(RPatientGad_obj):
 
 
 def PSS_total_score(RPatientPss_obj):
-    print('================================')
     for each_score in RPatientPss_obj.__dict__:
         if each_score is None:
             total_score = None
@@ -950,10 +946,10 @@ def PSS_total_score(RPatientPss_obj):
         total_score= int(RPatientPss_obj.question1_answer) + int(RPatientPss_obj.question2_answer)+\
                      int(RPatientPss_obj.question3_answer) + int(RPatientPss_obj.question8_answer)+\
                      int(RPatientPss_obj.question11_answer) + int(RPatientPss_obj.question14_answer)+\
-                     (6 - int(RPatientPss_obj.question4_answer)) + (6 - int(RPatientPss_obj.question5_answer))+ \
-                     (6 - int(RPatientPss_obj.question6_answer)) + (6 - int(RPatientPss_obj.question7_answer)) + \
-                     (6 - int(RPatientPss_obj.question9_answer)) + (6 - int(RPatientPss_obj.question10_answer)) + \
-                     (6 - int(RPatientPss_obj.question12_answer)) + (6 - int(RPatientPss_obj.question13_answer)) -14
+                     int(RPatientPss_obj.question4_answer) + int(RPatientPss_obj.question5_answer)+ \
+                     int(RPatientPss_obj.question6_answer) + int(RPatientPss_obj.question7_answer) + \
+                     int(RPatientPss_obj.question9_answer) + int(RPatientPss_obj.question10_answer) + \
+                     int(RPatientPss_obj.question12_answer) + int(RPatientPss_obj.question13_answer) -14
     if total_score<=0 and total_score>=56:
         total_score=None
     return total_score
