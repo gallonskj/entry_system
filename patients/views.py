@@ -282,11 +282,8 @@ def del_followup(request):
         # 只有创建该条记录的用户才能够删除本条记录
         if patient_detail.first().doctor.username == request.session.get('username'):
             patient_detail.first().delete()
-            del_action="success_del"
-        else:
-            del_action = "fail_del"
 
-    return redirect('/patients/get_patient_detail?patient_id=' + patient_id+'&del_action='+del_action)
+    return redirect('/patients/get_patient_detail?patient_id=' + patient_id)
 
 
 

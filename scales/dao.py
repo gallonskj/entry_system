@@ -66,7 +66,7 @@ def add_hamd_database(rPatientHAMD17, state):
 
 
 # 33 项轻躁狂症状清单
-def add_manicsymptom_database(rPatientManicsymptom):
+def add_manicsymptom_database(rPatientManicsymptom,state):
     # 存进数据库
     rPatientManicsymptom.total_score, object_flag = tools_calculatingScores.ManicSymptom_total_score(
         rPatientManicsymptom)
@@ -76,11 +76,11 @@ def add_manicsymptom_database(rPatientManicsymptom):
     # 插入数据库
     rPatientManicsymptom.save()
     # 修改r_patient_scales表中state状态
-    update_rscales_state(rPatientManicsymptom.patient_session_id, rPatientManicsymptom.scale_id)
+    update_rscales_state(rPatientManicsymptom.patient_session_id, rPatientManicsymptom.scale_id,state)
 
 
 # 斯奈斯和汉密尔顿快乐量表
-def add_happiness_database(rPatienthappiness):
+def add_happiness_database(rPatienthappiness,state):
     # 存进数据库
     rPatienthappiness.total_score, object_flag = tools_calculatingScores.happiness_total_score(rPatienthappiness)
     tools_utils.object_judgment(object_flag)
@@ -89,7 +89,7 @@ def add_happiness_database(rPatienthappiness):
     # 插入数据库
     rPatienthappiness.save()
     # 修改r_patient_scales表中state状态
-    update_rscales_state(rPatienthappiness.patient_session_id, rPatienthappiness.scale_id)
+    update_rscales_state(rPatienthappiness.patient_session_id, rPatienthappiness.scale_id,state)
 
 
 def add_chinesehandle_database(rPatientChineseHandy, state):
@@ -135,7 +135,7 @@ def add_patient_drugs_information(rPatientDrugInformation_object):
     rPatientDrugInformation_object.save()
 
 
-def add_cognitive_emotion_database(rPatientCognitiveEmotion):
+def add_cognitive_emotion_database(rPatientCognitiveEmotion,state):
     # 得分计算
     rPatientCognitiveEmotion.total_score, rPatientCognitiveEmotion.blame_self, rPatientCognitiveEmotion.blame_others, rPatientCognitiveEmotion.meditation, \
     rPatientCognitiveEmotion.catastrophization, rPatientCognitiveEmotion.accepted, rPatientCognitiveEmotion.positive_refocus, rPatientCognitiveEmotion.program_refocus, \
@@ -148,10 +148,10 @@ def add_cognitive_emotion_database(rPatientCognitiveEmotion):
     # 插入数据库
     rPatientCognitiveEmotion.save()
     # 修改r_patient_scales表中state状态
-    update_rscales_state(rPatientCognitiveEmotion.patient_session_id, rPatientCognitiveEmotion.scale_id)
+    update_rscales_state(rPatientCognitiveEmotion.patient_session_id, rPatientCognitiveEmotion.scale_id,state)
 
 
-def add_pleasure_database(rPatientPleasure):
+def add_pleasure_database(rPatientPleasure,state):
     rPatientPleasure.expectation_score, rPatientPleasure.consume_score, object_flag = tools_calculatingScores.pleasure_total_score(
         rPatientPleasure)
     if rPatientPleasure.expectation_score is not None and rPatientPleasure.consume_score is not None:
@@ -164,7 +164,7 @@ def add_pleasure_database(rPatientPleasure):
     # 插入数据库
     rPatientPleasure.save()
     # 修改r_patient_scales表中state状态
-    update_rscales_state(rPatientPleasure.patient_session_id, rPatientPleasure.scale_id)
+    update_rscales_state(rPatientPleasure.patient_session_id, rPatientPleasure.scale_id,state)
 
 
 def add_bprs_database(rPatientbprs, state):
@@ -222,7 +222,7 @@ def add_abuse_database(rPatientBasicInformationAbuse, state):
                          state)
 
 
-def add_growth_database(rPatientGrowth):
+def add_growth_database(rPatientGrowth,state):
     rPatientGrowth.emotion_abuse_score, rPatientGrowth.body_abuse_score, rPatientGrowth.sex_abuse_score, rPatientGrowth.emotion_ignore_score, \
     rPatientGrowth.body_ignore_score, object_flag = tools_calculatingScores.growth_total_score(rPatientGrowth)
     tools_utils.object_judgment(object_flag)
@@ -231,10 +231,10 @@ def add_growth_database(rPatientGrowth):
     # 插入数据库
     rPatientGrowth.save()
     # 修改r_patient_scales表中state状态
-    update_rscales_state(rPatientGrowth.patient_session_id, rPatientGrowth.scale_id)
+    update_rscales_state(rPatientGrowth.patient_session_id, rPatientGrowth.scale_id,state)
 
 
-def add_adolescent_events_database(rPatientAdolescentEvents):
+def add_adolescent_events_database(rPatientAdolescentEvents,state):
     rPatientAdolescentEvents.total_score, object_flag = tools_calculatingScores.AdolescentEvents_total_score(
         rPatientAdolescentEvents)
     tools_utils.object_judgment(object_flag)
@@ -243,29 +243,29 @@ def add_adolescent_events_database(rPatientAdolescentEvents):
     # 插入数据库
     rPatientAdolescentEvents.save()
     # 修改r_patient_scales表中state状态
-    update_rscales_state(rPatientAdolescentEvents.patient_session_id, rPatientAdolescentEvents.scale_id)
+    update_rscales_state(rPatientAdolescentEvents.patient_session_id, rPatientAdolescentEvents.scale_id,state)
 
 
 # 这里的total_score需要从前台获取，认知的所有表都需要手动填总分 面孔情绪感知
-def add_fept_database(rPatientFept, state):
+def add_fept_database(rPatientFept,state):
     # 存进数据库
     # 插入前的级联检验
     tools_insertCascadeCheck.insert_fept_check(rPatientFept)
     # 插入数据库
     rPatientFept.save()
     # 修改r_patient_scales表中state状态
-    update_rscales_state(rPatientFept.patient_session_id, rPatientFept.scale_id, state)
+    update_rscales_state(rPatientFept.patient_session_id, rPatientFept.scale_id,state)
 
 
 # 这里的total_score需要从前台或许，认知的所有表都需要手动填总分 语音情绪感知
-def add_vept_database(rPatientVept, state):
+def add_vept_database(rPatientVept,state):
     # 存进数据库
     # 插入前的级联检验
     tools_insertCascadeCheck.insert_vept_check(rPatientVept)
     # 插入数据库
     rPatientVept.save()
     # 修改r_patient_scales表中state状态
-    update_rscales_state(rPatientVept.patient_session_id, rPatientVept.scale_id, state)
+    update_rscales_state(rPatientVept.patient_session_id, rPatientVept.scale_id,state)
 
 
 ###################################
@@ -281,7 +281,7 @@ def add_ymrs_database(rPatientYmrs, state):
     update_rscales_state(rPatientYmrs.patient_session_id, rPatientYmrs.scale_id, state)
 
 
-def add_sembu_database(rPatientSembu):
+def add_sembu_database(rPatientSembu,state):
     rPatientSembu.refusal_mother, rPatientSembu.refusal_father, rPatientSembu.emotional_warmth_mother, \
     rPatientSembu.emotional_warmth_father, rPatientSembu.overprotection_mother, rPatientSembu.overprotection_father, \
     object_flag = tools_calculatingScores.SEmbu_total_score(rPatientSembu)
@@ -292,7 +292,7 @@ def add_sembu_database(rPatientSembu):
     # 插入数据库
     rPatientSembu.save()
     # 修改r_patient_scales表中state状态
-    update_rscales_state(rPatientSembu.patient_session_id, rPatientSembu.scale_id)
+    update_rscales_state(rPatientSembu.patient_session_id, rPatientSembu.scale_id,state)
 
 
 def dao_add_family_info(patient_basic_info_family, state):
@@ -304,7 +304,7 @@ def dao_add_family_info(patient_basic_info_family, state):
     update_rscales_state(patient_basic_info_family.patient_session_id, patient_basic_info_family.scale_id, state)
 
 
-def dao_add_suicide(rpatientsuicidal):
+def dao_add_suicide(rpatientsuicidal,state):
     # 计算总分
     rpatientsuicidal.total_score_lastweek, rpatientsuicidal.total_score_mostdepressed, object_flag,rpatientsuicidal.suicide_ideation = tools_calculatingScores.Suicidal_total_score(
         rpatientsuicidal)
@@ -314,10 +314,10 @@ def dao_add_suicide(rpatientsuicidal):
     # 插入数据库
     rpatientsuicidal.save()
     # 修改r_patient_scales表中state状态
-    update_rscales_state(rpatientsuicidal.patient_session_id, rpatientsuicidal.scale_id)
+    update_rscales_state(rpatientsuicidal.patient_session_id, rpatientsuicidal.scale_id,state)
 
 
-def dao_add_ybo(rpatientybobsessiontable):
+def dao_add_ybo(rpatientybobsessiontable,state):
     # 计算总分的函数写在这
     rpatientybobsessiontable.total_score, object_flag = tools_calculatingScores.YBO_total_score(
         rpatientybobsessiontable)
@@ -327,10 +327,10 @@ def dao_add_ybo(rpatientybobsessiontable):
     # 插入数据库
     rpatientybobsessiontable.save()
     # 修改r_patient_scales表中state状态
-    update_rscales_state(rpatientybobsessiontable.patient_session_id, rpatientybobsessiontable.scale_id)
+    update_rscales_state(rpatientybobsessiontable.patient_session_id, rpatientybobsessiontable.scale_id,state)
 
 
-def add_atq_database(rPatientAtq):
+def add_atq_database(rPatientAtq,state):
     rPatientAtq.total_score, object_flag = tools_calculatingScores.ATQ_total_score(rPatientAtq)
     tools_utils.object_judgment(object_flag)
     # 插入前的级联检验
@@ -338,10 +338,10 @@ def add_atq_database(rPatientAtq):
     # 插入数据库
     rPatientAtq.save()
     # 修改r_patient_scales表中state状态
-    update_rscales_state(rPatientAtq.patient_session_id, rPatientAtq.scale_id)
+    update_rscales_state(rPatientAtq.patient_session_id, rPatientAtq.scale_id,state)
 
 
-def add_pss_database(rPatientPss):
+def add_pss_database(rPatientPss,state):
     rPatientPss.total_score = tools_calculatingScores.PSS_total_score(rPatientPss)
     # tools_utils.object_judgment(object_flag)
     # 插入前的级联检验
@@ -349,10 +349,10 @@ def add_pss_database(rPatientPss):
     # 插入数据库
     rPatientPss.save()
     # 修改r_patient_scales表中state状态
-    update_rscales_state(rPatientPss.patient_session_id, rPatientPss.scale_id,1)
+    update_rscales_state(rPatientPss.patient_session_id, rPatientPss.scale_id,state)
 
 
-def add_Insomnia_database(rPatientInsomnia):
+def add_Insomnia_database(rPatientInsomnia,state):
     rPatientInsomnia.total_score = tools_calculatingScores.ISI_total_score(rPatientInsomnia)
     # tools_utils.object_judgment(object_flag)
     # 插入前的级联检验
@@ -360,10 +360,10 @@ def add_Insomnia_database(rPatientInsomnia):
     # 插入数据库
     rPatientInsomnia.save()
     # 修改r_patient_scales表中state状态
-    update_rscales_state(rPatientInsomnia.patient_session_id, rPatientInsomnia.scale_id,1)
+    update_rscales_state(rPatientInsomnia.patient_session_id, rPatientInsomnia.scale_id,state)
 
 
-def add_Gad_database(rPatientGad):
+def add_Gad_database(rPatientGad,state):
     rPatientGad.total_score = tools_calculatingScores.GAD_total_score(rPatientGad)
     # tools_utils.object_judgment(object_flag)
     # 插入前的级联检验
@@ -371,9 +371,9 @@ def add_Gad_database(rPatientGad):
     # 插入数据库
     rPatientGad.save()
     # 修改r_patient_scales表中state状态
-    update_rscales_state(rPatientGad.patient_session_id, rPatientGad.scale_id,1)
+    update_rscales_state(rPatientGad.patient_session_id, rPatientGad.scale_id,state)
 
-def add_Phq_database(rPatientPhq):
+def add_Phq_database(rPatientPhq,state):
     rPatientPhq.total_score = tools_calculatingScores.PHQ_total_score(rPatientPhq)
     # tools_utils.object_judgment(object_flag)
     # 插入前的级联检验
@@ -381,7 +381,7 @@ def add_Phq_database(rPatientPhq):
     # 插入数据库
     rPatientPhq.save()
     # 修改r_patient_scales表中state状态
-    update_rscales_state(rPatientPhq.patient_session_id, rPatientPhq.scale_id,1)
+    update_rscales_state(rPatientPhq.patient_session_id, rPatientPhq.scale_id,state)
 
 def add_wcst_database(rPatientWcst, state):
     # 插入前的级联检验
