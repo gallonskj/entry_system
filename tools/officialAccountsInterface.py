@@ -25,8 +25,9 @@ def get_patient_data(patient_id, start_date=None, end_date=None):
 patient_id = 411
 start_data = "2021-01-31"
 end_date = "2021-01-31"
-patient_session_id=1172
-patient_data = get_patient_data(patient_id,start_data,end_date)
+patient_detail_id=1172
+#patient_data = get_patient_data(patient_id,start_data,end_date)
+patient_data = get_patient_data(patient_id)
 if patient_data is False:
     print("参数错误")
 
@@ -163,11 +164,11 @@ print("scale_atq_duration: "+str(scale_atq_duration))
 # scale_phq：抑郁症
 scale_phq = patient_data['data']['scale_phq']
 print("scale_phq: "+str(scale_phq))
-phq_pre = scales_models.RPatientPhq.objects.filter(patient_session_id=patient_session_id).first()
+phq_pre = scales_models.RPatientPhq.objects.filter(patient_session_id=patient_detail_id).first()
 if phq_pre is not None:
     phq_pre.delete()
 if scale_phq is not None:
-    RPatientPhq_object = scales_models.RPatientPhq(patient_session_id=patient_session_id,scale_id=29,question1_answer=scale_phq['question1_answer'],
+    RPatientPhq_object = scales_models.RPatientPhq(patient_session_id=patient_detail_id,scale_id=29,question1_answer=scale_phq['question1_answer'],
     question2_answer=scale_phq['question2_answer'],question3_answer=scale_phq['question3_answer'],question4_answer=scale_phq['question4_answer'],
     question5_answer=scale_phq['question5_answer'],question6_answer=scale_phq['question6_answer'],question7_answer=scale_phq['question7_answer'],
     question8_answer=scale_phq['question8_answer'],question9_answer=scale_phq['question9_answer'],
@@ -182,11 +183,11 @@ print("scale_phq_duration: "+str(scale_phq_duration))
 # scale_gad：gad-7
 scale_gad = patient_data['data']['scale_gad']
 print("scale_gad: "+str(scale_gad))
-gad_pre = scales_models.RPatientGad.objects.filter(patient_session_id=patient_session_id).first()
+gad_pre = scales_models.RPatientGad.objects.filter(patient_session_id=patient_detail_id).first()
 if gad_pre is not None:
     gad_pre.delete()
 if scale_gad is not None:
-    RPatientGad_object = scales_models.RPatientGad(patient_session_id=patient_session_id,scale_id=30,question1_answer=scale_gad['question1_answer'],
+    RPatientGad_object = scales_models.RPatientGad(patient_session_id=patient_detail_id,scale_id=30,question1_answer=scale_gad['question1_answer'],
     question2_answer=scale_gad['question2_answer'],question3_answer=scale_gad['question3_answer'],question4_answer=scale_gad['question4_answer'],
     question5_answer=scale_gad['question5_answer'],question6_answer=scale_gad['question6_answer'],question7_answer=scale_gad['question7_answer'],
                                                              total_score=scale_gad['total_score'],doctor_id=2,create_time=end_date,update_time=end_date)
@@ -200,11 +201,11 @@ print("scale_gad_duration: "+str(scale_gad_duration))
 # scale_insomnia：失眠
 scale_insomnia = patient_data['data']['scale_insomnia']
 print("scale_insomnia: "+str(scale_insomnia))
-insomnia_pre = scales_models.RPatientInsomnia.objects.filter(patient_session_id=patient_session_id).first()
+insomnia_pre = scales_models.RPatientInsomnia.objects.filter(patient_session_id=patient_detail_id).first()
 if insomnia_pre is not None:
     insomnia_pre.delete()
-if scale_insomnia is not None:
-    RPatientInsomnia_object = scales_models.RPatientInsomnia(patient_session_id=patient_session_id,scale_id=31,question1_answer=scale_insomnia['question1_answer'],
+if scale_insomnia:
+    RPatientInsomnia_object = scales_models.RPatientInsomnia(patient_session_id=patient_detail_id,scale_id=31,question1_answer=scale_insomnia['question1_answer'],
     question2_answer=scale_insomnia['question2_answer'],question3_answer=scale_insomnia['question3_answer'],question4_answer=scale_insomnia['question4_answer'],
     question5_answer=scale_insomnia['question5_answer'],question6_answer=scale_insomnia['question6_answer'],question7_answer=scale_insomnia['question7_answer'],
                                                              total_score=scale_insomnia['total_score'],doctor_id=2,create_time=end_date,update_time=end_date)
@@ -219,11 +220,11 @@ print("scale_insomnia_duration: "+str(scale_insomnia_duration))
 # scale_pss：压力量表
 scale_pss = patient_data['data']['scale_pss']
 print("scale_pss: "+str(scale_pss))
-pss_pre = scales_models.RPatientPss.objects.filter(patient_session_id=patient_session_id).first()
+pss_pre = scales_models.RPatientPss.objects.filter(patient_session_id=patient_detail_id).first()
 if pss_pre is not None:
     pss_pre.delete()
-if scale_pss is not None:
-    RPatientPss_object = scales_models.RPatientPss(patient_session_id=patient_session_id,scale_id=32,question1_answer=scale_pss['question1_answer'],
+if scale_pss:
+    RPatientPss_object = scales_models.RPatientPss(patient_session_id=patient_detail_id,scale_id=32,question1_answer=scale_pss['question1_answer'],
     question2_answer=scale_pss['question2_answer'],question3_answer=scale_pss['question3_answer'],question4_answer=6-scale_pss['question4_answer'],
     question5_answer=6-scale_pss['question5_answer'],question6_answer=6-scale_pss['question6_answer'],question7_answer=6-scale_pss['question7_answer'],
     question8_answer=scale_pss['question8_answer'],question9_answer=6-scale_pss['question9_answer'],question10_answer=6-scale_pss['question10_answer'],
