@@ -1,0 +1,526 @@
+{% extends 'templates/index.html' %}
+{% load static %}
+{% load SelfDefinedFilter %}
+{% block title %}贝克自杀意念及强度量表{% endblock %}
+{% block css %}
+    <link href="{% static '/css/scales_style.css' %}" rel="stylesheet">
+{% endblock %}
+{% block content %}
+    <div class="modal fade" id="exit_confirm" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <h4 align="center"> 您确认要退出当前自评量表测评吗？</h4>
+                <div align="center">
+                    <button type="button"
+                            onclick="location='/scales/select_scales?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&session_id={{ session_id }}'"
+                            class="btn btn-danger" style="width:68px;height:34px">退出
+                    </button>
+                    <button type="button" class="btn btn-success" style="width:68px;height:34px" data-dismiss="modal">关闭
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="right_col" role="main">
+        <div class="container">
+            <div class="row show-grid">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <ul class="breadcrumb" style="background-color: white;font-weight:bold">
+                        <li>量表评估</li>
+                        <li>自评量表</li>
+                        <li class="active">贝克自杀意念及强度量表</li>
+                        <div style="float: right;margin-bottom: 0;"></div>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="dashboard_graph x_panel" style="margin-top: 0;height:80%;">
+            <div class="row" style="margin-left:5px;margin-top: 5px;padding-bottom: 5px;">
+                <div align="center" style="padding-left: 22.5%; padding-right: 22.5%">
+                    <h5>
+                        <strong>
+                            <i class="fa fa-hand-o-down"></i>&nbsp;
+                            <i class="fa fa-hand-o-down"></i>&nbsp;
+                            <i class="fa fa-hand-o-down"></i>&nbsp;
+                            指导语：下述项目是一些有关您对生命和死亡想法的问题。每个问题既问最近一周您是如何感觉的，又问既往您最消沉、最代或自杀倾向最严重的时候是如何感觉的。每个问题的答案各有不同，请您注意听清提问和备选答案，然后根据您的情况选择最适合的答案。
+                        </strong>
+                    </h5>
+                </div>
+            </div>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            {% csrf_token %}
+            {#            第一题#}
+            <div class="bss_0_1" style="text-align: center;display: block">
+                <form id="bss_0_1" name="bss_0_1" action="#">
+                    <div class="row"><h3>0. 您是否有过自杀行为史（自杀未遂或自伤）?</h3></div>
+                    <div class="options" style=" text-align: left;padding-left: 50%">
+                        <div class="row show-grid" style="margin:10px">
+                            <label>
+                                <input type="radio" name="suicide_history" class="suicide_no" value=0
+                                       data-labelauty="否"/>
+                            </label>
+                        </div>
+                        <div class="row show-grid" style="margin:10px">
+                            <label>
+                                <input type="radio" name="suicide_history" class="suicide_yes" value=1
+                                       data-labelauty="是"/>
+                            </label>
+                        </div>
+                    </div>
+                    <div>
+                        <input id="bss_0_1_submit" type="button" class="btn btn-success text-center"
+                               style="width:68px;height:34px" value="下一题">
+                        <input type="button" class="btn btn-danger text-center exit_button"
+                               style="width:68px;height:34px"
+                               value="退&nbsp;&nbsp;出">
+                    </div>
+                </form>
+            </div>
+            {#            第二题#}
+            <div class="bss_0_2" style="text-align: center;display: none">
+                <form id="bss_0_2" name="bss_0_2" action="#">
+                    <div class="row">
+                        <h3>自杀行为次数：</h3>
+                        <div class="row show-grid" align="center" style="margin:10px">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="suicide_times"
+                                                                       id="suicides_times_content" value=""/> 次</strong>
+                        </div>
+                        <h3>自杀/自伤：</h3>
+                        <div class="row show-grid" align="center" style="margin:10px">
+                            <select class="form-control" name="self_mutilation_remark" id="self_mutilation_remark"
+                                    style="width: 175px">
+                                <option value="1">自杀</option>
+                                <option value="0">自伤</option>
+                            </select>
+                        </div>
+                    </div>
+                    <br>
+                    <div>
+                        <input id="bss_0_2_submit" type="button" class="btn btn-success text-center"
+                               style="width:68px;height:34px" value="下一题">
+                        <input type="button" class="btn btn-danger text-center exit_button"
+                               style="width:68px;height:34px"
+                               value="退&nbsp;&nbsp;出">
+                    </div>
+                </form>
+            </div>
+            {#            常规题目#}
+            <div class="question_area" name="question_area" style="text-align: center; display: none">
+                <form id="question_form" name="question_form" action="#">
+                    <div name="question_text" id="question_text" class="row">
+                        <div class="row">
+                            <h3>1. 您希望活下去的程度如何?</h3>
+                        </div>
+                        <div class="row">
+                            <h4>（最近一周）</h4>
+                        </div>
+                    </div>
+                    <div class="options" style=" text-align: left;padding-left: 45%">
+                        <div class="row show-grid" style="margin:10px">
+                            <label>
+                                <input type="radio" class="answer_1" name="question1_lastweek" value=1
+                                       data-labelauty="中等到强烈"/>
+                            </label>
+                        </div>
+                        <div class="row show-grid" style="margin:10px">
+                            <label>
+                                <input type="radio" class="answer_2" name="question1_lastweek" value=2
+                                       data-labelauty="弱"/>
+                            </label>
+                        </div>
+                        <div class="row show-grid" style="margin:10px">
+                            <label>
+                                <input type="radio" class="answer_3" name="question1_lastweek" value=3
+                                       data-labelauty="没有活着的欲望"/>
+                            </label>
+                        </div>
+                        <div class="row show-grid answer_4" style="margin:10px; display: none">
+                            <label>
+                                <input type="radio" class="" name="question1_lastweek" value=0
+                                       data-labelauty="没有活着的欲望"/>
+                            </label>
+                        </div>
+                    </div>
+                    <div>
+                        <input id="question_submit" type="button" class="btn btn-success text-center"
+                               style="width:68px;height:34px" value="下一题">
+                        <input type="button" class="btn btn-danger text-center exit_button"
+                               style="width:68px;height:34px"
+                               value="退&nbsp;&nbsp;出">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script type="text/javascript" src="{% static '/js/jquery-radio-beauty.js' %}"></script>
+    <script>
+        // dom加载完毕
+        const $m_btn = $('.exit_button');
+        const $modal = $('#exit_confirm');
+        $m_btn.on('click', function () {
+            $modal.modal({backdrop: 'static'});
+        });
+        // 测试 bootstrap 居中
+        $modal.on('show.bs.modal', function () {
+            const $this = $(this);
+            const $modal_dialog = $this.find('.modal-dialog');
+            // 关键代码，如没将modal设置为 block，则$modala_dialog.height() 为零
+            $this.css('display', 'block');
+            $modal_dialog.css({'margin-top': Math.max(0, ($(window).height() - $modal_dialog.height()) / 2)});
+        });
+        let time = new Date();
+        let suicide = false;
+        let question_index = {{ question_index }} +1;
+        let end_flag = 0;
+        {#续做#}
+        if (question_index === 2) {
+            $("div[class='bss_0_1']").hide();
+            $("div[class='bss_0_2']").show();
+        } else {
+            $("div[class='bss_0_1']").hide();
+            $("div[class='bss_0_2']").hide();
+            $("div[class='question_area']").show();
+            update_question(question_index);
+        }
+        {#  提交逻辑  #}
+        $(document).ready(function () {
+            $("input[type='radio']").labelauty();
+            {# 第一题提交 #}
+            $("#bss_0_1_submit").on('click', function () {
+                if (document.bss_0_1.suicide_history.value === "") {
+                    alert("问题不能为空！");
+                } else {
+                    ajax_post($('#bss_0_1'));
+                    if (document.bss_0_1.suicide_history.value === "0") {
+                        {# 跳过一题 多加一次 #}
+                        question_index++;
+                        $("div[class='bss_0_1']").hide();
+                        $("div[class='question_area']").show();
+                    } else {
+                        $("div[class='bss_0_1']").hide();
+                        $("div[class='bss_0_2']").show();
+                    }
+                }
+            });
+            {# 第二题提交 #}
+            $("#bss_0_2_submit").on('click', function () {
+                if (document.bss_0_2.suicide_times.value === "") {
+                    alert("问题不能为空！");
+                } else {
+                    ajax_post($('#bss_0_2'))
+                    $("div[class='bss_0_2']").hide();
+                    $("div[class='question_area']").show();
+                }
+            });
+            {# 通用提交#}
+            $("#question_submit").on('click', function () {
+                if (question_index > 40) {
+                    alert("请不要重复提交！");
+                } else {
+                    if ($(".options input:checked").length === 0) {
+                        {# 如果没选 显示提示 #}
+                        alert("选项不能为空！");
+                    } else {
+                        {# 判断自杀倾向条件 #}
+                        if (question_index === 8 && $(".options input:checked").val() !== "1") {
+                            suicide = true
+                        }
+                        if (question_index === 9 && $(".options input:checked").val() !== "1") {
+                            suicide = true
+                        }
+                        if (question_index === 10 && $(".options input:checked").val() !== "1") {
+                            suicide = true
+                        }
+                        if (question_index === 11 && $(".options input:checked").val() !== "1") {
+                            suicide = true
+                        }
+                        {# 提交答案 #}
+                        ajax_post($('#question_form'));
+                        {# 量表完成条件 #}
+                        if (question_index === 11 && suicide === false || question_index === 39) {
+                            end_flag = 1;
+                            location = "/scales/get_next_self_scale_url?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}";
+                        }
+                        {# 更新题目 #}
+                        update_question(question_index);
+                    }
+                }
+                {# 清空选项 #}
+                $("input[type='radio']").removeAttr("checked");
+            });
+
+            function alter_option_names(name) {
+                const options = $(".options input")
+                for (const each in options) {
+                    each.attr("name", name)
+                }
+            }
+
+            function get_duration() {
+                const current_time = new Date();
+                const duration = time - current_time;
+                time = current_time;
+                return -duration;
+            }
+
+            function change_radio_name(option_name_1, option_name_2, option_name_3, option_name_4) {
+                $(".answer_1").attr("data-labelauty", option_name_1)
+                $(".answer_2").attr("data-labelauty", option_name_2)
+                $(".answer_3").attr("data-labelauty", option_name_3)
+                $(".answer_4").attr("data-labelauty", option_name_4)
+            }
+
+            function show_four_option() {
+                $(".answer_4").attr("display", "block")
+            }
+
+            function hide_four_option() {
+                $(".answer_4").attr("display", "none")
+            }
+
+            function update_question(index) {
+                switch (index) {
+                    case 3:
+                        document.getElementById('question_text').innerHTML =
+                            "<div class=\"row\"><h3>1. 您希望活下去的程度如何?</h3></div><div class=\"row\"><h4>（最消沉、最忧郁的时候）</h4></div>";
+                        alter_option_names("question1_mostdepressed");
+                        break;
+                    case 4:
+                        document.getElementById('question_text').innerHTML =
+                            "<div class=\"row\"><h3>2. 您希望死去的程度如何?</h3></div><div class=\"row\"><h4>（最近一周）</h4></div>";
+                        change_radio_name("没有死去的欲望", "弱", "中等到强烈", "");
+                        alter_option_names("question2_lastweek");
+                        break;
+                    case 5:
+                        document.getElementById('question_text').innerHTML =
+                            "<div class=\"row\"><h3>2. 您希望死去的程度如何?</h3></div><div class=\"row\"><h4>（最消沉、最忧郁的时候）</h4></div>";
+                        alter_option_names("question2_mostdepressed");
+                        break;
+                    case 6:
+                        document.getElementById('question_text').innerHTML =
+                            "<div class=\"row\"><h3>3. 您要活下去的理由胜过您要死去的理由吗?</h3></div><div class=\"row\"><h4>（最近一周）</h4></div>";
+                        change_radio_name("要活下去胜过要死去", "二者相当", "要死去胜过要活下来", "")
+                        alter_option_names("question3_lastweek");
+                        break;
+                    case 7:
+                        document.getElementById('question_text').innerHTML =
+                            "<div class=\"row\"><h3>3. 您要活下去的理由胜过您要死去的理由吗?</h3></div><div class=\"row\"><h4>（最消沉、最忧郁的时候）</h4></div>";
+                        alter_option_names("question3_mostdepressed");
+                        break;
+                    case 8:
+                        document.getElementById('question_text').innerHTML =
+                            "<div class=\"row\"><h3>4. 您主动尝试自杀的愿望程度如何?</h3></div><div class=\"row\"><h4>（最近一周）</h4></div>";
+                        change_radio_name("没有", "弱", "中等到强烈", "")
+                        alter_option_names("question4_lastweek");
+                        break;
+                    case 9:
+                        document.getElementById('question_text').innerHTML =
+                            "<div class=\"row\"><h3>4. 您主动尝试自杀的愿望程度如何?</h3></div><div class=\"row\"><h4>（最消沉、最忧郁的时候）</h4></div>";
+                        alter_option_names("question4_mostdepressed");
+                        break;
+                    case 10:
+                        document.getElementById('question_text').innerHTML =
+                            "<div class=\"row\"><h3>5. 您希望外力结束自己生命，即有“被动自杀愿望”的程度如何?（如，希望一直睡下去不再醒来、意外地死去等）</h3></div><div class=\"row\"><h4>（最近一周）</h4></div>";
+                        alter_option_names("question5_lastweek");
+                        break;
+                    case 11:
+                        document.getElementById('question_text').innerHTML =
+                            "<div class=\"row\"><h3>5. 您希望外力结束自己生命，即有“被动自杀愿望”的程度如何?（如，希望一直睡下去不再醒来、意外地死去等）</h3></div><div class=\"row\"><h4>（最消沉、最忧郁的时候）</h4></div>";
+                        alter_option_names("question5_mostdepressed");
+                        break;
+                    case 12:
+                        document.getElementById('question_text').innerHTML =
+                            "<div class=\"row\"><h3>6. 您的这种自杀想法持续存在多长时间?</h3></div><div class=\"row\"><h4>（最近一周）</h4></div>";
+                        change_radio_name("短暂、一闪即逝", "较长时间", "持续或几乎是持续的", "");
+                        alter_option_names("question6_lastweek");
+                        break;
+                    case 13:
+                        document.getElementById('question_text').innerHTML =
+                            "<div class=\"row\"><h3>6. 您的这种自杀想法持续存在多长时间?</h3></div><div class=\"row\"><h4>（最消沉、最忧郁的时候）</h4></div>";
+                        alter_option_names("question6_mostdepressed");
+                        break;
+                    case 14:
+                        document.getElementById('question_text').innerHTML =
+                            "<div class=\"row\"><h3>7. 您自杀想法出现的频度如何?</h3></div><div class=\"row\"><h4>（最近一周）</h4></div>";
+                        change_radio_name("极少、偶尔", "有时", "经常或持续", "");
+                        alter_option_names("question7_lastweek");
+                        break;
+                    case 15:
+                        document.getElementById('question_text').innerHTML =
+                            "<div class=\"row\"><h3>7. 您自杀想法出现的频度如何?</h3></div><div class=\"row\"><h4>（最消沉、最忧郁的时候）</h4></div>";
+                        alter_option_names("question7_mostdepressed");
+                        break;
+                    case 16:
+                        document.getElementById('question_text').innerHTML =
+                            "<div class=\"row\"><h3>8. 您对自杀持什么态度?</h3></div><div class=\"row\"><h4>（最近一周）</h4></div>";
+                        change_radio_name("排斥", "矛盾或无所谓", "接受", "");
+                        alter_option_names("question8_lastweek");
+                        break;
+                    case 17:
+                        document.getElementById('question_text').innerHTML =
+                            "<div class=\"row\"><h3>8. 您对自杀持什么态度?</h3></div><div class=\"row\"><h4>（最消沉、最忧郁的时候）</h4></div>";
+                        alter_option_names("question8_mostdepressed");
+                        break;
+                    case 18:
+                        document.getElementById('question_text').innerHTML =
+                            "<div class=\"row\"><h3>9. 您觉得自己控制自杀想法、不把它变成行动的能力如何?</h3></div><div class=\"row\"><h4>（最近一周）</h4></div>";
+                        change_radio_name("能控制", "不知能否控制", "不能控制", "");
+                        alter_option_names("question9_lastweek");
+                        break;
+                    case 19:
+                        document.getElementById('question_text').innerHTML =
+                            "<div class=\"row\"><h3>9. 您觉得自己控制自杀想法、不把它变成行动的能力如何?</h3></div><div class=\"row\"><h4>（最消沉、最忧郁的时候）</h4></div>";
+                        alter_option_names("question9_mostdepressed");
+                        break;
+                    case 20:
+                        document.getElementById('question_text').innerHTML =
+                            "<div class=\"row\"><h3>10. 如果出现自杀想法，某些顾虑（如顾及家人、死亡不可逆转等）在多大程度上能阻止您自杀?</h3></div><div class=\"row\"><h4>（最近一周）</h4></div>";
+                        change_radio_name("能阻止自杀", "能减少自杀的危险", "无顾虑或无影响", "");
+                        alter_option_names("question10_lastweek");
+                        break;
+                    case 21:
+                        document.getElementById('question_text').innerHTML =
+                            "<div class=\"row\"><h3>10. 如果出现自杀想法，某些顾虑（如顾及家人、死亡不可逆转等）在多大程度上能阻止您自杀?</h3></div><div class=\"row\"><h4>（最消沉、最忧郁的时候）</h4></div>";
+                        alter_option_names("question10_mostdepressed");
+                        break;
+                    case 22:
+                        document.getElementById('question_text').innerHTML =
+                            "<div class=\"row\"><h3>11. 当您想自杀时，主要是为了什么?</h3></div><div class=\"row\"><h4>（最近一周）</h4></div>";
+                        change_radio_name("控制形势、寻求关注、报复", "逃避、减轻痛苦、解决问题", "前两种情况均有", "近一周无自杀想法");
+                        show_four_option();
+                        alter_option_names("question11_lastweek");
+                        break;
+                    case 23:
+                        document.getElementById('question_text').innerHTML =
+                            "<div class=\"row\"><h3>11. 当您想自杀时，主要是为了什么?</h3></div><div class=\"row\"><h4>（最消沉、最忧郁的时候）</h4></div>";
+                        alter_option_names("question11_mostdepressed");
+                        break;
+                    case 24:
+                        document.getElementById('question_text').innerHTML =
+                            "<div class=\"row\"><h3>12. 您想过结束自己生命的方法了吗?</h3></div><div class=\"row\"><h4>（最近一周）</h4></div>";
+                        change_radio_name("没想过", "想过，但没制订出具体细节", "制订出具体细节或计划得很周详", "");
+                        hide_four_option();
+                        alter_option_names("question12_lastweek");
+                        break;
+                    case 25:
+                        document.getElementById('question_text').innerHTML =
+                            "<div class=\"row\"><h3>12. 您想过结束自己生命的方法了吗?</h3></div><div class=\"row\"><h4>（最消沉、最忧郁的时候）</h4></div>";
+                        alter_option_names("question12_mostdepressed");
+                        break;
+                    case 26:
+                        document.getElementById('question_text').innerHTML =
+                            "<div class=\"row\"><h3>13. 您把自杀想法落实的条件或机会如何?</h3></div><div class=\"row\"><h4>（最近一周）</h4></div>";
+                        change_radio_name("没有现成的方法、没有机会", "需要时间或精力准备自杀工具", "有现成的方法和机会或预计将来有方法和机会", "近一周无自杀想法");
+                        show_four_option();
+                        alter_option_names("question13_lastweek");
+                        break;
+                    case 27:
+                        document.getElementById('question_text').innerHTML =
+                            "<div class=\"row\"><h3>13. 您把自杀想法落实的条件或机会如何?</h3></div><div class=\"row\"><h4>（最消沉、最忧郁的时候）</h4></div>";
+                        alter_option_names("question13_mostdepressed");
+                        break;
+                    case 28:
+                        document.getElementById('question_text').innerHTML =
+                            "<div class=\"row\"><h3>14. 您相信自己有能力并且有勇气去自杀吗?</h3></div><div class=\"row\"><h4>（最近一周）</h4></div>";
+                        change_radio_name("没有勇气、太软弱、害怕、没有能力", "不确信自己有无能力、勇气", "确信自己有能力、有勇气", "");
+                        hide_four_option();
+                        alter_option_names("question14_lastweek");
+                        break;
+                    case 29:
+                        document.getElementById('question_text').innerHTML =
+                            "<div class=\"row\"><h3>14. 您相信自己有能力并且有勇气去自杀吗?</h3></div><div class=\"row\"><h4>（最消沉、最忧郁的时候）</h4></div>";
+                        alter_option_names("question14_mostdepressed");
+                        break;
+                    case 30:
+                        document.getElementById('question_text').innerHTML =
+                            "<div class=\"row\"><h3>15. 您预计某一时间您确实会尝试自杀吗?</h3></div><div class=\"row\"><h4>（最近一周）</h4></div>";
+                        change_radio_name("不会", "不确定", "会", "");
+                        alter_option_names("question15_lastweek");
+                        break;
+                    case 31:
+                        document.getElementById('question_text').innerHTML =
+                            "<div class=\"row\"><h3>15. 您预计某一时间您确实会尝试自杀吗?</h3></div><div class=\"row\"><h4>（最消沉、最忧郁的时候）</h4></div>";
+                        alter_option_names("question15_mostdepressed");
+                        break;
+                    case 32:
+                        document.getElementById('question_text').innerHTML =
+                            "<div class=\"row\"><h3>16. 为了自杀，您的准备行动完成得怎样?</h3></div><div class=\"row\"><h4>（最近一周）</h4></div>";
+                        change_radio_name("没有准备", "部分完成（如，开始收集药片）", "全部完成(如，有药片、刀片、有子弹的枪)", "");
+                        alter_option_names("question16_lastweek");
+                        break;
+                    case 33:
+                        document.getElementById('question_text').innerHTML =
+                            "<div class=\"row\"><h3>16. 为了自杀，您的准备行动完成得怎样?</h3></div><div class=\"row\"><h4>（最消沉、最忧郁的时候）</h4></div>";
+                        alter_option_names("question16_mostdepressed");
+                        break;
+                    case 34:
+                        document.getElementById('question_text').innerHTML =
+                            "<div class=\"row\"><h3>17. 您已着手写自杀遗言了吗?</h3></div><div class=\"row\"><h4>（最近一周）</h4></div>";
+                        change_radio_name("没有考虑", "仅仅考虑、开始但未写完", "写完", "");
+                        alter_option_names("answer", "question17_lastweek");
+                        break;
+                    case 35:
+                        document.getElementById('question_text').innerHTML =
+                            "<div class=\"row\"><h3>17. 您已着手写自杀遗言了吗?</h3></div><div class=\"row\"><h4>（最消沉、最忧郁的时候）</h4></div>";
+                        alter_option_names("answer", "question17_mostdepressed");
+                        break;
+                    case 36:
+                        document.getElementById('question_text').innerHTML =
+                            "<div class=\"row\"><h3>18. 您是否因为预计要结束自己的生命而抓紧处理一些事情？如买保险或准备遗嘱。</h3></div><div class=\"row\"><h4>（最近一周）</h4></div>";
+                        change_radio_name("没有", "考虑过或做了一些安排", "有肯定的计划或安排完毕", "");
+                        alter_option_names("question18_lastweek");
+                        break;
+                    case 37:
+                        document.getElementById('question_text').innerHTML =
+                            "<div class=\"row\"><h3>18. 您是否因为预计要结束自己的生命而抓紧处理一些事情？如买保险或准备遗嘱。</h3></div><div class=\"row\"><h4>（最消沉、最忧郁的时候）</h4></div>";
+                        alter_option_names("question18_mostdepressed");
+                        break;
+                    case 38:
+                        document.getElementById('question_text').innerHTML =
+                            "<div class=\"row\"><h3>19. 您是否让人知道自己的自杀想法?</h3></div><div class=\"row\"><h4>（最近一周）</h4></div>";
+                        change_radio_name("坦率主动说出想法", "不主动说出", "试图欺骗、隐瞒", "近一周无自杀想法");
+                        show_four_option();
+                        alter_option_names("answer", "question19_lastweek");
+                        break;
+                    case 39:
+                        document.getElementById('question_text').innerHTML =
+                            "<div class=\"row\"><h3>19. 您是否让人知道自己的自杀想法?</h3></div><div class=\"row\"><h4>（最消沉、最忧郁的时候）</h4></div>";
+                        hide_four_option();
+                        alter_option_names("answer", "question19_mostdepressed");
+                        break;
+                }
+            }
+
+            function ajax_post(form) {
+                const csrf = $('input[name="csrfmiddlewaretoken"]').val();
+                $.ajax({
+                    url: 'http://' + location.host +
+                        '/scales/self_tests_submit?patient_session_id={{ patient_session_id }}&patient_id={{ patient_id }}&scale_id={{ scale_id }}',
+                    type: 'POST',
+                    dataType: 'JSON',
+                    async: false,
+                    data: {
+                        'data': form.serialize(),
+                        'question_index': question_index,
+                        'duration': get_duration(),
+                        'test_name': 'ctq_sf',
+                        'flag': end_flag,
+                        'csrfmiddlewaretoken': csrf
+                    }
+                });
+                question_index++;
+            }
+        });
+    </script>
+
+
+
+{% endblock %}
