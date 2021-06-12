@@ -232,6 +232,7 @@ def upload_progress_note(request):
             # 4.存储word文件作为备份
             progress_note.seek(0)
             save_path = get_progress_note_direct(inpatient,progress_note.name)
+            fs.delete(save_path)
             file_path = fs.save(save_path, progress_note)
             # 返回message
             res_message = SuccessMessage('上传成功')
