@@ -336,26 +336,26 @@ var num=1
  }
 </script>
 
-    <script>
-        function getData() {
-            var patient_detail_emotional_state = "{{ patient_detail.emotional_state  }}";
-            var emotional_state = Number(patient_detail_emotional_state);
-            $("#emotional_state option[value=" + emotional_state + "]").prop("selected", true);
-
-            var patient_detail_source = "{{ patient_detail.source  }}";
-            var source = Number(patient_detail_source);
-            $("#source option[value=" + source + "]").prop("selected", true);
-
-            var patient_detail_diagnosis = "{{ patient_baseinfo.diagnosis }}";
-            var diagnosis = Number(patient_detail_diagnosis);
-            $("#diagnosis option[value=" + diagnosis + "]").prop("selected", true);
-
-            if (diagnosis == 99) {
-                document.getElementById("other_diagnosis_div").style.display = "";
-                document.getElementById("other_diagnosis").value = "{{ patient_baseinfo.other_diagnosis }}";
-            }
-        }
-    </script>
+{#    <script>#}
+{#        function getData() {#}
+{#            var patient_detail_emotional_state = "{{ patient_detail.emotional_state  }}";#}
+{#            var emotional_state = Number(patient_detail_emotional_state);#}
+{#            $("#emotional_state option[value=" + emotional_state + "]").prop("selected", true);#}
+{##}
+{#            var patient_detail_source = "{{ patient_detail.source  }}";#}
+{#            var source = Number(patient_detail_source);#}
+{#            $("#source option[value=" + source + "]").prop("selected", true);#}
+{##}
+{#            var patient_detail_diagnosis = "{{ patient_baseinfo.diagnosis }}";#}
+{#            var diagnosis = Number(patient_detail_diagnosis);#}
+{#            $("#diagnosis option[value=" + diagnosis + "]").prop("selected", true);#}
+{##}
+{#            if (diagnosis == 99) {#}
+{#                document.getElementById("other_diagnosis_div").style.display = "";#}
+{#                document.getElementById("other_diagnosis").value = "{{ patient_baseinfo.other_diagnosis }}";#}
+{#            }#}
+{#        }#}
+{#    </script>#}
 {% endblock %}
 
 {% block js %}
@@ -392,16 +392,16 @@ var num=1
         }
     </script>
 
-    <script>
-        function judge_diagnosis(obj) {
-            if (obj.options[obj.selectedIndex].value == 99) {
-                document.getElementById("other_diagnosis_div").style.display = "";
-            } else {
-                document.getElementById("other_diagnosis_div").style.display = "none";
-            }
-        }
-
-    </script>
+{#    <script>#}
+{#        function judge_diagnosis(obj) {#}
+{#            if (obj.options[obj.selectedIndex].value == 99) {#}
+{#                document.getElementById("other_diagnosis_div").style.display = "";#}
+{#            } else {#}
+{#                document.getElementById("other_diagnosis_div").style.display = "none";#}
+{#            }#}
+{#        }#}
+{##}
+{#    </script>#}
 
 
 {% endblock %}

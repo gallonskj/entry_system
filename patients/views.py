@@ -197,10 +197,7 @@ def add_patient_followup(request):
 def get_patient_detail(request):
     if request.GET:
         patient_id = request.GET.get("patient_id")
-        if request.GET.get("del_action"):
-            del_action = request.GET.get("del_action")
-        else:
-            del_action=None
+
         patient_baseinfo = patients_dao.get_base_info_byPK(patient_id)
         patient_detail_list = DPatientDetail.objects.all().select_related('patient__doctor').filter(
             patient_id=patient_id).values('id', 'patient_id', 'session_id', 'standard_id', 'create_time','update_time',
@@ -251,7 +248,6 @@ def get_patient_detail(request):
                           'ghr_kinship': ghr_kinship,
                           'num_ghr': num_ghr,
                           'patients':patients,
-                          'del_action':del_action
                       })
     else:
         return render(request, 'patient_detail.html', {"username": request.session.get("username")})
@@ -294,7 +290,7 @@ def update_patient_detail(request):
     patient_id = request.GET.get('patient_id')
     session_id = request.GET.get('session_id')
     patient_detail = patients_dao.get_patient_detail_byPK(patient_session_id)
-    patient_base_info = patients_dao.get_base_info_byPK(patient_id)
+    # patient_base_info = patients_dao.get_base_info_byPK(patient_id)
     # 通过field的方式进行数据的传递，注意，需要保证form表单中各项的名称与数据库中字段名称是名称相同
     fields_data = DPatientDetail._meta.fields
     data_dict = patient_detail.__dict__
@@ -302,9 +298,9 @@ def update_patient_detail(request):
         if request.POST.get(ele.name) is not None and request.POST.get(ele.name) is not '':
             data_dict[ele.name] = request.POST.get(ele.name)
     patients_dao.add_patient_detail(patient_detail)
-    patient_base_info.diagnosis = request.POST.get('diagnosis')
-    patient_base_info.other_diagnosis = request.POST.get('other_diagnosis')
-    patients_dao.add_base_info(patient_base_info)
+    # patient_base_info.diagnosis = request.POST.get('diagnosis')
+    # patient_base_info.other_diagnosis = request.POST.get('other_diagnosis')
+    # patients_dao.add_base_info(patient_base_info)
     redirect_url = '/scales/select_scales?patient_session_id={}&patient_id={}'.format(str(patient_session_id),str(patient_id))
 
     return redirect(redirect_url)

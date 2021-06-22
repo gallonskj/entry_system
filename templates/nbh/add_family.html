@@ -373,7 +373,7 @@
                                 <label class="control-label col-md-1 col-sm-1"
                                        for="patient_youger_brother_num">弟弟数量</label>
                                 <div class="col-md-2 col-sm-2 form-group ">
-                                    <input type="text" id="patient_youger_brother_num" name="patient_youger_brother_num"
+                                    <input type="text" id="patient_youger_brother_num" name="patient_younger_brother_num"
                                            class="form-control has-feedback-left" placeholder="">
                                 </div>
                                 <label class="control-label col-md-1 col-sm-1"
@@ -385,7 +385,7 @@
                                 <label class="control-label col-md-1 col-sm-1"
                                        for="patient_youger_sister_num">妹妹数量</label>
                                 <div class="col-md-2 col-sm-2 form-group ">
-                                    <input type="text" id="patient_youger_sister_num" name="patient_youger_sister_num"
+                                    <input type="text" id="patient_youger_sister_num" name="pathent_younger_sister_num"
                                            class="form-control has-feedback-left" placeholder="">
                                 </div>
                             </div>
@@ -653,9 +653,9 @@
                        $("#brother_num_2").show();
                        $("#preference_div").show();
                        $("input[name='patient_older_brother_num']").val('{{ patient_baseinfo_family.patient_older_brother_num|processNone }}');
-                       $("input[name='patient_youger_brother_num']").val('{{ patient_baseinfo_family.patient_youger_brother_num|processNone }}');
+                       $("input[name='patient_younger_brother_num']").val('{{ patient_baseinfo_family.patient_younger_brother_num|processNone }}');
                        $("input[name='patient_older_sister_num']").val('{{ patient_baseinfo_family.patient_older_sister_num|processNone }}');
-                       $("input[name='patient_youger_sister_num']").val('{{ patient_baseinfo_family.patient_youger_sister_num|processNone }}');
+                       $("input[name='pathent_younger_sister_num']").val('{{ patient_baseinfo_family.pathent_younger_sister_num|processNone }}');
                        var parents_favour = Number("{{ patient_baseinfo_family.parents_favour }}");
                        $("#parents_favour option[value="+parents_favour+"]").prop("selected",true);
                    }
@@ -732,9 +732,9 @@
                    $("input[name='patient_live_type_other']").attr("disabled","disabled");
                    $("input[name='patient_only_child']").attr("disabled","disabled");
                    $("input[name='patient_older_brother_num']").attr("disabled","disabled");
-                   $("input[name='patient_youger_brother_num']").attr("disabled","disabled");
+                   $("input[name='patient_younger_brother_num']").attr("disabled","disabled");
                    $("input[name='patient_older_sister_num']").attr("disabled","disabled");
-                   $("input[name='patient_youger_sister_num']").attr("disabled","disabled");
+                   $("input[name='pathent_younger_sister_num']").attr("disabled","disabled");
                    $("select[name='parents_favour']").attr("disabled","disabled");
                    $("input[name='father_occupation']").attr("disabled","disabled");
                    $("input[name='mother_occupation']").attr("disabled","disabled");
@@ -874,9 +874,9 @@
             $("input[name='patient_live_type_other']").removeAttr("disabled","disabled");
             $("input[name='patient_only_child']").removeAttr("disabled","disabled");
             $("input[name='patient_older_brother_num']").removeAttr("disabled","disabled");
-            $("input[name='patient_youger_brother_num']").removeAttr("disabled","disabled");
+            $("input[name='patient_younger_brother_num']").removeAttr("disabled","disabled");
             $("input[name='patient_older_sister_num']").removeAttr("disabled","disabled");
-            $("input[name='patient_youger_sister_num']").removeAttr("disabled","disabled");
+            $("input[name='pathent_younger_sister_num']").removeAttr("disabled","disabled");
             $("select[name='parents_favour']").removeAttr("disabled","disabled");
             $("input[name='father_occupation']").removeAttr("disabled","disabled");
             $("input[name='mother_occupation']").removeAttr("disabled","disabled");
